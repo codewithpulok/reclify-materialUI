@@ -1,12 +1,14 @@
 'use client';
 
 import PropTypes from 'prop-types';
-import { useMemo, useEffect, useReducer, useCallback } from 'react';
+import { useCallback, useEffect, useMemo, useReducer } from 'react';
 
 import axios, { endpoints } from 'src/utils/axios';
 
+import { TEMP_ACCESS_TOKEN, UsersList } from 'src/auth/mockData';
+
 import { AuthContext } from './auth-context';
-import { setSession, isValidToken } from './utils';
+import { isValidToken, persistAuthState } from './utils';
 
 // ----------------------------------------------------------------------
 
@@ -52,6 +54,7 @@ const reducer = (state, action) => {
 // ----------------------------------------------------------------------
 
 const STORAGE_KEY = 'accessToken';
+const STORAGE_KEY_USER = 'user';
 
 export function AuthProvider({ children }) {
   const [state, dispatch] = useReducer(reducer, initialState);
@@ -59,14 +62,8 @@ export function AuthProvider({ children }) {
   const initialize = useCallback(async () => {
     try {
       const accessToken = sessionStorage.getItem(STORAGE_KEY);
-
+      const user = JSON.parse(sessionStorage.getItem(STORAGE_KEY_USER));
       if (accessToken && isValidToken(accessToken)) {
-        setSession(accessToken);
-
-        const response = await axios.get(endpoints.auth.me);
-
-        const { user } = response.data;
-
         dispatch({
           type: 'INITIAL',
           payload: {
@@ -101,16 +98,28 @@ export function AuthProvider({ children }) {
 
   // LOGIN
   const login = useCallback(async (email, password) => {
-    const data = {
-      email,
-      password,
-    };
+    /**
+     * Imitate login via the mock data
+     */
+    const user = UsersList.find((item) => item.email === email);
+    if (!user) {
+      throw new Error('Email not found');
+    }
+    if (user.password !== password) {
+      throw new Error('Invalid Credentials');
+    }
+    const accessToken = TEMP_ACCESS_TOKEN;
 
-    const response = await axios.post(endpoints.auth.login, data);
+    // const data = {
+    //   email,
+    //   password,
+    // };
 
-    const { accessToken, user } = response.data;
+    // const response = await axios.post(endpoints.auth.login, data);
 
-    setSession(accessToken);
+    // const { accessToken, user } = response.data;
+
+    persistAuthState(accessToken, user);
 
     dispatch({
       type: 'LOGIN',
@@ -151,7 +160,7 @@ export function AuthProvider({ children }) {
 
   // LOGOUT
   const logout = useCallback(async () => {
-    setSession(null);
+    persistAuthState(null);
     dispatch({
       type: 'LOGOUT',
     });

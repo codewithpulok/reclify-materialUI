@@ -57,9 +57,10 @@ export const tokenExpired = (exp) => {
 
 // ----------------------------------------------------------------------
 
-export const setSession = (accessToken) => {
+export const persistAuthState = (accessToken, user = null) => {
   if (accessToken) {
     sessionStorage.setItem('accessToken', accessToken);
+    sessionStorage.setItem('user', JSON.stringify(user));
 
     axios.defaults.headers.common.Authorization = `Bearer ${accessToken}`;
 
@@ -68,6 +69,7 @@ export const setSession = (accessToken) => {
     tokenExpired(exp);
   } else {
     sessionStorage.removeItem('accessToken');
+    sessionStorage.removeItem('user');
 
     delete axios.defaults.headers.common.Authorization;
   }
