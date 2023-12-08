@@ -1,23 +1,23 @@
-import { useEffect } from 'react';
 import PropTypes from 'prop-types';
+import { useEffect } from 'react';
 
 import Box from '@mui/material/Box';
-import Stack from '@mui/material/Stack';
 import Drawer from '@mui/material/Drawer';
+import Stack from '@mui/material/Stack';
 
 import { usePathname } from 'src/routes/hooks';
 
-import { useResponsive } from 'src/hooks/use-responsive';
 import { useMockedUser } from 'src/hooks/use-mocked-user';
+import { useResponsive } from 'src/hooks/use-responsive';
 
 import Logo from 'src/components/logo';
-import Scrollbar from 'src/components/scrollbar';
 import { NavSectionVertical } from 'src/components/nav-section';
+import Scrollbar from 'src/components/scrollbar';
 
-import { NAV } from '../config-layout';
-import NavUpgrade from '../common/nav-upgrade';
-import { useNavData } from './config-navigation';
 import NavToggleButton from '../common/nav-toggle-button';
+import NavUpgrade from '../common/nav-upgrade';
+import { NAV } from '../config-layout';
+import { useNavData } from './config-navigation';
 
 // ----------------------------------------------------------------------
 
@@ -49,7 +49,6 @@ export default function NavVertical({ openNav, onCloseNav }) {
       }}
     >
       <Logo sx={{ mt: 3, ml: 4, mb: 1 }} />
-
       <NavSectionVertical
         data={navData}
         slotProps={{
@@ -58,7 +57,6 @@ export default function NavVertical({ openNav, onCloseNav }) {
       />
 
       <Box sx={{ flexGrow: 1 }} />
-
       <NavUpgrade />
     </Scrollbar>
   );
