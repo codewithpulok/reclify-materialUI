@@ -3,6 +3,7 @@
 const ROOTS = {
   AUTH: '/auth',
   DASHBOARD: '/dashboard',
+  WAREHOUSE: '/warehouse',
 };
 
 // ----------------------------------------------------------------------
@@ -12,8 +13,8 @@ export const paths = {
   // AUTH
   auth: {
     jwt: {
-      login: `${ROOTS.AUTH}/jwt/login`,
-      register: `${ROOTS.AUTH}/jwt/register`,
+      login: `${ROOTS.AUTH}/login`,
+      register: `${ROOTS.AUTH}/register`,
     },
   },
   // DASHBOARD
@@ -27,5 +28,10 @@ export const paths = {
       five: `${ROOTS.DASHBOARD}/group/five`,
       six: `${ROOTS.DASHBOARD}/group/six`,
     },
+  },
+
+  // WAREHOUSE
+  warehouse: {
+    root: `${ROOTS.WAREHOUSE}`,
   },
 };
