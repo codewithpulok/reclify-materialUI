@@ -1,8 +1,15 @@
 import { Box, Card, CardContent, CardMedia, IconButton, Typography } from '@mui/material';
 import Link from 'next/link';
-import { ICONS } from './config-card';
+import PropTypes from 'prop-types';
+import { ICONS } from '../config-warehouse';
 
-const WarehouseCard = ({ id, name, location, image, onDelete }) => {
+/**
+ * Card for showing warehouse data
+ * @component
+ */
+const WarehouseCard = (props) => {
+  const { id, name, location, image, onDelete } = props;
+
   return (
     <Card
       className="card"
@@ -44,6 +51,29 @@ const WarehouseCard = ({ id, name, location, image, onDelete }) => {
       </Box>
     </Card>
   );
+};
+
+WarehouseCard.propTypes = {
+  /**
+   * Warehouse unique id
+   */
+  id: PropTypes.string.isRequired,
+  /**
+   * Warehouse name
+   */
+  name: PropTypes.string.isRequired,
+  /**
+   * Warehouse location
+   */
+  location: PropTypes.string.isRequired,
+  /**
+   * Warehouse thumbnail
+   */
+  image: PropTypes.string.isRequired,
+  /**
+   * Warehouse delete handler
+   */
+  onDelete: PropTypes.func.isRequired,
 };
 
 export default WarehouseCard;

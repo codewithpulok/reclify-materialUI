@@ -6,9 +6,9 @@ import Typography from '@mui/material/Typography';
 import { useState } from 'react';
 import { warehouses } from 'src/assets/dummy/warehouses';
 import { ConfirmationAlert } from 'src/components/alert';
-import { WarehouseCard } from 'src/components/cards';
 
 import { useSettingsContext } from 'src/components/settings';
+import { WarehouseCard } from 'src/components/warehouse/cards';
 
 // ----------------------------------------------------------------------
 
@@ -40,7 +40,7 @@ export default function ListingView() {
 
       <Grid container spacing={2}>
         {warehouses.map((warehouse) => (
-          <Grid item key={warehouse.id} xs={12} md={6} lg={4}>
+          <Grid item key={warehouse.id} xs={12} sm={6} lg={4}>
             <WarehouseCard
               key={warehouse.id}
               image={warehouse.photos[0].coverUrl}
