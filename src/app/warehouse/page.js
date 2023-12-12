@@ -1,3 +1,4 @@
+import { warehouses } from 'src/assets/dummy/warehouses';
 import Warehouse from 'src/sections/warehouse/view';
 
 export const metadata = {
@@ -6,5 +7,5 @@ export const metadata = {
 
 export default function Page() {
   // const theme = useTheme();
-  return <Warehouse />;
+  return <Warehouse warehouse={warehouses[0]} />;
 }
