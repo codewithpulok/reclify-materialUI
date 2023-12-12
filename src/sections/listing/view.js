@@ -40,7 +40,7 @@ export default function ListingView() {
 
       <Grid container spacing={2}>
         {warehouses.map((warehouse) => (
-          <Grid item key={warehouse.id} xs={12} sm={6} lg={4}>
+          <Grid item key={warehouse.id} xs={12} sm={6} md={4}>
             <WarehouseCard
               key={warehouse.id}
               image={warehouse.photos[0].coverUrl}
