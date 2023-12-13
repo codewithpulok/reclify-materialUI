@@ -1,7 +1,7 @@
 import { Box, Button, IconButton, Stack, Typography, alpha } from '@mui/material';
 import PropTypes from 'prop-types';
 import { useFieldArray, useFormContext } from 'react-hook-form';
-import { Image } from 'src/components/image';
+import Image from 'src/components/image';
 import { ICONS } from '../config-warehouse';
 
 const NoImages = () => (

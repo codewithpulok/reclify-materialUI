@@ -1,7 +1,7 @@
 import { Box, Card, CardContent, IconButton, Typography } from '@mui/material';
 import Link from 'next/link';
 import PropTypes from 'prop-types';
-import { Image } from 'src/components/image';
+import Image from 'src/components/image';
 import { ICONS } from '../config-warehouse';
 
 /**
