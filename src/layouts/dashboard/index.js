@@ -1,3 +1,5 @@
+'use client';
+
 import PropTypes from 'prop-types';
 
 import Box from '@mui/material/Box';
@@ -7,13 +9,23 @@ import { useResponsive } from 'src/hooks/use-responsive';
 
 import { useSettingsContext } from 'src/components/settings';
 
-import Main from './main';
+import { SnackbarProvider } from 'notistack';
+import { Toast } from 'src/components/common/toast';
 import Header from './header';
+import Main from './main';
+import NavHorizontal from './nav-horizontal';
 import NavMini from './nav-mini';
 import NavVertical from './nav-vertical';
-import NavHorizontal from './nav-horizontal';
 
 // ----------------------------------------------------------------------
+
+const toastComponents = {
+  default: Toast,
+  error: Toast,
+  success: Toast,
+  warning: Toast,
+  info: Toast,
+};
 
 export default function DashboardLayout({ children }) {
   const settings = useSettingsContext();
@@ -34,19 +46,25 @@ export default function DashboardLayout({ children }) {
 
   if (isHorizontal) {
     return (
-      <>
+      <SnackbarProvider
+        anchorOrigin={{ horizontal: 'right', vertical: 'top' }}
+        Components={toastComponents}
+      >
         <Header onOpenNav={nav.onTrue} />
 
         {lgUp ? renderHorizontal : renderNavVertical}
 
         <Main>{children}</Main>
-      </>
+      </SnackbarProvider>
     );
   }
 
   if (isMini) {
     return (
-      <>
+      <SnackbarProvider
+        anchorOrigin={{ horizontal: 'right', vertical: 'top' }}
+        Components={toastComponents}
+      >
         <Header onOpenNav={nav.onTrue} />
 
         <Box
@@ -60,12 +78,15 @@ export default function DashboardLayout({ children }) {
 
           <Main>{children}</Main>
         </Box>
-      </>
+      </SnackbarProvider>
     );
   }
 
   return (
-    <>
+    <SnackbarProvider
+      anchorOrigin={{ horizontal: 'right', vertical: 'top' }}
+      Components={toastComponents}
+    >
       <Header onOpenNav={nav.onTrue} />
 
       <Box
@@ -79,7 +100,7 @@ export default function DashboardLayout({ children }) {
 
         <Main>{children}</Main>
       </Box>
-    </>
+    </SnackbarProvider>
   );
 }
 

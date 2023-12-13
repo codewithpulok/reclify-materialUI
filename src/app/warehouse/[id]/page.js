@@ -2,15 +2,19 @@ import { notFound } from 'next/navigation';
 import { warehouses } from 'src/assets/dummy/warehouses';
 import { WarehouseDetails } from 'src/sections/warehouse/';
 
-export const metadata = {
-  title: 'warehouse: Details',
-};
-
 export const getWarehouse = async (id) => {
   // handle api calling
   const warehouse = warehouses.find((w) => w.id === id);
 
   return warehouse;
+};
+
+export const generateMetadata = async ({ params }) => {
+  const warehouse = await getWarehouse(params.id);
+
+  return {
+    title: warehouse.name,
+  };
 };
 
 export default async function WarehouseDetailsPage({ params }) {

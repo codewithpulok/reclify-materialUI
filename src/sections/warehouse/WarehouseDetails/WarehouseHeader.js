@@ -1,5 +1,13 @@
 import { Box, Chip, Typography } from '@mui/material';
+import PropTypes from 'prop-types';
 import { ICONS } from '../config-warehouse';
+
+const WarehouseHeaderProps = {
+  name: PropTypes.string.isRequired,
+  location: PropTypes.string.isRequired,
+  isVerified: PropTypes.string.isRequired,
+  isFeatured: PropTypes.string.isRequired,
+};
 
 const WarehouseHeader = ({ name, location, isVerified, isFeatured }) => (
   <Box sx={{ mb: 8 }}>
@@ -15,5 +23,7 @@ const WarehouseHeader = ({ name, location, isVerified, isFeatured }) => (
     </Box>
   </Box>
 );
+
+WarehouseHeader.propTypes = WarehouseHeaderProps;
 
 export default WarehouseHeader;

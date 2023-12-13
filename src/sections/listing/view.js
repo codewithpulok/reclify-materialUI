@@ -5,7 +5,7 @@ import Container from '@mui/material/Container';
 import Typography from '@mui/material/Typography';
 import { useState } from 'react';
 import { warehouses } from 'src/assets/dummy/warehouses';
-import { ConfirmationAlert } from 'src/components/alert';
+import { ConfirmationAlert } from 'src/components/common/alert';
 
 import { useSettingsContext } from 'src/components/settings';
 import { WarehouseCard } from 'src/components/warehouse/cards';

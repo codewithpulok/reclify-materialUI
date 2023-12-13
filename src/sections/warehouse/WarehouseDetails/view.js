@@ -3,11 +3,16 @@
 import { Box } from '@mui/material';
 import Container from '@mui/material/Container';
 import Grid from '@mui/material/Unstable_Grid2';
+import PropTypes from 'prop-types';
 import { useSettingsContext } from 'src/components/settings';
 import WarehouseBookingOptions from './WarehouseBookingOptions';
 import WarehouseDescription from './WarehouseDescription';
 import WarehouseHeader from './WarehouseHeader';
 import WarehouseImageCarousel from './imageCarousel';
+
+const WarehouseDetailsProps = {
+  warehouse: PropTypes.object.isRequired,
+};
 
 function WarehouseDetails({ warehouse }) {
   const settings = useSettingsContext();
@@ -33,5 +38,7 @@ function WarehouseDetails({ warehouse }) {
     </Container>
   );
 }
+
+WarehouseDetails.propTypes = WarehouseDetailsProps;
 
 export default WarehouseDetails;

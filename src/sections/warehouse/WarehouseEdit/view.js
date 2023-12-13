@@ -1,6 +1,7 @@
 'use client';
 
 import { Button, Container, Grid, Stack, Typography } from '@mui/material';
+import { useSnackbar } from 'notistack';
 import PropTypes from 'prop-types';
 import { useEffect } from 'react';
 import { useForm } from 'react-hook-form';
@@ -20,9 +21,11 @@ const WarehouseEdit = ({ warehouse }) => {
   const settings = useSettingsContext();
   const methods = useForm({ defaultValues: warehouse });
   const { handleSubmit, reset } = methods;
+  const { enqueueSnackbar } = useSnackbar();
 
   const onSubmit = (e) => {
     console.log(e);
+    enqueueSnackbar('Warehouse updated', { variant: 'success' });
   };
 
   useEffect(() => {

@@ -1,87 +1,106 @@
 import { Box, Card, CardContent, Grid, Typography } from '@mui/material';
+import PropTypes from 'prop-types';
 import { useState } from 'react';
 
-const OptionsDetailsCard = ({ title, amount, description, amountType }) => {
-  return (
-    <Box>
-      <Typography
-        fontWeight={'bold'}
-        color={'primary'}
-        sx={{
-          fontSize: {
-            xs: '12px',
-            md: '14px',
-          },
-        }}
-      >
-        {title}
-      </Typography>
-      <Box>
-        <Typography
-          component={'span'}
-          sx={{
-            fontWeight: 'bold',
-            fontSize: {
-              xs: '22px',
-              md: '28px',
-            },
-          }}
-        >
-          {amount}
-        </Typography>
-        <Typography
-          component={'span'}
-          sx={{
-            fontWeight: 'bold',
-            fontSize: {
-              xs: '17px',
-              md: '22px',
-            },
-          }}
-        >
-          {amountType}
-        </Typography>
-      </Box>
-      <Typography
-        sx={{
-          fontSize: {
-            xs: '10px',
-            md: '11px',
-          },
-        }}
-      >
-        {description}
-      </Typography>
-    </Box>
-  );
+const OptionsDetailsCardProps = {
+  title: PropTypes.string.isRequired,
+  amount: PropTypes.number.isRequired,
+  description: PropTypes.string.isRequired,
+  amountType: PropTypes.string.isRequired,
 };
 
-const OptionsMonthCard = ({ month, selected, setSelected }) => {
-  return (
-    <Card
-      onClick={() => setSelected(month)}
-      sx={
-        selected
-          ? {
-              borderWidth: 2,
-              borderStyle: 'solid',
-              borderColor: '#00A76F',
-            }
-          : {
-              cursor: 'pointer',
-            }
-      }
+const OptionsDetailsCard = ({ title, amount, description, amountType }) => (
+  <Box>
+    <Typography
+      fontWeight="bold"
+      color="primary"
+      sx={{
+        fontSize: {
+          xs: '12px',
+          md: '14px',
+        },
+      }}
     >
-      <CardContent
+      {title}
+    </Typography>
+    <Box>
+      <Typography
+        component="span"
         sx={{
-          textAlign: 'center',
+          fontWeight: 'bold',
+          fontSize: {
+            xs: '22px',
+            md: '28px',
+          },
         }}
       >
-        <Typography variant="h3">{month}</Typography>
-        <Typography variant="body2">Month</Typography>
-      </CardContent>
-    </Card>
-  );
+        {amount}
+      </Typography>
+      <Typography
+        component="span"
+        sx={{
+          fontWeight: 'bold',
+          fontSize: {
+            xs: '17px',
+            md: '22px',
+          },
+        }}
+      >
+        {amountType}
+      </Typography>
+    </Box>
+    <Typography
+      sx={{
+        fontSize: {
+          xs: '10px',
+          md: '11px',
+        },
+      }}
+    >
+      {description}
+    </Typography>
+  </Box>
+);
+
+OptionsDetailsCard.propTypes = OptionsDetailsCardProps;
+
+const OptionsMonthCardProps = {
+  month: PropTypes.number.isRequired,
+  isSelected: PropTypes.number.isRequired,
+  setSelected: PropTypes.func.isRequired,
+};
+
+const OptionsMonthCard = ({ month, isSelected, setSelected }) => (
+  <Card
+    onClick={() => setSelected(month)}
+    sx={
+      isSelected
+        ? {
+            borderWidth: 2,
+            borderStyle: 'solid',
+            borderColor: '#00A76F',
+          }
+        : {
+            cursor: 'pointer',
+          }
+    }
+  >
+    <CardContent
+      sx={{
+        textAlign: 'center',
+      }}
+    >
+      <Typography variant="h3">{month}</Typography>
+      <Typography variant="body2">Month</Typography>
+    </CardContent>
+  </Card>
+);
+
+OptionsMonthCard.propTypes = OptionsMonthCardProps;
+
+const WarehouseBookingOptionsProps = {
+  space: PropTypes.number.isRequired,
+  price: PropTypes.number.isRequired,
 };
 
 const WarehouseBookingOptions = ({ space, price }) => {
@@ -96,18 +115,18 @@ const WarehouseBookingOptions = ({ space, price }) => {
       <Grid container sx={{ mb: 5 }} spacing={2}>
         <Grid item xs={6}>
           <OptionsDetailsCard
-            title={'Total Available Space'}
+            title="Total Available Space"
             amount={space}
-            amountType={' sq. ft'}
-            description={'Space availability is based on date range.'}
+            amountType=" sq. ft"
+            description="Space availability is based on date range."
           />
         </Grid>
         <Grid item xs={6}>
           <OptionsDetailsCard
-            title={'Total Available Space'}
+            title="Total Available Space"
             amount={`$${price} /`}
-            amountType={'sq. ft'}
-            description={'*Minimum Order Qty: 7,000 sq. ft'}
+            amountType="sq. ft"
+            description="*Minimum Order Qty: 7,000 sq. ft"
           />
         </Grid>
       </Grid>
@@ -117,7 +136,7 @@ const WarehouseBookingOptions = ({ space, price }) => {
           <Grid key={month} item xs={6} md={3}>
             <OptionsMonthCard
               month={month}
-              selected={month === selectedMonth}
+              isSelected={month === selectedMonth}
               setSelected={setSelectedMonth}
             />
           </Grid>
@@ -130,5 +149,7 @@ const WarehouseBookingOptions = ({ space, price }) => {
     </Box>
   );
 };
+
+WarehouseBookingOptions.propTypes = WarehouseBookingOptionsProps;
 
 export default WarehouseBookingOptions;
