@@ -8,8 +8,8 @@ import PropTypes from 'prop-types';
 import ThemeProvider from 'src/theme';
 import { primaryFont } from 'src/theme/typography';
 
-import ProgressBar from 'src/components/progress-bar';
 import { MotionLazy } from 'src/components/animate/motion-lazy';
+import ProgressBar from 'src/components/progress-bar';
 import { SettingsDrawer, SettingsProvider } from 'src/components/settings';
 
 import { AuthProvider } from 'src/auth/context/jwt';

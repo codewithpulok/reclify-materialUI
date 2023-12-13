@@ -1,8 +1,14 @@
+/**
+ * @type {Warehouse[]}
+ */
 export const warehouses = [
   {
     id: 'abc123',
     name: 'Prime Storage',
     location: 'City Center',
+    description: 'Modern storage facility in the heart of the city.',
+    totalSpace: 5000,
+    pricePerSquare: 1.5,
     photos: [
       {
         id: '1',
@@ -16,6 +22,9 @@ export const warehouses = [
     id: 'def456',
     name: 'Metro Warehousing',
     location: 'Industrial Zone',
+    description: 'Spacious warehouses in the bustling industrial zone.',
+    totalSpace: 8000,
+    pricePerSquare: 1.2,
     photos: [
       {
         id: '3',
@@ -29,6 +38,9 @@ export const warehouses = [
     id: 'ghi789',
     name: 'Skyline Depot',
     location: 'Suburbia',
+    description: 'Warehouses with a view in a peaceful suburban setting.',
+    totalSpace: 6000,
+    pricePerSquare: 1.8,
     photos: [
       {
         id: '5',
@@ -46,6 +58,9 @@ export const warehouses = [
     id: 'jkl012',
     name: 'Urban Storage',
     location: 'Downtown',
+    description: 'Storage facilities in the heart of the downtown area.',
+    totalSpace: 3500,
+    pricePerSquare: 2.0,
     photos: [
       {
         id: '7',
@@ -59,6 +74,9 @@ export const warehouses = [
     id: 'mno345',
     name: 'Harbor Warehouses',
     location: 'Port Area',
+    description: 'Warehouses near the bustling port for easy shipping access.',
+    totalSpace: 10000,
+    pricePerSquare: 1.0,
     photos: [
       { id: '9', title: 'Harbor View', coverUrl: 'https://picsum.photos/seed/mno3459/450/318' },
       {
@@ -72,6 +90,9 @@ export const warehouses = [
     id: 'pqr678',
     name: 'Green Valley Storage',
     location: 'Rural Area',
+    description: 'Warehouses in a peaceful green valley surrounded by nature.',
+    totalSpace: 7000,
+    pricePerSquare: 1.6,
     photos: [
       {
         id: '11',
@@ -85,6 +106,9 @@ export const warehouses = [
     id: 'stu901',
     name: 'Tech Hub Warehouses',
     location: 'Tech District',
+    description: 'Modern warehouses in the thriving tech district.',
+    totalSpace: 4500,
+    pricePerSquare: 1.9,
     photos: [
       {
         id: '13',
@@ -102,6 +126,9 @@ export const warehouses = [
     id: 'vwx234',
     name: 'Golden Storage',
     location: 'Financial District',
+    description: 'Luxurious storage options in the heart of the financial district.',
+    totalSpace: 9000,
+    pricePerSquare: 1.3,
     photos: [
       {
         id: '15',
@@ -119,6 +146,9 @@ export const warehouses = [
     id: 'yzu567',
     name: 'Mountain View Warehousing',
     location: 'Mountain Area',
+    description: 'Warehouses with a stunning view of the mountains.',
+    totalSpace: 5500,
+    pricePerSquare: 1.7,
     photos: [
       {
         id: '17',
@@ -136,6 +166,9 @@ export const warehouses = [
     id: '123abc',
     name: 'Sunset Storage',
     location: 'Beachside',
+    description: 'Storage facilities with a beautiful sunset view near the beach.',
+    totalSpace: 4000,
+    pricePerSquare: 2.2,
     photos: [
       { id: '19', title: 'Beach Sunset', coverUrl: 'https://picsum.photos/seed/123abc19/450/318' },
       {
