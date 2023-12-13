@@ -9,16 +9,11 @@ import WarehouseDescription from './WarehouseDescription';
 import WarehouseHeader from './WarehouseHeader';
 import WarehouseImageCarousel from './imageCarousel';
 
-function Warehouse({ warehouse }) {
+function WarehouseDetails({ warehouse }) {
   const settings = useSettingsContext();
   return (
     <Container maxWidth={settings.themeStretch ? false : 'xl'}>
-      <WarehouseHeader
-        isFeatured={true}
-        isVerified={true}
-        location={warehouse.location}
-        name={warehouse.name}
-      />
+      <WarehouseHeader isFeatured isVerified location={warehouse.location} name={warehouse.name} />
       <Grid container spacing={3}>
         <Grid item xs={12} md={7}>
           <WarehouseImageCarousel list={warehouse.photos} />
@@ -39,4 +34,4 @@ function Warehouse({ warehouse }) {
   );
 }
 
-export default Warehouse;
+export default WarehouseDetails;

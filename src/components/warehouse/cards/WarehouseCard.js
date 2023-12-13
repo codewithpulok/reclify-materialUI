@@ -45,6 +45,11 @@ const WarehouseCard = (props) => {
             {ICONS.view}
           </IconButton>
         </Link>
+        <Link href={`/warehouse/edit/${id}`}>
+          <IconButton size="small" color="warning">
+            {ICONS.edit}
+          </IconButton>
+        </Link>
         <IconButton size="small" color="error" onClick={onDelete}>
           {ICONS.delete}
         </IconButton>

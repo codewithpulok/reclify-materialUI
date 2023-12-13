@@ -1,6 +1,6 @@
 import { notFound } from 'next/navigation';
 import { warehouses } from 'src/assets/dummy/warehouses';
-import Warehouse from 'src/sections/warehouse/view';
+import { WarehouseDetails } from 'src/sections/warehouse/';
 
 export const metadata = {
   title: 'warehouse: Details',
@@ -13,11 +13,11 @@ const getWarehouse = async (id) => {
   return warehouse;
 };
 
-export default async function WarehouseDetails({ params }) {
+export default async function WarehouseDetailsPage({ params }) {
   const warehouse = await getWarehouse(params.id);
 
   // if there is no warehouse then show error
   if (warehouse === undefined) notFound();
 
-  return <Warehouse warehouse={warehouse} />;
+  return <WarehouseDetails warehouse={warehouse} />;
 }
