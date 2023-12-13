@@ -1,6 +1,7 @@
-import { Box, Card, CardContent, CardMedia, IconButton, Typography } from '@mui/material';
+import { Box, Card, CardContent, IconButton, Typography } from '@mui/material';
 import Link from 'next/link';
 import PropTypes from 'prop-types';
+import { Image } from 'src/components/image';
 import { ICONS } from '../config-warehouse';
 
 /**
@@ -19,7 +20,9 @@ const WarehouseCard = (props) => {
         },
       }}
     >
-      <CardMedia image={image} alt={name} sx={{ height: 200 }} />
+      <Box width="100%">
+        <Image src={image} ratio="16/9" />
+      </Box>
       <CardContent>
         <Typography gutterBottom variant="h5">
           {name}
@@ -45,7 +48,7 @@ const WarehouseCard = (props) => {
             {ICONS.view}
           </IconButton>
         </Link>
-        <Link href={`/warehouse/edit/${id}`}>
+        <Link href={`/warehouse/${id}/edit`}>
           <IconButton size="small" color="warning">
             {ICONS.edit}
           </IconButton>

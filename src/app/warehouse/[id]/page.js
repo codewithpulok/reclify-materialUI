@@ -6,7 +6,7 @@ export const metadata = {
   title: 'warehouse: Details',
 };
 
-const getWarehouse = async (id) => {
+export const getWarehouse = async (id) => {
   // handle api calling
   const warehouse = warehouses.find((w) => w.id === id);
 
