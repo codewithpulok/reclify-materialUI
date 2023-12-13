@@ -16,6 +16,7 @@ const WarehouseDetailsProps = {
 
 function WarehouseDetails({ warehouse }) {
   const settings = useSettingsContext();
+
   return (
     <Container maxWidth={settings.themeStretch ? false : 'xl'}>
       <WarehouseHeader isFeatured isVerified location={warehouse.location} name={warehouse.name} />
@@ -24,16 +25,19 @@ function WarehouseDetails({ warehouse }) {
           <WarehouseImageCarousel list={warehouse.photos} />
 
           <Box sx={{ display: { xs: 'none', md: 'block' } }} mt={5}>
-            <WarehouseDescription />
+            <WarehouseDescription description={warehouse.description} />
           </Box>
         </Grid>
         <Grid item xs={12} md={5}>
-          <WarehouseBookingOptions space={10000} price={0.75} />
+          <WarehouseBookingOptions
+            space={warehouse.totalSpace}
+            pricePerSquare={warehouse.pricePerSquare}
+          />
         </Grid>
       </Grid>
 
       <Box sx={{ display: { xs: 'block', md: 'none' } }} mt={5}>
-        <WarehouseDescription />
+        <WarehouseDescription description={warehouse.description} />
       </Box>
     </Container>
   );

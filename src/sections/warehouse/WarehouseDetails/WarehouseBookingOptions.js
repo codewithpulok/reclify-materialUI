@@ -4,7 +4,7 @@ import { useState } from 'react';
 
 const OptionsDetailsCardProps = {
   title: PropTypes.string.isRequired,
-  amount: PropTypes.number.isRequired,
+  amount: PropTypes.string.isRequired,
   description: PropTypes.string.isRequired,
   amountType: PropTypes.string.isRequired,
 };
@@ -66,7 +66,7 @@ OptionsDetailsCard.propTypes = OptionsDetailsCardProps;
 
 const OptionsMonthCardProps = {
   month: PropTypes.number.isRequired,
-  isSelected: PropTypes.number.isRequired,
+  isSelected: PropTypes.bool.isRequired,
   setSelected: PropTypes.func.isRequired,
 };
 
@@ -100,10 +100,10 @@ OptionsMonthCard.propTypes = OptionsMonthCardProps;
 
 const WarehouseBookingOptionsProps = {
   space: PropTypes.number.isRequired,
-  price: PropTypes.number.isRequired,
+  pricePerSquare: PropTypes.number.isRequired,
 };
 
-const WarehouseBookingOptions = ({ space, price }) => {
+const WarehouseBookingOptions = ({ space, pricePerSquare }) => {
   const [selectedMonth, setSelectedMonth] = useState(1);
 
   return (
@@ -124,7 +124,7 @@ const WarehouseBookingOptions = ({ space, price }) => {
         <Grid item xs={6}>
           <OptionsDetailsCard
             title="Total Available Space"
-            amount={`$${price} /`}
+            amount={`$${pricePerSquare} /`}
             amountType="sq. ft"
             description="*Minimum Order Qty: 7,000 sq. ft"
           />
@@ -144,7 +144,7 @@ const WarehouseBookingOptions = ({ space, price }) => {
       </Grid>
 
       <Typography variant="h4" sx={{ textAlign: 'center' }}>
-        {`Total Price:   $${7000 * price * selectedMonth}`}
+        {`Total Price:   $${7000 * pricePerSquare * selectedMonth}`}
       </Typography>
     </Box>
   );
