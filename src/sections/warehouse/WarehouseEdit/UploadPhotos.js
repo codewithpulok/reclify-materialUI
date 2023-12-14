@@ -1,28 +1,11 @@
-import { Box, Button, IconButton, Stack, Typography, alpha } from '@mui/material';
+import { Box, Button, IconButton, Stack, Typography } from '@mui/material';
 import PropTypes from 'prop-types';
 import { useFieldArray, useFormContext } from 'react-hook-form';
+import EmptyState from 'src/components/common/empty-state';
 import Image from 'src/components/image';
 import { ICONS } from '../config-warehouse';
 
-const NoImages = () => (
-  <Stack
-    sx={{
-      mt: 3,
-      width: 1,
-      height: 200,
-      borderRadius: 2,
-      bgcolor: (theme) => alpha(theme.palette.grey[500], 0.04),
-      border: (theme) => `dashed 1px ${theme.palette.divider}`,
-    }}
-    alignItems="center"
-    justifyContent="center"
-    color="GrayText"
-    spacing={1}
-  >
-    {ICONS.noImages}
-    <Typography variant="body2">No Images</Typography>
-  </Stack>
-);
+const NoImages = () => <EmptyState icon={ICONS.noImages} text="No Images" />;
 
 const UploadPreview = ({ src, onClose }) => (
   <Box sx={{ width: '150px', position: 'relative' }}>

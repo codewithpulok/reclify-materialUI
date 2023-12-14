@@ -38,7 +38,8 @@ export const warehouses = [
     id: 'ghi789',
     name: 'Skyline Depot',
     location: 'Suburbia',
-    description: 'Warehouses with a view in a peaceful suburban setting.',
+    description:
+      'Discover the allure of our warehouses, strategically nestled in a serene suburban setting. Unveil a unique blend of functionality and aesthetics as you explore storage spaces with a breathtaking view. Our warehouses redefine the storage experience, providing not just a practical solution but also an environment that embraces tranquility. The peaceful suburban surroundings create an idyllic backdrop for your storage needs, offering a retreat-like atmosphere away from the hustle and bustle of urban life. Immerse yourself in the harmonious coexistence of practical storage solutions and the scenic beauty that our warehouses with a view have to offer.',
     totalSpace: 6000,
     pricePerSquare: 1.8,
     photos: [
