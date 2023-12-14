@@ -1,16 +1,5 @@
 export const reviews = [
   {
-    id: 'review001',
-    warehouseId: 'abc123',
-    avatar: 'https://i.pravatar.cc/150?u=JohnDoe',
-    name: 'John Doe',
-    createdAt: 1672531199000,
-    updatedAt: 1672617599000,
-    rating: 4,
-    feedback:
-      'Prime Storage is a fantastic facility. Clean, well-maintained, and the staff is helpful. The location in the City Center is very convenient.',
-  },
-  {
     id: 'review002',
     warehouseId: 'def456',
     avatar: 'https://i.pravatar.cc/150?u=JaneSmith',
