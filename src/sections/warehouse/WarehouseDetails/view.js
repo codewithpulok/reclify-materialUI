@@ -8,13 +8,23 @@ import { useSettingsContext } from 'src/components/settings';
 import WarehouseBookingOptions from './WarehouseBookingOptions';
 import WarehouseDescription from './WarehouseDescription';
 import WarehouseHeader from './WarehouseHeader';
+import WarehouseReviews from './WarehouseReviews';
 import WarehouseImageCarousel from './imageCarousel';
 
 const WarehouseDetailsProps = {
+  /** @type {Warehouse} */
   warehouse: PropTypes.object.isRequired,
+  /** @type {Review[]} */
+  reviews: PropTypes.arrayOf(PropTypes.object).isRequired,
 };
 
-function WarehouseDetails({ warehouse }) {
+/**
+ * Warehouse Details page component
+ * @param {WarehouseDetailsProps} props
+ * @returns {JSX.Element}
+ */
+function WarehouseDetails(props) {
+  const { warehouse, reviews } = props;
   const settings = useSettingsContext();
 
   return (
@@ -24,21 +34,28 @@ function WarehouseDetails({ warehouse }) {
         <Grid item xs={12} md={7}>
           <WarehouseImageCarousel list={warehouse.photos} />
 
-          <Box sx={{ display: { xs: 'none', md: 'block' } }} mt={5}>
-            <WarehouseDescription description={warehouse.description} />
+          {/* show sidebar content in mobile mode & hide in tab mode */}
+          <Box sx={{ display: { xs: 'block', md: 'none' } }} mt={5}>
+            <WarehouseBookingOptions
+              space={warehouse.totalSpace}
+              pricePerSquare={warehouse.pricePerSquare}
+            />
           </Box>
+
+          <WarehouseDescription description={warehouse.description} sx={{ mt: 5 }} />
+
+          <WarehouseReviews reviews={reviews} sx={{ mt: 3 }} />
         </Grid>
         <Grid item xs={12} md={5}>
-          <WarehouseBookingOptions
-            space={warehouse.totalSpace}
-            pricePerSquare={warehouse.pricePerSquare}
-          />
+          {/* show sidebar content in tab mode & hide in mobile mode */}
+          <Box sx={{ display: { xs: 'none', md: 'block' } }}>
+            <WarehouseBookingOptions
+              space={warehouse.totalSpace}
+              pricePerSquare={warehouse.pricePerSquare}
+            />
+          </Box>
         </Grid>
       </Grid>
-
-      <Box sx={{ display: { xs: 'block', md: 'none' } }} mt={5}>
-        <WarehouseDescription description={warehouse.description} />
-      </Box>
     </Container>
   );
 }

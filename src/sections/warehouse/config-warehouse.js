@@ -9,4 +9,6 @@ export const ICONS = {
   upload: getIconify('solar:upload-minimalistic-linear'),
   noImages: getIconify('tabler:photo-off'),
   close: getIconify('tabler:x', 14),
+  review: getIconify('solar:chat-round-like-broken'),
+  sort: getIconify('solar:sort-vertical-outline'),
 };

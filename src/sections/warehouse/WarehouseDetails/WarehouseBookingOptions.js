@@ -1,4 +1,4 @@
-import { Box, Card, CardContent, Grid, Typography } from '@mui/material';
+import { Box, Card, CardContent, Grid, Typography, useTheme } from '@mui/material';
 import PropTypes from 'prop-types';
 import { useState } from 'react';
 
@@ -68,28 +68,21 @@ const OptionsMonthCardProps = {
   month: PropTypes.number.isRequired,
   isSelected: PropTypes.bool.isRequired,
   setSelected: PropTypes.func.isRequired,
+  isDark: PropTypes.bool.isRequired,
 };
 
-const OptionsMonthCard = ({ month, isSelected, setSelected }) => (
+const OptionsMonthCard = ({ month, isSelected, setSelected, isDark }) => (
   <Card
     onClick={() => setSelected(month)}
-    sx={
-      isSelected
-        ? {
-            borderWidth: 2,
-            borderStyle: 'solid',
-            borderColor: '#00A76F',
-          }
-        : {
-            cursor: 'pointer',
-          }
-    }
+    sx={{
+      borderWidth: 2,
+      borderStyle: 'solid',
+      borderColor: isSelected ? '#00A76F' : 'transparent',
+      cursor: 'pointer',
+      bgcolor: isDark ? 'background.neutral' : 'background.default',
+    }}
   >
-    <CardContent
-      sx={{
-        textAlign: 'center',
-      }}
-    >
+    <CardContent sx={{ textAlign: 'center' }}>
       <Typography variant="h3">{month}</Typography>
       <Typography variant="body2">Month</Typography>
     </CardContent>
@@ -105,9 +98,10 @@ const WarehouseBookingOptionsProps = {
 
 const WarehouseBookingOptions = ({ space, pricePerSquare }) => {
   const [selectedMonth, setSelectedMonth] = useState(1);
+  const { palette } = useTheme();
 
   return (
-    <Box sx={{ bgcolor: 'Background', padding: 2, borderRadius: 2, boxShadow: 3 }}>
+    <Box sx={{ bgcolor: 'background.paper', padding: 2, borderRadius: 2, boxShadow: 3 }}>
       <Typography variant="h5" sx={{ mb: 4 }}>
         Check Availability and Your Monthly Cost
       </Typography>
@@ -116,7 +110,7 @@ const WarehouseBookingOptions = ({ space, pricePerSquare }) => {
         <Grid item xs={6}>
           <OptionsDetailsCard
             title="Total Available Space"
-            amount={space}
+            amount={`${space}`}
             amountType=" sq. ft"
             description="Space availability is based on date range."
           />
@@ -138,6 +132,7 @@ const WarehouseBookingOptions = ({ space, pricePerSquare }) => {
               month={month}
               isSelected={month === selectedMonth}
               setSelected={setSelectedMonth}
+              isDark={palette.mode === 'dark'}
             />
           </Grid>
         ))}

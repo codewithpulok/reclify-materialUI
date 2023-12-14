@@ -102,7 +102,7 @@ const WarehouseEdit = ({ warehouse }) => {
           </Grid>
 
           <Grid item xs={12} textAlign="right" mt={5}>
-            <Button variant="contained" size="large" type="submit">
+            <Button variant="contained" size="large" type="submit" color="primary">
               Save Changes
             </Button>
           </Grid>
