@@ -1,3 +1,5 @@
+# Racklify Frontend project (v1.0.0)
+
 ## NODE.JS
 
 - Node 16.x || 18.x
