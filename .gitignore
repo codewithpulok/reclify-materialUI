@@ -16,6 +16,10 @@ out
 dist
 build
 
+# lock files
+package-lock.json
+yarn.lock
+
 # environment variables
 .env
 .env.local

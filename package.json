@@ -1,8 +1,8 @@
 {
-  "name": "@minimal-kit/starter-next-js",
-  "author": "Minimals",
-  "version": "5.6.0",
-  "description": "Next Starter & JavaScript",
+  "name": "@racklify/starter-next-js",
+  "author": "Racklify",
+  "version": "1.0.0",
+  "description": "Racklify frontend project | warehouse",
   "private": true,
   "scripts": {
     "dev": "next dev -p 3033",
