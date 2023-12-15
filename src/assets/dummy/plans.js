@@ -19,3 +19,9 @@ export const plans = [
     primary: false,
   },
 ];
+
+/**
+ * Get all plans
+ * @returns {Plan[]}
+ */
+export const getAllPlans = () => plans;

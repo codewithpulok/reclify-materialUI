@@ -8,10 +8,6 @@ import Tabs from '@mui/material/Tabs';
 
 import { useSettingsContext } from 'src/components/settings';
 
-import { getAddressesByUserId } from 'src/assets/dummy/addresses';
-import { getCardsByUserId } from 'src/assets/dummy/cards';
-import { getInvoicesByUserId } from 'src/assets/dummy/invoices';
-import { plans } from 'src/assets/dummy/plans';
 import { useAuthContext } from 'src/auth/hooks';
 import CustomBreadcrumbs from 'src/components/custom-breadcrumbs';
 import { ICONS } from './config-settings';
@@ -50,10 +46,6 @@ const TABS = [
 const UserSettingsView = () => {
   const settings = useSettingsContext();
   const { user } = useAuthContext();
-
-  const userInvoices = getInvoicesByUserId(user.id);
-  const userAddresses = getAddressesByUserId(user.id);
-  const userCards = getCardsByUserId(user.id);
 
   const [currentTab, setCurrentTab] = useState('general');
 
@@ -99,23 +91,20 @@ const UserSettingsView = () => {
           mb: { xs: 3, md: 5 },
         }}
       >
-        {TABS.map((tab) => (
-          <Tab key={tab.value} label={tab.label} icon={tab.icon} value={tab.value} />
-        ))}
+        {TABS.map((tab) => {
+          // exclude warehouse only tabs
+          if (user?.role !== 'warehouse' && tab.value === 'billing') return null;
+          if (user?.role !== 'warehouse' && tab.value === 'transactions') return null;
+
+          return <Tab key={tab.value} label={tab.label} icon={tab.icon} value={tab.value} />;
+        })}
       </Tabs>
 
       {currentTab === 'general' && <SettingsGeneral />}
 
-      {currentTab === 'billing' && (
-        <SettingsBillings
-          plans={plans}
-          cards={userCards}
-          invoices={userInvoices}
-          addressBook={userAddresses}
-        />
-      )}
+      {user?.role === 'warehouse' && currentTab === 'billing' && <SettingsBillings />}
 
-      {currentTab === 'transactions' && <SettingsTransactions />}
+      {user?.role === 'warehouse' && currentTab === 'transactions' && <SettingsTransactions />}
 
       {currentTab === 'security' && <SettingsSecurity />}
     </Container>

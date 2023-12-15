@@ -146,7 +146,9 @@ const BillingPlan = (props) => {
 
         <Stack spacing={1.5} direction="row" justifyContent="flex-end" sx={{ p: 3 }}>
           <Button variant="outlined">Cancel Plan</Button>
-          <Button variant="contained">Upgrade Plan</Button>
+          <Button variant="contained" color="success">
+            Upgrade Plan
+          </Button>
         </Stack>
       </Card>
 

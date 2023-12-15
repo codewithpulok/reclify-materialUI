@@ -19,7 +19,7 @@ const SettingsGeneral = () => {
   const { enqueueSnackbar } = useSnackbar();
   const { user: authUser } = useAuthContext();
 
-  const user = getUserByID(authUser.id);
+  const user = getUserByID(authUser?.id);
 
   const UpdateUserSchema = Yup.object().shape({
     displayName: Yup.string().required('Name is required'),

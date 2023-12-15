@@ -52,7 +52,7 @@ const defaultFilters = {
 
 const SettingsTransactions = () => {
   const { user } = useAuthContext();
-  const userTransactions = getTransectionsByUserId(user.id);
+  const userTransactions = getTransectionsByUserId(user?.id);
 
   const table = useTable({ defaultOrderBy: 'createdAt' });
   const [tableData] = useState(userTransactions);
