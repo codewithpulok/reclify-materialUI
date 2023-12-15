@@ -2,19 +2,28 @@ import PropTypes from 'prop-types';
 
 import Grid from '@mui/material/Unstable_Grid2';
 
-import BillingHistory from './BillingHistory';
-import BillingPlan from './BillingPlan';
+import BillingHistory from './billing-history';
+import BillingPlan from './billing-plan';
 
 // ----------------------------------------------------------------------
 
-const SettingsBillings = (props) => {
+const SettingsBillingProps = {
+  /** @type {Address[]} */
+  addressBook: PropTypes.array,
+  /** @type {Card[]} */
+  cards: PropTypes.array,
+  /** @type {Invoice[]} */
+  invoices: PropTypes.array,
+  /** @type {Plan[]} */
+  plans: PropTypes.array,
+};
+
+const SettingsBilling = (props) => {
   const { cards, plans, invoices, addressBook } = props;
   return (
     <Grid container spacing={5} disableEqualOverflow>
       <Grid xs={12} md={8}>
         <BillingPlan plans={plans} cardList={cards} addressBook={addressBook} />
-
-        {/* <AccountBillingPayment cards={cards} /> */}
       </Grid>
 
       <Grid xs={12} md={4}>
@@ -24,11 +33,6 @@ const SettingsBillings = (props) => {
   );
 };
 
-SettingsBillings.propTypes = {
-  addressBook: PropTypes.array,
-  cards: PropTypes.array,
-  invoices: PropTypes.array,
-  plans: PropTypes.array,
-};
+SettingsBilling.propTypes = SettingsBillingProps;
 
-export default SettingsBillings;
+export default SettingsBilling;

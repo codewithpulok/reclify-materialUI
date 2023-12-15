@@ -8,14 +8,17 @@ import Tabs from '@mui/material/Tabs';
 
 import { useSettingsContext } from 'src/components/settings';
 
-import { _userAddressBook, _userInvoices, _userPayment, _userPlans } from 'src/_mock';
+import { getAddressesByUserId } from 'src/assets/dummy/addresses';
+import { getCardsByUserId } from 'src/assets/dummy/cards';
+import { getInvoicesByUserId } from 'src/assets/dummy/invoices';
+import { plans } from 'src/assets/dummy/plans';
 import { useAuthContext } from 'src/auth/hooks';
 import CustomBreadcrumbs from 'src/components/custom-breadcrumbs';
-import SettingsBillings from './SettingsBillings';
-import SettingsSecurity from './SettingsSecurity';
 import SettingsTransactions from './SettingsTransactions';
 import { ICONS } from './config-settings';
+import SettingsBillings from './settings-billing';
 import SettingsGeneral from './settings-general';
+import SettingsSecurity from './settings-security';
 
 // ----------------------------------------------------------------------
 
@@ -47,6 +50,10 @@ const TABS = [
 const UserSettingsView = () => {
   const settings = useSettingsContext();
   const { user } = useAuthContext();
+
+  const userInvoices = getInvoicesByUserId(user.id);
+  const userAddresses = getAddressesByUserId(user.id);
+  const userCards = getCardsByUserId(user.id);
 
   const [currentTab, setCurrentTab] = useState('general');
 
@@ -101,10 +108,10 @@ const UserSettingsView = () => {
 
       {currentTab === 'billing' && (
         <SettingsBillings
-          plans={_userPlans}
-          cards={_userPayment}
-          invoices={_userInvoices}
-          addressBook={_userAddressBook}
+          plans={plans}
+          cards={userCards}
+          invoices={userInvoices}
+          addressBook={userAddresses}
         />
       )}
 

@@ -1,39 +1,47 @@
 import PropTypes from 'prop-types';
 import { useCallback, useState } from 'react';
 
-import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
 import Card from '@mui/material/Card';
 import CardHeader from '@mui/material/CardHeader';
 import Divider from '@mui/material/Divider';
-import Paper from '@mui/material/Paper';
 import Stack from '@mui/material/Stack';
 import Grid from '@mui/material/Unstable_Grid2';
 
 import { useBoolean } from 'src/hooks/use-boolean';
 
-import { PlanFreeIcon, PlanPremiumIcon, PlanStarterIcon } from 'src/assets/icons';
-
-import Label from 'src/components/label';
-
 import { AddressListDialog, PaymentCardListDialog } from 'src/components/user-settings/dialog';
+
+import PlanCard from 'src/components/user-settings/cards/plan-card';
 
 import { ICONS } from '../config-settings';
 
 // ----------------------------------------------------------------------
 
-const BillingPlan = (props) => {
-  const { cardList, addressBook, plans } = props;
-  const openAddress = useBoolean();
+const BillingPlanProps = {
+  /** @type {Plan[]} */
+  plans: PropTypes.array,
+  /** @type {Address[]} */
+  addressBook: PropTypes.array,
+  /** @type {Card[]} */
+  cards: PropTypes.array,
+};
 
+/**
+ * Billing plans
+ * @param {BillingPlanProps} props
+ * @returns
+ */
+const BillingPlan = (props) => {
+  const { plans, addressBook, cards } = props;
+
+  const primaryAddress = addressBook.find((address) => address.primary);
+  const primaryCard = cards.find((card) => card.primary);
+
+  const openAddress = useBoolean();
   const openCards = useBoolean();
 
-  const primaryAddress = addressBook.filter((address) => address.primary)[0];
-
-  const primaryCard = cardList.filter((card) => card.primary)[0];
-
   const [selectedPlan, setSelectedPlan] = useState('');
-
   const [selectedAddress, setSelectedAddress] = useState(primaryAddress);
 
   const [selectedCard, setSelectedCard] = useState(primaryCard);
@@ -58,60 +66,11 @@ const BillingPlan = (props) => {
 
   const renderPlans = plans.map((plan) => (
     <Grid xs={12} md={4} key={plan.subscription}>
-      <Stack
-        component={Paper}
-        variant="outlined"
-        onClick={() => handleSelectPlan(plan.subscription)}
-        sx={{
-          p: 2.5,
-          position: 'relative',
-          cursor: 'pointer',
-          ...(plan.primary && {
-            opacity: 0.48,
-            cursor: 'default',
-          }),
-          ...(plan.subscription === selectedPlan && {
-            boxShadow: (theme) => `0 0 0 2px ${theme.palette.text.primary}`,
-          }),
-        }}
-      >
-        {plan.primary && (
-          <Label
-            color="info"
-            startIcon={ICONS.current()}
-            sx={{ position: 'absolute', top: 8, right: 8 }}
-          >
-            Current
-          </Label>
-        )}
-
-        <Box sx={{ width: 48, height: 48 }}>
-          {plan.subscription === 'basic' && <PlanFreeIcon />}
-          {plan.subscription === 'starter' && <PlanStarterIcon />}
-          {plan.subscription === 'premium' && <PlanPremiumIcon />}
-        </Box>
-
-        <Box
-          sx={{
-            typography: 'subtitle2',
-            mt: 2,
-            mb: 0.5,
-            textTransform: 'capitalize',
-          }}
-        >
-          {plan.subscription}
-        </Box>
-
-        <Stack direction="row" alignItems="center" sx={{ typography: 'h4' }}>
-          {plan.price || 'Free'}
-
-          {!!plan.price && (
-            <Box component="span" sx={{ typography: 'body2', color: 'text.disabled', ml: 0.5 }}>
-              /mo
-            </Box>
-          )}
-        </Stack>
-      </Stack>
+      <PlanCard
+        isSelected={plan.subscription === selectedPlan}
+        onSelect={handleSelectPlan}
+        plan={plan}
+      />
     </Grid>
   ));
 
@@ -192,7 +151,7 @@ const BillingPlan = (props) => {
       </Card>
 
       <PaymentCardListDialog
-        list={cardList}
+        list={cards}
         open={openCards.value}
         onClose={openCards.onFalse}
         selected={(selectedId) => selectedCard?.id === selectedId}
@@ -215,10 +174,6 @@ const BillingPlan = (props) => {
   );
 };
 
-BillingPlan.propTypes = {
-  addressBook: PropTypes.array,
-  cardList: PropTypes.array,
-  plans: PropTypes.array,
-};
+BillingPlan.propTypes = BillingPlanProps;
 
 export default BillingPlan;

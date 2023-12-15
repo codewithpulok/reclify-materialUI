@@ -12,4 +12,5 @@ export const ICONS = {
   edit: (width) => getIconify('solar:pen-bold', width),
   search: (width) => getIconify('eva:search-fill', width),
   plus: (width) => getIconify('mingcute:add-line', width),
+  current: (width) => getIconify('eva:star-fill', width),
 };
