@@ -12,11 +12,9 @@ const ToastProps = {
 const Toast = forwardRef((props, ref) => {
   const { id, message, variant, ...other } = props;
 
-  console.log(props);
-
   return (
     <SnackbarContent ref={ref} role="alert" {...other}>
-      <Alert onClose={() => closeSnackbar(id)} severity={variant}>
+      <Alert onClose={() => closeSnackbar(id)} severity={variant || undefined}>
         {message}
       </Alert>
     </SnackbarContent>

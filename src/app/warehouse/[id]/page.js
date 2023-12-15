@@ -20,6 +20,8 @@ export const getWarehouseReviews = async (id) => {
 export const generateMetadata = async ({ params }) => {
   const warehouse = await getWarehouse(params.id);
 
+  if (!warehouse) return {};
+
   return {
     title: warehouse.name,
   };

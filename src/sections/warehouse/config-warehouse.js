@@ -11,4 +11,8 @@ export const ICONS = {
   close: getIconify('tabler:x', 14),
   review: getIconify('solar:chat-round-like-broken'),
   sort: getIconify('solar:sort-vertical-outline'),
+  userId: getIconify('solar:user-id-bold'),
+  bills: getIconify('solar:bill-list-bold'),
+  key: getIconify('ic:round-vpn-key'),
+  transactions: getIconify('solar:card-transfer-linear'),
 };
