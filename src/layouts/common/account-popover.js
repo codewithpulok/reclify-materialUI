@@ -31,7 +31,7 @@ const OPTIONS = [
   },
   {
     label: 'Settings',
-    linkTo: '/warehouse/settings',
+    linkTo: '/settings',
   },
 ];
 

@@ -9,12 +9,13 @@ import Tabs from '@mui/material/Tabs';
 import { useSettingsContext } from 'src/components/settings';
 
 import { _userAddressBook, _userInvoices, _userPayment, _userPlans } from 'src/_mock';
+import { useAuthContext } from 'src/auth/hooks';
 import CustomBreadcrumbs from 'src/components/custom-breadcrumbs';
 import SettingsBillings from './SettingsBillings';
-import SettingsGeneral from './SettingsGeneral';
 import SettingsSecurity from './SettingsSecurity';
 import SettingsTransactions from './SettingsTransactions';
 import { ICONS } from './config-settings';
+import SettingsGeneral from './settings-general';
 
 // ----------------------------------------------------------------------
 
@@ -45,6 +46,7 @@ const TABS = [
 
 const UserSettingsView = () => {
   const settings = useSettingsContext();
+  const { user } = useAuthContext();
 
   const [currentTab, setCurrentTab] = useState('general');
 
@@ -52,10 +54,31 @@ const UserSettingsView = () => {
     setCurrentTab(newValue);
   }, []);
 
+  // choosing the page heading according to user role
+  let headingPrefix = null;
+  switch (user?.role) {
+    case 'customer': {
+      headingPrefix = 'Customer Account';
+      break;
+    }
+    case 'admin': {
+      headingPrefix = 'Admin Account';
+      break;
+    }
+    case 'warehouse': {
+      headingPrefix = 'Warehouse Account';
+      break;
+    }
+    default: {
+      headingPrefix = 'Account';
+      break;
+    }
+  }
+
   return (
     <Container maxWidth={settings.themeStretch ? false : 'lg'}>
       <CustomBreadcrumbs
-        heading="User Settings"
+        heading={`${headingPrefix} Settings`}
         links={[{ name: 'Settings' }]}
         sx={{
           mb: { xs: 3, md: 5 },
