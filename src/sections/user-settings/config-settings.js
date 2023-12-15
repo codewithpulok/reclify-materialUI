@@ -14,4 +14,5 @@ export const ICONS = {
   showMore: (width) => getIconify('eva:arrow-ios-downward-fill', width),
   showLess: (width) => getIconify('eva:arrow-ios-upward-fill', width),
   current: (width) => getIconify('eva:star-fill', width),
+  more: (width) => getIconify('eva:more-vertical-fill', width),
 };

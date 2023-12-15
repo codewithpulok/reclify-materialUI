@@ -28,7 +28,11 @@ import {
   useTable,
 } from 'src/components/table';
 
-import { getTransectionsByUserId, TRANSACTION_STATUS_OPTIONS } from 'src/assets/dummy/transactions';
+import {
+  changeTransactionStatus,
+  getTransectionsByUserId,
+  TRANSACTION_STATUS_OPTIONS,
+} from 'src/assets/dummy/transactions';
 import { useAuthContext } from 'src/auth/hooks';
 import TransactionTableRow from './transaction-table-row';
 
@@ -41,6 +45,7 @@ const TABLE_HEAD = [
   { id: 'createdAt', label: 'Date', width: 140 },
   { id: 'totalAmount', label: 'Price', width: 140 },
   { id: 'status', label: 'Status', width: 110 },
+  { id: '', width: 88 },
 ];
 
 const defaultFilters = {
@@ -55,7 +60,7 @@ const SettingsTransactions = () => {
   const userTransactions = getTransectionsByUserId(user?.id);
 
   const table = useTable({ defaultOrderBy: 'createdAt' });
-  const [tableData] = useState(userTransactions);
+  const [tableData, setTableData] = useState(userTransactions);
 
   const confirm = useBoolean();
 
@@ -89,6 +94,55 @@ const SettingsTransactions = () => {
     [handleFilters]
   );
 
+  const handleTransactionStatus = (id, status) => {
+    // changing transaction status demostration
+    const transaction = changeTransactionStatus(id, status);
+
+    setTableData((prev) => {
+      const transactionIndex = prev.findIndex((t) => t.id === id);
+      prev[transactionIndex] = transaction;
+
+      return prev;
+    });
+  };
+
+  const renderTabs = useCallback(
+    () =>
+      STATUS_OPTIONS.map((tab) => (
+        <Tab
+          key={tab.value}
+          iconPosition="end"
+          value={tab.value}
+          label={tab.label}
+          icon={
+            <Label
+              variant={
+                ((tab.value === 'all' || tab.value === filters.status) && 'filled') || 'soft'
+              }
+              color={
+                (tab.value === 'COMPLETED' && 'success') ||
+                (tab.value === 'PENDING' && 'warning') ||
+                (tab.value === 'CANCELED' && 'error') ||
+                'default'
+              }
+            >
+              {tab.value === 'all' && tableData.length}
+              {tab.value === 'COMPLETED' &&
+                tableData.filter((order) => order.status === 'COMPLETED').length}
+
+              {tab.value === 'PENDING' &&
+                tableData.filter((order) => order.status === 'PENDING').length}
+              {tab.value === 'CANCELED' &&
+                tableData.filter((order) => order.status === 'CANCELED').length}
+              {tab.value === 'REFUNDED' &&
+                tableData.filter((order) => order.status === 'REFUNDED').length}
+            </Label>
+          }
+        />
+      )),
+    [filters.status, tableData]
+  );
+
   return (
     <Card>
       <Tabs
@@ -99,38 +153,7 @@ const SettingsTransactions = () => {
           boxShadow: (theme) => `inset 0 -2px 0 0 ${alpha(theme.palette.grey[500], 0.08)}`,
         }}
       >
-        {STATUS_OPTIONS.map((tab) => (
-          <Tab
-            key={tab.value}
-            iconPosition="end"
-            value={tab.value}
-            label={tab.label}
-            icon={
-              <Label
-                variant={
-                  ((tab.value === 'all' || tab.value === filters.status) && 'filled') || 'soft'
-                }
-                color={
-                  (tab.value === 'COMPLETED' && 'success') ||
-                  (tab.value === 'PENDING' && 'warning') ||
-                  (tab.value === 'CANCELED' && 'error') ||
-                  'default'
-                }
-              >
-                {tab.value === 'all' && userTransactions.length}
-                {tab.value === 'COMPLETED' &&
-                  userTransactions.filter((order) => order.status === 'COMPLETED').length}
-
-                {tab.value === 'PENDING' &&
-                  userTransactions.filter((order) => order.status === 'PENDING').length}
-                {tab.value === 'CANCELED' &&
-                  userTransactions.filter((order) => order.status === 'CANCELED').length}
-                {tab.value === 'REFUNDED' &&
-                  userTransactions.filter((order) => order.status === 'REFUNDED').length}
-              </Label>
-            }
-          />
-        ))}
+        {renderTabs()}
       </Tabs>
 
       <TableContainer sx={{ position: 'relative', overflow: 'unset' }}>
@@ -175,6 +198,7 @@ const SettingsTransactions = () => {
                     key={row.id}
                     row={row}
                     selected={table.selected.includes(row.id)}
+                    onStatusChange={handleTransactionStatus}
                   />
                 ))}
 

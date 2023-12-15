@@ -150,6 +150,18 @@ export const getTransectionsByUserId = (id) =>
  */
 export const getTransectionById = (id) => transactions.find((transaction) => transaction.id === id);
 
+/**
+ * Change transaction status
+ * @param {string} id
+ * @param {TransactionStatus} status
+ * @returns {Transaction | undefined}
+ */
+export const changeTransactionStatus = (id, status) => {
+  const transaction = getTransectionById(id);
+  transaction.status = status;
+  return transaction;
+};
+
 export const TRANSACTION_STATUS_OPTIONS = [
   { value: 'PENDING', label: 'Pending' },
   { value: 'COMPLETED', label: 'Completed' },
