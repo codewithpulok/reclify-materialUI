@@ -14,11 +14,11 @@ import { getInvoicesByUserId } from 'src/assets/dummy/invoices';
 import { plans } from 'src/assets/dummy/plans';
 import { useAuthContext } from 'src/auth/hooks';
 import CustomBreadcrumbs from 'src/components/custom-breadcrumbs';
-import SettingsTransactions from './SettingsTransactions';
 import { ICONS } from './config-settings';
 import SettingsBillings from './settings-billing';
 import SettingsGeneral from './settings-general';
 import SettingsSecurity from './settings-security';
+import SettingsTransactions from './settings-transactions';
 
 // ----------------------------------------------------------------------
 

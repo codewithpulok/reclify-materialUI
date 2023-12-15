@@ -23,7 +23,7 @@ const SettingsBilling = (props) => {
   return (
     <Grid container spacing={5} disableEqualOverflow>
       <Grid xs={12} md={8}>
-        <BillingPlan plans={plans} cardList={cards} addressBook={addressBook} />
+        <BillingPlan plans={plans} cards={cards} addressBook={addressBook} />
       </Grid>
 
       <Grid xs={12} md={4}>
