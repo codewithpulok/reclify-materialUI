@@ -1,18 +1,21 @@
 'use client';
 
-import { Grid } from '@mui/material';
+import { Button, Grid, Link, Stack } from '@mui/material';
 import Container from '@mui/material/Container';
-import Typography from '@mui/material/Typography';
 import { useState } from 'react';
 import { warehouses } from 'src/assets/dummy/warehouses';
+import { useAuthContext } from 'src/auth/hooks';
 import { ConfirmationAlert } from 'src/components/common/alert';
+import CustomBreadcrumbs from 'src/components/custom-breadcrumbs/custom-breadcrumbs';
 
 import { useSettingsContext } from 'src/components/settings';
 import { WarehouseCard } from 'src/components/warehouse/cards';
+import { paths } from 'src/routes/paths';
 
 // ----------------------------------------------------------------------
 
 export default function ListingView() {
+  const { user } = useAuthContext();
   const settings = useSettingsContext();
   const [confirmation, setConfirmation] = useState({ open: false, title: '', text: '' });
 
@@ -34,20 +37,27 @@ export default function ListingView() {
 
   return (
     <Container maxWidth={settings.themeStretch ? false : 'xl'}>
-      <Typography variant="h4" mb={3}>
-        Listing
-      </Typography>
+      <Stack direction="row" justifyContent="space-between" alignItems="center" mb={5}>
+        <CustomBreadcrumbs
+          heading="Warehouse Listing"
+          links={[{ name: 'Dashboard', href: paths.dashboard.root }, { name: 'Listing' }]}
+        />
+
+        <Link href="/warehouse/create">
+          <Button color="primary" variant="soft">
+            Create Warehouse
+          </Button>
+        </Link>
+      </Stack>
 
       <Grid container spacing={2}>
         {warehouses.map((warehouse) => (
           <Grid item key={warehouse.id} xs={12} sm={6} md={4}>
             <WarehouseCard
               key={warehouse.id}
-              image={warehouse.photos[0].coverUrl}
-              location={warehouse.location}
-              name={warehouse.name}
+              warehouse={warehouse}
               onDelete={() => handleDelete(warehouse)}
-              id={warehouse.id}
+              hasControl={user?.role === 'warehouse'}
             />
           </Grid>
         ))}
