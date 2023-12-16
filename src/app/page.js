@@ -1,9 +1,11 @@
-import { redirect } from 'next/navigation';
-
-import { PATH_AFTER_LOGIN } from 'src/config-global';
+import { HomeView } from 'src/sections/home/view';
 
 // ----------------------------------------------------------------------
 
+export const metadata = {
+  title: 'PalletBro',
+};
+
 export default async function HomePage() {
-  redirect(PATH_AFTER_LOGIN);
+  return <HomeView />;
 }
