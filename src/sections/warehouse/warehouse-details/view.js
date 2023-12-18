@@ -5,11 +5,11 @@ import Container from '@mui/material/Container';
 import Grid from '@mui/material/Unstable_Grid2';
 import PropTypes from 'prop-types';
 import { useSettingsContext } from 'src/components/settings';
-import WarehouseBookingOptions from './WarehouseBookingOptions';
-import WarehouseDescription from './WarehouseDescription';
-import WarehouseHeader from './WarehouseHeader';
-import WarehouseReviews from './WarehouseReviews';
-import WarehouseImageCarousel from './imageCarousel';
+import WarehouseBookingOptions from './warehouse-booking-options';
+import WarehouseDescription from './warehouse-description';
+import WarehouseHeader from './warehouse-header';
+import WarehouseImageCarousel from './warehouse-image-carousel';
+import WarehouseReviews from './warehouse-reviews';
 
 const WarehouseDetailsProps = {
   /** @type {Warehouse} */

@@ -58,7 +58,7 @@ const WarehouseCard = (props) => {
             transition: '0.3s',
           }}
         >
-          <Link href="/warehouse/create">
+          <Link href={`/warehouse/create?clone=${warehouse.id}`}>
             <IconButton size="small" color="primary">
               {ICONS.duplicate()}
             </IconButton>
