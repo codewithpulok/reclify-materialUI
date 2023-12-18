@@ -1,9 +1,16 @@
 import { WarehouseCreateView } from 'src/sections/warehouse';
+import { getWarehouse } from '../[id]/page';
 
-const WarehouseCreatePage = () => (
-  <div>
-    <WarehouseCreateView />
-  </div>
-);
+export const metadata = {
+  title: 'Create Warehouse - PalletBro',
+};
+
+const WarehouseCreatePage = async ({ searchParams }) => {
+  const warehouse = searchParams?.clone ? await getWarehouse(searchParams?.clone) : undefined;
+
+  if (warehouse) delete warehouse.id;
+
+  return <WarehouseCreateView sourceWarehouse={warehouse} />;
+};
 
 export default WarehouseCreatePage;

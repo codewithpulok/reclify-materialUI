@@ -1,6 +1,6 @@
 'use client';
 
-// import PropTypes from 'prop-types';
+import PropTypes from 'prop-types';
 
 import { yupResolver } from '@hookform/resolvers/yup';
 import { Container } from '@mui/material';
@@ -11,6 +11,11 @@ import FormProvider from 'src/components/hook-form/form-provider';
 import { useSettingsContext } from 'src/components/settings';
 import * as Yup from 'yup';
 import WarehouseCreateFields from './warehouse-create-fields';
+
+const WarehouseCreateViewProps = {
+  /** @type {Warehouse | undefined} */
+  sourceWarehouse: PropTypes.object,
+};
 
 const WarehouseCreateSchema = Yup.object().shape({
   name: Yup.string().required('Warehouse name is required'),
@@ -39,26 +44,26 @@ const defaultValues = {
   photos: [],
 };
 
-const WarehouseCreateView = () => {
+/**
+ * @param {WarehouseCreateViewProps} props
+ * @returns {JSX.Element}
+ */
+const WarehouseCreateView = (props) => {
+  const { sourceWarehouse } = props;
   const { enqueueSnackbar } = useSnackbar();
   const settings = useSettingsContext();
 
   const methods = useForm({
     resolver: yupResolver(WarehouseCreateSchema),
-    defaultValues,
+    defaultValues: sourceWarehouse || defaultValues,
   });
-  const {
-    handleSubmit,
-    formState: { errors },
-  } = methods;
+  const { handleSubmit } = methods;
 
   // handle form submit
   const onSubmit = (values) => {
     console.log({ values });
     enqueueSnackbar('Warehouse created!');
   };
-
-  console.log({ errors });
 
   return (
     <Container maxWidth={settings.themeStretch ? false : 'lg'}>
@@ -76,6 +81,6 @@ const WarehouseCreateView = () => {
   );
 };
 
-WarehouseCreateView.propTypes = {};
+WarehouseCreateView.propTypes = WarehouseCreateViewProps;
 
 export default WarehouseCreateView;
