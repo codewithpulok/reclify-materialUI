@@ -5,7 +5,7 @@ import Stack from '@mui/material/Stack';
 import Tooltip from '@mui/material/Tooltip';
 
 import DownloadButton from './download-button';
-import { fileData, fileThumb, fileFormat } from './utils';
+import { fileData, fileFormat, fileThumb } from './utils';
 
 // ----------------------------------------------------------------------
 

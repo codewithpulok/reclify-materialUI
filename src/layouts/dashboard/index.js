@@ -9,8 +9,7 @@ import { useResponsive } from 'src/hooks/use-responsive';
 
 import { useSettingsContext } from 'src/components/settings';
 
-import { SnackbarProvider } from 'notistack';
-import { Toast } from 'src/components/common/toast';
+import { SnackbarProvider } from 'src/components/snackbar';
 import Header from './header';
 import Main from './main';
 import NavHorizontal from './nav-horizontal';
@@ -18,14 +17,6 @@ import NavMini from './nav-mini';
 import NavVertical from './nav-vertical';
 
 // ----------------------------------------------------------------------
-
-const toastComponents = {
-  default: Toast,
-  error: Toast,
-  success: Toast,
-  warning: Toast,
-  info: Toast,
-};
 
 export default function DashboardLayout({ children }) {
   const settings = useSettingsContext();
@@ -46,10 +37,7 @@ export default function DashboardLayout({ children }) {
 
   if (isHorizontal) {
     return (
-      <SnackbarProvider
-        anchorOrigin={{ horizontal: 'right', vertical: 'top' }}
-        Components={toastComponents}
-      >
+      <SnackbarProvider>
         <Header onOpenNav={nav.onTrue} />
 
         {lgUp ? renderHorizontal : renderNavVertical}
@@ -61,10 +49,7 @@ export default function DashboardLayout({ children }) {
 
   if (isMini) {
     return (
-      <SnackbarProvider
-        anchorOrigin={{ horizontal: 'right', vertical: 'top' }}
-        Components={toastComponents}
-      >
+      <SnackbarProvider>
         <Header onOpenNav={nav.onTrue} />
 
         <Box
@@ -83,10 +68,7 @@ export default function DashboardLayout({ children }) {
   }
 
   return (
-    <SnackbarProvider
-      anchorOrigin={{ horizontal: 'right', vertical: 'top' }}
-      Components={toastComponents}
-    >
+    <SnackbarProvider>
       <Header onOpenNav={nav.onTrue} />
 
       <Box
