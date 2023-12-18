@@ -1,11 +1,19 @@
+import { Stack } from '@mui/material';
 import { useCallback, useState } from 'react';
 import { useFieldArray, useFormContext } from 'react-hook-form';
-import { MultiFilePreview, Upload } from 'src/components/upload';
+import { Upload } from 'src/components/upload';
+import { WarehousePhotoPreviewCard } from 'src/components/warehouse/cards';
+import { WarehousePhotoEditDialog } from 'src/components/warehouse/dialog';
+import { useBoolean } from 'src/hooks/use-boolean';
 
 const WarehouseCreatePhotos = (props) => {
   const { control } = useFormContext();
-  const { fields, remove, append } = useFieldArray({ name: 'photos', control });
+  const { fields, remove, append, update } = useFieldArray({ name: 'photos', control });
+
   const [files, setFiles] = useState([]);
+
+  const [selectedPhoto, setSelectedPhoto] = useState(null);
+  const editDialog = useBoolean(false);
 
   const handleDropMultiFile = useCallback(
     (acceptedFiles) => {
@@ -35,6 +43,31 @@ const WarehouseCreatePhotos = (props) => {
     setFiles([]);
   }, [append, files]);
 
+  // photo edit functions
+
+  const handleEdit = (photo) => {
+    setSelectedPhoto(photo);
+    editDialog.onTrue();
+  };
+
+  const handleEditCancel = () => {
+    editDialog.onFalse();
+    setSelectedPhoto(null);
+  };
+
+  const handleEditSubmit = useCallback(
+    (photo, event) => {
+      // find photo index if not found then abort update
+      const photoIndex = fields.findIndex((field) => field.id === photo.id);
+
+      if (photoIndex !== -1) update(photoIndex, photo);
+
+      editDialog.onFalse();
+      setSelectedPhoto(null);
+    },
+    [editDialog, fields, update]
+  );
+
   return (
     <>
       <Upload
@@ -47,12 +80,28 @@ const WarehouseCreatePhotos = (props) => {
         onRemoveAll={handleRemoveAllFiles}
         onUpload={handleOnUpload}
       />
+
+      {/* uploaded images preview */}
       {fields ? (
-        <MultiFilePreview
-          thumbnail
-          files={fields.map((field, index) => ({ preview: field.coverUrl, key: index }))}
-          onRemove={(field) => remove(field.key)}
-        />
+        <>
+          <Stack spacing={0.5} mt={2}>
+            {fields.map((field, index) => (
+              <WarehousePhotoPreviewCard
+                key={field.id}
+                photo={field}
+                onDelete={() => remove(index)}
+                onEdit={handleEdit}
+              />
+            ))}
+          </Stack>
+
+          <WarehousePhotoEditDialog
+            open={editDialog.value}
+            photo={selectedPhoto}
+            onCancel={handleEditCancel}
+            onSubmit={handleEditSubmit}
+          />
+        </>
       ) : null}
     </>
   );
