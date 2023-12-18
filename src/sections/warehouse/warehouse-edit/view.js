@@ -1,25 +1,48 @@
 'use client';
 
-import { Button, Container, Grid, Stack, Typography } from '@mui/material';
+import { yupResolver } from '@hookform/resolvers/yup';
+import { Container, Stack, Typography } from '@mui/material';
 import { useSnackbar } from 'notistack';
 import PropTypes from 'prop-types';
 import { useEffect } from 'react';
 import { useForm } from 'react-hook-form';
-import { RHFTextField } from 'src/components/hook-form';
 import FormProvider from 'src/components/hook-form/form-provider';
 import { useSettingsContext } from 'src/components/settings';
-import WarehouseEditPhotos from './warehouse-edit-photos';
+import * as Yup from 'yup';
+import WarehouseEditFields from './warehouse-edit-fields';
 
-const warehouseProps = {
+const WarehouseProps = {
   /**
    * @type {Warehouse}
    */
   warehouse: PropTypes.object.isRequired,
 };
 
+const WarehouseEditSchema = Yup.object().shape({
+  name: Yup.string().required('Warehouse name is required'),
+  location: Yup.string().required('Address is required'),
+  totalSpace: Yup.number()
+    .min(1, 'Must be greater than or equal 1')
+    .required('Total space is required'),
+  pricePerSquare: Yup.number()
+    .min(1, 'Must be greater than or equal 1')
+    .required('Price per square is required'),
+  description: Yup.string().required('Description is required'),
+  photos: Yup.array(
+    Yup.object().shape({
+      title: Yup.string().required('Photo title is required'),
+      coverUrl: Yup.string().required('Photo url is required'),
+    })
+  ),
+});
+
+/**
+ * @param {WarehouseProps} param0
+ * @returns {JSX.Element}
+ */
 const WarehouseEdit = ({ warehouse }) => {
   const settings = useSettingsContext();
-  const methods = useForm({ defaultValues: warehouse });
+  const methods = useForm({ defaultValues: warehouse, resolver: yupResolver(WarehouseEditSchema) });
   const { handleSubmit, reset } = methods;
   const { enqueueSnackbar } = useSnackbar();
 
@@ -46,72 +69,12 @@ const WarehouseEdit = ({ warehouse }) => {
       </Stack>
 
       <FormProvider methods={methods} onSubmit={handleSubmit(onSubmit)}>
-        <Grid container maxWidth={600} spacing={1.2}>
-          <Grid item xs={12}>
-            <RHFTextField
-              name="name"
-              label="Name"
-              variant="outlined"
-              InputProps={{ sx: {} }}
-              fullWidth
-            />
-          </Grid>
-          <Grid item xs={12}>
-            <RHFTextField
-              name="location"
-              label="Address"
-              variant="outlined"
-              InputProps={{ sx: {} }}
-              fullWidth
-            />
-          </Grid>
-
-          <Grid item xs={6}>
-            <RHFTextField
-              name="totalSpace"
-              label="Space"
-              variant="outlined"
-              InputProps={{ sx: {} }}
-              fullWidth
-            />
-          </Grid>
-          <Grid item xs={6}>
-            <RHFTextField
-              name="pricePerSquare"
-              label="Price Per Sqare"
-              variant="outlined"
-              InputProps={{ sx: {} }}
-              fullWidth
-            />
-          </Grid>
-
-          <Grid item xs={12}>
-            <RHFTextField
-              name="description"
-              label="Description"
-              variant="outlined"
-              InputProps={{ sx: {} }}
-              rows={4}
-              multiline
-              fullWidth
-            />
-          </Grid>
-
-          <Grid item xs={12}>
-            <WarehouseEditPhotos />
-          </Grid>
-
-          <Grid item xs={12} textAlign="right" mt={5}>
-            <Button variant="contained" size="large" type="submit" color="primary">
-              Save Changes
-            </Button>
-          </Grid>
-        </Grid>
+        <WarehouseEditFields />
       </FormProvider>
     </Container>
   );
 };
 
-WarehouseEdit.propTypes = warehouseProps;
+WarehouseEdit.propTypes = WarehouseProps;
 
 export default WarehouseEdit;

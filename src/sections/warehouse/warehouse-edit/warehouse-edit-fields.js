@@ -1,11 +1,9 @@
-// import PropTypes from 'prop-types'
-
 import { Button, Grid } from '@mui/material';
 import { RHFTextField } from 'src/components/hook-form';
 import Label from 'src/components/label';
 import { WarehousePhotoUpload } from 'src/components/warehouse/upload';
 
-const WarehouseCreateFields = (props) => (
+const WarehouseEditFields = (props) => (
   <Grid container maxWidth={600} spacing={1.2}>
     <Grid item xs={12}>
       <RHFTextField name="name" label="Name" fullWidth />
@@ -15,10 +13,10 @@ const WarehouseCreateFields = (props) => (
     </Grid>
 
     <Grid item xs={6}>
-      <RHFTextField type="number" name="totalSpace" label="Space" fullWidth />
+      <RHFTextField name="totalSpace" label="Space" fullWidth />
     </Grid>
     <Grid item xs={6}>
-      <RHFTextField type="number" name="pricePerSquare" label="Price Per Sqare" fullWidth />
+      <RHFTextField name="pricePerSquare" label="Price Per Sqare" fullWidth />
     </Grid>
 
     <Grid item xs={12}>
@@ -38,6 +36,6 @@ const WarehouseCreateFields = (props) => (
   </Grid>
 );
 
-WarehouseCreateFields.propTypes = {};
+WarehouseEditFields.propTypes = {};
 
-export default WarehouseCreateFields;
+export default WarehouseEditFields;
