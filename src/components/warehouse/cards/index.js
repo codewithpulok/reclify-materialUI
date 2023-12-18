@@ -1,2 +1,2 @@
-export { default as WarehouseCard } from './WarehouseCard';
-export { default as WarehouseReviewCard } from './WarehouseReviewCard';
+export { default as WarehouseCard } from './warehouse-card';
+export { default as WarehouseReviewCard } from './warehouse-review-card';

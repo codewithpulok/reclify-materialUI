@@ -8,7 +8,7 @@ import TextField from '@mui/material/TextField';
 import Typography from '@mui/material/Typography';
 
 import SearchNotFound from 'src/components/search-not-found';
-import AddressCard from '../cards/AddressCard';
+import { AddressCard } from '../cards';
 import { ICONS } from '../config-user-settings';
 
 // ----------------------------------------------------------------------

@@ -8,7 +8,7 @@ import { useForm } from 'react-hook-form';
 import { RHFTextField } from 'src/components/hook-form';
 import FormProvider from 'src/components/hook-form/form-provider';
 import { useSettingsContext } from 'src/components/settings';
-import UploadPhotos from './UploadPhotos';
+import WarehouseEditPhotos from './warehouse-edit-photos';
 
 const warehouseProps = {
   /**
@@ -98,7 +98,7 @@ const WarehouseEdit = ({ warehouse }) => {
           </Grid>
 
           <Grid item xs={12}>
-            <UploadPhotos />
+            <WarehouseEditPhotos />
           </Grid>
 
           <Grid item xs={12} textAlign="right" mt={5}>

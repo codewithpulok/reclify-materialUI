@@ -35,7 +35,7 @@ UploadPreview.propTypes = {
   onClose: PropTypes.func.isRequired,
 };
 
-export default function UploadPhotos() {
+const WarehouseEditPhotos = () => {
   const { control } = useFormContext();
   const { fields, remove, prepend } = useFieldArray({ control, name: 'photos' });
 
@@ -89,4 +89,6 @@ export default function UploadPhotos() {
       )}
     </Box>
   );
-}
+};
+
+export default WarehouseEditPhotos;
