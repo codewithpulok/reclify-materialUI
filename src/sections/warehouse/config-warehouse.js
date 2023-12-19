@@ -15,4 +15,5 @@ export const ICONS = {
   bills: getIconify('solar:bill-list-bold'),
   key: getIconify('ic:round-vpn-key'),
   transactions: getIconify('solar:card-transfer-linear'),
+  back: (width, sx) => getIconify('solar:arrow-right-outline', width, sx),
 };
