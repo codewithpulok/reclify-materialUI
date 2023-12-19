@@ -1,5 +1,6 @@
 import { Box, Stack, Typography } from '@mui/material';
 import PropTypes from 'prop-types';
+
 import { detailsHeaderStyle } from '../styles';
 
 const WarehouseDescriptionProps = {

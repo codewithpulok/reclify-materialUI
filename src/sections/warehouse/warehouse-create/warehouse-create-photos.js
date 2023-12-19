@@ -1,6 +1,7 @@
 import { Stack } from '@mui/material';
 import { useCallback, useState } from 'react';
 import { useFieldArray, useFormContext } from 'react-hook-form';
+// local components
 import { Upload } from 'src/components/upload';
 import { WarehousePhotoPreviewCard } from 'src/components/warehouse/cards';
 import { WarehousePhotoEditDialog } from 'src/components/warehouse/dialog';

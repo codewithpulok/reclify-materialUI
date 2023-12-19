@@ -10,6 +10,7 @@ import {
 } from '@mui/material';
 import PropTypes from 'prop-types';
 import { useMemo, useState } from 'react';
+// local components
 import EmptyState from 'src/components/common/empty-state/EmptyState';
 import { WarehouseReviewCard } from 'src/components/warehouse/cards';
 import { ICONS } from '../config-warehouse';
@@ -76,7 +77,7 @@ const WarehouseReviews = (props) => {
           id="demo-simple-select"
           value={sortType}
           size="small"
-          startAdornment={<SvgIcon sx={{ fontSize: 20 }}>{ICONS.sort}</SvgIcon>}
+          startAdornment={<SvgIcon sx={{ fontSize: 20 }}>{ICONS.sort()}</SvgIcon>}
           onChange={(e) => setSortType(e.target.value)}
         >
           <MenuItem disabled>Sort by</MenuItem>
@@ -119,7 +120,7 @@ const WarehouseReviews = (props) => {
           </Stack>
         </>
       ) : (
-        <EmptyState icon={ICONS.review} text="no reviews yet" />
+        <EmptyState icon={ICONS.review()} text="no reviews yet" />
       )}
     </Box>
   );

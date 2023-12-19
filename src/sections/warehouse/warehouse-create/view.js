@@ -1,15 +1,15 @@
 'use client';
 
-import PropTypes from 'prop-types';
-
 import { yupResolver } from '@hookform/resolvers/yup';
 import { Container } from '@mui/material';
 import { useSnackbar } from 'notistack';
+import PropTypes from 'prop-types';
 import { useForm } from 'react-hook-form';
+import * as Yup from 'yup';
+// local components
 import CustomBreadcrumbs from 'src/components/custom-breadcrumbs';
 import FormProvider from 'src/components/hook-form/form-provider';
 import { useSettingsContext } from 'src/components/settings';
-import * as Yup from 'yup';
 import WarehouseCreateFields from './warehouse-create-fields';
 
 const WarehouseCreateViewProps = {

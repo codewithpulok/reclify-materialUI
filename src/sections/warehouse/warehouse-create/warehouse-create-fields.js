@@ -1,7 +1,6 @@
-// import PropTypes from 'prop-types'
-
 import { Button, Grid, Stack } from '@mui/material';
 import Link from 'next/link';
+// local components
 import { RHFTextField } from 'src/components/hook-form';
 import Label from 'src/components/label';
 import { WarehousePhotoUpload } from 'src/components/warehouse/upload';

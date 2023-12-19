@@ -1,6 +1,7 @@
 import { Box, Chip, IconButton, Stack, Typography } from '@mui/material';
 import { useRouter } from 'next/navigation';
 import PropTypes from 'prop-types';
+
 import { ICONS } from '../config-warehouse';
 
 const WarehouseHeaderProps = {
@@ -42,10 +43,10 @@ const WarehouseHeader = ({ name, location, isVerified, isFeatured }) => {
         </Typography>
         <Stack flexDirection="row" spacing={0.5}>
           {isVerified && (
-            <Chip label="Verified" icon={ICONS.verified} color="success" size="small" />
+            <Chip label="Verified" icon={ICONS.verified()} color="success" size="small" />
           )}
           {isFeatured && (
-            <Chip label="Featured" icon={ICONS.featured} color="warning" size="small" />
+            <Chip label="Featured" icon={ICONS.featured()} color="warning" size="small" />
           )}
         </Stack>
       </Stack>
