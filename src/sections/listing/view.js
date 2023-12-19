@@ -37,7 +37,14 @@ export default function ListingView() {
 
   return (
     <Container maxWidth={settings.themeStretch ? false : 'xl'}>
-      <Stack direction="row" justifyContent="space-between" alignItems="center" mb={5}>
+      <Stack
+        direction="row"
+        justifyContent="space-between"
+        alignItems="center"
+        mb={5}
+        flexWrap="wrap"
+        spacing={2}
+      >
         <CustomBreadcrumbs
           heading="Warehouse Listing"
           links={[{ name: 'Dashboard', href: paths.dashboard.root }, { name: 'Listing' }]}
@@ -45,8 +52,8 @@ export default function ListingView() {
 
         {/* Warehouse create button only for warehouse user */}
         {user?.role === 'warehouse' ? (
-          <Link href="/warehouse/create">
-            <Button color="primary" variant="soft">
+          <Link href="/warehouse/create" sx={{ width: { xs: '100%', sm: 'auto' } }}>
+            <Button color="primary" variant="soft" fullWidth>
               Create Warehouse
             </Button>
           </Link>
