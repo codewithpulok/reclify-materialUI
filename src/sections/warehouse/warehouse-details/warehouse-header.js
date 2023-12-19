@@ -2,16 +2,18 @@ import { Box, Chip, IconButton, Stack, Typography } from '@mui/material';
 import { useRouter } from 'next/navigation';
 import PropTypes from 'prop-types';
 
+import { getWarehouseAddress } from 'src/components/warehouse/utils';
 import { ICONS } from '../config-warehouse';
 
 const WarehouseHeaderProps = {
   name: PropTypes.string.isRequired,
-  location: PropTypes.string.isRequired,
+  address: PropTypes.string.isRequired,
   isVerified: PropTypes.bool.isRequired,
   isFeatured: PropTypes.bool.isRequired,
 };
 
-const WarehouseHeader = ({ name, location, isVerified, isFeatured }) => {
+const WarehouseHeader = (props) => {
+  const { name, address, isVerified, isFeatured } = props;
   const router = useRouter();
 
   return (
@@ -39,7 +41,7 @@ const WarehouseHeader = ({ name, location, isVerified, isFeatured }) => {
         rowGap={1}
       >
         <Typography variant="body2" mr={3}>
-          {location}
+          {getWarehouseAddress(address)}
         </Typography>
         <Stack flexDirection="row" spacing={0.5}>
           {isVerified && (

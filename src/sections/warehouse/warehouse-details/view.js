@@ -34,7 +34,7 @@ function WarehouseDetails(props) {
       <WarehouseHeader
         isFeatured={warehouse.isFeatured}
         isVerified={warehouse.isVerified}
-        location={warehouse.location}
+        address={warehouse.address}
         name={warehouse.name}
       />
       <Grid container spacing={3}>
