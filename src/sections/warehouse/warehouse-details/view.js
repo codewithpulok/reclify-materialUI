@@ -6,6 +6,7 @@ import Grid from '@mui/material/Unstable_Grid2';
 import PropTypes from 'prop-types';
 // local components
 import { useSettingsContext } from 'src/components/common/settings';
+import WarehouseAddressMap from './warehouse-address-map';
 import WarehouseBookingOptions from './warehouse-booking-options';
 import WarehouseDescription from './warehouse-description';
 import WarehouseHeader from './warehouse-header';
@@ -49,6 +50,8 @@ function WarehouseDetails(props) {
           </Box>
 
           <WarehouseDescription description={warehouse.description} sx={{ mt: 5 }} />
+
+          <WarehouseAddressMap sx={{ mt: 3 }} />
 
           <WarehouseReviews reviews={reviews} sx={{ mt: 3 }} />
         </Grid>
