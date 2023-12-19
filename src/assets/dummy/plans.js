@@ -5,17 +5,17 @@
 export const plans = [
   {
     subscription: 'basic',
-    price: 150,
+    price: 0,
     primary: false,
   },
   {
     subscription: 'starter',
-    price: 500,
+    price: 4.99,
     primary: true,
   },
   {
     subscription: 'premium',
-    price: 1000,
+    price: 9.99,
     primary: false,
   },
 ];

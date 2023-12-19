@@ -6,10 +6,9 @@ import { useSnackbar } from 'notistack';
 import PropTypes from 'prop-types';
 import { useEffect } from 'react';
 import { useForm } from 'react-hook-form';
-import * as Yup from 'yup';
-// local components
 import FormProvider from 'src/components/hook-form/form-provider';
 import { useSettingsContext } from 'src/components/settings';
+import * as Yup from 'yup';
 import WarehouseEditFields from './warehouse-edit-fields';
 
 const WarehouseProps = {
