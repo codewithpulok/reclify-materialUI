@@ -17,6 +17,8 @@ export const warehouses = [
       },
       { id: '2', title: 'Interior View', coverUrl: 'https://picsum.photos/seed/abc1232/450/318' },
     ],
+    isVerified: true,
+    isFeatured: true,
   },
   {
     id: 'def456',
@@ -33,6 +35,8 @@ export const warehouses = [
       },
       { id: '4', title: 'Storage Area', coverUrl: 'https://picsum.photos/seed/def4564/450/318' },
     ],
+    isVerified: false,
+    isFeatured: false,
   },
   {
     id: 'ghi789',
@@ -54,6 +58,8 @@ export const warehouses = [
         coverUrl: 'https://picsum.photos/seed/ghi7896/450/318',
       },
     ],
+    isVerified: true,
+    isFeatured: true,
   },
   {
     id: 'jkl012',
@@ -70,6 +76,8 @@ export const warehouses = [
       },
       { id: '8', title: 'Cityscape', coverUrl: 'https://picsum.photos/seed/jkl0128/450/318' },
     ],
+    isVerified: true,
+    isFeatured: false,
   },
   {
     id: 'mno345',
@@ -86,6 +94,8 @@ export const warehouses = [
         coverUrl: 'https://picsum.photos/seed/mno34510/450/318',
       },
     ],
+    isVerified: false,
+    isFeatured: true,
   },
   {
     id: 'pqr678',
@@ -102,6 +112,8 @@ export const warehouses = [
       },
       { id: '12', title: 'Green Storage', coverUrl: 'https://picsum.photos/seed/pqr67812/450/318' },
     ],
+    isVerified: false,
+    isFeatured: false,
   },
   {
     id: 'stu901',
@@ -122,6 +134,8 @@ export const warehouses = [
         coverUrl: 'https://picsum.photos/seed/stu90114/450/318',
       },
     ],
+    isVerified: true,
+    isFeatured: true,
   },
   {
     id: 'vwx234',
@@ -142,6 +156,8 @@ export const warehouses = [
         coverUrl: 'https://picsum.photos/seed/vwx23416/450/318',
       },
     ],
+    isVerified: false,
+    isFeatured: false,
   },
   {
     id: 'yzu567',
@@ -162,6 +178,8 @@ export const warehouses = [
         coverUrl: 'https://picsum.photos/seed/yzu56718/450/318',
       },
     ],
+    isVerified: true,
+    isFeatured: false,
   },
   {
     id: '123abc',
@@ -178,5 +196,7 @@ export const warehouses = [
         coverUrl: 'https://picsum.photos/seed/123abc20/450/318',
       },
     ],
+    isVerified: false,
+    isFeatured: true,
   },
 ];

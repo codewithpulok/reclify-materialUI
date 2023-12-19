@@ -30,7 +30,12 @@ function WarehouseDetails(props) {
 
   return (
     <Container maxWidth={settings.themeStretch ? false : 'xl'}>
-      <WarehouseHeader isFeatured isVerified location={warehouse.location} name={warehouse.name} />
+      <WarehouseHeader
+        isFeatured={warehouse.isFeatured}
+        isVerified={warehouse.isVerified}
+        location={warehouse.location}
+        name={warehouse.name}
+      />
       <Grid container spacing={3}>
         <Grid item xs={12} md={7}>
           <WarehouseImageCarousel list={warehouse.photos} />
