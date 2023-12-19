@@ -5,7 +5,7 @@ import Container from '@mui/material/Container';
 import Grid from '@mui/material/Unstable_Grid2';
 import PropTypes from 'prop-types';
 // local components
-import { useSettingsContext } from 'src/components/settings';
+import { useSettingsContext } from 'src/components/common/settings';
 import WarehouseBookingOptions from './warehouse-booking-options';
 import WarehouseDescription from './warehouse-description';
 import WarehouseHeader from './warehouse-header';

@@ -7,7 +7,7 @@ import Stack from '@mui/material/Stack';
 import Typography from '@mui/material/Typography';
 import { alpha } from '@mui/material/styles';
 
-import { MotionViewport, varFade } from 'src/components/animate';
+import { MotionViewport, varFade } from 'src/components/common/animate';
 
 // ----------------------------------------------------------------------
 

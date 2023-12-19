@@ -1,20 +1,20 @@
 import { m } from 'framer-motion';
 
-import Badge from '@mui/material/Badge';
 import Avatar from '@mui/material/Avatar';
-import MenuItem from '@mui/material/MenuItem';
+import Badge from '@mui/material/Badge';
 import IconButton from '@mui/material/IconButton';
-import Typography from '@mui/material/Typography';
 import ListItemText from '@mui/material/ListItemText';
+import MenuItem from '@mui/material/MenuItem';
+import Typography from '@mui/material/Typography';
 
 import { fToNow } from 'src/utils/format-time';
 
 import { _contacts } from 'src/_mock';
 
-import Iconify from 'src/components/iconify';
-import Scrollbar from 'src/components/scrollbar';
-import { varHover } from 'src/components/animate';
-import CustomPopover, { usePopover } from 'src/components/custom-popover';
+import { varHover } from 'src/components/common/animate';
+import CustomPopover, { usePopover } from 'src/components/common/custom-popover';
+import Iconify from 'src/components/common/iconify';
+import Scrollbar from 'src/components/common/scrollbar';
 
 // ----------------------------------------------------------------------
 

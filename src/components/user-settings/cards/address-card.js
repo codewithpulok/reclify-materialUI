@@ -1,6 +1,6 @@
 import { Box, ListItemButton, Stack, Typography, listItemButtonClasses } from '@mui/material';
 import PropTypes from 'prop-types';
-import Label from 'src/components/label';
+import Label from 'src/components/common/label';
 
 const AddressCard = (props) => {
   const { address, isSelected, onSelect } = props;

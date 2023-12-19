@@ -8,8 +8,8 @@ import { Button } from '@mui/material';
 import { useSnackbar } from 'notistack';
 import { getUserByID } from 'src/assets/dummy/users';
 import { useAuthContext } from 'src/auth/hooks';
-import EmptyState from 'src/components/common/empty-state/EmptyState';
-import FormProvider from 'src/components/hook-form';
+import EmptyState from 'src/components/common/empty-state/empty-state';
+import FormProvider from 'src/components/common/hook-form';
 import GeneralAvatarFields from './general-avatar-fields';
 import GeneralInfoFields from './general-info-fields';
 

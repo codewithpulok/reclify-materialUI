@@ -1,11 +1,9 @@
-import OneView from 'src/sections/one/view';
-
 // ----------------------------------------------------------------------
 
 export const metadata = {
-  title: 'Dashboard: One',
+  title: 'Dashboard: Home',
 };
 
 export default function Page() {
-  return <OneView />;
+  return <div>Dashboard Home</div>;
 }

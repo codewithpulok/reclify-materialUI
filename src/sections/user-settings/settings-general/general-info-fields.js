@@ -6,8 +6,8 @@ import Box from '@mui/material/Box';
 import Card from '@mui/material/Card';
 import Stack from '@mui/material/Stack';
 
-import { RHFAutocomplete, RHFTextField } from 'src/components/hook-form';
-import { getIconify } from 'src/components/iconify/utilities';
+import { RHFAutocomplete, RHFTextField } from 'src/components/common/hook-form';
+import { getIconify } from 'src/components/common/iconify/utilities';
 
 // ----------------------------------------------------------------------
 

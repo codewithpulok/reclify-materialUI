@@ -7,8 +7,8 @@ import { useState } from 'react';
 import { warehouses } from 'src/assets/dummy/warehouses';
 import { useAuthContext } from 'src/auth/hooks';
 import { ConfirmationAlert } from 'src/components/common/alert';
-import CustomBreadcrumbs from 'src/components/custom-breadcrumbs/custom-breadcrumbs';
-import { useSettingsContext } from 'src/components/settings';
+import CustomBreadcrumbs from 'src/components/common/custom-breadcrumbs/custom-breadcrumbs';
+import { useSettingsContext } from 'src/components/common/settings';
 import { WarehouseCard } from 'src/components/warehouse/cards';
 import { paths } from 'src/routes/paths';
 

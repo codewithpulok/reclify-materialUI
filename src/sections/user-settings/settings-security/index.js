@@ -10,10 +10,10 @@ import Stack from '@mui/material/Stack';
 
 import { useBoolean } from 'src/hooks/use-boolean';
 
-import Iconify from 'src/components/iconify';
+import Iconify from 'src/components/common/iconify';
 
 import { useSnackbar } from 'notistack';
-import FormProvider, { RHFTextField } from 'src/components/hook-form';
+import FormProvider, { RHFTextField } from 'src/components/common/hook-form';
 
 // ----------------------------------------------------------------------
 

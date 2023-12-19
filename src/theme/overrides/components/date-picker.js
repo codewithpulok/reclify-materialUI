@@ -1,6 +1,6 @@
 import { buttonClasses } from '@mui/material/Button';
 
-import Iconify from 'src/components/iconify';
+import Iconify from 'src/components/common/iconify';
 
 // ----------------------------------------------------------------------
 

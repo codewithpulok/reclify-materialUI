@@ -11,7 +11,7 @@ import {
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import PropTypes from 'prop-types';
-import Image from 'src/components/image';
+import Image from 'src/components/common/image';
 import { ICONS } from '../config-warehouse';
 
 const WarehouseCardProps = {

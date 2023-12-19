@@ -2,7 +2,7 @@ import { Stack } from '@mui/material';
 import PropTypes from 'prop-types';
 import { useCallback, useState } from 'react';
 import { useFieldArray, useFormContext } from 'react-hook-form';
-import { Upload } from 'src/components/upload';
+import { Upload } from 'src/components/common/upload';
 import { useBoolean } from 'src/hooks/use-boolean';
 import { WarehousePhotoPreviewCard } from '../cards';
 import { WarehousePhotoEditDialog } from '../dialog';

@@ -7,9 +7,9 @@ import PropTypes from 'prop-types';
 import { useForm } from 'react-hook-form';
 import * as Yup from 'yup';
 // local components
-import CustomBreadcrumbs from 'src/components/custom-breadcrumbs';
-import FormProvider from 'src/components/hook-form/form-provider';
-import { useSettingsContext } from 'src/components/settings';
+import CustomBreadcrumbs from 'src/components/common/custom-breadcrumbs';
+import FormProvider from 'src/components/common/hook-form/form-provider';
+import { useSettingsContext } from 'src/components/common/settings';
 import WarehouseCreateFields from './warehouse-create-fields';
 
 const WarehouseCreateViewProps = {

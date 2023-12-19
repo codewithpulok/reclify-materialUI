@@ -6,10 +6,10 @@ import Container from '@mui/material/Container';
 import Tab from '@mui/material/Tab';
 import Tabs from '@mui/material/Tabs';
 
-import { useSettingsContext } from 'src/components/settings';
+import { useSettingsContext } from 'src/components/common/settings';
 
 import { useAuthContext } from 'src/auth/hooks';
-import CustomBreadcrumbs from 'src/components/custom-breadcrumbs';
+import CustomBreadcrumbs from 'src/components/common/custom-breadcrumbs';
 import { ICONS } from './config-settings';
 import SettingsBillings from './settings-billing';
 import SettingsGeneral from './settings-general';

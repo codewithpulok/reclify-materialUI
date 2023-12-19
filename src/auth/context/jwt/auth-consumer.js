@@ -2,7 +2,7 @@
 
 import PropTypes from 'prop-types';
 
-import { SplashScreen } from 'src/components/loading-screen';
+import { SplashScreen } from 'src/components/common/loading-screen';
 
 import { AuthContext } from './auth-context';
 

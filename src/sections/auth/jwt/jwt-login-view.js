@@ -22,8 +22,8 @@ import { useBoolean } from 'src/hooks/use-boolean';
 import { useAuthContext } from 'src/auth/hooks';
 import { PATH_AFTER_LOGIN } from 'src/config-global';
 
-import FormProvider, { RHFTextField } from 'src/components/hook-form';
-import Iconify from 'src/components/iconify';
+import FormProvider, { RHFTextField } from 'src/components/common/hook-form';
+import Iconify from 'src/components/common/iconify';
 
 // ----------------------------------------------------------------------
 

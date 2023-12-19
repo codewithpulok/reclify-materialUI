@@ -13,7 +13,7 @@ import { useResponsive } from 'src/hooks/use-responsive';
 import { HEADER } from 'src/layouts/config-layout';
 import { bgBlur, bgGradient, textGradient } from 'src/theme/css';
 
-import { MotionContainer, varFade } from 'src/components/animate';
+import { MotionContainer, varFade } from 'src/components/common/animate';
 
 // ----------------------------------------------------------------------
 

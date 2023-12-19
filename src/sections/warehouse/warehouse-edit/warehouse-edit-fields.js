@@ -1,8 +1,8 @@
 import { Button, Grid, Stack } from '@mui/material';
 import Link from 'next/link';
 // local components
-import { RHFTextField } from 'src/components/hook-form';
-import Label from 'src/components/label';
+import { RHFTextField } from 'src/components/common/hook-form';
+import Label from 'src/components/common/label';
 import { WarehousePhotoUpload } from 'src/components/warehouse/upload';
 import { paths } from 'src/routes/paths';
 

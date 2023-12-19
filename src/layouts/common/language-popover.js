@@ -1,12 +1,12 @@
 import { m } from 'framer-motion';
 import { useCallback } from 'react';
 
-import MenuItem from '@mui/material/MenuItem';
 import IconButton from '@mui/material/IconButton';
+import MenuItem from '@mui/material/MenuItem';
 
-import Iconify from 'src/components/iconify';
-import { varHover } from 'src/components/animate';
-import CustomPopover, { usePopover } from 'src/components/custom-popover';
+import { varHover } from 'src/components/common/animate';
+import CustomPopover, { usePopover } from 'src/components/common/custom-popover';
+import Iconify from 'src/components/common/iconify';
 
 // ----------------------------------------------------------------------
 

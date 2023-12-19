@@ -11,7 +11,7 @@ import { useResponsive } from 'src/hooks/use-responsive';
 
 import { bgBlur } from 'src/theme/css';
 
-import Logo from 'src/components/logo';
+import Logo from 'src/components/common/logo';
 
 import HeaderShadow from '../common/header-shadow';
 import LoginButton from '../common/login-button';

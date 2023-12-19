@@ -23,8 +23,8 @@ import { PATH_AFTER_LOGIN } from 'src/config-global';
 
 import { MenuItem } from '@mui/material';
 import { regions } from 'src/assets/data';
-import FormProvider, { RHFTextField } from 'src/components/hook-form';
-import Iconify from 'src/components/iconify';
+import FormProvider, { RHFTextField } from 'src/components/common/hook-form';
+import Iconify from 'src/components/common/iconify';
 
 // ----------------------------------------------------------------------
 

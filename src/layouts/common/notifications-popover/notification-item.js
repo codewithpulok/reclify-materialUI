@@ -1,18 +1,18 @@
 import PropTypes from 'prop-types';
 
-import Box from '@mui/material/Box';
-import Stack from '@mui/material/Stack';
-import Button from '@mui/material/Button';
 import Avatar from '@mui/material/Avatar';
-import Typography from '@mui/material/Typography';
-import ListItemText from '@mui/material/ListItemText';
+import Box from '@mui/material/Box';
+import Button from '@mui/material/Button';
 import ListItemAvatar from '@mui/material/ListItemAvatar';
 import ListItemButton from '@mui/material/ListItemButton';
+import ListItemText from '@mui/material/ListItemText';
+import Stack from '@mui/material/Stack';
+import Typography from '@mui/material/Typography';
 
 import { fToNow } from 'src/utils/format-time';
 
-import Label from 'src/components/label';
-import FileThumbnail from 'src/components/file-thumbnail';
+import FileThumbnail from 'src/components/common/file-thumbnail';
+import Label from 'src/components/common/label';
 
 // ----------------------------------------------------------------------
 

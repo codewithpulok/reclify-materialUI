@@ -1,8 +1,8 @@
 import PropTypes from 'prop-types';
 
+import ButtonBase from '@mui/material/ButtonBase';
 import Stack from '@mui/material/Stack';
 import { alpha } from '@mui/material/styles';
-import ButtonBase from '@mui/material/ButtonBase';
 
 import SvgColor from '../../svg-color';
 

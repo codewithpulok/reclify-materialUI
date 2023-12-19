@@ -11,7 +11,7 @@ import {
 import PropTypes from 'prop-types';
 import { useMemo, useState } from 'react';
 // local components
-import EmptyState from 'src/components/common/empty-state/EmptyState';
+import EmptyState from 'src/components/common/empty-state/empty-state';
 import { WarehouseReviewCard } from 'src/components/warehouse/cards';
 import { ICONS } from '../config-warehouse';
 import { detailsHeaderStyle } from '../styles';
