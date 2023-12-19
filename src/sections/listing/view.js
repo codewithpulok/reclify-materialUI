@@ -3,11 +3,11 @@
 import { Button, Grid, Link, Stack } from '@mui/material';
 import Container from '@mui/material/Container';
 import { useState } from 'react';
+// local components
 import { warehouses } from 'src/assets/dummy/warehouses';
 import { useAuthContext } from 'src/auth/hooks';
 import { ConfirmationAlert } from 'src/components/common/alert';
 import CustomBreadcrumbs from 'src/components/custom-breadcrumbs/custom-breadcrumbs';
-
 import { useSettingsContext } from 'src/components/settings';
 import { WarehouseCard } from 'src/components/warehouse/cards';
 import { paths } from 'src/routes/paths';
@@ -43,11 +43,14 @@ export default function ListingView() {
           links={[{ name: 'Dashboard', href: paths.dashboard.root }, { name: 'Listing' }]}
         />
 
-        <Link href="/warehouse/create">
-          <Button color="primary" variant="soft">
-            Create Warehouse
-          </Button>
-        </Link>
+        {/* Warehouse create button only for warehouse user */}
+        {user?.role === 'warehouse' ? (
+          <Link href="/warehouse/create">
+            <Button color="primary" variant="soft">
+              Create Warehouse
+            </Button>
+          </Link>
+        ) : null}
       </Stack>
 
       <Grid container spacing={2}>
