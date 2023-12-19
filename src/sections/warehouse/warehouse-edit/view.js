@@ -1,15 +1,17 @@
 'use client';
 
 import { yupResolver } from '@hookform/resolvers/yup';
-import { Container, Stack, Typography } from '@mui/material';
+import { Container } from '@mui/material';
 import { useSnackbar } from 'notistack';
 import PropTypes from 'prop-types';
 import { useEffect } from 'react';
 import { useForm } from 'react-hook-form';
 import * as Yup from 'yup';
 // local components
+import CustomBreadcrumbs from 'src/components/common/custom-breadcrumbs';
 import FormProvider from 'src/components/common/hook-form/form-provider';
 import { useSettingsContext } from 'src/components/common/settings';
+import { paths } from 'src/routes/paths';
 import WarehouseEditFields from './warehouse-edit-fields';
 
 const WarehouseProps = {
@@ -60,14 +62,17 @@ const WarehouseEdit = ({ warehouse }) => {
 
   return (
     <Container maxWidth={settings.themeStretch ? false : 'xl'}>
-      <Stack direction="row" alignItems="baseline" mb={5}>
-        <Typography variant="h4" mr={2}>
-          Edit Warehouse
-        </Typography>
-        <Typography variant="h6" color="GrayText">
-          #{warehouse?.id}
-        </Typography>
-      </Stack>
+      <CustomBreadcrumbs
+        heading="Edit Warehouse"
+        links={[
+          { name: 'warehouse', href: paths.dashboard.listing },
+          { name: warehouse?.id, href: `${paths.warehouse.root}/${warehouse?.id}` },
+          { name: 'edit' },
+        ]}
+        sx={{
+          mb: { xs: 3, md: 5 },
+        }}
+      />
 
       <FormProvider methods={methods} onSubmit={handleSubmit(onSubmit)}>
         <WarehouseEditFields />

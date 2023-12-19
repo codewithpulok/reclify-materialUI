@@ -10,6 +10,7 @@ import * as Yup from 'yup';
 import CustomBreadcrumbs from 'src/components/common/custom-breadcrumbs';
 import FormProvider from 'src/components/common/hook-form/form-provider';
 import { useSettingsContext } from 'src/components/common/settings';
+import { paths } from 'src/routes/paths';
 import WarehouseCreateFields from './warehouse-create-fields';
 
 const WarehouseCreateViewProps = {
@@ -69,7 +70,7 @@ const WarehouseCreateView = (props) => {
     <Container maxWidth={settings.themeStretch ? false : 'lg'}>
       <CustomBreadcrumbs
         heading="Create Warehouse"
-        links={[{ name: 'warehouse', href: '/warehouse' }, { name: 'create' }]}
+        links={[{ name: 'warehouses', href: paths.dashboard.listing }, { name: 'create' }]}
         sx={{
           mb: { xs: 3, md: 5 },
         }}
