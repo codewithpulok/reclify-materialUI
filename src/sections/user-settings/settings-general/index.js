@@ -6,6 +6,7 @@ import Grid from '@mui/material/Unstable_Grid2';
 
 import { Button } from '@mui/material';
 import { useSnackbar } from 'notistack';
+import { regions } from 'src/assets/data';
 import { getUserByID } from 'src/assets/dummy/users';
 import { useAuthContext } from 'src/auth/hooks';
 import EmptyState from 'src/components/common/empty-state/empty-state';
@@ -29,6 +30,9 @@ const SettingsGeneral = () => {
     country: Yup.string().required('Country is required'),
     address: Yup.string().required('Address is required'),
     state: Yup.string().required('State is required'),
+    region: Yup.string()
+      .oneOf(regions.map((r) => r.code))
+      .required('Region is required'),
     city: Yup.string().required('City is required'),
     zipCode: Yup.string().required('Zip code is required'),
     about: Yup.string().required('About is required'),
@@ -44,6 +48,7 @@ const SettingsGeneral = () => {
     country: user?.country || '',
     address: user?.address || '',
     state: user?.state || '',
+    region: user?.region || '',
     city: user?.city || '',
     zipCode: user?.zipCode || '',
     about: user?.about || '',

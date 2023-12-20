@@ -17,6 +17,7 @@ export const users = [
     zipCode: 'WC1X 8XZ',
     about: 'Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.',
     role: 'warehouse',
+    region: 'Northeast',
   },
   {
     id: 3,
@@ -32,6 +33,7 @@ export const users = [
     zipCode: 'M1A 1A1',
     about: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.',
     role: 'customer',
+    region: 'Northeast',
   },
   {
     id: 1,
@@ -47,6 +49,7 @@ export const users = [
     zipCode: '94116',
     about: 'Praesent turpis. Phasellus viverra nulla ut metus varius laoreet. Phasellus tempus.',
     role: 'admin',
+    region: 'Northeast',
   },
 ];
 

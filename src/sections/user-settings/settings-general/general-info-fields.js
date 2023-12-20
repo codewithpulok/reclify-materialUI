@@ -1,11 +1,12 @@
 import { useFormContext } from 'react-hook-form';
-import { countries } from 'src/assets/data';
+import { countries, regions } from 'src/assets/data';
 
 import LoadingButton from '@mui/lab/LoadingButton';
 import Box from '@mui/material/Box';
 import Card from '@mui/material/Card';
 import Stack from '@mui/material/Stack';
 
+import { MenuItem } from '@mui/material';
 import { RHFAutocomplete, RHFTextField } from 'src/components/common/hook-form';
 import { getIconify } from 'src/components/common/iconify/utilities';
 
@@ -56,7 +57,14 @@ const GeneralInfoFields = () => {
           }}
         />
 
-        <RHFTextField name="state" label="State/Region" />
+        <RHFTextField name="region" label="Region" select>
+          {regions.map((option) => (
+            <MenuItem key={option.code} value={option.code}>
+              {option.name}
+            </MenuItem>
+          ))}
+        </RHFTextField>
+        <RHFTextField name="state" label="State" />
         <RHFTextField name="city" label="City" />
         <RHFTextField name="zipCode" label="Zip/Code" />
       </Box>
