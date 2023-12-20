@@ -14,9 +14,9 @@ import Tooltip from '@mui/material/Tooltip';
 
 import { useBoolean } from 'src/hooks/use-boolean';
 
-import Iconify from 'src/components/iconify';
-import Label from 'src/components/label';
-import Scrollbar from 'src/components/scrollbar';
+import Iconify from 'src/components/common/iconify';
+import Label from 'src/components/common/label';
+import Scrollbar from 'src/components/common/scrollbar';
 import {
   emptyRows,
   getComparator,
@@ -26,7 +26,7 @@ import {
   TablePaginationCustom,
   TableSelectedAction,
   useTable,
-} from 'src/components/table';
+} from 'src/components/common/table';
 
 import {
   changeTransactionStatus,

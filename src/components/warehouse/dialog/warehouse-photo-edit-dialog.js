@@ -2,9 +2,9 @@ import { Box, Button, Dialog, Stack } from '@mui/material';
 import PropTypes from 'prop-types';
 import { useEffect } from 'react';
 import { useForm } from 'react-hook-form';
-import { RHFTextField } from 'src/components/hook-form';
-import FormProvider from 'src/components/hook-form/form-provider';
-import Image from 'src/components/image';
+import { RHFTextField } from 'src/components/common/hook-form';
+import FormProvider from 'src/components/common/hook-form/form-provider';
+import Image from 'src/components/common/image';
 
 const WarehousePhotoEditDialogProps = {
   /** @type {Photo | null} */

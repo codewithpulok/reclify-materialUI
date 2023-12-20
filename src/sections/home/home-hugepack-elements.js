@@ -1,36 +1,36 @@
 import { m } from 'framer-motion';
-import { useState, useCallback } from 'react';
+import { useCallback, useState } from 'react';
 
-import Box from '@mui/material/Box';
-import Fab from '@mui/material/Fab';
-import Tab from '@mui/material/Tab';
-import Chip from '@mui/material/Chip';
-import Tabs from '@mui/material/Tabs';
-import Radio from '@mui/material/Radio';
-import Paper from '@mui/material/Paper';
-import Stack from '@mui/material/Stack';
-import Badge from '@mui/material/Badge';
 import Alert from '@mui/material/Alert';
-import Rating from '@mui/material/Rating';
-import Button from '@mui/material/Button';
-import Avatar from '@mui/material/Avatar';
-import Slider from '@mui/material/Slider';
-import Switch from '@mui/material/Switch';
-import { alpha } from '@mui/material/styles';
-import MenuItem from '@mui/material/MenuItem';
-import Checkbox from '@mui/material/Checkbox';
-import Container from '@mui/material/Container';
-import TextField from '@mui/material/TextField';
-import Grid from '@mui/material/Unstable_Grid2';
-import IconButton from '@mui/material/IconButton';
-import CardHeader from '@mui/material/CardHeader';
-import Typography from '@mui/material/Typography';
 import AlertTitle from '@mui/material/AlertTitle';
+import Avatar from '@mui/material/Avatar';
 import AvatarGroup from '@mui/material/AvatarGroup';
-import ToggleButton from '@mui/material/ToggleButton';
-import FormControlLabel from '@mui/material/FormControlLabel';
+import Badge from '@mui/material/Badge';
+import Box from '@mui/material/Box';
+import Button from '@mui/material/Button';
+import CardHeader from '@mui/material/CardHeader';
+import Checkbox from '@mui/material/Checkbox';
+import Chip from '@mui/material/Chip';
 import CircularProgress from '@mui/material/CircularProgress';
+import Container from '@mui/material/Container';
+import Fab from '@mui/material/Fab';
+import FormControlLabel from '@mui/material/FormControlLabel';
+import IconButton from '@mui/material/IconButton';
+import MenuItem from '@mui/material/MenuItem';
+import Paper from '@mui/material/Paper';
+import Radio from '@mui/material/Radio';
+import Rating from '@mui/material/Rating';
+import Slider from '@mui/material/Slider';
+import Stack from '@mui/material/Stack';
+import Switch from '@mui/material/Switch';
+import Tab from '@mui/material/Tab';
+import Tabs from '@mui/material/Tabs';
+import TextField from '@mui/material/TextField';
+import ToggleButton from '@mui/material/ToggleButton';
 import ToggleButtonGroup from '@mui/material/ToggleButtonGroup';
+import Typography from '@mui/material/Typography';
+import Grid from '@mui/material/Unstable_Grid2';
+import { alpha } from '@mui/material/styles';
 
 import { paths } from 'src/routes/paths';
 
@@ -38,10 +38,10 @@ import { useResponsive } from 'src/hooks/use-responsive';
 
 import { _mock } from 'src/_mock';
 
-import Label from 'src/components/label';
-import Image from 'src/components/image';
-import Iconify from 'src/components/iconify';
-import { varFade, MotionViewport } from 'src/components/animate';
+import { MotionViewport, varFade } from 'src/components/common/animate';
+import Iconify from 'src/components/common/iconify';
+import Image from 'src/components/common/image';
+import Label from 'src/components/common/label';
 
 // ----------------------------------------------------------------------
 

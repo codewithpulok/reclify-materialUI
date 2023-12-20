@@ -8,7 +8,7 @@ import Stack from '@mui/material/Stack';
 import TextField from '@mui/material/TextField';
 import Typography from '@mui/material/Typography';
 
-import SearchNotFound from 'src/components/search-not-found';
+import SearchNotFound from 'src/components/common/search-not-found';
 import { PaymentCard } from 'src/components/user-settings/cards';
 import { ICONS } from '../config-user-settings';
 

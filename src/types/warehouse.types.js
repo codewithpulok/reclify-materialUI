@@ -8,6 +8,9 @@
  * @property {number} totalSpace - The total space of the warehouse, e.g., 5000.
  * @property {number} pricePerSquare - The price of the warehouse space per square, e.g., 1.5.
  * @property {Photo[]} photos - An array of photo objects representing the warehouse's photos.
+ * @property {boolean} isVerified - warehouse is verified by admin or not
+ * @property {boolean} isFeatured - Warehouse is featured or not.
+ *
  */
 
 /**

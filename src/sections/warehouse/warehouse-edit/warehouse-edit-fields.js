@@ -1,7 +1,10 @@
-import { Button, Grid } from '@mui/material';
-import { RHFTextField } from 'src/components/hook-form';
-import Label from 'src/components/label';
+import { Button, Grid, Stack } from '@mui/material';
+import Link from 'next/link';
+// local components
+import { RHFTextField } from 'src/components/common/hook-form';
+import Label from 'src/components/common/label';
 import { WarehousePhotoUpload } from 'src/components/warehouse/upload';
+import { paths } from 'src/routes/paths';
 
 const WarehouseEditFields = (props) => (
   <Grid container maxWidth={600} spacing={1.2}>
@@ -29,9 +32,29 @@ const WarehouseEditFields = (props) => (
     </Grid>
 
     <Grid item xs={12} textAlign="right" mt={5}>
-      <Button variant="contained" size="large" type="submit" color="primary">
-        Save Changes
-      </Button>
+      <Stack
+        sx={{
+          flexDirection: {
+            xs: 'row',
+            sm: 'row-reverse',
+          },
+          justifyContent: {
+            xs: 'start',
+            sm: 'end',
+          },
+        }}
+        flexWrap="wrap"
+        spacing={0.5}
+      >
+        <Button variant="contained" size="large" type="submit" color="primary">
+          Save Changes
+        </Button>
+        <Link href={paths.dashboard.listing}>
+          <Button variant="soft" size="large" color="error" type="reset">
+            Cancel
+          </Button>
+        </Link>
+      </Stack>
     </Grid>
   </Grid>
 );

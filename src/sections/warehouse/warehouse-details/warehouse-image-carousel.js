@@ -7,9 +7,13 @@ import Stack from '@mui/material/Stack';
 import Typography from '@mui/material/Typography';
 import { alpha, useTheme } from '@mui/material/styles';
 
-import { MotionContainer, varFade } from 'src/components/animate';
-import Carousel, { CarouselArrows, CarouselDots, useCarousel } from 'src/components/carousel';
-import Image from 'src/components/image';
+import { MotionContainer, varFade } from 'src/components/common/animate';
+import Carousel, {
+  CarouselArrows,
+  CarouselDots,
+  useCarousel,
+} from 'src/components/common/carousel';
+import Image from 'src/components/common/image';
 
 // ----------------------------------------------------------------------
 

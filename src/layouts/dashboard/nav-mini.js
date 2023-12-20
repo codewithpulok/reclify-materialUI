@@ -5,8 +5,8 @@ import { useMockedUser } from 'src/hooks/use-mocked-user';
 
 import { hideScroll } from 'src/theme/css';
 
-import Logo from 'src/components/logo';
-import { NavSectionMini } from 'src/components/nav-section';
+import Logo from 'src/components/common/logo';
+import { NavSectionMini } from 'src/components/common/nav-section';
 
 import { NAV } from '../config-layout';
 import { useNavData } from './config-navigation';

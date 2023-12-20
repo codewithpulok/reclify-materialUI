@@ -7,9 +7,9 @@ import Box from '@mui/material/Box';
 import { useBoolean } from 'src/hooks/use-boolean';
 import { useResponsive } from 'src/hooks/use-responsive';
 
-import { useSettingsContext } from 'src/components/settings';
+import { useSettingsContext } from 'src/components/common/settings';
 
-import { SnackbarProvider } from 'src/components/snackbar';
+import { SnackbarProvider } from 'src/components/common/snackbar';
 import Header from './header';
 import Main from './main';
 import NavHorizontal from './nav-horizontal';

@@ -1,18 +1,12 @@
-import { getIconify } from 'src/components/iconify/utilities';
+import { getIconify } from 'src/components/common/iconify/utilities';
 
 /**
  * All icons for warehouse section
  */
 export const ICONS = {
-  verified: getIconify('solar:check-circle-bold'),
-  featured: getIconify('solar:medal-ribbons-star-bold-duotone'),
-  upload: getIconify('solar:upload-minimalistic-linear'),
-  noImages: getIconify('tabler:photo-off'),
-  close: getIconify('tabler:x', 14),
-  review: getIconify('solar:chat-round-like-broken'),
-  sort: getIconify('solar:sort-vertical-outline'),
-  userId: getIconify('solar:user-id-bold'),
-  bills: getIconify('solar:bill-list-bold'),
-  key: getIconify('ic:round-vpn-key'),
-  transactions: getIconify('solar:card-transfer-linear'),
+  verified: (width, sx) => getIconify('solar:verified-check-bold', width, sx),
+  featured: (width, sx) => getIconify('solar:medal-ribbons-star-bold-duotone', width, sx),
+  review: (width, sx) => getIconify('solar:chat-round-like-broken', width, sx),
+  sort: (width, sx) => getIconify('solar:sort-vertical-outline', width, sx),
+  back: (width, sx) => getIconify('solar:arrow-right-outline', width, sx),
 };

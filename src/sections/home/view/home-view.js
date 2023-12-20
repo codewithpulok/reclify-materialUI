@@ -7,7 +7,7 @@ import { styled } from '@mui/material/styles';
 
 import MainLayout from 'src/layouts/main';
 
-import ScrollProgress from 'src/components/scroll-progress';
+import ScrollProgress from 'src/components/common/scroll-progress';
 
 import HomeAdvertisement from '../home-advertisement';
 import HomeCleanInterfaces from '../home-clean-interfaces';

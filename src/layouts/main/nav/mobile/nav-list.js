@@ -1,13 +1,13 @@
 import PropTypes from 'prop-types';
-import { useState, useCallback } from 'react';
+import { useCallback, useState } from 'react';
 
 import Collapse from '@mui/material/Collapse';
-import { stackClasses } from '@mui/material/Stack';
 import { listItemButtonClasses } from '@mui/material/ListItemButton';
+import { stackClasses } from '@mui/material/Stack';
 
 import { useActiveLink } from 'src/routes/hooks/use-active-link';
 
-import { NavSectionVertical } from 'src/components/nav-section';
+import { NavSectionVertical } from 'src/components/common/nav-section';
 
 import { NavItem } from './nav-item';
 

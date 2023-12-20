@@ -1,30 +1,30 @@
-import parse from 'autosuggest-highlight/parse';
 import match from 'autosuggest-highlight/match';
-import { memo, useState, useCallback } from 'react';
+import parse from 'autosuggest-highlight/parse';
+import { memo, useCallback, useState } from 'react';
 
 import Box from '@mui/material/Box';
+import Dialog, { dialogClasses } from '@mui/material/Dialog';
+import IconButton from '@mui/material/IconButton';
+import InputAdornment from '@mui/material/InputAdornment';
+import InputBase from '@mui/material/InputBase';
 import List from '@mui/material/List';
 import Stack from '@mui/material/Stack';
 import { useTheme } from '@mui/material/styles';
-import InputBase from '@mui/material/InputBase';
-import IconButton from '@mui/material/IconButton';
-import InputAdornment from '@mui/material/InputAdornment';
-import Dialog, { dialogClasses } from '@mui/material/Dialog';
 
 import { useRouter } from 'src/routes/hooks';
 
 import { useBoolean } from 'src/hooks/use-boolean';
-import { useResponsive } from 'src/hooks/use-responsive';
 import { useEventListener } from 'src/hooks/use-event-listener';
+import { useResponsive } from 'src/hooks/use-responsive';
 
-import Label from 'src/components/label';
-import Iconify from 'src/components/iconify';
-import Scrollbar from 'src/components/scrollbar';
-import SearchNotFound from 'src/components/search-not-found';
+import Iconify from 'src/components/common/iconify';
+import Label from 'src/components/common/label';
+import Scrollbar from 'src/components/common/scrollbar';
+import SearchNotFound from 'src/components/common/search-not-found';
 
-import ResultItem from './result-item';
 import { useNavData } from '../../dashboard/config-navigation';
-import { applyFilter, groupedData, getAllItems } from './utils';
+import ResultItem from './result-item';
+import { applyFilter, getAllItems, groupedData } from './utils';
 
 // ----------------------------------------------------------------------
 

@@ -6,8 +6,8 @@ import Paper from '@mui/material/Paper';
 import Stack from '@mui/material/Stack';
 import Typography from '@mui/material/Typography';
 
-import CustomPopover, { usePopover } from 'src/components/custom-popover';
-import Label from 'src/components/label';
+import CustomPopover, { usePopover } from 'src/components/common/custom-popover';
+import Label from 'src/components/common/label';
 import { ICONS } from '../config-user-settings';
 
 // ----------------------------------------------------------------------

@@ -2,7 +2,7 @@ import { useMemo } from 'react';
 
 import { paths } from 'src/routes/paths';
 
-import SvgColor from 'src/components/svg-color';
+import SvgColor from 'src/components/common/svg-color';
 
 // ----------------------------------------------------------------------
 
@@ -51,36 +51,11 @@ export function useNavData() {
       {
         subheader: 'overview v1.0.0',
         items: [
-          { title: 'warehouse', path: paths.warehouse.root, icon: ICONS.dashboard },
+          { title: 'Dashboard', path: paths.dashboard.root, icon: ICONS.dashboard },
           {
             title: 'listing',
             path: paths.dashboard.listing,
             icon: ICONS.analytics,
-          },
-          { title: 'one', path: paths.dashboard.root, icon: ICONS.dashboard },
-          { title: 'two', path: paths.dashboard.two, icon: ICONS.ecommerce },
-          {
-            title: 'three',
-            path: paths.dashboard.three,
-            icon: ICONS.analytics,
-          },
-        ],
-      },
-
-      // MANAGEMENT
-      // ----------------------------------------------------------------------
-      {
-        subheader: 'management',
-        items: [
-          {
-            title: 'user',
-            path: paths.dashboard.group.root,
-            icon: ICONS.user,
-            children: [
-              { title: 'four', path: paths.dashboard.group.root },
-              { title: 'five', path: paths.dashboard.group.five },
-              { title: 'six', path: paths.dashboard.group.six },
-            ],
           },
         ],
       },

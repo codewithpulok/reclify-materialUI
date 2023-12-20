@@ -7,10 +7,10 @@ import Typography from '@mui/material/Typography';
 
 import { RouterLink } from 'src/routes/components';
 
-import CompactLayout from 'src/layouts/compact';
 import { ForbiddenIllustration } from 'src/assets/illustrations';
+import CompactLayout from 'src/layouts/compact';
 
-import { varBounce, MotionContainer } from 'src/components/animate';
+import { MotionContainer, varBounce } from 'src/components/common/animate';
 
 // ----------------------------------------------------------------------
 

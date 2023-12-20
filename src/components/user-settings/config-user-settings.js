@@ -1,4 +1,4 @@
-import { getIconify } from 'src/components/iconify/utilities';
+import { getIconify } from 'src/components/common/iconify/utilities';
 
 /**
  * All icons for the the user settings

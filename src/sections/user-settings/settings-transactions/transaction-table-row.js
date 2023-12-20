@@ -10,9 +10,9 @@ import { fCurrency } from 'src/utils/format-number';
 
 import { IconButton, MenuItem } from '@mui/material';
 import { TRANSACTION_STATUS_OPTIONS } from 'src/assets/dummy/transactions';
-import { usePopover } from 'src/components/custom-popover';
-import CustomPopover from 'src/components/custom-popover/custom-popover';
-import Label from 'src/components/label';
+import { usePopover } from 'src/components/common/custom-popover';
+import CustomPopover from 'src/components/common/custom-popover/custom-popover';
+import Label from 'src/components/common/label';
 import { ICONS } from '../config-settings';
 
 // ----------------------------------------------------------------------

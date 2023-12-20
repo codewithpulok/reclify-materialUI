@@ -1,7 +1,7 @@
 import { Box, Paper, Stack } from '@mui/material';
 import PropTypes from 'prop-types';
 import { PlanFreeIcon, PlanPremiumIcon, PlanStarterIcon } from 'src/assets/icons';
-import Label from 'src/components/label';
+import Label from 'src/components/common/label';
 import { ICONS } from '../config-user-settings';
 
 // ----------------------------------------------------------------------

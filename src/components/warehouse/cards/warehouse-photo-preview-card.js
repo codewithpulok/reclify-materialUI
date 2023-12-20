@@ -1,6 +1,6 @@
 import { Box, Card, CardActions, IconButton, Stack, Typography } from '@mui/material';
 import PropTypes from 'prop-types';
-import Image from 'src/components/image';
+import Image from 'src/components/common/image';
 import { ICONS } from '../config-warehouse';
 
 const WarehousePhotoPreviewCardProps = {

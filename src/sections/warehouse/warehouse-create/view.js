@@ -1,15 +1,16 @@
 'use client';
 
-import PropTypes from 'prop-types';
-
 import { yupResolver } from '@hookform/resolvers/yup';
 import { Container } from '@mui/material';
 import { useSnackbar } from 'notistack';
+import PropTypes from 'prop-types';
 import { useForm } from 'react-hook-form';
-import CustomBreadcrumbs from 'src/components/custom-breadcrumbs';
-import FormProvider from 'src/components/hook-form/form-provider';
-import { useSettingsContext } from 'src/components/settings';
 import * as Yup from 'yup';
+// local components
+import CustomBreadcrumbs from 'src/components/common/custom-breadcrumbs';
+import FormProvider from 'src/components/common/hook-form/form-provider';
+import { useSettingsContext } from 'src/components/common/settings';
+import { paths } from 'src/routes/paths';
 import WarehouseCreateFields from './warehouse-create-fields';
 
 const WarehouseCreateViewProps = {
@@ -69,7 +70,7 @@ const WarehouseCreateView = (props) => {
     <Container maxWidth={settings.themeStretch ? false : 'lg'}>
       <CustomBreadcrumbs
         heading="Create Warehouse"
-        links={[{ name: 'warehouse', href: '/warehouse' }, { name: 'create' }]}
+        links={[{ name: 'warehouses', href: paths.dashboard.listing }, { name: 'create' }]}
         sx={{
           mb: { xs: 3, md: 5 },
         }}

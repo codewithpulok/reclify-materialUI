@@ -1,10 +1,10 @@
 import PropTypes from 'prop-types';
-import { useState, useEffect, useCallback } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 
-import { paths } from 'src/routes/paths';
 import { useRouter } from 'src/routes/hooks';
+import { paths } from 'src/routes/paths';
 
-import { SplashScreen } from 'src/components/loading-screen';
+import { SplashScreen } from 'src/components/common/loading-screen';
 
 import { useAuthContext } from '../hooks';
 

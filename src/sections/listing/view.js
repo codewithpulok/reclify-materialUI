@@ -3,12 +3,12 @@
 import { Button, Grid, Link, Stack } from '@mui/material';
 import Container from '@mui/material/Container';
 import { useState } from 'react';
+// local components
 import { warehouses } from 'src/assets/dummy/warehouses';
 import { useAuthContext } from 'src/auth/hooks';
 import { ConfirmationAlert } from 'src/components/common/alert';
-import CustomBreadcrumbs from 'src/components/custom-breadcrumbs/custom-breadcrumbs';
-
-import { useSettingsContext } from 'src/components/settings';
+import CustomBreadcrumbs from 'src/components/common/custom-breadcrumbs/custom-breadcrumbs';
+import { useSettingsContext } from 'src/components/common/settings';
 import { WarehouseCard } from 'src/components/warehouse/cards';
 import { paths } from 'src/routes/paths';
 
@@ -37,17 +37,27 @@ export default function ListingView() {
 
   return (
     <Container maxWidth={settings.themeStretch ? false : 'xl'}>
-      <Stack direction="row" justifyContent="space-between" alignItems="center" mb={5}>
+      <Stack
+        direction="row"
+        justifyContent="space-between"
+        alignItems="center"
+        mb={5}
+        flexWrap="wrap"
+        spacing={2}
+      >
         <CustomBreadcrumbs
           heading="Warehouse Listing"
           links={[{ name: 'Dashboard', href: paths.dashboard.root }, { name: 'Listing' }]}
         />
 
-        <Link href="/warehouse/create">
-          <Button color="primary" variant="soft">
-            Create Warehouse
-          </Button>
-        </Link>
+        {/* Warehouse create button only for warehouse user */}
+        {user?.role === 'warehouse' ? (
+          <Link href="/warehouse/create" sx={{ width: { xs: '100%', sm: 'auto' } }}>
+            <Button color="primary" variant="soft" fullWidth>
+              Create Warehouse
+            </Button>
+          </Link>
+        ) : null}
       </Stack>
 
       <Grid container spacing={2}>

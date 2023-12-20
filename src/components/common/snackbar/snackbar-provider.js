@@ -1,8 +1,8 @@
 'use client';
 
-import { useRef } from 'react';
-import PropTypes from 'prop-types';
 import { closeSnackbar, SnackbarProvider as NotistackProvider } from 'notistack';
+import PropTypes from 'prop-types';
+import { useRef } from 'react';
 
 import Collapse from '@mui/material/Collapse';
 import IconButton from '@mui/material/IconButton';

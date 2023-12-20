@@ -1,8 +1,17 @@
-import { Box, Card, CardActionArea, CardContent, IconButton, Typography } from '@mui/material';
+import {
+  Box,
+  Card,
+  CardActionArea,
+  CardContent,
+  IconButton,
+  Stack,
+  Tooltip,
+  Typography,
+} from '@mui/material';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import PropTypes from 'prop-types';
-import Image from 'src/components/image';
+import Image from 'src/components/common/image';
 import { ICONS } from '../config-warehouse';
 
 const WarehouseCardProps = {
@@ -37,11 +46,39 @@ const WarehouseCard = (props) => {
         <CardContent>
           <Typography gutterBottom variant="h5">
             {warehouse.name}
+
+            {warehouse.isVerified ? (
+              <Tooltip title="Verified" placement="top" arrow>
+                {ICONS.verified(18, { ml: 0.3, color: 'primary.main', lineHeight: '1' })}
+              </Tooltip>
+            ) : null}
           </Typography>
           <Typography variant="body2" color="text.secondary">
             {warehouse.location}
           </Typography>
         </CardContent>
+
+        {/* Featured Badge */}
+        {warehouse.isFeatured ? (
+          <Tooltip title="Featured" placement="right" arrow>
+            <Stack
+              sx={{
+                position: 'absolute',
+                top: 10,
+                left: 10,
+                color: 'grey.100',
+                bgcolor: 'warning.main',
+                width: '30px',
+                height: '30px',
+                borderRadius: 1,
+              }}
+              alignItems="center"
+              justifyContent="center"
+            >
+              {ICONS.featured(28)}
+            </Stack>
+          </Tooltip>
+        ) : null}
       </CardActionArea>
 
       {/* if loggedin user has access to the operation then show controls */}

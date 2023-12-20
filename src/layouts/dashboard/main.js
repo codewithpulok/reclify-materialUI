@@ -4,9 +4,9 @@ import Box from '@mui/material/Box';
 
 import { useResponsive } from 'src/hooks/use-responsive';
 
-import { useSettingsContext } from 'src/components/settings';
+import { useSettingsContext } from 'src/components/common/settings';
 
-import { NAV, HEADER } from '../config-layout';
+import { HEADER, NAV } from '../config-layout';
 
 // ----------------------------------------------------------------------
 

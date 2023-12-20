@@ -15,8 +15,8 @@ import { useMockedUser } from 'src/hooks/use-mocked-user';
 
 import { useAuthContext } from 'src/auth/hooks';
 
-import { varHover } from 'src/components/animate';
-import CustomPopover, { usePopover } from 'src/components/custom-popover';
+import { varHover } from 'src/components/common/animate';
+import CustomPopover, { usePopover } from 'src/components/common/custom-popover';
 
 // ----------------------------------------------------------------------
 

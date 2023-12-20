@@ -11,9 +11,9 @@ import { useResponsive } from 'src/hooks/use-responsive';
 
 import { bgBlur } from 'src/theme/css';
 
-import Logo from 'src/components/logo';
-import { useSettingsContext } from 'src/components/settings';
-import SvgColor from 'src/components/svg-color';
+import Logo from 'src/components/common/logo';
+import { useSettingsContext } from 'src/components/common/settings';
+import SvgColor from 'src/components/common/svg-color';
 
 import AccountPopover from '../common/account-popover';
 import ContactsPopover from '../common/contacts-popover';

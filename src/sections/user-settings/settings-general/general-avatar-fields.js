@@ -7,7 +7,7 @@ import Typography from '@mui/material/Typography';
 
 import { fData } from 'src/utils/format-number';
 
-import { RHFUploadAvatar } from 'src/components/hook-form';
+import { RHFUploadAvatar } from 'src/components/common/hook-form';
 
 // ----------------------------------------------------------------------
 

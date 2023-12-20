@@ -1,14 +1,14 @@
 import PropTypes from 'prop-types';
-import { useState, useEffect, useCallback } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 
 import Drawer from '@mui/material/Drawer';
 import IconButton from '@mui/material/IconButton';
 
 import { usePathname } from 'src/routes/hooks';
 
-import Logo from 'src/components/logo';
-import SvgColor from 'src/components/svg-color';
-import Scrollbar from 'src/components/scrollbar';
+import Logo from 'src/components/common/logo';
+import Scrollbar from 'src/components/common/scrollbar';
+import SvgColor from 'src/components/common/svg-color';
 
 import NavList from './nav-list';
 

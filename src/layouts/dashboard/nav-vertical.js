@@ -10,9 +10,9 @@ import { usePathname } from 'src/routes/hooks';
 import { useMockedUser } from 'src/hooks/use-mocked-user';
 import { useResponsive } from 'src/hooks/use-responsive';
 
-import Logo from 'src/components/logo';
-import { NavSectionVertical } from 'src/components/nav-section';
-import Scrollbar from 'src/components/scrollbar';
+import Logo from 'src/components/common/logo';
+import { NavSectionVertical } from 'src/components/common/nav-section';
+import Scrollbar from 'src/components/common/scrollbar';
 
 import NavToggleButton from '../common/nav-toggle-button';
 import NavUpgrade from '../common/nav-upgrade';

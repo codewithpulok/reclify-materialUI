@@ -8,7 +8,7 @@ import { paths } from 'src/routes/paths';
 
 import { useAuthContext } from 'src/auth/hooks';
 
-import Label from 'src/components/label';
+import Label from 'src/components/common/label';
 
 // ----------------------------------------------------------------------
 
