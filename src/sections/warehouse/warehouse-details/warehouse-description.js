@@ -1,7 +1,7 @@
 import { Box, Stack, Typography } from '@mui/material';
 import PropTypes from 'prop-types';
 
-import { detailsHeaderStyle } from '../styles';
+import { detailsBoxStyle, detailsHeaderStyle } from '../styles';
 
 const WarehouseDescriptionProps = {
   description: PropTypes.string.isRequired,
@@ -18,7 +18,7 @@ const WarehouseDescription = (props) => {
   const { description, sx } = props;
 
   return (
-    <Box sx={{ ...sx, bgcolor: 'background.paper', px: 3, py: 2, borderRadius: 1, boxShadow: 1 }}>
+    <Box sx={{ ...sx, ...detailsBoxStyle }}>
       <Stack direction="row" alignItems="center" justifyContent="space-between" mb={3}>
         <Typography variant="h5" sx={detailsHeaderStyle}>
           Description

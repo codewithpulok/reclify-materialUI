@@ -7,7 +7,7 @@ import { ICONS } from '../config-warehouse';
 
 const WarehouseHeaderProps = {
   name: PropTypes.string.isRequired,
-  address: PropTypes.string.isRequired,
+  address: PropTypes.object.isRequired,
   isVerified: PropTypes.bool.isRequired,
   isFeatured: PropTypes.bool.isRequired,
 };

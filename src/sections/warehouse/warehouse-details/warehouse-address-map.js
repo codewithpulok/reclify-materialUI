@@ -2,7 +2,7 @@ import { Box, Stack, Typography, useTheme } from '@mui/material';
 import PropTypes from 'prop-types';
 import { THEMES, baseSettings } from 'src/components/common/map';
 import { MapMarked } from 'src/components/common/map/presets';
-import { detailsHeaderStyle } from '../styles';
+import { detailsBoxStyle, detailsHeaderStyle } from '../styles';
 
 const WarehouseAddressMapProps = {
   /** @type {SxProps} */
@@ -18,7 +18,7 @@ const WarehouseAddressMap = (props) => {
   const theme = useTheme();
 
   return (
-    <Box sx={{ ...sx, bgcolor: 'background.paper', px: 3, py: 2, borderRadius: 1, boxShadow: 1 }}>
+    <Box sx={{ ...sx, ...detailsBoxStyle }}>
       <Stack direction="row" alignItems="center" justifyContent="space-between" mb={3}>
         <Typography variant="h5" sx={detailsHeaderStyle}>
           Map
@@ -28,6 +28,7 @@ const WarehouseAddressMap = (props) => {
       <Box
         sx={{
           zIndex: 0,
+          width: '100%',
           height: 500,
           overflow: 'hidden',
           position: 'relative',
