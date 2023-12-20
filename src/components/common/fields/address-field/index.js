@@ -32,7 +32,7 @@ const AddressField = (props) => {
       </Stack>
       <Collapse in={addressCollapse.value} sx={{ mt: 1 }}>
         <Grid container spacing={1.2}>
-          <Grid item sm={12}>
+          <Grid item xs={12}>
             <RHFAutocomplete
               name={`${name}.country`}
               options={getCountries()}
@@ -40,7 +40,7 @@ const AddressField = (props) => {
               fullWidth
             />
           </Grid>
-          <Grid item sm={12}>
+          <Grid item xs={12}>
             <RHFAutocomplete
               name={`${name}.state`}
               options={getStates(addressValue?.country)}
@@ -48,16 +48,16 @@ const AddressField = (props) => {
               fullWidth
             />
           </Grid>
-          <Grid item sm={6}>
+          <Grid item xs={6}>
             <RHFTextField name={`${name}.city`} label="City" fullWidth />
           </Grid>
-          <Grid item sm={6}>
+          <Grid item xs={6}>
             <RHFTextField name={`${name}.zipCode`} type="number" label="Zip code" fullWidth />
           </Grid>
-          <Grid item sm={8}>
+          <Grid item xs={8}>
             <RHFTextField name={`${name}.streetAddress`} label="Street Address" fullWidth />
           </Grid>
-          <Grid item sm={4}>
+          <Grid item xs={4}>
             <RHFTextField
               name={`${name}.streetNumber`}
               type="number"
