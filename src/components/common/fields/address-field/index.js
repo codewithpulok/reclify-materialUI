@@ -2,17 +2,10 @@ import { Collapse, Grid, IconButton, Stack, TextField } from '@mui/material';
 import PropTypes from 'prop-types';
 // local components
 import { useFormContext } from 'react-hook-form';
-import {
-  getCities,
-  getCountries,
-  getStates,
-  getStreetNumbers,
-  getStreets,
-  getZipCodes,
-} from 'src/assets/data/address';
+import { getCountries, getStates } from 'src/assets/data/address';
 import { getWarehouseAddress } from 'src/components/warehouse/utils';
 import { useBoolean } from 'src/hooks/use-boolean';
-import { RHFAutocomplete } from '../../hook-form';
+import { RHFAutocomplete, RHFTextField } from '../../hook-form';
 import { ICONS } from '../config-fields';
 
 const AddressFieldProps = {
@@ -56,38 +49,18 @@ const AddressField = (props) => {
             />
           </Grid>
           <Grid item sm={6}>
-            <RHFAutocomplete
-              name={`${name}.city`}
-              options={getCities(addressValue?.country, addressValue?.state)}
-              label="City"
-              fullWidth
-            />
+            <RHFTextField name={`${name}.city`} label="City" fullWidth />
           </Grid>
           <Grid item sm={6}>
-            <RHFAutocomplete
-              name={`${name}.zipCode`}
-              options={getZipCodes(addressValue?.country, addressValue?.state, addressValue?.city)}
-              label="Zip code"
-              fullWidth
-            />
+            <RHFTextField name={`${name}.zipCode`} type="number" label="Zip code" fullWidth />
           </Grid>
           <Grid item sm={8}>
-            <RHFAutocomplete
-              name={`${name}.streetAddress`}
-              options={getStreets(addressValue?.country, addressValue?.state, addressValue?.city)}
-              label="Street Address"
-              fullWidth
-            />
+            <RHFTextField name={`${name}.streetAddress`} label="Street Address" fullWidth />
           </Grid>
           <Grid item sm={4}>
-            <RHFAutocomplete
+            <RHFTextField
               name={`${name}.streetNumber`}
-              options={getStreetNumbers(
-                addressValue?.country,
-                addressValue?.state,
-                addressValue?.city,
-                addressValue?.streetAddress
-              )}
+              type="number"
               label="Street Number"
               fullWidth
             />

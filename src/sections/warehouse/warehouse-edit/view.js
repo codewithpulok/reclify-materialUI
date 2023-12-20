@@ -56,8 +56,8 @@ const WarehouseEdit = ({ warehouse }) => {
   const { handleSubmit, reset } = methods;
   const { enqueueSnackbar } = useSnackbar();
 
-  const onSubmit = (e) => {
-    console.log(e);
+  const onSubmit = (values) => {
+    console.log('Warehouse Update: ', values);
     enqueueSnackbar('Warehouse updated', { variant: 'success' });
   };
 
