@@ -18,14 +18,13 @@ const WarehouseHeader = (props) => {
 
   return (
     <Box sx={{ mb: 8 }}>
-      <Stack flexDirection="row" alignItems="start" justifyContent="space-between">
-        <Typography variant="h2" sx={{ mb: 1 }}>
-          {name}
-        </Typography>
-        <IconButton title="go back" onClick={() => router.back()}>
-          {ICONS.back(28)}
-        </IconButton>
-      </Stack>
+      <IconButton title="go back" onClick={() => router.back()} sx={{ p: 0, mb: 0.5 }}>
+        {ICONS.back(32)}
+      </IconButton>
+      <Typography variant="h2" sx={{ mb: 1 }}>
+        {name}
+      </Typography>
+
       <Stack
         sx={{
           flexDirection: {

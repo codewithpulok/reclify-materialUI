@@ -66,7 +66,7 @@ const SettingsGeneral = () => {
     try {
       await new Promise((resolve) => setTimeout(resolve, 500));
       enqueueSnackbar('User updated', { variant: 'success' });
-      console.info('DATA', data);
+      console.info('User updated: ', data);
     } catch (error) {
       console.error(error);
     }
