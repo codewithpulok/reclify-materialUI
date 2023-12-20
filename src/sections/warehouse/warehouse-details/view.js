@@ -51,7 +51,7 @@ function WarehouseDetails(props) {
 
           <WarehouseDescription description={warehouse.description} sx={{ mt: 5 }} />
 
-          <WarehouseAddressMap sx={{ mt: 3 }} />
+          <WarehouseAddressMap sx={{ mt: 3 }} warehouse={warehouse} />
 
           <WarehouseReviews reviews={reviews} sx={{ mt: 3 }} />
         </Grid>

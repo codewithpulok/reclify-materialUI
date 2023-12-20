@@ -1,35 +1,80 @@
+import { Box, Typography } from '@mui/material';
 import 'mapbox-gl/dist/mapbox-gl.css';
 import PropTypes from 'prop-types';
 import { memo, useMemo } from 'react';
 import Map from 'react-map-gl';
 
-import { MapControl, MapMarker } from 'src/components/common/map';
+import { MapControl, MapMarker, MapPopup } from 'src/components/common/map';
+import { getWarehouseAddress } from 'src/components/warehouse/utils';
+import { useBoolean } from 'src/hooks/use-boolean';
+import Image from '../../image';
 
 // ----------------------------------------------------------------------
 
 const MapMarkedProps = {
-  markedData: PropTypes.array,
+  /** @type {Marked} */
+  marked: PropTypes.object.isRequired,
 };
 
-const initialViewState = { zoom: 2 };
+const initialViewState = { zoom: 16 };
 
 /**
  * @param {MapMarkedProps & import('react-map-gl').MapProps} props
  * @returns {JSX.Element}
  */
 const MapMarked = (props) => {
-  const { markedData, ...other } = props;
+  const popup = useBoolean(false);
+  const { marked, ...other } = props;
   const initialPosition = useMemo(
-    () => ({ longitude: markedData?.[0]?.latlng?.[1], latitude: markedData?.[0]?.latlng?.[0] }),
-    [markedData]
+    () => ({ longitude: marked?.longitude, latitude: marked?.latitude }),
+    [marked]
   );
 
   return (
     <Map initialViewState={{ ...initialViewState, ...initialPosition }} {...other}>
       <MapControl />
-      {markedData.map((city, index) => (
-        <MapMarker key={`marker-${index}`} latitude={city.latlng[0]} longitude={city.latlng[1]} />
-      ))}
+
+      {marked ? (
+        <MapMarker
+          latitude={marked.latitude}
+          longitude={marked.longitude}
+          onClick={(event) => {
+            event.originalEvent.stopPropagation();
+            popup.onTrue();
+          }}
+        />
+      ) : null}
+
+      {popup.value && marked && (
+        <MapPopup latitude={marked.latitude} longitude={marked.longitude} onClose={popup.onFalse}>
+          <Box sx={{ color: 'common.white' }}>
+            <Typography variant="subtitle2" mb={1}>
+              {marked.warehouse?.name}
+            </Typography>
+
+            <Typography component="div" variant="caption">
+              <b>Address:</b> {getWarehouseAddress(marked?.warehouse?.address)}
+            </Typography>
+
+            <Typography component="div" variant="caption">
+              <b>Latitude:</b> {marked.latitude}
+            </Typography>
+
+            <Typography component="div" variant="caption">
+              <b>Longitude:</b> {marked.longitude}
+            </Typography>
+
+            {marked.warehouse?.photos.length && (
+              <Image
+                alt={marked.warehouse.name}
+                src={marked.warehouse.photos[0].coverUrl}
+                ratio="4/3"
+                sx={{ mt: 1, borderRadius: 1 }}
+              />
+            )}
+          </Box>
+        </MapPopup>
+      )}
     </Map>
   );
 };
