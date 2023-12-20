@@ -1,6 +1,7 @@
-import { Box, Stack, Typography } from '@mui/material';
+import { Box, Stack, Typography, useTheme } from '@mui/material';
 import PropTypes from 'prop-types';
-import { MapMarkersPopups, StyledMapContainer, baseSettings } from 'src/components/warehouse/map';
+import { THEMES, baseSettings } from 'src/components/common/map';
+import { MapMarked } from 'src/components/common/map/presets';
 import { detailsHeaderStyle } from '../styles';
 
 const WarehouseAddressMapProps = {
@@ -14,6 +15,8 @@ const WarehouseAddressMapProps = {
  */
 const WarehouseAddressMap = (props) => {
   const { sx } = props;
+  const theme = useTheme();
+
   return (
     <Box sx={{ ...sx, bgcolor: 'background.paper', px: 3, py: 2, borderRadius: 1, boxShadow: 1 }}>
       <Stack direction="row" alignItems="center" justifyContent="space-between" mb={3}>
@@ -22,30 +25,29 @@ const WarehouseAddressMap = (props) => {
         </Typography>
       </Stack>
 
-      <StyledMapContainer>
-        <MapMarkersPopups
-          data={[
+      <Box
+        sx={{
+          zIndex: 0,
+          height: 500,
+          overflow: 'hidden',
+          position: 'relative',
+          borderRadius: 1,
+          '& .mapboxgl-ctrl-logo, .mapboxgl-ctrl-bottom-right': {
+            display: 'none',
+          },
+        }}
+      >
+        <MapMarked
+          markedData={[
             {
-              timezones: ['America/Aruba'],
               latlng: [12.5, -69.96666666],
               name: 'Aruba',
-              country_code: 'AW',
-              capital: 'Oranjestad',
-              // photoUrl: _mock.image.cover(1),
-            },
-            {
-              timezones: ['Asia/Kabul'],
-              latlng: [33, 65],
-              name: 'Afghanistan',
-              country_code: 'AF',
-              capital: 'Kabul',
-              // photoUrl: _mock.image.cover(2),
             },
           ]}
           {...baseSettings}
-          map
+          mapStyle={theme.palette.mode === 'dark' ? THEMES.dark : THEMES.light}
         />
-      </StyledMapContainer>
+      </Box>
     </Box>
   );
 };
