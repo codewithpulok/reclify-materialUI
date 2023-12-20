@@ -13,6 +13,7 @@ import { useRouter } from 'next/navigation';
 import PropTypes from 'prop-types';
 import Image from 'src/components/common/image';
 import { ICONS } from '../config-warehouse';
+import { getWarehouseAddress } from '../utils';
 
 const WarehouseCardProps = {
   /** @type {Warehouse} */
@@ -54,7 +55,7 @@ const WarehouseCard = (props) => {
             ) : null}
           </Typography>
           <Typography variant="body2" color="text.secondary">
-            {warehouse.location}
+            {getWarehouseAddress(warehouse.address)}
           </Typography>
         </CardContent>
 

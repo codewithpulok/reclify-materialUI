@@ -1,12 +1,25 @@
 import PropTypes from 'prop-types';
 import { Controller, useFormContext } from 'react-hook-form';
 
-import TextField from '@mui/material/TextField';
 import Autocomplete from '@mui/material/Autocomplete';
+import TextField from '@mui/material/TextField';
 
 // ----------------------------------------------------------------------
 
-export default function RHFAutocomplete({ name, label, placeholder, helperText, ...other }) {
+const RHFAutocompleteProps = {
+  helperText: PropTypes.string,
+  label: PropTypes.string,
+  name: PropTypes.string,
+  placeholder: PropTypes.string,
+};
+
+/**
+ * React hook form with Material UI autocomplete field
+ * @param {RHFAutocompleteProps & import('@mui/material/Autocomplete').AutocompleteProps} props
+ * @returns
+ */
+export default function RHFAutocomplete(props) {
+  const { name, label, placeholder, helperText, ...other } = props;
   const { control, setValue } = useFormContext();
 
   return (
@@ -16,7 +29,7 @@ export default function RHFAutocomplete({ name, label, placeholder, helperText, 
       render={({ field, fieldState: { error } }) => (
         <Autocomplete
           {...field}
-          onChange={(event, newValue) => setValue(name, newValue, { shouldValidate: true })}
+          onChange={(_event, newValue) => setValue(name, newValue, { shouldValidate: true })}
           renderInput={(params) => (
             <TextField
               label={label}
@@ -33,9 +46,4 @@ export default function RHFAutocomplete({ name, label, placeholder, helperText, 
   );
 }
 
-RHFAutocomplete.propTypes = {
-  helperText: PropTypes.string,
-  label: PropTypes.string,
-  name: PropTypes.string,
-  placeholder: PropTypes.string,
-};
+RHFAutocomplete.propTypes = RHFAutocompleteProps;

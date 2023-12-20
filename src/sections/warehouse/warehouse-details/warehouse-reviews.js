@@ -14,7 +14,7 @@ import { useMemo, useState } from 'react';
 import EmptyState from 'src/components/common/empty-state/empty-state';
 import { WarehouseReviewCard } from 'src/components/warehouse/cards';
 import { ICONS } from '../config-warehouse';
-import { detailsHeaderStyle } from '../styles';
+import { detailsBoxStyle, detailsHeaderStyle } from '../styles';
 
 const WarehouseReviewsProps = {
   /** @type {Review[]} */
@@ -54,11 +54,7 @@ const WarehouseReviews = (props) => {
     <Box
       sx={{
         ...sx,
-        bgcolor: 'background.paper',
-        px: { xs: 2, md: 3 },
-        py: { xs: 1.5, md: 2 },
-        borderRadius: 1,
-        boxShadow: 1,
+        ...detailsBoxStyle,
       }}
     >
       <Stack

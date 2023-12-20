@@ -5,7 +5,19 @@ import TextField from '@mui/material/TextField';
 
 // ----------------------------------------------------------------------
 
-export default function RHFTextField({ name, helperText, type, ...other }) {
+const RHFTextFieldProps = {
+  helperText: PropTypes.object,
+  name: PropTypes.string,
+  type: PropTypes.string,
+};
+
+/**
+ * Material UI Textfield with React Hook Form
+ * @param {RHFTextFieldProps & import('@mui/material/TextField').TextFieldProps} props
+ * @returns {JSX.Element}
+ */
+export default function RHFTextField(props) {
+  const { name, helperText, type, ...other } = props;
   const { control } = useFormContext();
 
   return (
@@ -17,7 +29,7 @@ export default function RHFTextField({ name, helperText, type, ...other }) {
           {...field}
           fullWidth
           type={type}
-          value={type === 'number' && field.value === 0 ? '' : field.value}
+          value={field.value}
           onChange={(event) => {
             if (type === 'number') {
               field.onChange(Number(event.target.value));
@@ -34,8 +46,4 @@ export default function RHFTextField({ name, helperText, type, ...other }) {
   );
 }
 
-RHFTextField.propTypes = {
-  helperText: PropTypes.object,
-  name: PropTypes.string,
-  type: PropTypes.string,
-};
+RHFTextField.propTypes = RHFTextFieldProps;

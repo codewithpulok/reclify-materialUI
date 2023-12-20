@@ -1,6 +1,7 @@
 import { Button, Grid, Stack } from '@mui/material';
 import Link from 'next/link';
 // local components
+import { AddressField } from 'src/components/common/fields';
 import { RHFTextField } from 'src/components/common/hook-form';
 import Label from 'src/components/common/label';
 import { WarehousePhotoUpload } from 'src/components/warehouse/upload';
@@ -12,7 +13,7 @@ const WarehouseCreateFields = (props) => (
       <RHFTextField name="name" label="Name" fullWidth />
     </Grid>
     <Grid item xs={12}>
-      <RHFTextField name="location" label="Address" fullWidth />
+      <AddressField name="address" />
     </Grid>
 
     <Grid item xs={6}>
