@@ -96,11 +96,19 @@ OptionsMonthCard.propTypes = OptionsMonthCardProps;
 const WarehouseBookingOptionsProps = {
   space: PropTypes.number.isRequired,
   pricePerSquare: PropTypes.number.isRequired,
+  showPurchase: PropTypes.bool.isRequired,
 };
 
-const WarehouseBookingOptions = ({ space, pricePerSquare }) => {
+/**
+ * @param {WarehouseBookingOptionsProps} props
+ * @returns {JSX.Element}
+ */
+const WarehouseBookingOptions = (props) => {
+  const { space, pricePerSquare, showPurchase } = props;
   const [selectedMonth, setSelectedMonth] = useState(1);
   const { palette } = useTheme();
+
+  console.log({ showPurchase });
 
   return (
     <Card sx={{ bgcolor: 'background.paper', padding: 2 }}>
@@ -154,9 +162,11 @@ const WarehouseBookingOptions = ({ space, pricePerSquare }) => {
         <Typography variant="h5" sx={{ textAlign: 'center' }}>
           {`Total Price:   ${fCurrency(7000 * pricePerSquare * selectedMonth)}`}
         </Typography>
-        <Button color="primary" variant="contained" size="large" endIcon={ICONS.purchase()}>
-          Purchase
-        </Button>
+        {showPurchase ? (
+          <Button color="primary" variant="contained" size="large" endIcon={ICONS.purchase()}>
+            Purchase
+          </Button>
+        ) : null}
       </Stack>
     </Card>
   );
