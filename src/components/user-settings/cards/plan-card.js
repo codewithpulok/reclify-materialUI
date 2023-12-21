@@ -2,6 +2,7 @@ import { Box, Paper, Stack } from '@mui/material';
 import PropTypes from 'prop-types';
 import { PlanFreeIcon, PlanPremiumIcon, PlanStarterIcon } from 'src/assets/icons';
 import Label from 'src/components/common/label';
+import { fCurrency } from 'src/utils/format-number';
 import { ICONS } from '../config-user-settings';
 
 // ----------------------------------------------------------------------
@@ -68,7 +69,7 @@ const PlanCard = (props) => {
       </Box>
 
       <Stack direction="row" alignItems="center" sx={{ typography: 'h4' }}>
-        {plan.price || 'Free'}
+        {plan.price ? fCurrency(plan.price) : 'Free'}
 
         {!!plan.price && (
           <Box component="span" sx={{ typography: 'body2', color: 'text.disabled', ml: 0.5 }}>

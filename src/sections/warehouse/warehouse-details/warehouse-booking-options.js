@@ -1,6 +1,8 @@
-import { Box, Card, CardContent, Grid, Typography, useTheme } from '@mui/material';
+import { Box, Button, Card, CardContent, Grid, Stack, Typography, useTheme } from '@mui/material';
 import PropTypes from 'prop-types';
 import { useState } from 'react';
+import { fCurrency, fNumber } from 'src/utils/format-number';
+import { ICONS } from '../config-warehouse';
 
 const OptionsDetailsCardProps = {
   title: PropTypes.string.isRequired,
@@ -101,7 +103,7 @@ const WarehouseBookingOptions = ({ space, pricePerSquare }) => {
   const { palette } = useTheme();
 
   return (
-    <Box sx={{ bgcolor: 'background.paper', padding: 2, borderRadius: 2, boxShadow: 3 }}>
+    <Card sx={{ bgcolor: 'background.paper', padding: 2 }}>
       <Typography variant="h5" sx={{ mb: 4 }}>
         Check Availability and Your Monthly Cost
       </Typography>
@@ -110,7 +112,7 @@ const WarehouseBookingOptions = ({ space, pricePerSquare }) => {
         <Grid item xs={6}>
           <OptionsDetailsCard
             title="Total Available Space"
-            amount={`${space}`}
+            amount={`${fNumber(space)}`}
             amountType=" sq. ft"
             description="Space availability is based on date range."
           />
@@ -118,7 +120,7 @@ const WarehouseBookingOptions = ({ space, pricePerSquare }) => {
         <Grid item xs={6}>
           <OptionsDetailsCard
             title="Total Available Space"
-            amount={`$${pricePerSquare} /`}
+            amount={`${fCurrency(pricePerSquare)} /`}
             amountType="sq. ft"
             description="*Minimum Order Qty: 7,000 sq. ft"
           />
@@ -138,10 +140,25 @@ const WarehouseBookingOptions = ({ space, pricePerSquare }) => {
         ))}
       </Grid>
 
-      <Typography variant="h4" sx={{ textAlign: 'center' }}>
-        {`Total Price:   $${7000 * pricePerSquare * selectedMonth}`}
-      </Typography>
-    </Box>
+      <Stack
+        sx={{
+          flexDirection: {
+            xs: 'column',
+            sm: 'row',
+          },
+        }}
+        alignItems="center"
+        justifyContent="space-between"
+        spacing={2}
+      >
+        <Typography variant="h5" sx={{ textAlign: 'center' }}>
+          {`Total Price:   ${fCurrency(7000 * pricePerSquare * selectedMonth)}`}
+        </Typography>
+        <Button color="primary" variant="contained" size="large" endIcon={ICONS.purchase()}>
+          Purchase
+        </Button>
+      </Stack>
+    </Card>
   );
 };
 

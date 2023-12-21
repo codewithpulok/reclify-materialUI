@@ -5,7 +5,10 @@ import Container from '@mui/material/Container';
 import Grid from '@mui/material/Unstable_Grid2';
 import PropTypes from 'prop-types';
 // local components
+import { getUserByID } from 'src/assets/dummy/users';
+import { useAuthContext } from 'src/auth/hooks';
 import { useSettingsContext } from 'src/components/common/settings';
+import { WarehouseOwnerCard } from 'src/components/warehouse/cards';
 import WarehouseAddressMap from './warehouse-address-map';
 import WarehouseBookingOptions from './warehouse-booking-options';
 import WarehouseDescription from './warehouse-description';
@@ -28,6 +31,8 @@ const WarehouseDetailsProps = {
 function WarehouseDetails(props) {
   const { warehouse, reviews } = props;
   const settings = useSettingsContext();
+  const auth = useAuthContext();
+  const owner = getUserByID(1);
 
   return (
     <Container maxWidth={settings.themeStretch ? false : 'xl'}>
@@ -47,21 +52,28 @@ function WarehouseDetails(props) {
               space={warehouse.totalSpace}
               pricePerSquare={warehouse.pricePerSquare}
             />
+
+            {owner && auth?.user?.role !== 'warehouse' ? (
+              <WarehouseOwnerCard sx={{ mt: 3 }} user={owner} />
+            ) : null}
           </Box>
 
           <WarehouseDescription description={warehouse.description} sx={{ mt: 5 }} />
 
-          <WarehouseAddressMap sx={{ mt: 3 }} />
+          <WarehouseAddressMap sx={{ mt: 3 }} warehouse={warehouse} />
 
           <WarehouseReviews reviews={reviews} sx={{ mt: 3 }} />
         </Grid>
         <Grid item xs={12} md={5}>
           {/* show sidebar content in tab mode & hide in mobile mode */}
-          <Box sx={{ display: { xs: 'none', md: 'block' } }}>
+          <Box sx={{ display: { xs: 'none', md: 'block', width: '100%' } }}>
             <WarehouseBookingOptions
               space={warehouse.totalSpace}
               pricePerSquare={warehouse.pricePerSquare}
             />
+            {owner && auth?.user?.role !== 'warehouse' ? (
+              <WarehouseOwnerCard sx={{ mt: 3 }} user={owner} />
+            ) : null}
           </Box>
         </Grid>
       </Grid>

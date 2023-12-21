@@ -2,8 +2,10 @@ import { Box, Chip, IconButton, Stack, Typography } from '@mui/material';
 import { useRouter } from 'next/navigation';
 import PropTypes from 'prop-types';
 
+import { useAuthContext } from 'src/auth/hooks';
 import { getWarehouseAddress } from 'src/components/warehouse/utils';
 import { ICONS } from '../config-warehouse';
+import WarehouseAdminMenu from './warehouse-admin-menu';
 
 const WarehouseHeaderProps = {
   name: PropTypes.string.isRequired,
@@ -13,19 +15,27 @@ const WarehouseHeaderProps = {
 };
 
 const WarehouseHeader = (props) => {
+  const auth = useAuthContext();
   const { name, address, isVerified, isFeatured } = props;
   const router = useRouter();
 
+  const onFeaturedChange = (value) => {
+    // isFeatured = value;
+  };
+
+  const onVerifiedChange = (value) => {
+    // isVerified = value;
+  };
+
   return (
     <Box sx={{ mb: 8 }}>
-      <Stack flexDirection="row" alignItems="start" justifyContent="space-between">
-        <Typography variant="h2" sx={{ mb: 1 }}>
-          {name}
-        </Typography>
-        <IconButton title="go back" onClick={() => router.back()}>
-          {ICONS.back(28)}
-        </IconButton>
-      </Stack>
+      <IconButton title="go back" onClick={() => router.back()} sx={{ p: 0, mb: 0.5 }}>
+        {ICONS.back(32)}
+      </IconButton>
+      <Typography variant="h2" sx={{ mb: 1 }}>
+        {name}
+      </Typography>
+
       <Stack
         sx={{
           flexDirection: {
@@ -43,12 +53,21 @@ const WarehouseHeader = (props) => {
         <Typography variant="body2" mr={3}>
           {getWarehouseAddress(address)}
         </Typography>
-        <Stack flexDirection="row" spacing={0.5}>
+        <Stack flexDirection="row" spacing={0.5} alignItems="center">
           {isVerified && (
             <Chip label="Verified" icon={ICONS.verified()} color="success" size="small" />
           )}
           {isFeatured && (
             <Chip label="Featured" icon={ICONS.featured()} color="warning" size="small" />
+          )}
+
+          {auth?.user?.role === 'admin' && (
+            <WarehouseAdminMenu
+              onFeaturedChange={onFeaturedChange}
+              onVerifiedChange={onVerifiedChange}
+              isVerified={isVerified}
+              isFeatured={isFeatured}
+            />
           )}
         </Stack>
       </Stack>

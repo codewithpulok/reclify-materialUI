@@ -21,11 +21,11 @@ const WarehouseCreateViewProps = {
 const WarehouseCreateSchema = Yup.object().shape({
   name: Yup.string().required('Warehouse name is required'),
   address: Yup.object().shape({
-    streetNumber: Yup.string().required('Warehouse street number is required'),
+    streetNumber: Yup.number().required('Warehouse street number is required'),
     streetAddress: Yup.string().required('Warehouse street address is required'),
     city: Yup.string().required('Warehouse city is required'),
     state: Yup.string().required('Warehouse state is required'),
-    zipCode: Yup.string().required('Warehouse zip code is required'),
+    zipCode: Yup.number().required('Warehouse zip code is required'),
     country: Yup.string().required('Warehouse country is required'),
   }),
   totalSpace: Yup.number()
@@ -65,13 +65,15 @@ const WarehouseCreateView = (props) => {
     resolver: yupResolver(WarehouseCreateSchema),
     defaultValues: sourceWarehouse || defaultValues,
   });
-  const { handleSubmit } = methods;
+  const { handleSubmit, formState } = methods;
 
   // handle form submit
   const onSubmit = (values) => {
-    console.log({ values });
+    console.log('Warehouse Create: ', values);
     enqueueSnackbar('Warehouse created!');
   };
+
+  console.log(formState.errors);
 
   return (
     <Container maxWidth={settings.themeStretch ? false : 'lg'}>

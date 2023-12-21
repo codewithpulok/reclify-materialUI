@@ -51,7 +51,6 @@ export function useNavData() {
       {
         subheader: 'overview v1.0.0',
         items: [
-          { title: 'Dashboard', path: paths.dashboard.root, icon: ICONS.dashboard },
           {
             title: 'listing',
             path: paths.dashboard.listing,

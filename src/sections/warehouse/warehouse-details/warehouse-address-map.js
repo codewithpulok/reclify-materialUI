@@ -7,6 +7,8 @@ import { detailsBoxStyle, detailsHeaderStyle } from '../styles';
 const WarehouseAddressMapProps = {
   /** @type {SxProps} */
   sx: PropTypes.object,
+  /** @type {Warehouse} */
+  warehouse: PropTypes.object.isRequired,
 };
 
 /**
@@ -14,7 +16,7 @@ const WarehouseAddressMapProps = {
  * @returns {JSX.Element}
  */
 const WarehouseAddressMap = (props) => {
-  const { sx } = props;
+  const { sx, warehouse } = props;
   const theme = useTheme();
 
   return (
@@ -39,12 +41,11 @@ const WarehouseAddressMap = (props) => {
         }}
       >
         <MapMarked
-          markedData={[
-            {
-              latlng: [12.5, -69.96666666],
-              name: 'Aruba',
-            },
-          ]}
+          marked={{
+            latitude: 12.5,
+            longitude: -69.96666666,
+            warehouse,
+          }}
           {...baseSettings}
           mapStyle={theme.palette.mode === 'dark' ? THEMES.dark : THEMES.light}
         />
