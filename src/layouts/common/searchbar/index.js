@@ -1,4 +1,4 @@
-import { memo, useCallback, useState } from 'react';
+import { memo, useCallback, useEffect, useState } from 'react';
 
 import Box from '@mui/material/Box';
 import Dialog, { dialogClasses } from '@mui/material/Dialog';
@@ -10,17 +10,21 @@ import { useBoolean } from 'src/hooks/use-boolean';
 import { useEventListener } from 'src/hooks/use-event-listener';
 import { useResponsive } from 'src/hooks/use-responsive';
 
-import { usePathname, useRouter, useSearchParams } from 'next/navigation';
+import { useRouter, useSearchParams } from 'next/navigation';
 import Iconify from 'src/components/common/iconify';
 import Label from 'src/components/common/label';
 import Scrollbar from 'src/components/common/scrollbar';
+import { paths } from 'src/routes/paths';
+import SearchbarFilters from './searchbar-filters';
 import SearchbarForm from './searchbar-form';
+
+const BASE_PATH = paths.dashboard.listing;
 
 // ----------------------------------------------------------------------
 
 function Searchbar() {
   const router = useRouter();
-  const pathname = usePathname();
+
   const searchParams = useSearchParams();
 
   const theme = useTheme();
@@ -40,6 +44,8 @@ function Searchbar() {
   );
 
   const [searchQuery, setSearchQuery] = useState('');
+  const [selectedRegion, setSelectedRegion] = useState('ALL');
+  const [selectedUser, setSelectedUser] = useState('ALL');
 
   const handleClose = useCallback(() => {
     search.onFalse();
@@ -52,8 +58,6 @@ function Searchbar() {
       setSearchQuery('');
     }
   };
-
-  useEventListener('keydown', handleKeyDown);
 
   const handleSearchQuery = useCallback((event) => {
     setSearchQuery(event.target.value);
@@ -71,9 +75,45 @@ function Searchbar() {
 
   const handleSearch = useCallback(() => {
     console.log('Searched For: ', searchQuery);
-    router.push(`${pathname}?${createQueryString('query', searchQuery)}`);
+    router.push(`${BASE_PATH}/?${createQueryString('query', searchQuery)}`);
     search.onFalse();
-  }, [createQueryString, pathname, router, search, searchQuery]);
+  }, [createQueryString, router, search, searchQuery]);
+
+  // handle region filter updates
+  const handleRegionChange = useCallback(
+    (value) => {
+      // update the state
+      setSelectedRegion(value);
+      // change path url
+      router.push(`${BASE_PATH}/?${createQueryString('region', value === 'ALL' ? '' : value)}`);
+    },
+    [createQueryString, router]
+  );
+
+  // handle user filter updates
+  const handleUserChange = useCallback(
+    (value) => {
+      // update the state
+      setSelectedUser(value);
+      // change path url
+      router.push(`${BASE_PATH}?${createQueryString('user', value === 'ALL' ? '' : value)}`);
+    },
+    [createQueryString, router]
+  );
+
+  // assign keydown events
+  useEventListener('keydown', handleKeyDown);
+
+  // update states after refresh
+  useEffect(() => {
+    const query = searchParams.get('query');
+    const user = searchParams.get('user');
+    const region = searchParams.get('region');
+
+    if (query) setSearchQuery(query);
+    if (user) setSelectedUser(user);
+    if (region) setSelectedRegion(region);
+  }, [searchParams]);
 
   return (
     <>
@@ -108,7 +148,14 @@ function Searchbar() {
           />
         </Box>
 
-        <Scrollbar sx={{ p: 3, pt: 2, height: 400 }} />
+        <Scrollbar sx={{ p: 3, pt: 2, height: 200 }}>
+          <SearchbarFilters
+            selectedRegion={selectedRegion}
+            selectedUser={selectedUser}
+            setRegion={handleRegionChange}
+            setUser={handleUserChange}
+          />
+        </Scrollbar>
       </Dialog>
     </>
   );

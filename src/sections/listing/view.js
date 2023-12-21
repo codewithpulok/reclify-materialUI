@@ -2,7 +2,8 @@
 
 import { Button, Grid, Link, Stack } from '@mui/material';
 import Container from '@mui/material/Container';
-import { useState } from 'react';
+import { useSearchParams } from 'next/navigation';
+import { useEffect, useMemo, useState } from 'react';
 // local components
 import { warehouses } from 'src/assets/dummy/warehouses';
 import { useAuthContext } from 'src/auth/hooks';
@@ -10,14 +11,30 @@ import { ConfirmationAlert } from 'src/components/common/alert';
 import CustomBreadcrumbs from 'src/components/common/custom-breadcrumbs/custom-breadcrumbs';
 import { useSettingsContext } from 'src/components/common/settings';
 import { WarehouseCard } from 'src/components/warehouse/cards';
+import { getWarehouseAddress } from 'src/components/warehouse/utils';
 
 // ----------------------------------------------------------------------
 
 export default function ListingView() {
+  const searchParams = useSearchParams();
+
   const { user } = useAuthContext();
   const settings = useSettingsContext();
   const [confirmation, setConfirmation] = useState({ open: false, title: '', text: '' });
 
+  const [filteredWarehouses, setFilteredWarehouses] = useState([]);
+
+  const searchQuery = searchParams.get('query');
+  const filterUser = user?.role === 'admin' ? searchParams.get('user') : null;
+  const filterRegion = searchParams.get('region');
+
+  // generate page heading
+  const heading = useMemo(
+    () => (searchQuery ? `Search results for "${searchQuery}"` : 'Warehouse Listing'),
+    [searchQuery]
+  );
+
+  // handle delete warehouse
   const handleDelete = (warehouse) => {
     setConfirmation({
       open: true,
@@ -34,6 +51,33 @@ export default function ListingView() {
     setConfirmation((prev) => ({ ...prev, open: false }));
   };
 
+  // handle warehouse filter
+  useEffect(() => {
+    let filtered = [...warehouses];
+
+    if (searchQuery) {
+      // handle some search api call
+      filtered = [...filtered].filter((w) =>
+        getWarehouseAddress(w.address).toLowerCase().includes(searchQuery.toLowerCase())
+      );
+    }
+
+    if (filterUser) {
+      // do something
+    }
+
+    if (filterRegion) {
+      // do something
+      // filtered = [...filtered].filter((w) =>
+      //   getWarehouseAddress(w.address).includes(searchQuery)
+      // );
+    }
+
+    console.log({ filtered, warehouses });
+
+    setFilteredWarehouses(filtered);
+  }, [filterRegion, filterUser, searchQuery]);
+
   return (
     <Container maxWidth={settings.themeStretch ? false : 'xl'}>
       <Stack
@@ -44,7 +88,7 @@ export default function ListingView() {
         flexWrap="wrap"
         spacing={2}
       >
-        <CustomBreadcrumbs heading="Warehouse Listing" links={[{ name: 'Listing' }]} />
+        <CustomBreadcrumbs heading={heading} links={[{ name: 'Listing' }]} />
 
         {/* Warehouse create button only for warehouse user */}
         {user?.role === 'warehouse' ? (
@@ -57,7 +101,7 @@ export default function ListingView() {
       </Stack>
 
       <Grid container spacing={2}>
-        {warehouses.map((warehouse) => (
+        {filteredWarehouses.map((warehouse) => (
           <Grid item key={warehouse.id} xs={12} sm={6} md={4}>
             <WarehouseCard
               key={warehouse.id}

@@ -1,10 +1,10 @@
 import PropTypes from 'prop-types';
 
 import Box from '@mui/material/Box';
+import Breadcrumbs from '@mui/material/Breadcrumbs';
 import Link from '@mui/material/Link';
 import Stack from '@mui/material/Stack';
 import Typography from '@mui/material/Typography';
-import Breadcrumbs from '@mui/material/Breadcrumbs';
 
 import LinkItem from './link-item';
 
@@ -19,7 +19,7 @@ export default function CustomBreadcrumbs({
   sx,
   ...other
 }) {
-  const lastLink = links[links.length - 1].name;
+  const lastLink = links.length ? links[links.length - 1].name : null;
 
   return (
     <Box sx={{ ...sx }}>

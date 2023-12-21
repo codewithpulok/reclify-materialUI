@@ -34,7 +34,7 @@ const SearchbarForm = (props) => {
           </InputAdornment>
         }
         endAdornment={
-          <IconButton type="submit" disabled={!value}>
+          <IconButton type="submit">
             <Iconify icon="solar:arrow-right-outline" width={24} />
           </IconButton>
         }
