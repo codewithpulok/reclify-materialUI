@@ -10,6 +10,7 @@ import { useBoolean } from 'src/hooks/use-boolean';
 import { useEventListener } from 'src/hooks/use-event-listener';
 import { useResponsive } from 'src/hooks/use-responsive';
 
+import { usePathname, useRouter, useSearchParams } from 'next/navigation';
 import Iconify from 'src/components/common/iconify';
 import Label from 'src/components/common/label';
 import Scrollbar from 'src/components/common/scrollbar';
@@ -18,11 +19,25 @@ import SearchbarForm from './searchbar-form';
 // ----------------------------------------------------------------------
 
 function Searchbar() {
+  const router = useRouter();
+  const pathname = usePathname();
+  const searchParams = useSearchParams();
+
   const theme = useTheme();
 
   const search = useBoolean();
 
   const lgUp = useResponsive('up', 'lg');
+
+  const createQueryString = useCallback(
+    (name, value) => {
+      const params = new URLSearchParams(searchParams);
+      params.set(name, value);
+
+      return params.toString();
+    },
+    [searchParams]
+  );
 
   const [searchQuery, setSearchQuery] = useState('');
 
@@ -56,8 +71,9 @@ function Searchbar() {
 
   const handleSearch = useCallback(() => {
     console.log('Searched For: ', searchQuery);
+    router.push(`${pathname}?${createQueryString('query', searchQuery)}`);
     search.onFalse();
-  }, [search, searchQuery]);
+  }, [createQueryString, pathname, router, search, searchQuery]);
 
   return (
     <>
