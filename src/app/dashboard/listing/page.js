@@ -3,7 +3,7 @@ import ListingView from 'src/sections/listing/view';
 // ----------------------------------------------------------------------
 
 export const metadata = {
-  title: 'Dashboard: Listing',
+  title: 'Listing - Dashboard',
 };
 
 export default function Page() {

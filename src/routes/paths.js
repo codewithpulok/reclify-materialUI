@@ -21,14 +21,7 @@ export const paths = {
   dashboard: {
     root: ROOTS.DASHBOARD,
     listing: `${ROOTS.DASHBOARD}/listing`,
-    one: `${ROOTS.DASHBOARD}/one`,
-    two: `${ROOTS.DASHBOARD}/two`,
-    three: `${ROOTS.DASHBOARD}/three`,
-    group: {
-      root: `${ROOTS.DASHBOARD}/group`,
-      five: `${ROOTS.DASHBOARD}/group/five`,
-      six: `${ROOTS.DASHBOARD}/group/six`,
-    },
+    warehouse_users: `${ROOTS.DASHBOARD}/warehouse-users`,
   },
 
   // WAREHOUSE

@@ -10,16 +10,9 @@ import LinkItem from './link-item';
 
 // ----------------------------------------------------------------------
 
-export default function CustomBreadcrumbs({
-  links,
-  action,
-  heading,
-  moreLink,
-  activeLast,
-  sx,
-  ...other
-}) {
-  const lastLink = links.length ? links[links.length - 1].name : null;
+export default function CustomBreadcrumbs(props) {
+  const { links = [], action, heading, moreLink, activeLast, sx, ...other } = props;
+  const lastLink = links?.length ? links[links.length - 1].name : null;
 
   return (
     <Box sx={{ ...sx }}>
@@ -33,7 +26,7 @@ export default function CustomBreadcrumbs({
           )}
 
           {/* BREADCRUMBS */}
-          {!!links.length && (
+          {!!links?.length && (
             <Breadcrumbs separator={<Separator />} {...other}>
               {links.map((link) => (
                 <LinkItem
