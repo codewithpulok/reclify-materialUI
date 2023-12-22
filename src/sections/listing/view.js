@@ -10,7 +10,6 @@ import { ConfirmationAlert } from 'src/components/common/alert';
 import CustomBreadcrumbs from 'src/components/common/custom-breadcrumbs/custom-breadcrumbs';
 import { useSettingsContext } from 'src/components/common/settings';
 import { WarehouseCard } from 'src/components/warehouse/cards';
-import { paths } from 'src/routes/paths';
 
 // ----------------------------------------------------------------------
 
@@ -45,10 +44,7 @@ export default function ListingView() {
         flexWrap="wrap"
         spacing={2}
       >
-        <CustomBreadcrumbs
-          heading="Warehouse Listing"
-          links={[{ name: 'Dashboard', href: paths.dashboard.root }, { name: 'Listing' }]}
-        />
+        <CustomBreadcrumbs heading="Warehouse Listing" links={[{ name: 'Listing' }]} />
 
         {/* Warehouse create button only for warehouse user */}
         {user?.role === 'warehouse' ? (

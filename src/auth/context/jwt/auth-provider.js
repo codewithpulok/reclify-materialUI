@@ -8,7 +8,7 @@ import axios, { endpoints } from 'src/utils/axios';
 import { TEMP_ACCESS_TOKEN, UsersList } from 'src/auth/mockData';
 
 import { AuthContext } from './auth-context';
-import { isValidToken, persistAuthState } from './utils';
+import { persistAuthState } from './utils';
 
 // ----------------------------------------------------------------------
 
@@ -63,7 +63,8 @@ export function AuthProvider({ children }) {
     try {
       const accessToken = sessionStorage.getItem(STORAGE_KEY);
       const user = JSON.parse(sessionStorage.getItem(STORAGE_KEY_USER));
-      if (accessToken && isValidToken(accessToken)) {
+      // if (accessToken && isValidToken(accessToken)) { // commented for ui development
+      if (accessToken) {
         dispatch({
           type: 'INITIAL',
           payload: {
