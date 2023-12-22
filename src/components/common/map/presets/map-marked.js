@@ -7,7 +7,6 @@ import Map from 'react-map-gl';
 import { MapControl, MapMarker, MapPopup } from 'src/components/common/map';
 import { getWarehouseAddress } from 'src/components/warehouse/utils';
 import { useBoolean } from 'src/hooks/use-boolean';
-import Image from '../../image';
 
 // ----------------------------------------------------------------------
 
@@ -55,23 +54,6 @@ const MapMarked = (props) => {
             <Typography component="div" variant="caption">
               <b>Address:</b> {getWarehouseAddress(marked?.warehouse?.address)}
             </Typography>
-
-            <Typography component="div" variant="caption">
-              <b>Latitude:</b> {marked.latitude}
-            </Typography>
-
-            <Typography component="div" variant="caption">
-              <b>Longitude:</b> {marked.longitude}
-            </Typography>
-
-            {marked.warehouse?.photos.length && (
-              <Image
-                alt={marked.warehouse.name}
-                src={marked.warehouse.photos[0].coverUrl}
-                ratio="4/3"
-                sx={{ mt: 1, borderRadius: 1 }}
-              />
-            )}
           </Box>
         </MapPopup>
       )}

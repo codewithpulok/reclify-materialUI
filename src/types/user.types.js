@@ -14,5 +14,7 @@
  * @property {string} city - The city of residence for the user.
  * @property {string} zipCode - The ZIP or postal code of the user's address.
  * @property {string} about - A brief description or bio of the user.
+ * @property {number} createdAt - joined timestamp
+ * @property {number} updatedAt - last updated timestamp
  * @property {"admin" | "customer" | "warehouse"} role - The role of the user.
  */

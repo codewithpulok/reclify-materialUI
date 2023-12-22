@@ -1,16 +1,14 @@
-/**
- * @type {Warehouse[]}
- */
+/** @type {Warehouse[]} */
 export const warehouses = [
   {
     id: 'abc123',
     name: 'Prime Storage',
     address: {
-      streetNumber: '123',
-      streetAddress: 'Main St',
-      city: 'City Center',
-      state: 'State A',
-      zipCode: '12345',
+      streetNumber: '742',
+      streetAddress: 'Oak Avenue',
+      city: 'Metropolis',
+      state: 'State B',
+      zipCode: '54321',
       country: 'Country X',
     },
     description: 'Modern storage facility in the heart of the city.',
@@ -22,7 +20,11 @@ export const warehouses = [
         title: 'Warehouse Exterior',
         coverUrl: 'https://picsum.photos/seed/abc1231/450/318',
       },
-      { id: '2', title: 'Interior View', coverUrl: 'https://picsum.photos/seed/abc1232/450/318' },
+      {
+        id: '2',
+        title: 'Interior View',
+        coverUrl: 'https://picsum.photos/seed/abc1232/450/318',
+      },
     ],
     isVerified: true,
     isFeatured: true,
@@ -31,11 +33,11 @@ export const warehouses = [
     id: 'def456',
     name: 'Metro Warehousing',
     address: {
-      streetNumber: '123',
-      streetAddress: 'Main St',
-      city: 'City Center',
-      state: 'State A',
-      zipCode: '12345',
+      streetNumber: '567',
+      streetAddress: 'Maple Street',
+      city: 'Downtownville',
+      state: 'State C',
+      zipCode: '67890',
       country: 'Country X',
     },
     description: 'Spacious warehouses in the bustling industrial zone.',
@@ -47,7 +49,11 @@ export const warehouses = [
         title: 'Industrial Zone View',
         coverUrl: 'https://picsum.photos/seed/def4563/450/318',
       },
-      { id: '4', title: 'Storage Area', coverUrl: 'https://picsum.photos/seed/def4564/450/318' },
+      {
+        id: '4',
+        title: 'Storage Area',
+        coverUrl: 'https://picsum.photos/seed/def4564/450/318',
+      },
     ],
     isVerified: false,
     isFeatured: false,

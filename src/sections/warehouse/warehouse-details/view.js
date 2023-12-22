@@ -31,7 +31,7 @@ const WarehouseDetailsProps = {
 function WarehouseDetails(props) {
   const { warehouse, reviews } = props;
   const settings = useSettingsContext();
-  const auth = useAuthContext();
+  const { user } = useAuthContext();
   const owner = getUserByID(1);
 
   return (
@@ -48,14 +48,15 @@ function WarehouseDetails(props) {
 
           {/* show sidebar content in mobile mode & hide in tab mode */}
           <Box sx={{ display: { xs: 'block', md: 'none' } }} mt={5}>
+            {owner && user?.role !== 'warehouse' ? (
+              <WarehouseOwnerCard sx={{ mb: 3 }} user={owner} />
+            ) : null}
+
             <WarehouseBookingOptions
               space={warehouse.totalSpace}
               pricePerSquare={warehouse.pricePerSquare}
+              showPurchase={user?.role === 'customer'}
             />
-
-            {owner && auth?.user?.role !== 'warehouse' ? (
-              <WarehouseOwnerCard sx={{ mt: 3 }} user={owner} />
-            ) : null}
           </Box>
 
           <WarehouseDescription description={warehouse.description} sx={{ mt: 5 }} />
@@ -67,13 +68,14 @@ function WarehouseDetails(props) {
         <Grid item xs={12} md={5}>
           {/* show sidebar content in tab mode & hide in mobile mode */}
           <Box sx={{ display: { xs: 'none', md: 'block', width: '100%' } }}>
+            {owner && user?.role !== 'warehouse' ? (
+              <WarehouseOwnerCard sx={{ mb: 3 }} user={owner} />
+            ) : null}
             <WarehouseBookingOptions
               space={warehouse.totalSpace}
               pricePerSquare={warehouse.pricePerSquare}
+              showPurchase={user?.role === 'customer'}
             />
-            {owner && auth?.user?.role !== 'warehouse' ? (
-              <WarehouseOwnerCard sx={{ mt: 3 }} user={owner} />
-            ) : null}
           </Box>
         </Grid>
       </Grid>

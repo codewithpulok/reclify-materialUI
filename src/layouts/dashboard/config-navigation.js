@@ -2,6 +2,7 @@ import { useMemo } from 'react';
 
 import { paths } from 'src/routes/paths';
 
+import { useAuthContext } from 'src/auth/hooks';
 import SvgColor from 'src/components/common/svg-color';
 
 // ----------------------------------------------------------------------
@@ -44,6 +45,22 @@ const ICONS = {
 // ----------------------------------------------------------------------
 
 export function useNavData() {
+  const { user } = useAuthContext();
+
+  const adminRoutes = useMemo(
+    () =>
+      user?.role === 'admin'
+        ? [
+            {
+              title: 'Warehouse Users',
+              path: paths.dashboard.warehouse_users,
+              icon: ICONS.user,
+            },
+          ]
+        : [],
+    [user]
+  );
+
   const data = useMemo(
     () => [
       // OVERVIEW
@@ -56,10 +73,11 @@ export function useNavData() {
             path: paths.dashboard.listing,
             icon: ICONS.analytics,
           },
+          ...adminRoutes,
         ],
       },
     ],
-    []
+    [adminRoutes]
   );
 
   return data;
