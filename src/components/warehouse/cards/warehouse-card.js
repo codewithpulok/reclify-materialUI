@@ -35,6 +35,7 @@ const WarehouseCard = (props) => {
     <Card
       className="card"
       sx={{
+        minHeight: '100%',
         ':hover .actions': {
           opacity: 1,
         },
