@@ -1,6 +1,6 @@
 'use client';
 
-import { Container, Grid } from '@mui/material';
+import { Container, Grid, Pagination, Stack } from '@mui/material';
 import { getWarehouseUsers } from 'src/assets/dummy/users';
 import CustomBreadcrumbs from 'src/components/common/custom-breadcrumbs';
 import { useSettingsContext } from 'src/components/common/settings';
@@ -25,6 +25,10 @@ const WarehouseUsersView = () => {
           </Grid>
         ))}
       </Grid>
+
+      <Stack direction="row" justifyContent="start" mt={8} mb={1}>
+        <Pagination count={10} color="primary" size="small" />
+      </Stack>
     </Container>
   );
 };

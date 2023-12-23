@@ -1,6 +1,6 @@
 'use client';
 
-import { Button, Grid, Link, Stack } from '@mui/material';
+import { Button, Grid, Link, Pagination, Stack } from '@mui/material';
 import Container from '@mui/material/Container';
 import { useSearchParams } from 'next/navigation';
 import { useEffect, useMemo, useState } from 'react';
@@ -112,6 +112,10 @@ export default function ListingView() {
           </Grid>
         ))}
       </Grid>
+
+      <Stack direction="row" justifyContent="start" mt={8} mb={1}>
+        <Pagination count={10} color="primary" size="small" />
+      </Stack>
 
       <ConfirmationAlert
         open={confirmation.open}
