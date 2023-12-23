@@ -33,19 +33,16 @@ function Searchbar() {
 
   const lgUp = useResponsive('up', 'lg');
 
-  const createQueryString = useCallback(
-    (name, value) => {
-      const params = new URLSearchParams(searchParams);
-      params.set(name, value);
+  const createQueryString = (name, value, queryString) => {
+    const params = new URLSearchParams(queryString);
+    params.set(name, value);
 
-      return params.toString();
-    },
-    [searchParams]
-  );
+    return params.toString();
+  };
 
   const [searchQuery, setSearchQuery] = useState('');
-  const [selectedRegion, setSelectedRegion] = useState('ALL');
-  const [selectedUser, setSelectedUser] = useState('ALL');
+  const [selectedRegions, setSelectedRegions] = useState([]);
+  const [selectedUsers, setSelectedUsers] = useState([]);
 
   const handleClose = useCallback(() => {
     search.onFalse();
@@ -75,31 +72,66 @@ function Searchbar() {
 
   const handleSearch = useCallback(() => {
     console.log('Searched For: ', searchQuery);
-    router.push(`${BASE_PATH}/?${createQueryString('query', searchQuery)}`);
+    router.push(`${BASE_PATH}/?${createQueryString('query', searchQuery, searchParams)}`);
     search.onFalse();
-  }, [createQueryString, router, search, searchQuery]);
+  }, [router, search, searchParams, searchQuery]);
 
   // handle region filter updates
-  const handleRegionChange = useCallback(
-    (value) => {
-      // update the state
-      setSelectedRegion(value);
-      // change path url
-      router.push(`${BASE_PATH}/?${createQueryString('region', value === 'ALL' ? '' : value)}`);
-    },
-    [createQueryString, router]
-  );
+  const handleRegionsFilter = useCallback((include, value) => {
+    setSelectedRegions((prev) => {
+      let prevRegions = [...prev];
+
+      // if checked then push the region into filter
+      if (include) {
+        prevRegions.push(value);
+      } else {
+        // if not then remove from filter
+        prevRegions = prev.filter((p) => p !== value);
+      }
+
+      return prevRegions;
+    });
+  }, []);
 
   // handle user filter updates
-  const handleUserChange = useCallback(
-    (value) => {
-      // update the state
-      setSelectedUser(value);
-      // change path url
-      router.push(`${BASE_PATH}?${createQueryString('user', value === 'ALL' ? '' : value)}`);
-    },
-    [createQueryString, router]
-  );
+  const handleUsersFilter = useCallback((include, value) => {
+    setSelectedUsers((prev) => {
+      let prevUsers = [...prev];
+
+      // if checked then push the user into filter
+      if (include) {
+        prevUsers.push(value);
+      } else {
+        // if not then remove from filter
+        prevUsers = prev.filter((p) => p !== value);
+      }
+
+      return prevUsers;
+    });
+  }, []);
+
+  // handle filter
+  const handleFilter = useCallback(() => {
+    const selectedRegionsString = selectedRegions.join(',');
+    const selectedUsersString = selectedUsers.join(',');
+
+    let currentSearchParams = searchParams.toString();
+
+    if (selectedRegions.length)
+      currentSearchParams = createQueryString(
+        'regions',
+        selectedRegionsString,
+        currentSearchParams
+      );
+
+    if (selectedRegions.length)
+      currentSearchParams = createQueryString('users', selectedUsersString, currentSearchParams);
+
+    console.log({ selectedRegionsString, selectedUsersString, currentSearchParams });
+
+    router.push(`${BASE_PATH}/?${currentSearchParams}`);
+    search.onFalse();
+  }, [router, search, searchParams, selectedRegions, selectedUsers]);
 
   // assign keydown events
   useEventListener('keydown', handleKeyDown);
@@ -107,12 +139,12 @@ function Searchbar() {
   // update states after refresh
   useEffect(() => {
     const query = searchParams.get('query');
-    const user = searchParams.get('user');
-    const region = searchParams.get('region');
+    const users = searchParams.get('users');
+    const regions = searchParams.get('regions');
 
     if (query) setSearchQuery(query);
-    if (user) setSelectedUser(user);
-    if (region) setSelectedRegion(region);
+    if (users) setSelectedUsers(users.split(','));
+    if (regions) setSelectedRegions(regions.split(','));
   }, [searchParams]);
 
   return (
@@ -148,12 +180,13 @@ function Searchbar() {
           />
         </Box>
 
-        <Scrollbar sx={{ p: 3, pt: 2, height: 200 }}>
+        <Scrollbar sx={{ p: 3, pt: 2, height: 400 }}>
           <SearchbarFilters
-            selectedRegion={selectedRegion}
-            selectedUser={selectedUser}
-            setRegion={handleRegionChange}
-            setUser={handleUserChange}
+            selectedRegions={selectedRegions}
+            selectedUsers={selectedUsers}
+            onChangeRegions={handleRegionsFilter}
+            onChangeUsers={handleUsersFilter}
+            onFilterApply={handleFilter}
           />
         </Scrollbar>
       </Dialog>

@@ -1,15 +1,31 @@
-import { Chip, MenuItem, Select, Stack, Typography } from '@mui/material';
+import {
+  Accordion,
+  AccordionDetails,
+  AccordionSummary,
+  Button,
+  Checkbox,
+  FormControlLabel,
+  FormGroup,
+  Stack,
+  Typography,
+} from '@mui/material';
 import PropTypes from 'prop-types';
 import { regions } from 'src/assets/data';
 import { users } from 'src/assets/dummy/users';
 import { useAuthContext } from 'src/auth/hooks';
+import { getIconify } from 'src/components/common/iconify/utilities';
 
 const SearchbarFiltersProps = {
-  selectedRegion: PropTypes.string.isRequired,
-  selectedUser: PropTypes.string.isRequired,
+  /** @type {string[]} */
+  selectedRegions: PropTypes.arrayOf(PropTypes.string).isRequired,
+  /** @type {string[]} */
+  selectedUsers: PropTypes.arrayOf(PropTypes.string).isRequired,
 
-  setRegion: PropTypes.func.isRequired,
-  setUser: PropTypes.func.isRequired,
+  /** @type {(include: boolean, value: string) => {}} */
+  onChangeRegions: PropTypes.func.isRequired,
+  /** @type {(include: boolean, value: string) => {}} */
+  onChangeUsers: PropTypes.func.isRequired,
+  onFilterApply: PropTypes.func.isRequired,
 };
 
 /**
@@ -18,48 +34,80 @@ const SearchbarFiltersProps = {
  */
 const SearchbarFilters = (props) => {
   const auth = useAuthContext();
-  const { selectedRegion, selectedUser, setRegion, setUser } = props;
+  const { selectedRegions, selectedUsers, onChangeRegions, onChangeUsers, onFilterApply } = props;
 
   return (
-    <Stack alignItems="flex-start">
-      <Chip label="Filters" sx={{ mb: 2 }} color="success" variant="outlined" />
+    <Stack>
+      <Stack direction="row" justifyContent="space-between" mb={2} alignItems="center">
+        <Typography variant="overline" color="text.secondary">
+          Filters
+        </Typography>
 
-      <Stack
-        sx={{ width: '100%' }}
-        mb={1}
-        direction="row"
-        alignItems="center"
-        justifyContent="space-between"
-      >
-        <Typography>Region</Typography>
-        <Select size="small" value={selectedRegion} onChange={(e) => setRegion(e.target.value)}>
-          <MenuItem value="ALL">Not set</MenuItem>
-          {regions.map((region) => (
-            <MenuItem value={region.code} key={region.code}>
-              {region.name}
-            </MenuItem>
-          ))}
-        </Select>
+        <Button
+          variant="contained"
+          color="primary"
+          size="small"
+          onClick={onFilterApply}
+          endIcon={getIconify('solar:alt-arrow-right-linear', 18)}
+        >
+          Apply
+        </Button>
       </Stack>
 
-      {auth?.user?.role === 'admin' && (
-        <Stack
-          sx={{ width: '100%' }}
-          direction="row"
-          alignItems="center"
-          justifyContent="space-between"
+      <Accordion sx={{ width: '100%' }}>
+        <AccordionSummary
+          expandIcon={getIconify('solar:alt-arrow-down-line-duotone')}
+          aria-controls="regions"
+          id="regions"
         >
-          <Typography>User</Typography>
-          <Select size="small" value={selectedUser} onChange={(e) => setUser(e.target.value)}>
-            <MenuItem value="ALL">Not set</MenuItem>
-            {users.map((user) => (
-              <MenuItem value={user.id} key={user.id}>
-                {user.displayName}
-              </MenuItem>
+          <Typography>Regions</Typography>
+        </AccordionSummary>
+        <AccordionDetails>
+          <FormGroup>
+            {regions.map((region) => (
+              <FormControlLabel
+                label={region.name}
+                control={
+                  <Checkbox
+                    value={region.code}
+                    checked={selectedRegions.includes(region.code)}
+                    onChange={(e) => onChangeRegions(e.target.checked, e.target.value)}
+                  />
+                }
+                key={region.code}
+              />
             ))}
-          </Select>
-        </Stack>
-      )}
+          </FormGroup>
+        </AccordionDetails>
+      </Accordion>
+      {auth?.user?.role === 'admin' ? (
+        <Accordion sx={{ width: '100%' }}>
+          <AccordionSummary
+            expandIcon={getIconify('solar:alt-arrow-down-line-duotone')}
+            aria-controls="users"
+            id="users"
+          >
+            <Typography>Users</Typography>
+          </AccordionSummary>
+          <AccordionDetails>
+            <FormGroup>
+              {users.map((user) => (
+                <FormControlLabel
+                  label={user.displayName}
+                  control={
+                    <Checkbox
+                      value={user.id}
+                      checked={selectedUsers.includes(String(user.id))}
+                      onChange={(e) => onChangeUsers(e.target.checked, e.target.value)}
+                    />
+                  }
+                  key={user.id}
+                />
+              ))}
+            </FormGroup>
+          </AccordionDetails>
+        </Accordion>
+      ) : null}
     </Stack>
   );
 };

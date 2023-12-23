@@ -25,8 +25,8 @@ export default function ListingView() {
   const [filteredWarehouses, setFilteredWarehouses] = useState([]);
 
   const searchQuery = searchParams.get('query');
-  const filterUser = user?.role === 'admin' ? searchParams.get('user') : null;
-  const filterRegion = searchParams.get('region');
+  const filterUsers = user?.role === 'admin' ? searchParams.get('users') : null;
+  const filterRegions = searchParams.get('regions');
 
   // generate page heading
   const heading = useMemo(
@@ -62,11 +62,11 @@ export default function ListingView() {
       );
     }
 
-    if (filterUser) {
+    if (filterUsers) {
       // do something
     }
 
-    if (filterRegion) {
+    if (filterRegions) {
       // do something
       // filtered = [...filtered].filter((w) =>
       //   getWarehouseAddress(w.address).includes(searchQuery)
@@ -76,7 +76,7 @@ export default function ListingView() {
     console.log({ filtered, warehouses });
 
     setFilteredWarehouses(filtered);
-  }, [filterRegion, filterUser, searchQuery]);
+  }, [filterRegions, filterUsers, searchQuery]);
 
   return (
     <Container maxWidth={settings.themeStretch ? false : 'xl'}>
