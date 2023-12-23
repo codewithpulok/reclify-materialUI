@@ -41,7 +41,10 @@ const WarehouseCard = (props) => {
         },
       }}
     >
-      <CardActionArea onClick={() => router.push(`/warehouse/${warehouse.id}`)}>
+      <CardActionArea
+        onClick={() => router.push(`/warehouse/${warehouse.id}`)}
+        sx={{ minHeight: '100%' }}
+      >
         <Box width="100%">
           <Image src={warehouse?.photos[0]?.coverUrl} ratio="16/9" />
         </Box>

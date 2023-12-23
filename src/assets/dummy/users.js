@@ -4,7 +4,7 @@
  */
 export const users = [
   {
-    id: 2,
+    id: '2',
     displayName: 'Ethan Johnson',
     email: 'ethan.johnson@example.com',
     password: 'warehouse123',
@@ -22,7 +22,7 @@ export const users = [
     updatedAt: 1671050423000,
   },
   {
-    id: 3,
+    id: '3',
     displayName: 'Sophia Miller',
     email: 'sophia.miller@example.com',
     password: 'customer123',
@@ -40,7 +40,7 @@ export const users = [
     updatedAt: 1671042147000,
   },
   {
-    id: 1,
+    id: '1',
     displayName: 'Jaydon Frankie',
     email: 'demo@minimals.cc',
     password: 'demo1234',
@@ -58,7 +58,7 @@ export const users = [
     updatedAt: 1671047789000,
   },
   {
-    id: 4,
+    id: '4',
     displayName: 'Oliver Thompson',
     email: 'oliver.thompson@example.com',
     password: 'warehouse456',
@@ -77,7 +77,7 @@ export const users = [
     updatedAt: 1671056007000,
   },
   {
-    id: 5,
+    id: '5',
     displayName: 'Ava Davis',
     email: 'ava.davis@example.com',
     password: 'warehouse789',
@@ -96,7 +96,7 @@ export const users = [
     updatedAt: 1671058918000,
   },
   {
-    id: 6,
+    id: '6',
     displayName: 'Liam Wilson',
     email: 'liam.wilson@example.com',
     password: 'warehouseabc',
@@ -115,7 +115,7 @@ export const users = [
     updatedAt: 1671061839000,
   },
   {
-    id: 7,
+    id: '7',
     displayName: 'Harper Harris',
     email: 'harper.harris@example.com',
     password: 'warehousexyz',
@@ -133,7 +133,7 @@ export const users = [
     updatedAt: 1671069165000,
   },
   {
-    id: 8,
+    id: '8',
     displayName: 'Mia Martin',
     email: 'mia.martin@example.com',
     password: 'warehouse123abc',
@@ -152,7 +152,7 @@ export const users = [
     updatedAt: 1671075011000,
   },
   {
-    id: 9,
+    id: '9',
     displayName: 'Noah Nelson',
     email: 'noah.nelson@example.com',
     password: 'warehouse456xyz',
@@ -171,7 +171,7 @@ export const users = [
     updatedAt: 1671079374000,
   },
   {
-    id: 10,
+    id: '10',
     displayName: 'Emma Evans',
     email: 'emma.evans@example.com',
     password: 'warehouse789abc',
@@ -202,3 +202,11 @@ export const getUserByID = (id) => users.find((user) => user.id === id);
  * @returns {User[]}
  */
 export const getWarehouseUsers = () => users.filter((user) => user.role === 'warehouse');
+
+/**
+ * find warehouse users
+ * @param {string} id
+ * @returns {Promise<User>}
+ */
+export const findWarehouseUser = async (id) =>
+  users.find((user) => user.role === 'warehouse' && user.id === id);
