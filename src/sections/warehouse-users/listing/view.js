@@ -6,7 +6,7 @@ import CustomBreadcrumbs from 'src/components/common/custom-breadcrumbs';
 import { useSettingsContext } from 'src/components/common/settings';
 import { WarehouseUserCard } from 'src/components/warehouse/cards';
 
-const WarehouseUsersView = () => {
+const WarehouseUsersListingView = () => {
   const settings = useSettingsContext();
 
   return (
@@ -33,4 +33,4 @@ const WarehouseUsersView = () => {
   );
 };
 
-export default WarehouseUsersView;
+export default WarehouseUsersListingView;
