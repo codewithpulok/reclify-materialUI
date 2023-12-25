@@ -130,7 +130,7 @@ const DetailsHome = (props) => {
   );
 
   return (
-    <Grid container spacing={3}>
+    <Grid container spacing={1.5}>
       <Grid xs={12} md={4}>
         {renderStats}
       </Grid>

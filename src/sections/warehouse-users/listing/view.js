@@ -26,7 +26,7 @@ const WarehouseUsersListingView = () => {
         ))}
       </Grid>
 
-      <Stack direction="row" justifyContent="start" mt={8} mb={1}>
+      <Stack direction="row" justifyContent="center" mt={8} mb={1}>
         <Pagination count={10} color="primary" size="small" />
       </Stack>
     </Container>
