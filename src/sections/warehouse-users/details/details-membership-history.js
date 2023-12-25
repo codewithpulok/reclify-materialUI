@@ -17,7 +17,7 @@ const DetailsMembershipHistory = (props) => {
 
   return (
     <TableContainer>
-      <Table aria-label="simple table">
+      <Table sx={{ minWidth: 300 }} aria-label="simple table">
         <TableHead>
           <TableRow>
             <TableCell>Plan Name</TableCell>
@@ -27,7 +27,7 @@ const DetailsMembershipHistory = (props) => {
         </TableHead>
         <TableBody>
           {membershipHistory.map((row) => (
-            <TableRow key={row.name} sx={{ '&:last-child td, &:last-child th': { border: 0 } }}>
+            <TableRow key={row.id} sx={{ '&:last-child td, &:last-child th': { border: 0 } }}>
               <TableCell component="th" scope="row" sx={{ textTransform: 'capitalize' }}>
                 {row.plan?.subscription}
               </TableCell>

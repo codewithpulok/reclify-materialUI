@@ -16,7 +16,7 @@ const DetailsListing = (props) => {
   return (
     <Card>
       <CardHeader title="Warehouses" />
-      <Stack my={3} px={3}>
+      <Stack my={3} sx={{ px: { xs: 1.5, sm: 3 } }}>
         <Grid container spacing={2}>
           {warehouses.map((warehouse) => (
             <Grid item key={warehouse.id} xs={12} sm={6} md={4}>

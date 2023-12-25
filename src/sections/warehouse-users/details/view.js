@@ -3,7 +3,6 @@
 import { Card, Container, Tab, Tabs, tabsClasses } from '@mui/material';
 import PropTypes from 'prop-types';
 import { useCallback, useState } from 'react';
-import { _userAbout } from 'src/_mock';
 import { membershipHistory } from 'src/assets/dummy/membership';
 import { plans } from 'src/assets/dummy/plans';
 import { warehouses } from 'src/assets/dummy/warehouses';
@@ -91,6 +90,10 @@ const WarehouseUsersDetailsView = (props) => {
                 md: 'flex-end',
               },
             },
+            pl: {
+              xs: 1.5,
+              sm: 0,
+            },
           }}
         >
           {TABS.map((tab) => (
@@ -99,7 +102,14 @@ const WarehouseUsersDetailsView = (props) => {
         </Tabs>
       </Card>
 
-      {currentTab === 'profile' && <DetailsHome info={_userAbout} />}
+      {currentTab === 'profile' && (
+        <DetailsHome
+          user={user}
+          totalFeaturedWarehouses={10}
+          totalWarehouses={20}
+          totalVerifiedWarehouses={15}
+        />
+      )}
       {currentTab === 'warehouses' && <DetailsListing warehouses={warehouses} />}
       {currentTab === 'membership' && (
         <DetailsMembership currentPlan={plans[0]} membershipHistory={membershipHistory} />

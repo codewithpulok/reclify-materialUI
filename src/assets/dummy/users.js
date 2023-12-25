@@ -20,6 +20,13 @@ export const users = [
     region: 'Northeast',
     createdAt: 1671027368000,
     updatedAt: 1671050423000,
+
+    socials: {
+      facebook: 'https://www.facebook.com/caitlyn.kerluke',
+      instagram: 'https://www.instagram.com/caitlyn.kerluke',
+      linkedin: 'https://www.linkedin.com/in/caitlyn.kerluke',
+      x: 'https://www.twitter.com/caitlyn.kerluke',
+    },
   },
   {
     id: '3',
@@ -38,6 +45,12 @@ export const users = [
     region: 'Northeast',
     createdAt: 1671034821000,
     updatedAt: 1671042147000,
+
+    socials: {
+      facebook: 'https://www.facebook.com/caitlyn.kerluke',
+      linkedin: 'https://www.facebook.com/caitlyn.kerluke',
+      x: 'https://www.twitter.com/caitlyn.kerluke',
+    },
   },
   {
     id: '1',
@@ -56,6 +69,12 @@ export const users = [
     region: 'Northeast',
     createdAt: 1671039115000,
     updatedAt: 1671047789000,
+
+    socials: {
+      facebook: 'https://www.facebook.com/caitlyn.kerluke',
+      instagram: 'https://www.facebook.com/caitlyn.kerluke',
+      linkedin: 'https://www.facebook.com/caitlyn.kerluke',
+    },
   },
   {
     id: '4',
@@ -75,6 +94,12 @@ export const users = [
     region: 'Northeast',
     createdAt: 1671045002000,
     updatedAt: 1671056007000,
+
+    socials: {
+      instagram: 'https://www.facebook.com/caitlyn.kerluke',
+      linkedin: 'https://www.facebook.com/caitlyn.kerluke',
+      x: 'https://www.twitter.com/caitlyn.kerluke',
+    },
   },
   {
     id: '5',
@@ -94,6 +119,13 @@ export const users = [
     region: 'Northeast',
     createdAt: 1671051124000,
     updatedAt: 1671058918000,
+
+    socials: {
+      facebook: 'https://www.facebook.com/caitlyn.kerluke',
+      instagram: 'https://www.facebook.com/caitlyn.kerluke',
+      linkedin: 'https://www.facebook.com/caitlyn.kerluke',
+      x: 'https://www.twitter.com/caitlyn.kerluke',
+    },
   },
   {
     id: '6',
@@ -113,6 +145,13 @@ export const users = [
     region: 'Northeast',
     createdAt: 1671055436000,
     updatedAt: 1671061839000,
+
+    socials: {
+      facebook: 'https://www.facebook.com/caitlyn.kerluke',
+      instagram: 'https://www.facebook.com/caitlyn.kerluke',
+      linkedin: 'https://www.facebook.com/caitlyn.kerluke',
+      x: 'https://www.twitter.com/caitlyn.kerluke',
+    },
   },
   {
     id: '7',
@@ -131,6 +170,13 @@ export const users = [
     region: 'Northeast',
     createdAt: 1671060952000,
     updatedAt: 1671069165000,
+
+    socials: {
+      facebook: 'https://www.facebook.com/caitlyn.kerluke',
+      instagram: 'https://www.facebook.com/caitlyn.kerluke',
+      linkedin: 'https://www.facebook.com/caitlyn.kerluke',
+      x: 'https://www.twitter.com/caitlyn.kerluke',
+    },
   },
   {
     id: '8',
@@ -150,6 +196,13 @@ export const users = [
     region: 'Northeast',
     createdAt: 1671065833000,
     updatedAt: 1671075011000,
+
+    socials: {
+      facebook: 'https://www.facebook.com/caitlyn.kerluke',
+      instagram: 'https://www.facebook.com/caitlyn.kerluke',
+      linkedin: 'https://www.facebook.com/caitlyn.kerluke',
+      x: 'https://www.twitter.com/caitlyn.kerluke',
+    },
   },
   {
     id: '9',
@@ -169,6 +222,13 @@ export const users = [
     region: 'Northeast',
     createdAt: 1671070647000,
     updatedAt: 1671079374000,
+
+    socials: {
+      facebook: 'https://www.facebook.com/caitlyn.kerluke',
+      instagram: 'https://www.facebook.com/caitlyn.kerluke',
+      linkedin: 'https://www.facebook.com/caitlyn.kerluke',
+      x: 'https://www.twitter.com/caitlyn.kerluke',
+    },
   },
   {
     id: '10',
@@ -187,6 +247,13 @@ export const users = [
     region: 'Northeast',
     createdAt: 1671075566000,
     updatedAt: 1671083682000,
+
+    socials: {
+      facebook: 'https://www.facebook.com/caitlyn.kerluke',
+      instagram: 'https://www.facebook.com/caitlyn.kerluke',
+      linkedin: 'https://www.facebook.com/caitlyn.kerluke',
+      x: 'https://www.twitter.com/caitlyn.kerluke',
+    },
   },
 ];
 

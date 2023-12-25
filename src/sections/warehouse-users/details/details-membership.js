@@ -18,7 +18,7 @@ const DetailsMembership = (props) => {
   const { currentPlan, membershipHistory = [] } = props;
   return (
     <Grid container spacing={1.5}>
-      <Grid item sx={12} md={4}>
+      <Grid item xs={12} md={4}>
         <Card>
           <CardHeader title="Current Plan" />
           <CardContent>
@@ -26,7 +26,7 @@ const DetailsMembership = (props) => {
           </CardContent>
         </Card>
       </Grid>
-      <Grid item sx={12} md={8}>
+      <Grid item xs={12} md={8}>
         <Card>
           <CardHeader title="Plan History" />
           <CardContent>

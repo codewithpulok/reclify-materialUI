@@ -6,21 +6,25 @@ import Box from '@mui/material/Box';
 import Card from '@mui/material/Card';
 import CardHeader from '@mui/material/CardHeader';
 import Divider from '@mui/material/Divider';
-import Link from '@mui/material/Link';
 import Stack from '@mui/material/Stack';
 import Grid from '@mui/material/Unstable_Grid2';
 
 import { fNumber } from 'src/utils/format-number';
 
-import { _socials } from 'src/_mock';
-
+import { Link } from '@mui/material';
+import NextLink from 'next/link';
+import { getSocialBrand } from 'src/assets/data/social-brands';
 import { getIconify } from 'src/components/common/iconify/utilities';
 import { ICONS } from '../config-warehouse-users';
 
 // ----------------------------------------------------------------------
 
 const DetailsHomeProps = {
-  info: PropTypes.object,
+  totalWarehouses: PropTypes.number,
+  totalFeaturedWarehouses: PropTypes.number,
+  totalVerifiedWarehouses: PropTypes.number,
+  /** @type {User} */
+  user: PropTypes.object,
 };
 
 /**
@@ -28,7 +32,7 @@ const DetailsHomeProps = {
  * @returns {JSX.Element}
  */
 const DetailsHome = (props) => {
-  const { info } = props;
+  const { totalFeaturedWarehouses, totalVerifiedWarehouses, totalWarehouses, user } = props;
 
   const renderStats = (
     <Card sx={{ py: 3, textAlign: 'center', typography: 'h4' }}>
@@ -37,7 +41,7 @@ const DetailsHome = (props) => {
         divider={<Divider orientation="horizontal" flexItem sx={{ borderStyle: 'dashed' }} />}
       >
         <Stack width={1}>
-          {fNumber(info.totalFollowers)}
+          {fNumber(totalWarehouses)}
           <Box component="span" sx={{ color: 'text.secondary', typography: 'body2' }}>
             Warehouses
           </Box>
@@ -48,14 +52,14 @@ const DetailsHome = (props) => {
           divider={<Divider orientation="vertical" flexItem sx={{ borderStyle: 'dashed' }} />}
         >
           <Stack width={1}>
-            {fNumber(info.totalFollowers)}
+            {fNumber(totalFeaturedWarehouses)}
             <Box component="span" sx={{ color: 'text.secondary', typography: 'body2' }}>
               Featured
             </Box>
           </Stack>
 
           <Stack width={1}>
-            {fNumber(info.totalFollowing)}
+            {fNumber(totalVerifiedWarehouses)}
             <Box component="span" sx={{ color: 'text.secondary', typography: 'body2' }}>
               Verified
             </Box>
@@ -70,22 +74,20 @@ const DetailsHome = (props) => {
       <CardHeader title="About" />
 
       <Stack spacing={2} sx={{ p: 3 }}>
-        <Box sx={{ typography: 'body2' }}>{info.quote}</Box>
+        <Box sx={{ typography: 'body2' }}>{user.about}</Box>
 
         <Stack direction="row" spacing={2}>
           {ICONS.address(24)}
 
           <Box sx={{ typography: 'body2' }}>
             {`Live at `}
-            <Link variant="subtitle2" color="inherit">
-              {info.country}
-            </Link>
+            {user.country}
           </Box>
         </Stack>
 
         <Stack direction="row" sx={{ typography: 'body2' }} spacing={2}>
           {ICONS.email(24)}
-          {info.email}
+          {user.email}
         </Stack>
       </Stack>
     </Card>
@@ -96,29 +98,33 @@ const DetailsHome = (props) => {
       <CardHeader title="Social" />
 
       <Stack spacing={2} sx={{ p: 3 }}>
-        {_socials.map((link) => {
-          const socialLink = info.socialLinks?.[link.value];
-          if (!socialLink) return null;
+        {user.socials &&
+          Object.keys(user.socials).map((social) => {
+            const link = user.socials[social];
+            const socialBrand = getSocialBrand(social);
 
-          const socialLinkSplitted = socialLink.split('/');
-          const username = socialLinkSplitted[socialLinkSplitted.length - 1];
+            if (!socialBrand) return null;
 
-          return (
-            <Stack
-              key={link.name}
-              spacing={2}
-              direction="row"
-              sx={{ wordBreak: 'break-all', typography: 'body2' }}
-            >
-              {getIconify(link.icon, 24, {
-                flexShrink: 0,
-                color: link.color,
-              })}
+            const linkArray = link.split('/');
+            const username = linkArray[linkArray.length - 1];
+            return (
+              <Stack
+                key={social}
+                spacing={2}
+                direction="row"
+                sx={{ wordBreak: 'break-all', typography: 'body2' }}
+              >
+                {getIconify(socialBrand.icon, 22, {
+                  flexShrink: 0,
+                  color: socialBrand.color,
+                })}
 
-              <Link color="inherit">{username}</Link>
-            </Stack>
-          );
-        })}
+                <Link component={NextLink} href={link} color="inherit">
+                  {username}
+                </Link>
+              </Stack>
+            );
+          })}
       </Stack>
     </Card>
   );
