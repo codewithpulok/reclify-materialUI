@@ -4,6 +4,8 @@ import { Card, Container, Tab, Tabs, tabsClasses } from '@mui/material';
 import PropTypes from 'prop-types';
 import { useCallback, useState } from 'react';
 import { _userAbout } from 'src/_mock';
+import { membershipHistory } from 'src/assets/dummy/membership';
+import { plans } from 'src/assets/dummy/plans';
 import { warehouses } from 'src/assets/dummy/warehouses';
 import CustomBreadcrumbs from 'src/components/common/custom-breadcrumbs/custom-breadcrumbs';
 import { useSettingsContext } from 'src/components/common/settings';
@@ -13,6 +15,7 @@ import { ICONS } from '../config-warehouse-users';
 import DetailsCover from './details-cover';
 import DetailsHome from './details-home';
 import DetailsListing from './details-listing';
+import DetailsMembership from './details-membership';
 
 const TABS = [
   {
@@ -98,6 +101,9 @@ const WarehouseUsersDetailsView = (props) => {
 
       {currentTab === 'profile' && <DetailsHome info={_userAbout} />}
       {currentTab === 'warehouses' && <DetailsListing warehouses={warehouses} />}
+      {currentTab === 'membership' && (
+        <DetailsMembership currentPlan={plans[0]} membershipHistory={membershipHistory} />
+      )}
     </Container>
   );
 };
