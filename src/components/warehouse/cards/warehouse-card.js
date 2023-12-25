@@ -22,6 +22,8 @@ const WarehouseCardProps = {
   onDelete: PropTypes.func.isRequired,
   /** @type {boolean} */
   hasControl: PropTypes.bool.isRequired,
+  /** @type {SxProps} */
+  sx: PropTypes.object,
 };
 /**
  * Card for showing warehouse data
@@ -29,22 +31,19 @@ const WarehouseCardProps = {
  */
 const WarehouseCard = (props) => {
   const router = useRouter();
-  const { warehouse, onDelete, hasControl } = props;
+  const { warehouse, onDelete, hasControl, sx = {} } = props;
 
   return (
     <Card
       className="card"
       sx={{
-        minHeight: '100%',
         ':hover .actions': {
           opacity: 1,
         },
+        ...sx,
       }}
     >
-      <CardActionArea
-        onClick={() => router.push(`/warehouse/${warehouse.id}`)}
-        sx={{ minHeight: '100%' }}
-      >
+      <CardActionArea onClick={() => router.push(`/warehouse/${warehouse.id}`)}>
         <Box width="100%">
           <Image src={warehouse?.photos[0]?.coverUrl} ratio="16/9" />
         </Box>
@@ -58,7 +57,17 @@ const WarehouseCard = (props) => {
               </Tooltip>
             ) : null}
           </Typography>
-          <Typography variant="body2" color="text.secondary">
+          <Typography
+            variant="body2"
+            color="text.secondary"
+            sx={{
+              overflow: 'hidden',
+              textOverflow: 'ellipsis',
+              display: '-webkit-box',
+              WebkitLineClamp: '1',
+              WebkitBoxOrient: 'vertical',
+            }}
+          >
             {getWarehouseAddress(warehouse.address)}
           </Typography>
         </CardContent>

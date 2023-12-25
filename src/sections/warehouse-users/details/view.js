@@ -4,6 +4,7 @@ import { Card, Container, Tab, Tabs, tabsClasses } from '@mui/material';
 import PropTypes from 'prop-types';
 import { useCallback, useState } from 'react';
 import { _userAbout } from 'src/_mock';
+import { warehouses } from 'src/assets/dummy/warehouses';
 import CustomBreadcrumbs from 'src/components/common/custom-breadcrumbs/custom-breadcrumbs';
 import { useSettingsContext } from 'src/components/common/settings';
 import { paths } from 'src/routes/paths';
@@ -11,6 +12,7 @@ import { fDate } from 'src/utils/format-time';
 import { ICONS } from '../config-warehouse-users';
 import DetailsCover from './details-cover';
 import DetailsHome from './details-home';
+import DetailsListing from './details-listing';
 
 const TABS = [
   {
@@ -95,6 +97,7 @@ const WarehouseUsersDetailsView = (props) => {
       </Card>
 
       {currentTab === 'profile' && <DetailsHome info={_userAbout} />}
+      {currentTab === 'warehouses' && <DetailsListing warehouses={warehouses} />}
     </Container>
   );
 };
