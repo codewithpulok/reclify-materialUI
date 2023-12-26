@@ -11,9 +11,11 @@ const PlanCardProps = {
   /** @type {Plan} */
   plan: PropTypes.object.isRequired,
   /** @type {boolean} */
-  isSelected: PropTypes.bool.isRequired,
+  isSelected: PropTypes.bool,
   /** @type {(id: string) => {}} */
-  onSelect: PropTypes.func.isRequired,
+  onSelect: PropTypes.func,
+  /** @type {SxProps} */
+  sx: PropTypes.object,
 };
 
 /**
@@ -22,16 +24,18 @@ const PlanCardProps = {
  * @returns
  */
 const PlanCard = (props) => {
-  const { plan, isSelected, onSelect } = props;
+  const { plan, isSelected, onSelect, sx = {} } = props;
   return (
     <Stack
       component={Paper}
       variant="outlined"
-      onClick={() => onSelect(plan.subscription)}
+      onClick={() => {
+        if (onSelect) onSelect(plan.subscription);
+      }}
       sx={{
         p: 2.5,
         position: 'relative',
-        cursor: 'pointer',
+        cursor: onSelect ? 'pointer' : 'default',
         ...(plan.primary && {
           opacity: 0.48,
           cursor: 'default',
@@ -39,6 +43,7 @@ const PlanCard = (props) => {
         ...(isSelected && {
           boxShadow: (theme) => `0 0 0 2px ${theme.palette.text.primary}`,
         }),
+        ...sx,
       }}
     >
       {plan.primary && (

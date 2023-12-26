@@ -1,5 +1,5 @@
 /**
- * User Object representing a system user.
+ * Represents a system user.
  *
  * @typedef {Object} User
  * @property {string} id - The unique identifier for the user.
@@ -14,7 +14,13 @@
  * @property {string} city - The city of residence for the user.
  * @property {string} zipCode - The ZIP or postal code of the user's address.
  * @property {string} about - A brief description or bio of the user.
- * @property {number} createdAt - joined timestamp
- * @property {number} updatedAt - last updated timestamp
- * @property {"admin" | "customer" | "warehouse"} role - The role of the user.
+ * @property {"admin" | "customer" | "warehouse"} role - The role of the user ('admin', 'customer', 'warehouse').
+ * @property {string} region - The region of residence for the user.
+ * @property {number} createdAt - The timestamp when the user account was created.
+ * @property {number} updatedAt - The timestamp when the user account was last updated.
+ * @property {Object} social - The social media links of the user.
+ * @property {string} social.facebook - The Facebook profile link.
+ * @property {string} social.instagram - The Instagram profile link.
+ * @property {string} social.linkedin - The LinkedIn profile link.
+ * @property {string} social.x - Additional social link.
  */

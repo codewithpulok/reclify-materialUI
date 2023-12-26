@@ -1,6 +1,6 @@
 'use client';
 
-import { Button, Grid, Link, Stack } from '@mui/material';
+import { Button, Grid, Link, Pagination, Stack } from '@mui/material';
 import Container from '@mui/material/Container';
 import { useSearchParams } from 'next/navigation';
 import { useEffect, useMemo, useState } from 'react';
@@ -12,10 +12,13 @@ import CustomBreadcrumbs from 'src/components/common/custom-breadcrumbs/custom-b
 import { useSettingsContext } from 'src/components/common/settings';
 import { WarehouseCard } from 'src/components/warehouse/cards';
 import { getWarehouseAddress } from 'src/components/warehouse/utils';
+import { useGetAllWarehousesQuery } from 'src/lib/services/warehouseApi';
 
 // ----------------------------------------------------------------------
 
 export default function ListingView() {
+  const response = useGetAllWarehousesQuery();
+  console.log({ response });
   const searchParams = useSearchParams();
 
   const { user } = useAuthContext();
@@ -25,8 +28,8 @@ export default function ListingView() {
   const [filteredWarehouses, setFilteredWarehouses] = useState([]);
 
   const searchQuery = searchParams.get('query');
-  const filterUser = user?.role === 'admin' ? searchParams.get('user') : null;
-  const filterRegion = searchParams.get('region');
+  const filterUsers = user?.role === 'admin' ? searchParams.get('users') : null;
+  const filterRegions = searchParams.get('regions');
 
   // generate page heading
   const heading = useMemo(
@@ -62,11 +65,11 @@ export default function ListingView() {
       );
     }
 
-    if (filterUser) {
+    if (filterUsers) {
       // do something
     }
 
-    if (filterRegion) {
+    if (filterRegions) {
       // do something
       // filtered = [...filtered].filter((w) =>
       //   getWarehouseAddress(w.address).includes(searchQuery)
@@ -76,7 +79,7 @@ export default function ListingView() {
     console.log({ filtered, warehouses });
 
     setFilteredWarehouses(filtered);
-  }, [filterRegion, filterUser, searchQuery]);
+  }, [filterRegions, filterUsers, searchQuery]);
 
   return (
     <Container maxWidth={settings.themeStretch ? false : 'xl'}>
@@ -112,6 +115,10 @@ export default function ListingView() {
           </Grid>
         ))}
       </Grid>
+
+      <Stack direction="row" justifyContent="center" mt={8} mb={1}>
+        <Pagination count={10} color="primary" size="small" />
+      </Stack>
 
       <ConfirmationAlert
         open={confirmation.open}
