@@ -2,7 +2,6 @@
 
 import { yupResolver } from '@hookform/resolvers/yup';
 import { Container } from '@mui/material';
-import { useSnackbar } from 'notistack';
 import PropTypes from 'prop-types';
 import { useForm } from 'react-hook-form';
 import * as Yup from 'yup';
@@ -10,6 +9,8 @@ import * as Yup from 'yup';
 import CustomBreadcrumbs from 'src/components/common/custom-breadcrumbs';
 import FormProvider from 'src/components/common/hook-form/form-provider';
 import { useSettingsContext } from 'src/components/common/settings';
+import useSnackbarPromise from 'src/components/common/snackbar/snackbar-promise';
+import { useCreateWarehouseMutation } from 'src/lib/services/warehouseApi';
 import { paths } from 'src/routes/paths';
 import WarehouseCreateFields from './warehouse-create-fields';
 
@@ -58,7 +59,10 @@ const defaultValues = {
  */
 const WarehouseCreateView = (props) => {
   const { sourceWarehouse } = props;
-  const { enqueueSnackbar } = useSnackbar();
+
+  const [createWarehouse] = useCreateWarehouseMutation();
+
+  const { snackbarPromise } = useSnackbarPromise();
   const settings = useSettingsContext();
 
   const methods = useForm({
@@ -68,9 +72,10 @@ const WarehouseCreateView = (props) => {
   const { handleSubmit, formState } = methods;
 
   // handle form submit
-  const onSubmit = (values) => {
+  const onSubmit = async (values) => {
     console.log('Warehouse Create: ', values);
-    enqueueSnackbar('Warehouse created!');
+
+    await snackbarPromise(createWarehouse(values));
   };
 
   console.log(formState.errors);
