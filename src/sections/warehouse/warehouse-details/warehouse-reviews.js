@@ -11,6 +11,7 @@ import {
 import PropTypes from 'prop-types';
 import { useMemo, useState } from 'react';
 // local components
+import { useAuthContext } from 'src/auth/hooks';
 import EmptyState from 'src/components/common/empty-state/empty-state';
 import { WarehouseReviewCard } from 'src/components/warehouse/cards';
 import { ICONS } from '../config-warehouse';
@@ -19,6 +20,7 @@ import { detailsBoxStyle, detailsHeaderStyle } from '../styles';
 const WarehouseReviewsProps = {
   /** @type {Review[]} */
   reviews: PropTypes.arrayOf(PropTypes.object),
+  canAddNewReview: PropTypes.bool.isRequired,
   /** @type {SxProps} */
   sx: PropTypes.object,
 };
@@ -29,8 +31,9 @@ const WarehouseReviewsProps = {
  * @returns {React.JSX.Element}
  */
 const WarehouseReviews = (props) => {
-  const { reviews, sx } = props;
+  const { reviews, sx, canAddNewReview } = props;
   const [sortType, setSortType] = useState('DEFAULT'); // NEW_FIRST, OLD_FIRST, DEFAULT
+  const auth = useAuthContext();
 
   const sortedReviews = useMemo(
     () =>
@@ -82,18 +85,20 @@ const WarehouseReviews = (props) => {
           <MenuItem value="OLD_FIRST">Most Old</MenuItem>
         </Select>
 
-        <Button
-          variant="contained"
-          color="primary"
-          sx={{
-            width: {
-              xs: '100%',
-              sm: 'auto',
-            },
-          }}
-        >
-          Add New
-        </Button>
+        {canAddNewReview && (
+          <Button
+            variant="contained"
+            color="primary"
+            sx={{
+              width: {
+                xs: '100%',
+                sm: 'auto',
+              },
+            }}
+          >
+            Add New
+          </Button>
+        )}
       </Stack>
 
       {sortedReviews?.length ? (
@@ -107,6 +112,8 @@ const WarehouseReviews = (props) => {
                 feedback={review.feedback}
                 name={review.name}
                 rating={review.rating}
+                showDeleteOption={auth?.user?.role === 'admin'}
+                showEditOption={auth?.user?.id === review?.userId}
               />
             ))}
           </Stack>

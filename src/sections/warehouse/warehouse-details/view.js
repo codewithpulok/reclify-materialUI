@@ -63,7 +63,11 @@ function WarehouseDetails(props) {
 
           <WarehouseAddressMap sx={{ mt: 3 }} warehouse={warehouse} />
 
-          <WarehouseReviews reviews={reviews} sx={{ mt: 3 }} />
+          <WarehouseReviews
+            reviews={reviews}
+            sx={{ mt: 3 }}
+            canAddNewReview={user && user.role === 'customer'}
+          />
         </Grid>
         <Grid item xs={12} md={5}>
           {/* show sidebar content in tab mode & hide in mobile mode */}
