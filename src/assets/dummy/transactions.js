@@ -14,7 +14,7 @@ const transactions = [
     createdAt: Date.now() - 1 * 86400000,
     price: 150.99,
     status: 'PENDING',
-    userId: 2,
+    userId: '2',
   },
   {
     id: 'transaction-2',
@@ -27,7 +27,7 @@ const transactions = [
     createdAt: Date.now() - 2 * 86400000,
     price: 99.95,
     status: 'COMPLETED',
-    userId: 2,
+    userId: '2',
   },
   {
     id: 'transaction-3',
@@ -40,7 +40,7 @@ const transactions = [
     createdAt: Date.now() - 3 * 86400000,
     price: 249.75,
     status: 'PENDING',
-    userId: 2,
+    userId: '2',
   },
   {
     id: 'transaction-4',
@@ -53,7 +53,7 @@ const transactions = [
     createdAt: Date.now() - 4 * 86400000,
     price: 199.5,
     status: 'COMPLETED',
-    userId: 2,
+    userId: '2',
   },
   {
     id: 'transaction-5',
@@ -66,7 +66,7 @@ const transactions = [
     createdAt: Date.now() - 5 * 86400000,
     price: 349.25,
     status: 'PENDING',
-    userId: 2,
+    userId: '2',
   },
   {
     id: 'transaction-6',
@@ -79,7 +79,7 @@ const transactions = [
     createdAt: Date.now() - 6 * 86400000,
     price: 79.99,
     status: 'COMPLETED',
-    userId: 2,
+    userId: '2',
   },
   {
     id: 'transaction-7',
@@ -92,7 +92,7 @@ const transactions = [
     createdAt: Date.now() - 7 * 86400000,
     price: 129.75,
     status: 'PENDING',
-    userId: 2,
+    userId: '2',
   },
   {
     id: 'transaction-8',
@@ -105,7 +105,7 @@ const transactions = [
     createdAt: Date.now() - 8 * 86400000,
     price: 299.5,
     status: 'COMPLETED',
-    userId: 2,
+    userId: '2',
   },
   {
     id: 'transaction-9',
@@ -118,7 +118,7 @@ const transactions = [
     createdAt: Date.now() - 9 * 86400000,
     price: 179.25,
     status: 'PENDING',
-    userId: 2,
+    userId: '2',
   },
   {
     id: 'transaction-10',
@@ -131,7 +131,7 @@ const transactions = [
     createdAt: Date.now() - 10 * 86400000,
     price: 219.99,
     status: 'COMPLETED',
-    userId: 2,
+    userId: '2',
   },
 ];
 

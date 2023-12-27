@@ -10,7 +10,7 @@ export const addresses = [
     phoneNumber: '+1 555-1234',
     fullAddress: '123 Main St, Cityville, USA',
     addressType: 'HOME',
-    userId: 2,
+    userId: '2',
   },
   {
     id: '2',
@@ -19,7 +19,7 @@ export const addresses = [
     phoneNumber: '+1 555-5678',
     fullAddress: '456 Oak St, Townsville, USA',
     addressType: 'OFFICE',
-    userId: 2,
+    userId: '2',
   },
   {
     id: '3',
@@ -28,7 +28,7 @@ export const addresses = [
     phoneNumber: '+1 555-9876',
     fullAddress: '789 Pine St, Villagetown, USA',
     addressType: 'HOME',
-    userId: 2,
+    userId: '2',
   },
   {
     id: '4',
@@ -37,7 +37,7 @@ export const addresses = [
     phoneNumber: '+1 555-4321',
     fullAddress: '101 Cedar St, Hamletville, USA',
     addressType: 'OFFICE',
-    userId: 2,
+    userId: '2',
   },
   {
     id: '5',
@@ -46,7 +46,7 @@ export const addresses = [
     phoneNumber: '+1 555-8765',
     fullAddress: '202 Birch St, Countryside, USA',
     addressType: 'HOME',
-    userId: 2,
+    userId: '2',
   },
   {
     id: '6',
@@ -55,7 +55,7 @@ export const addresses = [
     phoneNumber: '+1 555-5432',
     fullAddress: '303 Elm St, Suburbia, USA',
     addressType: 'OFFICE',
-    userId: 2,
+    userId: '2',
   },
   {
     id: '7',
@@ -64,7 +64,7 @@ export const addresses = [
     phoneNumber: '+1 555-6543',
     fullAddress: '404 Willow St, Riverside, USA',
     addressType: 'HOME',
-    userId: 2,
+    userId: '2',
   },
   {
     id: '8',
@@ -73,7 +73,7 @@ export const addresses = [
     phoneNumber: '+1 555-2345',
     fullAddress: '505 Oak St, Lakeside, USA',
     addressType: 'OFFICE',
-    userId: 2,
+    userId: '2',
   },
   {
     id: '9',
@@ -82,7 +82,7 @@ export const addresses = [
     phoneNumber: '+1 555-8765',
     fullAddress: '606 Pine St, Mountainside, USA',
     addressType: 'HOME',
-    userId: 2,
+    userId: '2',
   },
   {
     id: '10',
@@ -91,7 +91,7 @@ export const addresses = [
     phoneNumber: '+1 555-3456',
     fullAddress: '707 Cedar St, Hilltop, USA',
     addressType: 'OFFICE',
-    userId: 2,
+    userId: '2',
   },
 ];
 

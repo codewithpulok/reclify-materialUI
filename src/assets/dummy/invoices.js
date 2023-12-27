@@ -9,7 +9,7 @@ export const invoices = [
     createdAt: 1679817600000, // Timestamp for January 25, 2023 (in milliseconds)
     price: 150.99,
     pdfUrl: '#',
-    userId: 2,
+    userId: '2',
   },
   {
     id: '2',
@@ -17,7 +17,7 @@ export const invoices = [
     createdAt: 1679904000000, // Timestamp for January 26, 2023 (in milliseconds)
     price: 99.95,
     pdfUrl: '#',
-    userId: 2,
+    userId: '2',
   },
   {
     id: '3',
@@ -25,7 +25,7 @@ export const invoices = [
     createdAt: 1679990400000, // Timestamp for January 27, 2023 (in milliseconds)
     price: 249.75,
     pdfUrl: '#',
-    userId: 2,
+    userId: '2',
   },
   {
     id: '4',
@@ -33,7 +33,7 @@ export const invoices = [
     createdAt: 1680076800000, // Timestamp for January 28, 2023 (in milliseconds)
     price: 199.5,
     pdfUrl: '#',
-    userId: 2,
+    userId: '2',
   },
   {
     id: '5',
@@ -41,7 +41,7 @@ export const invoices = [
     createdAt: 1680163200000, // Timestamp for January 29, 2023 (in milliseconds)
     price: 349.25,
     pdfUrl: '#',
-    userId: 2,
+    userId: '2',
   },
   {
     id: '6',
@@ -49,7 +49,7 @@ export const invoices = [
     createdAt: 1680249600000, // Timestamp for January 30, 2023 (in milliseconds)
     price: 79.99,
     pdfUrl: '#',
-    userId: 2,
+    userId: '2',
   },
   {
     id: '7',
@@ -57,7 +57,7 @@ export const invoices = [
     createdAt: 1680336000000, // Timestamp for January 31, 2023 (in milliseconds)
     price: 129.75,
     pdfUrl: '#',
-    userId: 2,
+    userId: '2',
   },
   {
     id: '8',
@@ -65,7 +65,7 @@ export const invoices = [
     createdAt: 1680422400000, // Timestamp for February 1, 2023 (in milliseconds)
     price: 299.5,
     pdfUrl: '#',
-    userId: 2,
+    userId: '2',
   },
   {
     id: '9',
@@ -73,7 +73,7 @@ export const invoices = [
     createdAt: 1680508800000, // Timestamp for February 2, 2023 (in milliseconds)
     price: 179.25,
     pdfUrl: '#',
-    userId: 2,
+    userId: '2',
   },
   {
     id: '10',
@@ -81,7 +81,7 @@ export const invoices = [
     createdAt: 1680595200000, // Timestamp for February 3, 2023 (in milliseconds)
     price: 219.99,
     pdfUrl: '#',
-    userId: 2,
+    userId: '2',
   },
 ];
 

@@ -3,7 +3,7 @@ export const TEMP_ACCESS_TOKEN =
   'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJlOTkyZTJmNi1mNWI4LTQ1OTUtYjRkNS04NzVjOWE4NDAwOWYiLCJlbWFpbCI6ImFybXVnaGFuLnNoYWhpZEBjb2RlLWh1ZGRsZS5jb20iLCJpYXQiOjE3MDE4NjY2NjAsImV4cCI6MTcwMzE2MjY2MH0.1c3FDHCkmBTwF402oZ4EpOqmmkzQzr4rapf9g9GY1Ag';
 export const UsersList = [
   {
-    id: 1,
+    id: '1',
     email: 'adminA@test.com',
     password: 'test123',
     firstName: 'Admin',
@@ -11,7 +11,7 @@ export const UsersList = [
     role: 'admin',
   },
   {
-    id: 2,
+    id: '2',
     email: 'warehouseA@test.com',
     password: 'test123',
     firstName: 'Warehouse',
@@ -19,7 +19,7 @@ export const UsersList = [
     role: 'warehouse',
   },
   {
-    id: 3,
+    id: '3',
     email: 'customerA@test.com',
     password: 'test123',
     firstName: 'Customer',

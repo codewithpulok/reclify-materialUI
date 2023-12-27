@@ -32,7 +32,7 @@ function WarehouseDetails(props) {
   const { warehouse, reviews } = props;
   const settings = useSettingsContext();
   const { user } = useAuthContext();
-  const owner = getUserByID(1);
+  const owner = getUserByID('1');
 
   return (
     <Container maxWidth={settings.themeStretch ? false : 'xl'}>
@@ -68,9 +68,7 @@ function WarehouseDetails(props) {
         <Grid item xs={12} md={5}>
           {/* show sidebar content in tab mode & hide in mobile mode */}
           <Box sx={{ display: { xs: 'none', md: 'block', width: '100%' } }}>
-            {owner && user?.role !== 'warehouse' ? (
-              <WarehouseOwnerCard sx={{ mb: 3 }} user={owner} />
-            ) : null}
+            {owner?.id !== user?.id ? <WarehouseOwnerCard sx={{ mb: 3 }} user={owner} /> : null}
             <WarehouseBookingOptions
               space={warehouse.totalSpace}
               pricePerSquare={warehouse.pricePerSquare}
