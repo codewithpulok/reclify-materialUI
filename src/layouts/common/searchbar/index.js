@@ -15,6 +15,7 @@ import Iconify from 'src/components/common/iconify';
 import Label from 'src/components/common/label';
 import Scrollbar from 'src/components/common/scrollbar';
 import { paths } from 'src/routes/paths';
+import { createQueryString } from 'src/utils/query';
 import SearchbarFilters from './searchbar-filters';
 import SearchbarForm from './searchbar-form';
 
@@ -24,21 +25,11 @@ const BASE_PATH = paths.dashboard.listing;
 
 function Searchbar() {
   const router = useRouter();
-
   const searchParams = useSearchParams();
 
   const theme = useTheme();
-
   const search = useBoolean();
-
   const lgUp = useResponsive('up', 'lg');
-
-  const createQueryString = (name, value, queryString) => {
-    const params = new URLSearchParams(queryString);
-    params.set(name, value);
-
-    return params.toString();
-  };
 
   const [searchQuery, setSearchQuery] = useState('');
   const [selectedRegions, setSelectedRegions] = useState([]);
@@ -46,7 +37,6 @@ function Searchbar() {
 
   const handleClose = useCallback(() => {
     search.onFalse();
-    setSearchQuery('');
   }, [search]);
 
   const handleKeyDown = (event) => {
@@ -76,76 +66,49 @@ function Searchbar() {
     search.onFalse();
   }, [router, search, searchParams, searchQuery]);
 
-  // handle region filter updates
-  const handleRegionsFilter = useCallback((include, value) => {
-    setSelectedRegions((prev) => {
-      let prevRegions = [...prev];
-
-      // if checked then push the region into filter
-      if (include) {
-        prevRegions.push(value);
-      } else {
-        // if not then remove from filter
-        prevRegions = prev.filter((p) => p !== value);
-      }
-
-      return prevRegions;
-    });
-  }, []);
-
-  // handle user filter updates
-  const handleUsersFilter = useCallback((include, value) => {
-    setSelectedUsers((prev) => {
-      let prevUsers = [...prev];
-
-      // if checked then push the user into filter
-      if (include) {
-        prevUsers.push(value);
-      } else {
-        // if not then remove from filter
-        prevUsers = prev.filter((p) => p !== value);
-      }
-
-      return prevUsers;
-    });
-  }, []);
-
   // handle filter
-  const handleFilter = useCallback(() => {
-    const selectedRegionsString = selectedRegions.join(',');
-    const selectedUsersString = selectedUsers.join(',');
+  const handleFilter = useCallback(
+    (values) => {
+      const selectedRegionsString = values.regions.join(',');
+      const selectedUsersString = values.users.join(',');
 
-    let currentSearchParams = searchParams.toString();
+      let currentSearchParams = searchParams.toString();
 
-    if (selectedRegions.length)
-      currentSearchParams = createQueryString(
-        'regions',
-        selectedRegionsString,
-        currentSearchParams
-      );
+      if (values.regions.length)
+        currentSearchParams = createQueryString(
+          'regions',
+          selectedRegionsString,
+          currentSearchParams
+        );
 
-    if (selectedRegions.length)
-      currentSearchParams = createQueryString('users', selectedUsersString, currentSearchParams);
+      if (values.users.length)
+        currentSearchParams = createQueryString('users', selectedUsersString, currentSearchParams);
 
-    console.log({ selectedRegionsString, selectedUsersString, currentSearchParams });
-
-    router.push(`${BASE_PATH}/?${currentSearchParams}`);
-    search.onFalse();
-  }, [router, search, searchParams, selectedRegions, selectedUsers]);
+      router.push(`${BASE_PATH}/?${currentSearchParams}`);
+      search.onFalse();
+    },
+    [router, search, searchParams]
+  );
 
   // assign keydown events
   useEventListener('keydown', handleKeyDown);
 
   // update states after refresh
   useEffect(() => {
-    const query = searchParams.get('query');
-    const users = searchParams.get('users');
-    const regions = searchParams.get('regions');
+    if (search.value) {
+      const query = searchParams.get('query');
+      const users = searchParams.get('users');
+      const regions = searchParams.get('regions');
 
-    if (query) setSearchQuery(query);
-    if (users) setSelectedUsers(users.split(','));
-    if (regions) setSelectedRegions(regions.split(','));
-  }, [searchParams]);
+      if (query) setSearchQuery(query);
+      if (users) setSelectedUsers(users.split(','));
+      if (regions) setSelectedRegions(regions.split(','));
+    } else {
+      setSearchQuery('');
+      setSelectedUsers([]);
+      setSelectedRegions([]);
+    }
+  }, [searchParams, search.value]);
 
   return (
     <>
@@ -182,10 +145,8 @@ function Searchbar() {
 
         <Scrollbar sx={{ p: 3, pt: 2, height: 400 }}>
           <SearchbarFilters
-            selectedRegions={selectedRegions}
-            selectedUsers={selectedUsers}
-            onChangeRegions={handleRegionsFilter}
-            onChangeUsers={handleUsersFilter}
+            defaultRegions={selectedRegions}
+            defaultUsers={selectedUsers}
             onFilterApply={handleFilter}
           />
         </Scrollbar>
