@@ -28,6 +28,7 @@ export const warehouses = [
     ],
     isVerified: true,
     isFeatured: true,
+    sellerId: '2',
   },
   {
     id: 'def456',
@@ -57,6 +58,7 @@ export const warehouses = [
     ],
     isVerified: false,
     isFeatured: false,
+    sellerId: '4',
   },
   {
     id: 'ghi789',
@@ -87,6 +89,7 @@ export const warehouses = [
     ],
     isVerified: true,
     isFeatured: true,
+    sellerId: '5',
   },
   {
     id: 'jkl012',
@@ -116,6 +119,7 @@ export const warehouses = [
     ],
     isVerified: true,
     isFeatured: false,
+    sellerId: '6',
   },
   {
     id: 'mno345',
@@ -145,6 +149,7 @@ export const warehouses = [
     ],
     isVerified: false,
     isFeatured: true,
+    sellerId: '7',
   },
   {
     id: 'pqr678',
@@ -174,6 +179,7 @@ export const warehouses = [
     ],
     isVerified: false,
     isFeatured: false,
+    sellerId: '8',
   },
   {
     id: 'stu901',
@@ -203,6 +209,7 @@ export const warehouses = [
     ],
     isVerified: true,
     isFeatured: true,
+    sellerId: '9',
   },
   {
     id: 'vwx234',
@@ -232,6 +239,7 @@ export const warehouses = [
     ],
     isVerified: false,
     isFeatured: false,
+    sellerId: '10',
   },
   {
     id: 'yzu567',
@@ -261,6 +269,7 @@ export const warehouses = [
     ],
     isVerified: true,
     isFeatured: false,
+    sellerId: '2',
   },
   {
     id: '123abc',
@@ -290,5 +299,13 @@ export const warehouses = [
     ],
     isVerified: false,
     isFeatured: true,
+    sellerId: '4',
   },
 ];
+
+/**
+ * Find warehouse by id
+ * @param {string} id
+ * @returns {Warehouse | undefined}
+ */
+export const getWarehouseById = (id) => warehouses.find((w) => w.id === id);
