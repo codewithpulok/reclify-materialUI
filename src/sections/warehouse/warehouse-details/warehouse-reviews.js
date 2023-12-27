@@ -107,13 +107,15 @@ const WarehouseReviews = (props) => {
             {sortedReviews.map((review) => (
               <WarehouseReviewCard
                 key={review.id}
-                avatar={review.avatar}
+                avatar={review.author.photoURL}
                 createdAt={review.createdAt}
                 feedback={review.feedback}
-                name={review.name}
+                name={review.author.displayName}
                 rating={review.rating}
-                showDeleteOption={auth?.user?.role === 'admin'}
-                showEditOption={auth?.user?.id === review?.userId}
+                showDeleteOption={
+                  auth?.user?.role === 'admin' || auth?.user?.id === review?.authorId
+                }
+                showEditOption={auth?.user?.id === review?.authorId}
               />
             ))}
           </Stack>

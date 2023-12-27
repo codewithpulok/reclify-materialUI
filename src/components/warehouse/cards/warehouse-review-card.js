@@ -83,7 +83,7 @@ const WarehouseReviewCard = (props) => {
               horizontal: 'right',
             }}
           >
-            {showEditOption && <MenuItem onClick={menu.onFalse}>Edit</MenuItem>}
+            {showEditOption && <MenuItem onClick={menu.onFalse}>Edit Review</MenuItem>}
             {showDeleteOption && <MenuItem onClick={menu.onFalse}>Delete Review</MenuItem>}
           </Menu>
         </div>

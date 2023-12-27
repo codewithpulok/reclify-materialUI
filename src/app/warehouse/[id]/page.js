@@ -1,18 +1,11 @@
 import { notFound } from 'next/navigation';
-import { reviews } from 'src/assets/dummy/reviews';
+import { getWarehouseReviews } from 'src/assets/dummy/reviews';
 import { warehouses } from 'src/assets/dummy/warehouses';
 import { WarehouseDetails } from 'src/sections/warehouse/';
 
 export const getWarehouse = async (id) => {
   // handle api calling
   const response = warehouses.find((w) => w.id === id);
-
-  return response;
-};
-
-export const getWarehouseReviews = async (id) => {
-  // handle api calling
-  const response = reviews.filter((r) => r.warehouseId === id);
 
   return response;
 };
