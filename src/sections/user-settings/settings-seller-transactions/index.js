@@ -55,7 +55,7 @@ const defaultFilters = {
 
 // ----------------------------------------------------------------------
 
-const SettingsTransactions = () => {
+const SettingsSellerTransactions = () => {
   const { user } = useAuthContext();
   const userTransactions = getTransectionsByUserId(user?.id);
 
@@ -149,7 +149,7 @@ const SettingsTransactions = () => {
         value={filters.status}
         onChange={handleFilterStatus}
         sx={{
-          px: 2.5,
+          px: { xs: 1, sm: 1.5, md: 2.5 },
           boxShadow: (theme) => `inset 0 -2px 0 0 ${alpha(theme.palette.grey[500], 0.08)}`,
         }}
       >
@@ -255,4 +255,4 @@ function applyFilter({ inputData, comparator, filters }) {
   return inputData;
 }
 
-export default SettingsTransactions;
+export default SettingsSellerTransactions;

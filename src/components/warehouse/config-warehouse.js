@@ -13,4 +13,5 @@ export const ICONS = {
   phone: (width, sx) => getIconify('solar:phone-rounded-outline', width, sx),
   email: (width, sx) => getIconify('solar:mailbox-linear', width, sx),
   warehouse: (width, sx) => getIconify('solar:box-bold-duotone', width, sx),
+  menu: (width, sx) => getIconify('solar:menu-dots-bold', width, sx),
 };

@@ -1,9 +1,11 @@
+import { getUserByID } from './users';
+
+/** @type {Review[]} */
 export const reviews = [
   {
     id: 'review002',
     warehouseId: 'def456',
-    avatar: 'https://i.pravatar.cc/150?u=JaneSmith',
-    name: 'Jane Smith',
+    authorId: '3',
     createdAt: 1672696799000,
     updatedAt: 1672783199000,
     rating: 5,
@@ -14,8 +16,7 @@ export const reviews = [
   {
     id: 'ghi789-review001',
     warehouseId: 'ghi789',
-    avatar: 'https://i.pravatar.cc/150?u=JohnDoe',
-    name: 'John Doe',
+    authorId: 'customer-1',
     createdAt: 1672531199000,
     updatedAt: 1672617599000,
     rating: 4.2,
@@ -25,8 +26,7 @@ export const reviews = [
   {
     id: 'ghi789-review002',
     warehouseId: 'ghi789',
-    avatar: 'https://i.pravatar.cc/150?u=JaneSmith',
-    name: 'Jane Smith',
+    authorId: '3',
     createdAt: 1672696799000,
     updatedAt: 1672783199000,
     rating: 5,
@@ -36,8 +36,7 @@ export const reviews = [
   {
     id: 'ghi789-review003',
     warehouseId: 'ghi789',
-    avatar: 'https://i.pravatar.cc/150?u=RobertJohnson',
-    name: 'Robert Johnson',
+    authorId: 'customer-2',
     createdAt: 1672842399000,
     updatedAt: 1672928799000,
     rating: 3.8,
@@ -47,8 +46,7 @@ export const reviews = [
   {
     id: 'ghi789-review004',
     warehouseId: 'ghi789',
-    avatar: 'https://i.pravatar.cc/150?u=AliceBrown',
-    name: 'Alice Brown',
+    authorId: '3',
     createdAt: 1673007999000,
     updatedAt: 1673094399000,
     rating: 5,
@@ -58,8 +56,7 @@ export const reviews = [
   {
     id: 'ghi789-review005',
     warehouseId: 'ghi789',
-    avatar: 'https://i.pravatar.cc/150?u=MichaelWilliams',
-    name: 'Michael Williams',
+    authorId: 'customer-3',
     createdAt: 1673163599000,
     updatedAt: 1673249999000,
     rating: 2.5,
@@ -69,8 +66,7 @@ export const reviews = [
   {
     id: 'ghi789-review006',
     warehouseId: 'ghi789',
-    avatar: 'https://i.pravatar.cc/150?u=LindaJones',
-    name: 'Linda Jones',
+    authorId: '3',
     createdAt: 1673319199000,
     updatedAt: 1673405599000,
     rating: 4.7,
@@ -80,8 +76,7 @@ export const reviews = [
   {
     id: 'ghi789-review007',
     warehouseId: 'ghi789',
-    avatar: 'https://i.pravatar.cc/150?u=DavidMiller',
-    name: 'David Miller',
+    authorId: 'customer-4',
     createdAt: 1673474799000,
     updatedAt: 1673561199000,
     rating: 3.2,
@@ -91,8 +86,7 @@ export const reviews = [
   {
     id: 'ghi789-review008',
     warehouseId: 'ghi789',
-    avatar: 'https://i.pravatar.cc/150?u=EmmaWilson',
-    name: 'Emma Wilson',
+    authorId: '3',
     createdAt: 1673630399000,
     updatedAt: 1673716799000,
     rating: 5,
@@ -102,8 +96,7 @@ export const reviews = [
   {
     id: 'ghi789-review009',
     warehouseId: 'ghi789',
-    avatar: 'https://i.pravatar.cc/150?u=RichardLee',
-    name: 'Richard Lee',
+    authorId: 'customer-5',
     createdAt: 1673785999000,
     updatedAt: 1673872399000,
     rating: 4.1,
@@ -113,8 +106,7 @@ export const reviews = [
   {
     id: 'ghi789-review010',
     warehouseId: 'ghi789',
-    avatar: 'https://i.pravatar.cc/150?u=GraceSmith',
-    name: 'Grace Smith',
+    authorId: '3',
     createdAt: 1673941599000,
     updatedAt: 1674027999000,
     rating: 3.6,
@@ -125,8 +117,7 @@ export const reviews = [
   {
     id: 'review004',
     warehouseId: 'jkl012',
-    avatar: 'https://i.pravatar.cc/150?u=AliceBrown',
-    name: 'Alice Brown',
+    authorId: 'customer-1',
     createdAt: 1673007999000,
     updatedAt: 1673094399000,
     rating: 5,
@@ -136,8 +127,7 @@ export const reviews = [
   {
     id: 'review005',
     warehouseId: 'mno345',
-    avatar: 'https://i.pravatar.cc/150?u=MichaelWilliams',
-    name: 'Michael Williams',
+    authorId: '3',
     createdAt: 1673163599000,
     updatedAt: 1673249999000,
     rating: 2,
@@ -147,8 +137,7 @@ export const reviews = [
   {
     id: 'review006',
     warehouseId: 'pqr678',
-    avatar: 'https://i.pravatar.cc/150?u=LindaJones',
-    name: 'Linda Jones',
+    authorId: 'customer-2',
     createdAt: 1673319199000,
     updatedAt: 1673405599000,
     rating: 4,
@@ -158,8 +147,7 @@ export const reviews = [
   {
     id: 'review007',
     warehouseId: 'stu901',
-    avatar: 'https://i.pravatar.cc/150?u=DavidMiller',
-    name: 'David Miller',
+    authorId: '3',
     createdAt: 1673474799000,
     updatedAt: 1673561199000,
     rating: 3,
@@ -169,8 +157,7 @@ export const reviews = [
   {
     id: 'review008',
     warehouseId: 'vwx234',
-    avatar: 'https://i.pravatar.cc/150?u=EmmaWilson',
-    name: 'Emma Wilson',
+    authorId: 'customer-3',
     createdAt: 1673630399000,
     updatedAt: 1673716799000,
     rating: 5,
@@ -180,8 +167,7 @@ export const reviews = [
   {
     id: 'review009',
     warehouseId: 'yzu567',
-    avatar: 'https://i.pravatar.cc/150?u=RichardLee',
-    name: 'Richard Lee',
+    authorId: 'customer-4',
     createdAt: 1673785999000,
     updatedAt: 1673872399000,
     rating: 4,
@@ -191,8 +177,7 @@ export const reviews = [
   {
     id: 'review010',
     warehouseId: '123abc',
-    avatar: 'https://i.pravatar.cc/150?u=GraceSmith',
-    name: 'Grace Smith',
+    authorId: 'customer-5',
     createdAt: 1673941599000,
     updatedAt: 1674027999000,
     rating: 3,
@@ -200,3 +185,29 @@ export const reviews = [
       'Sunset Storage has a lovely beachside location, but the pricing seems a bit high for the available space.',
   },
 ];
+
+/**
+ * generate Review Data
+ * @param {string} id - review id
+ * @returns {Review}
+ */
+const generateReview = (id) => {
+  const review = reviews.find((r) => r.id === id);
+
+  if (!review) return undefined;
+
+  review.author = getUserByID(review.authorId);
+
+  return review;
+};
+
+/**
+ * get warehouse reviews
+ * @param {string} id - warehouse id
+ * @returns {Review[]}
+ */
+export const getWarehouseReviews = (id) => {
+  const filteredReviews = reviews.filter((r) => r.warehouseId === id);
+
+  return filteredReviews.map((r) => generateReview(r.id));
+};

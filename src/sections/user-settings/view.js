@@ -12,9 +12,10 @@ import { useAuthContext } from 'src/auth/hooks';
 import CustomBreadcrumbs from 'src/components/common/custom-breadcrumbs';
 import { ICONS } from './config-settings';
 import SettingsBillings from './settings-billing';
+import SettingsCustomerTransactions from './settings-customer-transactions';
 import SettingsGeneral from './settings-general';
 import SettingsSecurity from './settings-security';
-import SettingsTransactions from './settings-transactions';
+import SettingsSellerTransactions from './settings-seller-transactions';
 
 // ----------------------------------------------------------------------
 
@@ -94,7 +95,12 @@ const UserSettingsView = () => {
         {TABS.map((tab) => {
           // exclude warehouse only tabs
           if (user?.role !== 'warehouse' && tab.value === 'billing') return null;
-          if (user?.role !== 'warehouse' && tab.value === 'transactions') return null;
+          if (
+            user?.role !== 'warehouse' &&
+            user?.role !== 'customer' &&
+            tab.value === 'transactions'
+          )
+            return null;
 
           return <Tab key={tab.value} label={tab.label} icon={tab.icon} value={tab.value} />;
         })}
@@ -104,7 +110,12 @@ const UserSettingsView = () => {
 
       {user?.role === 'warehouse' && currentTab === 'billing' && <SettingsBillings />}
 
-      {user?.role === 'warehouse' && currentTab === 'transactions' && <SettingsTransactions />}
+      {currentTab === 'transactions' && (
+        <>
+          {user?.role === 'warehouse' && <SettingsSellerTransactions />}
+          {user?.role === 'customer' && <SettingsCustomerTransactions />}
+        </>
+      )}
 
       {currentTab === 'security' && <SettingsSecurity />}
     </Container>
