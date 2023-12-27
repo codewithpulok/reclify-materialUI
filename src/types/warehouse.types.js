@@ -10,6 +10,7 @@
  * @property {Photo[]} photos - An array of photo objects representing the warehouse's photos.
  * @property {boolean} isVerified - warehouse is verified by admin or not
  * @property {boolean} isFeatured - Warehouse is featured or not.
+ * @property {string} sellerId
  *
  */
 

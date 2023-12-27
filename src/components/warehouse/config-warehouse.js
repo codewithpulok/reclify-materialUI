@@ -11,7 +11,7 @@ export const ICONS = {
   verified: (width, sx) => getIconify('solar:verified-check-bold', width, sx),
   featured: (width, sx) => getIconify('solar:medal-ribbons-star-bold-duotone', width, sx),
   phone: (width, sx) => getIconify('solar:phone-rounded-outline', width, sx),
-  email: (width, sx) => getIconify('solar:mailbox-linear', width, sx),
+  email: (width, sx) => getIconify('tabler:mail', width, sx),
   warehouse: (width, sx) => getIconify('solar:box-bold-duotone', width, sx),
   menu: (width, sx) => getIconify('solar:menu-dots-bold', width, sx),
 };
