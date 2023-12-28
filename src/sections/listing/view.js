@@ -71,15 +71,14 @@ export default function ListingView() {
 
     if (filterRegions) {
       // do something
-      // filtered = [...filtered].filter((w) =>
-      //   getWarehouseAddress(w.address).includes(searchQuery)
-      // );
     }
 
-    console.log({ filtered, warehouses });
+    if (user?.role === 'warehouse') {
+      filtered = [...filtered].filter((w) => w.sellerId === user.id);
+    }
 
     setFilteredWarehouses(filtered);
-  }, [filterRegions, filterUsers, searchQuery]);
+  }, [filterRegions, filterUsers, searchQuery, user]);
 
   return (
     <Container maxWidth={settings.themeStretch ? false : 'xl'}>

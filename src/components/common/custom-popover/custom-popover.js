@@ -1,21 +1,40 @@
 import PropTypes from 'prop-types';
 
-import Popover from '@mui/material/Popover';
 import { menuItemClasses } from '@mui/material/MenuItem';
+import Popover from '@mui/material/Popover';
 
-import { getPosition } from './utils';
 import { StyledArrow } from './styles';
+import { getPosition } from './utils';
 
 // ----------------------------------------------------------------------
 
-export default function CustomPopover({
-  open,
-  children,
-  arrow = 'top-right',
-  hiddenArrow,
-  sx,
-  ...other
-}) {
+const CustomPopoverProps = {
+  sx: PropTypes.object,
+  open: PropTypes.object,
+  children: PropTypes.node,
+  hiddenArrow: PropTypes.bool,
+  disabledArrow: PropTypes.bool,
+  arrow: PropTypes.oneOf([
+    'top-left',
+    'top-center',
+    'top-right',
+    'bottom-left',
+    'bottom-center',
+    'bottom-right',
+    'left-top',
+    'left-center',
+    'left-bottom',
+    'right-top',
+    'right-center',
+    'right-bottom',
+  ]),
+};
+/**
+ * @param {CustomPopoverProps & import('@mui/material').PopoverProps} props
+ * @returns {JSX.Element}
+ */
+export default function CustomPopover(props) {
+  const { open, children, arrow = 'top-right', hiddenArrow, sx, ...other } = props;
   const { style, anchorOrigin, transformOrigin } = getPosition(arrow);
 
   return (
@@ -43,30 +62,9 @@ export default function CustomPopover({
       {...other}
     >
       {!hiddenArrow && <StyledArrow arrow={arrow} />}
-
       {children}
     </Popover>
   );
 }
 
-CustomPopover.propTypes = {
-  sx: PropTypes.object,
-  open: PropTypes.object,
-  children: PropTypes.node,
-  hiddenArrow: PropTypes.bool,
-  disabledArrow: PropTypes.bool,
-  arrow: PropTypes.oneOf([
-    'top-left',
-    'top-center',
-    'top-right',
-    'bottom-left',
-    'bottom-center',
-    'bottom-right',
-    'left-top',
-    'left-center',
-    'left-bottom',
-    'right-top',
-    'right-center',
-    'right-bottom',
-  ]),
-};
+CustomPopover.propTypes = CustomPopoverProps;

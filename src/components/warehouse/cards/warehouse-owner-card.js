@@ -19,7 +19,7 @@ const WarehouseOwnerCardProps = {
 const WarehouseOwnerCard = (props) => {
   const { user, sx } = props;
   return (
-    <Card sx={{ px: 2, py: 2, ...sx }}>
+    <Card sx={{ p: { xs: 1.5, sm: 2 }, borderRadius: 1, ...sx }}>
       <Stack
         sx={{
           flexDirection: {
@@ -54,7 +54,7 @@ const WarehouseOwnerCard = (props) => {
             <Chip label="Owner" color="primary" size="small" variant="outlined" />
           </Stack>
           <Stack direction="row" alignItems="center" spacing={0.5}>
-            {ICONS.phone(18)}
+            {ICONS.email(18)}
 
             <Typography
               variant="body2"
@@ -67,7 +67,7 @@ const WarehouseOwnerCard = (props) => {
             </Typography>
           </Stack>
           <Stack direction="row" alignItems="center" spacing={0.5}>
-            {ICONS.email(18)}
+            {ICONS.phone(18)}
 
             <Typography
               variant="body2"

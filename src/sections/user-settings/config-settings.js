@@ -4,6 +4,8 @@ import { getIconify } from 'src/components/common/iconify/utilities';
  * All icons for settings section
  */
 export const ICONS = {
+  verified: (width, sx) => getIconify('solar:verified-check-bold', width, sx),
+  featured: (width, sx) => getIconify('solar:medal-ribbons-star-bold-duotone', width, sx),
   sort: (width) => getIconify('solar:sort-vertical-outline', width),
   userId: (width) => getIconify('solar:user-id-bold', width),
   bills: (width) => getIconify('solar:bill-list-bold', width),
@@ -15,4 +17,8 @@ export const ICONS = {
   showLess: (width) => getIconify('eva:arrow-ios-upward-fill', width),
   current: (width) => getIconify('eva:star-fill', width),
   more: (width) => getIconify('eva:more-vertical-fill', width),
+  eye: (width) => getIconify('solar:eye-bold', width),
+  phone: (width, sx) => getIconify('solar:phone-rounded-outline', width, sx),
+  email: (width, sx) => getIconify('tabler:mail', width, sx),
+  close: (width, sx) => getIconify('solar:close-circle-bold', width, sx),
 };

@@ -18,6 +18,7 @@ const ImageProps = {
   disabledEffect: PropTypes.bool,
   effect: PropTypes.string,
   overlay: PropTypes.string,
+  /** @type {'4/3' | '3/4' | '6/4' | '4/6' | '16/9' | '9/16' | '21/9' | '9/21' | '1/1'} */
   ratio: PropTypes.oneOf(['4/3', '3/4', '6/4', '4/6', '16/9', '9/16', '21/9', '9/21', '1/1']),
   scrollPosition: PropTypes.object,
   src: PropTypes.string,

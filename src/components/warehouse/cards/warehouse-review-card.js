@@ -23,6 +23,9 @@ const WarehouseReviewCardProps = {
   feedback: PropTypes.string,
   showDeleteOption: PropTypes.bool.isRequired,
   showEditOption: PropTypes.bool.isRequired,
+
+  onDelete: PropTypes.func.isRequired,
+  onEdit: PropTypes.func.isRequired,
 };
 
 /**
@@ -31,11 +34,31 @@ const WarehouseReviewCardProps = {
  * @returns {JSX.Element}
  */
 const WarehouseReviewCard = (props) => {
-  const { avatar, name, createdAt, rating, feedback, showDeleteOption, showEditOption } = props;
+  const {
+    avatar,
+    name,
+    createdAt,
+    rating,
+    feedback,
+    showDeleteOption,
+    showEditOption,
+    onDelete,
+    onEdit,
+  } = props;
   const { palette } = useTheme();
 
   const menu = useBoolean();
   const menuRef = useRef();
+
+  const handleDelete = () => {
+    menu.onFalse();
+    onDelete();
+  };
+
+  const handleEdit = () => {
+    menu.onFalse();
+    onEdit();
+  };
 
   return (
     <Box
@@ -63,7 +86,7 @@ const WarehouseReviewCard = (props) => {
             <IconButton
               ref={menuRef}
               onClick={menu.onToggle}
-              sx={{ opacity: 0 }}
+              sx={{ opacity: { xs: 1, lg: 0 } }}
               className="review-menu-btn"
             >
               {ICONS.menu()}
@@ -83,8 +106,8 @@ const WarehouseReviewCard = (props) => {
               horizontal: 'right',
             }}
           >
-            {showEditOption && <MenuItem onClick={menu.onFalse}>Edit Review</MenuItem>}
-            {showDeleteOption && <MenuItem onClick={menu.onFalse}>Delete Review</MenuItem>}
+            {showEditOption && <MenuItem onClick={handleEdit}>Edit Review</MenuItem>}
+            {showDeleteOption && <MenuItem onClick={handleDelete}>Delete Review</MenuItem>}
           </Menu>
         </div>
       </Stack>

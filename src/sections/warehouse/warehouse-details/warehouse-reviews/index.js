@@ -14,8 +14,12 @@ import { useMemo, useState } from 'react';
 import { useAuthContext } from 'src/auth/hooks';
 import EmptyState from 'src/components/common/empty-state/empty-state';
 import { WarehouseReviewCard } from 'src/components/warehouse/cards';
-import { ICONS } from '../config-warehouse';
-import { detailsBoxStyle, detailsHeaderStyle } from '../styles';
+import { useBoolean } from 'src/hooks/use-boolean';
+import { ICONS } from '../../config-warehouse';
+import { detailsBoxStyle, detailsHeaderStyle } from '../../styles';
+import ReviewCreate from './review-create';
+import ReviewDelete from './review-delete';
+import ReviewEdit from './review-edit';
 
 const WarehouseReviewsProps = {
   /** @type {Review[]} */
@@ -34,6 +38,24 @@ const WarehouseReviews = (props) => {
   const { reviews, sx, canAddNewReview } = props;
   const [sortType, setSortType] = useState('DEFAULT'); // NEW_FIRST, OLD_FIRST, DEFAULT
   const auth = useAuthContext();
+
+  const reviewAddModal = useBoolean(false);
+  const [reviewEdit, setReviewEdit] = useState({ open: false, review: {} });
+  const [reviewDelete, setReviewDelete] = useState({ open: false, review: {} });
+
+  const openReviewEdit = (review) => {
+    setReviewEdit({ open: true, review });
+  };
+  const closeReviewEdit = () => {
+    setReviewEdit({ open: false, review: {} });
+  };
+
+  const openReviewDelete = (review) => {
+    setReviewDelete({ open: true, review });
+  };
+  const closeReviewDelete = () => {
+    setReviewDelete({ open: false, review: {} });
+  };
 
   const sortedReviews = useMemo(
     () =>
@@ -95,6 +117,7 @@ const WarehouseReviews = (props) => {
                 sm: 'auto',
               },
             }}
+            onClick={reviewAddModal.onTrue}
           >
             Add New
           </Button>
@@ -116,6 +139,8 @@ const WarehouseReviews = (props) => {
                   auth?.user?.role === 'admin' || auth?.user?.id === review?.authorId
                 }
                 showEditOption={auth?.user?.id === review?.authorId}
+                onDelete={() => openReviewDelete(review)}
+                onEdit={() => openReviewEdit(review)}
               />
             ))}
           </Stack>
@@ -127,6 +152,14 @@ const WarehouseReviews = (props) => {
       ) : (
         <EmptyState icon={ICONS.review()} text="no reviews yet" />
       )}
+
+      <ReviewCreate open={reviewAddModal.value} onClose={reviewAddModal.onFalse} />
+      <ReviewEdit open={reviewEdit.open} onClose={closeReviewEdit} review={reviewEdit.review} />
+      <ReviewDelete
+        open={reviewDelete.open}
+        onClose={closeReviewDelete}
+        review={reviewDelete.review}
+      />
     </Box>
   );
 };
