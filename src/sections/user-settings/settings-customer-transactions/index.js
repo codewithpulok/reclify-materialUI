@@ -33,6 +33,7 @@ import {
   TRANSACTION_STATUS_OPTIONS,
 } from 'src/assets/dummy/customer-transactions';
 import { useAuthContext } from 'src/auth/hooks';
+import TransactionDialog from './transaction-dialog';
 import TransactionTableRow from './transaction-table-row';
 
 // ----------------------------------------------------------------------
@@ -40,11 +41,13 @@ import TransactionTableRow from './transaction-table-row';
 const STATUS_OPTIONS = [{ value: 'all', label: 'All' }, ...TRANSACTION_STATUS_OPTIONS];
 
 const TABLE_HEAD = [
+  { id: 'view', width: 30 },
   { id: 'warehouse', label: 'Warehouse' },
   { id: 'seller', label: 'Seller' },
   { id: 'createdAt', label: 'Date', width: 140 },
   { id: 'price', label: 'Price', width: 140 },
   { id: 'status', label: 'Status', width: 110 },
+  { id: '', width: 88 },
 ];
 
 const defaultFilters = {
@@ -62,6 +65,10 @@ const SettingsCustomerTransactions = () => {
   const [tableData] = useState(userTransactions);
 
   const confirm = useBoolean();
+  const [transactionDialog, setTransactionDialog] = useState({
+    open: false,
+    transaction: undefined,
+  });
 
   const [filters, setFilters] = useState(defaultFilters);
 
@@ -72,7 +79,6 @@ const SettingsCustomerTransactions = () => {
   });
 
   const canReset = !!filters.name || filters.status !== 'all';
-
   const notFound = (!dataFiltered.length && canReset) || !dataFiltered.length;
 
   const handleFilters = useCallback(
@@ -128,6 +134,16 @@ const SettingsCustomerTransactions = () => {
     [filters.status, tableData]
   );
 
+  // open transaction details
+  const openTransactionDialog = (transaction) => {
+    setTransactionDialog({ open: true, transaction });
+  };
+
+  // close transaction details
+  const closeTransactionDialog = () => {
+    setTransactionDialog((prev) => ({ ...prev, open: false }));
+  };
+
   return (
     <Card>
       <Tabs
@@ -182,7 +198,7 @@ const SettingsCustomerTransactions = () => {
                   <TransactionTableRow
                     key={row.id}
                     row={row}
-                    selected={table.selected.includes(row.id)}
+                    viewTransaction={() => openTransactionDialog(row)}
                   />
                 ))}
 
@@ -203,6 +219,12 @@ const SettingsCustomerTransactions = () => {
         rowsPerPage={table.rowsPerPage}
         onPageChange={table.onChangePage}
         onRowsPerPageChange={table.onChangeRowsPerPage}
+      />
+
+      <TransactionDialog
+        open={transactionDialog.open}
+        transaction={transactionDialog.transaction}
+        onClose={closeTransactionDialog}
       />
     </Card>
   );

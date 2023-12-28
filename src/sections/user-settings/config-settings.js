@@ -15,4 +15,8 @@ export const ICONS = {
   showLess: (width) => getIconify('eva:arrow-ios-upward-fill', width),
   current: (width) => getIconify('eva:star-fill', width),
   more: (width) => getIconify('eva:more-vertical-fill', width),
+  eye: (width) => getIconify('solar:eye-bold', width),
+  phone: (width, sx) => getIconify('solar:phone-rounded-outline', width, sx),
+  email: (width, sx) => getIconify('tabler:mail', width, sx),
+  close: (width, sx) => getIconify('solar:close-circle-bold', width, sx),
 };

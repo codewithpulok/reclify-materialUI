@@ -8,9 +8,12 @@ import TableRow from '@mui/material/TableRow';
 
 import { fCurrency } from 'src/utils/format-number';
 
-import { Stack } from '@mui/material';
+import { IconButton, MenuItem, Stack } from '@mui/material';
+import { usePopover } from 'src/components/common/custom-popover';
+import CustomPopover from 'src/components/common/custom-popover/custom-popover';
 import Label from 'src/components/common/label';
 import { getWarehouseAddress } from 'src/components/warehouse/utils';
+import { ICONS } from '../config-settings';
 
 // ----------------------------------------------------------------------
 
@@ -18,6 +21,7 @@ const TransactionTableRowProps = {
   /** @type {CustomerTransaction} */
   row: PropTypes.object.isRequired,
   selected: PropTypes.bool.isRequired,
+  viewTransaction: PropTypes.func.isRequired,
 };
 
 /**
@@ -26,10 +30,16 @@ const TransactionTableRowProps = {
  * @returns
  */
 const TransactionTableRow = (props) => {
-  const { row, selected } = props;
+  const { row, selected, viewTransaction } = props;
+  const popover = usePopover(false);
 
   const renderPrimary = (
     <TableRow hover selected={selected}>
+      <TableCell>
+        <IconButton onClick={viewTransaction} color="default">
+          {ICONS.eye()}
+        </IconButton>
+      </TableCell>
       <TableCell>
         <Stack direction="row" alignItems="center">
           <Avatar
@@ -44,8 +54,12 @@ const TransactionTableRow = (props) => {
             secondary={getWarehouseAddress(row.warehouse.address)}
             primaryTypographyProps={{ typography: 'body2' }}
             secondaryTypographyProps={{
-              component: 'span',
               color: 'text.disabled',
+              overflow: 'hidden',
+              textOverflow: 'ellipsis',
+              display: '-webkit-box',
+              WebkitLineClamp: '1',
+              WebkitBoxOrient: 'vertical',
             }}
           />
         </Stack>
@@ -55,16 +69,10 @@ const TransactionTableRow = (props) => {
           <Avatar alt={row.seller.displayName} src={row.seller.photoURL} sx={{ mr: 2 }} />
           <ListItemText
             primary={row.seller.displayName}
-            secondary={row.seller.email}
             primaryTypographyProps={{ typography: 'body2' }}
-            secondaryTypographyProps={{
-              component: 'span',
-              color: 'text.disabled',
-            }}
           />
         </Stack>
       </TableCell>
-
       <TableCell>
         <ListItemText
           primary={format(new Date(row.createdAt), 'dd MMM yyyy')}
@@ -77,9 +85,7 @@ const TransactionTableRow = (props) => {
           }}
         />
       </TableCell>
-
       <TableCell> {fCurrency(row.price)} </TableCell>
-
       <TableCell>
         <Label
           variant="soft"
@@ -93,10 +99,39 @@ const TransactionTableRow = (props) => {
           {row.status}
         </Label>
       </TableCell>
+      <TableCell align="right" sx={{ px: 1, whiteSpace: 'nowrap' }}>
+        <IconButton
+          color={popover.open ? 'inherit' : 'default'}
+          onClick={popover.onOpen}
+          disabled={row.status !== 'pending'}
+        >
+          {ICONS.more()}
+        </IconButton>
+      </TableCell>
     </TableRow>
   );
 
-  return <>{renderPrimary}</>;
+  return (
+    <>
+      {renderPrimary}
+      <CustomPopover
+        open={popover.open}
+        onClose={popover.onClose}
+        arrow="right-top"
+        sx={{ width: 300 }}
+      >
+        {row.status === 'pending' && (
+          <MenuItem
+            onClick={() => {
+              popover.onClose();
+            }}
+          >
+            Cancel Order
+          </MenuItem>
+        )}
+      </CustomPopover>
+    </>
+  );
 };
 
 TransactionTableRow.propTypes = TransactionTableRowProps;
