@@ -221,6 +221,7 @@ const SettingsCustomerTransactions = () => {
         open={transactionDialog.open}
         transaction={transactionDialog.transaction}
         onClose={closeTransactionDialog}
+        onCancelOrder={() => openOrderCancelDialog(transactionDialog.transaction)}
       />
 
       <ConfirmDialog
