@@ -30,17 +30,19 @@ const TransactionDialog = (props) => {
     <Dialog open={open} onClose={onClose} fullWidth maxWidth="sm">
       <DialogTitle display="flex" flexDirection="row" alignItems="center" width="100%" gap={1}>
         Transaction Details
-        <Label
-          variant="soft"
-          color={
-            (transaction.status === 'completed' && 'success') ||
-            (transaction.status === 'pending' && 'warning') ||
-            (transaction.status === 'declined' && 'error') ||
-            'default'
-          }
-        >
-          {transaction.status}
-        </Label>
+        {transaction?.status && (
+          <Label
+            variant="soft"
+            color={
+              (transaction.status === 'completed' && 'success') ||
+              (transaction.status === 'pending' && 'warning') ||
+              (transaction.status === 'declined' && 'error') ||
+              'default'
+            }
+          >
+            {transaction.status}
+          </Label>
+        )}
         <IconButton sx={{ ml: 'auto' }} onClick={onClose}>
           {ICONS.close()}
         </IconButton>

@@ -4,6 +4,8 @@ import { getIconify } from 'src/components/common/iconify/utilities';
  * All icons for settings section
  */
 export const ICONS = {
+  verified: (width, sx) => getIconify('solar:verified-check-bold', width, sx),
+  featured: (width, sx) => getIconify('solar:medal-ribbons-star-bold-duotone', width, sx),
   sort: (width) => getIconify('solar:sort-vertical-outline', width),
   userId: (width) => getIconify('solar:user-id-bold', width),
   bills: (width) => getIconify('solar:bill-list-bold', width),

@@ -2,6 +2,7 @@ import { Box, Chip, Stack, Typography } from '@mui/material';
 import PropTypes from 'prop-types';
 import Image from 'src/components/common/image';
 import { getWarehouseAddress } from 'src/components/warehouse/utils';
+import { ICONS } from '../../config-settings';
 
 const TransactionWarehouseProps = {
   /** @type {Warehouse} */
@@ -32,8 +33,12 @@ const TransactionWarehouse = (props) => {
           {getWarehouseAddress(warehouse.address)}
         </Typography>
         <Stack flexDirection="row" alignItems="center" spacing={0.5} flexWrap="wrap" sx={{ mb: 3 }}>
-          {warehouse.isVerified && <Chip label="Verified" size="small" color="primary" />}
-          {warehouse.isFeatured && <Chip label="Featured" size="small" color="warning" />}
+          {warehouse.isVerified && (
+            <Chip icon={ICONS.verified()} label="Verified" size="small" color="primary" />
+          )}
+          {warehouse.isFeatured && (
+            <Chip icon={ICONS.featured()} label="Featured" size="small" color="warning" />
+          )}
         </Stack>
         <Typography variant="body1">{warehouse.description}</Typography>
       </Stack>
