@@ -86,7 +86,7 @@ const WarehouseReviewCard = (props) => {
             <IconButton
               ref={menuRef}
               onClick={menu.onToggle}
-              sx={{ opacity: 0 }}
+              sx={{ opacity: { xs: 1, lg: 0 } }}
               className="review-menu-btn"
             >
               {ICONS.menu()}
