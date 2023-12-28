@@ -111,7 +111,7 @@ const WarehouseBookingOptions = (props) => {
   console.log({ showPurchase });
 
   return (
-    <Card sx={{ bgcolor: 'background.paper', padding: 2 }}>
+    <Card sx={{ bgcolor: 'background.paper', borderRadius: 1, padding: 2 }}>
       <Typography variant="h5" sx={{ mb: 4 }}>
         Check Availability and Your Monthly Cost
       </Typography>

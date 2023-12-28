@@ -19,7 +19,7 @@ const WarehouseOwnerCardProps = {
 const WarehouseOwnerCard = (props) => {
   const { user, sx } = props;
   return (
-    <Card sx={{ px: 2, py: 2, ...sx }}>
+    <Card sx={{ p: { xs: 1.5, sm: 2 }, borderRadius: 1, ...sx }}>
       <Stack
         sx={{
           flexDirection: {
