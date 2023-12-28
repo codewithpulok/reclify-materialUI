@@ -21,7 +21,8 @@ const TransactionTableRowProps = {
   /** @type {CustomerTransaction} */
   row: PropTypes.object.isRequired,
   selected: PropTypes.bool.isRequired,
-  viewTransaction: PropTypes.func.isRequired,
+  onViewTransaction: PropTypes.func.isRequired,
+  onCancelOrder: PropTypes.func.isRequired,
 };
 
 /**
@@ -30,13 +31,13 @@ const TransactionTableRowProps = {
  * @returns
  */
 const TransactionTableRow = (props) => {
-  const { row, selected, viewTransaction } = props;
+  const { row, selected, onCancelOrder, onViewTransaction } = props;
   const popover = usePopover(false);
 
   const renderPrimary = (
     <TableRow hover selected={selected}>
       <TableCell>
-        <IconButton onClick={viewTransaction} color="default">
+        <IconButton onClick={onViewTransaction} color="default">
           {ICONS.eye()}
         </IconButton>
       </TableCell>
@@ -123,6 +124,7 @@ const TransactionTableRow = (props) => {
         {row.status === 'pending' && (
           <MenuItem
             onClick={() => {
+              onCancelOrder();
               popover.onClose();
             }}
           >

@@ -3,18 +3,13 @@
 import { useCallback, useState } from 'react';
 
 import Card from '@mui/material/Card';
-import IconButton from '@mui/material/IconButton';
 import { alpha } from '@mui/material/styles';
 import Tab from '@mui/material/Tab';
 import Table from '@mui/material/Table';
 import TableBody from '@mui/material/TableBody';
 import TableContainer from '@mui/material/TableContainer';
 import Tabs from '@mui/material/Tabs';
-import Tooltip from '@mui/material/Tooltip';
 
-import { useBoolean } from 'src/hooks/use-boolean';
-
-import Iconify from 'src/components/common/iconify';
 import Label from 'src/components/common/label';
 import Scrollbar from 'src/components/common/scrollbar';
 import {
@@ -24,15 +19,17 @@ import {
   TableHeadCustom,
   TableNoData,
   TablePaginationCustom,
-  TableSelectedAction,
   useTable,
 } from 'src/components/common/table';
 
+import { Button } from '@mui/material';
+import { useSnackbar } from 'notistack';
 import {
   getCustomerTransactions,
   TRANSACTION_STATUS_OPTIONS,
 } from 'src/assets/dummy/customer-transactions';
 import { useAuthContext } from 'src/auth/hooks';
+import { ConfirmDialog } from 'src/components/common/custom-dialog';
 import TransactionDialog from './transaction-dialog';
 import TransactionTableRow from './transaction-table-row';
 
@@ -47,7 +44,7 @@ const TABLE_HEAD = [
   { id: 'createdAt', label: 'Date', width: 140 },
   { id: 'price', label: 'Price', width: 140 },
   { id: 'status', label: 'Status', width: 110 },
-  { id: '', width: 88 },
+  { id: '', width: 30 },
 ];
 
 const defaultFilters = {
@@ -59,13 +56,17 @@ const defaultFilters = {
 
 const SettingsCustomerTransactions = () => {
   const { user } = useAuthContext();
+  const { enqueueSnackbar } = useSnackbar();
   const userTransactions = getCustomerTransactions(user?.id);
 
   const table = useTable({ defaultOrderBy: 'createdAt' });
   const [tableData] = useState(userTransactions);
 
-  const confirm = useBoolean();
   const [transactionDialog, setTransactionDialog] = useState({
+    open: false,
+    transaction: undefined,
+  });
+  const [orderCancelDialog, setOrderCancelDialog] = useState({
     open: false,
     transaction: undefined,
   });
@@ -91,7 +92,6 @@ const SettingsCustomerTransactions = () => {
     },
     [table]
   );
-
   const handleFilterStatus = useCallback(
     (event, newValue) => {
       handleFilters('status', newValue);
@@ -138,11 +138,25 @@ const SettingsCustomerTransactions = () => {
   const openTransactionDialog = (transaction) => {
     setTransactionDialog({ open: true, transaction });
   };
-
   // close transaction details
   const closeTransactionDialog = () => {
     setTransactionDialog((prev) => ({ ...prev, open: false }));
   };
+
+  // open transaction status change dialog
+  const openOrderCancelDialog = (transaction) => {
+    setOrderCancelDialog({ open: true, transaction });
+  };
+  // close transaction status change dialog
+  const closeOrderCancelDialog = () => {
+    setOrderCancelDialog({ open: false, transaction: undefined });
+  };
+  // handle order cancel
+  const handleCancelOrder = useCallback(() => {
+    console.log('Order Cancel: ', orderCancelDialog.transaction);
+    enqueueSnackbar('Order Canceled.');
+    closeOrderCancelDialog();
+  }, [enqueueSnackbar, orderCancelDialog.transaction]);
 
   return (
     <Card>
@@ -158,25 +172,6 @@ const SettingsCustomerTransactions = () => {
       </Tabs>
 
       <TableContainer sx={{ position: 'relative', overflow: 'unset' }}>
-        <TableSelectedAction
-          dense={table.dense}
-          numSelected={table.selected.length}
-          rowCount={tableData.length}
-          onSelectAllRows={(checked) =>
-            table.onSelectAllRows(
-              checked,
-              tableData.map((row) => row.id)
-            )
-          }
-          action={
-            <Tooltip title="Delete">
-              <IconButton color="primary" onClick={confirm.onTrue}>
-                <Iconify icon="solar:trash-bin-trash-bold" />
-              </IconButton>
-            </Tooltip>
-          }
-        />
-
         <Scrollbar>
           <Table size={table.dense ? 'small' : 'medium'} sx={{ minWidth: 960 }}>
             <TableHeadCustom
@@ -198,7 +193,8 @@ const SettingsCustomerTransactions = () => {
                   <TransactionTableRow
                     key={row.id}
                     row={row}
-                    viewTransaction={() => openTransactionDialog(row)}
+                    onViewTransaction={() => openTransactionDialog(row)}
+                    onCancelOrder={() => openOrderCancelDialog(row)}
                   />
                 ))}
 
@@ -225,6 +221,18 @@ const SettingsCustomerTransactions = () => {
         open={transactionDialog.open}
         transaction={transactionDialog.transaction}
         onClose={closeTransactionDialog}
+      />
+
+      <ConfirmDialog
+        open={orderCancelDialog.open}
+        onClose={closeOrderCancelDialog}
+        title="Cancel Order!"
+        content="After canceling order, this can not be undone!"
+        action={
+          <Button onClick={handleCancelOrder} color="primary" variant="contained">
+            Confirm
+          </Button>
+        }
       />
     </Card>
   );
