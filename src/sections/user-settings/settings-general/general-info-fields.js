@@ -1,18 +1,16 @@
 import { useFormContext } from 'react-hook-form';
-import { countries, regions } from 'src/assets/data';
+import { regions } from 'src/assets/data';
 
 import LoadingButton from '@mui/lab/LoadingButton';
 import Box from '@mui/material/Box';
 import Card from '@mui/material/Card';
 import Stack from '@mui/material/Stack';
 
-import { MenuItem } from '@mui/material';
-import { RHFAutocomplete, RHFTextField } from 'src/components/common/hook-form';
-import { getIconify } from 'src/components/common/iconify/utilities';
+import { Grid, MenuItem } from '@mui/material';
+import { AddressField } from 'src/components/common/fields';
+import { RHFTextField } from 'src/components/common/hook-form';
 
 // ----------------------------------------------------------------------
-
-const getFlagIcon = (code) => getIconify(`circle-flags:${code}`, 28, { mr: 1 });
 
 const GeneralInfoFields = () => {
   const {
@@ -32,30 +30,6 @@ const GeneralInfoFields = () => {
         <RHFTextField name="displayName" label="Name" />
         <RHFTextField name="email" label="Email Address" />
         <RHFTextField name="phoneNumber" label="Phone Number" />
-        <RHFTextField name="address" label="Address" />
-
-        <RHFAutocomplete
-          name="country"
-          label="Country"
-          options={countries.map((country) => country.label)}
-          getOptionLabel={(option) => option}
-          renderOption={(props, option) => {
-            const { code, label, phone } = countries.filter(
-              (country) => country.label === option
-            )[0];
-
-            if (!label) {
-              return null;
-            }
-
-            return (
-              <li {...props} key={label}>
-                {getFlagIcon(code.toLowerCase())}
-                {label} ({code}) +{phone}
-              </li>
-            );
-          }}
-        />
 
         <RHFTextField name="region" label="Region" select>
           {regions.map((option) => (
@@ -64,9 +38,10 @@ const GeneralInfoFields = () => {
             </MenuItem>
           ))}
         </RHFTextField>
-        <RHFTextField name="state" label="State" />
-        <RHFTextField name="city" label="City" />
-        <RHFTextField name="zipCode" label="Zip/Code" />
+
+        <Grid item sx={{ gridColumn: { xs: 'span 1', sm: 'span 2' } }}>
+          <AddressField name="address" />
+        </Grid>
       </Box>
 
       <Stack spacing={3} alignItems="flex-end" sx={{ mt: 3 }}>
