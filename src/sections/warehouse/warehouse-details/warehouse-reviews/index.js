@@ -18,6 +18,7 @@ import { useBoolean } from 'src/hooks/use-boolean';
 import { ICONS } from '../../config-warehouse';
 import { detailsBoxStyle, detailsHeaderStyle } from '../../styles';
 import ReviewCreate from './review-create';
+import ReviewDelete from './review-delete';
 import ReviewEdit from './review-edit';
 
 const WarehouseReviewsProps = {
@@ -40,13 +41,20 @@ const WarehouseReviews = (props) => {
 
   const reviewAddModal = useBoolean(false);
   const [reviewEdit, setReviewEdit] = useState({ open: false, review: {} });
+  const [reviewDelete, setReviewDelete] = useState({ open: false, review: {} });
 
   const openReviewEdit = (review) => {
     setReviewEdit({ open: true, review });
   };
-
   const closeReviewEdit = () => {
     setReviewEdit({ open: false, review: {} });
+  };
+
+  const openReviewDelete = (review) => {
+    setReviewDelete({ open: true, review });
+  };
+  const closeReviewDelete = () => {
+    setReviewDelete({ open: false, review: {} });
   };
 
   const sortedReviews = useMemo(
@@ -131,7 +139,7 @@ const WarehouseReviews = (props) => {
                   auth?.user?.role === 'admin' || auth?.user?.id === review?.authorId
                 }
                 showEditOption={auth?.user?.id === review?.authorId}
-                onDelete={() => {}}
+                onDelete={() => openReviewDelete(review)}
                 onEdit={() => openReviewEdit(review)}
               />
             ))}
@@ -147,6 +155,11 @@ const WarehouseReviews = (props) => {
 
       <ReviewCreate open={reviewAddModal.value} onClose={reviewAddModal.onFalse} />
       <ReviewEdit open={reviewEdit.open} onClose={closeReviewEdit} review={reviewEdit.review} />
+      <ReviewDelete
+        open={reviewDelete.open}
+        onClose={closeReviewDelete}
+        review={reviewDelete.review}
+      />
     </Box>
   );
 };
