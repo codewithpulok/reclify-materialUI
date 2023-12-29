@@ -1,19 +1,24 @@
-import {
-  Button,
-  Dialog,
-  DialogActions,
-  DialogContent,
-  DialogTitle,
-  IconButton,
-} from '@mui/material';
+import Button from '@mui/material/Button';
+import Dialog from '@mui/material/Dialog';
+import DialogActions from '@mui/material/DialogActions';
+import DialogContent from '@mui/material/DialogContent';
+import DialogTitle from '@mui/material/DialogTitle';
+import IconButton from '@mui/material/IconButton';
+import Stack from '@mui/material/Stack';
 import PropTypes from 'prop-types';
+
+import { getTransactionStatusColor } from 'src/assets/dummy';
 import Label from 'src/components/common/label';
 import Scrollbar from 'src/components/common/scrollbar';
+import {
+  AmountDetailsCard,
+  SellerDetailsCard,
+  WarehouseDetailsCard,
+} from 'src/components/user-settings/cards';
 import { ICONS } from '../config-settings';
-import TransactionDetails from './transaction-details';
 
 const TransactionDialogProps = {
-  /** @type {CustomerTransaction | undefined} */
+  /** @type {Transaction | undefined} */
   transaction: PropTypes.object,
   open: PropTypes.bool.isRequired,
   onClose: PropTypes.func.isRequired,
@@ -31,15 +36,7 @@ const TransactionDialog = (props) => {
       <DialogTitle display="flex" flexDirection="row" alignItems="center" width="100%" gap={1}>
         Transaction Details
         {transaction?.status && (
-          <Label
-            variant="soft"
-            color={
-              (transaction.status === 'completed' && 'success') ||
-              (transaction.status === 'pending' && 'warning') ||
-              (transaction.status === 'declined' && 'error') ||
-              'default'
-            }
-          >
+          <Label variant="soft" color={getTransactionStatusColor(transaction.status)}>
             {transaction.status}
           </Label>
         )}
@@ -49,7 +46,16 @@ const TransactionDialog = (props) => {
       </DialogTitle>
       <Scrollbar sx={{ height: 500, pb: 10 }}>
         <DialogContent>
-          {transaction && <TransactionDetails transaction={transaction} />}
+          <Stack spacing={1.5}>
+            {transaction?.warehouse && <WarehouseDetailsCard warehouse={transaction.warehouse} />}
+            {transaction?.seller && <SellerDetailsCard seller={transaction.seller} />}
+            {transaction && (
+              <AmountDetailsCard
+                pricePerSquare={transaction.pricePerSquare}
+                totalArea={transaction.area}
+              />
+            )}
+          </Stack>
         </DialogContent>
       </Scrollbar>
 

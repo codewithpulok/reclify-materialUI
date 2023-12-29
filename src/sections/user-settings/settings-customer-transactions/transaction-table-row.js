@@ -2,23 +2,25 @@ import { format } from 'date-fns';
 import PropTypes from 'prop-types';
 
 import Avatar from '@mui/material/Avatar';
+import IconButton from '@mui/material/IconButton';
 import ListItemText from '@mui/material/ListItemText';
+import MenuItem from '@mui/material/MenuItem';
+import Stack from '@mui/material/Stack';
 import TableCell from '@mui/material/TableCell';
 import TableRow from '@mui/material/TableRow';
 
-import { fCurrency } from 'src/utils/format-number';
-
-import { IconButton, MenuItem, Stack } from '@mui/material';
+import { getTransactionStatusColor } from 'src/assets/dummy';
 import { usePopover } from 'src/components/common/custom-popover';
 import CustomPopover from 'src/components/common/custom-popover/custom-popover';
 import Label from 'src/components/common/label';
 import { getWarehouseAddress } from 'src/components/warehouse/utils';
+import { fCurrency } from 'src/utils/format-number';
 import { ICONS } from '../config-settings';
 
 // ----------------------------------------------------------------------
 
 const TransactionTableRowProps = {
-  /** @type {CustomerTransaction} */
+  /** @type {Transaction} */
   row: PropTypes.object.isRequired,
   selected: PropTypes.bool.isRequired,
   onViewTransaction: PropTypes.func.isRequired,
@@ -36,11 +38,6 @@ const TransactionTableRow = (props) => {
 
   const renderPrimary = (
     <TableRow hover selected={selected}>
-      <TableCell>
-        <IconButton onClick={onViewTransaction} color="default">
-          {ICONS.eye()}
-        </IconButton>
-      </TableCell>
       <TableCell>
         <Stack direction="row" alignItems="center">
           <Avatar
@@ -65,6 +62,7 @@ const TransactionTableRow = (props) => {
           />
         </Stack>
       </TableCell>
+
       <TableCell>
         <Stack direction="row" alignItems="center">
           <Avatar alt={row.seller.displayName} src={row.seller.photoURL} sx={{ mr: 2 }} />
@@ -74,6 +72,7 @@ const TransactionTableRow = (props) => {
           />
         </Stack>
       </TableCell>
+
       <TableCell>
         <ListItemText
           primary={format(new Date(row.createdAt), 'dd MMM yyyy')}
@@ -86,26 +85,17 @@ const TransactionTableRow = (props) => {
           }}
         />
       </TableCell>
-      <TableCell> {fCurrency(row.price)} </TableCell>
+
+      <TableCell> {fCurrency(row.area * row.pricePerSquare)} </TableCell>
+
       <TableCell>
-        <Label
-          variant="soft"
-          color={
-            (row.status === 'completed' && 'success') ||
-            (row.status === 'pending' && 'warning') ||
-            (row.status === 'declined' && 'error') ||
-            'default'
-          }
-        >
+        <Label variant="soft" color={getTransactionStatusColor(row.status)}>
           {row.status}
         </Label>
       </TableCell>
+
       <TableCell align="right" sx={{ px: 1, whiteSpace: 'nowrap' }}>
-        <IconButton
-          color={popover.open ? 'inherit' : 'default'}
-          onClick={popover.onOpen}
-          disabled={row.status !== 'pending'}
-        >
+        <IconButton color={popover.open ? 'inherit' : 'default'} onClick={popover.onOpen}>
           {ICONS.more()}
         </IconButton>
       </TableCell>
@@ -121,6 +111,14 @@ const TransactionTableRow = (props) => {
         arrow="right-top"
         sx={{ width: 300 }}
       >
+        <MenuItem
+          onClick={() => {
+            onViewTransaction();
+            popover.onClose();
+          }}
+        >
+          Transaction details
+        </MenuItem>
         {row.status === 'pending' && (
           <MenuItem
             onClick={() => {

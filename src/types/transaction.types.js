@@ -1,20 +1,21 @@
 /**
- * Represents a transaction associated with a customer's purchase.
+ * Represents a transaction object.
  *
  * @typedef {Object} Transaction
- * @property {string} id - A unique identifier for the transaction.
- * @property {Object} customer - Details of the customer making the purchase.
- * @property {string} customer.id - The unique identifier for the customer.
- * @property {string} customer.name - The name of the customer.
- * @property {string} customer.email - The email address of the customer.
- * @property {string} customer.photoURL - The URL of the customer's profile photo.
- * @property {number} createdAt - The timestamp of the transaction in milliseconds.
- * @property {number} price - The total price of the items in the transaction.
- * @property {TransactionStatus} status - The status of the transaction ("PENDING", "COMPLETED", "REFUNDED", "CANCELED").
- * @property {number} userId - The user ID to which this transaction belongs.
+ * @property {string} id - The unique identifier for the transaction.
+ * @property {string} warehouseId - The identifier of the warehouse associated with the transaction.
+ * @property {Warehouse} warehouse
+ * @property {string} sellerId - The identifier of the seller associated with the transaction.
+ * @property {User} seller
+ * @property {string} customerId - The identifier of the customer associated with the transaction.
+ * @property {User} customer
+ * @property {number} createdAt - The timestamp when the transaction was created (in milliseconds).
+ * @property {number} updatedAt - The timestamp when the transaction was last updated (in milliseconds).
+ * @property {TransactionStatus} status - The status of the transaction, which can be 'completed', 'pending', or 'declined'.
+ * @property {number} area - The area (space) associated with the transaction.
+ * @property {number} pricePerSquare - The price per square unit of the transaction area.
  */
 
 /**
- * Transaction status
- * @typedef {"PENDING" | "COMPLETED" | "REFUNDED" | "CANCELED"} TransactionStatus
+ * @typedef {'completed' | 'pending' | 'declined'} TransactionStatus
  */

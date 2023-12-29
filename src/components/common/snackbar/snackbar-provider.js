@@ -24,7 +24,6 @@ export default function SnackbarProvider({ children }) {
     <NotistackProvider
       ref={notistackRef}
       maxSnack={5}
-      preventDuplicate
       autoHideDuration={3000}
       TransitionComponent={isRTL ? Collapse : undefined}
       variant="success" // Set default variant

@@ -1,20 +1,24 @@
-import { Stack, Typography } from '@mui/material';
+import Stack from '@mui/material/Stack';
+import Typography from '@mui/material/Typography';
 import PropTypes from 'prop-types';
+
 import { fCurrency, fNumber } from 'src/utils/format-number';
 
-const TransactionAmountProps = {
+const AmountDetailsCardProps = {
   pricePerSquare: PropTypes.number.isRequired,
   totalArea: PropTypes.number.isRequired,
+  /** @type {SxProps} */
+  sx: PropTypes.object,
 };
 
 /**
- * @param {TransactionAmountProps} props
+ * @param {AmountDetailsCardProps} props
  * @returns {JSX.Element}
  */
-const TransactionAmount = (props) => {
-  const { pricePerSquare, totalArea } = props;
+const AmountDetailsCard = (props) => {
+  const { pricePerSquare, totalArea, sx = {} } = props;
   return (
-    <Stack sx={{ bgcolor: 'background.default', p: 1.5, borderRadius: 1 }} spacing={0.5}>
+    <Stack sx={{ bgcolor: 'background.default', p: 1.5, borderRadius: 1, ...sx }} spacing={0.5}>
       <Stack direction="row" justifyContent="space-between" alignItems="baseline" spacing={1}>
         <Typography variant="subtitle2">Puchased Area:</Typography>
         <Typography variant="subtitle2" color="text.secondary">
@@ -49,6 +53,6 @@ const TransactionAmount = (props) => {
   );
 };
 
-TransactionAmount.propTypes = TransactionAmountProps;
+AmountDetailsCard.propTypes = AmountDetailsCardProps;
 
-export default TransactionAmount;
+export default AmountDetailsCard;

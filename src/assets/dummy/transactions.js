@@ -1,170 +1,92 @@
-/**
- * Dummy transaction list
- * @type {Transaction[]}
- */
+import { getUserByID } from './users';
+import { getWarehouseById } from './warehouses';
+
+/** @type {Transaction[]} */
 const transactions = [
   {
     id: 'transaction-1',
-    customer: {
-      id: 'customer-1',
-      name: 'John Smith',
-      email: 'john.smith@example.com',
-      photoURL: 'https://i.pravatar.cc/150?u=customer-1',
-    },
-    createdAt: Date.now() - 1 * 86400000,
-    price: 150.99,
-    status: 'PENDING',
-    userId: '2',
+    warehouseId: 'abc123',
+    sellerId: '2',
+    customerId: '3',
+    createdAt: 238947981279,
+    updatedAt: 237902790943,
+    status: 'completed',
+    area: 2500,
+    pricePerSquare: 1.5,
   },
   {
     id: 'transaction-2',
-    customer: {
-      id: 'customer-2',
-      name: 'Emma Johnson',
-      email: 'emma.johnson@example.com',
-      photoURL: 'https://i.pravatar.cc/150?u=customer-2',
-    },
-    createdAt: Date.now() - 2 * 86400000,
-    price: 99.95,
-    status: 'COMPLETED',
-    userId: '2',
+    warehouseId: 'def456',
+    sellerId: '2',
+    customerId: '3',
+    createdAt: 238947982134,
+    updatedAt: 237902791587,
+    status: 'pending',
+    area: 4000,
+    pricePerSquare: 1.2,
   },
   {
     id: 'transaction-3',
-    customer: {
-      id: 'customer-3',
-      name: 'Michael Davis',
-      email: 'michael.davis@example.com',
-      photoURL: 'https://i.pravatar.cc/150?u=customer-3',
-    },
-    createdAt: Date.now() - 3 * 86400000,
-    price: 249.75,
-    status: 'PENDING',
-    userId: '2',
-  },
-  {
-    id: 'transaction-4',
-    customer: {
-      id: 'customer-4',
-      name: 'Emily White',
-      email: 'emily.white@example.com',
-      photoURL: 'https://i.pravatar.cc/150?u=customer-4',
-    },
-    createdAt: Date.now() - 4 * 86400000,
-    price: 199.5,
-    status: 'COMPLETED',
-    userId: '2',
-  },
-  {
-    id: 'transaction-5',
-    customer: {
-      id: 'customer-5',
-      name: 'David Robinson',
-      email: 'david.robinson@example.com',
-      photoURL: 'https://i.pravatar.cc/150?u=customer-5',
-    },
-    createdAt: Date.now() - 5 * 86400000,
-    price: 349.25,
-    status: 'PENDING',
-    userId: '2',
-  },
-  {
-    id: 'transaction-6',
-    customer: {
-      id: 'customer-6',
-      name: 'Sophia Miller',
-      email: 'sophia.miller@example.com',
-      photoURL: 'https://i.pravatar.cc/150?u=customer-6',
-    },
-    createdAt: Date.now() - 6 * 86400000,
-    price: 79.99,
-    status: 'COMPLETED',
-    userId: '2',
-  },
-  {
-    id: 'transaction-7',
-    customer: {
-      id: 'customer-7',
-      name: 'Matthew Taylor',
-      email: 'matthew.taylor@example.com',
-      photoURL: 'https://i.pravatar.cc/150?u=customer-7',
-    },
-    createdAt: Date.now() - 7 * 86400000,
-    price: 129.75,
-    status: 'PENDING',
-    userId: '2',
-  },
-  {
-    id: 'transaction-8',
-    customer: {
-      id: 'customer-8',
-      name: 'Olivia Brown',
-      email: 'olivia.brown@example.com',
-      photoURL: 'https://i.pravatar.cc/150?u=customer-8',
-    },
-    createdAt: Date.now() - 8 * 86400000,
-    price: 299.5,
-    status: 'COMPLETED',
-    userId: '2',
-  },
-  {
-    id: 'transaction-9',
-    customer: {
-      id: 'customer-9',
-      name: 'Daniel Harris',
-      email: 'daniel.harris@example.com',
-      photoURL: 'https://i.pravatar.cc/150?u=customer-9',
-    },
-    createdAt: Date.now() - 9 * 86400000,
-    price: 179.25,
-    status: 'PENDING',
-    userId: '2',
-  },
-  {
-    id: 'transaction-10',
-    customer: {
-      id: 'customer-10',
-      name: 'Ava Jones',
-      email: 'ava.jones@example.com',
-      photoURL: 'https://i.pravatar.cc/150?u=customer-10',
-    },
-    createdAt: Date.now() - 10 * 86400000,
-    price: 219.99,
-    status: 'COMPLETED',
-    userId: '2',
+    warehouseId: 'ghi789',
+    sellerId: '2',
+    customerId: '3',
+    createdAt: 238947983001,
+    updatedAt: 237902792232,
+    status: 'declined',
+    area: 3000,
+    pricePerSquare: 1.8,
   },
 ];
-
 /**
- * Find transections by user id
- * @param {string} id
- * @returns {Transaction[]}
+ * generate Transaction Data
+ * @param {string} id - transaction id
+ * @returns {Transaction}
  */
-export const getTransectionsByUserId = (id) =>
-  transactions.filter((transaction) => transaction.userId === id);
+const generateTransaction = (id) => {
+  const transaction = transactions.find((t) => t.id === id);
 
-/**
- * Find transaction by id
- * @param {string} id
- * @returns {Transaction | undefined}
- */
-export const getTransectionById = (id) => transactions.find((transaction) => transaction.id === id);
+  if (!transaction) return undefined;
 
-/**
- * Change transaction status
- * @param {string} id
- * @param {TransactionStatus} status
- * @returns {Transaction | undefined}
- */
-export const changeTransactionStatus = (id, status) => {
-  const transaction = getTransectionById(id);
-  transaction.status = status;
+  transaction.warehouse = getWarehouseById(transaction.warehouseId);
+  transaction.customer = getUserByID(transaction.customerId);
+  transaction.seller = getUserByID(transaction.sellerId);
+
   return transaction;
 };
 
+/**
+ * get customer transactions
+ * @param {string} id - customer id
+ * @returns {Transaction[]}
+ */
+export const getCustomerTransactions = (id) => {
+  const filteredTransactions = transactions.filter((t) => t.customerId === id);
+
+  return filteredTransactions.map((t) => generateTransaction(t.id));
+};
+
+/**
+ * get seller transactions
+ * @param {string} id - seller id
+ * @returns {Transaction[]}
+ */
+export const getSellerTransactions = (id) => {
+  const filteredTransactions = transactions.filter((t) => t.sellerId === id);
+
+  return filteredTransactions.map((t) => generateTransaction(t.id));
+};
+
 export const TRANSACTION_STATUS_OPTIONS = [
-  { value: 'PENDING', label: 'Pending' },
-  { value: 'COMPLETED', label: 'Completed' },
-  { value: 'CANCELED', label: 'Canceled' },
-  { value: 'REFUNDED', label: 'Refunded' },
+  { value: 'completed', label: 'Completed', color: 'success' },
+  { value: 'pending', label: 'Pending', color: 'warning' },
+  { value: 'declined', label: 'Declined', color: 'error' },
 ];
+export const getTransactionStatusColor = (transactionStatus) => {
+  const transactionOpiton = TRANSACTION_STATUS_OPTIONS.find(
+    (option) => option.value === transactionStatus
+  );
+
+  if (!transactionOpiton) return 'default';
+
+  return transactionOpiton.color;
+};
