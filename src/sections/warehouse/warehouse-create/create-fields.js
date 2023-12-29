@@ -1,14 +1,18 @@
 import { Button, Grid, Stack } from '@mui/material';
 import Link from 'next/link';
-import { predefinedApprovedUses } from 'src/assets/data';
+import { predefinedApprovedUses, predefinedFeatures } from 'src/assets/data';
 // local components
-import { AddressField, FeaturesField, PredefinedSwitchField } from 'src/components/common/fields';
+import {
+  AddressField,
+  PredefinedSwitchFields,
+  PredefinedTextSwitchFields,
+} from 'src/components/common/fields';
 import { RHFTextField } from 'src/components/common/hook-form';
 import Label from 'src/components/common/label';
 import { WarehousePhotoUpload } from 'src/components/warehouse/upload';
 import { paths } from 'src/routes/paths';
 
-const WarehouseCreateFields = (props) => (
+const CreateFields = (props) => (
   <Grid container spacing={1.5}>
     <Grid item xs={12} md={6}>
       <Grid container spacing={1.2}>
@@ -40,10 +44,14 @@ const WarehouseCreateFields = (props) => (
     <Grid item xs={12} md={6}>
       <Grid container spacing={1.2}>
         <Grid item xs={12}>
-          <FeaturesField name="features" />
+          <PredefinedTextSwitchFields
+            name="features"
+            label="Features"
+            fields={predefinedFeatures}
+          />
         </Grid>
         <Grid item xs={12}>
-          <PredefinedSwitchField
+          <PredefinedSwitchFields
             name="approvedUses"
             fields={predefinedApprovedUses}
             label="Approved Uses"
@@ -80,6 +88,6 @@ const WarehouseCreateFields = (props) => (
   </Grid>
 );
 
-WarehouseCreateFields.propTypes = {};
+CreateFields.propTypes = {};
 
-export default WarehouseCreateFields;
+export default CreateFields;

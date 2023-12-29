@@ -9,6 +9,8 @@ const RHFSwitchProps = {
   helperText: PropTypes.string,
   name: PropTypes.string,
   label: PropTypes.string,
+  /** @type {import('@mui/material').FormControlLabelProps} */
+  labelProps: PropTypes.object,
 };
 
 // ----------------------------------------------------------------------
@@ -19,7 +21,7 @@ const RHFSwitchProps = {
  * @returns {JSX.Element}
  */
 export default function RHFSwitch(props) {
-  const { name, helperText, label, ...other } = props;
+  const { name, helperText, label, labelProps = {}, ...other } = props;
   const { control } = useFormContext();
 
   return (
@@ -29,7 +31,11 @@ export default function RHFSwitch(props) {
       render={({ field, fieldState: { error } }) => (
         <div>
           {label ? (
-            <FormControlLabel control={<Switch {...field} checked={field.value} {...other} />} />
+            <FormControlLabel
+              control={<Switch {...field} checked={field.value} {...other} />}
+              label={label}
+              {...labelProps}
+            />
           ) : (
             <Switch {...field} checked={field.value} {...other} />
           )}

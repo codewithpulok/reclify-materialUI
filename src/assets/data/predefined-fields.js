@@ -15,6 +15,10 @@ export const predefinedFeatures = [
   { key: 'overnightParking', label: 'Overnight Parking', type: 'boolean' },
   { key: 'forkLift', label: 'Fork lift', type: 'boolean' },
 ];
+export const featuresDefaultValues = predefinedFeatures.reduce((prev, next) => {
+  prev[next.key] = false;
+  return prev;
+}, {});
 
 /**
  * predefined approved uses fields
@@ -29,6 +33,10 @@ export const predefinedApprovedUses = [
   { key: 'industrialMaterials', label: 'Industrial Materials', type: 'boolean' },
   { key: 'Machinery', label: 'Machinery', type: 'boolean' },
 ];
+export const approvedUsesDefaultValues = predefinedApprovedUses.reduce((prev, next) => {
+  prev[next.key] = false;
+  return prev;
+}, {});
 
 /**
  * predefined facility fields
