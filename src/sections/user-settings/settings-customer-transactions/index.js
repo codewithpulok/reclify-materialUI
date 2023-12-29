@@ -53,7 +53,6 @@ const SettingsCustomerTransactions = () => {
   const { user } = useAuthContext();
   const { enqueueSnackbar } = useSnackbar();
   const transactions = getCustomerTransactions(user?.id);
-  console.log({ transactions, user });
 
   const table = useTable({ defaultOrderBy: 'createdAt' });
   const [tableData] = useState(transactions);
