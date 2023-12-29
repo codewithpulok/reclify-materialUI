@@ -1,5 +1,6 @@
 export { default } from './form-provider';
 
+export { default as RHFAccordion } from './rhf-accordion';
 export { default as RHFAutocomplete } from './rhf-autocomplete';
 export { default as RHFRating } from './rhf-rating';
 export { default as RHFSwitch } from './rhf-switch';

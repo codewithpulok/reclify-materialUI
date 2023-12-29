@@ -1,8 +1,8 @@
 import { Stack } from '@mui/material';
 import PropTypes from 'prop-types';
-import { RHFAccordion, RHFSwitch } from '../../hook-form';
+import { RHFAccordion, RHFTextField } from '../../hook-form';
 
-const PredefinedSwitchFieldsProps = {
+const PredefinedFieldsProps = {
   name: PropTypes.string.isRequired,
   label: PropTypes.string.isRequired,
   /** @type {PredefinedField[]} */
@@ -10,27 +10,26 @@ const PredefinedSwitchFieldsProps = {
 };
 
 /**
- * @param {PredefinedSwitchFieldsProps} props
+ * @param {PredefinedFieldsProps} props
  * @returns {JSX.Element}
  */
-const PredefinedSwitchFields = (props) => {
+const PredefinedFields = (props) => {
   const { name, fields, label } = props;
 
   return (
     <RHFAccordion name={name} label={label}>
-      <Stack spacing={0}>
+      <Stack spacing={1.3}>
         {fields.map((field) => {
-          if (field.type !== 'boolean') return null;
+          if (field.type === 'boolean') return null;
+          if (field.type === 'custom') return null;
           return (
-            <RHFSwitch
+            <RHFTextField
               name={`${name}.${field.key}`}
-              size="medium"
               label={field.label}
               key={field.key}
-              labelProps={{
-                labelPlacement: 'start',
-                sx: { justifyContent: 'space-between', width: '100%', mx: 0 },
-              }}
+              type={field.type}
+              multiline={field.multiline}
+              rows={2}
             />
           );
         })}
@@ -39,6 +38,6 @@ const PredefinedSwitchFields = (props) => {
   );
 };
 
-PredefinedSwitchFields.propTypes = PredefinedSwitchFieldsProps;
+PredefinedFields.propTypes = PredefinedFieldsProps;
 
-export default PredefinedSwitchFields;
+export default PredefinedFields;

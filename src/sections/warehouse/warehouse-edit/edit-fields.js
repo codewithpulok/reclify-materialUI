@@ -21,7 +21,7 @@ import Label from 'src/components/common/label';
 import { WarehousePhotoUpload } from 'src/components/warehouse/upload';
 import { paths } from 'src/routes/paths';
 
-const CreateFields = (props) => (
+const WarehouseEditFields = (props) => (
   <Grid container spacing={1.5}>
     <Grid item xs={12} md={6}>
       <Grid container spacing={1.2}>
@@ -102,7 +102,7 @@ const CreateFields = (props) => (
         spacing={0.5}
       >
         <Button variant="contained" size="large" type="submit" color="primary">
-          Create Warehouse
+          Save Changes
         </Button>
         <Link href={paths.dashboard.listing}>
           <Button variant="soft" size="large" color="error" type="reset">
@@ -114,6 +114,6 @@ const CreateFields = (props) => (
   </Grid>
 );
 
-CreateFields.propTypes = {};
+WarehouseEditFields.propTypes = {};
 
-export default CreateFields;
+export default WarehouseEditFields;

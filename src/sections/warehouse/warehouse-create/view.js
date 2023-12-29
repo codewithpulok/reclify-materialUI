@@ -29,6 +29,7 @@ const defaultValues = {
   photos: [],
   approvedUses: approvedUsesDefaultValues,
   features: featuresDefaultValues,
+  rules: [],
 };
 
 /**

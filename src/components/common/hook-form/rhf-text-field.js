@@ -32,7 +32,7 @@ export default function RHFTextField(props) {
           value={field.value}
           onChange={(event) => {
             if (type === 'number') {
-              field.onChange(Number(event.target.value));
+              field.onChange(event.target.value === '' ? undefined : Number(event.target.value));
             } else {
               field.onChange(event.target.value);
             }

@@ -1,14 +1,13 @@
-import { predefinedApprovedUses, predefinedFeatures } from 'src/assets/data';
 import * as Yup from 'yup';
 
-const createSchema = Yup.object().shape({
+const editSchema = Yup.object().shape({
   name: Yup.string().required('Warehouse name is required'),
   address: Yup.object().shape({
-    streetNumber: Yup.number().required('Warehouse street number is required'),
+    streetNumber: Yup.string().required('Warehouse street number is required'),
     streetAddress: Yup.string().required('Warehouse street address is required'),
     city: Yup.string().required('Warehouse city is required'),
     state: Yup.string().required('Warehouse state is required'),
-    zipCode: Yup.number().required('Warehouse zip code is required'),
+    zipCode: Yup.string().required('Warehouse zip code is required'),
     country: Yup.string().required('Warehouse country is required'),
   }),
   totalSpace: Yup.number()
@@ -24,19 +23,6 @@ const createSchema = Yup.object().shape({
       coverUrl: Yup.string().required('Photo url is required'),
     })
   ),
-  approvedUses: Yup.object().shape(
-    predefinedApprovedUses.reduce((prev, next) => {
-      prev[next.key] = Yup.boolean().required(`${next.label} is required`);
-      return prev;
-    }, {})
-  ),
-  features: Yup.object().shape(
-    predefinedFeatures.reduce((prev, next) => {
-      prev[next.key] = Yup.boolean().required(`${next.label} is required`);
-      return prev;
-    }, {})
-  ),
-  rules: Yup.array(Yup.string()),
 });
 
-export default createSchema;
+export default editSchema;
