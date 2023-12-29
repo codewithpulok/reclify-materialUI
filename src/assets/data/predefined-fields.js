@@ -45,7 +45,7 @@ export const approvedUsesDefaultValues = predefinedApprovedUses.reduce((prev, ne
 export const predefinedFacility = [
   { key: 'totalSpace', label: 'Total Facility Size', type: 'number' },
   { key: 'operatingDays', label: 'Operating Days', type: 'custom' },
-  { key: 'operatingHours', label: 'Operating Hours', type: 'custom' },
+  { key: 'operatingHours', label: 'Operating Hours', type: 'time-picker' },
   { key: 'facilitySecurity', label: 'Facility Security', type: 'text' },
   { key: 'industriesServed', label: 'Industries Served', type: 'text' },
   { key: 'dockHighDoors', label: 'Dock High Doors', type: 'text' },
@@ -55,6 +55,22 @@ export const predefinedFacility = [
   { key: 'clearCeilingHeight', label: 'Clear Ceiling Height (feet)', type: 'number' },
   { key: 'maxForkliftCapacity', label: 'Max Forklift Capacity (lbs)', type: 'number' },
 ];
+export const facilityDefaultValues = predefinedFacility.reduce((prev, next) => {
+  if (next.type === 'text') {
+    prev[next.key] = '';
+  } else if (next.type === 'number') {
+    prev[next.key] = 0;
+  } else if (next.type === 'boolean') {
+    prev[next.key] = false;
+  } else if (next.type === 'time-picker') {
+    prev[next.key] = {
+      start: undefined,
+      end: undefined,
+    };
+  }
+
+  return prev;
+}, {});
 
 /**
  * predefined services fields

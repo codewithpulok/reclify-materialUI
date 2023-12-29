@@ -5,7 +5,11 @@ import { Container } from '@mui/material';
 import PropTypes from 'prop-types';
 import { useForm } from 'react-hook-form';
 // local components
-import { approvedUsesDefaultValues, featuresDefaultValues } from 'src/assets/data';
+import {
+  approvedUsesDefaultValues,
+  facilityDefaultValues,
+  featuresDefaultValues,
+} from 'src/assets/data';
 import CustomBreadcrumbs from 'src/components/common/custom-breadcrumbs';
 import FormProvider from 'src/components/common/hook-form/form-provider';
 import { useSettingsContext } from 'src/components/common/settings';
@@ -25,11 +29,12 @@ const defaultValues = {
   location: '',
   totalSpace: 0,
   pricePerSquare: 0,
-  descripiton: '',
+  description: '',
   photos: [],
   approvedUses: approvedUsesDefaultValues,
   features: featuresDefaultValues,
   rules: [],
+  facilityDetails: facilityDefaultValues,
 };
 
 /**
