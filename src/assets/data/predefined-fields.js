@@ -2,7 +2,7 @@
  * predefined feature fields
  * @type {PredefinedField[]}
  */
-export const features = [
+export const predefinedFeatures = [
   { key: 'highDoors', label: 'Dock-High Doors', type: 'boolean' },
   { key: 'internet', label: 'Internet', type: 'boolean' },
   { key: 'groundDoors', label: 'Ground Level Doors', type: 'boolean' },
@@ -20,7 +20,7 @@ export const features = [
  * predefined approved uses fields
  * @type {PredefinedField[]}
  */
-export const approvedUses = [
+export const predefinedApprovedUses = [
   { key: 'apparel', label: 'Apparel', type: 'boolean' },
   { key: 'automotive', label: 'Automotive', type: 'boolean' },
   { key: 'baseMetals', label: 'Base metals', type: 'boolean' },
@@ -34,7 +34,7 @@ export const approvedUses = [
  * predefined facility fields
  * @type {PredefinedField[]}
  */
-export const facility = [
+export const predefinedFacility = [
   { key: 'totalSpace', label: 'Total Facility Size', type: 'number' },
   { key: 'operatingDays', label: 'Operating Days', type: 'custom' },
   { key: 'operatingHours', label: 'Operating Hours', type: 'custom' },
@@ -52,7 +52,7 @@ export const facility = [
  * predefined services fields
  * @type {PredefinedField[]}u
  */
-export const services = [
+export const predefinedServices = [
   { key: 'addOnServiceRate', label: 'Add-On Service Rate', type: 'number' },
   { key: 'inboundServices', label: 'Inbound Services', type: 'text' },
   { key: 'outboundServices', label: 'Outbound Services', type: 'text' },

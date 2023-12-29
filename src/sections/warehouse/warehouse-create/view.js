@@ -6,6 +6,7 @@ import PropTypes from 'prop-types';
 import { useForm } from 'react-hook-form';
 import * as Yup from 'yup';
 // local components
+import { predefinedApprovedUses } from 'src/assets/data';
 import CustomBreadcrumbs from 'src/components/common/custom-breadcrumbs';
 import FormProvider from 'src/components/common/hook-form/form-provider';
 import { useSettingsContext } from 'src/components/common/settings';
@@ -51,6 +52,10 @@ const defaultValues = {
   pricePerSquare: 0,
   descripiton: '',
   photos: [],
+  approvedUses: predefinedApprovedUses.reduce((prev, next) => {
+    prev[next.key] = false;
+    return prev;
+  }, {}),
 };
 
 /**
@@ -69,7 +74,7 @@ const WarehouseCreateView = (props) => {
     resolver: yupResolver(WarehouseCreateSchema),
     defaultValues: sourceWarehouse || defaultValues,
   });
-  const { handleSubmit, formState } = methods;
+  const { handleSubmit } = methods;
 
   // handle form submit
   const onSubmit = async (values) => {
@@ -77,8 +82,6 @@ const WarehouseCreateView = (props) => {
 
     await snackbarPromise(createWarehouse(values));
   };
-
-  console.log(formState.errors);
 
   return (
     <Container maxWidth={settings.themeStretch ? false : 'lg'}>
