@@ -2,7 +2,7 @@ import { Box, Grid, Typography } from '@mui/material';
 import PropTypes from 'prop-types';
 import { useMemo } from 'react';
 import { predefinedServices } from 'src/assets/data';
-import { predefinedFieldsValue } from 'src/utils/predefined-fields';
+import { getPredefinedFieldsValue } from 'src/utils/predefined-fields';
 import { detailsBoxStyle } from '../../styles';
 
 const ServicesTabProps = {
@@ -18,7 +18,7 @@ const ServicesTabProps = {
  */
 const ServicesTab = (props) => {
   const { services, sx } = props;
-  const values = useMemo(() => predefinedFieldsValue(services, predefinedServices), [services]);
+  const values = useMemo(() => getPredefinedFieldsValue(services, predefinedServices), [services]);
   return (
     <Box sx={{ ...detailsBoxStyle, ...sx }}>
       <Grid container sx={{ rowGap: { xs: 1.3, sm: 1 } }}>

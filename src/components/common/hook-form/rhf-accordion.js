@@ -12,6 +12,8 @@ const RHFAccordionProps = {
   name: PropTypes.string.isRequired,
   label: PropTypes.string.isRequired,
   children: PropTypes.node.isRequired,
+  /** @type {SxProps} */
+  sx: PropTypes.object,
 };
 
 /**
@@ -20,11 +22,12 @@ const RHFAccordionProps = {
  * @returns {JSX.Element}
  */
 const RHFAccordion = (props) => {
-  const { children, label, name } = props;
+  const { children, label, name, sx = {} } = props;
   const {
     formState: { errors },
   } = useFormContext();
   const isError = useMemo(() => Object.keys(errors?.[name] || {}).length > 0, [errors, name]);
+
   return (
     <Accordion
       sx={{
@@ -34,6 +37,7 @@ const RHFAccordion = (props) => {
         '&.Mui-expanded': {
           bgcolor: 'background.default',
         },
+        ...sx,
       }}
       elevation={0}
       disableGutters

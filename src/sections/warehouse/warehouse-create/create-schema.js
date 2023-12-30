@@ -1,7 +1,8 @@
 import { predefinedApprovedUses, predefinedFeatures } from 'src/assets/data';
 import * as Yup from 'yup';
 
-const createSchema = Yup.object().shape({
+/** @type {Warehouse} */
+const createSchemaShape = {
   name: Yup.string().required('Warehouse name is required'),
   address: Yup.object().shape({
     streetNumber: Yup.number().required('Warehouse street number is required'),
@@ -37,6 +38,7 @@ const createSchema = Yup.object().shape({
     }, {})
   ),
   rules: Yup.array(Yup.string()),
-});
+};
+const createSchema = Yup.object().shape(createSchemaShape);
 
 export default createSchema;

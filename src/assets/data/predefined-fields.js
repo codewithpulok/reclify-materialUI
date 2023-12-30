@@ -44,7 +44,7 @@ export const approvedUsesDefaultValues = predefinedApprovedUses.reduce((prev, ne
  */
 export const predefinedFacility = [
   { key: 'totalSpace', label: 'Total Facility Size', type: 'number' },
-  { key: 'operatingDays', label: 'Operating Days', type: 'custom' },
+  { key: 'operatingDays', label: 'Operating Days', type: 'days-picker' },
   { key: 'operatingHours', label: 'Operating Hours', type: 'time-picker' },
   { key: 'facilitySecurity', label: 'Facility Security', type: 'text' },
   { key: 'industriesServed', label: 'Industries Served', type: 'text' },
@@ -67,6 +67,8 @@ export const facilityDefaultValues = predefinedFacility.reduce((prev, next) => {
       start: undefined,
       end: undefined,
     };
+  } else if (next.type === 'days-picker') {
+    prev[next.key] = [false, false, false, false, false, false];
   }
 
   return prev;

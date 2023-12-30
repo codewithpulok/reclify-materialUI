@@ -2,7 +2,7 @@ import { Box, Grid, Typography } from '@mui/material';
 import PropTypes from 'prop-types';
 import { useMemo } from 'react';
 import { predefinedFacility } from 'src/assets/data';
-import { predefinedFieldsValue } from 'src/utils/predefined-fields';
+import { getPredefinedFieldsValue } from 'src/utils/predefined-fields';
 import { detailsBoxStyle } from '../../styles';
 
 const FacilityTabProps = {
@@ -19,7 +19,7 @@ const FacilityTabProps = {
 const FacilityTab = (props) => {
   const { facilityDetails, sx = {} } = props;
   const values = useMemo(
-    () => predefinedFieldsValue(facilityDetails, predefinedFacility),
+    () => getPredefinedFieldsValue(facilityDetails, predefinedFacility),
     [facilityDetails]
   );
   return (

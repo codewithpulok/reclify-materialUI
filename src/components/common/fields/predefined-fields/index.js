@@ -1,6 +1,7 @@
 import { Stack } from '@mui/material';
 import PropTypes from 'prop-types';
 import { RHFAccordion, RHFTextField, RHFTimeRangePicker } from '../../hook-form';
+import DaysField from '../days-field';
 
 const PredefinedFieldsProps = {
   name: PropTypes.string.isRequired,
@@ -22,6 +23,17 @@ const PredefinedFields = (props) => {
         {fields.map((field) => {
           if (field.type === 'boolean') return null;
           if (field.type === 'custom') return null;
+
+          if (field.type === 'days-picker') {
+            return (
+              <DaysField
+                name={`${name}.${field.key}`}
+                label={field.label}
+                key={field.key}
+                // wrapperSx={{ gap: 1.3 }}
+              />
+            );
+          }
 
           if (field.type === 'time-picker') {
             return (

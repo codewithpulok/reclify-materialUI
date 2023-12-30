@@ -64,8 +64,6 @@ const WarehouseCreateView = (props) => {
     await snackbarPromise(createWarehouse(values));
   };
 
-  console.log({ defaultValues });
-
   return (
     <Container maxWidth={settings.themeStretch ? false : 'lg'}>
       <CustomBreadcrumbs
