@@ -1,5 +1,5 @@
 import PropTypes from 'prop-types';
-import { useCallback, useState } from 'react';
+import { useCallback, useMemo, useState } from 'react';
 
 import Button from '@mui/material/Button';
 import Card from '@mui/material/Card';
@@ -35,25 +35,28 @@ const BillingPlanProps = {
 const BillingPlan = (props) => {
   const { plans, addressBook, cards } = props;
 
-  const primaryAddress = addressBook.find((address) => address.primary);
-  const primaryCard = cards.find((card) => card.primary);
+  const primaryAddress = useMemo(
+    () => addressBook.find((address) => address.primary),
+    [addressBook]
+  );
+  const primaryCard = useMemo(() => cards.find((card) => card.primary), [cards]);
+  const currentPlan = useMemo(() => plans.filter((plan) => plan.primary)[0].subscription, [plans]);
 
   const openAddress = useBoolean();
   const openCards = useBoolean();
 
-  const [selectedPlan, setSelectedPlan] = useState('');
+  const [selectedPlan, setSelectedPlan] = useState(currentPlan);
   const [selectedAddress, setSelectedAddress] = useState(primaryAddress);
 
   const [selectedCard, setSelectedCard] = useState(primaryCard);
 
   const handleSelectPlan = useCallback(
     (newValue) => {
-      const currentPlan = plans.filter((plan) => plan.primary)[0].subscription;
       if (currentPlan !== newValue) {
         setSelectedPlan(newValue);
       }
     },
-    [plans]
+    [currentPlan]
   );
 
   const handleSelectAddress = useCallback((newValue) => {
@@ -146,7 +149,7 @@ const BillingPlan = (props) => {
 
         <Stack spacing={1.5} direction="row" justifyContent="flex-end" sx={{ p: 3 }}>
           <Button variant="outlined">Cancel Plan</Button>
-          <Button variant="contained" color="success">
+          <Button variant="contained" color="success" disabled={currentPlan === selectedPlan}>
             Upgrade Plan
           </Button>
         </Stack>
