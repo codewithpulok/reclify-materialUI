@@ -83,3 +83,19 @@ export const predefinedServices = [
   { key: 'valueAddServices', label: 'Value Add Services', type: 'text' },
   { key: 'serviceRate', label: 'Service Rate', type: 'number' },
 ];
+export const servicesDefaultValues = predefinedServices.reduce((prev, next) => {
+  if (next.type === 'text') {
+    prev[next.key] = '';
+  } else if (next.type === 'number') {
+    prev[next.key] = 0;
+  } else if (next.type === 'boolean') {
+    prev[next.key] = false;
+  } else if (next.type === 'time-picker') {
+    prev[next.key] = {
+      start: undefined,
+      end: undefined,
+    };
+  }
+
+  return prev;
+}, {});

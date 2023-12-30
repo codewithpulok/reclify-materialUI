@@ -14,4 +14,5 @@ export const ICONS = {
   close: (width, sx) => getIconify('solar:close-circle-bold', width, sx),
   adminSettings: (width, sx) => getIconify('solar:settings-linear', width, sx),
   expand: (width, sx) => getIconify('solar:alt-arrow-down-line-duotone', width, sx),
+  rule: (width, sx) => getIconify('solar:danger-circle-line-duotone', width, sx),
 };

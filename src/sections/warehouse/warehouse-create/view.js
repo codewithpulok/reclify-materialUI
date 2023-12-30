@@ -9,6 +9,7 @@ import {
   approvedUsesDefaultValues,
   facilityDefaultValues,
   featuresDefaultValues,
+  servicesDefaultValues,
 } from 'src/assets/data';
 import CustomBreadcrumbs from 'src/components/common/custom-breadcrumbs';
 import FormProvider from 'src/components/common/hook-form/form-provider';
@@ -26,15 +27,16 @@ const WarehouseCreateViewProps = {
 
 const defaultValues = {
   name: '',
-  location: '',
+  address: '',
   totalSpace: 0,
   pricePerSquare: 0,
   description: '',
   photos: [],
   approvedUses: approvedUsesDefaultValues,
   features: featuresDefaultValues,
-  rules: [],
   facilityDetails: facilityDefaultValues,
+  services: servicesDefaultValues,
+  rules: [],
 };
 
 /**
@@ -61,6 +63,8 @@ const WarehouseCreateView = (props) => {
 
     await snackbarPromise(createWarehouse(values));
   };
+
+  console.log({ defaultValues });
 
   return (
     <Container maxWidth={settings.themeStretch ? false : 'lg'}>

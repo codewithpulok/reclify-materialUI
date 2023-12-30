@@ -10,11 +10,14 @@ import { useAuthContext } from 'src/auth/hooks';
 import { useSettingsContext } from 'src/components/common/settings';
 import { WarehouseOwnerCard } from 'src/components/warehouse/cards';
 import WarehouseAddressMap from './warehouse-address-map';
+import WarehouseApprovedUses from './warehouse-approved-uses';
 import WarehouseBookingOptions from './warehouse-booking-options';
 import WarehouseDescription from './warehouse-description';
+import WarehouseFeatures from './warehouse-features';
 import WarehouseHeader from './warehouse-header';
 import WarehouseImageCarousel from './warehouse-image-carousel';
 import WarehouseReviews from './warehouse-reviews';
+import WarehouseTabs from './warehouse-tabs';
 
 const WarehouseDetailsProps = {
   /** @type {Warehouse} */
@@ -60,6 +63,15 @@ function WarehouseDetails(props) {
           </Box>
 
           <WarehouseDescription description={warehouse.description} sx={{ mt: 5 }} />
+
+          <WarehouseFeatures features={warehouse.features} sx={{ mt: 3 }} />
+          <WarehouseApprovedUses approvedUses={warehouse.approvedUses} sx={{ mt: 3 }} />
+          <WarehouseTabs
+            facilityDetails={warehouse.facilityDetails}
+            rules={warehouse.rules}
+            services={warehouse.services}
+            sx={{ mt: 3 }}
+          />
 
           <WarehouseAddressMap sx={{ mt: 3 }} warehouse={warehouse} />
 
