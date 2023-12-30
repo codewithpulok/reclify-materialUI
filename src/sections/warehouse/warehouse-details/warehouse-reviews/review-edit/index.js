@@ -18,8 +18,8 @@ import ReviewEditFields from './fields';
 const reviewEditSchema = Yup.object().shape({
   feedback: Yup.string().required('Feedback is required'),
   rating: Yup.number()
-    .min(0, 'Must be greater than or equal 0')
-    .max(5, 'Must be lower than or equal 5')
+    .min(1, 'Minimum 1 star is required')
+    .max(5, 'Maximum 5 star is allowed')
     .required('Rating is required'),
 });
 
