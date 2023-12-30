@@ -27,7 +27,8 @@ const GeneralInfoFields = () => {
           sm: 'repeat(2, 1fr)',
         }}
       >
-        <RHFTextField name="displayName" label="Name" />
+        <RHFTextField name="firstName" label="First Name" />
+        <RHFTextField name="lastName" label="Last Name" />
         <RHFTextField name="email" label="Email Address" />
         <RHFTextField name="phoneNumber" label="Phone Number" />
 
