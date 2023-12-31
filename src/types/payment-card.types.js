@@ -1,7 +1,7 @@
 /**
- * Represents a credit card associated with a user.
+ * Represents a payment card associated with a user.
  *
- * @typedef {Object} Card
+ * @typedef {Object} PaymentCard
  * @property {string} id - A unique identifier for the card.
  * @property {string} cardNumber - The credit card number.
  * @property {'mastercard' | 'visa'} cardType - The type of credit card, either 'mastercard' or 'visa'.

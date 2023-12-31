@@ -8,6 +8,8 @@ const RHFTextSwitchProps = {
   helperText: PropTypes.string,
   name: PropTypes.string,
   label: PropTypes.string,
+  trueLabel: PropTypes.string,
+  falseLabel: PropTypes.string,
 };
 
 // ----------------------------------------------------------------------
@@ -18,7 +20,7 @@ const RHFTextSwitchProps = {
  * @returns {JSX.Element}
  */
 export default function RHFTextSwitch(props) {
-  const { name, helperText, label, ...other } = props;
+  const { name, helperText, label, trueLabel = 'Yes', falseLabel = 'No', ...other } = props;
   const { control } = useFormContext();
 
   return (
@@ -41,7 +43,7 @@ export default function RHFTextSwitch(props) {
 
             <Stack direction="row" alignItems="center" spacing={0.1}>
               <Chip
-                label="Yes"
+                label={trueLabel}
                 variant={field.value ? 'soft' : 'outlined'}
                 color={field.value ? 'primary' : 'default'}
                 sx={{ borderRadius: 0.3 }}
@@ -49,7 +51,7 @@ export default function RHFTextSwitch(props) {
                 {...other}
               />
               <Chip
-                label="No"
+                label={falseLabel}
                 variant={!field.value ? 'soft' : 'outlined'}
                 color={!field.value ? 'error' : 'default'}
                 sx={{ borderRadius: 0.3 }}

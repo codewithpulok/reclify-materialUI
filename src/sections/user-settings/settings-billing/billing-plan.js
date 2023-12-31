@@ -10,10 +10,14 @@ import Grid from '@mui/material/Unstable_Grid2';
 
 import { useBoolean } from 'src/hooks/use-boolean';
 
-import { AddressListDialog, PaymentCardListDialog } from 'src/components/user-settings/dialog';
+import {
+  BillingAddressListDialog,
+  PaymentCardListDialog,
+} from 'src/components/user-settings/dialog';
 
 import PlanCard from 'src/components/user-settings/cards/plan-card';
 
+import { getWarehouseAddress } from 'src/components/warehouse/utils';
 import { ICONS } from '../config-settings';
 
 // ----------------------------------------------------------------------
@@ -21,10 +25,10 @@ import { ICONS } from '../config-settings';
 const BillingPlanProps = {
   /** @type {Plan[]} */
   plans: PropTypes.array,
-  /** @type {Address[]} */
+  /** @type {BillingAddress[]} */
   addressBook: PropTypes.array,
-  /** @type {Card[]} */
-  cards: PropTypes.array,
+  /** @type {PaymentCard[]} */
+  paymentCards: PropTypes.array,
 };
 
 /**
@@ -33,13 +37,13 @@ const BillingPlanProps = {
  * @returns
  */
 const BillingPlan = (props) => {
-  const { plans, addressBook, cards } = props;
+  const { plans, addressBook, paymentCards } = props;
 
   const primaryAddress = useMemo(
     () => addressBook.find((address) => address.primary),
     [addressBook]
   );
-  const primaryCard = useMemo(() => cards.find((card) => card.primary), [cards]);
+  const primaryCard = useMemo(() => paymentCards.find((card) => card.primary), [paymentCards]);
   const currentPlan = useMemo(() => plans.filter((plan) => plan.primary)[0].subscription, [plans]);
 
   const openAddress = useBoolean();
@@ -106,7 +110,7 @@ const BillingPlan = (props) => {
                 endIcon={ICONS.showMore(16)}
                 sx={{ typography: 'subtitle2', p: 0, borderRadius: 0 }}
               >
-                {selectedAddress?.name}
+                {selectedAddress?.fullName}
               </Button>
             </Grid>
           </Grid>
@@ -116,7 +120,7 @@ const BillingPlan = (props) => {
               Billing address
             </Grid>
             <Grid xs={12} md={8} sx={{ color: 'text.secondary' }}>
-              {selectedAddress?.fullAddress}
+              {getWarehouseAddress(selectedAddress?.address)}
             </Grid>
           </Grid>
 
@@ -148,7 +152,7 @@ const BillingPlan = (props) => {
         <Divider sx={{ borderStyle: 'dashed' }} />
 
         <Stack spacing={1.5} direction="row" justifyContent="flex-end" sx={{ p: 3 }}>
-          <Button variant="outlined">Cancel Plan</Button>
+          <Button variant="outlined">Cancel Current Plan</Button>
           <Button variant="contained" color="success" disabled={currentPlan === selectedPlan}>
             Upgrade Plan
           </Button>
@@ -156,24 +160,19 @@ const BillingPlan = (props) => {
       </Card>
 
       <PaymentCardListDialog
-        list={cards}
+        list={paymentCards}
         open={openCards.value}
         onClose={openCards.onFalse}
         selected={(selectedId) => selectedCard?.id === selectedId}
         onSelect={handleSelectCard}
       />
 
-      <AddressListDialog
+      <BillingAddressListDialog
         list={addressBook}
         open={openAddress.value}
         onClose={openAddress.onFalse}
         selected={(selectedId) => selectedAddress?.id === selectedId}
         onSelect={handleSelectAddress}
-        action={
-          <Button size="small" startIcon={ICONS.plus()} sx={{ alignSelf: 'flex-end' }}>
-            New
-          </Button>
-        }
       />
     </>
   );

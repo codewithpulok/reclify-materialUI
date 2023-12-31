@@ -19,4 +19,6 @@ export const ICONS = {
 
   phone: (width, sx) => getIconify('solar:phone-rounded-outline', width, sx),
   email: (width, sx) => getIconify('tabler:mail', width, sx),
+
+  close: (width, sx) => getIconify('solar:close-circle-bold', width, sx),
 };
