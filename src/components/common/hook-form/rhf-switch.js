@@ -1,13 +1,27 @@
 import PropTypes from 'prop-types';
 import { Controller, useFormContext } from 'react-hook-form';
 
-import Switch from '@mui/material/Switch';
-import FormHelperText from '@mui/material/FormHelperText';
 import FormControlLabel from '@mui/material/FormControlLabel';
+import FormHelperText from '@mui/material/FormHelperText';
+import Switch from '@mui/material/Switch';
+
+const RHFSwitchProps = {
+  helperText: PropTypes.string,
+  name: PropTypes.string,
+  label: PropTypes.string,
+  /** @type {import('@mui/material').FormControlLabelProps} */
+  labelProps: PropTypes.object,
+};
 
 // ----------------------------------------------------------------------
 
-export default function RHFSwitch({ name, helperText, ...other }) {
+/**
+ * MUI Switch with React hook form
+ * @param {RHFSwitchProps & import('@mui/material').SwitchProps} props
+ * @returns {JSX.Element}
+ */
+export default function RHFSwitch(props) {
+  const { name, helperText, label, labelProps = {}, ...other } = props;
   const { control } = useFormContext();
 
   return (
@@ -16,7 +30,15 @@ export default function RHFSwitch({ name, helperText, ...other }) {
       control={control}
       render={({ field, fieldState: { error } }) => (
         <div>
-          <FormControlLabel control={<Switch {...field} checked={field.value} />} {...other} />
+          {label ? (
+            <FormControlLabel
+              control={<Switch {...field} checked={field.value} {...other} />}
+              label={label}
+              {...labelProps}
+            />
+          ) : (
+            <Switch {...field} checked={field.value} {...other} />
+          )}
 
           {(!!error || helperText) && (
             <FormHelperText error={!!error}>{error ? error?.message : helperText}</FormHelperText>
@@ -27,7 +49,4 @@ export default function RHFSwitch({ name, helperText, ...other }) {
   );
 }
 
-RHFSwitch.propTypes = {
-  helperText: PropTypes.string,
-  name: PropTypes.string,
-};
+RHFSwitch.propTypes = RHFSwitchProps;

@@ -155,6 +155,7 @@
     //     ]
     //   }
     // ],
-    "perfectionist/sort-named-imports": 0
+    "perfectionist/sort-named-imports": 0,
+    "import/no-cycle": 0
   }
 }

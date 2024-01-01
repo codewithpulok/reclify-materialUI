@@ -1,6 +1,8 @@
 import { Box, Button, Card, CardContent, Grid, Stack, Typography, useTheme } from '@mui/material';
 import PropTypes from 'prop-types';
 import { useState } from 'react';
+import { PaymentDialog } from 'src/components/common/custom-dialog';
+import { useBoolean } from 'src/hooks/use-boolean';
 import { fCurrency, fNumber } from 'src/utils/format-number';
 import { ICONS } from '../config-warehouse';
 
@@ -107,68 +109,77 @@ const WarehouseBookingOptions = (props) => {
   const { space, pricePerSquare, showPurchase } = props;
   const [selectedMonth, setSelectedMonth] = useState(1);
   const { palette } = useTheme();
-
-  console.log({ showPurchase });
+  const paymentDialog = useBoolean();
 
   return (
-    <Card sx={{ bgcolor: 'background.paper', borderRadius: 1, padding: 2 }}>
-      <Typography variant="h5" sx={{ mb: 4 }}>
-        Check Availability and Your Monthly Cost
-      </Typography>
+    <>
+      <Card sx={{ bgcolor: 'background.paper', borderRadius: 1, padding: 2 }}>
+        <Typography variant="h5" sx={{ mb: 4 }}>
+          Check Availability and Your Monthly Cost
+        </Typography>
 
-      <Grid container sx={{ mb: 5 }} spacing={2}>
-        <Grid item xs={6}>
-          <OptionsDetailsCard
-            title="Total Available Space"
-            amount={`${fNumber(space)}`}
-            amountType=" sq. ft"
-            description="Space availability is based on date range."
-          />
-        </Grid>
-        <Grid item xs={6}>
-          <OptionsDetailsCard
-            title="Total Available Space"
-            amount={`${fCurrency(pricePerSquare)} /`}
-            amountType="sq. ft"
-            description="*Minimum Order Qty: 7,000 sq. ft"
-          />
-        </Grid>
-      </Grid>
-
-      <Grid container spacing={1} sx={{ mb: 5 }}>
-        {[1, 3, 6, 12].map((month) => (
-          <Grid key={month} item xs={6} md={3}>
-            <OptionsMonthCard
-              month={month}
-              isSelected={month === selectedMonth}
-              setSelected={setSelectedMonth}
-              isDark={palette.mode === 'dark'}
+        <Grid container sx={{ mb: 5 }} spacing={2}>
+          <Grid item xs={6}>
+            <OptionsDetailsCard
+              title="Total Available Space"
+              amount={`${fNumber(space)}`}
+              amountType=" sq. ft"
+              description="Space availability is based on date range."
             />
           </Grid>
-        ))}
-      </Grid>
+          <Grid item xs={6}>
+            <OptionsDetailsCard
+              title="Total Available Space"
+              amount={`${fCurrency(pricePerSquare)} /`}
+              amountType="sq. ft"
+              description="*Minimum Order Qty: 7,000 sq. ft"
+            />
+          </Grid>
+        </Grid>
 
-      <Stack
-        sx={{
-          flexDirection: {
-            xs: 'column',
-            sm: 'row',
-          },
-        }}
-        alignItems="center"
-        justifyContent="space-between"
-        spacing={2}
-      >
-        <Typography variant="h5" sx={{ textAlign: 'center' }}>
-          {`Total Price:   ${fCurrency(7000 * pricePerSquare * selectedMonth)}`}
-        </Typography>
-        {showPurchase ? (
-          <Button color="primary" variant="contained" size="large" endIcon={ICONS.purchase()}>
-            Purchase
-          </Button>
-        ) : null}
-      </Stack>
-    </Card>
+        <Grid container spacing={1} sx={{ mb: 5 }}>
+          {[1, 3, 6, 12].map((month) => (
+            <Grid key={month} item xs={6} md={3}>
+              <OptionsMonthCard
+                month={month}
+                isSelected={month === selectedMonth}
+                setSelected={setSelectedMonth}
+                isDark={palette.mode === 'dark'}
+              />
+            </Grid>
+          ))}
+        </Grid>
+
+        <Stack
+          sx={{
+            flexDirection: {
+              xs: 'column',
+              sm: 'row',
+            },
+          }}
+          alignItems="center"
+          justifyContent="space-between"
+          spacing={2}
+        >
+          <Typography variant="h5" sx={{ textAlign: 'center' }}>
+            {`Total Price:   ${fCurrency(7000 * pricePerSquare * selectedMonth)}`}
+          </Typography>
+          {showPurchase ? (
+            <Button
+              color="primary"
+              variant="contained"
+              size="large"
+              endIcon={ICONS.purchase()}
+              onClick={paymentDialog.onTrue}
+            >
+              Purchase
+            </Button>
+          ) : null}
+        </Stack>
+      </Card>
+
+      <PaymentDialog open={paymentDialog.value} onClose={paymentDialog.onFalse} />
+    </>
   );
 };
 

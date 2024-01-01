@@ -2,6 +2,7 @@
 
 import { useCallback, useState } from 'react';
 
+import { Button } from '@mui/material';
 import Card from '@mui/material/Card';
 import { alpha } from '@mui/material/styles';
 import Tab from '@mui/material/Tab';
@@ -9,7 +10,11 @@ import Table from '@mui/material/Table';
 import TableBody from '@mui/material/TableBody';
 import TableContainer from '@mui/material/TableContainer';
 import Tabs from '@mui/material/Tabs';
+import { useSnackbar } from 'notistack';
 
+import { getCustomerTransactions, TRANSACTION_STATUS_OPTIONS } from 'src/assets/dummy';
+import { useAuthContext } from 'src/auth/hooks';
+import { ConfirmDialog } from 'src/components/common/custom-dialog';
 import Label from 'src/components/common/label';
 import Scrollbar from 'src/components/common/scrollbar';
 import {
@@ -21,16 +26,7 @@ import {
   TablePaginationCustom,
   useTable,
 } from 'src/components/common/table';
-
-import { Button } from '@mui/material';
-import { useSnackbar } from 'notistack';
-import {
-  getCustomerTransactions,
-  TRANSACTION_STATUS_OPTIONS,
-} from 'src/assets/dummy/customer-transactions';
-import { useAuthContext } from 'src/auth/hooks';
-import { ConfirmDialog } from 'src/components/common/custom-dialog';
-import TransactionDialog from './transaction-dialog';
+import TransactionDialog from './transaction-details-dialog';
 import TransactionTableRow from './transaction-table-row';
 
 // ----------------------------------------------------------------------
@@ -38,13 +34,12 @@ import TransactionTableRow from './transaction-table-row';
 const STATUS_OPTIONS = [{ value: 'all', label: 'All' }, ...TRANSACTION_STATUS_OPTIONS];
 
 const TABLE_HEAD = [
-  { id: 'view', width: 30 },
   { id: 'warehouse', label: 'Warehouse' },
   { id: 'seller', label: 'Seller' },
   { id: 'createdAt', label: 'Date', width: 140 },
   { id: 'price', label: 'Price', width: 140 },
   { id: 'status', label: 'Status', width: 110 },
-  { id: '', width: 30 },
+  { id: 'actions', width: 30 },
 ];
 
 const defaultFilters = {
@@ -57,10 +52,10 @@ const defaultFilters = {
 const SettingsCustomerTransactions = () => {
   const { user } = useAuthContext();
   const { enqueueSnackbar } = useSnackbar();
-  const userTransactions = getCustomerTransactions(user?.id);
+  const transactions = getCustomerTransactions(user?.id);
 
   const table = useTable({ defaultOrderBy: 'createdAt' });
-  const [tableData] = useState(userTransactions);
+  const [tableData] = useState(transactions);
 
   const [transactionDialog, setTransactionDialog] = useState({
     open: false,
@@ -230,7 +225,7 @@ const SettingsCustomerTransactions = () => {
         title="Cancel Order!"
         content="After canceling order, this can not be undone!"
         action={
-          <Button onClick={handleCancelOrder} color="primary" variant="contained">
+          <Button onClick={handleCancelOrder} color="error" variant="contained">
             Confirm
           </Button>
         }

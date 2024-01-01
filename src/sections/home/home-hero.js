@@ -47,9 +47,9 @@ const StyledTextGradient = styled(m.h1)(({ theme }) => ({
   ),
   padding: 0,
   marginTop: 8,
-  lineHeight: 1,
+  lineHeight: 1.2,
   fontWeight: 900,
-  marginBottom: 24,
+  marginBottom: 20,
   letterSpacing: 8,
   textAlign: 'center',
   backgroundSize: '400%',
@@ -178,9 +178,7 @@ export default function HomeHero() {
             repeat: Infinity,
           }}
         >
-          Pallet
-          <wbr />
-          Bro
+          Racklify
         </StyledTextGradient>
       </m.div>
 

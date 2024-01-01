@@ -1,9 +1,20 @@
-import { format, formatDistanceToNow, getTime } from 'date-fns';
+import { format, formatDistanceToNow, getTime, setDay } from 'date-fns';
 
 // ----------------------------------------------------------------------
 
 export function fDate(date, newFormat) {
   const fm = newFormat || 'dd MMM yyyy';
+
+  return date ? format(new Date(date), fm) : '';
+}
+
+export function fDay(day, newFormat) {
+  const fm = newFormat || 'eeee';
+  return format(setDay(new Date(), day), fm);
+}
+
+export function fTime(date, newFormat) {
+  const fm = newFormat || 'hh:mm a';
 
   return date ? format(new Date(date), fm) : '';
 }

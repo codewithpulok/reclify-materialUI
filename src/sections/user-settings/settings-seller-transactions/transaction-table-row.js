@@ -2,17 +2,19 @@ import { format } from 'date-fns';
 import PropTypes from 'prop-types';
 
 import Avatar from '@mui/material/Avatar';
+import IconButton from '@mui/material/IconButton';
 import ListItemText from '@mui/material/ListItemText';
+import MenuItem from '@mui/material/MenuItem';
+import Stack from '@mui/material/Stack';
 import TableCell from '@mui/material/TableCell';
 import TableRow from '@mui/material/TableRow';
 
-import { fCurrency } from 'src/utils/format-number';
-
-import { IconButton, MenuItem } from '@mui/material';
-import { TRANSACTION_STATUS_OPTIONS } from 'src/assets/dummy/transactions';
+import { getTransactionStatusColor } from 'src/assets/dummy/transactions';
 import { usePopover } from 'src/components/common/custom-popover';
 import CustomPopover from 'src/components/common/custom-popover/custom-popover';
 import Label from 'src/components/common/label';
+import { getWarehouseAddress } from 'src/components/warehouse/utils';
+import { fCurrency } from 'src/utils/format-number';
 import { ICONS } from '../config-settings';
 
 // ----------------------------------------------------------------------
@@ -20,9 +22,10 @@ import { ICONS } from '../config-settings';
 const TransactionTableRowProps = {
   /** @type {Transaction} */
   row: PropTypes.object.isRequired,
-  selected: PropTypes.bool.isRequired,
   /** @type {(id: string, newStatus: TransactionStatus) => {}} */
-  onStatusChange: PropTypes.func.isRequired,
+  onViewTransaction: PropTypes.func.isRequired,
+  onCancelOrder: PropTypes.func.isRequired,
+  onConfirmOrder: PropTypes.func.isRequired,
 };
 
 /**
@@ -31,23 +34,44 @@ const TransactionTableRowProps = {
  * @returns
  */
 const TransactionTableRow = (props) => {
-  const { row, selected, onStatusChange } = props;
+  const { row, onViewTransaction, onCancelOrder, onConfirmOrder } = props;
   const popover = usePopover(false);
 
   const renderPrimary = (
-    <TableRow hover selected={selected}>
-      <TableCell sx={{ display: 'flex', alignItems: 'center' }}>
-        <Avatar alt={row.customer.name} src={row.customer.photoURL} sx={{ mr: 2 }} />
+    <TableRow hover>
+      <TableCell>
+        <Stack direction="row" alignItems="center">
+          <Avatar
+            alt={row.warehouse.name}
+            src={row.warehouse.photos[0].coverUrl}
+            sx={{ mr: 2 }}
+            variant="rounded"
+          />
 
-        <ListItemText
-          primary={row.customer.name}
-          secondary={row.customer.email}
-          primaryTypographyProps={{ typography: 'body2' }}
-          secondaryTypographyProps={{
-            component: 'span',
-            color: 'text.disabled',
-          }}
-        />
+          <ListItemText
+            primary={row.warehouse.name}
+            secondary={getWarehouseAddress(row.warehouse.address)}
+            primaryTypographyProps={{ typography: 'body2' }}
+            secondaryTypographyProps={{
+              color: 'text.disabled',
+              overflow: 'hidden',
+              textOverflow: 'ellipsis',
+              display: '-webkit-box',
+              WebkitLineClamp: '1',
+              WebkitBoxOrient: 'vertical',
+            }}
+          />
+        </Stack>
+      </TableCell>
+
+      <TableCell>
+        <Stack direction="row" alignItems="center">
+          <Avatar alt={row.customer.displayName} src={row.customer.photoURL} sx={{ mr: 2 }} />
+          <ListItemText
+            primary={row.customer.displayName}
+            primaryTypographyProps={{ typography: 'body2' }}
+          />
+        </Stack>
       </TableCell>
 
       <TableCell>
@@ -63,18 +87,10 @@ const TransactionTableRow = (props) => {
         />
       </TableCell>
 
-      <TableCell> {fCurrency(row.price)} </TableCell>
+      <TableCell> {fCurrency(row.area * row.pricePerSquare)} </TableCell>
 
       <TableCell>
-        <Label
-          variant="soft"
-          color={
-            (row.status === 'COMPLETED' && 'success') ||
-            (row.status === 'PENDING' && 'warning') ||
-            (row.status === 'CANCELED' && 'error') ||
-            'default'
-          }
-        >
+        <Label variant="soft" color={getTransactionStatusColor(row.status)}>
           {row.status}
         </Label>
       </TableCell>
@@ -96,43 +112,36 @@ const TransactionTableRow = (props) => {
         arrow="right-top"
         sx={{ width: 300 }}
       >
-        {TRANSACTION_STATUS_OPTIONS.map((statusOption) => {
-          // exclude current status
-          if (statusOption.value === row.status) return null;
-
-          let color;
-          switch (statusOption.value) {
-            case 'COMPLETED': {
-              color = 'success.main';
-              break;
-            }
-            case 'PENDING': {
-              color = 'warning.main';
-              break;
-            }
-            case 'CANCELED': {
-              color = 'error.main';
-              break;
-            }
-            default: {
-              color = undefined;
-              break;
-            }
-          }
-
-          return (
+        <MenuItem
+          onClick={() => {
+            onViewTransaction();
+            popover.onClose();
+          }}
+        >
+          Transaction details
+        </MenuItem>
+        {row.status === 'pending' && (
+          <>
             <MenuItem
-              key={statusOption.value}
-              sx={{ color }}
+              color="success"
               onClick={() => {
-                onStatusChange(row.id, statusOption.value);
+                onConfirmOrder();
                 popover.onClose();
               }}
             >
-              Change status to {statusOption.label}
+              Confirm Order
             </MenuItem>
-          );
-        })}
+            <MenuItem
+              color="error"
+              onClick={() => {
+                onCancelOrder();
+                popover.onClose();
+              }}
+            >
+              Cancel Order
+            </MenuItem>
+          </>
+        )}
       </CustomPopover>
     </>
   );

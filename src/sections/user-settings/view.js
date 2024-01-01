@@ -11,10 +11,11 @@ import { useSettingsContext } from 'src/components/common/settings';
 import { useAuthContext } from 'src/auth/hooks';
 import CustomBreadcrumbs from 'src/components/common/custom-breadcrumbs';
 import { ICONS } from './config-settings';
-import SettingsBillings from './settings-billing';
+import SettingsCustomerBillings from './settings-customer-billings';
 import SettingsCustomerTransactions from './settings-customer-transactions';
 import SettingsGeneral from './settings-general';
 import SettingsSecurity from './settings-security';
+import SettingsSellerBillings from './settings-seller-billings';
 import SettingsSellerTransactions from './settings-seller-transactions';
 
 // ----------------------------------------------------------------------
@@ -94,12 +95,9 @@ const UserSettingsView = () => {
       >
         {TABS.map((tab) => {
           // exclude warehouse only tabs
-          if (user?.role !== 'warehouse' && tab.value === 'billing') return null;
-          if (
-            user?.role !== 'warehouse' &&
-            user?.role !== 'customer' &&
-            tab.value === 'transactions'
-          )
+          if (!['warehouse', 'customer'].includes(user?.role) && tab.value === 'billing')
+            return null;
+          if (!['warehouse', 'customer'].includes(user?.role) && tab.value === 'transactions')
             return null;
 
           return <Tab key={tab.value} label={tab.label} icon={tab.icon} value={tab.value} />;
@@ -108,7 +106,12 @@ const UserSettingsView = () => {
 
       {currentTab === 'general' && <SettingsGeneral />}
 
-      {user?.role === 'warehouse' && currentTab === 'billing' && <SettingsBillings />}
+      {currentTab === 'billing' && (
+        <>
+          {user?.role === 'warehouse' && <SettingsSellerBillings />}
+          {user?.role === 'customer' && <SettingsCustomerBillings />}
+        </>
+      )}
 
       {currentTab === 'transactions' && (
         <>

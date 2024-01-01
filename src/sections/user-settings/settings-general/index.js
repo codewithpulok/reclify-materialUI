@@ -23,7 +23,8 @@ const SettingsGeneral = () => {
   const user = getUserByID(authUser?.id);
 
   const UpdateUserSchema = Yup.object().shape({
-    displayName: Yup.string().required('Name is required'),
+    firstName: Yup.string().required('First name is required'),
+    lastName: Yup.string().required('Last name is required'),
     email: Yup.string().required('Email is required').email('Email must be a valid email address'),
     photoURL: Yup.mixed().nullable().required('Avatar is required'),
     phoneNumber: Yup.string().required('Phone number is required'),
@@ -41,7 +42,8 @@ const SettingsGeneral = () => {
   });
 
   const defaultValues = {
-    displayName: user?.displayName || '',
+    firstName: user?.firstName || '',
+    lastName: user?.lastName || '',
     email: user?.email || '',
     photoURL: user?.photoURL || null,
     phoneNumber: user?.phoneNumber || '',
