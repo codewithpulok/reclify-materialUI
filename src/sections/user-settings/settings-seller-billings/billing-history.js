@@ -35,10 +35,13 @@ const BillingHistory = (props) => {
           <InvoiceListCard key={invoice.id} invoice={invoice} />
         ))}
 
-        <Divider sx={{ borderStyle: 'dashed' }} />
+        {invoices.length > 8 && <Divider sx={{ borderStyle: 'dashed' }} />}
       </Stack>
 
-      <Stack alignItems="flex-start" sx={{ p: 2 }}>
+      <Stack
+        alignItems="flex-start"
+        sx={{ p: 2, display: invoices.length > 8 ? undefined : 'none' }}
+      >
         <Button
           size="small"
           color="inherit"

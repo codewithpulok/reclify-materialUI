@@ -10,7 +10,7 @@ import BillingPlan from './billing-plan';
 
 // ----------------------------------------------------------------------
 
-const SettingsBilling = (props) => {
+const SettingsSellerBillings = (props) => {
   const { user } = useAuthContext();
 
   const userInvoices = getInvoicesByUserId(user?.id);
@@ -19,16 +19,16 @@ const SettingsBilling = (props) => {
   const plans = getAllPlans();
 
   return (
-    <Grid container spacing={5} disableEqualOverflow>
-      <Grid xs={12} md={8}>
+    <Grid container spacing={3} disableEqualOverflow>
+      <Grid item xs={12} md={8}>
         <BillingPlan plans={plans} paymentCards={paymentCards} addressBook={billingAddressBook} />
       </Grid>
 
-      <Grid xs={12} md={4}>
+      <Grid item xs={12} md={4}>
         <BillingHistory invoices={userInvoices} />
       </Grid>
     </Grid>
   );
 };
 
-export default SettingsBilling;
+export default SettingsSellerBillings;

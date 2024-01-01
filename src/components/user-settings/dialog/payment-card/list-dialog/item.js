@@ -45,6 +45,7 @@ const PaymentCardListItem = (props) => {
   const handleOpenPopover = useCallback(
     (e) => {
       popover.onOpen(e);
+      // prevent to pass click event to the parent
       e.stopPropagation();
     },
     [popover]
