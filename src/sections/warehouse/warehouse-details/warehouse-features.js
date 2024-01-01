@@ -2,6 +2,7 @@ import { Box, Grid, Stack, Typography } from '@mui/material';
 import PropTypes from 'prop-types';
 
 import { predefinedFeatures } from 'src/assets/data';
+import { getIconify } from 'src/components/common/iconify/utilities';
 import { detailsBoxStyle, detailsHeaderStyle } from '../styles';
 
 const WarehouseFeaturesProps = {
@@ -37,10 +38,11 @@ const WarehouseFeatures = (props) => {
               item
               xs={12}
               sm={6}
-              sx={{ display: 'flex', alignItems: 'baseline', gap: 2 }}
+              sx={{ display: 'flex', alignItems: 'center', gap: 0.5 }}
             >
+              {feature?.icon && getIconify(feature.icon, 16, { color: 'text.secondary' })}
               <Typography variant="subtitle2">{feature.label} :</Typography>
-              <Typography variant="body2" color="text.secondary">
+              <Typography variant="body2" color="text.secondary" ml={1.5}>
                 {currentFeature ? 'Yes' : 'No'}
               </Typography>
             </Grid>

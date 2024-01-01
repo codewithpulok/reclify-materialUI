@@ -3,17 +3,32 @@
  * @type {PredefinedField[]}
  */
 export const predefinedFeatures = [
-  { key: 'highDoors', label: 'Dock-High Doors', type: 'boolean' },
-  { key: 'internet', label: 'Internet', type: 'boolean' },
-  { key: 'groundDoors', label: 'Ground Level Doors', type: 'boolean' },
-  { key: 'waterDrain', label: 'Water & Drain', type: 'boolean' },
-  { key: 'ceilingHeight', label: 'Ceiling Height', type: 'boolean' },
-  { key: 'securityCameras', label: 'Security Cameras', type: 'boolean' },
-  { key: 'heightOfRollupDoor', label: 'Height of Rollup Door', type: 'boolean' },
-  { key: 'specialtyPower', label: 'Specialty Power', type: 'boolean' },
-  { key: 'officeSpace', label: 'Office Space', type: 'boolean' },
-  { key: 'overnightParking', label: 'Overnight Parking', type: 'boolean' },
-  { key: 'forkLift', label: 'Fork lift', type: 'boolean' },
+  { key: 'highDoors', icon: 'solar:garage-outline', label: 'Dock-High Doors', type: 'boolean' },
+  { key: 'internet', icon: 'tabler:wifi', label: 'Internet', type: 'boolean' },
+  { key: 'groundDoors', icon: 'tabler:door', label: 'Ground Level Doors', type: 'boolean' },
+  { key: 'waterDrain', icon: 'ic:baseline-water', label: 'Water & Drain', type: 'boolean' },
+  {
+    key: 'ceilingHeight',
+    icon: 'tabler:arrow-autofit-height',
+    label: 'Ceiling Height',
+    type: 'boolean',
+  },
+  { key: 'securityCameras', icon: 'lucide:cctv', label: 'Security Cameras', type: 'boolean' },
+  {
+    key: 'heightOfRollupDoor',
+    icon: 'fluent:auto-fit-height-24-filled',
+    label: 'Height of Rollup Door',
+    type: 'boolean',
+  },
+  { key: 'specialtyPower', icon: 'ic:outline-power', label: 'Specialty Power', type: 'boolean' },
+  { key: 'officeSpace', icon: 'ph:office-chair-fill', label: 'Office Space', type: 'boolean' },
+  {
+    key: 'overnightParking',
+    icon: 'fluent:vehicle-car-parking-24-filled',
+    label: 'Overnight Parking',
+    type: 'boolean',
+  },
+  { key: 'forkLift', icon: 'tabler:forklift', label: 'Fork lift', type: 'boolean' },
 ];
 export const featuresDefaultValues = predefinedFeatures.reduce((prev, next) => {
   prev[next.key] = false;
@@ -25,13 +40,23 @@ export const featuresDefaultValues = predefinedFeatures.reduce((prev, next) => {
  * @type {PredefinedField[]}
  */
 export const predefinedApprovedUses = [
-  { key: 'apparel', label: 'Apparel', type: 'boolean' },
-  { key: 'automotive', label: 'Automotive', type: 'boolean' },
-  { key: 'baseMetals', label: 'Base metals', type: 'boolean' },
-  { key: 'consumerProducts', label: 'Consumer Products', type: 'boolean' },
-  { key: 'electronics', label: 'Electronics', type: 'boolean' },
-  { key: 'industrialMaterials', label: 'Industrial Materials', type: 'boolean' },
-  { key: 'Machinery', label: 'Machinery', type: 'boolean' },
+  { key: 'apparel', icon: 'tabler:shirt-filled', label: 'Apparel', type: 'boolean' },
+  { key: 'automotive', icon: 'mingcute:car-fill', label: 'Automotive', type: 'boolean' },
+  { key: 'baseMetals', icon: 'ic:baseline-gavel', label: 'Base metals', type: 'boolean' },
+  {
+    key: 'consumerProducts',
+    icon: 'icon-park-outline:ad-product',
+    label: 'Consumer Products',
+    type: 'boolean',
+  },
+  { key: 'electronics', icon: 'bx:chip', label: 'Electronics', type: 'boolean' },
+  {
+    key: 'industrialMaterials',
+    icon: 'cil:industry',
+    label: 'Industrial Materials',
+    type: 'boolean',
+  },
+  { key: 'Machinery', icon: 'line-md:cog-loop', label: 'Machinery', type: 'boolean' },
 ];
 export const approvedUsesDefaultValues = predefinedApprovedUses.reduce((prev, next) => {
   prev[next.key] = false;

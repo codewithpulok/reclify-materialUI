@@ -2,7 +2,7 @@ import { WarehouseCreateView } from 'src/sections/warehouse';
 import { getWarehouse } from '../[id]/page';
 
 export const metadata = {
-  title: 'Create Warehouse - PalletBro',
+  title: 'Create Warehouse - Racklify',
 };
 
 const WarehouseCreatePage = async ({ searchParams }) => {
