@@ -36,7 +36,6 @@ export const getPredefinedFieldValue = (field, value) => {
       return `${startTime} - ${endTime}`;
     }
     case 'days-picker': {
-      console.log(value);
       return value
         ?.reduce((prev, curr, index) => {
           if (!curr) return prev;

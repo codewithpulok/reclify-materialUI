@@ -6,7 +6,7 @@ import { detailsBoxStyle, detailsHeaderStyle } from '../styles';
 
 const WarehouseFeaturesProps = {
   /** @type {WarehouseFeatures} */
-  features: PropTypes.string.isRequired,
+  features: PropTypes.object.isRequired,
   /** @type {SxProps} */
   sx: PropTypes.object,
 };
@@ -32,7 +32,13 @@ const WarehouseFeatures = (props) => {
           if (currentFeature === undefined) return null;
 
           return (
-            <Grid item xs={12} sm={6} sx={{ display: 'flex', alignItems: 'baseline', gap: 2 }}>
+            <Grid
+              key={feature.key}
+              item
+              xs={12}
+              sm={6}
+              sx={{ display: 'flex', alignItems: 'baseline', gap: 2 }}
+            >
               <Typography variant="subtitle2">{feature.label} :</Typography>
               <Typography variant="body2" color="text.secondary">
                 {currentFeature ? 'Yes' : 'No'}

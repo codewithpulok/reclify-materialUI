@@ -11,7 +11,7 @@ const WarehouseTabsProps = {
   /** @type {WarehouseServices} */
   services: PropTypes.object.isRequired,
   /** @type {String[]} */
-  rules: PropTypes.object.isRequired,
+  rules: PropTypes.arrayOf(PropTypes.string).isRequired,
   /** @type {SxProps} */
   sx: PropTypes.object,
 };

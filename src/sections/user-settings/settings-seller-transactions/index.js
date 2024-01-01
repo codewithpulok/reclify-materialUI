@@ -114,22 +114,22 @@ const SettingsSellerTransactions = () => {
                 ((tab.value === 'all' || tab.value === filters.status) && 'filled') || 'soft'
               }
               color={
-                (tab.value === 'COMPLETED' && 'success') ||
-                (tab.value === 'PENDING' && 'warning') ||
-                (tab.value === 'CANCELED' && 'error') ||
+                (tab.value === 'completed' && 'success') ||
+                (tab.value === 'pending' && 'warning') ||
+                (tab.value === 'declined' && 'error') ||
                 'default'
               }
             >
               {tab.value === 'all' && tableData.length}
-              {tab.value === 'COMPLETED' &&
-                tableData.filter((order) => order.status === 'COMPLETED').length}
+              {tab.value === 'completed' &&
+                tableData.filter((order) => order.status === 'completed').length}
 
-              {tab.value === 'PENDING' &&
-                tableData.filter((order) => order.status === 'PENDING').length}
-              {tab.value === 'CANCELED' &&
-                tableData.filter((order) => order.status === 'CANCELED').length}
-              {tab.value === 'REFUNDED' &&
-                tableData.filter((order) => order.status === 'REFUNDED').length}
+              {tab.value === 'pending' &&
+                tableData.filter((order) => order.status === 'pending').length}
+              {tab.value === 'canceled' &&
+                tableData.filter((order) => order.status === 'canceled').length}
+              {tab.value === 'declined' &&
+                tableData.filter((order) => order.status === 'refunded').length}
             </Label>
           }
         />

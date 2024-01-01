@@ -38,15 +38,13 @@ const BillingHistory = (props) => {
         {invoices.length > 8 && <Divider sx={{ borderStyle: 'dashed' }} />}
       </Stack>
 
-      <Stack
-        alignItems="flex-start"
-        sx={{ p: 2, display: invoices.length > 8 ? undefined : 'none' }}
-      >
+      <Stack alignItems="flex-start" sx={{ p: 2 }}>
         <Button
           size="small"
           color="inherit"
           startIcon={showMore.value ? ICONS.showLess() : ICONS.showMore()}
           onClick={showMore.onToggle}
+          sx={{ display: invoices.length > 8 ? undefined : 'none' }}
         >
           {showMore.value ? `Show Less` : `Show More`}
         </Button>

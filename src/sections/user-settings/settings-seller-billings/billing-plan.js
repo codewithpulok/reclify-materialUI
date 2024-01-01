@@ -17,6 +17,7 @@ import {
 
 import PlanCard from 'src/components/user-settings/cards/plan-card';
 
+import { PaymentDialog } from 'src/components/common/custom-dialog';
 import { getWarehouseAddress } from 'src/components/warehouse/utils';
 import { ICONS } from '../config-settings';
 
@@ -48,6 +49,7 @@ const BillingPlan = (props) => {
 
   const openAddress = useBoolean();
   const openCards = useBoolean();
+  const openPaymentForm = useBoolean();
 
   const [selectedPlan, setSelectedPlan] = useState(currentPlan);
   const [selectedAddress, setSelectedAddress] = useState(primaryAddress);
@@ -153,7 +155,12 @@ const BillingPlan = (props) => {
 
         <Stack spacing={1.5} direction="row" justifyContent="flex-end" sx={{ p: 3 }}>
           <Button variant="outlined">Cancel Current Plan</Button>
-          <Button variant="contained" color="success" disabled={currentPlan === selectedPlan}>
+          <Button
+            variant="contained"
+            color="success"
+            disabled={currentPlan === selectedPlan}
+            onClick={openPaymentForm.onTrue}
+          >
             Upgrade Plan
           </Button>
         </Stack>
@@ -174,6 +181,8 @@ const BillingPlan = (props) => {
         selected={(selectedId) => selectedAddress?.id === selectedId}
         onSelect={handleSelectAddress}
       />
+
+      <PaymentDialog open={openPaymentForm.value} onClose={openPaymentForm.onFalse} />
     </>
   );
 };

@@ -6,7 +6,7 @@ import { detailsBoxStyle, detailsHeaderStyle } from '../styles';
 
 const WarehouseApprovedUsesProps = {
   /** @type {WarehouseApprovedUses} */
-  approvedUses: PropTypes.string.isRequired,
+  approvedUses: PropTypes.object.isRequired,
   /** @type {SxProps} */
   sx: PropTypes.object,
 };
@@ -31,7 +31,13 @@ const WarehouseApprovedUses = (props) => {
           const currentUse = approvedUses[uses.key];
           if (!currentUse) return null;
           return (
-            <Grid item xs={12} sm={6} sx={{ display: 'flex', alignItems: 'baseline', gap: 2 }}>
+            <Grid
+              key={uses.key}
+              item
+              xs={12}
+              sm={6}
+              sx={{ display: 'flex', alignItems: 'baseline', gap: 2 }}
+            >
               <Typography variant="subtitle2">{uses.label}</Typography>
             </Grid>
           );
