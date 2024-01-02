@@ -105,7 +105,7 @@ const BillingInfo = (props) => {
                 size="small"
                 sx={{ typography: 'subtitle2' }}
               >
-                {selectedCard?.holder} - {selectedCard?.number}
+                {selectedCard?.number}
               </Button>
             </Grid>
           </Grid>
