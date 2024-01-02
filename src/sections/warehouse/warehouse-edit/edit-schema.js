@@ -1,15 +1,9 @@
+import { addressFieldSchema } from 'src/components/common/fields';
 import * as Yup from 'yup';
 
 const editSchema = Yup.object().shape({
   name: Yup.string().required('Warehouse name is required'),
-  address: Yup.object().shape({
-    streetNumber: Yup.string().required('Warehouse street number is required'),
-    streetAddress: Yup.string().required('Warehouse street address is required'),
-    city: Yup.string().required('Warehouse city is required'),
-    state: Yup.string().required('Warehouse state is required'),
-    zipCode: Yup.string().required('Warehouse zip code is required'),
-    country: Yup.string().required('Warehouse country is required'),
-  }),
+  address: addressFieldSchema,
   totalSpace: Yup.number()
     .min(1, 'Must be greater than or equal 1')
     .required('Total space is required'),

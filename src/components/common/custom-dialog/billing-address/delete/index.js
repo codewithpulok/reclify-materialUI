@@ -4,20 +4,17 @@ import PropTypes from 'prop-types';
 import { useCallback } from 'react';
 import { ConfirmDialog } from 'src/components/common/custom-dialog';
 
-const BillingAddressDeleteDialogProps = {
+const Props = {
   /** @type {BillingAddress} */
-  billingAddress: PropTypes.object,
+  billingAddress: PropTypes.object.isRequired,
   open: PropTypes.bool.isRequired,
   onClose: PropTypes.func.isRequired,
-
-  title: PropTypes.string,
-  content: PropTypes.string,
   /** @type {SxProps} */
   sx: PropTypes.object,
 };
 
 /**
- * @param {BillingAddressDeleteDialogProps} props
+ * @param {Props} props
  * @returns {JSX.Element}
  */
 const BillingAddressDeleteDialog = (props) => {
@@ -25,25 +22,23 @@ const BillingAddressDeleteDialog = (props) => {
     // required props
     open,
     onClose,
-    // optional props
-    title = 'Delete address',
-    content = 'Are you sure to delete? because it cannot be undone.',
-    sx = {},
     billingAddress,
+    // optional props
+    sx = {},
   } = props;
   const { enqueueSnackbar } = useSnackbar();
 
   // handle delete
   const onConfirm = useCallback(() => {
-    enqueueSnackbar('Address Deleted!');
-    console.log('Address Deleted: ', billingAddress);
+    enqueueSnackbar('Billing Address Deleted!');
+    console.log('Billing Address Deleted: ', billingAddress);
     onClose();
   }, [billingAddress, enqueueSnackbar, onClose]);
 
   return (
     <ConfirmDialog
-      title={title}
-      content={content}
+      title="Delete billing address"
+      content="Are you sure to delete? because it cannot be undone."
       open={open}
       onClose={onClose}
       action={
@@ -56,6 +51,6 @@ const BillingAddressDeleteDialog = (props) => {
   );
 };
 
-BillingAddressDeleteDialog.propTypes = BillingAddressDeleteDialogProps;
+BillingAddressDeleteDialog.propTypes = Props;
 
 export default BillingAddressDeleteDialog;

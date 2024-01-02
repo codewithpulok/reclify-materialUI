@@ -1,21 +1,19 @@
 import { Button, Dialog, DialogActions, DialogContent, DialogTitle } from '@mui/material';
 import PropTypes from 'prop-types';
 import { useCallback } from 'react';
-import { PaymentCardEditForm } from 'src/components/common/custom-form';
+import { BillingAddressCreateForm } from 'src/components/common/custom-form';
 
 const Props = {
   open: PropTypes.bool.isRequired,
   onClose: PropTypes.func.isRequired,
-  /** @type {PaymentCard} */
-  card: PropTypes.object.isRequired,
 };
 
 /**
  * @param {Props} props
  * @returns {JSX.Element}
  */
-const PayemntCardEditDialog = (props) => {
-  const { open, onClose, card } = props;
+const BillingAddressCreateDialog = (props) => {
+  const { open, onClose } = props;
 
   const handleSuccess = useCallback(
     (values, errors, reset) => {
@@ -35,8 +33,8 @@ const PayemntCardEditDialog = (props) => {
 
   return (
     <Dialog fullWidth maxWidth="xs" open={open} onClose={onClose}>
-      <DialogTitle>Edit Card</DialogTitle>
-      <PaymentCardEditForm
+      <DialogTitle>New Billing Address</DialogTitle>
+      <BillingAddressCreateForm
         wrapperElement={DialogContent}
         actions={
           <DialogActions>
@@ -44,18 +42,17 @@ const PayemntCardEditDialog = (props) => {
               Cancel
             </Button>
             <Button type="submit" color="primary" variant="contained">
-              Edit
+              Create
             </Button>
           </DialogActions>
         }
         successCallback={handleSuccess}
         failedCallback={handleFailed}
-        card={card}
       />
     </Dialog>
   );
 };
 
-PayemntCardEditDialog.propTypes = Props;
+BillingAddressCreateDialog.propTypes = Props;
 
-export default PayemntCardEditDialog;
+export default BillingAddressCreateDialog;

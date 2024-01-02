@@ -3,13 +3,13 @@ import PropTypes from 'prop-types';
 import { useCallback } from 'react';
 import { PaymentCardCreateForm } from 'src/components/common/custom-form';
 
-const PayemntCardCreateDialogProps = {
+const Props = {
   open: PropTypes.bool.isRequired,
   onClose: PropTypes.func.isRequired,
 };
 
 /**
- * @param {PayemntCardCreateDialogProps} props
+ * @param {Props} props
  * @returns {JSX.Element}
  */
 const PayemntCardCreateDialog = (props) => {
@@ -53,6 +53,6 @@ const PayemntCardCreateDialog = (props) => {
   );
 };
 
-PayemntCardCreateDialog.propTypes = PayemntCardCreateDialogProps;
+PayemntCardCreateDialog.propTypes = Props;
 
 export default PayemntCardCreateDialog;

@@ -6,14 +6,14 @@ import Stack from '@mui/material/Stack';
 import Typography from '@mui/material/Typography';
 
 import { Button } from '@mui/material';
-import { ICONS } from 'src/components/user-settings/config-user-settings';
 import { useBoolean } from 'src/hooks/use-boolean';
-import BillingAddressCreateDialog from '../create-dialog';
-import BillingAddressDeleteDialog from '../delete-dialog';
-import BillingAddressEditDialog from '../edit-dialog';
-import BillingAddressListItem from './item';
+import { ICONS } from '../../config-custom-dialog';
+import BillingAddressCreateDialog from '../create';
+import BillingAddressDeleteDialog from '../delete';
+import BillingAddressEditDialog from '../edit';
+import Item from './item';
 
-const BillingAddressListDialogProps = {
+const Props = {
   /** @type {BillingAddress[]} */
   list: PropTypes.array,
   onClose: PropTypes.func,
@@ -26,7 +26,7 @@ const BillingAddressListDialogProps = {
 // ----------------------------------------------------------------------
 
 /**
- * @param {BillingAddressListDialogProps} props
+ * @param {Props} props
  * @returns {JSX.Element}
  */
 const BillingAddressListDialog = (props) => {
@@ -82,7 +82,7 @@ const BillingAddressListDialog = (props) => {
       }}
     >
       {list.map((billingAddress) => (
-        <BillingAddressListItem
+        <Item
           key={billingAddress.id}
           billingAddress={billingAddress}
           isSelected={selected(`${billingAddress.id}`)}
@@ -133,6 +133,6 @@ const BillingAddressListDialog = (props) => {
   );
 };
 
-BillingAddressListDialog.propTypes = BillingAddressListDialogProps;
+BillingAddressListDialog.propTypes = Props;
 
 export default BillingAddressListDialog;

@@ -10,10 +10,10 @@ import PropTypes from 'prop-types';
 import { useCallback } from 'react';
 import CustomPopover, { usePopover } from 'src/components/common/custom-popover';
 import Label from 'src/components/common/label';
-import { ICONS } from 'src/components/user-settings/config-user-settings';
 import { getWarehouseAddress } from 'src/components/warehouse/utils';
+import { ICONS } from '../../config-custom-dialog';
 
-const BillingAddressListItemProps = {
+const Props = {
   /** @type {BillingAddress} */
   billingAddress: PropTypes.object.isRequired,
   onSelect: PropTypes.func.isRequired,
@@ -25,18 +25,16 @@ const BillingAddressListItemProps = {
 };
 
 /**
- * @param {BillingAddressListItemProps} props
+ * @param {Props} props
  * @returns {JSX.Element}
  */
-const BillingAddressListItem = (props) => {
+const Item = (props) => {
   const { billingAddress, isSelected, onSelect, onDelete, onEdit } = props;
   const popover = usePopover();
 
   const handleEdit = useCallback(
     (e) => {
       onEdit(billingAddress);
-      // prevent to pass click event to the parent
-      e.stopPropagation();
     },
     [billingAddress, onEdit]
   );
@@ -44,8 +42,6 @@ const BillingAddressListItem = (props) => {
   const handleDelete = useCallback(
     (e) => {
       onDelete(billingAddress);
-      // prevent to pass click event to the parent
-      e.stopPropagation();
     },
     [billingAddress, onDelete]
   );
@@ -101,14 +97,16 @@ const BillingAddressListItem = (props) => {
         </Stack>
 
         <Typography variant="body2" sx={{ color: 'text.secondary' }}>
-          {getWarehouseAddress(billingAddress.address)}
+          {billingAddress.email}
         </Typography>
 
-        {billingAddress.phoneNumber && (
-          <Typography variant="body2" sx={{ color: 'text.secondary' }}>
-            {billingAddress.phoneNumber}
-          </Typography>
-        )}
+        <Typography variant="body2" sx={{ color: 'text.secondary' }}>
+          {billingAddress.phoneNumber}
+        </Typography>
+
+        <Typography variant="body2" sx={{ color: 'text.secondary' }}>
+          {getWarehouseAddress(billingAddress.address)}
+        </Typography>
       </Stack>
       <CustomPopover open={popover.open} onClose={popover.onClose}>
         <MenuItem onClick={handleEdit}>
@@ -125,6 +123,6 @@ const BillingAddressListItem = (props) => {
   );
 };
 
-BillingAddressListItem.propTypes = BillingAddressListItemProps;
+Item.propTypes = Props;
 
-export default BillingAddressListItem;
+export default Item;

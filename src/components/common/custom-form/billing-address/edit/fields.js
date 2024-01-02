@@ -1,19 +1,21 @@
 import { Grid, MenuItem, Stack } from '@mui/material';
+
 import { AddressField } from 'src/components/common/fields';
 import { RHFSwitch, RHFTextField } from 'src/components/common/hook-form';
 import Scrollbar from 'src/components/common/scrollbar';
 
-const AddressCreateFieldsProps = {};
+const FieldsProps = {};
 
 /**
- * @param {AddressCreateFieldsProps} props
+ * @param {FieldsProps} props
  * @returns {JSX.Element}
  */
-const AddressCreateFields = (props) => (
+const Fields = (props) => (
   <Scrollbar sx={{ maxHeight: 400, pt: 0.7 }}>
     <Stack spacing={1}>
       <RHFTextField name="fullName" label="Full Name" />
       <RHFTextField name="phoneNumber" label="Phone Number" />
+      <RHFTextField name="email" type="email" label="Email" />
       <AddressField name="address" />
       <Grid container spacing={1}>
         <Grid item xs={12} sm={6}>
@@ -30,6 +32,6 @@ const AddressCreateFields = (props) => (
   </Scrollbar>
 );
 
-AddressCreateFields.propTypes = AddressCreateFieldsProps;
+Fields.propTypes = FieldsProps;
 
-export default AddressCreateFields;
+export default Fields;

@@ -1,44 +1,45 @@
 import { yupResolver } from '@hookform/resolvers/yup';
 import { Box } from '@mui/material';
 import { useSnackbar } from 'notistack';
-import PropTypes from 'prop-types';
 import { useCallback, useEffect } from 'react';
 import { useForm } from 'react-hook-form';
 
+import PropTypes from 'prop-types';
 import FormProvider from 'src/components/common/hook-form/form-provider';
 import { CustomFormProps } from '../../config-custom-form';
 import Fields from './fields';
-import { paymentCardEditSchema } from './schema';
+import { billingAddressEditSchema } from './schema';
 
 const Props = {
   ...CustomFormProps,
-  /** @type {PaymentCard} */
-  card: PropTypes.object.isRequired,
+  billingAddress: PropTypes.object.isRequired,
 };
 
-/** @type {PaymentCard} */
+/** @type {BillingAddress} */
 const defaultValues = {
-  number: '',
-  holder: '',
-  securityNumber: '',
-  expire: Date.now(),
+  address: { city: '', country: '', state: '', streetAddress: '', streetNumber: '', zipCode: '' },
+  addressType: 'office',
+  fullName: '',
+  email: '',
+  phoneNumber: '',
+  primary: false,
 };
 
 /**
  * @param {Props} props
  * @returns {JSX.Element}
  */
-const PaymentCardEditForm = (props) => {
+const BillingDetailsEditForm = (props) => {
   const {
     actions,
     failedCallback = () => {},
     successCallback = () => {},
     wrapperElement,
     sx = {},
-    card,
+    billingAddress,
   } = props;
 
-  const methods = useForm({ defaultValues, resolver: yupResolver(paymentCardEditSchema) });
+  const methods = useForm({ defaultValues, resolver: yupResolver(billingAddressEditSchema) });
   const { handleSubmit, reset } = methods;
   const { enqueueSnackbar } = useSnackbar();
 
@@ -50,16 +51,16 @@ const PaymentCardEditForm = (props) => {
     [reset]
   );
 
-  // handle edit payment card
+  // handle edit billing address
   const onSubmit = useCallback(
     (values) => {
       try {
-        enqueueSnackbar('Payment card edited!');
-        console.log('Payment card edited: ', values);
+        enqueueSnackbar('Billing address edited!');
+        console.log('Billing address edited: ', values);
         successCallback(values, false, onReset);
       } catch (error) {
-        enqueueSnackbar('Error in editing payment card!', { variant: 'error' });
-        console.error('Payment card edit error: ', error);
+        enqueueSnackbar('Error in editing billing address!', { variant: 'error' });
+        console.error('Billing address edit error: ', error);
         failedCallback(values, error, onReset);
       }
     },
@@ -68,12 +69,12 @@ const PaymentCardEditForm = (props) => {
 
   // update default values
   useEffect(() => {
-    if (card) {
-      reset(card);
+    if (billingAddress) {
+      reset(billingAddress);
     } else {
       reset(defaultValues);
     }
-  }, [card, reset]);
+  }, [billingAddress, reset]);
 
   return (
     <FormProvider methods={methods} onSubmit={handleSubmit(onSubmit)} onReset={onReset}>
@@ -86,6 +87,6 @@ const PaymentCardEditForm = (props) => {
   );
 };
 
-PaymentCardEditForm.propTypes = Props;
+BillingDetailsEditForm.propTypes = Props;
 
-export default PaymentCardEditForm;
+export default BillingDetailsEditForm;

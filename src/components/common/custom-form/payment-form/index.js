@@ -1,16 +1,14 @@
-/* eslint-disable import/no-cycle */
 import { Box } from '@mui/material';
+import { useSnackbar } from 'notistack';
 import PropTypes from 'prop-types';
+import { useEffect } from 'react';
 import { useForm } from 'react-hook-form';
 
-import { useSnackbar } from 'notistack';
-import { useEffect } from 'react';
 import { getPaymentCardsByUserId } from 'src/assets/dummy';
 import { getBillingAddressByUserId } from 'src/assets/dummy/billing-address';
 import { useAuthContext } from 'src/auth/hooks';
-import { BillingAddressListDialog } from 'src/components/user-settings/dialog';
 import { useBoolean } from 'src/hooks/use-boolean';
-import { PaymentCardListDialog } from '../../custom-dialog';
+import { BillingAddressListDialog, PaymentCardListDialog } from '../../custom-dialog';
 import FormProvider from '../../hook-form/form-provider';
 import BillingDetails from './billing-details';
 import PaymentCard from './payment-card';
