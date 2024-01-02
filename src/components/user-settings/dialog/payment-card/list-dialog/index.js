@@ -6,9 +6,9 @@ import Dialog from '@mui/material/Dialog';
 import Stack from '@mui/material/Stack';
 import Typography from '@mui/material/Typography';
 
+import { PaymentCardCreateDialog } from 'src/components/common/custom-dialog';
 import { useBoolean } from 'src/hooks/use-boolean';
 import { ICONS } from '../../../config-user-settings';
-import PaymentCardCreateDialog from '../create-dialog';
 import PaymentCardDeleteDialog from '../delete-dialog';
 import PaymentCardEditDialog from '../edit-dialog';
 import PaymentCardListItem from './item';

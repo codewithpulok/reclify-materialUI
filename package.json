@@ -31,6 +31,7 @@
     "@stripe/stripe-js": "^2.2.2",
     "autosuggest-highlight": "^3.3.4",
     "axios": "^1.5.1",
+    "creditcards": "^4.2.0",
     "date-fns": "^2.30.0",
     "framer-motion": "^10.16.4",
     "json-server": "^0.17.4",

@@ -1,8 +1,20 @@
+import PropTypes from 'prop-types';
 import { getIconify } from 'src/components/common/iconify/utilities';
 
-/**
- * All icons for the the user settings
- */
+/** common props for form */
+export const CustomFormProps = {
+  /** wrapper element for fields */
+  wrapperElement: PropTypes.elementType,
+  /** action button for form */
+  actions: PropTypes.node,
+  /** @type {(data: any, error: false, reset: (values) => {}) => {}} */
+  successCallback: PropTypes.func,
+  /** @type {(data: any, error: Object, reset: (values) => {}) => {}} */
+  failedCallback: PropTypes.func,
+  /** @type {SxProps} */
+  sx: PropTypes.object,
+};
+
 export const ICONS = {
   visacard: (width, sx) => getIconify('logos:visa', width, sx),
   mastercard: (width, sx) => getIconify('logos:mastercard', width, sx),
