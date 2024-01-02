@@ -9,9 +9,9 @@ import { useCallback } from 'react';
 import { ListItemButton } from '@mui/material';
 import CustomPopover, { usePopover } from 'src/components/common/custom-popover';
 import Label from 'src/components/common/label';
-import { ICONS } from '../../../config-user-settings';
+import { ICONS, getCreditCardIcon } from '../../config-custom-dialog';
 
-const PaymentCardListItemProps = {
+const ItemProps = {
   /** @type {PaymentCard} */
   card: PropTypes.object.isRequired,
   onSelect: PropTypes.func.isRequired,
@@ -25,10 +25,10 @@ const PaymentCardListItemProps = {
 // ----------------------------------------------------------------------
 
 /**
- * @param {PaymentCardListItemProps} props
+ * @param {ItemProps} props
  * @returns {JSX.Element}
  */
-const PaymentCardListItem = (props) => {
+const Item = (props) => {
   const { card, sx, onDelete, onEdit, isSelected, onSelect, ...other } = props;
   const popover = usePopover();
 
@@ -54,7 +54,7 @@ const PaymentCardListItem = (props) => {
   return (
     <>
       <Stack
-        spacing={1}
+        spacing={0.2}
         component={ListItemButton}
         variant="outlined"
         sx={{
@@ -72,13 +72,16 @@ const PaymentCardListItem = (props) => {
         onClick={() => onSelect(card)}
         {...other}
       >
-        <Stack direction="row" alignItems="center" spacing={1}>
-          {card.cardType === 'visa' ? ICONS.visacard() : ICONS.mastercard()}
+        <Stack mb={1.5} direction="row" alignItems="center" spacing={1}>
+          {getCreditCardIcon(card.number)(20)}
 
           {card.primary && <Label color="info">Default</Label>}
         </Stack>
 
-        <Typography variant="subtitle2">{card.cardNumber}</Typography>
+        <Typography variant="subtitle1">{card.number}</Typography>
+        <Typography variant="subtitle2" color="text.secondary">
+          {card.holder}
+        </Typography>
 
         <IconButton
           onClick={handleOpenPopover}
@@ -107,6 +110,6 @@ const PaymentCardListItem = (props) => {
   );
 };
 
-PaymentCardListItem.propTypes = PaymentCardListItemProps;
+Item.propTypes = ItemProps;
 
-export default PaymentCardListItem;
+export default Item;

@@ -4,14 +4,16 @@ import { useCallback, useState } from 'react';
 import Button from '@mui/material/Button';
 import Dialog from '@mui/material/Dialog';
 import Stack from '@mui/material/Stack';
-import Typography from '@mui/material/Typography';
 
-import { PaymentCardCreateDialog } from 'src/components/common/custom-dialog';
+import { DialogTitle } from '@mui/material';
+import {
+  ICONS,
+  PaymentCardCreateDialog,
+  PaymentCardDeleteDialog,
+  PaymentCardEditDialog,
+} from 'src/components/common/custom-dialog';
 import { useBoolean } from 'src/hooks/use-boolean';
-import { ICONS } from '../../../config-user-settings';
-import PaymentCardDeleteDialog from '../delete-dialog';
-import PaymentCardEditDialog from '../edit-dialog';
-import PaymentCardListItem from './item';
+import Item from './item';
 
 const PaymentCardListDialogProps = {
   list: PropTypes.array,
@@ -62,9 +64,9 @@ const PaymentCardListDialog = (props) => {
 
   // render the payment card list item
   const renderList = (
-    <Stack spacing={1.5} sx={{ p: 3 }}>
+    <Stack spacing={1} sx={{ p: 3 }}>
       {list.map((card) => (
-        <PaymentCardListItem
+        <Item
           key={card.id}
           card={card}
           onSelect={handleSelectCard}
@@ -79,14 +81,16 @@ const PaymentCardListDialog = (props) => {
   return (
     <>
       <Dialog fullWidth maxWidth="xs" open={open} onClose={onClose}>
-        <Stack
-          direction="row"
-          alignItems="center"
-          justifyContent="space-between"
-          sx={{ p: 3, pr: 1.5 }}
+        <DialogTitle
+          sx={{
+            p: 3,
+            pb: 0,
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'space-between',
+          }}
         >
-          <Typography variant="h6"> Cards </Typography>
-
+          Payment Cards
           <Button
             size="small"
             startIcon={ICONS.plus()}
@@ -95,20 +99,16 @@ const PaymentCardListDialog = (props) => {
           >
             New
           </Button>
-        </Stack>
+        </DialogTitle>
 
         {renderList}
       </Dialog>
       <PaymentCardCreateDialog onClose={openCreate.onFalse} open={openCreate.value} />
-      <PaymentCardEditDialog
-        onClose={closeEditDialog}
-        open={openEdit.open}
-        paymentCard={openEdit.card}
-      />
+      <PaymentCardEditDialog onClose={closeEditDialog} open={openEdit.open} card={openEdit.card} />
       <PaymentCardDeleteDialog
         open={openDelete.open}
         onClose={closeDeleteDialog}
-        paymentCard={openEdit.card}
+        card={openDelete.card}
       />
     </>
   );

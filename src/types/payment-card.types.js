@@ -7,6 +7,6 @@
  * @property {boolean} primary - Indicates whether this card is the user's primary card.
  * @property {string} holder - The credit card holder name.
  * @property {string} number - The credit card number.
- * @property {number} expire - The credit card expire month & year.
+ * @property {number} expire - The credit card expire month & year in milisecond timestamp format.
  * @property {string} securityNumber - The credit security number (cvv/cvc)
  */

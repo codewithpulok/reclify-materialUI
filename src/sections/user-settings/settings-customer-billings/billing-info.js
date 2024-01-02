@@ -7,14 +7,10 @@ import CardHeader from '@mui/material/CardHeader';
 import Stack from '@mui/material/Stack';
 import Grid from '@mui/material/Unstable_Grid2';
 
-import { useBoolean } from 'src/hooks/use-boolean';
-
-import {
-  BillingAddressListDialog,
-  PaymentCardListDialog,
-} from 'src/components/user-settings/dialog';
-
+import { PaymentCardListDialog } from 'src/components/common/custom-dialog';
+import { BillingAddressListDialog } from 'src/components/user-settings/dialog';
 import { getWarehouseAddress } from 'src/components/warehouse/utils';
+import { useBoolean } from 'src/hooks/use-boolean';
 import { ICONS } from '../config-settings';
 
 // ----------------------------------------------------------------------

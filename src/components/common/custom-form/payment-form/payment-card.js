@@ -4,6 +4,7 @@ import Stack from '@mui/material/Stack';
 import Typography from '@mui/material/Typography';
 
 import { ListItemButton } from '@mui/material';
+import { getCreditCardIcon } from '../../custom-dialog';
 import { ICONS } from '../config-custom-form';
 
 const PaymentCardProps = {
@@ -24,7 +25,7 @@ const PaymentCard = (props) => {
 
   return (
     <Stack
-      spacing={1}
+      spacing={0.2}
       component={ListItemButton}
       variant="outlined"
       sx={{
@@ -44,13 +45,27 @@ const PaymentCard = (props) => {
       onClick={onClick}
       {...other}
     >
-      <Stack width="100%" direction="row" alignItems="start" justifyContent="space-between">
-        {card && (card.cardType === 'visa' ? ICONS.visacard() : ICONS.mastercard())}
+      <Stack
+        mb={1.5}
+        width="100%"
+        direction="row"
+        alignItems="start"
+        justifyContent="space-between"
+      >
+        {card && getCreditCardIcon(card.number)(20)}
+
         {!card && <Typography variant="subtitle2">Select Payment card</Typography>}
 
         {ICONS.dropdown()}
       </Stack>
-      {card && <Typography variant="subtitle2">{card.cardNumber}</Typography>}
+      {card && (
+        <>
+          <Typography variant="subtitle1">{card.number}</Typography>
+          <Typography variant="subtitle2" color="text.secondary">
+            {card.holder}
+          </Typography>
+        </>
+      )}
     </Stack>
   );
 };

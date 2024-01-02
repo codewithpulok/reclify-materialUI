@@ -8,11 +8,9 @@ import { useEffect } from 'react';
 import { getPaymentCardsByUserId } from 'src/assets/dummy';
 import { getBillingAddressByUserId } from 'src/assets/dummy/billing-address';
 import { useAuthContext } from 'src/auth/hooks';
-import {
-  BillingAddressListDialog,
-  PaymentCardListDialog,
-} from 'src/components/user-settings/dialog';
+import { BillingAddressListDialog } from 'src/components/user-settings/dialog';
 import { useBoolean } from 'src/hooks/use-boolean';
+import { PaymentCardListDialog } from '../../custom-dialog';
 import FormProvider from '../../hook-form/form-provider';
 import BillingDetails from './billing-details';
 import PaymentCard from './payment-card';

@@ -10,7 +10,7 @@ import Scrollbar from 'src/components/common/scrollbar';
 const FieldsProps = {};
 
 /**
- * @param {PaymentCardCreateFieldsProps} props
+ * @param {FieldsProps} props
  * @returns {JSX.Element}
  */
 const Fields = (props) => (

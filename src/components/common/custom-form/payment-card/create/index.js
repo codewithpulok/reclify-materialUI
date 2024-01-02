@@ -1,3 +1,4 @@
+import { yupResolver } from '@hookform/resolvers/yup';
 import { Box } from '@mui/material';
 import { useSnackbar } from 'notistack';
 import { useCallback } from 'react';
@@ -5,6 +6,7 @@ import { useForm } from 'react-hook-form';
 import FormProvider from 'src/components/common/hook-form/form-provider';
 import { CustomFormProps } from '../../config-custom-form';
 import Fields from './fields';
+import { paymentCardCreateSchema } from './schema';
 
 const Props = {
   ...CustomFormProps,
@@ -31,7 +33,7 @@ const PaymentCardCreateForm = (props) => {
     sx = {},
   } = props;
 
-  const methods = useForm({ defaultValues });
+  const methods = useForm({ defaultValues, resolver: yupResolver(paymentCardCreateSchema) });
   const { handleSubmit, reset } = methods;
   const { enqueueSnackbar } = useSnackbar();
 
@@ -47,10 +49,11 @@ const PaymentCardCreateForm = (props) => {
   const onSubmit = useCallback(
     (values) => {
       try {
-        enqueueSnackbar('Payment Created!');
-        console.log('Payment Created: ', values);
+        enqueueSnackbar('Payment Card Added!');
+        console.log('Payment Card Added: ', values);
         successCallback(values, false, onReset);
       } catch (error) {
+        enqueueSnackbar('Error in adding payment card!', { variant: 'error' });
         console.error('Payment Card Create Error: ', error);
         failedCallback(values, error, onReset);
       }

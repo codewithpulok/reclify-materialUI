@@ -4,20 +4,17 @@ import PropTypes from 'prop-types';
 import { useCallback } from 'react';
 import { ConfirmDialog } from 'src/components/common/custom-dialog';
 
-const PaymentCardDeleteDialogProps = {
+const Props = {
   /** @type {PaymentCard} */
-  paymentCard: PropTypes.object,
+  card: PropTypes.object.isRequired,
   open: PropTypes.bool.isRequired,
   onClose: PropTypes.func.isRequired,
-
-  title: PropTypes.string,
-  content: PropTypes.string,
   /** @type {SxProps} */
   sx: PropTypes.object,
 };
 
 /**
- * @param {PaymentCardDeleteDialogProps} props
+ * @param {Props} props
  * @returns {JSX.Element}
  */
 const PaymentCardDeleteDialog = (props) => {
@@ -25,25 +22,23 @@ const PaymentCardDeleteDialog = (props) => {
     // required props
     open,
     onClose,
+    card,
     // optional props
-    title = 'Delete card',
-    content = 'Are you sure to delete? because it cannot be undone.',
     sx = {},
-    paymentCard,
   } = props;
   const { enqueueSnackbar } = useSnackbar();
 
   // handle delete
   const onConfirm = useCallback(() => {
-    enqueueSnackbar('Card Deleted!');
-    console.log('Card Deleted: ', paymentCard);
+    enqueueSnackbar('Payment Card Deleted!');
+    console.log('Payment Card Deleted: ', card);
     onClose();
-  }, [paymentCard, enqueueSnackbar, onClose]);
+  }, [card, enqueueSnackbar, onClose]);
 
   return (
     <ConfirmDialog
-      title={title}
-      content={content}
+      title="Delete card"
+      content="Are you sure to delete? because it cannot be undone."
       open={open}
       onClose={onClose}
       action={
@@ -56,6 +51,6 @@ const PaymentCardDeleteDialog = (props) => {
   );
 };
 
-PaymentCardDeleteDialog.propTypes = PaymentCardDeleteDialogProps;
+PaymentCardDeleteDialog.propTypes = Props;
 
 export default PaymentCardDeleteDialog;

@@ -10,14 +10,11 @@ import Grid from '@mui/material/Unstable_Grid2';
 
 import { useBoolean } from 'src/hooks/use-boolean';
 
-import {
-  BillingAddressListDialog,
-  PaymentCardListDialog,
-} from 'src/components/user-settings/dialog';
+import { BillingAddressListDialog } from 'src/components/user-settings/dialog';
 
 import PlanCard from 'src/components/user-settings/cards/plan-card';
 
-import { PaymentDialog } from 'src/components/common/custom-dialog';
+import { PaymentCardListDialog, PaymentDialog } from 'src/components/common/custom-dialog';
 import { getWarehouseAddress } from 'src/components/warehouse/utils';
 import { ICONS } from '../config-settings';
 
@@ -92,7 +89,7 @@ const BillingPlan = (props) => {
           {renderPlans}
         </Grid>
 
-        <Stack spacing={2} sx={{ p: 3, pt: 0, typography: 'body2' }}>
+        <Stack spacing={1.5} sx={{ p: 3, pt: 0, typography: 'body2' }}>
           <Grid container spacing={{ xs: 0.5, md: 2 }}>
             <Grid xs={12} md={4} sx={{ color: 'text.secondary' }}>
               Plan
@@ -102,7 +99,7 @@ const BillingPlan = (props) => {
             </Grid>
           </Grid>
 
-          <Grid container spacing={{ xs: 0.5, md: 2 }}>
+          <Grid container spacing={{ xs: 0.5, md: 2 }} alignItems="center">
             <Grid xs={12} md={4} sx={{ color: 'text.secondary' }}>
               Billing name
             </Grid>
@@ -110,7 +107,9 @@ const BillingPlan = (props) => {
               <Button
                 onClick={openAddress.onTrue}
                 endIcon={ICONS.showMore(16)}
-                sx={{ typography: 'subtitle2', p: 0, borderRadius: 0 }}
+                variant="outlined"
+                size="small"
+                sx={{ typography: 'subtitle2' }}
               >
                 {selectedAddress?.fullName}
               </Button>
@@ -135,7 +134,7 @@ const BillingPlan = (props) => {
             </Grid>
           </Grid>
 
-          <Grid container spacing={{ xs: 0.5, md: 2 }}>
+          <Grid container spacing={{ xs: 0.5, md: 2 }} alignItems="center">
             <Grid xs={12} md={4} sx={{ color: 'text.secondary' }}>
               Payment method
             </Grid>
@@ -143,9 +142,11 @@ const BillingPlan = (props) => {
               <Button
                 onClick={openCards.onTrue}
                 endIcon={ICONS.showMore(16)}
-                sx={{ typography: 'subtitle2', p: 0, borderRadius: 0 }}
+                variant="outlined"
+                size="small"
+                sx={{ typography: 'subtitle2' }}
               >
-                {selectedCard?.cardNumber}
+                {selectedCard?.holder} - {selectedCard?.number}
               </Button>
             </Grid>
           </Grid>
