@@ -3,8 +3,10 @@
  *
  * @typedef {Object} PaymentCard
  * @property {string} id - A unique identifier for the card.
- * @property {string} cardNumber - The credit card number.
- * @property {'mastercard' | 'visa'} cardType - The type of credit card, either 'mastercard' or 'visa'.
- * @property {boolean} primary - Indicates whether this card is the user's primary card.
  * @property {number} userId - The user ID to which this card belongs.
+ * @property {boolean} primary - Indicates whether this card is the user's primary card.
+ * @property {string} holder - The credit card holder name.
+ * @property {string} number - The credit card number.
+ * @property {number} expire - The credit card expire month & year in milisecond timestamp format.
+ * @property {string} securityNumber - The credit security number (cvv/cvc)
  */

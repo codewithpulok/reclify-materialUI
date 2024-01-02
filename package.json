@@ -31,9 +31,9 @@
     "@stripe/stripe-js": "^2.2.2",
     "autosuggest-highlight": "^3.3.4",
     "axios": "^1.5.1",
+    "creditcards": "^4.2.0",
     "date-fns": "^2.30.0",
     "framer-motion": "^10.16.4",
-    "json-server": "^0.17.4",
     "lodash": "^4.17.21",
     "mapbox-gl": "^3.0.1",
     "next": "^13.5.4",
@@ -70,6 +70,7 @@
     "eslint-plugin-react": "^7.33.2",
     "eslint-plugin-react-hooks": "^4.6.0",
     "eslint-plugin-unused-imports": "^3.0.0",
+    "json-server": "^0.17.4",
     "prettier": "^3.0.3",
     "typescript": "^5.2.2"
   }

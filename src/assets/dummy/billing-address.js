@@ -4,7 +4,7 @@ const billingAddress = [
     userId: '2',
     fullName: 'Jane Smith',
     primary: false,
-    addressType: 'work',
+    addressType: 'office',
     address: {
       city: 'New York',
       country: 'United States',
@@ -14,6 +14,7 @@ const billingAddress = [
       zipCode: 10001,
     },
     phoneNumber: '555-5678',
+    email: 'jane.smith@example.com',
   },
   {
     id: '1',
@@ -30,6 +31,7 @@ const billingAddress = [
       zipCode: 94110,
     },
     phoneNumber: '555-1234',
+    email: 'john.doe@example.com',
   },
   {
     id: '3',
@@ -42,29 +44,30 @@ const billingAddress = [
       country: 'United States',
       state: 'California',
       streetAddress: '123 Pine Street',
-      streetNumber: 'Apt 456',
+      streetNumber: 456,
       zipCode: '90001',
     },
     phoneNumber: '555-9876',
+    email: 'alice.johnson@example.com',
   },
   {
     id: '4',
     userId: '3',
     fullName: 'Bob Williams',
     primary: false,
-    addressType: 'work',
+    addressType: 'office',
     address: {
       city: 'Chicago',
       country: 'United States',
       state: 'Illinois',
       streetAddress: '789 Oak Avenue',
-      streetNumber: 'Suite 202',
+      streetNumber: 202,
       zipCode: '60601',
     },
     phoneNumber: '555-5432',
+    email: 'bob.williams@example.com',
   },
 ];
-
 /**
  * get billing address for specific user
  * @param {string} id

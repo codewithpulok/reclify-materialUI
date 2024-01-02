@@ -7,14 +7,13 @@ import CardHeader from '@mui/material/CardHeader';
 import Stack from '@mui/material/Stack';
 import Grid from '@mui/material/Unstable_Grid2';
 
-import { useBoolean } from 'src/hooks/use-boolean';
-
+import { card as creditCards } from 'creditcards';
 import {
   BillingAddressListDialog,
   PaymentCardListDialog,
-} from 'src/components/user-settings/dialog';
-
+} from 'src/components/common/custom-dialog';
 import { getWarehouseAddress } from 'src/components/warehouse/utils';
+import { useBoolean } from 'src/hooks/use-boolean';
 import { ICONS } from '../config-settings';
 
 // ----------------------------------------------------------------------
@@ -59,8 +58,8 @@ const BillingInfo = (props) => {
       <Card>
         <CardHeader sx={{ mb: 3 }} title="Billing Info" />
 
-        <Stack spacing={2} sx={{ p: 3, pt: 0, typography: 'body2' }}>
-          <Grid container spacing={{ xs: 0.5, md: 2 }}>
+        <Stack spacing={1.5} sx={{ p: 3, pt: 0, typography: 'body2' }}>
+          <Grid container spacing={{ xs: 0.5, md: 2 }} alignItems="center">
             <Grid xs={12} md={4} sx={{ color: 'text.secondary' }}>
               Billing name
             </Grid>
@@ -68,7 +67,9 @@ const BillingInfo = (props) => {
               <Button
                 onClick={openAddress.onTrue}
                 endIcon={ICONS.showMore(16)}
-                sx={{ typography: 'subtitle2', p: 0, borderRadius: 0 }}
+                variant="outlined"
+                size="small"
+                sx={{ typography: 'subtitle2' }}
               >
                 {selectedAddress?.fullName}
               </Button>
@@ -93,7 +94,7 @@ const BillingInfo = (props) => {
             </Grid>
           </Grid>
 
-          <Grid container spacing={{ xs: 0.5, md: 2 }}>
+          <Grid container spacing={{ xs: 0.5, md: 2 }} alignItems="center">
             <Grid xs={12} md={4} sx={{ color: 'text.secondary' }}>
               Payment method
             </Grid>
@@ -101,9 +102,11 @@ const BillingInfo = (props) => {
               <Button
                 onClick={openCards.onTrue}
                 endIcon={ICONS.showMore(16)}
-                sx={{ typography: 'subtitle2', p: 0, borderRadius: 0 }}
+                variant="outlined"
+                size="small"
+                sx={{ typography: 'subtitle2' }}
               >
-                {selectedCard?.cardNumber}
+                {creditCards.format(selectedCard?.number)}
               </Button>
             </Grid>
           </Grid>

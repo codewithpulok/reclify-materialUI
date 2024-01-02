@@ -10,6 +10,7 @@ import { regions } from 'src/assets/data';
 import { getUserByID } from 'src/assets/dummy/users';
 import { useAuthContext } from 'src/auth/hooks';
 import EmptyState from 'src/components/common/empty-state/empty-state';
+import { addressFieldSchema } from 'src/components/common/fields';
 import FormProvider from 'src/components/common/hook-form';
 import GeneralAvatarFields from './general-avatar-fields';
 import GeneralInfoFields from './general-info-fields';
@@ -28,14 +29,13 @@ const SettingsGeneral = () => {
     email: Yup.string().required('Email is required').email('Email must be a valid email address'),
     photoURL: Yup.mixed().nullable().required('Avatar is required'),
     phoneNumber: Yup.string().required('Phone number is required'),
-    country: Yup.string().required('Country is required'),
-    address: Yup.string().required('Address is required'),
-    state: Yup.string().required('State is required'),
+    address: addressFieldSchema,
     region: Yup.string()
       .oneOf(regions.map((r) => r.code))
-      .required('Region is required'),
-    city: Yup.string().required('City is required'),
-    zipCode: Yup.string().required('Zip code is required'),
+      .when('isNotAdmin', {
+        is: user?.role !== 'admin',
+        then: Yup.string().required('Region is required'),
+      }),
     about: Yup.string().required('About is required'),
     // not required
     isPublic: Yup.boolean(),
