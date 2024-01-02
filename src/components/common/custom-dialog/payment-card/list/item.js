@@ -4,6 +4,7 @@ import IconButton from '@mui/material/IconButton';
 import MenuItem from '@mui/material/MenuItem';
 import Stack from '@mui/material/Stack';
 import Typography from '@mui/material/Typography';
+import { card as creditCards } from 'creditcards';
 import { useCallback } from 'react';
 
 import { ListItemButton } from '@mui/material';
@@ -78,7 +79,7 @@ const Item = (props) => {
           {card.primary && <Label color="info">Default</Label>}
         </Stack>
 
-        <Typography variant="subtitle1">{card.number}</Typography>
+        <Typography variant="subtitle1">{creditCards.format(card.number)}</Typography>
         <Typography variant="subtitle2" color="text.secondary">
           {card.holder}
         </Typography>

@@ -12,6 +12,7 @@ import { useBoolean } from 'src/hooks/use-boolean';
 
 import PlanCard from 'src/components/user-settings/cards/plan-card';
 
+import { card as creditCards } from 'creditcards';
 import {
   BillingAddressListDialog,
   PaymentCardListDialog,
@@ -148,7 +149,7 @@ const BillingPlan = (props) => {
                 size="small"
                 sx={{ typography: 'subtitle2' }}
               >
-                {selectedCard?.number}
+                {creditCards.format(selectedCard?.number)}
               </Button>
             </Grid>
           </Grid>
