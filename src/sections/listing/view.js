@@ -12,13 +12,10 @@ import CustomBreadcrumbs from 'src/components/common/custom-breadcrumbs/custom-b
 import { useSettingsContext } from 'src/components/common/settings';
 import { WarehouseCard } from 'src/components/warehouse/cards';
 import { getWarehouseAddress } from 'src/components/warehouse/utils';
-import { useGetAllWarehousesQuery } from 'src/lib/services/warehouseApi';
 
 // ----------------------------------------------------------------------
 
 export default function ListingView() {
-  const response = useGetAllWarehousesQuery();
-  console.log({ response });
   const searchParams = useSearchParams();
 
   const { user } = useAuthContext();

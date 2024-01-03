@@ -15,4 +15,5 @@ export const ICONS = {
   adminSettings: (width, sx) => getIconify('solar:settings-linear', width, sx),
   expand: (width, sx) => getIconify('solar:alt-arrow-down-line-duotone', width, sx),
   rule: (width, sx) => getIconify('solar:danger-circle-line-duotone', width, sx),
+  discount: (width, sx) => getIconify('ic:outline-discount', width, sx),
 };

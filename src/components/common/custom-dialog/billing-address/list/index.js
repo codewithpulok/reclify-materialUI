@@ -127,7 +127,7 @@ const BillingAddressListDialog = (props) => {
       <BillingAddressDeleteDialog
         open={openDelete.open}
         onClose={closeDeleteDialog}
-        billingAddress={openEdit.address}
+        billingAddress={openDelete.address}
       />
     </>
   );
