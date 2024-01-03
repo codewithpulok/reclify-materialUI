@@ -156,12 +156,12 @@ const WarehouseBooking = (props) => {
         <Grid mb={3} container spacing={0}>
           <Grid item xs={12} sm={6}>
             <Typography color="text.secondary" variant="overline" width="100%">
-              Square feet: {fNumber(SQUARE_FEET_PER_PALLET * requiredSpace)}
+              Square foot: {fNumber(SQUARE_FEET_PER_PALLET * requiredSpace)}
             </Typography>
           </Grid>
           <Grid item xs={12} sm={6}>
             <Typography color="text.secondary" variant="overline" width="100%">
-              Cubic feet: {fNumber(CUBIC_FEET_PER_PALLET * requiredSpace)}
+              Cubic foot: {fNumber(CUBIC_FEET_PER_PALLET * requiredSpace)}
             </Typography>
           </Grid>
         </Grid>
