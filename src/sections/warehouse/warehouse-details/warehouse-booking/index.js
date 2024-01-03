@@ -104,7 +104,7 @@ const WarehouseBooking = (props) => {
                 </Typography>
               </Stack>
               <Typography sx={bookingInfoStyle.description}>
-                {SQUARE_FEET_PER_PALLET} square feet per pallet, {CUBIC_FEET_PER_PALLET} cubic feet
+                {SQUARE_FEET_PER_PALLET} square foot per pallet, {CUBIC_FEET_PER_PALLET} cubic foot
                 per pallet
               </Typography>
             </Box>
