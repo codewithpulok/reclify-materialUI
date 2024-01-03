@@ -20,8 +20,6 @@ export const getCreditCardIcon = (number) => {
 
   const parsedType = type.toLowerCase().split(' ').join('_');
 
-  console.log({ parsedType });
-
   const icon = ICONS?.[parsedType];
 
   return icon || ICONS.creditcard;

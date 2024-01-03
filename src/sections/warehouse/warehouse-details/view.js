@@ -11,7 +11,7 @@ import { useSettingsContext } from 'src/components/common/settings';
 import { WarehouseOwnerCard } from 'src/components/warehouse/cards';
 import WarehouseAddressMap from './warehouse-address-map';
 import WarehouseApprovedUses from './warehouse-approved-uses';
-import WarehouseBookingOptions from './warehouse-booking-options';
+import WarehouseBooking from './warehouse-booking';
 import WarehouseDescription from './warehouse-description';
 import WarehouseFeatures from './warehouse-features';
 import WarehouseHeader from './warehouse-header';
@@ -55,11 +55,7 @@ function WarehouseDetails(props) {
               <WarehouseOwnerCard sx={{ mb: 3 }} user={owner} />
             ) : null}
 
-            <WarehouseBookingOptions
-              space={warehouse.totalSpace}
-              pricePerSquare={warehouse.pricePerSquare}
-              showPurchase={user?.role === 'customer'}
-            />
+            <WarehouseBooking warehouse={warehouse} showPurchase={user?.role === 'customer'} />
           </Box>
 
           <WarehouseDescription description={warehouse.description} sx={{ mt: 5 }} />
@@ -85,11 +81,7 @@ function WarehouseDetails(props) {
           {/* show sidebar content in tab mode & hide in mobile mode */}
           <Box sx={{ display: { xs: 'none', md: 'block', width: '100%' } }}>
             {owner?.id !== user?.id ? <WarehouseOwnerCard sx={{ mb: 3 }} user={owner} /> : null}
-            <WarehouseBookingOptions
-              space={warehouse.totalSpace}
-              pricePerSquare={warehouse.pricePerSquare}
-              showPurchase={user?.role === 'customer'}
-            />
+            <WarehouseBooking warehouse={warehouse} showPurchase={user?.role === 'customer'} />
           </Box>
         </Grid>
       </Grid>
