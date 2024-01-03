@@ -25,11 +25,15 @@ const WarehouseCreateViewProps = {
   sourceWarehouse: PropTypes.object,
 };
 
+/** @type {Warehouse} */
 const defaultValues = {
   name: '',
   address: '',
-  totalSpace: 0,
-  pricePerSquare: 0,
+  totalSpace: undefined,
+  pricePerSpace: undefined,
+  discountRate: undefined,
+  maxSpaceOrder: undefined,
+  minSpaceOrder: undefined,
   description: '',
   photos: [],
   approvedUses: approvedUsesDefaultValues,

@@ -1,3 +1,4 @@
+import { InputAdornment } from '@mui/material';
 import Button from '@mui/material/Button';
 import Grid from '@mui/material/Grid';
 import Stack from '@mui/material/Stack';
@@ -33,10 +34,45 @@ const CreateFields = (props) => (
         </Grid>
 
         <Grid item xs={6}>
-          <RHFTextField type="number" name="totalSpace" label="Space" fullWidth />
+          <RHFTextField type="number" name="totalSpace" label="Total space (Pallet)" fullWidth />
         </Grid>
         <Grid item xs={6}>
-          <RHFTextField type="number" name="pricePerSquare" label="Price Per Sqare" fullWidth />
+          <RHFTextField
+            type="number"
+            name="pricePerSpace"
+            label="Price per pallet"
+            InputProps={{
+              startAdornment: <InputAdornment position="start">$</InputAdornment>,
+            }}
+            fullWidth
+          />
+        </Grid>
+        <Grid item xs={6}>
+          <RHFTextField
+            type="number"
+            name="minSpaceOrder"
+            label="Minimum space to order"
+            fullWidth
+          />
+        </Grid>
+        <Grid item xs={6}>
+          <RHFTextField
+            type="number"
+            name="maxSpaceOrder"
+            label="Maximum space to order"
+            fullWidth
+          />
+        </Grid>
+        <Grid item xs={12}>
+          <RHFTextField
+            type="number"
+            name="discountRate"
+            label="Discount Rate"
+            InputProps={{
+              startAdornment: <InputAdornment position="start">%</InputAdornment>,
+            }}
+            fullWidth
+          />
         </Grid>
 
         <Grid item xs={12}>

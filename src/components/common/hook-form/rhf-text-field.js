@@ -26,7 +26,7 @@ export default function RHFTextField(props) {
       render={({ field, fieldState: { error } }) => (
         <TextField
           {...field}
-          value={field.value}
+          value={field.value === undefined ? '' : field.value}
           onChange={(event) => {
             if (other?.type === 'number') {
               field.onChange(event.target.value === '' ? undefined : Number(event.target.value));

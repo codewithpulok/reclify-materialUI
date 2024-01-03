@@ -1,15 +1,16 @@
+import { predefinedApprovedUses, predefinedFeatures } from 'src/assets/data';
 import { addressFieldSchema } from 'src/components/common/fields';
 import * as Yup from 'yup';
 
-const editSchema = Yup.object().shape({
+/** @type {Warehouse} */
+const schema = {
   name: Yup.string().required('Warehouse name is required'),
   address: addressFieldSchema,
-  totalSpace: Yup.number()
-    .min(1, 'Must be greater than or equal 1')
-    .required('Total space is required'),
-  pricePerSquare: Yup.number()
-    .min(1, 'Must be greater than or equal 1')
-    .required('Price per square is required'),
+  totalSpace: Yup.number().label('Total space').min(1).required(),
+  pricePerSpace: Yup.number().label('Price per space').min(1).required(),
+  discountRate: Yup.number().label('Discount Rate').min(0).max(100).required().default(0),
+  maxSpaceOrder: Yup.number().label('Max orderable space').required(),
+  minSpaceOrder: Yup.number().label('Min orderable space').required(),
   description: Yup.string().required('Description is required'),
   photos: Yup.array(
     Yup.object().shape({
@@ -17,6 +18,21 @@ const editSchema = Yup.object().shape({
       coverUrl: Yup.string().required('Photo url is required'),
     })
   ),
-});
+  approvedUses: Yup.object().shape(
+    predefinedApprovedUses.reduce((prev, next) => {
+      prev[next.key] = Yup.boolean().required(`${next.label} is required`);
+      return prev;
+    }, {})
+  ),
+  features: Yup.object().shape(
+    predefinedFeatures.reduce((prev, next) => {
+      prev[next.key] = Yup.boolean().required(`${next.label} is required`);
+      return prev;
+    }, {})
+  ),
+  rules: Yup.array(Yup.string()),
+};
+
+const editSchema = Yup.object().shape(schema);
 
 export default editSchema;

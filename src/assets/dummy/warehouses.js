@@ -13,7 +13,10 @@ export const warehouses = [
     },
     description: 'Modern storage facility in the heart of the city.',
     totalSpace: 5000,
-    pricePerSquare: 1.5,
+    pricePerSpace: 1.5,
+    discountRate: 30,
+    maxSpaceOrder: 1000,
+    minSpaceOrder: 100,
     photos: [
       {
         id: '1',
@@ -93,7 +96,10 @@ export const warehouses = [
     },
     description: 'Secure storage facility for various industries.',
     totalSpace: 8000,
-    pricePerSquare: 1.8,
+    pricePerSpace: 1.8,
+    discountRate: 0,
+    maxSpaceOrder: 2000,
+    minSpaceOrder: 1000,
     photos: [
       {
         id: '3',
@@ -173,7 +179,10 @@ export const warehouses = [
     },
     description: 'Strategically located logistics and storage center.',
     totalSpace: 10000,
-    pricePerSquare: 2.0,
+    pricePerSpace: 2.0,
+    discountRate: 50,
+    maxSpaceOrder: 5000,
+    minSpaceOrder: 3000,
     photos: [
       {
         id: '5',
