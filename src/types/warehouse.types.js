@@ -7,8 +7,8 @@
  * @property {string} description - The description of the warehouse, e.g., 'Modern storage facility in the heart of the city.'.
  * @property {number} totalSpace - The total space of the warehouse in pallet, e.g., 5000.
  * @property {number} pricePerSpace - The price of the warehouse space per pallet, e.g., 1.5.
- * @property {number} minSpaceOrder - The minimum space to order.
- * @property {number} maxSpaceOrder - The maximum space to order.
+ * @property {number | undefined} minSpaceOrder - The minimum space to order.
+ * @property {number | undefined} maxSpaceOrder - The maximum space to order.
  * @property {number} discountRate - The discount rate for warehouse (percentage) .
  * @property {Photo[]} photos - An array of photo objects representing the warehouse's photos.
  * @property {boolean} isVerified - Warehouse is verified by admin or not.
