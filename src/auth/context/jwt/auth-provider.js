@@ -7,7 +7,7 @@ import axios, { endpoints } from 'src/utils/axios';
 
 import { TEMP_ACCESS_TOKEN, UsersList } from 'src/auth/mockData';
 
-import { AuthContext } from './auth-context';
+import { AuthContext, initialState } from './auth-context';
 import { persistAuthState } from './utils';
 
 // ----------------------------------------------------------------------
@@ -17,11 +17,6 @@ import { persistAuthState } from './utils';
 // Customer will need to do some extra handling yourself if you want to extend the logic and other features...
 
 // ----------------------------------------------------------------------
-
-const initialState = {
-  user: null,
-  loading: true,
-};
 
 const reducer = (state, action) => {
   if (action.type === 'INITIAL') {
@@ -103,6 +98,7 @@ export function AuthProvider({ children }) {
      * Imitate login via the mock data
      */
     const user = UsersList.find((item) => item.email === email);
+
     if (!user) {
       throw new Error('Email not found');
     }
