@@ -19,7 +19,7 @@ import WarehouseImageCarousel from './warehouse-image-carousel';
 import WarehouseReviews from './warehouse-reviews';
 import WarehouseTabs from './warehouse-tabs';
 
-const WarehouseDetailsProps = {
+const Props = {
   /** @type {Warehouse} */
   warehouse: PropTypes.object.isRequired,
   /** @type {Review[]} */
@@ -28,10 +28,10 @@ const WarehouseDetailsProps = {
 
 /**
  * Warehouse Details page component
- * @param {WarehouseDetailsProps} props
+ * @param {Props} props
  * @returns {JSX.Element}
  */
-function WarehouseDetails(props) {
+function WarehouseDetailsView(props) {
   const { warehouse, reviews } = props;
   const settings = useSettingsContext();
   const { user } = useAuthContext();
@@ -89,6 +89,6 @@ function WarehouseDetails(props) {
   );
 }
 
-WarehouseDetails.propTypes = WarehouseDetailsProps;
+WarehouseDetailsView.propTypes = Props;
 
-export default WarehouseDetails;
+export default WarehouseDetailsView;
