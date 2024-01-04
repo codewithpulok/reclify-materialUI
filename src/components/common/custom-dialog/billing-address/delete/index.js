@@ -5,8 +5,8 @@ import { useCallback } from 'react';
 import { ConfirmDialog } from 'src/components/common/custom-dialog';
 
 const Props = {
-  /** @type {BillingAddress} */
-  billingAddress: PropTypes.object.isRequired,
+  /** @type {BillingAddress | undefined} */
+  billingAddress: PropTypes.object,
   open: PropTypes.bool.isRequired,
   onClose: PropTypes.func.isRequired,
   /** @type {SxProps} */

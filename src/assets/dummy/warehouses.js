@@ -98,8 +98,8 @@ export const warehouses = [
     totalSpace: 8000,
     pricePerSpace: 1.8,
     discountRate: 0,
-    maxSpaceOrder: 2000,
-    minSpaceOrder: 1000,
+    maxSpaceOrder: undefined,
+    minSpaceOrder: undefined,
     photos: [
       {
         id: '3',

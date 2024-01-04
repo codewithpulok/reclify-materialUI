@@ -10,12 +10,12 @@ import { createTheme, ThemeProvider as MuiThemeProvider } from '@mui/material/st
 import { useSettingsContext } from 'src/components/common/settings';
 
 // system
+import { AppRouterCacheProvider } from '@mui/material-nextjs/v13-appRouter';
 import { palette } from './palette';
 import { shadows } from './shadows';
 import { typography } from './typography';
 // options
 import { customShadows } from './custom-shadows';
-import NextAppDirEmotionCacheProvider from './next-emotion-cache';
 import { createContrast } from './options/contrast';
 import { createPresets } from './options/presets';
 import RTL from './options/right-to-left';
@@ -60,14 +60,16 @@ export default function ThemeProvider({ children }) {
   theme.components = merge(componentsOverrides(theme), contrast.components);
 
   return (
-    <NextAppDirEmotionCacheProvider options={{ key: 'css' }}>
+    // <NextAppDirEmotionCacheProvider options={{ key: 'css' }}>
+    <AppRouterCacheProvider options={{ key: 'css' }}>
       <MuiThemeProvider theme={theme}>
         <RTL themeDirection={settings.themeDirection}>
           <CssBaseline />
           {children}
         </RTL>
       </MuiThemeProvider>
-    </NextAppDirEmotionCacheProvider>
+    </AppRouterCacheProvider>
+    // </NextAppDirEmotionCacheProvider>
   );
 }
 

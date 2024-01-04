@@ -1,7 +1,7 @@
 import { notFound } from 'next/navigation';
 import { getWarehouseReviews } from 'src/assets/dummy/reviews';
 import { warehouses } from 'src/assets/dummy/warehouses';
-import { WarehouseDetails } from 'src/sections/warehouse/';
+import WarehouseDetailsView from 'src/sections/warehouse/warehouse-details/view';
 
 export const getWarehouse = async (id) => {
   // handle api calling
@@ -27,5 +27,5 @@ export default async function WarehouseDetailsPage({ params }) {
   // if there is no warehouse then show error
   if (warehouse === undefined) notFound();
 
-  return <WarehouseDetails warehouse={warehouse} reviews={warehouseReviews} />;
+  return <WarehouseDetailsView warehouse={warehouse} reviews={warehouseReviews} />;
 }

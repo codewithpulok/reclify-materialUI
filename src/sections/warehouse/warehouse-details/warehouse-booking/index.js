@@ -47,7 +47,7 @@ const Props = {
 const WarehouseBooking = (props) => {
   const { warehouse, showPurchase } = props;
   const [selectedMonth, setSelectedMonth] = useState(1);
-  const [requiredSpace, setRequiredSpace] = useState(0);
+  const [requiredSpace, setRequiredSpace] = useState(1);
   const [error, setError] = useState(undefined);
   const { palette } = useTheme();
   const paymentDialog = useBoolean();
@@ -122,9 +122,20 @@ const WarehouseBooking = (props) => {
                 <Typography sx={bookingInfoStyle.heading2}>pallete</Typography>
               </Stack>
               <Typography sx={bookingInfoStyle.description}>
-                * Order Quantity Limit:
-                <br />- Minimum: {fNumber(warehouse.minSpaceOrder)} pallets
-                <br />- Maximum: {fNumber(warehouse.maxSpaceOrder)} pallets
+                {warehouse?.minSpaceOrder && warehouse?.maxSpaceOrder
+                  ? '* Order Quantity Limit:'
+                  : null}
+
+                {warehouse?.minSpaceOrder && warehouse?.minSpaceOrder > 0 ? (
+                  <>
+                    <br />- Minimum: {fNumber(warehouse.minSpaceOrder)} pallets
+                  </>
+                ) : null}
+                {warehouse?.maxSpaceOrder && warehouse?.maxSpaceOrder > 0 ? (
+                  <>
+                    <br />- Maximum: {fNumber(warehouse.maxSpaceOrder)} pallets
+                  </>
+                ) : null}
               </Typography>
             </Box>
           </Grid>
@@ -149,8 +160,8 @@ const WarehouseBooking = (props) => {
           error={error}
           setError={setError}
           sx={{ mb: 0.2 }}
-          min={warehouse.minSpaceOrder}
-          max={warehouse.maxSpaceOrder}
+          min={warehouse.minSpaceOrder || 1}
+          max={warehouse.maxSpaceOrder || warehouse.totalSpace}
         />
 
         <Grid mb={3} container spacing={0}>

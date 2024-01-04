@@ -21,4 +21,6 @@ export const ICONS = {
   email: (width, sx) => getIconify('tabler:mail', width, sx),
 
   close: (width, sx) => getIconify('solar:close-circle-bold', width, sx),
+
+  feature: (width, sx) => getIconify('tabler:check', width, sx),
 };
