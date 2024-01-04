@@ -5,6 +5,7 @@ import { Container } from '@mui/material';
 import PropTypes from 'prop-types';
 import { useForm } from 'react-hook-form';
 // local components
+import { useSnackbar } from 'notistack';
 import {
   approvedUsesDefaultValues,
   facilityDefaultValues,
@@ -14,8 +15,6 @@ import {
 import CustomBreadcrumbs from 'src/components/common/custom-breadcrumbs';
 import FormProvider from 'src/components/common/hook-form/form-provider';
 import { useSettingsContext } from 'src/components/common/settings';
-import useSnackbarPromise from 'src/components/common/snackbar/snackbar-promise';
-import { useCreateWarehouseMutation } from 'src/lib/services/warehouseApi';
 import { paths } from 'src/routes/paths';
 import CreateFields from './create-fields';
 import createSchema from './create-schema';
@@ -50,9 +49,7 @@ const defaultValues = {
 const WarehouseCreateView = (props) => {
   const { sourceWarehouse } = props;
 
-  const [createWarehouse] = useCreateWarehouseMutation();
-
-  const { snackbarPromise } = useSnackbarPromise();
+  const { enqueueSnackbar } = useSnackbar();
   const settings = useSettingsContext();
 
   const methods = useForm({
@@ -65,7 +62,7 @@ const WarehouseCreateView = (props) => {
   const onSubmit = async (values) => {
     console.log('Warehouse Create: ', values);
 
-    await snackbarPromise(createWarehouse(values));
+    enqueueSnackbar('Warehouse created!');
   };
 
   return (
