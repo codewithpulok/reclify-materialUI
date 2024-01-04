@@ -1,11 +1,10 @@
-import { Box, Paper, Stack } from '@mui/material';
+import { Box, Link, Paper, Stack, Typography } from '@mui/material';
 import PropTypes from 'prop-types';
 import { PlanFreeIcon, PlanPremiumIcon, PlanStarterIcon } from 'src/assets/icons';
 import Label from 'src/components/common/label';
+import { useBoolean } from 'src/hooks/use-boolean';
 import { fCurrency } from 'src/utils/format-number';
 import { ICONS } from '../config-user-settings';
-
-// ----------------------------------------------------------------------
 
 const PlanCardProps = {
   /** @type {Plan} */
@@ -18,6 +17,9 @@ const PlanCardProps = {
   sx: PropTypes.object,
 };
 
+const MAX_FEATURES_SHOW = 5;
+// ----------------------------------------------------------------------
+
 /**
  * Plan Card UI
  * @param {PlanCardProps} props
@@ -25,6 +27,9 @@ const PlanCardProps = {
  */
 const PlanCard = (props) => {
   const { plan, isSelected, onSelect, sx = {} } = props;
+
+  const showMore = useBoolean();
+
   return (
     <Stack
       component={Paper}
@@ -41,7 +46,7 @@ const PlanCard = (props) => {
           cursor: 'default',
         }),
         ...(isSelected && {
-          boxShadow: (theme) => `0 0 0 2px ${theme.palette.text.primary}`,
+          boxShadow: (theme) => `0 0 0 2px ${theme.palette.primary.main}`,
         }),
         ...sx,
       }}
@@ -82,6 +87,39 @@ const PlanCard = (props) => {
           </Box>
         )}
       </Stack>
+
+      {plan?.features && plan.features.length && (
+        <>
+          <Stack direction="row" alignItems="center" justifyContent="space-between" mt={3} mb={1}>
+            <Typography variant="overline" color="text.secondary">
+              Features
+            </Typography>
+
+            {plan.features.length > MAX_FEATURES_SHOW && (
+              <Link
+                sx={{ typography: 'caption' }}
+                onClick={(e) => {
+                  showMore.onToggle();
+                  e.stopPropagation();
+                }}
+              >
+                {showMore.value ? 'less' : 'more'}
+              </Link>
+            )}
+          </Stack>
+
+          <Stack spacing={0.5}>
+            {[...plan.features]
+              .slice(0, showMore.value ? undefined : MAX_FEATURES_SHOW)
+              .map((feature) => (
+                <Stack key={feature.id} direction="row" alignItems="center" gap={0.5}>
+                  {ICONS.feature(14, { color: 'success.main' })}
+                  <Typography variant="caption">{feature.title}</Typography>
+                </Stack>
+              ))}
+          </Stack>
+        </>
+      )}
     </Stack>
   );
 };

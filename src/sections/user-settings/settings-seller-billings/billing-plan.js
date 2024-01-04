@@ -88,7 +88,7 @@ const BillingPlan = (props) => {
       <Card>
         <CardHeader title="Plan" />
 
-        <Grid container spacing={2} sx={{ p: 3 }}>
+        <Grid container spacing={1.5} sx={{ p: 3 }}>
           {renderPlans}
         </Grid>
 

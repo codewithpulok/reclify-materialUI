@@ -6,8 +6,8 @@ import { BillingAddressEditForm } from 'src/components/common/custom-form';
 const Props = {
   open: PropTypes.bool.isRequired,
   onClose: PropTypes.func.isRequired,
-  /** @type {BillingAddress} */
-  billingAddress: PropTypes.object.isRequired,
+  /** @type {BillingAddress | undefined} */
+  billingAddress: PropTypes.object,
 };
 
 /**

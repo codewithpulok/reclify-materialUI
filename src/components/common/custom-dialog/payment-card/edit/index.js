@@ -6,8 +6,8 @@ import { PaymentCardEditForm } from 'src/components/common/custom-form';
 const Props = {
   open: PropTypes.bool.isRequired,
   onClose: PropTypes.func.isRequired,
-  /** @type {PaymentCard} */
-  card: PropTypes.object.isRequired,
+  /** @type {PaymentCard | undefined} */
+  card: PropTypes.object,
 };
 
 /**
