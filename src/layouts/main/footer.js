@@ -2,7 +2,7 @@ import Box from '@mui/material/Box';
 import Container from '@mui/material/Container';
 import Divider from '@mui/material/Divider';
 import IconButton from '@mui/material/IconButton';
-import Link from '@mui/material/Link';
+import MuiLink from '@mui/material/Link';
 import Stack from '@mui/material/Stack';
 import Typography from '@mui/material/Typography';
 import Grid from '@mui/material/Unstable_Grid2';
@@ -23,9 +23,9 @@ const LINKS = [
   {
     headline: 'Minimal',
     children: [
-      { name: 'About us', href: paths.about },
-      { name: 'Contact us', href: paths.contact },
-      { name: 'FAQs', href: paths.faqs },
+      { name: 'About us', href: paths.about_us },
+      { name: 'Contact us', href: paths.contact_us },
+      { name: 'FAQs', href: paths.faq },
     ],
   },
   {
@@ -64,7 +64,7 @@ export default function Footer() {
         <Typography variant="caption" component="div">
           © All rights reserved
           <br /> made by
-          <Link href="https://minimals.cc/"> minimals.cc </Link>
+          <MuiLink href="https://minimals.cc/"> minimals.cc </MuiLink>
         </Typography>
       </Container>
     </Box>
@@ -145,7 +145,7 @@ export default function Footer() {
                   </Typography>
 
                   {list.children.map((link) => (
-                    <Link
+                    <MuiLink
                       key={link.name}
                       component={RouterLink}
                       href={link.href}
@@ -153,7 +153,7 @@ export default function Footer() {
                       variant="body2"
                     >
                       {link.name}
-                    </Link>
+                    </MuiLink>
                   ))}
                 </Stack>
               ))}

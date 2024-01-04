@@ -13,6 +13,7 @@ import { bgBlur } from 'src/theme/css';
 
 import Logo from 'src/components/common/logo';
 
+import Link from 'next/link';
 import HeaderShadow from '../common/header-shadow';
 import LoginButton from '../common/login-button';
 import { HEADER } from '../config-layout';
@@ -61,12 +62,10 @@ export default function Header() {
           <Stack
             alignItems="center"
             direction={{
-              // xs: 'row',
-              // md: 'row-reverse',
               xs: 'row-reverse',
             }}
           >
-            <Button variant="contained" target="_blank" rel="noopener" color="primary" href="#">
+            <Button LinkComponent={Link} href="/contact-us" variant="contained" color="primary">
               Contact Us
             </Button>
 
