@@ -14,7 +14,7 @@ export const paths = {
   // Main Links
   about_us: '/about-us',
   contact_us: '/contact-us',
-  faq: '/faq',
+  faqs: '/faqs',
 
   // AUTH
   auth: {

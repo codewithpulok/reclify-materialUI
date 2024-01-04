@@ -14,6 +14,7 @@ import { bgBlur } from 'src/theme/css';
 import Logo from 'src/components/common/logo';
 
 import Link from 'next/link';
+import { paths } from 'src/routes/paths';
 import HeaderShadow from '../common/header-shadow';
 import LoginButton from '../common/login-button';
 import { HEADER } from '../config-layout';
@@ -65,7 +66,7 @@ export default function Header() {
               xs: 'row-reverse',
             }}
           >
-            <Button LinkComponent={Link} href="/contact-us" variant="contained" color="primary">
+            <Button LinkComponent={Link} href={paths.faqs} variant="contained" color="primary">
               Contact Us
             </Button>
 
