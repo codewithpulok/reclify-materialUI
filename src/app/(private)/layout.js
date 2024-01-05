@@ -10,9 +10,9 @@ import { AuthGuard } from 'src/auth/guard';
 
 export default function Layout({ children }) {
   return (
-    <AuthGuard>
-      <LocalizationProvider dateAdapter={AdapterDateFns}>{children}</LocalizationProvider>
-    </AuthGuard>
+    <LocalizationProvider dateAdapter={AdapterDateFns}>
+      <AuthGuard>{children}</AuthGuard>
+    </LocalizationProvider>
   );
 }
 

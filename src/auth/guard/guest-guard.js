@@ -4,10 +4,10 @@ import PropTypes from 'prop-types';
 import { useCallback, useEffect } from 'react';
 
 import { useRouter, useSearchParams } from 'src/routes/hooks';
-import { paths } from 'src/routes/paths';
 
 import { SplashScreen } from 'src/components/common/loading-screen';
 
+import { PATH_AFTER_LOGIN } from 'src/config-global';
 import { useAuthContext } from '../hooks';
 
 // ----------------------------------------------------------------------
@@ -29,7 +29,7 @@ function Container({ children }) {
 
   const searchParams = useSearchParams();
 
-  const returnTo = searchParams.get('returnTo') || paths.dashboard.root;
+  const returnTo = searchParams.get('returnTo') || PATH_AFTER_LOGIN;
 
   const { authenticated } = useAuthContext();
 

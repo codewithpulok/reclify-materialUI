@@ -1,11 +1,11 @@
-import { JwtLoginView } from 'src/sections/auth/jwt';
+import { LoginView } from 'src/sections/auth';
 
 // ----------------------------------------------------------------------
 
 export const metadata = {
-  title: 'Jwt: Login',
+  title: 'Sign In - Racklify',
 };
 
 export default function LoginPage() {
-  return <JwtLoginView />;
+  return <LoginView />;
 }

@@ -1,11 +1,11 @@
-import { JwtRegisterView } from 'src/sections/auth/jwt';
+import { RegisterView } from 'src/sections/auth';
 
 // ----------------------------------------------------------------------
 
 export const metadata = {
-  title: 'Jwt: Register',
+  title: 'Create Account - Racklify',
 };
 
 export default function RegisterPage() {
-  return <JwtRegisterView />;
+  return <RegisterView />;
 }

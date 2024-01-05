@@ -23,7 +23,6 @@ export const UsersList = [
   {
     id: '3',
     email: 'customerA@test.com',
-    password: 'test123',
     firstName: 'Customer',
     lastName: 'User',
     role: 'customer',

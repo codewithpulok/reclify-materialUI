@@ -1,7 +1,8 @@
 'use client';
 
+import { LocalizationProvider } from '@mui/x-date-pickers';
+import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFns';
 import PropTypes from 'prop-types';
-
 import { GuestGuard } from 'src/auth/guard';
 import AuthClassicLayout from 'src/layouts/auth/classic';
 
@@ -9,9 +10,11 @@ import AuthClassicLayout from 'src/layouts/auth/classic';
 
 export default function Layout({ children }) {
   return (
-    <GuestGuard>
-      <AuthClassicLayout>{children}</AuthClassicLayout>
-    </GuestGuard>
+    <LocalizationProvider dateAdapter={AdapterDateFns}>
+      <GuestGuard>
+        <AuthClassicLayout>{children}</AuthClassicLayout>
+      </GuestGuard>
+    </LocalizationProvider>
   );
 }
 

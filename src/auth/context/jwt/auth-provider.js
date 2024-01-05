@@ -3,9 +3,7 @@
 import PropTypes from 'prop-types';
 import { useCallback, useEffect, useMemo, useReducer } from 'react';
 
-import axios, { endpoints } from 'src/utils/axios';
-
-import { TEMP_ACCESS_TOKEN, UsersList } from 'src/auth/mockData';
+import { UsersList } from 'src/auth/mockData';
 
 import { AuthContext, initialState } from './auth-context';
 import { persistAuthState } from './utils';
@@ -88,33 +86,13 @@ export function AuthProvider({ children }) {
     }
   }, []);
 
-  useEffect(() => {
-    initialize();
-  }, [initialize]);
-
   // LOGIN
-  const login = useCallback(async (email, password) => {
-    /**
-     * Imitate login via the mock data
-     */
-    const user = UsersList.find((item) => item.email === email);
+  const login = useCallback(async (data, token) => {
+    let user = UsersList.find((item) => item.email === data.email);
 
-    if (!user) {
-      throw new Error('Email not found');
-    }
-    if (user.password !== password) {
-      throw new Error('Invalid Credentials');
-    }
-    const accessToken = TEMP_ACCESS_TOKEN;
+    if (!user) user = { ...UsersList[0], ...data };
 
-    // const data = {
-    //   email,
-    //   password,
-    // };
-
-    // const response = await axios.post(endpoints.auth.login, data);
-
-    // const { accessToken, user } = response.data;
+    const accessToken = token;
 
     persistAuthState(accessToken, user);
 
@@ -127,32 +105,8 @@ export function AuthProvider({ children }) {
         },
       },
     });
-  }, []);
 
-  // REGISTER
-  const register = useCallback(async (email, password, firstName, lastName) => {
-    const data = {
-      email,
-      password,
-      firstName,
-      lastName,
-    };
-
-    const response = await axios.post(endpoints.auth.register, data);
-
-    const { accessToken, user } = response.data;
-
-    sessionStorage.setItem(STORAGE_KEY, accessToken);
-
-    dispatch({
-      type: 'REGISTER',
-      payload: {
-        user: {
-          ...user,
-          accessToken,
-        },
-      },
-    });
+    return { isSuccess: true };
   }, []);
 
   // LOGOUT
@@ -162,6 +116,10 @@ export function AuthProvider({ children }) {
       type: 'LOGOUT',
     });
   }, []);
+
+  useEffect(() => {
+    initialize();
+  }, [initialize]);
 
   // ----------------------------------------------------------------------
 
@@ -178,10 +136,9 @@ export function AuthProvider({ children }) {
       unauthenticated: status === 'unauthenticated',
       //
       login,
-      register,
       logout,
     }),
-    [login, logout, register, state.user, status]
+    [login, logout, state.user, status]
   );
 
   return <AuthContext.Provider value={memoizedValue}>{children}</AuthContext.Provider>;
