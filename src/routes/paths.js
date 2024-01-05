@@ -10,11 +10,14 @@ const ROOTS = {
 
 export const paths = {
   minimalUI: 'https://mui.com/store/items/minimal-dashboard/',
+  website: 'https://racklify.com',
 
   // Main Links
   about_us: '/about-us',
   contact_us: '/contact-us',
   faqs: '/faqs',
+  terms: '/terms-and-conditions',
+  privacy: '/privacy-policy',
 
   // AUTH
   auth: {
