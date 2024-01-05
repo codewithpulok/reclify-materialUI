@@ -66,7 +66,12 @@ export default function Header() {
               xs: 'row-reverse',
             }}
           >
-            <Button LinkComponent={Link} href={paths.faqs} variant="contained" color="primary">
+            <Button
+              LinkComponent={Link}
+              href={paths.contact_us}
+              variant="contained"
+              color="primary"
+            >
               Contact Us
             </Button>
 
