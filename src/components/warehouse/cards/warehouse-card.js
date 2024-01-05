@@ -11,7 +11,9 @@ import {
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import PropTypes from 'prop-types';
+// local components
 import Image from 'src/components/common/image';
+import { paths } from 'src/routes/paths';
 import { ICONS } from '../config-warehouse';
 import { getWarehouseAddress } from '../utils';
 
@@ -43,7 +45,9 @@ const WarehouseCard = (props) => {
         ...sx,
       }}
     >
-      <CardActionArea onClick={() => router.push(`/warehouse/${warehouse.id}`)}>
+      <CardActionArea
+        onClick={() => router.push(`${paths.dashboard.warehouses.root}/${warehouse.id}`)}
+      >
         <Box width="100%">
           <Image src={warehouse?.photos[0]?.coverUrl} ratio="16/9" />
         </Box>
@@ -103,18 +107,18 @@ const WarehouseCard = (props) => {
             position: 'absolute',
             top: 5,
             right: 4,
-            bgcolor: 'Background',
+            bgcolor: 'grey.100',
             borderRadius: 5,
             opacity: 0,
             transition: '0.3s',
           }}
         >
-          <Link href={`/warehouse/create?clone=${warehouse.id}`}>
+          <Link href={`${paths.dashboard.warehouses.create}?clone=${warehouse.id}`}>
             <IconButton size="small" color="primary">
               {ICONS.duplicate()}
             </IconButton>
           </Link>
-          <Link href={`/warehouse/${warehouse.id}/edit`}>
+          <Link href={`${paths.dashboard.warehouses.edit}/${warehouse.id}`}>
             <IconButton size="small" color="warning">
               {ICONS.edit()}
             </IconButton>

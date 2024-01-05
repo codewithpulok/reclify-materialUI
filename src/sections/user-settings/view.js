@@ -66,8 +66,8 @@ const UserSettingsView = () => {
       headingPrefix = 'Admin Account';
       break;
     }
-    case 'warehouse': {
-      headingPrefix = 'Warehouse Account';
+    case 'seller': {
+      headingPrefix = 'Seller Account';
       break;
     }
     default: {
@@ -94,10 +94,9 @@ const UserSettingsView = () => {
         }}
       >
         {TABS.map((tab) => {
-          // exclude warehouse only tabs
-          if (!['warehouse', 'customer'].includes(user?.role) && tab.value === 'billing')
-            return null;
-          if (!['warehouse', 'customer'].includes(user?.role) && tab.value === 'transactions')
+          // filter seller & customer only tabs
+          if (!['seller', 'customer'].includes(user?.role) && tab.value === 'billing') return null;
+          if (!['seller', 'customer'].includes(user?.role) && tab.value === 'transactions')
             return null;
 
           return <Tab key={tab.value} label={tab.label} icon={tab.icon} value={tab.value} />;
@@ -108,14 +107,14 @@ const UserSettingsView = () => {
 
       {currentTab === 'billing' && (
         <>
-          {user?.role === 'warehouse' && <SettingsSellerBillings />}
+          {user?.role === 'seller' && <SettingsSellerBillings />}
           {user?.role === 'customer' && <SettingsCustomerBillings />}
         </>
       )}
 
       {currentTab === 'transactions' && (
         <>
-          {user?.role === 'warehouse' && <SettingsSellerTransactions />}
+          {user?.role === 'seller' && <SettingsSellerTransactions />}
           {user?.role === 'customer' && <SettingsCustomerTransactions />}
         </>
       )}

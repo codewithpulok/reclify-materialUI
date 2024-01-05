@@ -8,8 +8,22 @@ import Typography from '@mui/material/Typography';
 
 import LinkItem from './link-item';
 
+const Props = {
+  sx: PropTypes.object,
+  action: PropTypes.node,
+  /** @type {BreadcrumbLinkType[]} */
+  links: PropTypes.array,
+  heading: PropTypes.string,
+  moreLink: PropTypes.array,
+  activeLast: PropTypes.bool,
+};
+
 // ----------------------------------------------------------------------
 
+/**
+ * @param {Props} props
+ * @returns {JSX.Element}
+ */
 export default function CustomBreadcrumbs(props) {
   const { links = [], action, heading, moreLink, activeLast, sx, ...other } = props;
   const lastLink = links?.length ? links[links.length - 1].name : null;
@@ -64,14 +78,7 @@ export default function CustomBreadcrumbs(props) {
   );
 }
 
-CustomBreadcrumbs.propTypes = {
-  sx: PropTypes.object,
-  action: PropTypes.node,
-  links: PropTypes.array,
-  heading: PropTypes.string,
-  moreLink: PropTypes.array,
-  activeLast: PropTypes.bool,
-};
+CustomBreadcrumbs.propTypes = Props;
 
 // ----------------------------------------------------------------------
 

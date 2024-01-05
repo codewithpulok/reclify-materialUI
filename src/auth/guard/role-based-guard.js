@@ -11,9 +11,22 @@ import { ForbiddenIllustration } from 'src/assets/illustrations';
 import { MotionContainer, varBounce } from 'src/components/common/animate';
 import { useAuthContext } from '../hooks';
 
+const Props = {
+  children: PropTypes.node,
+  hasContent: PropTypes.bool,
+  /** @type {AuthUserRole[]} */
+  roles: PropTypes.arrayOf(PropTypes.string),
+  sx: PropTypes.object,
+};
+
 // ----------------------------------------------------------------------
 
-export default function RoleBasedGuard({ hasContent, roles, children, sx }) {
+/**
+ * @param {Props} props
+ * @returns {JSX.Element}
+ */
+export default function RoleBasedGuard(props) {
+  const { hasContent, roles, children, sx } = props;
   // Logic here to get current user role
   const { user } = useAuthContext();
 
@@ -50,9 +63,4 @@ export default function RoleBasedGuard({ hasContent, roles, children, sx }) {
   return <> {children} </>;
 }
 
-RoleBasedGuard.propTypes = {
-  children: PropTypes.node,
-  hasContent: PropTypes.bool,
-  roles: PropTypes.arrayOf(PropTypes.string),
-  sx: PropTypes.object,
-};
+RoleBasedGuard.propTypes = Props;

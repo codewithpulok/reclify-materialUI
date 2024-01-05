@@ -24,5 +24,5 @@
 
 /**
  * Auth user role
- * @typedef {'admin' | 'seller' | 'customer'} AuthUserRole
+ * @typedef {'admin' | 'customer' | 'seller'} AuthUserRole
  */

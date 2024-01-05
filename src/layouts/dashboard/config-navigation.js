@@ -3,43 +3,13 @@ import { useMemo } from 'react';
 import { paths } from 'src/routes/paths';
 
 import { useAuthContext } from 'src/auth/hooks';
-import SvgColor from 'src/components/common/svg-color';
+import { getIconify } from 'src/components/common/iconify/utilities';
 
 // ----------------------------------------------------------------------
 
-const icon = (name) => (
-  <SvgColor src={`/assets/icons/navbar/${name}.svg`} sx={{ width: 1, height: 1 }} />
-  // OR
-  // <Iconify icon="fluent:mail-24-filled" />
-  // https://icon-sets.iconify.design/solar/
-  // https://www.streamlinehq.com/icons
-);
-
 const ICONS = {
-  job: icon('ic_job'),
-  blog: icon('ic_blog'),
-  chat: icon('ic_chat'),
-  mail: icon('ic_mail'),
-  user: icon('ic_user'),
-  file: icon('ic_file'),
-  lock: icon('ic_lock'),
-  tour: icon('ic_tour'),
-  order: icon('ic_order'),
-  label: icon('ic_label'),
-  blank: icon('ic_blank'),
-  kanban: icon('ic_kanban'),
-  folder: icon('ic_folder'),
-  banking: icon('ic_banking'),
-  booking: icon('ic_booking'),
-  invoice: icon('ic_invoice'),
-  product: icon('ic_product'),
-  calendar: icon('ic_calendar'),
-  disabled: icon('ic_disabled'),
-  external: icon('ic_external'),
-  menuItem: icon('ic_menu_item'),
-  ecommerce: icon('ic_ecommerce'),
-  analytics: icon('ic_analytics'),
-  dashboard: icon('ic_dashboard'),
+  warehouse: (width, sx) => getIconify('solar:box-bold-duotone', width, sx),
+  users: (width, sx) => getIconify('solar:users-group-two-rounded-bold', width, sx),
 };
 
 // ----------------------------------------------------------------------
@@ -47,37 +17,43 @@ const ICONS = {
 export function useNavData() {
   const { user } = useAuthContext();
 
+  const commonRoutes = useMemo(
+    () => [
+      {
+        title: 'Warehouses',
+        path: paths.dashboard.warehouses.root,
+        icon: ICONS.warehouse(),
+      },
+    ],
+    []
+  );
+
   const adminRoutes = useMemo(
-    () =>
-      user?.role === 'admin'
-        ? [
-            {
-              title: 'Warehouse Users',
-              path: paths.dashboard.warehouse_users,
-              icon: ICONS.user,
-            },
-          ]
-        : [],
-    [user]
+    () => [
+      {
+        title: 'Users',
+        path: '#',
+        icon: ICONS.users(),
+        children: [{ title: 'Sellers', path: paths.dashboard.users.sellers }],
+      },
+    ],
+    []
   );
 
   const data = useMemo(
     () => [
-      // OVERVIEW
-      // ----------------------------------------------------------------------
       {
         subheader: 'overview v1.0.0',
         items: [
-          {
-            title: 'listing',
-            path: paths.dashboard.listing,
-            icon: ICONS.analytics,
-          },
-          ...adminRoutes,
+          // routes for all user
+          ...commonRoutes,
+
+          // if user role is admin then only show admin routes
+          ...(user?.role === 'admin' ? adminRoutes : []),
         ],
       },
     ],
-    [adminRoutes]
+    [adminRoutes, commonRoutes, user?.role]
   );
 
   return data;

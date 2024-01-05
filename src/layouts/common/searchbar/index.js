@@ -19,7 +19,7 @@ import { createQueryString } from 'src/utils/query';
 import SearchbarFilters from './searchbar-filters';
 import SearchbarForm from './searchbar-form';
 
-const BASE_PATH = paths.dashboard.listing;
+const BASE_PATH = paths.dashboard.warehouses.root;
 
 // ----------------------------------------------------------------------
 
