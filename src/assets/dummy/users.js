@@ -49,7 +49,7 @@ export const users = [
       country: 'United States',
     },
     about: 'Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.',
-    role: 'warehouse',
+    role: 'seller',
     region: 'Northeast',
     createdAt: 1671027368000,
     updatedAt: 1671050423000,
@@ -106,7 +106,7 @@ export const users = [
       country: 'United States',
     },
     about: 'New user with realistic data.',
-    role: 'warehouse',
+    role: 'seller',
     region: 'South',
     createdAt: 1680325689000,
     updatedAt: 1680352147000,
@@ -154,15 +154,15 @@ export const users = [
 export const getUserByID = (id) => users.find((user) => user.id === id);
 
 /**
- * all warehouse users
+ * all seller users
  * @returns {User[]}
  */
-export const getWarehouseUsers = () => users.filter((user) => user.role === 'warehouse');
+export const getSellers = () => users.filter((user) => user.role === 'seller');
 
 /**
- * find warehouse users
+ * find seller users
  * @param {string} id
  * @returns {Promise<User>}
  */
-export const findWarehouseUser = async (id) =>
-  users.find((user) => user.role === 'warehouse' && user.id === id);
+export const findSeller = async (id) =>
+  users.find((user) => user.role === 'seller' && user.id === id);

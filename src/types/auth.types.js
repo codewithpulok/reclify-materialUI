@@ -6,8 +6,7 @@
  * @property {boolean} loading
  * @property {boolean} authenticated
  * @property {boolean} unauthenticated
- * @property {(email: string, password: string) => {}} login
- * @property {(email: string, password: string, firstName: string, lastName: string) => {}} register
+ * @property {(data: {}, token: string) => {}} login
  * @property {() => {}} logout
  */
 
@@ -16,7 +15,6 @@
  * @typedef {Object} AuthUser
  * @property {string} id
  * @property {string} email
- * @property {string} password
  * @property {string} firstName
  * @property {string} lastName
  * @property {AuthUserRole} role
@@ -24,5 +22,5 @@
 
 /**
  * Auth user role
- * @typedef {'admin' | 'seller' | 'customer'} AuthUserRole
+ * @typedef {'admin' | 'customer' | 'seller'} AuthUserRole
  */

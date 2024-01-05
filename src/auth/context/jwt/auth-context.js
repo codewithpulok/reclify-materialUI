@@ -12,7 +12,6 @@ export const initialState = {
   unauthenticated: false,
   //
   login: () => {},
-  register: () => {},
   logout: () => {},
 };
 

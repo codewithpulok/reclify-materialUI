@@ -5,9 +5,24 @@ import Link from '@mui/material/Link';
 
 import { RouterLink } from 'src/routes/components';
 
+const Props = {
+  activeLast: PropTypes.bool,
+  disabled: PropTypes.bool,
+  /** @type {BreadcrumbLinkType} */
+  link: PropTypes.shape({
+    href: PropTypes.string,
+    icon: PropTypes.node,
+    name: PropTypes.string,
+  }),
+};
 // ----------------------------------------------------------------------
 
-export default function BreadcrumbsLink({ link, activeLast, disabled }) {
+/**
+ * @param {Props} props
+ * @returns {JSX.Element}
+ */
+export default function BreadcrumbsLink(props) {
+  const { link, activeLast, disabled } = props;
   const styles = {
     typography: 'body2',
     alignItems: 'center',
@@ -51,12 +66,4 @@ export default function BreadcrumbsLink({ link, activeLast, disabled }) {
   return <Box sx={styles}> {renderContent} </Box>;
 }
 
-BreadcrumbsLink.propTypes = {
-  activeLast: PropTypes.bool,
-  disabled: PropTypes.bool,
-  link: PropTypes.shape({
-    href: PropTypes.string,
-    icon: PropTypes.node,
-    name: PropTypes.string,
-  }),
-};
+BreadcrumbsLink.propTypes = Props;

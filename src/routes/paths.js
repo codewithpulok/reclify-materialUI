@@ -3,18 +3,21 @@
 const ROOTS = {
   AUTH: '/auth',
   DASHBOARD: '/dashboard',
-  WAREHOUSE: '/warehouse',
+  SETTINGS: '/settings',
 };
 
 // ----------------------------------------------------------------------
 
 export const paths = {
   minimalUI: 'https://mui.com/store/items/minimal-dashboard/',
+  website: 'https://racklify.com',
 
   // Main Links
   about_us: '/about-us',
   contact_us: '/contact-us',
   faqs: '/faqs',
+  terms: '/terms-and-conditions',
+  privacy: '/privacy-policy',
 
   // AUTH
   auth: {
@@ -27,12 +30,16 @@ export const paths = {
   // DASHBOARD
   dashboard: {
     root: ROOTS.DASHBOARD,
-    listing: `${ROOTS.DASHBOARD}/listing`,
-    warehouse_users: `${ROOTS.DASHBOARD}/warehouse-users`,
-  },
-
-  // WAREHOUSE
-  warehouse: {
-    root: `${ROOTS.WAREHOUSE}`,
+    // users sections
+    users: {
+      root: `${ROOTS.DASHBOARD}/users`,
+      sellers: `${ROOTS.DASHBOARD}/users/sellers`,
+    },
+    // warehouses section
+    warehouses: {
+      root: `${ROOTS.DASHBOARD}/warehouses`,
+      create: `${ROOTS.DASHBOARD}/warehouses/create`,
+      edit: `${ROOTS.DASHBOARD}/warehouses/edit`,
+    },
   },
 };

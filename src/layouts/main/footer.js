@@ -12,8 +12,7 @@ import { RouterLink } from 'src/routes/components';
 import { usePathname } from 'src/routes/hooks';
 import { paths } from 'src/routes/paths';
 
-import { _socials } from 'src/_mock';
-
+import { getSocialBrand, socials } from 'src/assets/data';
 import Iconify from 'src/components/common/iconify';
 import Logo from 'src/components/common/logo';
 
@@ -21,7 +20,7 @@ import Logo from 'src/components/common/logo';
 
 const LINKS = [
   {
-    headline: 'Minimal',
+    headline: 'Pages',
     children: [
       { name: 'About us', href: paths.about_us },
       { name: 'Contact us', href: paths.contact_us },
@@ -31,13 +30,13 @@ const LINKS = [
   {
     headline: 'Legal',
     children: [
-      { name: 'Terms and Condition', href: '#' },
-      { name: 'Privacy Policy', href: '#' },
+      { name: 'Terms and Condition', href: paths.terms },
+      { name: 'Privacy Policy', href: paths.privacy },
     ],
   },
   {
     headline: 'Contact',
-    children: [{ name: 'support@minimals.cc', href: '#' }],
+    children: [{ name: 'support@racklify.com', href: 'mailto:support@racklify.com' }],
   },
 ];
 
@@ -63,8 +62,10 @@ export default function Footer() {
 
         <Typography variant="caption" component="div">
           © All rights reserved
-          <br /> made by
-          <MuiLink href="https://minimals.cc/"> minimals.cc </MuiLink>
+          <br /> made by{' '}
+          <MuiLink component={RouterLink} href={paths.website}>
+            racklify.com
+          </MuiLink>
         </Typography>
       </Container>
     </Box>
@@ -104,8 +105,8 @@ export default function Footer() {
                 mx: { xs: 'auto', md: 'unset' },
               }}
             >
-              The starting point for your next project with Minimal UI Kit, built on the newest
-              version of Material-UI ©, ready to be customized to your style.
+              Lorem ipsum dolor sit amet consectetur adipisicing elit. Sit accusamus, maxime fugit
+              quaerat porro earum? Voluptas, optio a! Corporis, qui!
             </Typography>
 
             <Stack
@@ -116,18 +117,25 @@ export default function Footer() {
                 mb: { xs: 5, md: 0 },
               }}
             >
-              {_socials.map((social) => (
-                <IconButton
-                  key={social.name}
-                  sx={{
-                    '&:hover': {
-                      bgcolor: alpha(social.color, 0.08),
-                    },
-                  }}
-                >
-                  <Iconify color={social.color} icon={social.icon} />
-                </IconButton>
-              ))}
+              {Object.keys(socials).map((key) => {
+                const social = getSocialBrand(key);
+
+                if (!social) return null;
+
+                return (
+                  <IconButton
+                    key={key}
+                    href={socials[key]}
+                    sx={{
+                      '&:hover': {
+                        bgcolor: alpha(social.color, 0.08),
+                      },
+                    }}
+                  >
+                    <Iconify color={social.color} icon={social.icon} />
+                  </IconButton>
+                );
+              })}
             </Stack>
           </Grid>
 
@@ -162,7 +170,7 @@ export default function Footer() {
         </Grid>
 
         <Typography variant="body2" sx={{ mt: 10 }}>
-          © 2021. All rights reserved
+          © {new Date().getFullYear()}. All rights reserved
         </Typography>
       </Container>
     </Box>
