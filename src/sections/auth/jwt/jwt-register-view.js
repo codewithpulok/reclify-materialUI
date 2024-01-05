@@ -48,6 +48,7 @@ export default function JwtRegisterView() {
         'Region code is not valid'
       )
       .required('Region is required'),
+    userType: Yup.string().label('Account Type').oneOf(['customer', 'seller']).required(),
     email: Yup.string().required('Email is required').email('Email must be a valid email address'),
     password: Yup.string().required('Password is required'),
   });
@@ -58,6 +59,7 @@ export default function JwtRegisterView() {
     email: '',
     password: '',
     region: '',
+    userType: 'customer',
   };
 
   const methods = useForm({
@@ -137,6 +139,11 @@ export default function JwtRegisterView() {
               {option.name}
             </MenuItem>
           ))}
+        </RHFTextField>
+
+        <RHFTextField name="userType" label="Account Type" select>
+          <MenuItem value="customer">Customer</MenuItem>
+          <MenuItem value="seller">Seller</MenuItem>
         </RHFTextField>
 
         <RHFTextField name="email" label="Email address" />
