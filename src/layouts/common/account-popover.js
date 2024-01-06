@@ -11,12 +11,12 @@ import { alpha } from '@mui/material/styles';
 
 import { useRouter } from 'src/routes/hooks';
 
-
 import { getUserByID } from 'src/assets/dummy';
 import { varHover } from 'src/components/common/animate';
 import CustomPopover, { usePopover } from 'src/components/common/custom-popover';
-import { logout, selectAuth } from 'src/redux-toolkit/features/auth/authSlice';
-import { useAppDispatch, useAppSelector } from 'src/redux-toolkit/hooks';
+import { selectAuth } from 'src/redux-toolkit/features/auth/authSlice';
+import { useAppSelector } from 'src/redux-toolkit/hooks';
+import { useLoginMutation } from 'src/redux-toolkit/services/authApi';
 
 // ----------------------------------------------------------------------
 
@@ -41,7 +41,7 @@ export default function AccountPopover() {
   const router = useRouter();
 
   const { user } = useAppSelector(selectAuth);
-  const dispatch = useAppDispatch()
+  const [logout] = useLoginMutation();
 
   const userProfile = getUserByID(user?.id);
 
@@ -49,7 +49,7 @@ export default function AccountPopover() {
 
   const handleLogout = async () => {
     try {
-      await dispatch(logout());
+      await logout().unwrap();
       popover.onClose();
       router.replace('/');
     } catch (error) {

@@ -1,5 +1,9 @@
 import { paths } from 'src/routes/paths';
 
+// LOCALSTORAGE KEY // ----------------------------------------------------------------------
+export const USER_STORAGE_KEY = 'RACKLIFY_USER';
+export const TOKEN_STORAGE_KEY = 'RACKLIFY_TOKEN';
+
 // API // ----------------------------------------------------------------------
 export const MAPBOX_API = process.env.NEXT_PUBLIC_MAPBOX_API; // mapbox api key
 
