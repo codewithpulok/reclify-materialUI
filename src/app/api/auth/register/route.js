@@ -1,9 +1,9 @@
 import { ApiError, serverAsyncWrapper } from 'src/utils/api';
-import { getPrivateEndpoint, privateEndpoints } from 'src/utils/api/endpoints';
+import { endpoints, getEndpoint } from 'src/utils/api/endpoints';
 
 export const POST = serverAsyncWrapper(async (req) => {
   const body = await req.json();
-  const response = await fetch(getPrivateEndpoint(privateEndpoints.auth.register), {
+  const response = await fetch(getEndpoint(endpoints.auth.register), {
     body: JSON.stringify(body),
     method: 'POST',
     headers: {

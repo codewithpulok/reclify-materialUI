@@ -7,4 +7,15 @@ import { PUBLIC_BACKEND_API } from 'src/config-global';
  * @returns
  */
 export const publicBaseQuery = (path) =>
-  fetchBaseQuery({ baseUrl: `${PUBLIC_BACKEND_API}${path}` });
+  fetchBaseQuery({
+    baseUrl: `${PUBLIC_BACKEND_API}${path}`,
+    prepareHeaders: (headers, { getState }) => {
+      const { token } = getState().auth;
+
+      if (token) {
+        headers.set('authorization', `Bearer ${token}`);
+      }
+
+      return headers;
+    },
+  });

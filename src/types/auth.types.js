@@ -4,6 +4,7 @@
  * @property {null | AuthUser} user
  * @property {boolean} isLoading
  * @property {boolean} isAuthenticated
+ * @property {null | string} token
  */
 
 /**

@@ -11,7 +11,7 @@ export const saveAuthState = (token = null, user = null) =>
         sessionStorage.removeItem(TOKEN_STORAGE_KEY);
         sessionStorage.removeItem(USER_STORAGE_KEY);
       }
-      resolve(true);
+      resolve({ token, user });
     } catch (error) {
       reject(error);
     }

@@ -1,10 +1,11 @@
+import { headers } from 'next/headers';
 import { ApiError, serverAsyncWrapper } from 'src/utils/api';
-import { getPrivateEndpoint, privateEndpoints } from 'src/utils/api/endpoints';
+import { endpoints, getEndpoint } from 'src/utils/api/endpoints';
 
 // create new warehouse
 export const POST = serverAsyncWrapper(async (req) => {
   const body = await req.json();
-  const response = await fetch(getPrivateEndpoint(privateEndpoints.warehouses.create), {
+  const response = await fetch(getEndpoint(endpoints.warehouses.create), {
     body: JSON.stringify(body),
     method: 'POST',
     headers: {
@@ -21,12 +22,13 @@ export const POST = serverAsyncWrapper(async (req) => {
 
 // get all warehouses
 export const GET = serverAsyncWrapper(async (req) => {
-  const response = await fetch(getPrivateEndpoint(privateEndpoints.warehouses.list), {
+  const response = await fetch(getEndpoint(endpoints.warehouses.list), {
     method: 'GET',
     headers: {
       'Content-Type': 'application/json',
     },
   });
+  console.log(headers());
 
   const jsonResponse = await response.json();
 

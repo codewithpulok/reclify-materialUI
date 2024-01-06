@@ -13,14 +13,19 @@ import { WarehouseCard } from 'src/components/warehouse/cards';
 import { getWarehouseAddress } from 'src/components/warehouse/utils';
 import { selectAuth } from 'src/redux-toolkit/features/auth/authSlice';
 import { useAppSelector } from 'src/redux-toolkit/hooks';
+import { useLazyWarehouseListQuery } from 'src/redux-toolkit/services/warehouseApi';
 import { paths } from 'src/routes/paths';
 
 // ----------------------------------------------------------------------
 
 export default function ListingView() {
   const searchParams = useSearchParams();
-
   const { user } = useAppSelector(selectAuth);
+
+  const [getWarehouses, results] = useLazyWarehouseListQuery();
+
+  console.log(results);
+
   const settings = useSettingsContext();
   const [confirmation, setConfirmation] = useState({ open: false, title: '', text: '' });
 
@@ -78,6 +83,12 @@ export default function ListingView() {
 
     setFilteredWarehouses(filtered);
   }, [filterRegions, filterUsers, searchQuery, user]);
+
+  useEffect(() => {
+    if (user !== null && user) {
+      getWarehouses();
+    }
+  }, [getWarehouses, user]);
 
   return (
     <Container maxWidth={settings.themeStretch ? false : 'xl'}>

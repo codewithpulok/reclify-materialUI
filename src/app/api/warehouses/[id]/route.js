@@ -1,10 +1,10 @@
 import { ApiError, serverAsyncWrapper } from 'src/utils/api';
-import { getPrivateEndpoint, privateEndpoints } from 'src/utils/api/endpoints';
+import { endpoints, getEndpoint } from 'src/utils/api/endpoints';
 
 // update warehouse by id
-export const PUT = serverAsyncWrapper(async (req) => {
+export const PUT = serverAsyncWrapper(async (req, { params }) => {
   const body = await req.json();
-  const response = await fetch(getPrivateEndpoint(privateEndpoints.warehouses.update), {
+  const response = await fetch(getEndpoint(`${endpoints.warehouses.update}/${params.id}`), {
     body: JSON.stringify(body),
     method: 'PUT',
     headers: {
@@ -20,8 +20,8 @@ export const PUT = serverAsyncWrapper(async (req) => {
 });
 
 // get warehouse by id
-export const GET = serverAsyncWrapper(async (req) => {
-  const response = await fetch(getPrivateEndpoint(privateEndpoints.warehouses.get), {
+export const GET = serverAsyncWrapper(async (req, { params }) => {
+  const response = await fetch(getEndpoint(`${endpoints.warehouses.get}/${params.id}`), {
     method: 'GET',
     headers: {
       'Content-Type': 'application/json',
@@ -36,8 +36,8 @@ export const GET = serverAsyncWrapper(async (req) => {
 });
 
 // delete warehouse by id
-export const DELETE = serverAsyncWrapper(async (req) => {
-  const response = await fetch(getPrivateEndpoint(privateEndpoints.warehouses.delete), {
+export const DELETE = serverAsyncWrapper(async (req, { params }) => {
+  const response = await fetch(getEndpoint(`${endpoints.warehouses.delete}/${params.id}`), {
     method: 'DELETE',
     headers: {
       'Content-Type': 'application/json',

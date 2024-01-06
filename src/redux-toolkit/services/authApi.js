@@ -19,7 +19,7 @@ export const authApi = createApi({
       onQueryStarted: async (arg, { dispatch, queryFulfilled }) => {
         try {
           const { data } = await queryFulfilled;
-          dispatch(login(data?.user));
+          dispatch(login(data));
         } catch (error) {
           dispatch(logout());
         }
@@ -34,8 +34,8 @@ export const authApi = createApi({
       onQueryStarted: async (arg, { dispatch, queryFulfilled }) => {
         try {
           const { data } = await queryFulfilled;
-          await saveAuthState(data.results?.token, data.results?.data);
-          dispatch(login(data.results?.data));
+          const state = await saveAuthState(data.results?.token, data.results?.data);
+          dispatch(login(state));
         } catch (error) {
           dispatch(logout());
         }
@@ -50,8 +50,8 @@ export const authApi = createApi({
       onQueryStarted: async (arg, { dispatch, queryFulfilled }) => {
         try {
           const { data } = await queryFulfilled;
-          await saveAuthState(data.results?.token, data.results?.data);
-          dispatch(login(data.results?.data));
+          const state = await saveAuthState(data.results?.token, data.results?.data);
+          dispatch(login(state));
         } catch (error) {
           dispatch(logout());
         }

@@ -19,12 +19,12 @@ export const clientResponse = (response, config) => NextResponse.json(response, 
 
 /**
  * server side async wrapper
- * @param {(req: NextRequestType) => Promise<any>} handlerFunc
- * @returns {(req: NextRequestType) => NextResponse<ClientResponse>}
+ * @param {(req: NextRequestType, others: {params: object}) => Promise<any>} handlerFunc
+ * @returns {(req: NextRequestType, others: {params: object}) => NextResponse<ClientResponse>}
  */
-export const serverAsyncWrapper = (handlerFunc) => async (req) => {
+export const serverAsyncWrapper = (handlerFunc) => async (req, others) => {
   try {
-    const response = await handlerFunc(req);
+    const response = await handlerFunc(req, others);
 
     // success response
     return clientResponse({
