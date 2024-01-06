@@ -15,7 +15,7 @@ import { paths } from 'src/routes/paths';
 
 import { PATH_AFTER_LOGIN } from 'src/config-global';
 
-import { useState } from 'react';
+import { useCallback, useState } from 'react';
 import { useAuthContext } from 'src/auth/hooks';
 import FormProvider from 'src/components/common/hook-form';
 import { registerApi } from 'src/utils/api';
@@ -39,34 +39,37 @@ const RegisterView = (props) => {
   const router = useRouter();
 
   const searchParams = useSearchParams();
-  const returnTo = searchParams.get('returnTo');
+  const returnTo = searchParams.get('returnTo') || PATH_AFTER_LOGIN;
 
   const methods = useForm({ resolver: yupResolver(registerSchema), defaultValues });
-  const { handleSubmit, formState } = methods;
+  const { handleSubmit, formState, resetField } = methods;
   const { isSubmitting } = formState;
 
-  const onSubmit = handleSubmit(async (data) => {
-    // reset error state
-    setApiError(null);
-    console.log('Register: ', data);
+  const onSubmit = useCallback(
+    async (data) => {
+      // reset error state
+      setApiError(null);
+      console.log('Register: ', data);
 
-    // call some api to register
-    const response = await registerApi(data);
+      // call some api to register
+      const response = await registerApi(data);
 
-    // handle error
-    if (response.isError) {
-      console.error('Register Failed: ', response);
-      setApiError(response.message);
-      // reset();
-    }
+      // handle error
+      if (response.isError) {
+        console.error('Register Failed: ', response);
+        setApiError(response.message);
+        resetField('password');
+      }
 
-    // handle success
-    if (response.isSuccess) {
-      console.info('Register Success: ', response);
-      await login(response.result.data, response.result.token);
-      router.push(returnTo || PATH_AFTER_LOGIN);
-    }
-  });
+      // handle success
+      if (response.isSuccess) {
+        console.info('Register Success: ', response);
+        await login(response.results.data, response.results.token);
+        router.push(returnTo);
+      }
+    },
+    [login, resetField, returnTo, router]
+  );
 
   const renderHead = (
     <Stack spacing={2} sx={{ mb: 5, position: 'relative' }}>
@@ -105,7 +108,7 @@ const RegisterView = (props) => {
   );
 
   const renderForm = (
-    <FormProvider methods={methods} onSubmit={onSubmit}>
+    <FormProvider methods={methods} onSubmit={handleSubmit(onSubmit)}>
       <Stack spacing={2.5}>
         {!!apiError && <Alert severity="error">{apiError}</Alert>}
         <Fields />

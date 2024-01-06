@@ -1,23 +1,22 @@
-import { PUBLIC_BACKEND_API } from 'src/config-global';
+import { getPublicEndpoint, publicEndpoints } from './endpoints';
+import { clientAsyncWrapper } from './helpers';
 
 /**
- * login api handler
- * @param {object} body
- * @returns {Promise<{isError: boolean, isSuccess: boolean}>}
+ * login types
+ * @typedef {Object} LoginApiBody
+ * @property {string} email
+ * @property {string} password
  */
-const loginApi = async (body) => {
-  try {
-    const response = await fetch(`${PUBLIC_BACKEND_API}/api/auth/login`, {
-      body: JSON.stringify(body),
-      method: 'POST',
-    });
 
-    const jsonResponse = await response.json();
-    return jsonResponse;
-  } catch (error) {
-    console.error('Utill Api Error: ', error);
-    return { isError: true, message: error?.message || 'Something went to wrong', statusCode: 500 };
-  }
-};
+/** @type {ClientAsyncReturn<LoginApiBody>} */
+const loginApi = clientAsyncWrapper(async (body) => {
+  const response = await fetch(getPublicEndpoint(publicEndpoints.auth.login), {
+    body: JSON.stringify(body),
+    method: 'POST',
+  });
+
+  const jsonResponse = await response.json();
+  return jsonResponse;
+});
 
 export default loginApi;

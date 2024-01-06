@@ -1,3 +1,5 @@
+import { NextResponse } from 'next/server';
+
 // custom error object
 export class ApiError extends Error {
   constructor(message = 'Something wents to wrong', code = 500) {
@@ -8,30 +10,41 @@ export class ApiError extends Error {
 }
 
 /**
- * async wrapper
- * @param {(req: NextRequestType) => Promise<any>} handlerFunc
- * @returns {(req: NextRequestType) => Promise<any>}
+ * handler function for client response
+ * @param {ClientResponse} response
+ * @param {ResponseInit} config
+ * @returns {NextResponse}
  */
-export const asyncWrapper = (handlerFunc) => async (req) => {
+export const clientResponse = (response, config) => NextResponse.json(response, config);
+
+/**
+ * server side async wrapper
+ * @param {(req: NextRequestType) => Promise<any>} handlerFunc
+ * @returns {(req: NextRequestType) => NextResponse<ClientResponse>}
+ */
+export const serverAsyncWrapper = (handlerFunc) => async (req) => {
   try {
     const response = await handlerFunc(req);
+
     // success response
-    return Response.json({
-      result: response,
+    return clientResponse({
       isSuccess: true,
+      results: response,
     });
   } catch (error) {
     console.log('Server Side Error: ', error);
-    // failure response for - programmer thrown error
+
+    // failure response for - Api error
     if (error instanceof ApiError) {
-      return Response.json({
+      return clientResponse({
         message: error.message,
         isError: true,
         statusCode: error.code,
       });
     }
+
     // failure response for - runtime error
-    return Response.json({
+    return clientResponse({
       message: error?.message || 'Error in requesting the process',
       isError: true,
       statusCode: 500,
@@ -40,11 +53,25 @@ export const asyncWrapper = (handlerFunc) => async (req) => {
 };
 
 /**
- * type def for next js request
- * @typedef {import('next/server').NextRequest} NextRequestType
+ * client side async wrapper
+ * @param {ClientAsyncHandler<T>} handlerFunc
+ * @returns {ClientAsyncReturn<T>}
+ * @template T
  */
+export const clientAsyncWrapper = (handlerFunc) => async (param) => {
+  try {
+    const response = await handlerFunc(param);
 
-/**
- * type def for next request
- * @typedef {import('next/server').NextResponse} NextResponseType
- */
+    // success response
+    return { ...response };
+  } catch (error) {
+    console.log('Client Side Error: ', error);
+
+    // failure response for - runtime error
+    return {
+      message: error?.message || 'Error in requesting the api',
+      isError: true,
+      statusCode: 500,
+    };
+  }
+};

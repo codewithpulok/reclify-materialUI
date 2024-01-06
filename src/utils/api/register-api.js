@@ -1,23 +1,25 @@
-import { PUBLIC_BACKEND_API } from 'src/config-global';
+import { getPublicEndpoint, publicEndpoints } from './endpoints';
+import { clientAsyncWrapper } from './helpers';
 
 /**
- * register api handler
- * @param {object} body
- * @returns {Promise<{isError: boolean, isSuccess: boolean}>}
+ * @typedef {Object} RegisterApiBody
+ * @property {string} firstName - The first name.
+ * @property {string} lastName - The last name.
+ * @property {string} region - The region code. Must be one of the valid region codes.
+ * @property {string} userType - The account type. Should be either 'customer' or 'seller'.
+ * @property {string} email - The email address. Must be a valid email format.
+ * @property {string} password - The password.
  */
-const registerApi = async (body) => {
-  try {
-    const response = await fetch(`${PUBLIC_BACKEND_API}/api/auth/register`, {
-      body: JSON.stringify(body),
-      method: 'POST',
-    });
 
-    const jsonResponse = await response.json();
-    return jsonResponse;
-  } catch (error) {
-    console.error('Utill Api Error: ', error);
-    return { isError: true, message: error?.message || 'Something went to wrong', statusCode: 500 };
-  }
-};
+/** @type {ClientAsyncReturn<RegisterApiBody>} */
+const registerApi = clientAsyncWrapper(async (body) => {
+  const response = await fetch(getPublicEndpoint(publicEndpoints.auth.register), {
+    body: JSON.stringify(body),
+    method: 'POST',
+  });
+
+  const jsonResponse = await response.json();
+  return jsonResponse;
+});
 
 export default registerApi;

@@ -1,7 +1,7 @@
 'use client';
 
 import { yupResolver } from '@hookform/resolvers/yup';
-import { useState } from 'react';
+import { useCallback, useState } from 'react';
 import { useForm } from 'react-hook-form';
 
 import LoadingButton from '@mui/lab/LoadingButton';
@@ -35,35 +35,38 @@ export default function LoginView() {
   const [apiError, setApiError] = useState('');
 
   const searchParams = useSearchParams();
-  const returnTo = searchParams.get('returnTo');
+  const returnTo = searchParams.get('returnTo') || PATH_AFTER_LOGIN;
 
   const methods = useForm({ resolver: yupResolver(loginSchema), defaultValues });
 
-  const { reset, handleSubmit, formState } = methods;
+  const { resetField, handleSubmit, formState } = methods;
   const { isSubmitting } = formState;
 
-  const onSubmit = handleSubmit(async (data) => {
-    // reset error state
-    setApiError(null);
-    console.log('Login: ', data);
+  const onSubmit = useCallback(
+    async (data) => {
+      // reset error state
+      setApiError(null);
+      console.log('Login: ', data);
 
-    // call some api to register
-    const response = await loginApi(data);
+      // call some api to register
+      const response = await loginApi(data);
 
-    // handle error
-    if (response.isError) {
-      console.error('Login Failed: ', response);
-      setApiError(response.message);
-      reset();
-    }
+      // handle error
+      if (response.isError) {
+        console.error('Login Failed: ', response);
+        setApiError(response.message);
+        resetField('password');
+      }
 
-    // handle success
-    if (response.isSuccess) {
-      console.info('Login Success: ', response);
-      await login(response.result.data, response.result.token);
-      router.push(returnTo || PATH_AFTER_LOGIN);
-    }
-  });
+      // handle success
+      if (response.isSuccess) {
+        console.info('Login Success: ', response);
+        await login(response.results.data, response.results.token);
+        router.push(returnTo);
+      }
+    },
+    [login, resetField, returnTo, router]
+  );
 
   const renderHead = (
     <Stack spacing={2} sx={{ mb: 5 }}>
@@ -111,7 +114,7 @@ export default function LoginView() {
     ));
 
   return (
-    <FormProvider methods={methods} onSubmit={onSubmit}>
+    <FormProvider methods={methods} onSubmit={handleSubmit(onSubmit)}>
       {renderHead}
       {renderForm}
     </FormProvider>
