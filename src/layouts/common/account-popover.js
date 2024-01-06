@@ -11,11 +11,12 @@ import { alpha } from '@mui/material/styles';
 
 import { useRouter } from 'src/routes/hooks';
 
-import { useAuthContext } from 'src/auth/hooks';
 
 import { getUserByID } from 'src/assets/dummy';
 import { varHover } from 'src/components/common/animate';
 import CustomPopover, { usePopover } from 'src/components/common/custom-popover';
+import { logout, selectAuth } from 'src/redux-toolkit/features/auth/authSlice';
+import { useAppDispatch, useAppSelector } from 'src/redux-toolkit/hooks';
 
 // ----------------------------------------------------------------------
 
@@ -39,14 +40,16 @@ const OPTIONS = [
 export default function AccountPopover() {
   const router = useRouter();
 
-  const { logout, user } = useAuthContext();
+  const { user } = useAppSelector(selectAuth);
+  const dispatch = useAppDispatch()
+
   const userProfile = getUserByID(user?.id);
 
   const popover = usePopover();
 
   const handleLogout = async () => {
     try {
-      await logout();
+      await dispatch(logout());
       popover.onClose();
       router.replace('/');
     } catch (error) {

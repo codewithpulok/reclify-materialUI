@@ -6,15 +6,15 @@ import Typography from '@mui/material/Typography';
 
 import { paths } from 'src/routes/paths';
 
-import { useAuthContext } from 'src/auth/hooks';
-
 import Label from 'src/components/common/label';
+import { selectAuth } from 'src/redux-toolkit/features/auth/authSlice';
+import { useAppSelector } from 'src/redux-toolkit/hooks';
 
 // ----------------------------------------------------------------------
 
 export default function NavUpgrade() {
   // const { user } = useMockedUser();
-  const { user } = useAuthContext();
+  const { user } = useAppSelector(selectAuth);
 
   return (
     <Stack

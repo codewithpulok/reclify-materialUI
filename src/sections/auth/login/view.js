@@ -14,11 +14,11 @@ import { RouterLink } from 'src/routes/components';
 import { useRouter, useSearchParams } from 'src/routes/hooks';
 import { paths } from 'src/routes/paths';
 
-import { useAuthContext } from 'src/auth/hooks';
 import { PATH_AFTER_LOGIN } from 'src/config-global';
 
 import FormProvider from 'src/components/common/hook-form';
-import { loginApi } from 'src/utils/api';
+
+import { useLoginMutation } from 'src/redux-toolkit/services/authApi';
 import Fields from './fields';
 import { loginSchema } from './schema';
 
@@ -29,8 +29,8 @@ const defaultValues = {
 // ----------------------------------------------------------------------
 
 export default function LoginView() {
-  const { login } = useAuthContext();
   const router = useRouter();
+  const [handleLogin] = useLoginMutation();
 
   const [apiError, setApiError] = useState('');
 
@@ -43,29 +43,29 @@ export default function LoginView() {
   const { isSubmitting } = formState;
 
   const onSubmit = useCallback(
-    async (data) => {
+    async (values) => {
       // reset error state
       setApiError(null);
-      console.log('Login: ', data);
+      console.log('Login: ', values);
 
       // call some api to register
-      const response = await loginApi(data);
+      const response = await handleLogin(values);
+      const { data, error } = response;
 
       // handle error
-      if (response.isError) {
-        console.error('Login Failed: ', response);
-        setApiError(response.message);
+      if (error || data?.isError) {
+        console.error('Login Failed: ', error || data?.message);
+        setApiError(error || data?.message);
         resetField('password');
       }
 
       // handle success
-      if (response.isSuccess) {
-        console.info('Login Success: ', response);
-        await login(response.results.data, response.results.token);
+      if (data?.isSuccess) {
+        console.info('Login Success: ', data);
         router.push(returnTo);
       }
     },
-    [login, resetField, returnTo, router]
+    [handleLogin, resetField, returnTo, router]
   );
 
   const renderHead = (

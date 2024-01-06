@@ -6,12 +6,13 @@ import { useSearchParams } from 'next/navigation';
 import { useEffect, useMemo, useState } from 'react';
 // local components
 import { warehouses } from 'src/assets/dummy/warehouses';
-import { useAuthContext } from 'src/auth/hooks';
 import { ConfirmationAlert } from 'src/components/common/alert';
 import CustomBreadcrumbs from 'src/components/common/custom-breadcrumbs/custom-breadcrumbs';
 import { useSettingsContext } from 'src/components/common/settings';
 import { WarehouseCard } from 'src/components/warehouse/cards';
 import { getWarehouseAddress } from 'src/components/warehouse/utils';
+import { selectAuth } from 'src/redux-toolkit/features/auth/authSlice';
+import { useAppSelector } from 'src/redux-toolkit/hooks';
 import { paths } from 'src/routes/paths';
 
 // ----------------------------------------------------------------------
@@ -19,7 +20,7 @@ import { paths } from 'src/routes/paths';
 export default function ListingView() {
   const searchParams = useSearchParams();
 
-  const { user } = useAuthContext();
+  const { user } = useAppSelector(selectAuth);
   const settings = useSettingsContext();
   const [confirmation, setConfirmation] = useState({ open: false, title: '', text: '' });
 

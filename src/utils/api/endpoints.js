@@ -6,6 +6,13 @@ export const publicEndpoints = {
     login: '/auth/login',
     register: '/auth/register',
   },
+  warehouses: {
+    list: '/warehouses',
+    get: '/warehouses',
+    delete: '/warehouses',
+    create: '/warehouses',
+    update: '/warehouses',
+  },
 };
 
 /**
@@ -20,6 +27,13 @@ export const privateEndpoints = {
   auth: {
     login: '/auth/login',
     register: '/users/signup',
+  },
+  warehouses: {
+    list: '/warehouse',
+    get: '/warehouse',
+    delete: '/warehouse',
+    create: '/warehouse',
+    update: '/warehouse',
   },
 };
 

@@ -1,7 +1,7 @@
 'use client';
 
 import PropTypes from 'prop-types';
-import { RoleBasedGuard } from 'src/auth/guard';
+import { RoleBasedGuard } from 'src/redux-toolkit/features/auth/guard';
 
 // ----------------------------------------------------------------------
 

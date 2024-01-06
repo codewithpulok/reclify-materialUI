@@ -2,12 +2,8 @@
  * Authentication type
  * @typedef {Object} AuthType
  * @property {null | AuthUser} user
- * @property {'jwt'} method
- * @property {boolean} loading
- * @property {boolean} authenticated
- * @property {boolean} unauthenticated
- * @property {(data: {}, token: string) => {}} login
- * @property {() => {}} logout
+ * @property {boolean} isLoading
+ * @property {boolean} isAuthenticated
  */
 
 /**

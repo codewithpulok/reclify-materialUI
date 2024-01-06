@@ -7,16 +7,17 @@ import Stack from '@mui/material/Stack';
 
 import { Grid, MenuItem } from '@mui/material';
 import { regions } from 'src/assets/data';
-import { useAuthContext } from 'src/auth/hooks';
 import { AddressField } from 'src/components/common/fields';
 import { RHFTextField } from 'src/components/common/hook-form';
+import { selectAuth } from 'src/redux-toolkit/features/auth/authSlice';
+import { useAppSelector } from 'src/redux-toolkit/hooks';
 
 // ----------------------------------------------------------------------
 
 const GeneralInfoFields = () => {
   const { formState } = useFormContext();
   const { isSubmitting } = formState;
-  const { user } = useAuthContext();
+  const { user } = useAppSelector(selectAuth);
 
   return (
     <Card sx={{ p: 3 }}>

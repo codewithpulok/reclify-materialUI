@@ -8,20 +8,15 @@ import { paths } from 'src/routes/paths';
 
 import { SplashScreen } from 'src/components/common/loading-screen';
 
-import { useAuthContext } from '../hooks';
-
-// ----------------------------------------------------------------------
-
-const loginPaths = {
-  jwt: paths.auth.jwt.login,
-};
+import { useAppSelector } from 'src/redux-toolkit/hooks';
+import { selectAuth } from '../authSlice';
 
 // ----------------------------------------------------------------------
 
 export default function AuthGuard({ children }) {
-  const { loading } = useAuthContext();
+  const { isLoading } = useAppSelector(selectAuth);
 
-  return <>{loading ? <SplashScreen /> : <Container> {children}</Container>}</>;
+  return isLoading ? <SplashScreen /> : <Container>{children}</Container>;
 }
 
 AuthGuard.propTypes = {
@@ -31,27 +26,24 @@ AuthGuard.propTypes = {
 // ----------------------------------------------------------------------
 
 function Container({ children }) {
+  const { isAuthenticated } = useAppSelector(selectAuth);
   const router = useRouter();
-
-  const { authenticated, method } = useAuthContext();
 
   const [checked, setChecked] = useState(false);
 
   const check = useCallback(() => {
-    if (!authenticated) {
+    if (!isAuthenticated) {
       const searchParams = new URLSearchParams({
         returnTo: window.location.pathname,
       }).toString();
 
-      const loginPath = loginPaths[method];
-
-      const href = `${loginPath}?${searchParams}`;
+      const href = `${paths.auth.login}?${searchParams}`;
 
       router.replace(href);
     } else {
       setChecked(true);
     }
-  }, [authenticated, method, router]);
+  }, [isAuthenticated, router]);
 
   useEffect(() => {
     check();

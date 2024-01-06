@@ -2,13 +2,14 @@ import { Grid } from '@mui/material';
 
 import { getInvoicesByUserId, getPaymentCardsByUserId } from 'src/assets/dummy';
 import { getBillingAddressByUserId } from 'src/assets/dummy/billing-address';
-import { useAuthContext } from 'src/auth/hooks';
+import { selectAuth } from 'src/redux-toolkit/features/auth/authSlice';
+import { useAppSelector } from 'src/redux-toolkit/hooks';
 import BillingHistory from './billing-history';
 import BillingInfo from './billing-info';
 
 const SettingsCustomerBillingsProps = {};
 const SettingsCustomerBillings = (props) => {
-  const { user } = useAuthContext();
+  const { user } = useAppSelector(selectAuth);
 
   const invoices = getInvoicesByUserId(user?.id);
   const billingAddressBook = getBillingAddressByUserId(user?.id);

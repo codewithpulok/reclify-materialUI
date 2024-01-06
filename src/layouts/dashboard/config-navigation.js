@@ -2,8 +2,9 @@ import { useMemo } from 'react';
 
 import { paths } from 'src/routes/paths';
 
-import { useAuthContext } from 'src/auth/hooks';
 import { getIconify } from 'src/components/common/iconify/utilities';
+import { selectAuth } from 'src/redux-toolkit/features/auth/authSlice';
+import { useAppSelector } from 'src/redux-toolkit/hooks';
 
 // ----------------------------------------------------------------------
 
@@ -15,7 +16,7 @@ const ICONS = {
 // ----------------------------------------------------------------------
 
 export function useNavData() {
-  const { user } = useAuthContext();
+  const { user } = useAppSelector(selectAuth);
 
   const commonRoutes = useMemo(
     () => [

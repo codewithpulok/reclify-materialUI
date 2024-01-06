@@ -9,7 +9,8 @@ import Typography from '@mui/material/Typography';
 import { ForbiddenIllustration } from 'src/assets/illustrations';
 
 import { MotionContainer, varBounce } from 'src/components/common/animate';
-import { useAuthContext } from '../hooks';
+import { useAppSelector } from 'src/redux-toolkit/hooks';
+import { selectAuth } from '../authSlice';
 
 const Props = {
   children: PropTypes.node,
@@ -28,10 +29,9 @@ const Props = {
 export default function RoleBasedGuard(props) {
   const { hasContent, roles, children, sx } = props;
   // Logic here to get current user role
-  const { user } = useAuthContext();
+  const { user } = useAppSelector(selectAuth);
 
-  // const currentRole = 'user';
-  const currentRole = user?.role; // admin;
+  const currentRole = user?.role;
 
   if (typeof roles !== 'undefined' && !roles.includes(currentRole)) {
     return hasContent ? (

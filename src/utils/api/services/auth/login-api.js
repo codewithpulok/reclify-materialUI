@@ -1,5 +1,5 @@
-import { getPublicEndpoint, publicEndpoints } from './endpoints';
-import { clientAsyncWrapper } from './helpers';
+import { getPublicEndpoint, publicEndpoints } from '../../endpoints';
+import { clientAsyncWrapper } from '../../helpers';
 
 /**
  * login types
@@ -9,7 +9,7 @@ import { clientAsyncWrapper } from './helpers';
  */
 
 /** @type {ClientAsyncReturn<LoginApiBody>} */
-const loginApi = clientAsyncWrapper(async (body) => {
+const authLoginApi = clientAsyncWrapper(async (body) => {
   const response = await fetch(getPublicEndpoint(publicEndpoints.auth.login), {
     body: JSON.stringify(body),
     method: 'POST',
@@ -19,4 +19,4 @@ const loginApi = clientAsyncWrapper(async (body) => {
   return jsonResponse;
 });
 
-export default loginApi;
+export default authLoginApi;

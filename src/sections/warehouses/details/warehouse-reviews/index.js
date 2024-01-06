@@ -13,10 +13,11 @@ import {
 import PropTypes from 'prop-types';
 import { useMemo, useState } from 'react';
 // local components
-import { useAuthContext } from 'src/auth/hooks';
 import EmptyState from 'src/components/common/empty-state/empty-state';
 import { WarehouseReviewCard } from 'src/components/warehouse/cards';
 import { useBoolean } from 'src/hooks/use-boolean';
+import { selectAuth } from 'src/redux-toolkit/features/auth/authSlice';
+import { useAppSelector } from 'src/redux-toolkit/hooks';
 import { ICONS } from '../../config-warehouse';
 import { detailsBoxStyle, detailsHeaderStyle } from '../../styles';
 import ReviewCreate from './review-create';
@@ -39,7 +40,7 @@ const WarehouseReviewsProps = {
 const WarehouseReviews = (props) => {
   const { reviews, sx, canAddNewReview } = props;
   const [sortType, setSortType] = useState('DEFAULT'); // NEW_FIRST, OLD_FIRST, DEFAULT
-  const auth = useAuthContext();
+  const auth = useAppSelector(selectAuth);
 
   const reviewAddModal = useBoolean(false);
   const [reviewEdit, setReviewEdit] = useState({ open: false, review: {} });

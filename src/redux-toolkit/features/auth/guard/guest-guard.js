@@ -8,14 +8,15 @@ import { useRouter, useSearchParams } from 'src/routes/hooks';
 import { SplashScreen } from 'src/components/common/loading-screen';
 
 import { PATH_AFTER_LOGIN } from 'src/config-global';
-import { useAuthContext } from '../hooks';
+import { useAppSelector } from 'src/redux-toolkit/hooks';
+import { selectAuth } from '../authSlice';
 
 // ----------------------------------------------------------------------
 
 export default function GuestGuard({ children }) {
-  const { loading } = useAuthContext();
+  const { isLoading } = useAppSelector(selectAuth);
 
-  return <>{loading ? <SplashScreen /> : <Container> {children}</Container>}</>;
+  return isLoading ? <SplashScreen /> : <Container>{children}</Container>;
 }
 
 GuestGuard.propTypes = {
@@ -25,19 +26,17 @@ GuestGuard.propTypes = {
 // ----------------------------------------------------------------------
 
 function Container({ children }) {
+  const { isAuthenticated } = useAppSelector(selectAuth);
+
   const router = useRouter();
-
   const searchParams = useSearchParams();
-
   const returnTo = searchParams.get('returnTo') || PATH_AFTER_LOGIN;
 
-  const { authenticated } = useAuthContext();
-
   const check = useCallback(() => {
-    if (authenticated) {
+    if (isAuthenticated) {
       router.replace(returnTo);
     }
-  }, [authenticated, returnTo, router]);
+  }, [isAuthenticated, returnTo, router]);
 
   useEffect(() => {
     check();

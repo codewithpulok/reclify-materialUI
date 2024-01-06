@@ -2,12 +2,12 @@
 
 import PropTypes from 'prop-types';
 
-import DashboardLayout from 'src/layouts/dashboard';
+import Provider from 'src/redux-toolkit/provider';
 
 // ----------------------------------------------------------------------
 
 export default function Layout({ children }) {
-  return <DashboardLayout>{children}</DashboardLayout>;
+  return <Provider>{children}</Provider>;
 }
 
 Layout.propTypes = {

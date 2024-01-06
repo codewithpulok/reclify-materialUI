@@ -8,8 +8,9 @@ import Tabs from '@mui/material/Tabs';
 
 import { useSettingsContext } from 'src/components/common/settings';
 
-import { useAuthContext } from 'src/auth/hooks';
 import CustomBreadcrumbs from 'src/components/common/custom-breadcrumbs';
+import { selectAuth } from 'src/redux-toolkit/features/auth/authSlice';
+import { useAppSelector } from 'src/redux-toolkit/hooks';
 import { ICONS } from './config-settings';
 import SettingsCustomerBillings from './settings-customer-billings';
 import SettingsCustomerTransactions from './settings-customer-transactions';
@@ -47,7 +48,7 @@ const TABS = [
 
 const UserSettingsView = () => {
   const settings = useSettingsContext();
-  const { user } = useAuthContext();
+  const { user } = useAppSelector(selectAuth);
 
   const [currentTab, setCurrentTab] = useState('general');
 

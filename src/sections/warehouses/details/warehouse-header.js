@@ -2,8 +2,9 @@ import { Box, Chip, IconButton, Stack, Typography } from '@mui/material';
 import { useRouter } from 'next/navigation';
 import PropTypes from 'prop-types';
 
-import { useAuthContext } from 'src/auth/hooks';
 import { getWarehouseAddress } from 'src/components/warehouse/utils';
+import { selectAuth } from 'src/redux-toolkit/features/auth/authSlice';
+import { useAppSelector } from 'src/redux-toolkit/hooks';
 import { ICONS } from '../config-warehouse';
 import WarehouseAdminMenu from './warehouse-admin-menu';
 
@@ -15,7 +16,7 @@ const WarehouseHeaderProps = {
 };
 
 const WarehouseHeader = (props) => {
-  const auth = useAuthContext();
+  const auth = useAppSelector(selectAuth);
   const { name, address, isVerified, isFeatured } = props;
   const router = useRouter();
 

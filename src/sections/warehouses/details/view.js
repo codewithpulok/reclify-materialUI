@@ -6,9 +6,10 @@ import Grid from '@mui/material/Unstable_Grid2';
 import PropTypes from 'prop-types';
 // local components
 import { getUserByID } from 'src/assets/dummy/users';
-import { useAuthContext } from 'src/auth/hooks';
 import { useSettingsContext } from 'src/components/common/settings';
 import { WarehouseOwnerCard } from 'src/components/warehouse/cards';
+import { selectAuth } from 'src/redux-toolkit/features/auth/authSlice';
+import { useAppSelector } from 'src/redux-toolkit/hooks';
 import WarehouseAddressMap from './warehouse-address-map';
 import WarehouseApprovedUses from './warehouse-approved-uses';
 import WarehouseBooking from './warehouse-booking';
@@ -34,7 +35,7 @@ const Props = {
 function DetailsView(props) {
   const { warehouse, reviews } = props;
   const settings = useSettingsContext();
-  const { user } = useAuthContext();
+  const { user } = useAppSelector(selectAuth);
   const owner = getUserByID(warehouse.sellerId);
 
   return (

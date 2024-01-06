@@ -16,9 +16,8 @@ import { paths } from 'src/routes/paths';
 import { PATH_AFTER_LOGIN } from 'src/config-global';
 
 import { useCallback, useState } from 'react';
-import { useAuthContext } from 'src/auth/hooks';
 import FormProvider from 'src/components/common/hook-form';
-import { registerApi } from 'src/utils/api';
+import { useRegisterMutation } from 'src/redux-toolkit/services/authApi';
 import Fields from './fields';
 import { registerSchema } from './schema';
 
@@ -33,7 +32,7 @@ const defaultValues = {
 // ----------------------------------------------------------------------
 
 const RegisterView = (props) => {
-  const { login } = useAuthContext();
+  const [handleRegister] = useRegisterMutation();
   const [apiError, setApiError] = useState(null);
 
   const router = useRouter();
@@ -46,29 +45,29 @@ const RegisterView = (props) => {
   const { isSubmitting } = formState;
 
   const onSubmit = useCallback(
-    async (data) => {
+    async (values) => {
       // reset error state
       setApiError(null);
-      console.log('Register: ', data);
+      console.log('Register: ', values);
 
       // call some api to register
-      const response = await registerApi(data);
+      const response = await handleRegister(values);
+      const { data, error } = response;
 
       // handle error
-      if (response.isError) {
-        console.error('Register Failed: ', response);
-        setApiError(response.message);
+      if (error || data?.isError) {
+        console.error('Register Failed: ', error || data?.message);
+        setApiError(error || data?.message);
         resetField('password');
       }
 
       // handle success
-      if (response.isSuccess) {
-        console.info('Register Success: ', response);
-        await login(response.results.data, response.results.token);
+      if (data?.isSuccess) {
+        console.info('Register Success: ', data);
         router.push(returnTo);
       }
     },
-    [login, resetField, returnTo, router]
+    [handleRegister, resetField, returnTo, router]
   );
 
   const renderHead = (

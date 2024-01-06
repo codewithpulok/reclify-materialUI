@@ -1,5 +1,5 @@
-import { getPublicEndpoint, publicEndpoints } from './endpoints';
-import { clientAsyncWrapper } from './helpers';
+import { getPublicEndpoint, publicEndpoints } from '../../endpoints';
+import { clientAsyncWrapper } from '../../helpers';
 
 /**
  * @typedef {Object} RegisterApiBody
@@ -12,7 +12,7 @@ import { clientAsyncWrapper } from './helpers';
  */
 
 /** @type {ClientAsyncReturn<RegisterApiBody>} */
-const registerApi = clientAsyncWrapper(async (body) => {
+const authRegisterApi = clientAsyncWrapper(async (body) => {
   const response = await fetch(getPublicEndpoint(publicEndpoints.auth.register), {
     body: JSON.stringify(body),
     method: 'POST',
@@ -22,4 +22,4 @@ const registerApi = clientAsyncWrapper(async (body) => {
   return jsonResponse;
 });
 
-export default registerApi;
+export default authRegisterApi;
