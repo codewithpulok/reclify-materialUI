@@ -1,5 +1,5 @@
 import { createApi } from '@reduxjs/toolkit/query/react';
-import { getAuthState, saveAuthState } from 'src/utils/auth-persist';
+import { getAuthState, removeAuthState, saveAuthState } from 'src/utils/auth-persist';
 import { login, logout } from '../features/auth/authSlice';
 import { publicBaseQuery } from '../utills';
 
@@ -21,6 +21,7 @@ export const authApi = createApi({
           const { data } = await queryFulfilled;
           dispatch(login(data));
         } catch (error) {
+          await removeAuthState();
           dispatch(logout());
         }
       },
@@ -34,6 +35,7 @@ export const authApi = createApi({
       onQueryStarted: async (arg, { dispatch, queryFulfilled }) => {
         try {
           const { data } = await queryFulfilled;
+          if (data?.isError) throw new Error(data?.message);
           const state = await saveAuthState(data.results?.token, data.results?.data);
           dispatch(login(state));
         } catch (error) {
@@ -50,6 +52,7 @@ export const authApi = createApi({
       onQueryStarted: async (arg, { dispatch, queryFulfilled }) => {
         try {
           const { data } = await queryFulfilled;
+          if (data?.isError) throw new Error(data?.message);
           const state = await saveAuthState(data.results?.token, data.results?.data);
           dispatch(login(state));
         } catch (error) {
@@ -69,9 +72,11 @@ export const authApi = createApi({
       onQueryStarted: async (arg, { dispatch, queryFulfilled }) => {
         try {
           await queryFulfilled;
+          await removeAuthState();
           dispatch(logout());
         } catch (error) {
           // dispatch(logout());
+          console.log('Logout Error: ', error);
         }
       },
     }),
