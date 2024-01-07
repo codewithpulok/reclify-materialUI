@@ -10,12 +10,12 @@ export const publicBaseQuery = (path) =>
   fetchBaseQuery({
     baseUrl: `${PUBLIC_BACKEND_API}${path}`,
     prepareHeaders: (headers, { getState }) => {
-      const { token } = getState().auth;
+      const authState = getState().auth;
 
-      console.log({ token });
+      console.log({ authState });
 
-      if (token) {
-        headers.set('authorization', `Bearer ${token}`);
+      if (authState?.token) {
+        headers.set('authorization', `Bearer ${authState?.token}`);
       }
 
       return headers;

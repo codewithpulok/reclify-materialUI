@@ -9,7 +9,7 @@ export const warehouseApi = createApi({
       query: (id) => `/${id}`,
     }),
     warehouseList: builder.query({
-      query: '/',
+      query: () => '/',
     }),
     warehouseCreate: builder.mutation({
       query: (warehouseData) => ({

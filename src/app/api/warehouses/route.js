@@ -22,13 +22,15 @@ export const POST = serverAsyncWrapper(async (req) => {
 
 // get all warehouses
 export const GET = serverAsyncWrapper(async (req) => {
+  const authorization = headers().get('authorization');
+
   const response = await fetch(getEndpoint(endpoints.warehouses.list), {
     method: 'GET',
     headers: {
       'Content-Type': 'application/json',
+      authorization,
     },
   });
-  console.log(headers());
 
   const jsonResponse = await response.json();
 

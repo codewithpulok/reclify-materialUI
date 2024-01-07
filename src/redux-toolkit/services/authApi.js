@@ -63,8 +63,8 @@ export const authApi = createApi({
     logout: builder.mutation({
       queryFn: async () => {
         try {
-          await saveAuthState(); // empty means remove
-          return { data: 'success' };
+          const data = await removeAuthState();
+          return { data };
         } catch (error) {
           return { error: error?.message };
         }
@@ -72,10 +72,8 @@ export const authApi = createApi({
       onQueryStarted: async (arg, { dispatch, queryFulfilled }) => {
         try {
           await queryFulfilled;
-          await removeAuthState();
           dispatch(logout());
         } catch (error) {
-          // dispatch(logout());
           console.log('Logout Error: ', error);
         }
       },

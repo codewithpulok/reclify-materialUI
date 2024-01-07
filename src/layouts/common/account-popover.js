@@ -16,7 +16,7 @@ import { varHover } from 'src/components/common/animate';
 import CustomPopover, { usePopover } from 'src/components/common/custom-popover';
 import { selectAuth } from 'src/redux-toolkit/features/auth/authSlice';
 import { useAppSelector } from 'src/redux-toolkit/hooks';
-import { useLoginMutation } from 'src/redux-toolkit/services/authApi';
+import { useLogoutMutation } from 'src/redux-toolkit/services/authApi';
 
 // ----------------------------------------------------------------------
 
@@ -41,7 +41,7 @@ export default function AccountPopover() {
   const router = useRouter();
 
   const { user } = useAppSelector(selectAuth);
-  const [logout] = useLoginMutation();
+  const [logout] = useLogoutMutation();
 
   const userProfile = getUserByID(user?.id);
 
