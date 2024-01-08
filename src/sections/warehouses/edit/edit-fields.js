@@ -7,13 +7,7 @@ import {
   predefinedFeatures,
   predefinedServices,
 } from 'src/assets/data';
-import {
-  AddressField,
-  ArrayField,
-  PredefinedFields,
-  PredefinedSwitchFields,
-  PredefinedTextSwitchFields,
-} from 'src/components/common/fields';
+import { AddressField, ArrayField, PredefinedFields } from 'src/components/common/fields';
 import { RHFTextField } from 'src/components/common/hook-form';
 import Label from 'src/components/common/label';
 import { WarehousePhotoUpload } from 'src/components/warehouse/upload';
@@ -85,14 +79,10 @@ const WarehouseEditFields = (props) => (
     <Grid item xs={12} md={6}>
       <Grid container spacing={1.2}>
         <Grid item xs={12}>
-          <PredefinedTextSwitchFields
-            name="features"
-            label="Features"
-            fields={predefinedFeatures}
-          />
+          <PredefinedFields name="features" label="Features" fields={predefinedFeatures} />
         </Grid>
         <Grid item xs={12}>
-          <PredefinedSwitchFields
+          <PredefinedFields
             name="approvedUses"
             fields={predefinedApprovedUses}
             label="Approved Uses"

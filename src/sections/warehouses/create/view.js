@@ -9,16 +9,17 @@ import { LoadingButton } from '@mui/lab';
 import { useSnackbar } from 'notistack';
 import { useCallback } from 'react';
 import {
-  approvedUsesDefaultValues,
-  facilityDefaultValues,
-  featuresDefaultValues,
-  servicesDefaultValues,
+  predefinedApprovedUses,
+  predefinedFacility,
+  predefinedFeatures,
+  predefinedServices,
 } from 'src/assets/data';
 import CustomBreadcrumbs from 'src/components/common/custom-breadcrumbs';
 import FormProvider from 'src/components/common/hook-form/form-provider';
 import { useSettingsContext } from 'src/components/common/settings';
 import { useWarehouseCreateMutation } from 'src/redux-toolkit/services/warehouseApi';
 import { paths } from 'src/routes/paths';
+import { getPredefinedFieldsDefaultValue } from 'src/utils/predefined-fields';
 import CreateFields from './create-fields';
 import createSchema from './create-schema';
 
@@ -38,10 +39,10 @@ const defaultValues = {
   minSpaceOrder: undefined,
   description: '',
   photos: [],
-  approvedUses: approvedUsesDefaultValues,
-  features: featuresDefaultValues,
-  facilityDetails: facilityDefaultValues,
-  services: servicesDefaultValues,
+  approvedUses: getPredefinedFieldsDefaultValue(predefinedApprovedUses),
+  features: getPredefinedFieldsDefaultValue(predefinedFeatures),
+  facilityDetails: getPredefinedFieldsDefaultValue(predefinedFacility),
+  services: getPredefinedFieldsDefaultValue(predefinedServices),
   rules: [],
 };
 

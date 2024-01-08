@@ -75,15 +75,15 @@ export const getPredefinedFieldsValue = (valueObj, predefinedFields) => {
 const fieldTypeValidation = (field) => {
   let validation;
 
-  // handle data type
+  // handle field type
   switch (field.fieldType) {
     case 'days-picker':
-      validation = Yup.boolean().required('Service day is required');
+      validation = Yup.boolean().default(false).required();
       break;
     case 'time-picker':
       validation = {
-        start: Yup.number().required('Start time is requried'),
-        end: Yup.number().required('End time is requried'),
+        start: Yup.number().label('Start time').required(),
+        end: Yup.number().label('Start time').required(),
       };
       break;
     default:
@@ -122,22 +122,25 @@ const dataTypeValidation = (field) => {
       break;
   }
 
-  // check validation exist or not
+  // if validation not applied then stop further execution
   if (validation === undefined) return undefined;
 
+  // apply label
+  validation = validation.label(field.label);
+
   // check is requried or not
-  if (field.required) validation = validation.required(`${field.label} is required`);
+  if (field.required) validation = validation.required();
 
   return validation;
 };
 
 /**
- * get predefined fields schema  //TODO: Make this workable
- * @param {PredefinedField[]} predefinedFields
- * @return {PredefinedFieldsWithValue[]}
+ * get predefined fields schema
+ * @param {PredefinedField[]} fields
+ * @return {Object.<string, Yup.Schema>}
  */
-export const getPredefinedFieldSchema = (predefinedFields) => {
-  predefinedFields.reduce((prev, field) => {
+export const getPredefinedFieldSchema = (fields) =>
+  fields.reduce((prev, field) => {
     const validation = dataTypeValidation(field);
 
     // check validation exist or not
@@ -148,4 +151,54 @@ export const getPredefinedFieldSchema = (predefinedFields) => {
 
     return prev;
   }, {});
-};
+
+/**
+ * get predefined fields default value
+ * @param {PredefinedField[]} fields
+ * @returns {object}
+ */
+export const getPredefinedFieldsDefaultValue = (fields) =>
+  fields.reduce((prev, next) => {
+    let value;
+
+    // choose a value
+    switch (next.dataType) {
+      case 'string':
+        value = '';
+        break;
+      case 'number':
+        value = undefined;
+        break;
+      case 'boolean':
+        value = false;
+        break;
+      case 'array':
+        switch (next.fieldType) {
+          case 'days-picker':
+            value = [false, false, false, false, false, false];
+            break;
+          default:
+            break;
+        }
+        break;
+      case 'object':
+        switch (next.fieldType) {
+          case 'time-picker':
+            value = {
+              start: undefined,
+              end: undefined,
+            };
+            break;
+          default:
+            break;
+        }
+        break;
+      default:
+        break;
+    }
+
+    // assign to key
+    prev[next.key] = value;
+
+    return prev;
+  }, {});

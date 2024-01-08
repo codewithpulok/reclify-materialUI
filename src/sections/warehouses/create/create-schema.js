@@ -1,4 +1,10 @@
-import { predefinedApprovedUses, predefinedFeatures } from 'src/assets/data';
+import {
+  predefinedApprovedUses,
+  predefinedFacility,
+  predefinedFeatures,
+  predefinedServices,
+} from 'src/assets/data';
+import { getPredefinedFieldSchema } from 'src/utils/predefined-fields';
 import * as Yup from 'yup';
 
 /** @type {Warehouse} */
@@ -67,19 +73,11 @@ const schema = {
       coverUrl: Yup.string().required('Photo url is required'),
     })
   ),
-  approvedUses: Yup.object().shape(
-    predefinedApprovedUses.reduce((prev, next) => {
-      prev[next.key] = Yup.boolean().required(`${next.label} is required`);
-      return prev;
-    }, {})
-  ),
-  features: Yup.object().shape(
-    predefinedFeatures.reduce((prev, next) => {
-      prev[next.key] = Yup.boolean().required(`${next.label} is required`);
-      return prev;
-    }, {})
-  ),
   rules: Yup.array(Yup.string()),
+  approvedUses: getPredefinedFieldSchema(predefinedApprovedUses),
+  features: getPredefinedFieldSchema(predefinedFeatures),
+  facilityDetails: getPredefinedFieldSchema(predefinedFacility),
+  services: getPredefinedFieldSchema(predefinedServices),
 };
 const createSchema = Yup.object().shape(schema);
 

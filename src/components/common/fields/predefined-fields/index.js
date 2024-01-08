@@ -1,9 +1,15 @@
 import { Stack } from '@mui/material';
 import PropTypes from 'prop-types';
-import { RHFAccordion, RHFTextField, RHFTimeRangePicker } from '../../hook-form';
+import {
+  RHFAccordion,
+  RHFSwitch,
+  RHFTextField,
+  RHFTextSwitch,
+  RHFTimeRangePicker,
+} from '../../hook-form';
 import DaysField from '../days-field';
 
-const PredefinedFieldsProps = {
+const Props = {
   name: PropTypes.string.isRequired,
   label: PropTypes.string.isRequired,
   /** @type {PredefinedField[]} */
@@ -11,7 +17,7 @@ const PredefinedFieldsProps = {
 };
 
 /**
- * @param {PredefinedFieldsProps} props
+ * @param {Props} props
  * @returns {JSX.Element}
  */
 const PredefinedFields = (props) => {
@@ -21,24 +27,42 @@ const PredefinedFields = (props) => {
     <RHFAccordion name={name} label={label}>
       <Stack spacing={1.3}>
         {fields.map((field) => {
-          if (field.type === 'boolean') return null;
-          if (field.type === 'custom') return null;
+          // avoid custom data types
+          if (field.dataType === 'custom') return null;
 
-          if (field.type === 'days-picker') {
+          const fieldName = `${name}.${field.key}`;
+
+          // switch field
+          if (field.fieldType === 'switch') {
             return (
-              <DaysField
-                name={`${name}.${field.key}`}
+              <RHFSwitch
+                name={fieldName}
+                size="medium"
                 label={field.label}
                 key={field.key}
-                // wrapperSx={{ gap: 1.3 }}
+                labelProps={{
+                  labelPlacement: 'start',
+                  sx: { justifyContent: 'space-between', width: '100%', mx: 0 },
+                }}
               />
             );
           }
 
-          if (field.type === 'time-picker') {
+          // text switch field
+          if (field.fieldType === 'text-switch') {
+            return <RHFTextSwitch key={field.key} name={fieldName} label={field.label} />;
+          }
+
+          // days picker field
+          if (field.fieldType === 'days-picker') {
+            return <DaysField name={fieldName} label={field.label} key={field.key} />;
+          }
+
+          // time picker field
+          if (field.fieldType === 'time-picker') {
             return (
               <RHFTimeRangePicker
-                name={`${name}.${field.key}`}
+                name={fieldName}
                 label={field.label}
                 key={field.key}
                 wrapperSx={{ gap: 1.3 }}
@@ -46,12 +70,13 @@ const PredefinedFields = (props) => {
             );
           }
 
+          // text field (default)
           return (
             <RHFTextField
-              name={`${name}.${field.key}`}
+              name={fieldName}
               label={field.label}
               key={field.key}
-              type={field.type}
+              type={field.dataType}
               multiline={field.multiline}
               rows={2}
             />
@@ -62,6 +87,6 @@ const PredefinedFields = (props) => {
   );
 };
 
-PredefinedFields.propTypes = PredefinedFieldsProps;
+PredefinedFields.propTypes = Props;
 
 export default PredefinedFields;
