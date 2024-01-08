@@ -112,7 +112,7 @@ const DetailsHome = (props) => {
                 direction="row"
                 sx={{ wordBreak: 'break-all', typography: 'body2' }}
               >
-                {getIconify(socialBrand.icon, 22, {
+                {getIconify(socialBrand.icon, socialBrand.iconSize, {
                   flexShrink: 0,
                   color: socialBrand.color,
                 })}

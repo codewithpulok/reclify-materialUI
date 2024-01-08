@@ -4,8 +4,6 @@ export { default as PasswordField } from './password-field';
 
 // predefined fields
 export { default as PredefinedFields } from './predefined-fields';
-export { default as PredefinedSwitchFields } from './predefined-switch-fields';
-export { default as PredefinedTextSwitchFields } from './predefined-text-switch-fields';
 
 // address field
 export { default as AddressField } from './address-field';

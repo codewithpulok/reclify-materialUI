@@ -132,7 +132,7 @@ export default function Footer() {
                       },
                     }}
                   >
-                    <Iconify color={social.color} icon={social.icon} />
+                    <Iconify color={social.color} icon={social.icon} width={social.iconSize} />
                   </IconButton>
                 );
               })}
