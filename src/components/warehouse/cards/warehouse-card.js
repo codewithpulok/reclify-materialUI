@@ -4,6 +4,7 @@ import {
   CardActionArea,
   CardContent,
   IconButton,
+  Skeleton,
   Stack,
   Tooltip,
   Typography,
@@ -135,3 +136,31 @@ const WarehouseCard = (props) => {
 WarehouseCard.propTypes = WarehouseCardProps;
 
 export default WarehouseCard;
+
+// Seketon
+export const WarehouseCardSkeleton = () => (
+  <Card>
+    <Skeleton width="100%" variant="rounded">
+      <Image ratio="16/9" />
+    </Skeleton>
+
+    <CardContent>
+      <Typography gutterBottom variant="h5">
+        <Skeleton />
+      </Typography>
+      <Typography
+        variant="body2"
+        color="text.secondary"
+        sx={{
+          overflow: 'hidden',
+          textOverflow: 'ellipsis',
+          display: '-webkit-box',
+          WebkitLineClamp: '1',
+          WebkitBoxOrient: 'vertical',
+        }}
+      >
+        <Skeleton />
+      </Typography>
+    </CardContent>
+  </Card>
+);

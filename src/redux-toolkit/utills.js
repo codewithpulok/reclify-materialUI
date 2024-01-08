@@ -12,8 +12,6 @@ export const publicBaseQuery = (path) =>
     prepareHeaders: (headers, { getState }) => {
       const authState = getState().auth;
 
-      console.log({ authState });
-
       if (authState?.token) {
         headers.set('authorization', `Bearer ${authState?.token}`);
       }

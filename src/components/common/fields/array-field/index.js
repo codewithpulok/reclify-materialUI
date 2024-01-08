@@ -12,7 +12,7 @@ import {
 import PropTypes from 'prop-types';
 import { useCallback, useState } from 'react';
 import { useFormContext } from 'react-hook-form';
-import EmptyState from '../../empty-state';
+import { EmptyState } from '../../custom-state';
 import { RHFAccordion } from '../../hook-form';
 import { ICONS } from '../config-fields';
 

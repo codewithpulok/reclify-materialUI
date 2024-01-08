@@ -1,5 +1,6 @@
-import { Stack, Typography, alpha } from '@mui/material';
+import { Stack, SvgIcon, Typography, alpha } from '@mui/material';
 import PropTypes from 'prop-types';
+import { getIconify } from '../iconify/utilities';
 
 const EmptyStateProps = {
   text: PropTypes.string,
@@ -12,7 +13,7 @@ const EmptyStateProps = {
  * @returns
  */
 const EmptyState = (props) => {
-  const { icon, text } = props;
+  const { icon = getIconify('tabler:mood-empty'), text = 'Nothing Here' } = props;
   return (
     <Stack
       sx={{
@@ -28,8 +29,8 @@ const EmptyState = (props) => {
       color="GrayText"
       spacing={1}
     >
-      {icon || null}
-      <Typography variant="body2">{text || 'Empty'}</Typography>
+      <SvgIcon sx={{ width: 38, height: 38 }}>{icon}</SvgIcon>
+      <Typography variant="body1">{text}</Typography>
     </Stack>
   );
 };

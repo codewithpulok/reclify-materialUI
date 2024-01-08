@@ -8,7 +8,7 @@ import { Button } from '@mui/material';
 import { useSnackbar } from 'notistack';
 import { regions } from 'src/assets/data';
 import { getUserByID } from 'src/assets/dummy/users';
-import EmptyState from 'src/components/common/empty-state/empty-state';
+import { EmptyState } from 'src/components/common/custom-state';
 import { addressFieldSchema } from 'src/components/common/fields';
 import FormProvider from 'src/components/common/hook-form';
 import { selectAuth } from 'src/redux-toolkit/features/auth/authSlice';

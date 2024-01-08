@@ -13,7 +13,7 @@ import {
 import PropTypes from 'prop-types';
 import { useMemo, useState } from 'react';
 // local components
-import EmptyState from 'src/components/common/empty-state/empty-state';
+import { EmptyState } from 'src/components/common/custom-state';
 import { WarehouseReviewCard } from 'src/components/warehouse/cards';
 import { useBoolean } from 'src/hooks/use-boolean';
 import { selectAuth } from 'src/redux-toolkit/features/auth/authSlice';

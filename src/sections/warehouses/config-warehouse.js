@@ -16,4 +16,6 @@ export const ICONS = {
   expand: (width, sx) => getIconify('solar:alt-arrow-down-line-duotone', width, sx),
   rule: (width, sx) => getIconify('solar:danger-circle-line-duotone', width, sx),
   discount: (width, sx) => getIconify('ic:outline-discount', width, sx),
+
+  warehouse: (width, sx) => getIconify('solar:box-bold-duotone', width, sx),
 };
