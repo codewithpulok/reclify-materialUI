@@ -1,8 +1,5 @@
 import { InputAdornment } from '@mui/material';
-import Button from '@mui/material/Button';
 import Grid from '@mui/material/Grid';
-import Stack from '@mui/material/Stack';
-import Link from 'next/link';
 // local components
 import {
   predefinedApprovedUses,
@@ -20,7 +17,6 @@ import {
 import { RHFTextField } from 'src/components/common/hook-form';
 import Label from 'src/components/common/label';
 import { WarehousePhotoUpload } from 'src/components/warehouse/upload';
-import { paths } from 'src/routes/paths';
 
 const CreateFields = (props) => (
   <Grid container spacing={1.5}>
@@ -120,32 +116,6 @@ const CreateFields = (props) => (
           <ArrayField name="rules" label="Facility Rules" />
         </Grid>
       </Grid>
-    </Grid>
-
-    <Grid item xs={12} textAlign="right" mt={5}>
-      <Stack
-        sx={{
-          flexDirection: {
-            xs: 'row',
-            sm: 'row-reverse',
-          },
-          justifyContent: {
-            xs: 'start',
-            sm: 'end',
-          },
-        }}
-        flexWrap="wrap"
-        spacing={0.5}
-      >
-        <Button variant="contained" size="large" type="submit" color="primary">
-          Create Warehouse
-        </Button>
-        <Link href={paths.dashboard.warehouses.root}>
-          <Button variant="soft" size="large" color="error" type="reset">
-            Cancel
-          </Button>
-        </Link>
-      </Stack>
     </Grid>
   </Grid>
 );

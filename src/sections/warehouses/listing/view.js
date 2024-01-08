@@ -5,6 +5,7 @@ import Container from '@mui/material/Container';
 import { useSearchParams } from 'next/navigation';
 import { useCallback, useEffect, useMemo, useState } from 'react';
 // local components
+import { enqueueSnackbar } from 'notistack';
 import { ConfirmationAlert } from 'src/components/common/alert';
 import CustomBreadcrumbs from 'src/components/common/custom-breadcrumbs/custom-breadcrumbs';
 import { EmptyState, ErrorState } from 'src/components/common/custom-state';
@@ -13,7 +14,10 @@ import { WarehouseCard, WarehouseCardSkeleton } from 'src/components/warehouse/c
 import { getWarehouseAddress } from 'src/components/warehouse/utils';
 import { selectAuth } from 'src/redux-toolkit/features/auth/authSlice';
 import { useAppSelector } from 'src/redux-toolkit/hooks';
-import { useLazyWarehouseListQuery } from 'src/redux-toolkit/services/warehouseApi';
+import {
+  useLazyWarehouseListQuery,
+  useWarehouseDeleteMutation,
+} from 'src/redux-toolkit/services/warehouseApi';
 import { paths } from 'src/routes/paths';
 import { ICONS } from '../config-warehouse';
 
@@ -24,9 +28,10 @@ export default function ListingView() {
   const { user } = useAppSelector(selectAuth);
 
   const [getWarehouses, results] = useLazyWarehouseListQuery();
+  const [deleteWarehouse, deleteResult] = useWarehouseDeleteMutation();
 
   const settings = useSettingsContext();
-  const [confirmation, setConfirmation] = useState({ open: false, title: '', text: '' });
+  const [deleteDialog, setDeleteDialog] = useState({ open: false, warehouse: null });
 
   const [filteredWarehouses, setFilteredWarehouses] = useState([]);
 
@@ -41,21 +46,30 @@ export default function ListingView() {
   );
 
   // handle delete warehouse
-  const handleDelete = (warehouse) => {
-    setConfirmation({
+  const openDeleteDialog = (warehouse) => {
+    setDeleteDialog({
       open: true,
-      title: `Are you sure to delete ${warehouse.name} warehouse`,
-      text: 'After deleting warehouse, it cannot be undone.',
+      warehouse,
     });
   };
-
-  const onDeleteDisagree = () => {
-    setConfirmation((prev) => ({ ...prev, open: false }));
+  const closeDeleteDialog = () => {
+    setDeleteDialog({ open: false, warehouse: null });
   };
+  const handleDelete = useCallback(
+    async (id) => {
+      const response = await deleteWarehouse(id);
+      const { data, error } = response;
 
-  const onDeleteAgree = () => {
-    setConfirmation((prev) => ({ ...prev, open: false }));
-  };
+      if (error || data?.isError) {
+        enqueueSnackbar(data?.message || 'Error in deleting warehouse', { variant: 'error' });
+        console.error('Warehouse delete error: ', response);
+      } else {
+        enqueueSnackbar('Warehouse deleted successfully');
+        closeDeleteDialog();
+      }
+    },
+    [deleteWarehouse]
+  );
 
   // handle warehouse filter
   useEffect(() => {
@@ -110,7 +124,7 @@ export default function ListingView() {
           <WarehouseCard
             key={warehouse.id}
             warehouse={warehouse}
-            onDelete={() => handleDelete(warehouse)}
+            onDelete={() => openDeleteDialog(warehouse)}
             hasControl={user?.role === 'seller'}
           />
         </Grid>
@@ -161,12 +175,13 @@ export default function ListingView() {
       )}
 
       <ConfirmationAlert
-        open={confirmation.open}
-        onAgree={onDeleteAgree}
-        onDisagree={onDeleteDisagree}
-        onClose={onDeleteDisagree}
-        title={confirmation?.title}
-        text={confirmation?.text}
+        open={deleteDialog.open}
+        onAgree={() => handleDelete(deleteDialog.warehouse?.id)}
+        onDisagree={closeDeleteDialog}
+        onClose={closeDeleteDialog}
+        title="Are you sure to delete this warehouse?"
+        text="After deleting warehouse, it cannot be undone."
+        isLoading={deleteResult.isLoading}
       />
     </Container>
   );

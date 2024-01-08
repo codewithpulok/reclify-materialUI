@@ -1,3 +1,4 @@
+import { LoadingButton } from '@mui/lab';
 import {
   Button,
   Dialog,
@@ -15,6 +16,9 @@ const ConfirmationAlertProps = {
   onAgree: PropTypes.func.isRequired,
   onDisagree: PropTypes.func.isRequired,
   onClose: PropTypes.func.isRequired,
+
+  // optional
+  isLoading: PropTypes.bool,
 };
 
 /**
@@ -22,25 +26,28 @@ const ConfirmationAlertProps = {
  * @param {ConfirmationAlertProps} props
  * @returns
  */
-const ConfirmationAlert = ({ open, title, text, onAgree, onDisagree, onClose }) => (
-  <Dialog
-    open={open}
-    onClose={onClose}
-    aria-labelledby="alert-dialog-title"
-    aria-describedby="alert-dialog-description"
-  >
-    <DialogTitle id="alert-dialog-title">{title}</DialogTitle>
-    <DialogContent>
-      <DialogContentText id="alert-dialog-description">{text}</DialogContentText>
-    </DialogContent>
-    <DialogActions>
-      <Button onClick={onDisagree}>Disagree</Button>
-      <Button onClick={onAgree} autoFocus>
-        Agree
-      </Button>
-    </DialogActions>
-  </Dialog>
-);
+const ConfirmationAlert = (props) => {
+  const { open, title, text, onAgree, onDisagree, onClose, isLoading } = props;
+  return (
+    <Dialog
+      open={open}
+      onClose={onClose}
+      aria-labelledby="alert-dialog-title"
+      aria-describedby="alert-dialog-description"
+    >
+      <DialogTitle id="alert-dialog-title">{title}</DialogTitle>
+      <DialogContent>
+        <DialogContentText id="alert-dialog-description">{text}</DialogContentText>
+      </DialogContent>
+      <DialogActions>
+        <Button onClick={onDisagree}>Disagree</Button>
+        <LoadingButton loading={isLoading} onClick={onAgree} autoFocus>
+          Agree
+        </LoadingButton>
+      </DialogActions>
+    </Dialog>
+  );
+};
 
 ConfirmationAlert.propTypes = ConfirmationAlertProps;
 

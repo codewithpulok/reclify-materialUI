@@ -5,11 +5,13 @@ import { endpoints, getEndpoint } from 'src/utils/api/endpoints';
 // create new warehouse
 export const POST = serverAsyncWrapper(async (req) => {
   const body = await req.json();
+  const authorization = headers().get('authorization');
   const response = await fetch(getEndpoint(endpoints.warehouses.create), {
     body: JSON.stringify(body),
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
+      authorization,
     },
   });
 

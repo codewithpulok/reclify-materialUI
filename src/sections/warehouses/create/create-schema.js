@@ -1,11 +1,10 @@
 import { predefinedApprovedUses, predefinedFeatures } from 'src/assets/data';
-import { addressFieldSchema } from 'src/components/common/fields';
 import * as Yup from 'yup';
 
 /** @type {Warehouse} */
 const schema = {
   name: Yup.string().required('Warehouse name is required'),
-  address: addressFieldSchema,
+  // address: addressFieldSchema,
   totalSpace: Yup.number().label('Total space').min(1).required(),
   pricePerSpace: Yup.number().label('Price per space').min(1).required(),
   discountRate: Yup.number().label('Discount Rate').min(0).max(100).required().default(0),

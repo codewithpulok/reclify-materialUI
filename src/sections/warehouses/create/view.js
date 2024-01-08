@@ -1,11 +1,13 @@
 'use client';
 
 import { yupResolver } from '@hookform/resolvers/yup';
-import { Container } from '@mui/material';
+import { Button, Container, Link, Stack } from '@mui/material';
 import PropTypes from 'prop-types';
 import { useForm } from 'react-hook-form';
 // local components
+import { LoadingButton } from '@mui/lab';
 import { useSnackbar } from 'notistack';
+import { useCallback } from 'react';
 import {
   approvedUsesDefaultValues,
   facilityDefaultValues,
@@ -15,6 +17,7 @@ import {
 import CustomBreadcrumbs from 'src/components/common/custom-breadcrumbs';
 import FormProvider from 'src/components/common/hook-form/form-provider';
 import { useSettingsContext } from 'src/components/common/settings';
+import { useWarehouseCreateMutation } from 'src/redux-toolkit/services/warehouseApi';
 import { paths } from 'src/routes/paths';
 import CreateFields from './create-fields';
 import createSchema from './create-schema';
@@ -52,18 +55,31 @@ const CreateView = (props) => {
   const { enqueueSnackbar } = useSnackbar();
   const settings = useSettingsContext();
 
+  const [createWarehouse] = useWarehouseCreateMutation();
+
   const methods = useForm({
     resolver: yupResolver(createSchema),
     defaultValues: sourceWarehouse || defaultValues,
   });
-  const { handleSubmit } = methods;
+  const { handleSubmit, formState, reset } = methods;
+  const { isSubmitting } = formState;
 
   // handle form submit
-  const onSubmit = async (values) => {
-    console.log('Warehouse Create: ', values);
+  const onSubmit = useCallback(
+    async (values) => {
+      console.log('Warehouse Create: ', values);
+      const response = await createWarehouse(values);
+      const { data, error } = response;
 
-    enqueueSnackbar('Warehouse created!');
-  };
+      if (error || data?.isError) {
+        enqueueSnackbar(data?.message || 'Error in warehouse create', { variant: 'error' });
+      } else {
+        enqueueSnackbar('Warehouse created!');
+        reset(defaultValues);
+      }
+    },
+    [createWarehouse, enqueueSnackbar, reset]
+  );
 
   return (
     <Container maxWidth={settings.themeStretch ? false : 'lg'}>
@@ -78,7 +94,38 @@ const CreateView = (props) => {
         }}
       />
       <FormProvider methods={methods} onSubmit={handleSubmit(onSubmit)}>
-        <CreateFields />
+        <Stack spacing={1.5}>
+          <CreateFields />
+          <Stack
+            sx={{
+              flexDirection: {
+                xs: 'row',
+                sm: 'row-reverse',
+              },
+              justifyContent: {
+                xs: 'start',
+                sm: 'end',
+              },
+            }}
+            flexWrap="wrap"
+            spacing={0.5}
+          >
+            <LoadingButton
+              loading={isSubmitting}
+              variant="contained"
+              size="large"
+              type="submit"
+              color="primary"
+            >
+              Create Warehouse
+            </LoadingButton>
+            <Link href={paths.dashboard.warehouses.root}>
+              <Button variant="soft" size="large" color="error" type="reset">
+                Cancel
+              </Button>
+            </Link>
+          </Stack>
+        </Stack>
       </FormProvider>
     </Container>
   );

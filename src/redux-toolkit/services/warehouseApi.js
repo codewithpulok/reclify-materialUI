@@ -19,7 +19,7 @@ export const warehouseApi = createApi({
       }),
     }),
     warehouseUpdate: builder.mutation({
-      query: (id, warehouseData) => ({
+      query: ({ id, warehouseData }) => ({
         url: `/${id}`,
         body: warehouseData,
         method: 'PUT',
