@@ -19,6 +19,7 @@ import { ICONS } from '../config-fields';
 const ArrayFieldProps = {
   name: PropTypes.string.isRequired,
   label: PropTypes.string.isRequired,
+  defaultExpanded: PropTypes.bool,
 };
 
 /**
@@ -26,21 +27,21 @@ const ArrayFieldProps = {
  * @returns {JSX.Element}
  */
 const ArrayField = (props) => {
-  const { name, label } = props;
+  const { name, label, defaultExpanded } = props;
   const { setValue, watch } = useFormContext();
   const value = watch(name, []);
 
   const [newRule, setNewRule] = useState('');
 
   // handle add
-  const handleAddRule = useCallback(() => {
+  const handleAddValue = useCallback(() => {
     if (!newRule) return;
     setValue(name, [newRule, ...value]);
     setNewRule('');
   }, [value, setValue, newRule, name]);
 
   // handle remove
-  const handleRemoveRule = useCallback(
+  const handleRemoveValue = useCallback(
     (deleteIndex) => {
       const filteredRules = [...value].filter((f, i) => i !== deleteIndex);
       setValue(name, filteredRules);
@@ -53,14 +54,14 @@ const ArrayField = (props) => {
     (event) => {
       if (event.key === 'Enter') {
         event.preventDefault();
-        handleAddRule();
+        handleAddValue();
       }
     },
-    [handleAddRule]
+    [handleAddValue]
   );
 
   return (
-    <RHFAccordion name={name} label={label}>
+    <RHFAccordion name={name} label={label} defaultExpanded={defaultExpanded}>
       <Stack>
         <TextField
           label="New Rule"
@@ -70,7 +71,7 @@ const ArrayField = (props) => {
           InputProps={{
             endAdornment: (
               <InputAdornment position="end">
-                <IconButton type="button" onClick={handleAddRule}>
+                <IconButton type="button" onClick={handleAddValue}>
                   {ICONS.add()}
                 </IconButton>
               </InputAdornment>
@@ -84,7 +85,7 @@ const ArrayField = (props) => {
               <ListItem key={`${v}-${index}`} disablePadding>
                 <ListItemButton>
                   <ListItemText primary={v} />
-                  <ListItemIcon onClick={() => handleRemoveRule(index)}>
+                  <ListItemIcon onClick={() => handleRemoveValue(index)}>
                     {ICONS.delete()}
                   </ListItemIcon>
                 </ListItemButton>

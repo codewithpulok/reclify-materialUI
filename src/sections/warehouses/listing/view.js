@@ -1,11 +1,11 @@
 'use client';
 
-import { Button, Grid, Link, Pagination, Stack } from '@mui/material';
+import { Button, Grid, Pagination, Stack } from '@mui/material';
 import Container from '@mui/material/Container';
 import { useSearchParams } from 'next/navigation';
+import { enqueueSnackbar } from 'notistack';
 import { useCallback, useEffect, useMemo, useState } from 'react';
 // local components
-import { enqueueSnackbar } from 'notistack';
 import { ConfirmationAlert } from 'src/components/common/alert';
 import CustomBreadcrumbs from 'src/components/common/custom-breadcrumbs/custom-breadcrumbs';
 import { EmptyState, ErrorState } from 'src/components/common/custom-state';
@@ -18,6 +18,7 @@ import {
   useLazyWarehouseListQuery,
   useWarehouseDeleteMutation,
 } from 'src/redux-toolkit/services/warehouseApi';
+import { RouterLink } from 'src/routes/components';
 import { paths } from 'src/routes/paths';
 import { ICONS } from '../config-warehouse';
 
@@ -156,11 +157,16 @@ export default function ListingView() {
 
         {/* Warehouse create button only for sellers */}
         {user?.role === 'seller' ? (
-          <Link href={paths.dashboard.warehouses.create} sx={{ width: { xs: '100%', sm: 'auto' } }}>
-            <Button color="primary" variant="soft" fullWidth>
-              Create Warehouse
-            </Button>
-          </Link>
+          <Button
+            LinkComponent={RouterLink}
+            href={paths.dashboard.warehouses.create}
+            sx={{ width: { xs: '100%', sm: 'auto' } }}
+            color="primary"
+            variant="soft"
+            fullWidth
+          >
+            Create Warehouse
+          </Button>
         ) : null}
       </Stack>
 

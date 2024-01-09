@@ -1,7 +1,7 @@
 'use client';
 
 import { yupResolver } from '@hookform/resolvers/yup';
-import { Button, Container, Link, Stack } from '@mui/material';
+import { Button, Container, Stack } from '@mui/material';
 import PropTypes from 'prop-types';
 import { useForm } from 'react-hook-form';
 // local components
@@ -18,6 +18,7 @@ import CustomBreadcrumbs from 'src/components/common/custom-breadcrumbs';
 import FormProvider from 'src/components/common/hook-form/form-provider';
 import { useSettingsContext } from 'src/components/common/settings';
 import { useWarehouseCreateMutation } from 'src/redux-toolkit/services/warehouseApi';
+import { RouterLink } from 'src/routes/components';
 import { paths } from 'src/routes/paths';
 import { getPredefinedFieldsDefaultValue } from 'src/utils/predefined-fields';
 import CreateFields from './create-fields';
@@ -66,6 +67,11 @@ const CreateView = (props) => {
   const { handleSubmit, formState, reset } = methods;
   const { isSubmitting } = formState;
 
+  // reset form
+  const onReset = useCallback(() => {
+    reset();
+  }, [reset]);
+
   // handle form submit
   const onSubmit = useCallback(
     async (values) => {
@@ -95,7 +101,7 @@ const CreateView = (props) => {
           mb: { xs: 3, md: 5 },
         }}
       />
-      <FormProvider methods={methods} onSubmit={handleSubmit(onSubmit)}>
+      <FormProvider methods={methods} onSubmit={handleSubmit(onSubmit)} onReset={onReset}>
         <Stack spacing={1.5}>
           <CreateFields />
           <Stack
@@ -111,6 +117,7 @@ const CreateView = (props) => {
             }}
             flexWrap="wrap"
             spacing={0.5}
+            mt={5}
           >
             <LoadingButton
               loading={isSubmitting}
@@ -121,11 +128,17 @@ const CreateView = (props) => {
             >
               Create Warehouse
             </LoadingButton>
-            <Link href={paths.dashboard.warehouses.root}>
-              <Button variant="soft" size="large" color="error" type="reset">
-                Cancel
-              </Button>
-            </Link>
+
+            <Button
+              LinkComponent={RouterLink}
+              href={paths.dashboard.warehouses.root}
+              variant="soft"
+              size="large"
+              color="error"
+              type="reset"
+            >
+              Cancel
+            </Button>
           </Stack>
         </Stack>
       </FormProvider>

@@ -82,10 +82,10 @@ const schema = {
     })
   ),
   rules: Yup.array(Yup.string()),
-  approvedUses: getPredefinedFieldSchema(predefinedApprovedUses),
-  features: getPredefinedFieldSchema(predefinedFeatures),
-  facilityDetails: getPredefinedFieldSchema(predefinedFacility),
-  services: getPredefinedFieldSchema(predefinedServices),
+  approvedUses: Yup.object().shape(getPredefinedFieldSchema(predefinedApprovedUses)),
+  features: Yup.object().shape(getPredefinedFieldSchema(predefinedFeatures)),
+  facilityDetails: Yup.object().shape(getPredefinedFieldSchema(predefinedFacility)),
+  services: Yup.object().shape(getPredefinedFieldSchema(predefinedServices)),
 };
 
 const editSchema = Yup.object().shape(schema);

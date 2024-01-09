@@ -124,7 +124,7 @@ const WarehouseEditFields = (props) => (
           />
         </Grid>
         <Grid item xs={12}>
-          <ArrayField name="rules" label="Facility Rules" />
+          <ArrayField name="rules" label="Facility Rules" defaultExpanded />
         </Grid>
       </Grid>
     </Grid>
