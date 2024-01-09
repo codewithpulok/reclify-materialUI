@@ -6,6 +6,7 @@ import { RHFAccordion, RHFSwitch } from '../../hook-form';
 const DaysFieldProps = {
   name: PropTypes.string.isRequired,
   label: PropTypes.string.isRequired,
+  defaultExpanded: PropTypes.bool,
 };
 
 /**
@@ -13,9 +14,14 @@ const DaysFieldProps = {
  * @returns {JSX.Element}
  */
 const DaysField = (props) => {
-  const { name, label } = props;
+  const { name, label, defaultExpanded } = props;
   return (
-    <RHFAccordion name={name} label={label} sx={{ borderRadius: 1 }}>
+    <RHFAccordion
+      name={name}
+      label={label}
+      sx={{ borderRadius: 1 }}
+      defaultExpanded={defaultExpanded}
+    >
       <Stack spacing={0.3}>
         {Array.from(Array(6).keys()).map((day) => (
           <RHFSwitch key={day} name={`${name}.${day}`} label={fDay(day)} size="small" />

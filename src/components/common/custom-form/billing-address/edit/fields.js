@@ -1,6 +1,6 @@
 import { Grid, MenuItem, Stack } from '@mui/material';
 
-import { AddressField } from 'src/components/common/fields';
+import { AddressField } from 'src/components/common/custom-fields';
 import { RHFSwitch, RHFTextField } from 'src/components/common/hook-form';
 import Scrollbar from 'src/components/common/scrollbar';
 

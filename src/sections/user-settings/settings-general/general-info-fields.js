@@ -7,7 +7,7 @@ import Stack from '@mui/material/Stack';
 
 import { Grid, MenuItem } from '@mui/material';
 import { regions } from 'src/assets/data';
-import { AddressField } from 'src/components/common/fields';
+import { AddressField } from 'src/components/common/custom-fields';
 import { RHFTextField } from 'src/components/common/hook-form';
 import { selectAuth } from 'src/redux-toolkit/features/auth/authSlice';
 import { useAppSelector } from 'src/redux-toolkit/hooks';

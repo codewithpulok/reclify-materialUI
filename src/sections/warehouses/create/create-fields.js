@@ -8,7 +8,7 @@ import {
   predefinedServices,
   regions,
 } from 'src/assets/data';
-import { AddressField, ArrayField, PredefinedFields } from 'src/components/common/fields';
+import { AddressField, ArrayField, PredefinedFields } from 'src/components/common/custom-fields';
 import { RHFTextField } from 'src/components/common/hook-form';
 import Label from 'src/components/common/label';
 import { WarehousePhotoUpload } from 'src/components/warehouse/upload';
@@ -21,7 +21,7 @@ const CreateFields = (props) => (
           <RHFTextField name="name" label="Name" fullWidth />
         </Grid>
         <Grid item xs={12}>
-          <RHFTextField name="region" label="Region" select>
+          <RHFTextField name="region" label="Region" fullWidth select>
             {regions.map((option) => (
               <MenuItem key={option.code} value={option.code}>
                 {option.name}
@@ -89,13 +89,19 @@ const CreateFields = (props) => (
     <Grid item xs={12} md={6}>
       <Grid container spacing={1.2}>
         <Grid item xs={12}>
-          <PredefinedFields name="features" label="Features" fields={predefinedFeatures} />
+          <PredefinedFields
+            name="features"
+            fields={predefinedFeatures}
+            label="Features"
+            defaultExpanded
+          />
         </Grid>
         <Grid item xs={12}>
           <PredefinedFields
             name="approvedUses"
             fields={predefinedApprovedUses}
             label="Approved Uses"
+            defaultExpanded
           />
         </Grid>
         <Grid item xs={12}>
@@ -103,6 +109,7 @@ const CreateFields = (props) => (
             name="facilityDetails"
             fields={predefinedFacility}
             label="Facility Details"
+            defaultExpanded
           />
         </Grid>
         <Grid item xs={12}>
@@ -110,6 +117,7 @@ const CreateFields = (props) => (
             name="services"
             fields={predefinedServices}
             label="Available Services and Rates"
+            defaultExpanded
           />
         </Grid>
         <Grid item xs={12}>

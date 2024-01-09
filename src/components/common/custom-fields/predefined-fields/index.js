@@ -14,6 +14,7 @@ const Props = {
   label: PropTypes.string.isRequired,
   /** @type {PredefinedField[]} */
   fields: PropTypes.arrayOf(PropTypes.object).isRequired,
+  defaultExpanded: PropTypes.bool,
 };
 
 /**
@@ -21,10 +22,10 @@ const Props = {
  * @returns {JSX.Element}
  */
 const PredefinedFields = (props) => {
-  const { name, fields, label } = props;
+  const { name, fields, label, defaultExpanded } = props;
 
   return (
-    <RHFAccordion name={name} label={label}>
+    <RHFAccordion name={name} label={label} defaultExpanded={defaultExpanded}>
       <Stack spacing={1.3}>
         {fields.map((field) => {
           // avoid custom data types
@@ -55,7 +56,9 @@ const PredefinedFields = (props) => {
 
           // days picker field
           if (field.fieldType === 'days-picker') {
-            return <DaysField name={fieldName} label={field.label} key={field.key} />;
+            return (
+              <DaysField name={fieldName} label={field.label} key={field.key} defaultExpanded />
+            );
           }
 
           // time picker field

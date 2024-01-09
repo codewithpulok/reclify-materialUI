@@ -1,6 +1,6 @@
 import * as Yup from 'yup';
 
-import { addressFieldSchema } from 'src/components/common/fields';
+import { addressFieldSchema } from 'src/components/common/custom-fields';
 
 /** @type {BillingAddress} */
 const validationSchema = {

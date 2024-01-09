@@ -119,7 +119,7 @@ const WarehouseBooking = (props) => {
                   {fCurrency(warehouse.pricePerSpace)}
                 </Typography>
                 <Typography sx={bookingInfoStyle.heading1}>/</Typography>
-                <Typography sx={bookingInfoStyle.heading2}>pallete</Typography>
+                <Typography sx={bookingInfoStyle.heading2}>pallet</Typography>
               </Stack>
               <Typography sx={bookingInfoStyle.description}>
                 {warehouse?.minSpaceOrder && warehouse?.maxSpaceOrder
