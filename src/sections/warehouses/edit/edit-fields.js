@@ -1,4 +1,4 @@
-import { MenuItem } from '@mui/material';
+import { MenuItem, Stack } from '@mui/material';
 import Grid from '@mui/material/Grid';
 import InputAdornment from '@mui/material/InputAdornment';
 // local components
@@ -10,7 +10,7 @@ import {
   regions,
 } from 'src/assets/data';
 import { AddressField, ArrayField, PredefinedFields } from 'src/components/common/custom-fields';
-import { RHFTextField } from 'src/components/common/hook-form';
+import { RHFAccordion, RHFTextField } from 'src/components/common/hook-form';
 import Label from 'src/components/common/label';
 import { WarehousePhotoUpload } from 'src/components/warehouse/upload';
 
@@ -36,19 +36,8 @@ const WarehouseEditFields = (props) => (
           <AddressField name="address" />
         </Grid>
 
-        <Grid item xs={6}>
+        <Grid item xs={12}>
           <RHFTextField type="number" name="totalSpace" label="Total space (Pallet)" fullWidth />
-        </Grid>
-        <Grid item xs={6}>
-          <RHFTextField
-            type="number"
-            name="pricePerSpace"
-            label="Price per pallet"
-            InputProps={{
-              startAdornment: <InputAdornment position="start">$</InputAdornment>,
-            }}
-            fullWidth
-          />
         </Grid>
         <Grid item xs={6}>
           <RHFTextField
@@ -66,6 +55,57 @@ const WarehouseEditFields = (props) => (
             fullWidth
           />
         </Grid>
+
+        <Grid item xs={12}>
+          <RHFAccordion
+            label="Warehouse Prices"
+            names={['price1', 'price3', 'price6', 'price12']}
+            defaultExpanded
+          >
+            <Stack spacing={1.2}>
+              <RHFTextField
+                type="number"
+                name="price1"
+                label="For 1 Month"
+                InputProps={{
+                  startAdornment: <InputAdornment position="start">$</InputAdornment>,
+                }}
+                fullWidth
+              />
+
+              <RHFTextField
+                type="number"
+                name="price3"
+                label="For 3 Month"
+                InputProps={{
+                  startAdornment: <InputAdornment position="start">$</InputAdornment>,
+                }}
+                fullWidth
+              />
+
+              <RHFTextField
+                type="number"
+                name="price6"
+                label="For 6 Month"
+                InputProps={{
+                  startAdornment: <InputAdornment position="start">$</InputAdornment>,
+                }}
+                fullWidth
+              />
+
+              <RHFTextField
+                type="number"
+                name="price12"
+                label="For 12 Month"
+                InputProps={{
+                  startAdornment: <InputAdornment position="start">$</InputAdornment>,
+                }}
+                fullWidth
+              />
+            </Stack>
+          </RHFAccordion>
+        </Grid>
+
         <Grid item xs={12}>
           <RHFTextField
             type="number"

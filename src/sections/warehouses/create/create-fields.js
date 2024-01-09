@@ -56,7 +56,7 @@ const CreateFields = (props) => (
         <Grid item xs={12}>
           <RHFAccordion
             label="Warehouse Prices"
-            names={['price1', 'price2', 'price6', 'price12']}
+            names={['price1', 'price3', 'price6', 'price12']}
             defaultExpanded
           >
             <Stack spacing={1.2}>
@@ -72,8 +72,8 @@ const CreateFields = (props) => (
 
               <RHFTextField
                 type="number"
-                name="price2"
-                label="For 2 Month"
+                name="price3"
+                label="For 3 Month"
                 InputProps={{
                   startAdornment: <InputAdornment position="start">$</InputAdornment>,
                 }}

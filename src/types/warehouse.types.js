@@ -7,7 +7,10 @@
  * @property {WarehouseAddress} address - The address of the warehouse
  * @property {string} description - The description of the warehouse, e.g., 'Modern storage facility in the heart of the city.'.
  * @property {number} totalSpace - The total space of the warehouse in pallet, e.g., 5000.
- * @property {number} pricePerSpace - The price of the warehouse space per pallet, e.g., 1.5.
+ * @property {number} price1 - price for one month
+ * @property {number} price3 - price for three month
+ * @property {number} price6 - price for six month
+ * @property {number} price12 - price for twelve month
  * @property {number | undefined} minSpaceOrder - The minimum space to order.
  * @property {number | undefined} maxSpaceOrder - The maximum space to order.
  * @property {number} discountRate - The discount rate for warehouse (percentage) .
