@@ -1,3 +1,4 @@
+import { MenuItem } from '@mui/material';
 import Grid from '@mui/material/Grid';
 import InputAdornment from '@mui/material/InputAdornment';
 // local components
@@ -6,6 +7,7 @@ import {
   predefinedFacility,
   predefinedFeatures,
   predefinedServices,
+  regions,
 } from 'src/assets/data';
 import { AddressField, ArrayField, PredefinedFields } from 'src/components/common/fields';
 import { RHFTextField } from 'src/components/common/hook-form';
@@ -19,6 +21,17 @@ const WarehouseEditFields = (props) => (
         <Grid item xs={12}>
           <RHFTextField name="name" label="Name" fullWidth />
         </Grid>
+
+        <Grid item xs={12}>
+          <RHFTextField name="region" label="Region" select>
+            {regions.map((option) => (
+              <MenuItem key={option.code} value={option.code}>
+                {option.name}
+              </MenuItem>
+            ))}
+          </RHFTextField>
+        </Grid>
+
         <Grid item xs={12}>
           <AddressField name="address" />
         </Grid>

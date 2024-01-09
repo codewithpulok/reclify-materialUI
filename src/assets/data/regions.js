@@ -1,7 +1,7 @@
 export const regions = [
-  { name: 'Northeast', code: 'Northeast' },
-  { name: 'Southwest', code: 'Southwest' },
-  { name: 'West', code: 'West' },
-  { name: 'Southeast', code: 'Southeast' },
-  { name: 'Midwest', code: 'Midwest' },
+  { name: 'Northeast', code: 'northeast' },
+  { name: 'Southwest', code: 'southwest' },
+  { name: 'Northwest', code: 'northwest' },
+  { name: 'Southeast', code: 'southeast' },
+  { name: 'Midwest', code: 'midwest' },
 ];

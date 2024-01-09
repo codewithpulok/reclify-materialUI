@@ -3,13 +3,21 @@ import {
   predefinedFacility,
   predefinedFeatures,
   predefinedServices,
+  regions,
 } from 'src/assets/data';
 import { getPredefinedFieldSchema } from 'src/utils/predefined-fields';
 import * as Yup from 'yup';
 
 /** @type {Warehouse} */
 const schema = {
-  name: Yup.string().required('Warehouse name is required'),
+  name: Yup.string().label('Warehouse Name').required(),
+  region: Yup.string()
+    .label('Region')
+    .oneOf(
+      regions.map((r) => r.code),
+      'Region code is not valid'
+    )
+    .required(),
   // address: addressFieldSchema,
   totalSpace: Yup.number().label('Total space').min(1).required(),
   pricePerSpace: Yup.number().label('Price per space').min(1).required(),
