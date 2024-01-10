@@ -57,7 +57,7 @@ export default function NavUpgrade() {
             noWrap
             sx={{ color: 'text.disabled', textTransform: 'capitalize' }}
           >
-            {user?.role}
+            {user?.userType}
           </Typography>
         </Stack>
 

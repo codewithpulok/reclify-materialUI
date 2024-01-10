@@ -32,21 +32,18 @@ export default function RHFTimePicker(props) {
     <Controller
       name={name}
       control={control}
-      render={({ field, fieldState: { error } }) => {
-        console.log({ error });
-        return (
-          <VariantTimePicker
-            {...field}
-            value={undefined}
-            defaultValue={field.value ? new Date(field.value) : undefined}
-            onChange={(value) => field.onChange(new Date(value).getTime())}
-            slotProps={{
-              textField: { error: !!error, helperText: error ? error?.message : helperText },
-            }}
-            {...other}
-          />
-        );
-      }}
+      render={({ field, fieldState: { error } }) => (
+        <VariantTimePicker
+          {...field}
+          value={undefined}
+          defaultValue={field.value ? new Date(field.value) : undefined}
+          onChange={(value) => field.onChange(new Date(value).getTime())}
+          slotProps={{
+            textField: { error: !!error, helperText: error ? error?.message : helperText },
+          }}
+          {...other}
+        />
+      )}
     />
   );
 }

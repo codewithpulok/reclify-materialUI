@@ -23,7 +23,7 @@ import Fields from './fields';
 import { loginSchema } from './schema';
 
 const defaultValues = {
-  email: 'warehouseA@test.com',
+  email: 'seller@test.com',
   password: 'test123',
 };
 // ----------------------------------------------------------------------
@@ -82,36 +82,28 @@ export default function LoginView() {
     </Stack>
   );
 
-  const renderForm =
-    ({
-      id: '3',
-      email: 'customerA@test.com',
-      firstName: 'Customer',
-      lastName: 'User',
-      role: 'customer',
-    },
-    (
-      <Stack spacing={2.5}>
-        {!!apiError && <Alert severity="error">{apiError}</Alert>}
+  const renderForm = (
+    <Stack spacing={2.5}>
+      {!!apiError && <Alert severity="error">{apiError}</Alert>}
 
-        <Fields />
+      <Fields />
 
-        <Link variant="body2" color="inherit" underline="always" sx={{ alignSelf: 'flex-end' }}>
-          Forgot password?
-        </Link>
+      <Link variant="body2" color="inherit" underline="always" sx={{ alignSelf: 'flex-end' }}>
+        Forgot password?
+      </Link>
 
-        <LoadingButton
-          fullWidth
-          color="primary"
-          size="large"
-          type="submit"
-          variant="contained"
-          loading={isSubmitting}
-        >
-          Login
-        </LoadingButton>
-      </Stack>
-    ));
+      <LoadingButton
+        fullWidth
+        color="primary"
+        size="large"
+        type="submit"
+        variant="contained"
+        loading={isSubmitting}
+      >
+        Login
+      </LoadingButton>
+    </Stack>
+  );
 
   return (
     <FormProvider methods={methods} onSubmit={handleSubmit(onSubmit)}>

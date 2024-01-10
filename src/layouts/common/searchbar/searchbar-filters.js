@@ -145,7 +145,7 @@ const SearchbarFilters = (props) => {
             </FormGroup>
           </AccordionDetails>
         </Accordion>
-        {auth?.user?.role === 'admin' ? (
+        {auth?.user?.userType === 'admin' ? (
           <Accordion sx={{ width: '100%' }}>
             <AccordionSummary
               expandIcon={getIconify('solar:alt-arrow-down-line-duotone')}

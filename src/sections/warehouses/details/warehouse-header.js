@@ -62,7 +62,7 @@ const WarehouseHeader = (props) => {
             <Chip label="Featured" icon={ICONS.featured()} color="warning" size="small" />
           )}
 
-          {auth?.user?.role === 'admin' && (
+          {auth?.user?.userType === 'admin' && (
             <WarehouseAdminMenu
               onFeaturedChange={onFeaturedChange}
               onVerifiedChange={onVerifiedChange}

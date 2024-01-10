@@ -36,7 +36,7 @@ function DetailsView(props) {
   const { warehouse, reviews } = props;
   const settings = useSettingsContext();
   const { user } = useAppSelector(selectAuth);
-  const owner = getUserByID(warehouse.sellerId);
+  const owner = getUserByID('1' || warehouse.sellerId); // TODO: replace this with actual user
 
   return (
     <Container maxWidth={settings.themeStretch ? false : 'xl'}>
@@ -56,7 +56,7 @@ function DetailsView(props) {
               <WarehouseOwnerCard sx={{ mb: 3 }} user={owner} />
             ) : null}
 
-            <WarehouseBooking warehouse={warehouse} showPurchase={user?.role === 'customer'} />
+            <WarehouseBooking warehouse={warehouse} showPurchase={user?.userType === 'customer'} />
           </Box>
 
           <WarehouseDescription description={warehouse.description} sx={{ mt: 5 }} />
@@ -75,14 +75,14 @@ function DetailsView(props) {
           <WarehouseReviews
             reviews={reviews}
             sx={{ mt: 3 }}
-            canAddNewReview={user && user.role === 'customer'}
+            canAddNewReview={user && user.userType === 'customer'}
           />
         </Grid>
         <Grid item xs={12} md={5}>
           {/* show sidebar content in tab mode & hide in mobile mode */}
           <Box sx={{ display: { xs: 'none', md: 'block', width: '100%' } }}>
             {owner?.id !== user?.id ? <WarehouseOwnerCard sx={{ mb: 3 }} user={owner} /> : null}
-            <WarehouseBooking warehouse={warehouse} showPurchase={user?.role === 'customer'} />
+            <WarehouseBooking warehouse={warehouse} showPurchase={user?.userType === 'customer'} />
           </Box>
         </Grid>
       </Grid>

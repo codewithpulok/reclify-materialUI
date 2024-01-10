@@ -31,7 +31,7 @@ export default function RoleBasedGuard(props) {
   // Logic here to get current user role
   const { user } = useAppSelector(selectAuth);
 
-  const currentRole = user?.role;
+  const currentRole = user?.userType;
 
   if (typeof roles !== 'undefined' && !roles.includes(currentRole)) {
     return hasContent ? (

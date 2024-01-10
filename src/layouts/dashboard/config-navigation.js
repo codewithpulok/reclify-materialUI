@@ -50,11 +50,11 @@ export function useNavData() {
           ...commonRoutes,
 
           // if user role is admin then only show admin routes
-          ...(user?.role === 'admin' ? adminRoutes : []),
+          ...(user?.userType === 'admin' ? adminRoutes : []),
         ],
       },
     ],
-    [adminRoutes, commonRoutes, user?.role]
+    [adminRoutes, commonRoutes, user?.userType]
   );
 
   return data;

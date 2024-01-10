@@ -39,7 +39,7 @@ const GeneralInfoFields = () => {
           <AddressField name="address" />
         </Grid>
       </Box>
-      {user?.role !== 'admin' && (
+      {user?.userType !== 'admin' && (
         <RHFTextField name="region" label="Region" fullWidth select sx={{ mt: 3 }}>
           {regions.map((option) => (
             <MenuItem key={option.code} value={option.code}>

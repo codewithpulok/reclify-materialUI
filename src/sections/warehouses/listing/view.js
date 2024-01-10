@@ -1,104 +1,37 @@
 'use client';
 
-import { Button, Grid, Pagination, Stack } from '@mui/material';
+import { Button, Grid, Stack, Typography } from '@mui/material';
 import Container from '@mui/material/Container';
-import { useSearchParams } from 'next/navigation';
-import { enqueueSnackbar } from 'notistack';
 import { useCallback, useEffect, useMemo, useState } from 'react';
 // local components
-import { ConfirmationAlert } from 'src/components/common/alert';
-import CustomBreadcrumbs from 'src/components/common/custom-breadcrumbs/custom-breadcrumbs';
+import { regions } from 'src/assets/data';
 import { EmptyState, ErrorState } from 'src/components/common/custom-state';
 import { useSettingsContext } from 'src/components/common/settings';
 import { WarehouseCard, WarehouseCardSkeleton } from 'src/components/warehouse/cards';
-import { getWarehouseAddress } from 'src/components/warehouse/utils';
 import { selectAuth } from 'src/redux-toolkit/features/auth/authSlice';
 import { useAppSelector } from 'src/redux-toolkit/hooks';
-import {
-  useLazyWarehouseListQuery,
-  useWarehouseDeleteMutation,
-} from 'src/redux-toolkit/services/warehouseApi';
+import { useLazyWarehouseListQuery } from 'src/redux-toolkit/services/warehouseApi';
 import { RouterLink } from 'src/routes/components';
-import { paths } from 'src/routes/paths';
 import { ICONS } from '../config-warehouse';
 
 // ----------------------------------------------------------------------
 
 export default function ListingView() {
-  const searchParams = useSearchParams();
+  const settings = useSettingsContext();
   const { user } = useAppSelector(selectAuth);
 
   const [getWarehouses, results] = useLazyWarehouseListQuery();
-  const [deleteWarehouse, deleteResult] = useWarehouseDeleteMutation();
-
-  const settings = useSettingsContext();
-  const [deleteDialog, setDeleteDialog] = useState({ open: false, warehouse: null });
 
   const [filteredWarehouses, setFilteredWarehouses] = useState([]);
-
-  const searchQuery = searchParams.get('query');
-  const filterUsers = user?.role === 'admin' ? searchParams.get('users') : null;
-  const filterRegions = searchParams.get('regions');
-
-  // generate page heading
-  const heading = useMemo(
-    () => (searchQuery ? `Search results for "${searchQuery}"` : 'Warehouse Listing'),
-    [searchQuery]
-  );
-
-  // handle delete warehouse
-  const openDeleteDialog = (warehouse) => {
-    setDeleteDialog({
-      open: true,
-      warehouse,
-    });
-  };
-  const closeDeleteDialog = () => {
-    setDeleteDialog({ open: false, warehouse: null });
-  };
-  const handleDelete = useCallback(
-    async (id) => {
-      const response = await deleteWarehouse(id);
-      const { data, error } = response;
-
-      if (error || data?.isError) {
-        enqueueSnackbar(data?.message || 'Error in deleting warehouse', { variant: 'error' });
-        console.error('Warehouse delete error: ', response);
-      } else {
-        enqueueSnackbar('Warehouse deleted successfully');
-        closeDeleteDialog();
-      }
-    },
-    [deleteWarehouse]
-  );
 
   // handle warehouse filter
   useEffect(() => {
     if (results.isSuccess && results?.data?.results instanceof Array) {
-      let filtered = [...results.data.results];
-
-      if (searchQuery) {
-        // handle some search api call
-        filtered = [...filtered].filter((w) =>
-          getWarehouseAddress(w.address).toLowerCase().includes(searchQuery.toLowerCase())
-        );
-      }
-
-      if (filterUsers) {
-        // do something
-      }
-
-      if (filterRegions) {
-        // do something
-      }
-
-      if (user?.role === 'seller') {
-        filtered = [...filtered].filter((w) => w.sellerId === user.id);
-      }
+      const filtered = [...results.data.results];
 
       setFilteredWarehouses(filtered);
     }
-  }, [filterRegions, filterUsers, results, searchQuery, user]);
+  }, [results]);
 
   useEffect(() => {
     if (user !== null && user) {
@@ -107,88 +40,103 @@ export default function ListingView() {
   }, [getWarehouses, user]);
 
   // render warehouses
-  const renderWarehouses = useCallback(() => {
-    // error state
-    if (results.isError) {
-      return <ErrorState text="Something went to wrong" />;
-    }
+  const renderWarehouses = useCallback(
+    (
+      warehouses = [],
+      notFoundText = 'No warehouses found',
+      errorText = 'Something went to wrong'
+    ) => {
+      // error state
+      if (results.isError) {
+        return <ErrorState text={errorText} />;
+      }
 
-    // empty state
-    if (results.isSuccess && filteredWarehouses.length === 0) {
-      return <EmptyState text="No warehouses found" icon={ICONS.warehouse()} />;
-    }
+      // empty state
+      if (results.isSuccess && warehouses.length === 0) {
+        return <EmptyState text={notFoundText} icon={ICONS.warehouse()} />;
+      }
 
-    // success state
-    if (results.isSuccess && filteredWarehouses.length) {
-      return filteredWarehouses.map((warehouse) => (
-        <Grid item key={warehouse.id} xs={12} sm={6} md={4}>
-          <WarehouseCard
-            key={warehouse.id}
-            warehouse={warehouse}
-            onDelete={() => openDeleteDialog(warehouse)}
-            hasControl={user?.role === 'seller'}
-          />
+      // success state
+      if (results.isSuccess && warehouses.length) {
+        return warehouses.map((warehouse) => (
+          <Grid item key={warehouse.id} xs={12} sm={6} md={4}>
+            <WarehouseCard key={warehouse.id} warehouse={warehouse} />
+          </Grid>
+        ));
+      }
+
+      // loading state
+      return Array.from(Array(3).keys()).map((i) => (
+        <Grid key={i} item xs={12} sm={6} md={4}>
+          <WarehouseCardSkeleton />
         </Grid>
       ));
-    }
+    },
+    [results]
+  );
 
-    // loading state
-    return Array.from(Array(6).keys()).map((i) => (
-      <Grid key={i} item xs={12} sm={6} md={4}>
-        <WarehouseCardSkeleton />
-      </Grid>
-    ));
-  }, [results, filteredWarehouses, user]);
+  // hot deals
+  const hotdeals = useMemo(
+    () => filteredWarehouses.filter((w) => w.discountRate > 0),
+    [filteredWarehouses]
+  );
+  // warehouse based on region
+  const regionWarehouses = useMemo(
+    () =>
+      regions.reduce((prev, next) => {
+        prev[next.code] = filteredWarehouses.filter((w) => w.region === next.code);
+        return prev;
+      }, {}),
+    [filteredWarehouses]
+  );
 
   return (
     <Container maxWidth={settings.themeStretch ? false : 'xl'}>
-      <Stack
-        direction="row"
-        justifyContent="space-between"
-        alignItems="center"
-        mb={5}
-        flexWrap="wrap"
-        spacing={2}
-      >
-        <CustomBreadcrumbs
-          heading={heading}
-          links={[{ name: 'Dashboard', href: '#' }, { name: 'Warehouses' }]}
-        />
+      <Stack mb={5} spacing={5}>
+        <Stack
+          sx={{
+            flexDirection: 'row',
+            alignItems: 'center',
+            gap: 0.5,
+          }}
+        >
+          {ICONS.hot_deals(28, { color: 'error.main' })}
+          <Typography variant="h4">Hot Deals</Typography>
+        </Stack>
 
-        {/* Warehouse create button only for sellers */}
-        {user?.role === 'seller' ? (
-          <Button
-            LinkComponent={RouterLink}
-            href={paths.dashboard.warehouses.create}
-            sx={{ width: { xs: '100%', sm: 'auto' } }}
-            color="primary"
-            variant="soft"
-            fullWidth
-          >
-            Create Warehouse
-          </Button>
-        ) : null}
+        <Grid container spacing={2}>
+          {renderWarehouses(hotdeals, 'No hot deals available')}
+        </Grid>
       </Stack>
 
-      <Grid container spacing={2}>
-        {renderWarehouses()}
-      </Grid>
+      {regions.map((region) => (
+        <Stack mb={5} spacing={5} key={region.code}>
+          <Stack
+            sx={{
+              flexDirection: 'row',
+              alignItems: 'center',
+              gap: 0.5,
+            }}
+          >
+            {ICONS.warehouse(28, { color: 'secondary.main' })}
+            <Typography variant="h4">In {region.name}</Typography>
 
-      {results.isSuccess && !!filteredWarehouses.length && (
-        <Stack direction="row" justifyContent="center" mt={8} mb={1}>
-          <Pagination count={10} color="primary" size="small" />
+            <Button
+              LinkComponent={RouterLink}
+              href="#"
+              variant="soft"
+              color="primary"
+              sx={{ ml: 'auto' }}
+            >
+              View more
+            </Button>
+          </Stack>
+
+          <Grid container spacing={2}>
+            {renderWarehouses(regionWarehouses[region.code])}
+          </Grid>
         </Stack>
-      )}
-
-      <ConfirmationAlert
-        open={deleteDialog.open}
-        onAgree={() => handleDelete(deleteDialog.warehouse?.id)}
-        onDisagree={closeDeleteDialog}
-        onClose={closeDeleteDialog}
-        title="Are you sure to delete this warehouse?"
-        text="After deleting warehouse, it cannot be undone."
-        isLoading={deleteResult.isLoading}
-      />
+      ))}
     </Container>
   );
 }

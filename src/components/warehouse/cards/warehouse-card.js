@@ -35,6 +35,8 @@ const WarehouseCardProps = {
 const WarehouseCard = (props) => {
   const router = useRouter();
   const { warehouse, onDelete, hasControl, sx = {} } = props;
+  const thumbnail =
+    warehouse?.photos?.[0]?.coverUrl || 'https://placehold.co/450x318?text=Not+Found';
 
   return (
     <Card
@@ -50,7 +52,7 @@ const WarehouseCard = (props) => {
         onClick={() => router.push(`${paths.dashboard.warehouses.root}/${warehouse.id}`)}
       >
         <Box width="100%">
-          <Image src={warehouse?.photos[0]?.coverUrl} ratio="16/9" />
+          <Image src={thumbnail} ratio="16/9" />
         </Box>
         <CardContent>
           <Typography gutterBottom variant="h5">

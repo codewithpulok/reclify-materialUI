@@ -139,7 +139,7 @@ const WarehouseReviews = (props) => {
                 name={review.author.displayName}
                 rating={review.rating}
                 showDeleteOption={
-                  auth?.user?.role === 'admin' || auth?.user?.id === review?.authorId
+                  auth?.user?.userType === 'admin' || auth?.user?.id === review?.authorId
                 }
                 showEditOption={auth?.user?.id === review?.authorId}
                 onDelete={() => openReviewDelete(review)}

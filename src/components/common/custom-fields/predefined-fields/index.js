@@ -38,7 +38,7 @@ const PredefinedFields = (props) => {
             return (
               <RHFSwitch
                 name={fieldName}
-                size="medium"
+                size="small"
                 label={field.label}
                 key={field.key}
                 labelProps={{

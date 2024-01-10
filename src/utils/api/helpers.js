@@ -27,28 +27,38 @@ export const serverAsyncWrapper = (handlerFunc) => async (req, others) => {
     const response = await handlerFunc(req, others);
 
     // success response
-    return clientResponse({
-      isSuccess: true,
-      results: response,
-    });
+    return clientResponse(
+      {
+        isSuccess: response?.success,
+        results: response?.results,
+        statusCode: response?.statusCode,
+      },
+      { status: response?.statusCode }
+    );
   } catch (error) {
     console.log('Server Side Error: ', error);
 
     // failure response for - Api error
     if (error instanceof ApiError) {
-      return clientResponse({
-        message: error.message,
-        isError: true,
-        statusCode: error.code,
-      });
+      return clientResponse(
+        {
+          message: error.message,
+          isError: true,
+          statusCode: error.code,
+        },
+        { status: error?.statusCode }
+      );
     }
 
     // failure response for - runtime error
-    return clientResponse({
-      message: error?.message || 'Error in requesting the process',
-      isError: true,
-      statusCode: 500,
-    });
+    return clientResponse(
+      {
+        message: error?.message || 'Error in requesting the process',
+        isError: true,
+        statusCode: 500,
+      },
+      { status: 500 }
+    );
   }
 };
 

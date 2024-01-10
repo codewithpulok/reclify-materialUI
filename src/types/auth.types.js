@@ -14,10 +14,5 @@
  * @property {string} email
  * @property {string} firstName
  * @property {string} lastName
- * @property {AuthUserRole} role
- */
-
-/**
- * Auth user role
- * @typedef {'admin' | 'customer' | 'seller'} AuthUserRole
+ * @property {UserType} userType
  */

@@ -18,14 +18,20 @@ import SettingsGeneral from './settings-general';
 import SettingsSecurity from './settings-security';
 import SettingsSellerBillings from './settings-seller-billings';
 import SettingsSellerTransactions from './settings-seller-transactions';
+import Warehouses from './settings-seller-warehouses';
 
 // ----------------------------------------------------------------------
 
-const TABS = [
+export const TABS = [
   {
     value: 'general',
     label: 'General',
     icon: ICONS.userId(),
+  },
+  {
+    value: 'warehouses',
+    label: 'My Warehouses',
+    icon: ICONS.warehouse(),
   },
   {
     value: 'billing',
@@ -58,7 +64,7 @@ const UserSettingsView = () => {
 
   // choosing the page heading according to user role
   let headingPrefix = null;
-  switch (user?.role) {
+  switch (user?.userType) {
     case 'customer': {
       headingPrefix = 'Customer Account';
       break;
@@ -95,9 +101,10 @@ const UserSettingsView = () => {
         }}
       >
         {TABS.map((tab) => {
-          // filter seller & customer only tabs
-          if (!['seller', 'customer'].includes(user?.role) && tab.value === 'billing') return null;
-          if (!['seller', 'customer'].includes(user?.role) && tab.value === 'transactions')
+          // filter role specific tabs
+          if (['admin'].includes(user?.userType) && tab.value === 'billing') return null;
+          if (['admin'].includes(user?.userType) && tab.value === 'transactions') return null;
+          if (['admin', 'customer'].includes(user?.userType) && tab.value === 'warehouses')
             return null;
 
           return <Tab key={tab.value} label={tab.label} icon={tab.icon} value={tab.value} />;
@@ -106,17 +113,19 @@ const UserSettingsView = () => {
 
       {currentTab === 'general' && <SettingsGeneral />}
 
+      {currentTab === 'warehouses' && <Warehouses />}
+
       {currentTab === 'billing' && (
         <>
-          {user?.role === 'seller' && <SettingsSellerBillings />}
-          {user?.role === 'customer' && <SettingsCustomerBillings />}
+          {user?.userType === 'seller' && <SettingsSellerBillings />}
+          {user?.userType === 'customer' && <SettingsCustomerBillings />}
         </>
       )}
 
       {currentTab === 'transactions' && (
         <>
-          {user?.role === 'seller' && <SettingsSellerTransactions />}
-          {user?.role === 'customer' && <SettingsCustomerTransactions />}
+          {user?.userType === 'seller' && <SettingsSellerTransactions />}
+          {user?.userType === 'customer' && <SettingsCustomerTransactions />}
         </>
       )}
 

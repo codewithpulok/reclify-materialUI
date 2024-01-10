@@ -20,10 +20,10 @@ const schema = {
     .required(),
   // address: addressFieldSchema,
   totalSpace: Yup.number().label('Total space').min(1).required(),
-  price1: Yup.number().label('Price for 1 month').min(1).required(),
-  price3: Yup.number().label('Price for 3 month').min(1).required(),
-  price6: Yup.number().label('Price for 6 month').min(1).required(),
-  price12: Yup.number().label('Price for 12 month').min(1).required(),
+  price1: Yup.number().label('Price for 1 month').min(0).required(),
+  price3: Yup.number().label('Price for 3 month').min(0).required(),
+  price6: Yup.number().label('Price for 6 month').min(0).required(),
+  price12: Yup.number().label('Price for 12 month').min(0).required(),
   discountRate: Yup.number().label('Discount Rate').min(0).max(100).required().default(0),
   maxSpaceOrder: Yup.number()
     .label('Max orderable space')

@@ -5,6 +5,8 @@ import { getIconify } from '../iconify/utilities';
 const Props = {
   text: PropTypes.string,
   icon: PropTypes.node,
+  /** @type {SxProps} */
+  sx: PropTypes.object,
 };
 
 /**
@@ -16,16 +18,17 @@ const ErrorState = (props) => {
   const {
     icon = getIconify('tabler:face-id-error', 'inherit'),
     text = 'Something wents to wrong',
+    sx = {},
   } = props;
   return (
     <Stack
       sx={{
-        mt: 3,
         width: 1,
         height: 200,
         borderRadius: 2,
         bgcolor: (theme) => alpha(theme.palette.error.main, 0.06),
         border: (theme) => `dashed 1px ${theme.palette.divider}`,
+        ...sx,
       }}
       alignItems="center"
       justifyContent="center"

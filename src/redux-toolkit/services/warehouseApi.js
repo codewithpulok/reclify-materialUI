@@ -75,7 +75,7 @@ export const warehouseApi = createApi({
           dispatch(
             warehouseApi.util.updateQueryData('warehouseList', undefined, (draft) => {
               const filtered = draft.results.filter((w) => w.id !== id);
-              draft = filtered;
+              draft.results = filtered;
             })
           );
         } catch (error) {

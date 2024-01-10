@@ -22,7 +22,7 @@ const SettingsGeneral = () => {
   const { enqueueSnackbar } = useSnackbar();
   const { user: authUser } = useAppSelector(selectAuth);
 
-  const user = getUserByID(authUser?.id);
+  const user = getUserByID(authUser?.id) || getUserByID('1'); // TODO: added for testing.
 
   const UpdateUserSchema = Yup.object().shape({
     firstName: Yup.string().required('First name is required'),
@@ -34,7 +34,7 @@ const SettingsGeneral = () => {
     region: Yup.string()
       .oneOf(regions.map((r) => r.code))
       .when('isNotAdmin', {
-        is: user?.role !== 'admin',
+        is: user?.userType !== 'admin',
         then: Yup.string().required('Region is required'),
       }),
     about: Yup.string().required('About is required'),

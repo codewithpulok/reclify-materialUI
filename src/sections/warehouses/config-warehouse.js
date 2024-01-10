@@ -18,4 +18,6 @@ export const ICONS = {
   discount: (width, sx) => getIconify('ic:outline-discount', width, sx),
 
   warehouse: (width, sx) => getIconify('solar:box-bold-duotone', width, sx),
+
+  hot_deals: (width, sx) => getIconify('solar:fire-bold-duotone', width, sx),
 };

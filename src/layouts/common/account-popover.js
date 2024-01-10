@@ -17,22 +17,16 @@ import CustomPopover, { usePopover } from 'src/components/common/custom-popover'
 import { selectAuth } from 'src/redux-toolkit/features/auth/authSlice';
 import { useAppSelector } from 'src/redux-toolkit/hooks';
 import { useLogoutMutation } from 'src/redux-toolkit/services/authApi';
+import { TABS as settingsTabs } from 'src/sections/user-settings/view';
 
 // ----------------------------------------------------------------------
 
 const OPTIONS = [
   {
-    label: 'Home',
-    linkTo: '/',
-  },
-  {
-    label: 'Profile',
-    linkTo: '/#1',
-  },
-  {
     label: 'Settings',
     linkTo: '/settings',
   },
+  ...settingsTabs.map((tab) => ({ label: tab.label, linkTo: `settings#${tab.value}` })),
 ];
 
 // ----------------------------------------------------------------------
