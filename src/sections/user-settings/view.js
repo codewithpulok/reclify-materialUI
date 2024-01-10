@@ -143,6 +143,8 @@ const UserSettingsView = () => {
         }
         break;
       }
+      case null:
+        break;
       default:
         resetToDefaultState();
         break;
