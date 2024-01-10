@@ -52,12 +52,34 @@ const WarehouseBooking = (props) => {
   const { palette } = useTheme();
   const paymentDialog = useBoolean();
 
+  // current price maybe differ based on selected month
+  const currentPrice = useMemo(() => {
+    let price;
+    switch (selectedMonth) {
+      case 1:
+        price = warehouse.price1;
+        break;
+      case 3:
+        price = warehouse.price3;
+        break;
+      case 6:
+        price = warehouse.price6;
+        break;
+      case 12:
+        price = warehouse.price12;
+        break;
+      default:
+        break;
+    }
+    return price || 0;
+  }, [selectedMonth, warehouse]);
+
   const totalPrice = useMemo(() => {
-    if (requiredSpace && warehouse?.pricePerSpace && selectedMonth) {
-      return requiredSpace * warehouse.pricePerSpace * selectedMonth;
+    if (requiredSpace && currentPrice && selectedMonth) {
+      return requiredSpace * currentPrice * selectedMonth;
     }
     return undefined;
-  }, [requiredSpace, selectedMonth, warehouse]);
+  }, [requiredSpace, selectedMonth, currentPrice]);
 
   const discount = useMemo(() => {
     if (warehouse.discountRate && totalPrice) {
@@ -104,8 +126,12 @@ const WarehouseBooking = (props) => {
                 </Typography>
               </Stack>
               <Typography sx={bookingInfoStyle.description}>
-                {SQUARE_FEET_PER_PALLET} square foot per pallet, {CUBIC_FEET_PER_PALLET} cubic foot
-                per pallet
+                {warehouse.totalSpace >= 0 && (
+                  <>
+                    - {fNumber(warehouse.totalSpace * SQUARE_FEET_PER_PALLET)} square feet
+                    <br />- {fNumber(warehouse.totalSpace * CUBIC_FEET_PER_PALLET)} cubic feet
+                  </>
+                )}
               </Typography>
             </Box>
           </Grid>
@@ -115,9 +141,7 @@ const WarehouseBooking = (props) => {
                 Price per Pallet
               </Typography>
               <Stack direction="row" spacing={0.5} alignItems="baseline">
-                <Typography sx={bookingInfoStyle.heading1}>
-                  {fCurrency(warehouse.pricePerSpace)}
-                </Typography>
+                <Typography sx={bookingInfoStyle.heading1}>{fCurrency(currentPrice)}</Typography>
                 <Typography sx={bookingInfoStyle.heading1}>/</Typography>
                 <Typography sx={bookingInfoStyle.heading2}>pallet</Typography>
               </Stack>
@@ -167,12 +191,12 @@ const WarehouseBooking = (props) => {
         <Grid mb={3} container spacing={0}>
           <Grid item xs={12} sm={6}>
             <Typography color="text.secondary" variant="overline" width="100%">
-              Square foot: {fNumber(SQUARE_FEET_PER_PALLET * requiredSpace)}
+              Square feet: {fNumber(SQUARE_FEET_PER_PALLET * requiredSpace)}
             </Typography>
           </Grid>
           <Grid item xs={12} sm={6}>
             <Typography color="text.secondary" variant="overline" width="100%">
-              Cubic foot: {fNumber(CUBIC_FEET_PER_PALLET * requiredSpace)}
+              Cubic feet: {fNumber(CUBIC_FEET_PER_PALLET * requiredSpace)}
             </Typography>
           </Grid>
         </Grid>

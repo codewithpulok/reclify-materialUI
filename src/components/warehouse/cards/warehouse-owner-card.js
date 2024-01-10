@@ -1,11 +1,14 @@
-import { Box, Card, Chip, Stack, Typography } from '@mui/material';
+import { Box, Button, Card, Stack, Typography } from '@mui/material';
 import Link from 'next/link';
 import PropTypes from 'prop-types';
 // local components
 import Image from 'src/components/common/image';
+import Label from 'src/components/common/label';
+import { RouterLink } from 'src/routes/components';
+import { paths } from 'src/routes/paths';
 import { ICONS } from '../config-warehouse';
 
-const WarehouseOwnerCardProps = {
+const Props = {
   /** @type {User} */
   user: PropTypes.object.isRequired,
   /** @type {SxProps} */
@@ -13,7 +16,7 @@ const WarehouseOwnerCardProps = {
 };
 
 /**
- * @param {WarehouseOwnerCardProps} props
+ * @param {Props} props
  * @returns {JSX.Element}
  */
 const WarehouseOwnerCard = (props) => {
@@ -26,14 +29,11 @@ const WarehouseOwnerCard = (props) => {
             xs: 'column',
             sm: 'row',
           },
-          alignItems: {
-            xs: 'start',
-            sm: 'center',
-          },
+          alignItems: 'start',
         }}
         direction="row"
         alignItems="center"
-        spacing={1}
+        spacing={1.5}
       >
         <Box
           sx={{
@@ -51,7 +51,9 @@ const WarehouseOwnerCard = (props) => {
           <Stack direction="row" alignItems="center" justifyContent="space-between" mb={0.8}>
             <Typography variant="h6">{user.displayName}</Typography>
 
-            <Chip label="Owner" color="primary" size="small" variant="outlined" />
+            <Label color="primary" size="small" variant="soft">
+              owner
+            </Label>
           </Stack>
           <Stack direction="row" alignItems="center" spacing={0.5}>
             {ICONS.email(18)}
@@ -79,12 +81,24 @@ const WarehouseOwnerCard = (props) => {
               {user.phoneNumber}
             </Typography>
           </Stack>
+          <Stack direction="row" alignItems="center" spacing={0.5} mt={2} justifyContent="end">
+            <Button
+              LinkComponent={RouterLink}
+              href={`${paths.dashboard.messages.root}/${user.id}`}
+              color="primary"
+              variant="outlined"
+              startIcon={ICONS.send_message()}
+              size="small"
+            >
+              Send a message
+            </Button>
+          </Stack>
         </Box>
       </Stack>
     </Card>
   );
 };
 
-WarehouseOwnerCard.propTypes = WarehouseOwnerCardProps;
+WarehouseOwnerCard.propTypes = Props;
 
 export default WarehouseOwnerCard;

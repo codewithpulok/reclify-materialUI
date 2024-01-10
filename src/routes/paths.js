@@ -39,6 +39,10 @@ export const paths = {
       create: `${ROOTS.DASHBOARD}/warehouses/create`,
       edit: `${ROOTS.DASHBOARD}/warehouses/edit`,
     },
+    // messages section
+    messages: {
+      root: `${ROOTS.DASHBOARD}/messages`,
+    },
   },
 
   settings: {

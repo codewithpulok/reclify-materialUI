@@ -3,6 +3,7 @@
 import { notFound } from 'next/navigation';
 import { getWarehouseReviews } from 'src/assets/dummy/reviews';
 import { warehouses } from 'src/assets/dummy/warehouses';
+import { LoadingScreen } from 'src/components/common/loading-screen';
 import { useWarehouseQuery } from 'src/redux-toolkit/services/warehouseApi';
 import { WarehousesDetailsView } from 'src/sections/warehouses';
 
@@ -27,5 +28,5 @@ export default async function WarehouseDetailsPage({ params }) {
     );
   }
 
-  return 'Loading';
+  return <LoadingScreen />;
 }

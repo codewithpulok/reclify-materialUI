@@ -91,6 +91,7 @@ const WarehouseReviews = (props) => {
         alignItems="center"
         justifyContent="space-between"
         spacing={1}
+        mb={5}
       >
         <Typography variant="h5" sx={detailsHeaderStyle} mr="auto">
           Reviews
@@ -129,7 +130,7 @@ const WarehouseReviews = (props) => {
 
       {sortedReviews?.length ? (
         <>
-          <Stack mt={5} spacing={3.5}>
+          <Stack spacing={3.5}>
             {sortedReviews.map((review) => (
               <WarehouseReviewCard
                 key={review.id}
