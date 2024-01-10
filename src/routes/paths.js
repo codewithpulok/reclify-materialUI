@@ -1,5 +1,7 @@
 // ----------------------------------------------------------------------
 
+import { regions } from 'src/assets/data';
+
 const ROOTS = {
   AUTH: '/auth',
   DASHBOARD: '/dashboard',
@@ -32,12 +34,20 @@ export const paths = {
     users: {
       root: `${ROOTS.DASHBOARD}/users`,
       sellers: `${ROOTS.DASHBOARD}/users/sellers`,
+      customers: `${ROOTS.DASHBOARD}/users/customers`,
     },
     // warehouses section
     warehouses: {
       root: `${ROOTS.DASHBOARD}/warehouses`,
       create: `${ROOTS.DASHBOARD}/warehouses/create`,
       edit: `${ROOTS.DASHBOARD}/warehouses/edit`,
+      hot_deals: `${ROOTS.DASHBOARD}/warehouses/hot-deals`,
+      // warehouses by region
+      ...regions.reduce(
+        (prev, next) =>
+          Object.assign(prev, { [next.code]: `${ROOTS.DASHBOARD}/warehouses/${next.code}` }),
+        {}
+      ),
     },
     // messages section
     messages: {

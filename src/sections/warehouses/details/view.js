@@ -36,7 +36,7 @@ function DetailsView(props) {
   const { warehouse, reviews } = props;
   const settings = useSettingsContext();
   const { user } = useAppSelector(selectAuth);
-  const owner = getUserByID(warehouse.sellerId) || getUserByID('1'); // TODO: replace this with actual user
+  const owner = getUserByID(warehouse?.sellerId) || getUserByID('1'); // TODO: replace this with actual user
 
   return (
     <Container maxWidth={settings.themeStretch ? false : 'xl'}>
