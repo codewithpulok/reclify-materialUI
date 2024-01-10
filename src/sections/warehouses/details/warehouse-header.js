@@ -7,6 +7,7 @@ import { selectAuth } from 'src/redux-toolkit/features/auth/authSlice';
 import { useAppSelector } from 'src/redux-toolkit/hooks';
 import { ICONS } from '../config-warehouse';
 import WarehouseAdminMenu from './warehouse-admin-menu';
+import WarehouseDiamond from './warehouse-diamond';
 
 const WarehouseHeaderProps = {
   name: PropTypes.string.isRequired,
@@ -34,9 +35,26 @@ const WarehouseHeader = (props) => {
       <IconButton title="go back" onClick={() => router.back()} sx={{ p: 0, mb: 0.5 }}>
         {ICONS.back(32)}
       </IconButton>
-      <Typography variant="h2" sx={{ mb: 1 }}>
-        {name}
-      </Typography>
+      <Stack
+        sx={{
+          flexDirection: {
+            xs: 'column',
+            sm: 'row',
+          },
+          alignItems: {
+            xs: 'start',
+            sm: 'center',
+          },
+          justifyContent: 'space-between',
+        }}
+      >
+        <Typography variant="h2" sx={{ mb: 1 }}>
+          {name}
+        </Typography>
+
+        {/* warehouse diamond handler for admin only */}
+        {user?.userType === 'admin' && <WarehouseDiamond value={5} />}
+      </Stack>
 
       <Stack
         sx={{
@@ -72,7 +90,6 @@ const WarehouseHeader = (props) => {
           {isFeatured && (
             <Chip label="Featured" icon={ICONS.featured()} color="warning" size="small" />
           )}
-
           {!isFeatured && user?.userType === 'admin' && (
             <Chip
               label="Not Featured"

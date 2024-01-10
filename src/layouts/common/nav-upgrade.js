@@ -9,6 +9,7 @@ import { paths } from 'src/routes/paths';
 import Label from 'src/components/common/label';
 import { selectAuth } from 'src/redux-toolkit/features/auth/authSlice';
 import { useAppSelector } from 'src/redux-toolkit/hooks';
+import { RouterLink } from 'src/routes/components';
 
 // ----------------------------------------------------------------------
 
@@ -60,7 +61,7 @@ export default function NavUpgrade() {
           </Typography>
         </Stack>
 
-        <Button variant="contained" href={paths.settings.billing} target="_blank" rel="noopener">
+        <Button LinkComponent={RouterLink} variant="contained" href={paths.settings.billing}>
           Upgrade to Pro
         </Button>
       </Stack>

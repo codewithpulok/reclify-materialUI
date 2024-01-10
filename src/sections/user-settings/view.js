@@ -35,16 +35,19 @@ export const TABS = [
     value: '#warehouses',
     label: 'My Warehouses',
     icon: ICONS.warehouse(),
+    roles: ['seller'],
   },
   {
     value: '#billing',
     label: 'Billing',
     icon: ICONS.bills(),
+    roles: ['seller', 'customer'],
   },
   {
     value: '#transactions',
     label: 'Transactions',
     icon: ICONS.transactions(),
+    roles: ['seller', 'customer'],
   },
   {
     value: '#security',
@@ -95,9 +98,12 @@ const UserSettingsView = () => {
     }
   }
 
+  console.log(currentTab);
+
   // render tab contents
   const renderTabContents = useCallback(() => {
     switch (currentTab) {
+      case null:
       case '#general': {
         return <SettingsGeneral />;
       }
@@ -143,7 +149,7 @@ const UserSettingsView = () => {
         }
         break;
       }
-      case null:
+      case undefined:
         break;
       default:
         resetToDefaultState();
@@ -164,7 +170,7 @@ const UserSettingsView = () => {
       />
 
       <Tabs
-        value={currentTab ?? false}
+        value={currentTab ?? '#general'}
         onChange={handleChangeTab}
         sx={{
           mb: { xs: 3, md: 5 },
@@ -172,10 +178,7 @@ const UserSettingsView = () => {
       >
         {TABS.map((tab) => {
           // filter role specific tabs
-          if (['admin'].includes(user?.userType) && tab.value === '#billing') return null;
-          if (['admin'].includes(user?.userType) && tab.value === '#transactions') return null;
-          if (['admin', 'customer'].includes(user?.userType) && tab.value === '#warehouses')
-            return null;
+          if (tab?.roles && !tab.roles.includes(user?.userType)) return null;
 
           return <Tab key={tab.value} label={tab.label} icon={tab.icon} value={tab.value} />;
         })}

@@ -14,6 +14,7 @@ const ICONS = {
   users: (width, sx) => getIconify('solar:users-group-two-rounded-bold', width, sx),
   hot_deals: (width, sx) => getIconify('solar:fire-bold-duotone', width, sx),
   messages: (width, sx) => getIconify('solar:chat-round-line-bold-duotone', width, sx),
+  region: (width, sx) => getIconify('solar:earth-bold-duotone', width, sx),
 };
 
 // ----------------------------------------------------------------------
@@ -33,7 +34,11 @@ export function useNavData() {
             path: paths.dashboard.warehouses.hot_deals,
             icon: ICONS.hot_deals(),
           },
-          ...regions.map((r) => ({ title: r.name, path: paths.dashboard.warehouses[r.code] })),
+          ...regions.map((r) => ({
+            title: r.name,
+            path: paths.dashboard.warehouses[r.code],
+            icon: ICONS.region(),
+          })),
         ],
       },
       {

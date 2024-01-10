@@ -27,4 +27,7 @@ export const ICONS = {
   warehouse: (width, sx) => getIconify('solar:box-bold-duotone', width, sx),
 
   hot_deals: (width, sx) => getIconify('solar:fire-bold-duotone', width, sx),
+
+  diamond_fill: (width, sx) => getIconify('ic:twotone-diamond', width, sx),
+  diamond_empty: (width, sx) => getIconify('ic:outline-diamond', width, sx),
 };

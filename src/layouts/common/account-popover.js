@@ -11,6 +11,7 @@ import { alpha } from '@mui/material/styles';
 
 import { useRouter } from 'src/routes/hooks';
 
+import { useMemo } from 'react';
 import { getUserByID } from 'src/assets/dummy';
 import { varHover } from 'src/components/common/animate';
 import CustomPopover, { usePopover } from 'src/components/common/custom-popover';
@@ -20,16 +21,6 @@ import { useLogoutMutation } from 'src/redux-toolkit/services/authApi';
 import { TABS as settingsTabs } from 'src/sections/user-settings/view';
 
 // ----------------------------------------------------------------------
-
-const OPTIONS = [
-  {
-    label: 'Settings',
-    linkTo: false,
-    children: [
-      ...settingsTabs.map((tab) => ({ label: tab.label, linkTo: `/settings${tab.value}` })),
-    ],
-  },
-];
 
 // ----------------------------------------------------------------------
 
@@ -57,6 +48,23 @@ export default function AccountPopover() {
     popover.onClose();
     router.push(path);
   };
+
+  const OPTIONS = useMemo(
+    () => [
+      {
+        label: 'Settings',
+        linkTo: false,
+        children: [
+          ...settingsTabs.map((tab) => ({
+            label: tab.label,
+            linkTo: `/settings${tab.value}`,
+            show: !tab?.roles || tab.roles.includes(user?.userType),
+          })),
+        ],
+      },
+    ],
+    [user]
+  );
 
   return (
     <>
@@ -111,15 +119,19 @@ export default function AccountPopover() {
               </MenuItem>
 
               {option?.children instanceof Array &&
-                option.children.map((childOption) => (
-                  <MenuItem
-                    key={childOption.label}
-                    disabled={childOption.linkTo === false}
-                    onClick={() => handleClickItem(childOption.linkTo)}
-                  >
-                    {childOption.label}
-                  </MenuItem>
-                ))}
+                option.children.map((childOption) => {
+                  // hide the elements that you don't want to show
+                  if (!childOption.show) return null;
+                  return (
+                    <MenuItem
+                      key={childOption.label}
+                      disabled={childOption.linkTo === false}
+                      onClick={() => handleClickItem(childOption.linkTo)}
+                    >
+                      {childOption.label}
+                    </MenuItem>
+                  );
+                })}
             </Stack>
           ))}
         </Stack>
