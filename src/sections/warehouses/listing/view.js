@@ -12,6 +12,7 @@ import { selectAuth } from 'src/redux-toolkit/features/auth/authSlice';
 import { useAppSelector } from 'src/redux-toolkit/hooks';
 import { useLazyWarehouseListQuery } from 'src/redux-toolkit/services/warehouseApi';
 import { RouterLink } from 'src/routes/components';
+import { paths } from 'src/routes/paths';
 import { ICONS } from '../config-warehouse';
 
 // ----------------------------------------------------------------------
@@ -102,6 +103,16 @@ export default function ListingView() {
         >
           {ICONS.hot_deals(28, { color: 'error.main' })}
           <Typography variant="h4">Hot Deals</Typography>
+
+          <Button
+            LinkComponent={RouterLink}
+            href={paths.dashboard.warehouses.hot_deals}
+            variant="soft"
+            color="primary"
+            sx={{ ml: 'auto' }}
+          >
+            View more
+          </Button>
         </Stack>
 
         <Grid container spacing={2}>
@@ -123,7 +134,7 @@ export default function ListingView() {
 
             <Button
               LinkComponent={RouterLink}
-              href="#"
+              href={paths.dashboard.warehouses[region.code]}
               variant="soft"
               color="primary"
               sx={{ ml: 'auto' }}
