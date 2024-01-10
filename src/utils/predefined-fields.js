@@ -11,30 +11,14 @@ import { fDay, fTime } from './format-time';
  */
 
 /**
- * get predefined field value
+ * get predefined field value by field type
  * @param {PredefinedField} field
  * @param {string | number | object | boolean | undefined} value
  * @returns {PredefinedFieldValue}
  */
-export const getPredefinedFieldValue = (field, value) => {
-  // avoid render if field is not defined
-  if (value === undefined) return null;
-
-  // perform customization based on type
-  switch (field.type) {
-    // avoid custom fields
-    case 'custom':
-      return null;
-    // if this is number type then format
-    case 'number':
-      return fNumber(value);
-    // if type is time picker then decode them
-    case 'time-picker': {
-      const startTime = fTime(value.start);
-      const endTime = fTime(value.end);
-
-      return `${startTime} - ${endTime}`;
-    }
+const getValueByFieldType = (field, value) => {
+  // handle field type
+  switch (field.fieldType) {
     case 'days-picker': {
       return value
         ?.reduce((prev, curr, index) => {
@@ -44,8 +28,42 @@ export const getPredefinedFieldValue = (field, value) => {
         }, [])
         ?.join(', ');
     }
+    case 'time-picker': {
+      const startTime = fTime(value.start);
+      const endTime = fTime(value.end);
+
+      return `${startTime} - ${endTime}`;
+    }
     default:
+      break;
+  }
+
+  return null;
+};
+
+/**
+ * get predefined field value by data type
+ * @param {PredefinedField} field
+ * @param {string | number | object | boolean | undefined} value
+ * @returns {PredefinedFieldValue}
+ */
+export const getValueByDataType = (field, value) => {
+  // avoid render if field is not defined
+  if (value === undefined) return null;
+
+  // perform customization based on type
+  switch (field.dataType) {
+    // if this is number type then format
+    case 'number':
+      return fNumber(value);
+    case 'string':
+    case 'boolean':
       return value;
+    case 'object':
+    case 'array':
+      return getValueByFieldType(field, value);
+    default:
+      return null;
   }
 };
 
@@ -60,7 +78,7 @@ export const getPredefinedFieldsValue = (valueObj, predefinedFields) => {
   const array = [];
 
   predefinedFields.forEach((field) => {
-    const value = getPredefinedFieldValue(field, valueObj?.[field.key]);
+    const value = getValueByDataType(field, valueObj?.[field.key]);
 
     // update the array
     array.push({ ...field, value });
