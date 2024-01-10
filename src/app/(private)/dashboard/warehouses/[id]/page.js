@@ -2,7 +2,7 @@
 
 import { notFound } from 'next/navigation';
 import { getWarehouseReviews } from 'src/assets/dummy/reviews';
-import { warehouses } from 'src/assets/dummy/warehouses';
+import { getWarehouseById } from 'src/assets/dummy/warehouses';
 import { ErrorState } from 'src/components/common/custom-state';
 import { LoadingScreen } from 'src/components/common/loading-screen';
 import { useWarehouseQuery } from 'src/redux-toolkit/services/warehouseApi';
@@ -10,7 +10,7 @@ import { WarehousesDetailsView } from 'src/sections/warehouses';
 
 export const getWarehouse = async (id) => {
   // handle api calling
-  const response = warehouses.find((w) => w.id === id);
+  const response = getWarehouseById(id);
 
   return response;
 };
@@ -19,7 +19,11 @@ export default async function WarehouseDetailsPage({ params }) {
   const warehouseResult = useWarehouseQuery(params.id);
   const warehouseReviews = await getWarehouseReviews(params.id);
 
-  console.log(warehouseResult);
+  // ******** THIS IS FOR TEST PERPOSE ************* // TODO: Remove this
+  if (!warehouseResult.isLoading && params.id === 'test') {
+    const testWarehouse = await getWarehouse(params.id);
+    return <WarehousesDetailsView warehouse={testWarehouse} reviews={warehouseReviews} />;
+  }
 
   // if error occured
   if ((warehouseResult.isError || warehouseResult.data?.isError) && !warehouseResult.isLoading)
