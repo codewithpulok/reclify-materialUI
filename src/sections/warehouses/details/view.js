@@ -44,6 +44,7 @@ function DetailsView(props) {
         isFeatured={warehouse.isFeatured}
         isVerified={warehouse.isVerified}
         address={warehouse.address}
+        isVisible={warehouse.visible}
         name={warehouse.name}
       />
       <Grid container spacing={3}>

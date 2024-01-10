@@ -13,11 +13,12 @@ const WarehouseHeaderProps = {
   address: PropTypes.object.isRequired,
   isVerified: PropTypes.bool.isRequired,
   isFeatured: PropTypes.bool.isRequired,
+  isVisible: PropTypes.bool.isRequired,
 };
 
 const WarehouseHeader = (props) => {
-  const auth = useAppSelector(selectAuth);
-  const { name, address, isVerified, isFeatured } = props;
+  const { user } = useAppSelector(selectAuth);
+  const { name, address, isVerified, isFeatured, isVisible } = props;
   const router = useRouter();
 
   const onFeaturedChange = (value) => {
@@ -58,11 +59,41 @@ const WarehouseHeader = (props) => {
           {isVerified && (
             <Chip label="Verified" icon={ICONS.verified()} color="success" size="small" />
           )}
+          {!isVerified && user?.userType === 'admin' && (
+            <Chip
+              label="Not Verified"
+              icon={ICONS.verified()}
+              color="success"
+              disabled
+              size="small"
+            />
+          )}
+
           {isFeatured && (
             <Chip label="Featured" icon={ICONS.featured()} color="warning" size="small" />
           )}
 
-          {auth?.user?.userType === 'admin' && (
+          {!isFeatured && user?.userType === 'admin' && (
+            <Chip
+              label="Not Featured"
+              icon={ICONS.featured()}
+              color="warning"
+              disabled
+              size="small"
+            />
+          )}
+
+          {user?.userType === 'admin' && (
+            <>
+              {isVisible ? (
+                <Chip label="Visible" icon={ICONS.visible()} color="info" size="small" />
+              ) : (
+                <Chip label="Hidden" icon={ICONS.invisible()} color="info" disabled size="small" />
+              )}
+            </>
+          )}
+
+          {user?.userType === 'admin' && (
             <WarehouseAdminMenu
               onFeaturedChange={onFeaturedChange}
               onVerifiedChange={onVerifiedChange}

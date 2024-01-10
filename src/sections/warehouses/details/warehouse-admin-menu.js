@@ -1,8 +1,16 @@
 'use client';
 
-import { Button, IconButton, Menu, MenuItem } from '@mui/material';
+import {
+  Button,
+  IconButton,
+  ListItemIcon,
+  ListItemText,
+  Menu,
+  MenuItem,
+  MenuList,
+} from '@mui/material';
 import PropTypes from 'prop-types';
-import { useRef, useState } from 'react';
+import { useCallback, useMemo, useRef } from 'react';
 import { ConfirmDialog } from 'src/components/common/custom-dialog';
 import { useBoolean } from 'src/hooks/use-boolean';
 import { ICONS } from '../config-warehouse';
@@ -10,6 +18,7 @@ import { ICONS } from '../config-warehouse';
 const WarehouseAdminMenuProps = {
   isVerified: PropTypes.bool.isRequired,
   isFeatured: PropTypes.bool.isRequired,
+  isVisible: PropTypes.bool.isRequired,
   onFeaturedChange: PropTypes.func.isRequired,
   onVerifiedChange: PropTypes.func.isRequired,
 };
@@ -19,60 +28,85 @@ const WarehouseAdminMenuProps = {
  * @returns {JSX.Element}
  */
 const WarehouseAdminMenu = (props) => {
-  const { isFeatured, isVerified, onFeaturedChange, onVerifiedChange } = props;
+  // eslint-disable-next-line no-unused-vars
+  const { isFeatured, isVerified, isVisible, onFeaturedChange, onVerifiedChange } = props;
   const menu = useBoolean(false);
-  const [dialog, setDialog] = useState({ title: '', content: '', show: false, callback: () => {} });
+
   const anchorRef = useRef(null);
 
-  const handleConfirm = () => {
-    dialog.callback();
-    handleDialog(false);
-  };
+  const verifyDialog = useBoolean(false);
+  const unverifyDialog = useBoolean(false);
 
-  const handleDialog = (show, title, content, callback) => {
-    setDialog((prev) => {
-      const prevDialog = { ...prev };
+  const featuredDialog = useBoolean(false);
+  const unfeaturedDialog = useBoolean(false);
 
-      if (show !== undefined) prevDialog.show = show;
-      if (title !== undefined) prevDialog.title = title;
-      if (content !== undefined) prevDialog.content = content;
-      if (callback === undefined) {
-        prevDialog.callback = () => {};
-      } else {
-        prevDialog.callback = () => callback;
-      }
+  const visibleDialog = useBoolean(false);
+  const invisibleDialog = useBoolean(false);
 
-      return prevDialog;
-    });
-  };
+  const openVerifyDialog = useCallback(() => verifyDialog.onTrue(), [verifyDialog]);
+  const closeVerifyDialog = () => verifyDialog.onFalse();
 
-  const handleFeatured = (value) => {
-    let title;
-    let content;
-    if (value) {
-      title = 'Make this featured?';
-      content = 'Lorem ipsum dolor sit amet consectetur, adipisicing elit. Hic, nostrum.';
-    } else {
-      title = 'Remove featured badge?';
-      content = 'Lorem ipsum dolor sit amet consectetur, adipisicing elit. Hic, nostrum.';
-    }
-    handleDialog(true, title, content, onFeaturedChange(value));
-    menu.onFalse();
-  };
+  const openUnverifyDialog = useCallback(() => unverifyDialog.onTrue(), [unverifyDialog]);
+  const closeUnverifyDialog = () => unverifyDialog.onFalse();
 
-  const handleVerified = (value) => {
-    let title;
-    let content;
-    if (value) {
-      title = 'Make this verified?';
-      content = 'Lorem ipsum dolor sit amet consectetur, adipisicing elit. Hic, nostrum.';
-    } else {
-      title = 'Remove verified badge?';
-      content = 'Lorem ipsum dolor sit amet consectetur, adipisicing elit. Hic, nostrum.';
-    }
-    handleDialog(true, title, content, onVerifiedChange(value));
-    menu.onFalse();
-  };
+  const openFeaturedDialog = useCallback(() => featuredDialog.onTrue(), [featuredDialog]);
+  const closeFeaturedDialog = () => featuredDialog.onFalse();
+
+  const openUnfeaturedDialog = useCallback(() => unfeaturedDialog.onTrue(), [unfeaturedDialog]);
+  const closeUnfeaturedDialog = () => unfeaturedDialog.onFalse();
+
+  const openVisibleDialog = useCallback(() => visibleDialog.onTrue(), [visibleDialog]);
+  const closeVisibleDialog = () => visibleDialog.onFalse();
+
+  const openInvisibleDialog = useCallback(() => invisibleDialog.onTrue(), [invisibleDialog]);
+  const closeInvisibleDialog = () => invisibleDialog.onFalse();
+
+  const items = useMemo(
+    () => [
+      {
+        name: 'Show this warehouse',
+        aciton: openVisibleDialog,
+        show: !isVisible,
+        icon: ICONS.visible,
+      },
+      {
+        name: 'Hide this warehouse',
+        aciton: openInvisibleDialog,
+        show: isVisible,
+        icon: ICONS.invisible,
+      },
+      { name: 'Make verified', aciton: openVerifyDialog, show: !isVerified, icon: ICONS.verified },
+      {
+        name: 'Make featured',
+        aciton: openFeaturedDialog,
+        show: !isFeatured,
+        icon: ICONS.featured,
+      },
+      {
+        name: 'Remove verified',
+        aciton: openUnverifyDialog,
+        show: isVerified,
+        icon: ICONS.unverified,
+      },
+      {
+        name: 'Remove featured',
+        aciton: openUnfeaturedDialog,
+        show: isFeatured,
+        icon: ICONS.unfeatured,
+      },
+    ],
+    [
+      isFeatured,
+      isVerified,
+      isVisible,
+      openFeaturedDialog,
+      openInvisibleDialog,
+      openUnfeaturedDialog,
+      openUnverifyDialog,
+      openVerifyDialog,
+      openVisibleDialog,
+    ]
+  );
 
   return (
     <div>
@@ -88,20 +122,93 @@ const WarehouseAdminMenu = (props) => {
           horizontal: 'left',
         }}
       >
-        {!isVerified && <MenuItem onClick={() => handleVerified(true)}>Make verified</MenuItem>}
-        {!isFeatured && <MenuItem onClick={() => handleFeatured(true)}>Make featured</MenuItem>}
-        {isVerified && <MenuItem onClick={() => handleVerified(false)}>Remove verified</MenuItem>}
-        {isFeatured && <MenuItem onClick={() => handleFeatured(false)}>Remove featured</MenuItem>}
+        <MenuList sx={{ minWidth: '250px' }}>
+          {items.map((item, index) => {
+            if (!item.show) return null;
+            return (
+              <MenuItem key={index} onClick={item.aciton}>
+                <ListItemIcon sx={{ mr: 0 }}>{item.icon()}</ListItemIcon>
+                <ListItemText>{item.name}</ListItemText>
+              </MenuItem>
+            );
+          })}
+        </MenuList>
       </Menu>
 
+      {/* Verified Dialog */}
       <ConfirmDialog
-        title={dialog.title}
-        open={dialog.show}
-        content={dialog.content}
-        onClose={() => handleDialog(false)}
+        open={verifyDialog.value}
+        title="Confirm Verification!"
+        content="Are you sure to make this warehouse verified?"
+        onClose={closeVerifyDialog}
         action={
-          <Button color="primary" variant="contained" onClick={handleConfirm}>
-            Proceed
+          <Button color="primary" variant="contained" onClick={closeVerifyDialog}>
+            Confirm
+          </Button>
+        }
+      />
+
+      {/* Unverified Dialog */}
+      <ConfirmDialog
+        open={unverifyDialog.value}
+        title="Confirm Remove Verificaiton!"
+        content="Are you sure to remove verification from this warehouse?"
+        onClose={closeUnverifyDialog}
+        action={
+          <Button color="error" variant="contained" onClick={closeUnverifyDialog}>
+            Confirm
+          </Button>
+        }
+      />
+
+      {/* Featured Dialog */}
+      <ConfirmDialog
+        open={featuredDialog.value}
+        title="Confirm Feature Warehouse"
+        content="Are you sure to feature this warehouse?"
+        onClose={closeFeaturedDialog}
+        action={
+          <Button color="primary" variant="contained" onClick={closeFeaturedDialog}>
+            Make Featured
+          </Button>
+        }
+      />
+
+      {/* Unfeatured Dialog */}
+      <ConfirmDialog
+        open={unfeaturedDialog.value}
+        title="Confirm Unfeature Warehouse"
+        content="Are you sure to remove featured from this warehouse?"
+        onClose={closeUnfeaturedDialog}
+        action={
+          <Button color="error" variant="contained" onClick={closeUnfeaturedDialog}>
+            Confirm
+          </Button>
+        }
+      />
+
+      {/* Visible Dialog */}
+      <ConfirmDialog
+        open={visibleDialog.value}
+        title="Confirm Warehouse Visibilty"
+        content="Are you sure to make this warehouse visible?"
+        onClose={closeVisibleDialog}
+        action={
+          <Button color="primary" variant="contained" onClick={closeVisibleDialog}>
+            Make Visible
+          </Button>
+        }
+      />
+
+      {/* Invisible Dialog */}
+      <ConfirmDialog
+        open={invisibleDialog.value}
+        title="Confirm Warehouse Visibilty"
+        content="Are you sure to make this warehouse invisible?"
+        onClose={closeInvisibleDialog}
+        action={
+          <Button color="error" variant="contained" onClick={closeInvisibleDialog}>
+            Confirm
           </Button>
         }
       />
