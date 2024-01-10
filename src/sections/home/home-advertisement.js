@@ -48,7 +48,7 @@ export default function HomeAdvertisement() {
             variant="contained"
             target="_blank"
             rel="noopener"
-            href={paths.minimalUI}
+            href={paths.website}
             sx={{
               color: 'grey.800',
               bgcolor: 'common.white',
