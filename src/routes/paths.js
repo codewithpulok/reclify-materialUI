@@ -40,4 +40,13 @@ export const paths = {
       edit: `${ROOTS.DASHBOARD}/warehouses/edit`,
     },
   },
+
+  settings: {
+    root: ROOTS.SETTINGS,
+    general: `${ROOTS.SETTINGS}#general`,
+    warehouses: `${ROOTS.SETTINGS}#warehouses`,
+    billing: `${ROOTS.SETTINGS}#billing`,
+    transactions: `${ROOTS.SETTINGS}#transactions`,
+    security: `${ROOTS.SETTINGS}#security`,
+  },
 };

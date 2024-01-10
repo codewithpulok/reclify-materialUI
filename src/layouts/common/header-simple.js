@@ -11,8 +11,8 @@ import { bgBlur } from 'src/theme/css';
 import Logo from 'src/components/common/logo';
 
 import { HEADER } from '../config-layout';
+import SettingsButton from './appearance-button';
 import HeaderShadow from './header-shadow';
-import SettingsButton from './settings-button';
 
 // ----------------------------------------------------------------------
 

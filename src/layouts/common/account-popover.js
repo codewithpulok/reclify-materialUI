@@ -24,9 +24,11 @@ import { TABS as settingsTabs } from 'src/sections/user-settings/view';
 const OPTIONS = [
   {
     label: 'Settings',
-    linkTo: '/settings',
+    linkTo: false,
+    children: [
+      ...settingsTabs.map((tab) => ({ label: tab.label, linkTo: `/settings${tab.value}` })),
+    ],
   },
-  ...settingsTabs.map((tab) => ({ label: tab.label, linkTo: `settings#${tab.value}` })),
 ];
 
 // ----------------------------------------------------------------------
@@ -100,9 +102,25 @@ export default function AccountPopover() {
 
         <Stack sx={{ p: 1 }}>
           {OPTIONS.map((option) => (
-            <MenuItem key={option.label} onClick={() => handleClickItem(option.linkTo)}>
-              {option.label}
-            </MenuItem>
+            <Stack key={option.label}>
+              <MenuItem
+                disabled={option.linkTo === false}
+                onClick={() => handleClickItem(option.linkTo)}
+              >
+                {option.label}
+              </MenuItem>
+
+              {option?.children instanceof Array &&
+                option.children.map((childOption) => (
+                  <MenuItem
+                    key={childOption.label}
+                    disabled={childOption.linkTo === false}
+                    onClick={() => handleClickItem(childOption.linkTo)}
+                  >
+                    {childOption.label}
+                  </MenuItem>
+                ))}
+            </Stack>
           ))}
         </Stack>
 

@@ -1,6 +1,6 @@
 'use client';
 
-import { useCallback, useState } from 'react';
+import { useCallback } from 'react';
 
 import Container from '@mui/material/Container';
 import Tab from '@mui/material/Tab';
@@ -8,7 +8,10 @@ import Tabs from '@mui/material/Tabs';
 
 import { useSettingsContext } from 'src/components/common/settings';
 
+import { useRouter } from 'next/navigation';
 import CustomBreadcrumbs from 'src/components/common/custom-breadcrumbs';
+import { LoadingState } from 'src/components/common/custom-state';
+import useHash from 'src/hooks/use-hash';
 import { selectAuth } from 'src/redux-toolkit/features/auth/authSlice';
 import { useAppSelector } from 'src/redux-toolkit/hooks';
 import { ICONS } from './config-settings';
@@ -24,27 +27,27 @@ import Warehouses from './settings-seller-warehouses';
 
 export const TABS = [
   {
-    value: 'general',
+    value: '#general',
     label: 'General',
     icon: ICONS.userId(),
   },
   {
-    value: 'warehouses',
+    value: '#warehouses',
     label: 'My Warehouses',
     icon: ICONS.warehouse(),
   },
   {
-    value: 'billing',
+    value: '#billing',
     label: 'Billing',
     icon: ICONS.bills(),
   },
   {
-    value: 'transactions',
+    value: '#transactions',
     label: 'Transactions',
     icon: ICONS.transactions(),
   },
   {
-    value: 'security',
+    value: '#security',
     label: 'Security',
     icon: ICONS.key(),
   },
@@ -56,11 +59,20 @@ const UserSettingsView = () => {
   const settings = useSettingsContext();
   const { user } = useAppSelector(selectAuth);
 
-  const [currentTab, setCurrentTab] = useState('general');
+  const router = useRouter();
 
-  const handleChangeTab = useCallback((event, newValue) => {
-    setCurrentTab(newValue);
-  }, []);
+  // fuctions for tab
+  const currentTab = useHash();
+  const handleChangeTab = useCallback(
+    (_event, newValue) => {
+      router.push(newValue);
+    },
+    [router]
+  );
+  const resetToDefaultState = useCallback(
+    () => handleChangeTab(undefined, '#general'),
+    [handleChangeTab]
+  );
 
   // choosing the page heading according to user role
   let headingPrefix = null;
@@ -83,6 +95,62 @@ const UserSettingsView = () => {
     }
   }
 
+  // render tab contents
+  const renderTabContents = useCallback(() => {
+    switch (currentTab) {
+      case '#general': {
+        return <SettingsGeneral />;
+      }
+      case '#security': {
+        return <SettingsSecurity />;
+      }
+      case '#warehouses': {
+        switch (user.userType) {
+          case 'seller': {
+            return <Warehouses />; // warehouses for seller
+          }
+          default:
+            resetToDefaultState();
+            break;
+        }
+        break;
+      }
+      case '#billing': {
+        switch (user.userType) {
+          case 'seller': {
+            return <SettingsSellerBillings />;
+          }
+          case 'customer': {
+            return <SettingsCustomerBillings />;
+          }
+          default:
+            resetToDefaultState();
+            break;
+        }
+        break;
+      }
+      case '#transactions': {
+        switch (user.userType) {
+          case 'customer': {
+            return <SettingsCustomerTransactions />;
+          }
+          case 'seller': {
+            return <SettingsSellerTransactions />;
+          }
+          default:
+            resetToDefaultState();
+            break;
+        }
+        break;
+      }
+      default:
+        resetToDefaultState();
+        break;
+    }
+
+    return <LoadingState text="Something is cooking" />;
+  }, [currentTab, resetToDefaultState, user]);
+
   return (
     <Container maxWidth={settings.themeStretch ? false : 'lg'}>
       <CustomBreadcrumbs
@@ -94,7 +162,7 @@ const UserSettingsView = () => {
       />
 
       <Tabs
-        value={currentTab}
+        value={currentTab ?? false}
         onChange={handleChangeTab}
         sx={{
           mb: { xs: 3, md: 5 },
@@ -102,34 +170,16 @@ const UserSettingsView = () => {
       >
         {TABS.map((tab) => {
           // filter role specific tabs
-          if (['admin'].includes(user?.userType) && tab.value === 'billing') return null;
-          if (['admin'].includes(user?.userType) && tab.value === 'transactions') return null;
-          if (['admin', 'customer'].includes(user?.userType) && tab.value === 'warehouses')
+          if (['admin'].includes(user?.userType) && tab.value === '#billing') return null;
+          if (['admin'].includes(user?.userType) && tab.value === '#transactions') return null;
+          if (['admin', 'customer'].includes(user?.userType) && tab.value === '#warehouses')
             return null;
 
           return <Tab key={tab.value} label={tab.label} icon={tab.icon} value={tab.value} />;
         })}
       </Tabs>
 
-      {currentTab === 'general' && <SettingsGeneral />}
-
-      {currentTab === 'warehouses' && <Warehouses />}
-
-      {currentTab === 'billing' && (
-        <>
-          {user?.userType === 'seller' && <SettingsSellerBillings />}
-          {user?.userType === 'customer' && <SettingsCustomerBillings />}
-        </>
-      )}
-
-      {currentTab === 'transactions' && (
-        <>
-          {user?.userType === 'seller' && <SettingsSellerTransactions />}
-          {user?.userType === 'customer' && <SettingsCustomerTransactions />}
-        </>
-      )}
-
-      {currentTab === 'security' && <SettingsSecurity />}
+      {renderTabContents()}
     </Container>
   );
 };

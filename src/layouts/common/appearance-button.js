@@ -11,7 +11,7 @@ import { useSettingsContext } from 'src/components/common/settings';
 
 // ----------------------------------------------------------------------
 
-export default function SettingsButton({ sx }) {
+export default function AppearanceButton({ sx }) {
   const settings = useSettingsContext();
 
   return (
@@ -47,6 +47,6 @@ export default function SettingsButton({ sx }) {
   );
 }
 
-SettingsButton.propTypes = {
+AppearanceButton.propTypes = {
   sx: PropTypes.object,
 };
