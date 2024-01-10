@@ -51,7 +51,7 @@ const HotDealsView = (props) => {
     ) => {
       // error state
       if (results.isError) {
-        return <ErrorState text={errorText} />;
+        return <ErrorState text={results?.error?.data?.message || errorText} />;
       }
 
       // empty state
