@@ -98,8 +98,6 @@ const UserSettingsView = () => {
     }
   }
 
-  console.log(currentTab);
-
   // render tab contents
   const renderTabContents = useCallback(() => {
     switch (currentTab) {
@@ -111,7 +109,7 @@ const UserSettingsView = () => {
         return <SettingsSecurity />;
       }
       case '#warehouses': {
-        switch (user.userType) {
+        switch (user?.userType) {
           case 'seller': {
             return <Warehouses />; // warehouses for seller
           }
@@ -122,7 +120,7 @@ const UserSettingsView = () => {
         break;
       }
       case '#billing': {
-        switch (user.userType) {
+        switch (user?.userType) {
           case 'seller': {
             return <SettingsSellerBillings />;
           }
@@ -136,7 +134,7 @@ const UserSettingsView = () => {
         break;
       }
       case '#transactions': {
-        switch (user.userType) {
+        switch (user?.userType) {
           case 'customer': {
             return <SettingsCustomerTransactions />;
           }

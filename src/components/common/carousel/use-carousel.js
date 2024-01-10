@@ -1,9 +1,13 @@
-import { useRef, useState, useCallback } from 'react';
+import { useCallback, useRef, useState } from 'react';
 
 import { useTheme } from '@mui/material/styles';
 
 // ----------------------------------------------------------------------
 
+/**
+ * @param {JQuerySlickOptions} props
+ * @returns
+ */
 export default function useCarousel(props) {
   const theme = useTheme();
 

@@ -7,13 +7,14 @@ import { useCallback, useEffect, useMemo, useState } from 'react';
 import { regions } from 'src/assets/data';
 import { EmptyState, ErrorState } from 'src/components/common/custom-state';
 import { useSettingsContext } from 'src/components/common/settings';
-import { WarehouseCard, WarehouseCardSkeleton } from 'src/components/warehouse/cards';
+import { WarehouseCardSkeleton } from 'src/components/warehouse/cards';
 import { selectAuth } from 'src/redux-toolkit/features/auth/authSlice';
 import { useAppSelector } from 'src/redux-toolkit/hooks';
 import { useLazyWarehouseListQuery } from 'src/redux-toolkit/services/warehouseApi';
 import { RouterLink } from 'src/routes/components';
 import { paths } from 'src/routes/paths';
 import { ICONS } from '../config-warehouse';
+import WarehouseCarousel from './warehouse-carousel';
 
 // ----------------------------------------------------------------------
 
@@ -59,11 +60,11 @@ export default function ListingView() {
 
       // success state
       if (results.isSuccess && warehouses.length) {
-        return warehouses.map((warehouse) => (
-          <Grid item key={warehouse.id} xs={12} sm={6} md={4}>
-            <WarehouseCard key={warehouse.id} warehouse={warehouse} />
+        return (
+          <Grid item xs={12}>
+            <WarehouseCarousel data={warehouses} />
           </Grid>
-        ));
+        );
       }
 
       // loading state

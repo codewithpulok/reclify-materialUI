@@ -10,7 +10,7 @@ import { WarehouseCard, WarehouseCardSkeleton } from 'src/components/warehouse/c
 import { selectAuth } from 'src/redux-toolkit/features/auth/authSlice';
 import { useAppSelector } from 'src/redux-toolkit/hooks';
 import {
-  useLazyWarehouseListQuery,
+  useLazyWarehouseOwnListQuery,
   useWarehouseDeleteMutation,
 } from 'src/redux-toolkit/services/warehouseApi';
 import { RouterLink } from 'src/routes/components';
@@ -22,7 +22,7 @@ import { ICONS } from '../config-settings';
 export default function Warehouses() {
   const { user } = useAppSelector(selectAuth);
 
-  const [getWarehouses, results] = useLazyWarehouseListQuery();
+  const [getWarehouses, results] = useLazyWarehouseOwnListQuery();
 
   const [deleteWarehouse, deleteResult] = useWarehouseDeleteMutation();
 
