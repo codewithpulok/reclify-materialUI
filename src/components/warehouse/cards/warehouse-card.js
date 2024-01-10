@@ -14,6 +14,7 @@ import { useRouter } from 'next/navigation';
 import PropTypes from 'prop-types';
 // local components
 import Image from 'src/components/common/image';
+import Label from 'src/components/common/label';
 import { paths } from 'src/routes/paths';
 import { ICONS } from '../config-warehouse';
 import { getWarehouseAddress } from '../utils';
@@ -54,7 +55,7 @@ const WarehouseCard = (props) => {
         <Box width="100%">
           <Image src={thumbnail} ratio="16/9" />
         </Box>
-        <CardContent>
+        <CardContent sx={{ position: 'relative' }}>
           <Typography gutterBottom variant="h5">
             {warehouse.name}
 
@@ -77,6 +78,13 @@ const WarehouseCard = (props) => {
           >
             {getWarehouseAddress(warehouse.address)}
           </Typography>
+
+          {/* if there is a discount then show badge */}
+          {!!warehouse.discountRate && (
+            <Label color="error" variant="soft" sx={{ position: 'absolute', top: 6, right: 6 }}>
+              {warehouse.discountRate}% OFF
+            </Label>
+          )}
         </CardContent>
 
         {/* Featured Badge */}
