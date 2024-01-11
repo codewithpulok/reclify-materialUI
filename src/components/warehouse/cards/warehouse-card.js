@@ -23,9 +23,9 @@ const WarehouseCardProps = {
   /** @type {Warehouse} */
   warehouse: PropTypes.object.isRequired,
   /** @type {() => {}} */
-  onDelete: PropTypes.func.isRequired,
+  onDelete: PropTypes.func,
   /** @type {boolean} */
-  hasControl: PropTypes.bool.isRequired,
+  hasControl: PropTypes.bool,
   /** @type {SxProps} */
   sx: PropTypes.object,
 };
@@ -35,7 +35,7 @@ const WarehouseCardProps = {
  */
 const WarehouseCard = (props) => {
   const router = useRouter();
-  const { warehouse, onDelete, hasControl, sx = {} } = props;
+  const { warehouse, onDelete = () => {}, hasControl = false, sx = {} } = props;
   const thumbnail =
     warehouse?.photos?.[0]?.coverUrl || 'https://placehold.co/450x318?text=Not+Found';
 

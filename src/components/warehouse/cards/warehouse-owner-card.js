@@ -15,6 +15,7 @@ const Props = {
   user: PropTypes.object.isRequired,
   /** @type {SxProps} */
   sx: PropTypes.object,
+  clickable: PropTypes.bool,
 };
 
 /**
@@ -22,7 +23,7 @@ const Props = {
  * @returns {JSX.Element}
  */
 const WarehouseOwnerCard = (props) => {
-  const { user, sx } = props;
+  const { user, sx, clickable = false } = props;
   const router = useRouter();
 
   const gotoSellerProfile = useCallback(() => {
@@ -32,7 +33,7 @@ const WarehouseOwnerCard = (props) => {
   return (
     <Card sx={sx}>
       <CardActionArea
-        onClick={gotoSellerProfile}
+        onClick={clickable ? gotoSellerProfile : undefined}
         sx={{
           p: { xs: 1.5, sm: 2 },
           borderRadius: 1,

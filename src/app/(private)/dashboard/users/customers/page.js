@@ -1,3 +1,10 @@
-const CustomerPage = () => <div>CustomerPage</div>;
+import { CustomersListingView } from 'src/sections/users';
+// ----------------------------------------------------------------------
 
-export default CustomerPage;
+export const metadata = {
+  title: 'Customers - Dashboard',
+};
+
+const CustomerListingPage = () => <CustomersListingView />;
+
+export default CustomerListingPage;

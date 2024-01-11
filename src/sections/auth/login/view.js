@@ -55,7 +55,7 @@ export default function LoginView() {
       // handle error
       if (error || data?.isError) {
         console.error('Login Failed: ', error || data?.message);
-        setApiError(error || data?.message);
+        setApiError(error?.data?.message || data?.message);
         resetField('password');
       }
 

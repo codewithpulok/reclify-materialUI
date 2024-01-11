@@ -57,7 +57,7 @@ const RegisterView = (props) => {
       // handle error
       if (error || data?.isError) {
         console.error('Register Failed: ', error || data?.message);
-        setApiError(error || data?.message);
+        setApiError(error?.data?.message || data?.message);
         resetField('password');
       }
 

@@ -3,9 +3,7 @@
 import { Card, Container, Tab, Tabs, tabsClasses } from '@mui/material';
 import PropTypes from 'prop-types';
 import { useCallback, useState } from 'react';
-import { membershipHistory } from 'src/assets/dummy/membership';
-import { plans } from 'src/assets/dummy/plans';
-import { warehouses } from 'src/assets/dummy/warehouses';
+import { getCustomerTransactions } from 'src/assets/dummy';
 import CustomBreadcrumbs from 'src/components/common/custom-breadcrumbs/custom-breadcrumbs';
 import { useSettingsContext } from 'src/components/common/settings';
 import { paths } from 'src/routes/paths';
@@ -13,8 +11,7 @@ import { fDate } from 'src/utils/format-time';
 import { ICONS } from '../../config-users';
 import DetailsCover from './details-cover';
 import DetailsHome from './details-home';
-import DetailsListing from './details-listing';
-import DetailsMembership from './details-membership';
+import DetailsPurchases from './details-purchases';
 
 const TABS = [
   {
@@ -23,14 +20,9 @@ const TABS = [
     icon: ICONS.profile(),
   },
   {
-    value: 'warehouses',
-    label: 'Warehouses',
-    icon: ICONS.warehouse(),
-  },
-  {
-    value: 'membership',
-    label: 'Membership',
-    icon: ICONS.membership(),
+    value: 'purchases',
+    label: 'Purchases',
+    icon: ICONS.purchase(),
   },
 ];
 
@@ -42,11 +34,12 @@ const Props = {
  * @param {Props} props
  * @returns {JSX.Element}
  */
-const SellerDetailsView = (props) => {
+const CustomerDetailsView = (props) => {
   const settings = useSettingsContext();
   const { user } = props;
 
   const [currentTab, setCurrentTab] = useState('profile');
+  const transactions = getCustomerTransactions(user.id);
 
   // handle tab change function
   const handleChangeTab = useCallback((event, newValue) => {
@@ -56,9 +49,9 @@ const SellerDetailsView = (props) => {
   return (
     <Container maxWidth={settings.themeStretch ? false : 'lg'}>
       <CustomBreadcrumbs
-        heading="Seller Details"
+        heading="Customer Details"
         links={[
-          { name: 'Sellers', href: paths.dashboard.users.sellers },
+          { name: 'Customer', href: paths.dashboard.users.customers },
           { name: user?.displayName },
         ]}
         sx={{
@@ -70,7 +63,7 @@ const SellerDetailsView = (props) => {
         <DetailsCover
           joined={fDate(user.createdAt)}
           name={user?.displayName}
-          avatarUrl={user?.avatar}
+          avatarUrl={user?.photoURL}
           coverUrl="https://api-prod-minimal-v510.vercel.app/assets/images/cover/cover_4.jpg"
         />
 
@@ -110,14 +103,11 @@ const SellerDetailsView = (props) => {
           totalVerifiedWarehouses={15}
         />
       )}
-      {currentTab === 'warehouses' && <DetailsListing warehouses={warehouses} />}
-      {currentTab === 'membership' && (
-        <DetailsMembership currentPlan={plans[0]} membershipHistory={membershipHistory} />
-      )}
+      {currentTab === 'purchases' && <DetailsPurchases transactions={transactions} />}
     </Container>
   );
 };
 
-SellerDetailsView.propTypes = Props;
+CustomerDetailsView.propTypes = Props;
 
-export default SellerDetailsView;
+export default CustomerDetailsView;

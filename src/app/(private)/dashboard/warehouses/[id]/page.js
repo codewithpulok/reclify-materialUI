@@ -17,7 +17,7 @@ export const getWarehouse = async (id) => {
 
 export default async function WarehouseDetailsPage({ params }) {
   const warehouseResult = useWarehouseQuery(params.id);
-  const warehouseReviews = await getWarehouseReviews(params.id);
+  const warehouseReviews = await getWarehouseReviews('def456'); // dummy for now // TODO: Remove this
 
   // ******** THIS IS FOR TEST PERPOSE ************* // TODO: Remove this
   if (!warehouseResult.isLoading && params.id === 'test') {

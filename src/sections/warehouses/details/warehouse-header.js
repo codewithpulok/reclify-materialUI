@@ -52,7 +52,7 @@ const WarehouseHeader = (props) => {
         <Typography variant="h2">{name}</Typography>
 
         {/* warehouse diamond handler for admin only */}
-        {user?.userType === 'admin' && <WarehouseDiamond value={5} />}
+        <WarehouseDiamond value={5} action={user?.userType === 'admin'} />
       </Stack>
 
       <Stack
