@@ -28,19 +28,17 @@ export function useNavData() {
         title: 'Warehouses',
         path: paths.dashboard.warehouses.root,
         icon: ICONS.warehouse(),
-        children: [
-          {
-            title: 'Hot Deals',
-            path: paths.dashboard.warehouses.hot_deals,
-            icon: ICONS.hot_deals(),
-          },
-          ...regions.map((r) => ({
-            title: r.name,
-            path: paths.dashboard.warehouses[r.code],
-            icon: ICONS.region(),
-          })),
-        ],
       },
+      {
+        title: 'Hot Deals',
+        path: paths.dashboard.warehouses.hot_deals,
+        icon: ICONS.hot_deals(),
+      },
+      ...regions.map((r) => ({
+        title: r.name,
+        path: paths.dashboard.warehouses[r.code],
+        icon: ICONS.region(),
+      })),
       {
         title: 'Messages',
         path: paths.dashboard.messages.root,

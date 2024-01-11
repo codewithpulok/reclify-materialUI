@@ -160,9 +160,23 @@ export const getUserByID = (id) => users.find((user) => user.id === id);
 export const getSellers = () => users.filter((user) => user.userType === 'seller');
 
 /**
+ * all customer users
+ * @returns {User[]}
+ */
+export const getCustomers = () => users.filter((user) => user.userType === 'customer');
+
+/**
  * find seller users
  * @param {string} id
  * @returns {Promise<User>}
  */
 export const findSeller = async (id) =>
   users.find((user) => user.userType === 'seller' && user.id === id);
+
+/**
+ * find customer user
+ * @param {string} id
+ * @returns {Promise<User>}
+ */
+export const findCustomer = async (id) =>
+  users.find((user) => user.userType === 'customer' && user.id === id);

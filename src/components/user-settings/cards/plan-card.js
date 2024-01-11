@@ -6,7 +6,7 @@ import { useBoolean } from 'src/hooks/use-boolean';
 import { fCurrency } from 'src/utils/format-number';
 import { ICONS } from '../config-user-settings';
 
-const PlanCardProps = {
+const Props = {
   /** @type {Plan} */
   plan: PropTypes.object.isRequired,
   /** @type {boolean} */
@@ -22,7 +22,7 @@ const MAX_FEATURES_SHOW = 5;
 
 /**
  * Plan Card UI
- * @param {PlanCardProps} props
+ * @param {Props} props
  * @returns
  */
 const PlanCard = (props) => {
@@ -41,10 +41,6 @@ const PlanCard = (props) => {
         p: 2.5,
         position: 'relative',
         cursor: onSelect ? 'pointer' : 'default',
-        ...(plan.primary && {
-          opacity: 0.48,
-          cursor: 'default',
-        }),
         ...(isSelected && {
           boxShadow: (theme) => `0 0 0 2px ${theme.palette.primary.main}`,
         }),
@@ -124,6 +120,6 @@ const PlanCard = (props) => {
   );
 };
 
-PlanCard.propTypes = PlanCardProps;
+PlanCard.propTypes = Props;
 
 export default PlanCard;
