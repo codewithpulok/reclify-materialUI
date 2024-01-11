@@ -1,24 +1,24 @@
 'use client';
 
-import Stack from '@mui/material/Stack';
 import Badge from '@mui/material/Badge';
 import Divider from '@mui/material/Divider';
-import Tooltip from '@mui/material/Tooltip';
-import { useTheme } from '@mui/material/styles';
-import IconButton from '@mui/material/IconButton';
-import Typography from '@mui/material/Typography';
 import Drawer, { drawerClasses } from '@mui/material/Drawer';
+import IconButton from '@mui/material/IconButton';
+import Stack from '@mui/material/Stack';
+import Tooltip from '@mui/material/Tooltip';
+import Typography from '@mui/material/Typography';
+import { useTheme } from '@mui/material/styles';
 
 import { paper } from 'src/theme/css';
 
 import Iconify from '../../iconify';
 import Scrollbar from '../../scrollbar';
+import { useSettingsContext } from '../context';
 import BaseOptions from './base-option';
+import FullScreenOption from './fullscreen-option';
 import LayoutOptions from './layout-options';
 import PresetsOptions from './presets-options';
 import StretchOptions from './stretch-options';
-import { useSettingsContext } from '../context';
-import FullScreenOption from './fullscreen-option';
 
 // ----------------------------------------------------------------------
 
@@ -41,7 +41,7 @@ export default function SettingsDrawer() {
       sx={{ py: 2, pr: 1, pl: 2.5 }}
     >
       <Typography variant="h6" sx={{ flexGrow: 1 }}>
-        Settings
+        Appearance
       </Typography>
 
       <Tooltip title="Reset">

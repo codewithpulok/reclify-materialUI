@@ -15,10 +15,9 @@ import { paths } from 'src/routes/paths';
 
 import { PATH_AFTER_LOGIN } from 'src/config-global';
 
-import { useState } from 'react';
-import { useAuthContext } from 'src/auth/hooks';
+import { useCallback, useState } from 'react';
 import FormProvider from 'src/components/common/hook-form';
-import { registerApi } from 'src/utils/api';
+import { useRegisterMutation } from 'src/redux-toolkit/services/authApi';
 import Fields from './fields';
 import { registerSchema } from './schema';
 
@@ -33,40 +32,43 @@ const defaultValues = {
 // ----------------------------------------------------------------------
 
 const RegisterView = (props) => {
-  const { login } = useAuthContext();
+  const [handleRegister] = useRegisterMutation();
   const [apiError, setApiError] = useState(null);
 
   const router = useRouter();
 
   const searchParams = useSearchParams();
-  const returnTo = searchParams.get('returnTo');
+  const returnTo = searchParams.get('returnTo') || PATH_AFTER_LOGIN;
 
   const methods = useForm({ resolver: yupResolver(registerSchema), defaultValues });
-  const { handleSubmit, formState } = methods;
+  const { handleSubmit, formState, resetField } = methods;
   const { isSubmitting } = formState;
 
-  const onSubmit = handleSubmit(async (data) => {
-    // reset error state
-    setApiError(null);
-    console.log('Register: ', data);
+  const onSubmit = useCallback(
+    async (values) => {
+      // reset error state
+      setApiError(null);
+      console.log('Register: ', values);
 
-    // call some api to register
-    const response = await registerApi(data);
+      // call some api to register
+      const response = await handleRegister(values);
+      const { data, error } = response;
 
-    // handle error
-    if (response.isError) {
-      console.error('Register Failed: ', response);
-      setApiError(response.message);
-      // reset();
-    }
+      // handle error
+      if (error || data?.isError) {
+        console.error('Register Failed: ', error || data?.message);
+        setApiError(error || data?.message);
+        resetField('password');
+      }
 
-    // handle success
-    if (response.isSuccess) {
-      console.info('Register Success: ', response);
-      await login(response.result.data, response.result.token);
-      router.push(returnTo || PATH_AFTER_LOGIN);
-    }
-  });
+      // handle success
+      if (data?.isSuccess) {
+        console.info('Register Success: ', data);
+        router.push(returnTo);
+      }
+    },
+    [handleRegister, resetField, returnTo, router]
+  );
 
   const renderHead = (
     <Stack spacing={2} sx={{ mb: 5, position: 'relative' }}>
@@ -75,7 +77,7 @@ const RegisterView = (props) => {
       <Stack direction="row" spacing={0.5}>
         <Typography variant="body2"> Already have an account? </Typography>
 
-        <Link href={paths.auth.jwt.login} component={RouterLink} variant="subtitle2">
+        <Link href={paths.auth.login} component={RouterLink} variant="subtitle2">
           Sign in
         </Link>
       </Stack>
@@ -105,7 +107,7 @@ const RegisterView = (props) => {
   );
 
   const renderForm = (
-    <FormProvider methods={methods} onSubmit={onSubmit}>
+    <FormProvider methods={methods} onSubmit={handleSubmit(onSubmit)}>
       <Stack spacing={2.5}>
         {!!apiError && <Alert severity="error">{apiError}</Alert>}
         <Fields />

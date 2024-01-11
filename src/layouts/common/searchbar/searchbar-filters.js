@@ -14,9 +14,10 @@ import { useCallback, useEffect, useMemo } from 'react';
 import { useForm } from 'react-hook-form';
 import { regions } from 'src/assets/data';
 import { users } from 'src/assets/dummy/users';
-import { useAuthContext } from 'src/auth/hooks';
 import FormProvider from 'src/components/common/hook-form/form-provider';
 import { getIconify } from 'src/components/common/iconify/utilities';
+import { selectAuth } from 'src/redux-toolkit/features/auth/authSlice';
+import { useAppSelector } from 'src/redux-toolkit/hooks';
 
 const SearchbarFiltersProps = {
   /** @type {(values) => {}} */
@@ -33,7 +34,7 @@ const SearchbarFiltersProps = {
  */
 const SearchbarFilters = (props) => {
   const { onFilterApply, defaultRegions = [], defaultUsers = [] } = props;
-  const auth = useAuthContext();
+  const auth = useAppSelector(selectAuth);
 
   const methods = useForm({ defaultValues: { regions: [], users: [] } });
   const { handleSubmit, watch, setValue, reset } = methods;
@@ -144,7 +145,7 @@ const SearchbarFilters = (props) => {
             </FormGroup>
           </AccordionDetails>
         </Accordion>
-        {auth?.user?.role === 'admin' ? (
+        {auth?.user?.userType === 'admin' ? (
           <Accordion sx={{ width: '100%' }}>
             <AccordionSummary
               expandIcon={getIconify('solar:alt-arrow-down-line-duotone')}

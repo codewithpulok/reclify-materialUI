@@ -1,13 +1,29 @@
-import { predefinedApprovedUses, predefinedFeatures } from 'src/assets/data';
-import { addressFieldSchema } from 'src/components/common/fields';
+import {
+  predefinedApprovedUses,
+  predefinedFacility,
+  predefinedFeatures,
+  predefinedServices,
+  regions,
+} from 'src/assets/data';
+import { getPredefinedFieldSchema } from 'src/utils/predefined-fields';
 import * as Yup from 'yup';
 
 /** @type {Warehouse} */
 const schema = {
-  name: Yup.string().required('Warehouse name is required'),
-  address: addressFieldSchema,
+  name: Yup.string().label('Warehouse Name').required(),
+  region: Yup.string()
+    .label('Region')
+    .oneOf(
+      regions.map((r) => r.code),
+      'Region code is not valid'
+    )
+    .required(),
+  // address: addressFieldSchema,
   totalSpace: Yup.number().label('Total space').min(1).required(),
-  pricePerSpace: Yup.number().label('Price per space').min(1).required(),
+  price1: Yup.number().label('Price for 1 month').min(0).required(),
+  price3: Yup.number().label('Price for 3 month').min(0).required(),
+  price6: Yup.number().label('Price for 6 month').min(0).required(),
+  price12: Yup.number().label('Price for 12 month').min(0).required(),
   discountRate: Yup.number().label('Discount Rate').min(0).max(100).required().default(0),
   maxSpaceOrder: Yup.number()
     .label('Max orderable space')
@@ -68,19 +84,11 @@ const schema = {
       coverUrl: Yup.string().required('Photo url is required'),
     })
   ),
-  approvedUses: Yup.object().shape(
-    predefinedApprovedUses.reduce((prev, next) => {
-      prev[next.key] = Yup.boolean().required(`${next.label} is required`);
-      return prev;
-    }, {})
-  ),
-  features: Yup.object().shape(
-    predefinedFeatures.reduce((prev, next) => {
-      prev[next.key] = Yup.boolean().required(`${next.label} is required`);
-      return prev;
-    }, {})
-  ),
   rules: Yup.array(Yup.string()),
+  approvedUses: Yup.object().shape(getPredefinedFieldSchema(predefinedApprovedUses)),
+  features: Yup.object().shape(getPredefinedFieldSchema(predefinedFeatures)),
+  facilityDetails: Yup.object().shape(getPredefinedFieldSchema(predefinedFacility)),
+  services: Yup.object().shape(getPredefinedFieldSchema(predefinedServices)),
 };
 
 const editSchema = Yup.object().shape(schema);

@@ -13,10 +13,11 @@ import {
 import PropTypes from 'prop-types';
 import { useMemo, useState } from 'react';
 // local components
-import { useAuthContext } from 'src/auth/hooks';
-import EmptyState from 'src/components/common/empty-state/empty-state';
+import { EmptyState } from 'src/components/common/custom-state';
 import { WarehouseReviewCard } from 'src/components/warehouse/cards';
 import { useBoolean } from 'src/hooks/use-boolean';
+import { selectAuth } from 'src/redux-toolkit/features/auth/authSlice';
+import { useAppSelector } from 'src/redux-toolkit/hooks';
 import { ICONS } from '../../config-warehouse';
 import { detailsBoxStyle, detailsHeaderStyle } from '../../styles';
 import ReviewCreate from './review-create';
@@ -39,7 +40,7 @@ const WarehouseReviewsProps = {
 const WarehouseReviews = (props) => {
   const { reviews, sx, canAddNewReview } = props;
   const [sortType, setSortType] = useState('DEFAULT'); // NEW_FIRST, OLD_FIRST, DEFAULT
-  const auth = useAuthContext();
+  const auth = useAppSelector(selectAuth);
 
   const reviewAddModal = useBoolean(false);
   const [reviewEdit, setReviewEdit] = useState({ open: false, review: {} });
@@ -90,6 +91,7 @@ const WarehouseReviews = (props) => {
         alignItems="center"
         justifyContent="space-between"
         spacing={1}
+        mb={5}
       >
         <Typography variant="h5" sx={detailsHeaderStyle} mr="auto">
           Reviews
@@ -128,7 +130,7 @@ const WarehouseReviews = (props) => {
 
       {sortedReviews?.length ? (
         <>
-          <Stack mt={5} spacing={3.5}>
+          <Stack spacing={3.5}>
             {sortedReviews.map((review) => (
               <WarehouseReviewCard
                 key={review.id}
@@ -138,7 +140,7 @@ const WarehouseReviews = (props) => {
                 name={review.author.displayName}
                 rating={review.rating}
                 showDeleteOption={
-                  auth?.user?.role === 'admin' || auth?.user?.id === review?.authorId
+                  auth?.user?.userType === 'admin' || auth?.user?.id === review?.authorId
                 }
                 showEditOption={auth?.user?.id === review?.authorId}
                 onDelete={() => openReviewDelete(review)}

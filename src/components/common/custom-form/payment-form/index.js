@@ -6,8 +6,9 @@ import { useForm } from 'react-hook-form';
 
 import { getPaymentCardsByUserId } from 'src/assets/dummy';
 import { getBillingAddressByUserId } from 'src/assets/dummy/billing-address';
-import { useAuthContext } from 'src/auth/hooks';
 import { useBoolean } from 'src/hooks/use-boolean';
+import { selectAuth } from 'src/redux-toolkit/features/auth/authSlice';
+import { useAppSelector } from 'src/redux-toolkit/hooks';
 import { BillingAddressListDialog, PaymentCardListDialog } from '../../custom-dialog';
 import FormProvider from '../../hook-form/form-provider';
 import BillingDetails from './billing-details';
@@ -32,11 +33,11 @@ const PaymentForm = (props) => {
   const { wrapperElement, actions, submitCallback = () => {} } = props;
   const { enqueueSnackbar } = useSnackbar();
 
-  const { user } = useAuthContext();
+  const { user } = useAppSelector(selectAuth);
 
-  const userBillingAddress = getBillingAddressByUserId(user?.id);
+  const userBillingAddress = getBillingAddressByUserId('2') || getBillingAddressByUserId(user?.id);
   const primaryBillingAddress = userBillingAddress.find((a) => a.primary);
-  const userPaymentCards = getPaymentCardsByUserId(user?.id);
+  const userPaymentCards = getPaymentCardsByUserId('2') || getPaymentCardsByUserId(user?.id);
   const primaryPaymentCard = userPaymentCards.find((p) => p.primary);
 
   const methods = useForm({ defaultValues });

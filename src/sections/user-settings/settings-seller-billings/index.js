@@ -4,18 +4,19 @@ import { getBillingAddressByUserId } from 'src/assets/dummy/billing-address';
 import { getInvoicesByUserId } from 'src/assets/dummy/invoices';
 import { getPaymentCardsByUserId } from 'src/assets/dummy/payment-cards';
 import { getAllPlans } from 'src/assets/dummy/plans';
-import { useAuthContext } from 'src/auth/hooks';
+import { selectAuth } from 'src/redux-toolkit/features/auth/authSlice';
+import { useAppSelector } from 'src/redux-toolkit/hooks';
 import BillingHistory from './billing-history';
 import BillingPlan from './billing-plan';
 
 // ----------------------------------------------------------------------
 
 const SettingsSellerBillings = (props) => {
-  const { user } = useAuthContext();
+  const { user } = useAppSelector(selectAuth);
 
-  const userInvoices = getInvoicesByUserId(user?.id);
-  const billingAddressBook = getBillingAddressByUserId(user?.id);
-  const paymentCards = getPaymentCardsByUserId(user?.id);
+  const userInvoices = getInvoicesByUserId('2') || getInvoicesByUserId(user?.id);
+  const billingAddressBook = getBillingAddressByUserId('2') || getBillingAddressByUserId(user?.id);
+  const paymentCards = getPaymentCardsByUserId('2') || getPaymentCardsByUserId(user?.id);
   const plans = getAllPlans();
 
   return (

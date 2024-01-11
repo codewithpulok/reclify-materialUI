@@ -4,6 +4,7 @@ import {
   CardActionArea,
   CardContent,
   IconButton,
+  Skeleton,
   Stack,
   Tooltip,
   Typography,
@@ -13,6 +14,7 @@ import { useRouter } from 'next/navigation';
 import PropTypes from 'prop-types';
 // local components
 import Image from 'src/components/common/image';
+import Label from 'src/components/common/label';
 import { paths } from 'src/routes/paths';
 import { ICONS } from '../config-warehouse';
 import { getWarehouseAddress } from '../utils';
@@ -34,6 +36,8 @@ const WarehouseCardProps = {
 const WarehouseCard = (props) => {
   const router = useRouter();
   const { warehouse, onDelete, hasControl, sx = {} } = props;
+  const thumbnail =
+    warehouse?.photos?.[0]?.coverUrl || 'https://placehold.co/450x318?text=Not+Found';
 
   return (
     <Card
@@ -49,9 +53,9 @@ const WarehouseCard = (props) => {
         onClick={() => router.push(`${paths.dashboard.warehouses.root}/${warehouse.id}`)}
       >
         <Box width="100%">
-          <Image src={warehouse?.photos[0]?.coverUrl} ratio="16/9" />
+          <Image src={thumbnail} ratio="16/9" />
         </Box>
-        <CardContent>
+        <CardContent sx={{ position: 'relative' }}>
           <Typography gutterBottom variant="h5">
             {warehouse.name}
 
@@ -74,6 +78,13 @@ const WarehouseCard = (props) => {
           >
             {getWarehouseAddress(warehouse.address)}
           </Typography>
+
+          {/* if there is a discount then show badge */}
+          {!!warehouse.discountRate && (
+            <Label color="error" variant="soft" sx={{ position: 'absolute', top: 6, right: 6 }}>
+              {warehouse.discountRate}% OFF
+            </Label>
+          )}
         </CardContent>
 
         {/* Featured Badge */}
@@ -135,3 +146,31 @@ const WarehouseCard = (props) => {
 WarehouseCard.propTypes = WarehouseCardProps;
 
 export default WarehouseCard;
+
+// Seketon
+export const WarehouseCardSkeleton = () => (
+  <Card>
+    <Skeleton width="100%" variant="rounded">
+      <Image ratio="16/9" />
+    </Skeleton>
+
+    <CardContent>
+      <Typography gutterBottom variant="h5">
+        <Skeleton />
+      </Typography>
+      <Typography
+        variant="body2"
+        color="text.secondary"
+        sx={{
+          overflow: 'hidden',
+          textOverflow: 'ellipsis',
+          display: '-webkit-box',
+          WebkitLineClamp: '1',
+          WebkitBoxOrient: 'vertical',
+        }}
+      >
+        <Skeleton />
+      </Typography>
+    </CardContent>
+  </Card>
+);

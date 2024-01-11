@@ -1,3 +1,5 @@
+import { NextResponse } from 'next/server';
+
 // custom error object
 export class ApiError extends Error {
   constructor(message = 'Something wents to wrong', code = 500) {
@@ -8,43 +10,78 @@ export class ApiError extends Error {
 }
 
 /**
- * async wrapper
- * @param {(req: NextRequestType) => Promise<any>} handlerFunc
- * @returns {(req: NextRequestType) => Promise<any>}
+ * handler function for client response
+ * @param {ClientResponse} response
+ * @param {ResponseInit} config
+ * @returns {NextResponse}
  */
-export const asyncWrapper = (handlerFunc) => async (req) => {
+export const clientResponse = (response, config) => NextResponse.json(response, config);
+
+/**
+ * server side async wrapper
+ * @param {(req: NextRequestType, others: {params: object}) => Promise<any>} handlerFunc
+ * @returns {(req: NextRequestType, others: {params: object}) => NextResponse<ClientResponse>}
+ */
+export const serverAsyncWrapper = (handlerFunc) => async (req, others) => {
   try {
-    const response = await handlerFunc(req);
+    const response = await handlerFunc(req, others);
+
     // success response
-    return Response.json({
-      result: response,
-      isSuccess: true,
-    });
+    return clientResponse(
+      {
+        isSuccess: response?.success,
+        results: response?.results,
+        statusCode: response?.statusCode,
+      },
+      { status: response?.statusCode }
+    );
   } catch (error) {
     console.log('Server Side Error: ', error);
-    // failure response for - programmer thrown error
+
+    // failure response for - Api error
     if (error instanceof ApiError) {
-      return Response.json({
-        message: error.message,
-        isError: true,
-        statusCode: error.code,
-      });
+      return clientResponse(
+        {
+          message: error.message,
+          isError: true,
+          statusCode: error.code,
+        },
+        { status: error?.statusCode }
+      );
     }
+
     // failure response for - runtime error
-    return Response.json({
-      message: error?.message || 'Error in requesting the process',
-      isError: true,
-      statusCode: 500,
-    });
+    return clientResponse(
+      {
+        message: error?.message || 'Error in requesting the process',
+        isError: true,
+        statusCode: 500,
+      },
+      { status: 500 }
+    );
   }
 };
 
 /**
- * type def for next js request
- * @typedef {import('next/server').NextRequest} NextRequestType
+ * client side async wrapper
+ * @param {ClientAsyncHandler<T>} handlerFunc
+ * @returns {ClientAsyncReturn<T>}
+ * @template T
  */
+export const clientAsyncWrapper = (handlerFunc) => async (param) => {
+  try {
+    const response = await handlerFunc(param);
 
-/**
- * type def for next request
- * @typedef {import('next/server').NextResponse} NextResponseType
- */
+    // success response
+    return { ...response };
+  } catch (error) {
+    console.log('Client Side Error: ', error);
+
+    // failure response for - runtime error
+    return {
+      message: error?.message || 'Error in requesting the api',
+      isError: true,
+      statusCode: 500,
+    };
+  }
+};

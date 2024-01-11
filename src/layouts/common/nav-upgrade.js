@@ -6,15 +6,15 @@ import Typography from '@mui/material/Typography';
 
 import { paths } from 'src/routes/paths';
 
-import { useAuthContext } from 'src/auth/hooks';
-
 import Label from 'src/components/common/label';
+import { selectAuth } from 'src/redux-toolkit/features/auth/authSlice';
+import { useAppSelector } from 'src/redux-toolkit/hooks';
+import { RouterLink } from 'src/routes/components';
 
 // ----------------------------------------------------------------------
 
 export default function NavUpgrade() {
-  // const { user } = useMockedUser();
-  const { user } = useAuthContext();
+  const { user } = useAppSelector(selectAuth);
 
   return (
     <Stack
@@ -57,11 +57,11 @@ export default function NavUpgrade() {
             noWrap
             sx={{ color: 'text.disabled', textTransform: 'capitalize' }}
           >
-            {user?.role}
+            {user?.userType}
           </Typography>
         </Stack>
 
-        <Button variant="contained" href={paths.minimalUI} target="_blank" rel="noopener">
+        <Button LinkComponent={RouterLink} variant="contained" href={paths.settings.billing}>
           Upgrade to Pro
         </Button>
       </Stack>

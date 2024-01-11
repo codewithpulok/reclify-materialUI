@@ -25,8 +25,9 @@ import {
 import { Button } from '@mui/material';
 import { useSnackbar } from 'notistack';
 import { getSellerTransactions, TRANSACTION_STATUS_OPTIONS } from 'src/assets/dummy';
-import { useAuthContext } from 'src/auth/hooks';
 import { ConfirmDialog } from 'src/components/common/custom-dialog';
+import { selectAuth } from 'src/redux-toolkit/features/auth/authSlice';
+import { useAppSelector } from 'src/redux-toolkit/hooks';
 import TransactionDialog from './transaction-details-dialog';
 import TransactionTableRow from './transaction-table-row';
 
@@ -51,10 +52,10 @@ const defaultFilters = {
 // ----------------------------------------------------------------------
 
 const SettingsSellerTransactions = () => {
-  const { user } = useAuthContext();
+  const { user } = useAppSelector(selectAuth);
   const { enqueueSnackbar } = useSnackbar();
 
-  const transactions = getSellerTransactions(user?.id);
+  const transactions = getSellerTransactions('2') || getSellerTransactions(user?.id);
   const table = useTable({ defaultOrderBy: 'createdAt' });
   const [tableData] = useState(transactions);
 

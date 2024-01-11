@@ -7,13 +7,14 @@ import Stack from '@mui/material/Stack';
 
 import { usePathname } from 'src/routes/hooks';
 
-import { useMockedUser } from 'src/hooks/use-mocked-user';
 import { useResponsive } from 'src/hooks/use-responsive';
 
 import Logo from 'src/components/common/logo';
 import { NavSectionVertical } from 'src/components/common/nav-section';
 import Scrollbar from 'src/components/common/scrollbar';
 
+import { selectAuth } from 'src/redux-toolkit/features/auth/authSlice';
+import { useAppSelector } from 'src/redux-toolkit/hooks';
 import NavToggleButton from '../common/nav-toggle-button';
 import NavUpgrade from '../common/nav-upgrade';
 import { NAV } from '../config-layout';
@@ -22,7 +23,7 @@ import { useNavData } from './config-navigation';
 // ----------------------------------------------------------------------
 
 export default function NavVertical({ openNav, onCloseNav }) {
-  const { user } = useMockedUser();
+  const { user } = useAppSelector(selectAuth);
 
   const pathname = usePathname();
 
@@ -52,12 +53,12 @@ export default function NavVertical({ openNav, onCloseNav }) {
       <NavSectionVertical
         data={navData}
         slotProps={{
-          currentRole: user?.role,
+          currentRole: user?.userType,
         }}
       />
 
       <Box sx={{ flexGrow: 1 }} />
-      <NavUpgrade />
+      {user?.userType === 'seller' && <NavUpgrade />}
     </Scrollbar>
   );
 

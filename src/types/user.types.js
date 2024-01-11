@@ -16,7 +16,7 @@
  * @property {string} city - The city of residence for the user.
  * @property {string} zipCode - The ZIP or postal code of the user's address.
  * @property {string} about - A brief description or bio of the user.
- * @property {AuthUserRole} role - The role of the user ('admin', 'customer', 'seller').
+ * @property {UserType} userType - The type of the user ('admin', 'customer', 'seller').
  * @property {string} region - The region of residence for the user.
  * @property {number} createdAt - The timestamp when the user account was created.
  * @property {number} updatedAt - The timestamp when the user account was last updated.
@@ -25,4 +25,9 @@
  * @property {string} social.instagram - The Instagram profile link.
  * @property {string} social.linkedin - The LinkedIn profile link.
  * @property {string} social.x - Additional social link.
+ */
+
+/**
+ * User type
+ * @typedef {'admin' | 'customer' | 'seller'} UserType
  */

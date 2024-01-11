@@ -7,16 +7,17 @@ import Stack from '@mui/material/Stack';
 
 import { Grid, MenuItem } from '@mui/material';
 import { regions } from 'src/assets/data';
-import { useAuthContext } from 'src/auth/hooks';
-import { AddressField } from 'src/components/common/fields';
+import { AddressField } from 'src/components/common/custom-fields';
 import { RHFTextField } from 'src/components/common/hook-form';
+import { selectAuth } from 'src/redux-toolkit/features/auth/authSlice';
+import { useAppSelector } from 'src/redux-toolkit/hooks';
 
 // ----------------------------------------------------------------------
 
 const GeneralInfoFields = () => {
   const { formState } = useFormContext();
   const { isSubmitting } = formState;
-  const { user } = useAuthContext();
+  const { user } = useAppSelector(selectAuth);
 
   return (
     <Card sx={{ p: 3 }}>
@@ -38,7 +39,7 @@ const GeneralInfoFields = () => {
           <AddressField name="address" />
         </Grid>
       </Box>
-      {user?.role !== 'admin' && (
+      {user?.userType !== 'admin' && (
         <RHFTextField name="region" label="Region" fullWidth select sx={{ mt: 3 }}>
           {regions.map((option) => (
             <MenuItem key={option.code} value={option.code}>

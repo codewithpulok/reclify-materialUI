@@ -1,5 +1,7 @@
 // ----------------------------------------------------------------------
 
+import { regions } from 'src/assets/data';
+
 const ROOTS = {
   AUTH: '/auth',
   DASHBOARD: '/dashboard',
@@ -21,10 +23,8 @@ export const paths = {
 
   // AUTH
   auth: {
-    jwt: {
-      login: `${ROOTS.AUTH}/login`,
-      register: `${ROOTS.AUTH}/register`,
-    },
+    login: `${ROOTS.AUTH}/login`,
+    register: `${ROOTS.AUTH}/register`,
   },
 
   // DASHBOARD
@@ -34,12 +34,33 @@ export const paths = {
     users: {
       root: `${ROOTS.DASHBOARD}/users`,
       sellers: `${ROOTS.DASHBOARD}/users/sellers`,
+      customers: `${ROOTS.DASHBOARD}/users/customers`,
     },
     // warehouses section
     warehouses: {
       root: `${ROOTS.DASHBOARD}/warehouses`,
       create: `${ROOTS.DASHBOARD}/warehouses/create`,
       edit: `${ROOTS.DASHBOARD}/warehouses/edit`,
+      hot_deals: `${ROOTS.DASHBOARD}/warehouses/hot-deals`,
+      // warehouses by region
+      ...regions.reduce(
+        (prev, next) =>
+          Object.assign(prev, { [next.code]: `${ROOTS.DASHBOARD}/warehouses/${next.code}` }),
+        {}
+      ),
     },
+    // messages section
+    messages: {
+      root: `${ROOTS.DASHBOARD}/messages`,
+    },
+  },
+
+  settings: {
+    root: ROOTS.SETTINGS,
+    general: `${ROOTS.SETTINGS}#general`,
+    warehouses: `${ROOTS.SETTINGS}#warehouses`,
+    billing: `${ROOTS.SETTINGS}#billing`,
+    transactions: `${ROOTS.SETTINGS}#transactions`,
+    security: `${ROOTS.SETTINGS}#security`,
   },
 };

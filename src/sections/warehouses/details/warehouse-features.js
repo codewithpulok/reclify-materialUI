@@ -30,7 +30,7 @@ const WarehouseFeatures = (props) => {
       <Grid spacing={0.7} container>
         {predefinedFeatures.map((feature) => {
           const currentFeature = features[feature.key];
-          if (currentFeature === undefined) return null;
+          if (!currentFeature) return null;
 
           return (
             <Grid
@@ -41,10 +41,7 @@ const WarehouseFeatures = (props) => {
               sx={{ display: 'flex', alignItems: 'center', gap: 0.5 }}
             >
               {feature?.icon && getIconify(feature.icon, 16, { color: 'text.secondary' })}
-              <Typography variant="subtitle2">{feature.label} :</Typography>
-              <Typography variant="body2" color="text.secondary" ml={1.5}>
-                {currentFeature ? 'Yes' : 'No'}
-              </Typography>
+              <Typography variant="subtitle2">{feature.label}</Typography>
             </Grid>
           );
         })}

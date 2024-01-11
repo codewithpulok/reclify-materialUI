@@ -15,11 +15,14 @@ import Logo from 'src/components/common/logo';
 import { useSettingsContext } from 'src/components/common/settings';
 import SvgColor from 'src/components/common/svg-color';
 
+import { getIconify } from 'src/components/common/iconify/utilities';
+import { RouterLink } from 'src/routes/components';
+import { paths } from 'src/routes/paths';
 import AccountPopover from '../common/account-popover';
+import AppearanceButton from '../common/appearance-button';
 import ContactsPopover from '../common/contacts-popover';
 import NotificationsPopover from '../common/notifications-popover';
 import Searchbar from '../common/searchbar';
-import SettingsButton from '../common/settings-button';
 import { HEADER, NAV } from '../config-layout';
 
 // ----------------------------------------------------------------------
@@ -62,7 +65,11 @@ export default function Header({ onOpenNav }) {
 
         <ContactsPopover />
 
-        <SettingsButton />
+        <AppearanceButton />
+
+        <IconButton LinkComponent={RouterLink} href={paths.settings.root}>
+          {getIconify('solar:settings-bold-duotone', 24)}
+        </IconButton>
 
         <AccountPopover />
       </Stack>

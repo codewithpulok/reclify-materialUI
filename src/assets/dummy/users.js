@@ -21,7 +21,7 @@ export const users = [
       country: 'United States',
     },
     about: 'Praesent turpis. Phasellus viverra nulla ut metus varius laoreet. Phasellus tempus.',
-    role: 'admin',
+    userType: 'admin',
     region: 'Northeast',
     createdAt: 1671039115000,
     updatedAt: 1671047789000,
@@ -49,7 +49,7 @@ export const users = [
       country: 'United States',
     },
     about: 'Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.',
-    role: 'seller',
+    userType: 'seller',
     region: 'Northeast',
     createdAt: 1671027368000,
     updatedAt: 1671050423000,
@@ -78,7 +78,7 @@ export const users = [
       country: 'United States',
     },
     about: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.',
-    role: 'customer',
+    userType: 'customer',
     region: 'Northeast',
     createdAt: 1671034821000,
     updatedAt: 1671042147000,
@@ -106,7 +106,7 @@ export const users = [
       country: 'United States',
     },
     about: 'New user with realistic data.',
-    role: 'seller',
+    userType: 'seller',
     region: 'South',
     createdAt: 1680325689000,
     updatedAt: 1680352147000,
@@ -134,7 +134,7 @@ export const users = [
       country: 'United States',
     },
     about: 'A new customer with realistic data.',
-    role: 'customer',
+    userType: 'customer',
     region: 'Midwest',
     createdAt: 1680327890000,
     updatedAt: 1680354876000,
@@ -157,7 +157,7 @@ export const getUserByID = (id) => users.find((user) => user.id === id);
  * all seller users
  * @returns {User[]}
  */
-export const getSellers = () => users.filter((user) => user.role === 'seller');
+export const getSellers = () => users.filter((user) => user.userType === 'seller');
 
 /**
  * find seller users
@@ -165,4 +165,4 @@ export const getSellers = () => users.filter((user) => user.role === 'seller');
  * @returns {Promise<User>}
  */
 export const findSeller = async (id) =>
-  users.find((user) => user.role === 'seller' && user.id === id);
+  users.find((user) => user.userType === 'seller' && user.id === id);

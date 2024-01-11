@@ -2,12 +2,9 @@
  * Authentication type
  * @typedef {Object} AuthType
  * @property {null | AuthUser} user
- * @property {'jwt'} method
- * @property {boolean} loading
- * @property {boolean} authenticated
- * @property {boolean} unauthenticated
- * @property {(data: {}, token: string) => {}} login
- * @property {() => {}} logout
+ * @property {boolean} isLoading
+ * @property {boolean} isAuthenticated
+ * @property {null | string} token
  */
 
 /**
@@ -17,10 +14,5 @@
  * @property {string} email
  * @property {string} firstName
  * @property {string} lastName
- * @property {AuthUserRole} role
- */
-
-/**
- * Auth user role
- * @typedef {'admin' | 'customer' | 'seller'} AuthUserRole
+ * @property {UserType} userType
  */

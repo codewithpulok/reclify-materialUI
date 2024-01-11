@@ -1,7 +1,7 @@
 import PropTypes from 'prop-types';
 
-import Stack from '@mui/material/Stack';
 import IconButton from '@mui/material/IconButton';
+import Stack from '@mui/material/Stack';
 import { alpha, styled, useTheme } from '@mui/material/styles';
 //
 
@@ -43,18 +43,37 @@ const StyledIconButton = styled(IconButton, {
 
 // ----------------------------------------------------------------------
 
-export default function CarouselArrows({
-  shape = 'circular',
-  filled = false,
-  icon,
-  onNext,
-  onPrev,
-  children,
-  leftButtonProps,
-  rightButtonProps,
-  sx,
-  ...other
-}) {
+const Props = {
+  children: PropTypes.node,
+  filled: PropTypes.bool,
+  icon: PropTypes.oneOfType([PropTypes.element, PropTypes.string]),
+  /** @type {import('@mui/material').IconButtonProps} */
+  leftButtonProps: PropTypes.object,
+  /** @type {import('@mui/material').IconButtonProps} */
+  rightButtonProps: PropTypes.object,
+  onNext: PropTypes.func,
+  onPrev: PropTypes.func,
+  shape: PropTypes.oneOf(['circular', 'rounded']),
+  sx: PropTypes.object,
+};
+
+/**
+ * @param {Props} props
+ * @returns {JSX.Element}
+ */
+export default function CarouselArrows(props) {
+  const {
+    shape = 'circular',
+    filled = false,
+    icon,
+    onNext,
+    onPrev,
+    children,
+    leftButtonProps,
+    rightButtonProps,
+    sx,
+    ...other
+  } = props;
   const theme = useTheme();
 
   const isRTL = theme.direction === 'rtl';
@@ -114,14 +133,4 @@ export default function CarouselArrows({
   );
 }
 
-CarouselArrows.propTypes = {
-  children: PropTypes.node,
-  filled: PropTypes.bool,
-  icon: PropTypes.oneOfType([PropTypes.element, PropTypes.string]),
-  leftButtonProps: PropTypes.object,
-  onNext: PropTypes.func,
-  onPrev: PropTypes.func,
-  rightButtonProps: PropTypes.object,
-  shape: PropTypes.oneOf(['circular', 'rounded']),
-  sx: PropTypes.object,
-};
+CarouselArrows.propTypes = Props;

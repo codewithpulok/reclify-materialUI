@@ -2,7 +2,7 @@
 
 import Stack from '@mui/material/Stack';
 
-import { PasswordField } from 'src/components/common/fields';
+import { PasswordField } from 'src/components/common/custom-fields';
 import { RHFTextField } from 'src/components/common/hook-form';
 
 const Fields = (props) => (

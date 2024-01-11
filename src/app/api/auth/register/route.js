@@ -1,9 +1,9 @@
-import { HOST_API } from 'src/config-global';
-import { ApiError, asyncWrapper } from 'src/utils/api';
+import { ApiError, serverAsyncWrapper } from 'src/utils/api';
+import { endpoints, getEndpoint } from 'src/utils/api/endpoints';
 
-export const POST = asyncWrapper(async (req) => {
+export const POST = serverAsyncWrapper(async (req) => {
   const body = await req.json();
-  const response = await fetch(`${HOST_API}/users/signup`, {
+  const response = await fetch(getEndpoint(endpoints.auth.register), {
     body: JSON.stringify(body),
     method: 'POST',
     headers: {

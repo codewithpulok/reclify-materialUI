@@ -13,7 +13,6 @@ import Tabs from '@mui/material/Tabs';
 import { useSnackbar } from 'notistack';
 
 import { getCustomerTransactions, TRANSACTION_STATUS_OPTIONS } from 'src/assets/dummy';
-import { useAuthContext } from 'src/auth/hooks';
 import { ConfirmDialog } from 'src/components/common/custom-dialog';
 import Label from 'src/components/common/label';
 import Scrollbar from 'src/components/common/scrollbar';
@@ -26,6 +25,8 @@ import {
   TablePaginationCustom,
   useTable,
 } from 'src/components/common/table';
+import { selectAuth } from 'src/redux-toolkit/features/auth/authSlice';
+import { useAppSelector } from 'src/redux-toolkit/hooks';
 import TransactionDialog from './transaction-details-dialog';
 import TransactionTableRow from './transaction-table-row';
 
@@ -50,9 +51,9 @@ const defaultFilters = {
 // ----------------------------------------------------------------------
 
 const SettingsCustomerTransactions = () => {
-  const { user } = useAuthContext();
+  const { user } = useAppSelector(selectAuth);
   const { enqueueSnackbar } = useSnackbar();
-  const transactions = getCustomerTransactions(user?.id);
+  const transactions = getCustomerTransactions('3') || getCustomerTransactions(user?.id);
 
   const table = useTable({ defaultOrderBy: 'createdAt' });
   const [tableData] = useState(transactions);

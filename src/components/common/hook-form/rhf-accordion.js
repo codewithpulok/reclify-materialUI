@@ -6,41 +6,68 @@ import PropTypes from 'prop-types';
 import { useMemo } from 'react';
 import { useFormContext } from 'react-hook-form';
 // local imports
+import { alpha } from '@mui/material';
+import { useBoolean } from 'src/hooks/use-boolean';
 import { getIconify } from '../iconify/utilities';
 
-const RHFAccordionProps = {
-  name: PropTypes.string.isRequired,
+const Props = {
+  name: PropTypes.string,
+  names: PropTypes.arrayOf(PropTypes.string),
   label: PropTypes.string.isRequired,
   children: PropTypes.node.isRequired,
   /** @type {SxProps} */
   sx: PropTypes.object,
+  defaultExpanded: PropTypes.bool,
 };
 
 /**
  * Accordion with React Hook Form
- * @param {RHFAccordionProps} props
+ * @param {Props} props
  * @returns {JSX.Element}
  */
 const RHFAccordion = (props) => {
-  const { children, label, name, sx = {} } = props;
   const {
-    formState: { errors },
-  } = useFormContext();
-  const isError = useMemo(() => Object.keys(errors?.[name] || {}).length > 0, [errors, name]);
+    children,
+    label,
+    name = undefined,
+    sx = {},
+    defaultExpanded = false,
+    names = undefined,
+  } = props;
+  const { formState } = useFormContext();
+  const { errors } = formState;
+  const isError = useMemo(() => {
+    // if name present then the accordion is for object
+    if (name !== undefined) {
+      return errors?.[name] !== undefined;
+    }
+
+    // if names array is preset then the accordion is for multiple field
+    if (names instanceof Array && names.length) {
+      const index = names.findIndex((fieldName) => errors?.[fieldName] !== undefined);
+      return index !== -1;
+    }
+
+    return false;
+  }, [errors, name, names]);
+  const expanded = useBoolean(defaultExpanded);
 
   return (
     <Accordion
       sx={{
         borderWidth: 1,
         borderStyle: 'solid',
-        borderColor: isError ? 'error.main' : 'grey.600',
+        borderColor: (theme) => (isError ? 'error.main' : alpha(theme.palette.grey[500], 0.2)),
         '&.Mui-expanded': {
           bgcolor: 'background.default',
         },
+        mb: 1,
         ...sx,
       }}
       elevation={0}
       disableGutters
+      expanded={expanded.value}
+      onChange={(_e, value) => expanded.setValue(value)}
     >
       <AccordionSummary
         expandIcon={getIconify('solar:alt-arrow-down-line-duotone', 24, {
@@ -56,6 +83,6 @@ const RHFAccordion = (props) => {
   );
 };
 
-RHFAccordion.propTypes = RHFAccordionProps;
+RHFAccordion.propTypes = Props;
 
 export default RHFAccordion;

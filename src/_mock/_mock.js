@@ -1,33 +1,33 @@
 import { sub } from 'date-fns';
 
-import { ASSETS_API } from 'src/config-global';
-
 import {
-  _id,
   _ages,
-  _roles,
-  _prices,
-  _emails,
-  _ratings,
-  _nativeS,
-  _nativeM,
-  _nativeL,
-  _percents,
   _booleans,
-  _sentences,
-  _lastNames,
-  _fullNames,
-  _tourNames,
-  _jobTitles,
-  _taskNames,
-  _postTitles,
+  _companyNames,
+  _descriptions,
+  _emails,
   _firstNames,
   _fullAddress,
-  _companyNames,
-  _productNames,
-  _descriptions,
+  _fullNames,
+  _id,
+  _jobTitles,
+  _lastNames,
+  _nativeL,
+  _nativeM,
+  _nativeS,
+  _percents,
   _phoneNumbers,
+  _postTitles,
+  _prices,
+  _productNames,
+  _ratings,
+  _roles,
+  _sentences,
+  _taskNames,
+  _tourNames,
 } from './assets';
+
+const ASSETS_API = '';
 
 // ----------------------------------------------------------------------
 

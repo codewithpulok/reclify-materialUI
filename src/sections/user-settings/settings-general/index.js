@@ -8,10 +8,11 @@ import { Button } from '@mui/material';
 import { useSnackbar } from 'notistack';
 import { regions } from 'src/assets/data';
 import { getUserByID } from 'src/assets/dummy/users';
-import { useAuthContext } from 'src/auth/hooks';
-import EmptyState from 'src/components/common/empty-state/empty-state';
-import { addressFieldSchema } from 'src/components/common/fields';
+import { addressFieldSchema } from 'src/components/common/custom-fields';
+import { EmptyState } from 'src/components/common/custom-state';
 import FormProvider from 'src/components/common/hook-form';
+import { selectAuth } from 'src/redux-toolkit/features/auth/authSlice';
+import { useAppSelector } from 'src/redux-toolkit/hooks';
 import GeneralAvatarFields from './general-avatar-fields';
 import GeneralInfoFields from './general-info-fields';
 
@@ -19,9 +20,9 @@ import GeneralInfoFields from './general-info-fields';
 
 const SettingsGeneral = () => {
   const { enqueueSnackbar } = useSnackbar();
-  const { user: authUser } = useAuthContext();
+  const { user: authUser } = useAppSelector(selectAuth);
 
-  const user = getUserByID(authUser?.id);
+  const user = getUserByID(authUser?.id) || getUserByID('1'); // TODO: added for testing.
 
   const UpdateUserSchema = Yup.object().shape({
     firstName: Yup.string().required('First name is required'),
@@ -33,7 +34,7 @@ const SettingsGeneral = () => {
     region: Yup.string()
       .oneOf(regions.map((r) => r.code))
       .when('isNotAdmin', {
-        is: user?.role !== 'admin',
+        is: user?.userType !== 'admin',
         then: Yup.string().required('Region is required'),
       }),
     about: Yup.string().required('About is required'),

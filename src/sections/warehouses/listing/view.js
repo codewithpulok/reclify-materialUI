@@ -1,133 +1,154 @@
 'use client';
 
-import { Button, Grid, Link, Pagination, Stack } from '@mui/material';
+import { Button, Grid, Stack, Typography } from '@mui/material';
 import Container from '@mui/material/Container';
-import { useSearchParams } from 'next/navigation';
-import { useEffect, useMemo, useState } from 'react';
+import { useCallback, useEffect, useMemo, useState } from 'react';
 // local components
-import { warehouses } from 'src/assets/dummy/warehouses';
-import { useAuthContext } from 'src/auth/hooks';
-import { ConfirmationAlert } from 'src/components/common/alert';
-import CustomBreadcrumbs from 'src/components/common/custom-breadcrumbs/custom-breadcrumbs';
+import { regions } from 'src/assets/data';
+import { EmptyState, ErrorState } from 'src/components/common/custom-state';
 import { useSettingsContext } from 'src/components/common/settings';
-import { WarehouseCard } from 'src/components/warehouse/cards';
-import { getWarehouseAddress } from 'src/components/warehouse/utils';
+import { WarehouseCardSkeleton } from 'src/components/warehouse/cards';
+import { selectAuth } from 'src/redux-toolkit/features/auth/authSlice';
+import { useAppSelector } from 'src/redux-toolkit/hooks';
+import { useLazyWarehouseListQuery } from 'src/redux-toolkit/services/warehouseApi';
+import { RouterLink } from 'src/routes/components';
 import { paths } from 'src/routes/paths';
+import { ICONS } from '../config-warehouse';
+import WarehouseCarousel from './warehouse-carousel';
 
 // ----------------------------------------------------------------------
 
 export default function ListingView() {
-  const searchParams = useSearchParams();
-
-  const { user } = useAuthContext();
   const settings = useSettingsContext();
-  const [confirmation, setConfirmation] = useState({ open: false, title: '', text: '' });
+  const { user } = useAppSelector(selectAuth);
+
+  const [getWarehouses, results] = useLazyWarehouseListQuery();
 
   const [filteredWarehouses, setFilteredWarehouses] = useState([]);
 
-  const searchQuery = searchParams.get('query');
-  const filterUsers = user?.role === 'admin' ? searchParams.get('users') : null;
-  const filterRegions = searchParams.get('regions');
-
-  // generate page heading
-  const heading = useMemo(
-    () => (searchQuery ? `Search results for "${searchQuery}"` : 'Warehouse Listing'),
-    [searchQuery]
-  );
-
-  // handle delete warehouse
-  const handleDelete = (warehouse) => {
-    setConfirmation({
-      open: true,
-      title: `Are you sure to delete ${warehouse.name} warehouse`,
-      text: 'After deleting warehouse, it cannot be undone.',
-    });
-  };
-
-  const onDeleteDisagree = () => {
-    setConfirmation((prev) => ({ ...prev, open: false }));
-  };
-
-  const onDeleteAgree = () => {
-    setConfirmation((prev) => ({ ...prev, open: false }));
-  };
-
   // handle warehouse filter
   useEffect(() => {
-    let filtered = [...warehouses];
+    if (results.isSuccess && results?.data?.results instanceof Array) {
+      const filtered = [...results.data.results];
 
-    if (searchQuery) {
-      // handle some search api call
-      filtered = [...filtered].filter((w) =>
-        getWarehouseAddress(w.address).toLowerCase().includes(searchQuery.toLowerCase())
-      );
+      setFilteredWarehouses(filtered);
     }
+  }, [results]);
 
-    if (filterUsers) {
-      // do something
+  useEffect(() => {
+    if (user !== null && user) {
+      getWarehouses();
     }
+  }, [getWarehouses, user]);
 
-    if (filterRegions) {
-      // do something
-    }
+  // render warehouses
+  const renderWarehouses = useCallback(
+    (
+      warehouses = [],
+      notFoundText = 'No warehouses found',
+      errorText = 'Something went to wrong'
+    ) => {
+      // error state
+      if (results.isError) {
+        return <ErrorState text={results?.error?.data?.message || errorText} />;
+      }
 
-    if (user?.role === 'seller') {
-      filtered = [...filtered].filter((w) => w.sellerId === user.id);
-    }
+      // empty state
+      if (results.isSuccess && warehouses.length === 0) {
+        return <EmptyState text={notFoundText} icon={ICONS.warehouse()} />;
+      }
 
-    setFilteredWarehouses(filtered);
-  }, [filterRegions, filterUsers, searchQuery, user]);
+      // success state
+      if (results.isSuccess && warehouses.length) {
+        return (
+          <Grid item xs={12}>
+            <WarehouseCarousel data={warehouses} />
+          </Grid>
+        );
+      }
+
+      // loading state
+      return Array.from(Array(3).keys()).map((i) => (
+        <Grid key={i} item xs={12} sm={6} md={4}>
+          <WarehouseCardSkeleton />
+        </Grid>
+      ));
+    },
+    [results]
+  );
+
+  // hot deals
+  const hotdeals = useMemo(
+    () => filteredWarehouses.filter((w) => w.discountRate > 0),
+    [filteredWarehouses]
+  );
+  // warehouse based on region
+  const regionWarehouses = useMemo(
+    () =>
+      regions.reduce((prev, next) => {
+        prev[next.code] = filteredWarehouses.filter((w) => w.region === next.code);
+        return prev;
+      }, {}),
+    [filteredWarehouses]
+  );
 
   return (
     <Container maxWidth={settings.themeStretch ? false : 'xl'}>
-      <Stack
-        direction="row"
-        justifyContent="space-between"
-        alignItems="center"
-        mb={5}
-        flexWrap="wrap"
-        spacing={2}
-      >
-        <CustomBreadcrumbs
-          heading={heading}
-          links={[{ name: 'Dashboard', href: '#' }, { name: 'Warehouses' }]}
-        />
+      <Stack mb={5} spacing={5}>
+        <Stack
+          sx={{
+            flexDirection: 'row',
+            alignItems: 'center',
+            gap: 0.5,
+          }}
+        >
+          {ICONS.hot_deals(28, { color: 'error.main' })}
+          <Typography variant="h4">Hot Deals</Typography>
 
-        {/* Warehouse create button only for sellers */}
-        {user?.role === 'seller' ? (
-          <Link href={paths.dashboard.warehouses.create} sx={{ width: { xs: '100%', sm: 'auto' } }}>
-            <Button color="primary" variant="soft" fullWidth>
-              Create Warehouse
+          <Button
+            LinkComponent={RouterLink}
+            href={paths.dashboard.warehouses.hot_deals}
+            variant="soft"
+            color="primary"
+            sx={{ ml: 'auto' }}
+          >
+            View more
+          </Button>
+        </Stack>
+
+        <Grid container spacing={2}>
+          {renderWarehouses(hotdeals, 'No hot deals available')}
+        </Grid>
+      </Stack>
+
+      {regions.map((region) => (
+        <Stack mb={5} spacing={5} key={region.code}>
+          <Stack
+            sx={{
+              flexDirection: 'row',
+              alignItems: 'center',
+              gap: 0.5,
+            }}
+          >
+            {ICONS.warehouse(28, { color: 'secondary.main' })}
+            <Typography variant="h4">In {region.name}</Typography>
+
+            <Button
+              LinkComponent={RouterLink}
+              href={paths.dashboard.warehouses[region.code]}
+              variant="soft"
+              color="primary"
+              sx={{ ml: 'auto' }}
+            >
+              View more
             </Button>
-          </Link>
-        ) : null}
-      </Stack>
+          </Stack>
 
-      <Grid container spacing={2}>
-        {filteredWarehouses.map((warehouse) => (
-          <Grid item key={warehouse.id} xs={12} sm={6} md={4}>
-            <WarehouseCard
-              key={warehouse.id}
-              warehouse={warehouse}
-              onDelete={() => handleDelete(warehouse)}
-              hasControl={user?.role === 'seller'}
-            />
+          <Grid container spacing={2}>
+            {renderWarehouses(regionWarehouses[region.code])}
           </Grid>
-        ))}
-      </Grid>
-
-      <Stack direction="row" justifyContent="center" mt={8} mb={1}>
-        <Pagination count={10} color="primary" size="small" />
-      </Stack>
-
-      <ConfirmationAlert
-        open={confirmation.open}
-        onAgree={onDeleteAgree}
-        onDisagree={onDeleteDisagree}
-        onClose={onDeleteDisagree}
-        title={confirmation?.title}
-        text={confirmation?.text}
-      />
+        </Stack>
+      ))}
     </Container>
   );
 }

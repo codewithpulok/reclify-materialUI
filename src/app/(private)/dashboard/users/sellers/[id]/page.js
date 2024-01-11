@@ -8,7 +8,7 @@ export const generateMetadata = async ({ params }) => {
   if (!user) return {};
 
   return {
-    title: `${user.displayName} - Seller Details`,
+    title: `${user?.displayName} - Seller Details`,
   };
 };
 
