@@ -51,8 +51,8 @@ const WarehouseCarousel = (props) => {
         icon="solar:alt-arrow-right-bold"
         onNext={carousel.onNext}
         onPrev={carousel.onPrev}
-        leftButtonProps={{ disabled: carousel.currentIndex === 0 }}
-        rightButtonProps={{ disabled: carousel.currentIndex === data.length - 1 }}
+        // leftButtonProps={{ disabled: !carousel?.hasPrev }}
+        // rightButtonProps={{ disabled: !carousel?.hasNext }}
       >
         <Carousel ref={carousel.carouselRef} {...carousel.carouselSettings}>
           {data.map((item) => (

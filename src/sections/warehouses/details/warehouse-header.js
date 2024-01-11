@@ -46,11 +46,10 @@ const WarehouseHeader = (props) => {
             sm: 'center',
           },
           justifyContent: 'space-between',
+          mb: 1,
         }}
       >
-        <Typography variant="h2" sx={{ mb: 1 }}>
-          {name}
-        </Typography>
+        <Typography variant="h2">{name}</Typography>
 
         {/* warehouse diamond handler for admin only */}
         {user?.userType === 'admin' && <WarehouseDiamond value={5} />}
@@ -73,7 +72,7 @@ const WarehouseHeader = (props) => {
         <Typography variant="body2" mr={3}>
           {getWarehouseAddress(address)}
         </Typography>
-        <Stack flexDirection="row" spacing={0.5} alignItems="center">
+        <Stack flexDirection="row" spacing={0.5} alignItems="center" flexWrap="wrap">
           {isVerified && (
             <Chip label="Verified" icon={ICONS.verified()} color="success" size="small" />
           )}

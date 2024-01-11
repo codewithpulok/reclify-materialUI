@@ -70,7 +70,8 @@ const UserSettingsView = () => {
     (_event, newValue) => {
       router.push(newValue);
     },
-    [router]
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    []
   );
   const resetToDefaultState = useCallback(
     () => handleChangeTab(undefined, '#general'),

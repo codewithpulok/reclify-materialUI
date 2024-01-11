@@ -6,6 +6,7 @@ import PropTypes from 'prop-types';
 import { useForm } from 'react-hook-form';
 // local components
 import { LoadingButton } from '@mui/lab';
+import { useRouter } from 'next/navigation';
 import { useSnackbar } from 'notistack';
 import { useCallback } from 'react';
 import {
@@ -55,6 +56,7 @@ const defaultValues = {
 const CreateView = (props) => {
   const { sourceWarehouse } = props;
 
+  const router = useRouter();
   const { enqueueSnackbar } = useSnackbar();
   const settings = useSettingsContext();
 
@@ -69,8 +71,9 @@ const CreateView = (props) => {
 
   // reset form
   const onReset = useCallback(() => {
-    reset();
-  }, [reset]);
+    reset(defaultValues);
+    router.back();
+  }, [reset, router]);
 
   // handle form submit
   const onSubmit = useCallback(
@@ -81,12 +84,15 @@ const CreateView = (props) => {
 
       if (error || data?.isError) {
         enqueueSnackbar(data?.message || 'Error in warehouse create', { variant: 'error' });
-      } else {
+      }
+
+      if (!error || data?.isSuccess) {
         enqueueSnackbar('Warehouse created!');
         reset(defaultValues);
+        router.push(`${paths.dashboard.warehouses.root}/${data?.results?.id}`);
       }
     },
-    [createWarehouse, enqueueSnackbar, reset]
+    [createWarehouse, enqueueSnackbar, reset, router]
   );
 
   return (
