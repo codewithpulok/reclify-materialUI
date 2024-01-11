@@ -15,9 +15,8 @@ import { SettingsDrawer, SettingsProvider } from 'src/components/common/settings
 
 export const metadata = {
   title: 'Racklify',
-  description:
-    'The starting point for your next project with Racklify UI Kit, built on the newest version of Material-UI ©, ready to be customized to your style',
-  keywords: 'react,material,kit,application,dashboard,admin,template',
+  description: 'Store management platform',
+  keywords: 'racklify, store, pallet',
   themeColor: '#000000',
   manifest: '/manifest.json',
   viewport: { width: 'device-width', initialScale: 1, maximumScale: 1 },
