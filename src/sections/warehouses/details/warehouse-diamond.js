@@ -6,6 +6,7 @@ import { ICONS } from '../config-warehouse';
 
 const Props = {
   value: PropTypes.number.isRequired,
+  action: PropTypes.bool,
 };
 
 /**
@@ -13,7 +14,7 @@ const Props = {
  * @returns {JSX.Element}
  */
 const WarehouseDiamond = (props) => {
-  const { value = 0 } = props;
+  const { value = 0, action = false } = props;
 
   const [diamond, setDiamond] = useState(value);
 
@@ -35,6 +36,7 @@ const WarehouseDiamond = (props) => {
   return (
     <>
       <Rating
+        readOnly={!action}
         name="warehouse-diamond"
         value={diamond}
         icon={ICONS.diamond_fill(28)}

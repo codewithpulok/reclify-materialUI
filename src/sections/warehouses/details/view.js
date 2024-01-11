@@ -54,7 +54,11 @@ function DetailsView(props) {
           {/* show sidebar content in mobile mode & hide in tab mode */}
           <Box sx={{ display: { xs: 'block', md: 'none' } }} mb={5}>
             {user && user?.id !== owner.id ? (
-              <WarehouseOwnerCard sx={{ mb: 3 }} user={owner} />
+              <WarehouseOwnerCard
+                sx={{ mb: 3 }}
+                user={owner}
+                clickable={user?.userType === 'admin'}
+              />
             ) : null}
 
             <WarehouseBooking warehouse={warehouse} showPurchase={user?.userType === 'customer'} />
@@ -82,7 +86,13 @@ function DetailsView(props) {
         <Grid item xs={12} md={5}>
           {/* show sidebar content in tab mode & hide in mobile mode */}
           <Box sx={{ display: { xs: 'none', md: 'block', width: '100%' } }}>
-            {owner?.id !== user?.id ? <WarehouseOwnerCard sx={{ mb: 3 }} user={owner} /> : null}
+            {owner?.id !== user?.id ? (
+              <WarehouseOwnerCard
+                sx={{ mb: 3 }}
+                user={owner}
+                clickable={user?.userType === 'admin'}
+              />
+            ) : null}
             <WarehouseBooking warehouse={warehouse} showPurchase={user?.userType === 'customer'} />
           </Box>
         </Grid>
