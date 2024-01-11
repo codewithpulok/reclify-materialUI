@@ -1,5 +1,6 @@
 import { m } from 'framer-motion';
-
+import { useMemo } from 'react';
+// mui
 import Avatar from '@mui/material/Avatar';
 import Box from '@mui/material/Box';
 import Divider from '@mui/material/Divider';
@@ -8,11 +9,9 @@ import MenuItem from '@mui/material/MenuItem';
 import Stack from '@mui/material/Stack';
 import Typography from '@mui/material/Typography';
 import { alpha } from '@mui/material/styles';
-
+// routes
 import { useRouter } from 'src/routes/hooks';
-
-import { useMemo } from 'react';
-import { getUserByID } from 'src/assets/dummy';
+import { getUserByType } from 'src/assets/dummy';
 import { varHover } from 'src/components/common/animate';
 import CustomPopover, { usePopover } from 'src/components/common/custom-popover';
 import { selectAuth } from 'src/redux-toolkit/features/auth/authSlice';
@@ -30,7 +29,7 @@ export default function AccountPopover() {
   const { user } = useAppSelector(selectAuth);
   const [logout] = useLogoutMutation();
 
-  const userProfile = getUserByID(user?.id);
+  const userProfile = getUserByType(user?.userType);
 
   const popover = usePopover();
 
@@ -85,7 +84,7 @@ export default function AccountPopover() {
         }}
       >
         <Avatar
-          src={userProfile?.photoURL}
+          src={userProfile?.avatar || 'https://i.pravatar.cc/150?u=SophiaMiller'} // For demo
           alt={userProfile?.displayName}
           sx={{
             width: 36,

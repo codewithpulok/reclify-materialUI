@@ -23,7 +23,7 @@ const GeneralAvatarFields = (props) => {
       });
 
       if (file) {
-        setValue('photoURL', newFile, { shouldValidate: true });
+        setValue('avatar', newFile, { shouldValidate: true });
       }
     },
     [setValue]
@@ -32,7 +32,7 @@ const GeneralAvatarFields = (props) => {
   return (
     <Card sx={{ pt: 10, pb: 5, px: 3, textAlign: 'center' }}>
       <RHFUploadAvatar
-        name="photoURL"
+        name="avatar"
         maxSize={3145728}
         onDrop={handleDrop}
         helperText={

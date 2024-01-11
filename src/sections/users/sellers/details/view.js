@@ -70,7 +70,7 @@ const SellerDetailsView = (props) => {
         <DetailsCover
           joined={fDate(user.createdAt)}
           name={user?.displayName}
-          avatarUrl={user?.photoURL}
+          avatarUrl={user?.avatar}
           coverUrl="https://api-prod-minimal-v510.vercel.app/assets/images/cover/cover_4.jpg"
         />
 

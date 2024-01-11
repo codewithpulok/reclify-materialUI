@@ -18,7 +18,7 @@ export function useMockedUser() {
     displayName: 'Jaydon Frankie',
     email: 'demo@minimals.cc',
     password: 'demo1234',
-    photoURL: _mock.image.avatar(24),
+    avatar: _mock.image.avatar(24),
     phoneNumber: '+40 777666555',
     country: 'United States',
     address: '90210 Broadway Blvd',

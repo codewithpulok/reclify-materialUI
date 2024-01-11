@@ -61,7 +61,7 @@ const WarehouseOwnerCard = (props) => {
           >
             <Image
               alt={user.displayName}
-              src={user.photoURL}
+              src={user.avatar}
               ratio="1/1"
               sx={{ borderRadius: 100 }}
             />

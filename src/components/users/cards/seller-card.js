@@ -30,7 +30,7 @@ const SellerCard = (props) => {
         <Stack direction="row" spacing={1.5} mb={2} alignItems="center">
           <Box sx={{ width: '60px', height: '60px' }}>
             <Image
-              src={user.photoURL}
+              src={user.avatar}
               alt={user.displayName}
               ratio="1/1"
               sx={{ borderRadius: 100 }}

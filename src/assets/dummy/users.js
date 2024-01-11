@@ -5,13 +5,13 @@
 export const users = [
   {
     id: '1',
-    displayName: 'Jaydon Frankie',
-    firstName: 'Jaydon',
-    lastName: 'Frankie',
-    email: 'demo@minimals.cc',
-    password: 'demo1234',
-    photoURL: 'https://i.pravatar.cc/150?u=JaydonFrankie',
-    phoneNumber: '+40 777666555',
+    displayName: 'Sophia Miller',
+    firstName: 'Sophia',
+    lastName: 'Miller',
+    email: 'seller@test.com',
+    password: 'test123',
+    avatar: 'https://i.pravatar.cc/150?u=SophiaMiller',
+    phoneNumber: '+1 555666777',
     address: {
       streetNumber: '456',
       streetAddress: 'Oak Avenue',
@@ -20,15 +20,14 @@ export const users = [
       zipCode: 9203842,
       country: 'United States',
     },
-    about: 'Praesent turpis. Phasellus viverra nulla ut metus varius laoreet. Phasellus tempus.',
-    userType: 'admin',
-    region: 'Northeast',
-    createdAt: 1671039115000,
-    updatedAt: 1671047789000,
+    about: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.',
+    userType: 'seller',
+    createdAt: 1671034821000,
+    updatedAt: 1671042147000,
     socials: {
       facebook: 'https://www.facebook.com/caitlyn.kerluke',
-      instagram: 'https://www.facebook.com/caitlyn.kerluke',
       linkedin: 'https://www.facebook.com/caitlyn.kerluke',
+      x: 'https://www.twitter.com/caitlyn.kerluke',
     },
   },
   {
@@ -36,9 +35,9 @@ export const users = [
     displayName: 'Ethan Johnson',
     firstName: 'Ethan',
     lastName: 'Johnson',
-    email: 'ethan.johnson@example.com',
-    password: 'warehouse123',
-    photoURL: 'https://i.pravatar.cc/150?u=EthanJohnson',
+    email: 'admin@test.com',
+    password: 'test123',
+    avatar: 'https://i.pravatar.cc/150?u=EthanJohnson',
     phoneNumber: '+44 7700112233',
     address: {
       streetNumber: '456',
@@ -49,8 +48,7 @@ export const users = [
       country: 'United States',
     },
     about: 'Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.',
-    userType: 'seller',
-    region: 'Northeast',
+    userType: 'admin',
     createdAt: 1671027368000,
     updatedAt: 1671050423000,
     socials: {
@@ -62,13 +60,13 @@ export const users = [
   },
   {
     id: '3',
-    displayName: 'Sophia Miller',
-    firstName: 'Sophia',
-    lastName: 'Miller',
-    email: 'sophia.miller@example.com',
-    password: 'customer123',
-    photoURL: 'https://i.pravatar.cc/150?u=SophiaMiller',
-    phoneNumber: '+1 555666777',
+    displayName: 'Jaydon Frankie',
+    firstName: 'Jaydon',
+    lastName: 'Frankie',
+    email: 'customer@test.com',
+    password: 'test123',
+    avatar: 'https://i.pravatar.cc/150?u=JaydonFrankie',
+    phoneNumber: '+40 777666555',
     address: {
       streetNumber: '456',
       streetAddress: 'Oak Avenue',
@@ -77,15 +75,14 @@ export const users = [
       zipCode: 9203842,
       country: 'United States',
     },
-    about: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.',
+    about: 'Praesent turpis. Phasellus viverra nulla ut metus varius laoreet. Phasellus tempus.',
     userType: 'customer',
-    region: 'Northeast',
-    createdAt: 1671034821000,
-    updatedAt: 1671042147000,
+    createdAt: 1671039115000,
+    updatedAt: 1671047789000,
     socials: {
       facebook: 'https://www.facebook.com/caitlyn.kerluke',
+      instagram: 'https://www.facebook.com/caitlyn.kerluke',
       linkedin: 'https://www.facebook.com/caitlyn.kerluke',
-      x: 'https://www.twitter.com/caitlyn.kerluke',
     },
   },
   {
@@ -95,7 +92,7 @@ export const users = [
     lastName: 'Doe',
     email: 'john.doe@example.com',
     password: 'newuser123',
-    photoURL: 'https://i.pravatar.cc/150?u=JohnDoe',
+    avatar: 'https://i.pravatar.cc/150?u=JohnDoe',
     phoneNumber: '+1 123456789',
     address: {
       streetNumber: '789',
@@ -106,8 +103,7 @@ export const users = [
       country: 'United States',
     },
     about: 'New user with realistic data.',
-    userType: 'seller',
-    region: 'South',
+    userType: '',
     createdAt: 1680325689000,
     updatedAt: 1680352147000,
     socials: {
@@ -123,7 +119,7 @@ export const users = [
     lastName: 'Smith',
     email: 'emma.smith@example.com',
     password: 'customer456',
-    photoURL: 'https://i.pravatar.cc/150?u=EmmaSmith',
+    avatar: 'https://i.pravatar.cc/150?u=EmmaSmith',
     phoneNumber: '+1 987654321',
     address: {
       streetNumber: '123',
@@ -134,8 +130,7 @@ export const users = [
       country: 'United States',
     },
     about: 'A new customer with realistic data.',
-    userType: 'customer',
-    region: 'Midwest',
+    userType: '',
     createdAt: 1680327890000,
     updatedAt: 1680354876000,
     socials: {
@@ -152,6 +147,8 @@ export const users = [
  * @returns {User | undefined}
  */
 export const getUserByID = (id) => users.find((user) => user.id === id);
+
+export const getUserByType = (type) => users.find((user) => user.userType === type);
 
 /**
  * all seller users

@@ -33,7 +33,7 @@ export default function ChatNavAccount() {
     <>
       <Badge variant={status} anchorOrigin={{ vertical: 'bottom', horizontal: 'right' }}>
         <Avatar
-          src={user?.photoURL}
+          src={user?.avatar}
           alt={user?.displayName}
           onClick={popover.onOpen}
           sx={{ cursor: 'pointer', width: 48, height: 48 }}
