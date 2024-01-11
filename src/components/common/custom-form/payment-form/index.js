@@ -35,9 +35,9 @@ const PaymentForm = (props) => {
 
   const { user } = useAppSelector(selectAuth);
 
-  const userBillingAddress = getBillingAddressByUserId(user?.id);
+  const userBillingAddress = getBillingAddressByUserId('2') || getBillingAddressByUserId(user?.id);
   const primaryBillingAddress = userBillingAddress.find((a) => a.primary);
-  const userPaymentCards = getPaymentCardsByUserId(user?.id);
+  const userPaymentCards = getPaymentCardsByUserId('2') || getPaymentCardsByUserId(user?.id);
   const primaryPaymentCard = userPaymentCards.find((p) => p.primary);
 
   const methods = useForm({ defaultValues });

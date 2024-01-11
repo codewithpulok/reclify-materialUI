@@ -11,9 +11,9 @@ const SettingsCustomerBillingsProps = {};
 const SettingsCustomerBillings = (props) => {
   const { user } = useAppSelector(selectAuth);
 
-  const invoices = getInvoicesByUserId(user?.id);
-  const billingAddressBook = getBillingAddressByUserId(user?.id);
-  const paymentCards = getPaymentCardsByUserId(user?.id);
+  const invoices = getInvoicesByUserId('3') || getInvoicesByUserId(user?.id);
+  const billingAddressBook = getBillingAddressByUserId('3') || getBillingAddressByUserId(user?.id);
+  const paymentCards = getPaymentCardsByUserId('3') || getPaymentCardsByUserId(user?.id);
 
   return (
     <Grid container spacing={3} disableEqualOverflow>

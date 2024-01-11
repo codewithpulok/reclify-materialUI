@@ -55,7 +55,7 @@ const SettingsSellerTransactions = () => {
   const { user } = useAppSelector(selectAuth);
   const { enqueueSnackbar } = useSnackbar();
 
-  const transactions = getSellerTransactions(user?.id);
+  const transactions = getSellerTransactions('2') || getSellerTransactions(user?.id);
   const table = useTable({ defaultOrderBy: 'createdAt' });
   const [tableData] = useState(transactions);
 

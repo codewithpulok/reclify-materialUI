@@ -1,8 +1,7 @@
 import { Button, Rating } from '@mui/material';
 import PropTypes from 'prop-types';
-import { useCallback } from 'react';
+import { useCallback, useState } from 'react';
 import { ConfirmDialog } from 'src/components/common/custom-dialog';
-import { useBoolean } from 'src/hooks/use-boolean';
 import { ICONS } from '../config-warehouse';
 
 const Props = {
@@ -16,15 +15,28 @@ const Props = {
 const WarehouseDiamond = (props) => {
   const { value = 0 } = props;
 
-  const diamondDialog = useBoolean(false);
-  const openDiamondDialog = useCallback(() => diamondDialog.onTrue(), [diamondDialog]);
-  const closeDiamondDialog = useCallback(() => diamondDialog.onFalse(), [diamondDialog]);
+  const [diamond, setDiamond] = useState(value);
+
+  const [diamondDialog, setDiamondDialog] = useState({ open: false, value: undefined });
+  const openDiamondDialog = useCallback(
+    (newValue) => setDiamondDialog({ open: true, value: newValue }),
+    []
+  );
+  const closeDiamondDialog = useCallback(
+    () => setDiamondDialog({ open: false, value: undefined }),
+    []
+  );
+
+  const onConfirm = useCallback(() => {
+    setDiamond(diamondDialog.value);
+    closeDiamondDialog();
+  }, [closeDiamondDialog, diamondDialog.value]);
 
   return (
     <>
       <Rating
         name="warehouse-diamond"
-        defaultValue={value}
+        value={diamond}
         icon={ICONS.diamond_fill(28)}
         emptyIcon={ICONS.diamond_empty(28)}
         sx={{
@@ -35,14 +47,14 @@ const WarehouseDiamond = (props) => {
             color: 'info.main',
           },
         }}
-        onChange={openDiamondDialog}
+        onChange={(_e, v) => openDiamondDialog(v)}
       />
       <ConfirmDialog
-        open={diamondDialog.value}
+        open={diamondDialog.open}
         title="Change the warehouse diamonds?"
         content={"don't worry you can change the value any time."}
         action={
-          <Button onClick={closeDiamondDialog} color="warning" variant="contained">
+          <Button onClick={onConfirm} color="warning" variant="contained">
             Confirm
           </Button>
         }

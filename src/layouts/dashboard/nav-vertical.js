@@ -58,7 +58,7 @@ export default function NavVertical({ openNav, onCloseNav }) {
       />
 
       <Box sx={{ flexGrow: 1 }} />
-      {user.userType === 'seller' && <NavUpgrade />}
+      {user?.userType === 'seller' && <NavUpgrade />}
     </Scrollbar>
   );
 

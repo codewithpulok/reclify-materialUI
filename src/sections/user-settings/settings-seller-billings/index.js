@@ -14,9 +14,9 @@ import BillingPlan from './billing-plan';
 const SettingsSellerBillings = (props) => {
   const { user } = useAppSelector(selectAuth);
 
-  const userInvoices = getInvoicesByUserId(user?.id);
-  const billingAddressBook = getBillingAddressByUserId(user?.id);
-  const paymentCards = getPaymentCardsByUserId(user?.id);
+  const userInvoices = getInvoicesByUserId('2') || getInvoicesByUserId(user?.id);
+  const billingAddressBook = getBillingAddressByUserId('2') || getBillingAddressByUserId(user?.id);
+  const paymentCards = getPaymentCardsByUserId('2') || getPaymentCardsByUserId(user?.id);
   const plans = getAllPlans();
 
   return (

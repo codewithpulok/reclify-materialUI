@@ -53,7 +53,7 @@ const defaultFilters = {
 const SettingsCustomerTransactions = () => {
   const { user } = useAppSelector(selectAuth);
   const { enqueueSnackbar } = useSnackbar();
-  const transactions = getCustomerTransactions(user?.id);
+  const transactions = getCustomerTransactions('3') || getCustomerTransactions(user?.id);
 
   const table = useTable({ defaultOrderBy: 'createdAt' });
   const [tableData] = useState(transactions);
