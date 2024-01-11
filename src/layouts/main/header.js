@@ -54,7 +54,7 @@ export default function Header() {
         }}
       >
         <Container sx={{ height: 1, display: 'flex', alignItems: 'center' }}>
-          <Logo />
+          <Logo isLong />
 
           <Box sx={{ flexGrow: 1 }} />
 
