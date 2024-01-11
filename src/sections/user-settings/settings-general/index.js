@@ -1,13 +1,12 @@
 import { yupResolver } from '@hookform/resolvers/yup';
 import { useForm } from 'react-hook-form';
 import * as Yup from 'yup';
-
-import Grid from '@mui/material/Unstable_Grid2';
-
-import { Button } from '@mui/material';
 import { useSnackbar } from 'notistack';
-import { regions } from 'src/assets/data';
-import { getUserByID } from 'src/assets/dummy/users';
+// mui
+import Grid from '@mui/material/Unstable_Grid2';
+import { Button } from '@mui/material';
+// components
+import { getUserByID, getUserByType } from 'src/assets/dummy/users';
 import { addressFieldSchema } from 'src/components/common/custom-fields';
 import { EmptyState } from 'src/components/common/custom-state';
 import FormProvider from 'src/components/common/hook-form';
@@ -22,21 +21,15 @@ const SettingsGeneral = () => {
   const { enqueueSnackbar } = useSnackbar();
   const { user: authUser } = useAppSelector(selectAuth);
 
-  const user = getUserByID(authUser?.id) || getUserByID('1'); // TODO: added for testing.
+  const user = getUserByID(authUser?.id) || getUserByType(authUser?.userType); // TODO: added for testing.
 
   const UpdateUserSchema = Yup.object().shape({
     firstName: Yup.string().required('First name is required'),
     lastName: Yup.string().required('Last name is required'),
     email: Yup.string().required('Email is required').email('Email must be a valid email address'),
-    photoURL: Yup.mixed().nullable().required('Avatar is required'),
+    avatar: Yup.mixed().nullable().required('Avatar is required'),
     phoneNumber: Yup.string().required('Phone number is required'),
     address: addressFieldSchema,
-    region: Yup.string()
-      .oneOf(regions.map((r) => r.code))
-      .when('isNotAdmin', {
-        is: user?.userType !== 'admin',
-        then: Yup.string().required('Region is required'),
-      }),
     about: Yup.string().required('About is required'),
     // not required
     isPublic: Yup.boolean(),
@@ -46,12 +39,11 @@ const SettingsGeneral = () => {
     firstName: user?.firstName || '',
     lastName: user?.lastName || '',
     email: user?.email || '',
-    photoURL: user?.photoURL || null,
+    avatar: user?.avatar || null,
     phoneNumber: user?.phoneNumber || '',
     country: user?.country || '',
     address: user?.address || '',
     state: user?.state || '',
-    region: user?.region || '',
     city: user?.city || '',
     zipCode: user?.zipCode || '',
     about: user?.about || '',

@@ -27,7 +27,7 @@ const SellerDetailsCard = (props) => {
       sx={{ bgcolor: 'background.default', p: 1.5, borderRadius: 1, ...sx }}
       alignItems="center"
     >
-      <Avatar src={seller.photoURL} alt={seller.displayName} sx={{ width: 60, height: 60 }} />
+      <Avatar src={seller.avatar} alt={seller.displayName} sx={{ width: 60, height: 60 }} />
       <Stack>
         <Typography variant="h6" mb={0.8}>
           {seller.displayName}

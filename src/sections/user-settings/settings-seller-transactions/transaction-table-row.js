@@ -66,7 +66,7 @@ const TransactionTableRow = (props) => {
 
       <TableCell>
         <Stack direction="row" alignItems="center">
-          <Avatar alt={row.customer.displayName} src={row.customer.photoURL} sx={{ mr: 2 }} />
+          <Avatar alt={row.customer.displayName} src={row.customer.avatar} sx={{ mr: 2 }} />
           <ListItemText
             primary={row.customer.displayName}
             primaryTypographyProps={{ typography: 'body2' }}

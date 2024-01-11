@@ -8,7 +8,7 @@
  * @property {string} lastName - The last name of the user.
  * @property {string} email - The email address of the user.
  * @property {string} password - The password of the user (Note: This should be stored securely and not exposed).
- * @property {string} photoURL - The URL of the user's profile photo.
+ * @property {string} avatar - The URL of the user's profile photo.
  * @property {string} phoneNumber - The phone number of the user.
  * @property {string} country - The country of residence for the user.
  * @property {string} address - The street address of the user.

@@ -134,7 +134,7 @@ const WarehouseReviews = (props) => {
             {sortedReviews.map((review) => (
               <WarehouseReviewCard
                 key={review.id}
-                avatar={review.author.photoURL}
+                avatar={review.author.avatar}
                 createdAt={review.createdAt}
                 feedback={review.feedback}
                 name={review.author.displayName}
