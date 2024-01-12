@@ -78,7 +78,7 @@ const WarehouseCard = (props) => {
 
           {/* if there is a discount then show badge */}
           {!!warehouse.discountRate && (
-            <Label color="error" variant="soft" sx={{ position: 'absolute', top: 6, right: 6 }}>
+            <Label color="secondary" variant="soft" sx={{ position: 'absolute', top: 6, right: 6 }}>
               {warehouse.discountRate}% OFF
             </Label>
           )}
