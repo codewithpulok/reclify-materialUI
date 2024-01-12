@@ -128,8 +128,9 @@ const WarehouseBooking = (props) => {
               <Typography sx={bookingInfoStyle.description}>
                 {warehouse.totalSpace >= 0 && (
                   <>
-                    - {fNumber(warehouse.totalSpace * SQUARE_FEET_PER_PALLET)} square feet
-                    <br />- {fNumber(warehouse.totalSpace * CUBIC_FEET_PER_PALLET)} cubic feet
+                    {fNumber(warehouse.totalSpace * SQUARE_FEET_PER_PALLET)} square feet
+                    <br />
+                    {fNumber(warehouse.totalSpace * CUBIC_FEET_PER_PALLET)} cubic feet
                   </>
                 )}
               </Typography>
@@ -152,12 +153,14 @@ const WarehouseBooking = (props) => {
 
                 {warehouse?.minSpaceOrder && warehouse?.minSpaceOrder > 0 ? (
                   <>
-                    <br />- Minimum: {fNumber(warehouse.minSpaceOrder)} pallets
+                    <br />
+                    Minimum: {fNumber(warehouse.minSpaceOrder)} pallets
                   </>
                 ) : null}
                 {warehouse?.maxSpaceOrder && warehouse?.maxSpaceOrder > 0 ? (
                   <>
-                    <br />- Maximum: {fNumber(warehouse.maxSpaceOrder)} pallets
+                    <br />
+                    Maximum: {fNumber(warehouse.maxSpaceOrder)} pallets
                   </>
                 ) : null}
               </Typography>

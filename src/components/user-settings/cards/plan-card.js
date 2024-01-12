@@ -82,14 +82,14 @@ const PlanCard = (props) => {
 
       {plan?.features && plan.features.length && (
         <>
-          <Stack direction="row" alignItems="center" justifyContent="space-between" mt={3} mb={1}>
+          <Stack mt={3} mb={1}>
             <Typography variant="overline" color="text.secondary">
               Features
             </Typography>
           </Stack>
 
           <Stack spacing={0.5}>
-            {[...plan.features].map((feature) => (
+            {plan.features.map((feature) => (
               <Stack key={feature.id} direction="row" alignItems="center" gap={0.5}>
                 {ICONS.feature(14, { color: 'success.main' })}
                 <Typography variant="caption">{feature.title}</Typography>

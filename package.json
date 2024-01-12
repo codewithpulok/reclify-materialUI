@@ -1,8 +1,8 @@
 {
-  "name": "@racklify/starter-next-js",
+  "name": "@racklify/frontend",
   "author": "Racklify",
   "version": "1.0.0",
-  "description": "Racklify frontend project | warehouse",
+  "description": "Racklify frontend",
   "private": true,
   "scripts": {
     "dev": "next dev -p 3033",
