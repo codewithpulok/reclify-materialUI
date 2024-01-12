@@ -66,7 +66,7 @@ export function useNavData() {
   const data = useMemo(
     () => [
       {
-        subheader: 'overview v1.0.0',
+        subheader: 'beta v1.0.0',
         items: [
           // routes for all user
           ...commonRoutes,
