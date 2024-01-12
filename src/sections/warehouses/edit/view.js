@@ -1,7 +1,7 @@
 'use client';
 
 import { yupResolver } from '@hookform/resolvers/yup';
-import { Button, Container, Link, Stack } from '@mui/material';
+import { Button, Container, Stack } from '@mui/material';
 import { useSnackbar } from 'notistack';
 import PropTypes from 'prop-types';
 import { useCallback, useEffect } from 'react';
@@ -9,6 +9,7 @@ import { useForm } from 'react-hook-form';
 
 // local components
 import { LoadingButton } from '@mui/lab';
+import { useRouter } from 'next/navigation';
 import CustomBreadcrumbs from 'src/components/common/custom-breadcrumbs';
 import FormProvider from 'src/components/common/hook-form/form-provider';
 import { useSettingsContext } from 'src/components/common/settings';
@@ -27,6 +28,7 @@ const Props = {
  * @returns {JSX.Element}
  */
 const EditView = ({ warehouse }) => {
+  const router = useRouter();
   const settings = useSettingsContext();
   const { enqueueSnackbar } = useSnackbar();
 
@@ -36,21 +38,29 @@ const EditView = ({ warehouse }) => {
   const { handleSubmit, reset, formState } = methods;
   const { isSubmitting } = formState;
 
+  // reset form
+  const onReset = useCallback(() => {
+    reset({});
+    router.back();
+  }, [reset, router]);
+
   const onSubmit = useCallback(
     async (values) => {
       console.log('Warehouse Update: ', values);
 
-      const response = await updateWarehouse({ warehouse: values, id: warehouse.id });
+      const response = await updateWarehouse({ warehouseData: values, id: warehouse?.id });
       const { data, error } = response;
 
       if (error || data?.isError) {
         enqueueSnackbar(data?.message || 'Error in warehouse update', { variant: 'error' });
-      } else {
+        console.error('Error Warehouse Update: ', error || data?.message);
+      } else if (!error && data?.isSuccess) {
         enqueueSnackbar('Warehouse updated!');
-        reset(warehouse);
+        reset({});
+        router.push(`${paths.dashboard.warehouses.root}/${data?.results?.id}`);
       }
     },
-    [enqueueSnackbar, reset, updateWarehouse, warehouse]
+    [enqueueSnackbar, reset, router, updateWarehouse, warehouse?.id]
   );
 
   useEffect(() => {
@@ -69,7 +79,7 @@ const EditView = ({ warehouse }) => {
         }}
       />
 
-      <FormProvider methods={methods} onSubmit={handleSubmit(onSubmit)}>
+      <FormProvider methods={methods} onSubmit={handleSubmit(onSubmit)} onReset={onReset}>
         <Stack>
           <WarehouseEditFields />
           <Stack
@@ -95,11 +105,10 @@ const EditView = ({ warehouse }) => {
             >
               Save Changes
             </LoadingButton>
-            <Link href={paths.dashboard.warehouses.root}>
-              <Button variant="soft" size="large" color="error" type="reset">
-                Cancel
-              </Button>
-            </Link>
+
+            <Button variant="soft" size="large" color="error" type="reset">
+              Cancel
+            </Button>
           </Stack>
         </Stack>
       </FormProvider>

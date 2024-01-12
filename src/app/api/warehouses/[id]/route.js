@@ -6,7 +6,8 @@ import { endpoints, getEndpoint } from 'src/utils/api/endpoints';
 export const PUT = serverAsyncWrapper(async (req, { params }) => {
   const authorization = headers().get('authorization');
   const body = await req.json();
-  const response = await fetch(getEndpoint(`${endpoints.warehouses.update}/${params.id}`), {
+
+  const response = await fetch(getEndpoint(`${endpoints.warehouses.update}`), {
     body: JSON.stringify(body),
     method: 'PUT',
     headers: {
