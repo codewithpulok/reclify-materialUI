@@ -43,9 +43,6 @@ const WarehouseCard = (props) => {
     <Card
       className="card"
       sx={{
-        ':hover .actions': {
-          opacity: 1,
-        },
         ...sx,
       }}
     >
@@ -120,7 +117,6 @@ const WarehouseCard = (props) => {
             right: 4,
             bgcolor: 'grey.100',
             borderRadius: 5,
-            opacity: 0,
             transition: '0.3s',
           }}
         >

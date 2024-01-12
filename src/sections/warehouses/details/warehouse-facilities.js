@@ -1,26 +1,29 @@
-import { Box, Grid, Typography } from '@mui/material';
+import { Grid, Typography } from '@mui/material';
 import PropTypes from 'prop-types';
 import { useMemo } from 'react';
-import { predefinedServices } from 'src/assets/data';
+import { predefinedFacility } from 'src/assets/data';
+import { WarehouseDetailsBox } from 'src/components/warehouse/box';
 import { getPredefinedFieldsValue } from 'src/utils/predefined-fields';
-import { detailsBoxStyle } from '../../styles';
 
-const ServicesTabProps = {
-  /** @type {WarehouseServices[]} */
-  services: PropTypes.object.isRequired,
+const Props = {
+  /** @type {WarehouseFacilityDetails} */
+  facilityDetails: PropTypes.object.isRequired,
   /** @type {SxProps} */
   sx: PropTypes.object,
 };
 
 /**
- * @param {ServicesTabProps} props
+ * @param {Props} props
  * @returns {JSX.Element}
  */
-const ServicesTab = (props) => {
-  const { services, sx } = props;
-  const values = useMemo(() => getPredefinedFieldsValue(services, predefinedServices), [services]);
+const WarehouseFacilities = (props) => {
+  const { facilityDetails, sx = {} } = props;
+  const values = useMemo(
+    () => getPredefinedFieldsValue(facilityDetails, predefinedFacility),
+    [facilityDetails]
+  );
   return (
-    <Box sx={{ ...detailsBoxStyle, ...sx }}>
+    <WarehouseDetailsBox sx={sx} title="Facilities">
       <Grid container sx={{ rowGap: { xs: 1.3, sm: 1 } }}>
         {values.map((field) => (
           <Grid item container key={field.key} xs={12} spacing={0.2}>
@@ -29,9 +32,9 @@ const ServicesTab = (props) => {
             </Grid>
             <Grid item xs={12} sm={7}>
               <Typography variant="body2" color="text.secondary">
-                {field.value === null ? (
-                  '-'
-                ) : (
+                {field.value === null && '-'}
+
+                {field.value && (
                   <>
                     {field?.startText && `${field.startText} `}
                     {field.value}
@@ -43,10 +46,10 @@ const ServicesTab = (props) => {
           </Grid>
         ))}
       </Grid>
-    </Box>
+    </WarehouseDetailsBox>
   );
 };
 
-ServicesTab.propTypes = ServicesTabProps;
+WarehouseFacilities.propTypes = Props;
 
-export default ServicesTab;
+export default WarehouseFacilities;

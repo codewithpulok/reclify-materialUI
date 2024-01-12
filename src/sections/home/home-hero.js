@@ -8,11 +8,11 @@ import Typography from '@mui/material/Typography';
 import Grid from '@mui/material/Unstable_Grid2';
 import { alpha, styled, useTheme } from '@mui/material/styles';
 
-import { useResponsive } from 'src/hooks/use-responsive';
 import Logo from 'src/components/common/logo';
+import { useResponsive } from 'src/hooks/use-responsive';
 
 import { HEADER } from 'src/layouts/config-layout';
-import { bgBlur, bgGradient, textGradient } from 'src/theme/css';
+import { bgBlur, bgGradient } from 'src/theme/css';
 
 import { MotionContainer, varFade } from 'src/components/common/animate';
 

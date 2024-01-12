@@ -19,8 +19,6 @@ const WarehouseAdminMenuProps = {
   isVerified: PropTypes.bool.isRequired,
   isFeatured: PropTypes.bool.isRequired,
   isVisible: PropTypes.bool.isRequired,
-  onFeaturedChange: PropTypes.func.isRequired,
-  onVerifiedChange: PropTypes.func.isRequired,
 };
 
 /**
@@ -28,8 +26,7 @@ const WarehouseAdminMenuProps = {
  * @returns {JSX.Element}
  */
 const WarehouseAdminMenu = (props) => {
-  // eslint-disable-next-line no-unused-vars
-  const { isFeatured, isVerified, isVisible, onFeaturedChange, onVerifiedChange } = props;
+  const { isFeatured, isVerified, isVisible } = props;
   const menu = useBoolean(false);
 
   const anchorRef = useRef(null);
