@@ -58,7 +58,7 @@ export default function Footer() {
       }}
     >
       <Container>
-        <Logo sx={{ mb: 1, mx: 'auto' }} />
+        <Logo sx={{ mb: 1, mx: 'auto' }} isLong />
 
         <Typography variant="caption" component="div">
           © All rights reserved
@@ -88,7 +88,7 @@ export default function Footer() {
           textAlign: { xs: 'center', md: 'unset' },
         }}
       >
-        <Logo sx={{ mb: 3 }} />
+        <Logo sx={{ mb: 3 }} isLong />
 
         <Grid
           container
