@@ -9,6 +9,7 @@ import Grid from '@mui/material/Unstable_Grid2';
 import { alpha, styled, useTheme } from '@mui/material/styles';
 
 import { useResponsive } from 'src/hooks/use-responsive';
+import Logo from 'src/components/common/logo';
 
 import { HEADER } from 'src/layouts/config-layout';
 import { bgBlur, bgGradient, textGradient } from 'src/theme/css';
@@ -38,25 +39,6 @@ const StyledWrapper = styled('div')(({ theme }) => ({
   position: 'relative',
   [theme.breakpoints.up('md')]: {
     marginTop: HEADER.H_DESKTOP_OFFSET,
-  },
-}));
-
-const StyledTextGradient = styled(m.h1)(({ theme }) => ({
-  ...textGradient(
-    `300deg, ${theme.palette.primary.main} 0%, ${theme.palette.warning.main} 25%, ${theme.palette.primary.main} 50%, ${theme.palette.warning.main} 75%, ${theme.palette.primary.main} 100%`
-  ),
-  padding: 0,
-  marginTop: 8,
-  lineHeight: 1.2,
-  fontWeight: 900,
-  marginBottom: 20,
-  letterSpacing: 8,
-  textAlign: 'center',
-  backgroundSize: '400%',
-  fontSize: `${64 / 16}rem`,
-  fontFamily: theme.typography.fontSecondaryFamily,
-  [theme.breakpoints.up('md')]: {
-    fontSize: `${96 / 16}rem`,
   },
 }));
 
@@ -169,17 +151,7 @@ export default function HomeHero() {
       }}
     >
       <m.div variants={varFade().in}>
-        <StyledTextGradient
-          animate={{ backgroundPosition: '200% center' }}
-          transition={{
-            repeatType: 'reverse',
-            ease: 'linear',
-            duration: 20,
-            repeat: Infinity,
-          }}
-        >
-          Racklify
-        </StyledTextGradient>
+        <Logo sx={{ mt: 3, ml: 4, mb: 1, width: 450, height: 120 }} isLong />
       </m.div>
 
       <m.div variants={varFade().in}>
