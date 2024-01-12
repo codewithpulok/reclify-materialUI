@@ -17,7 +17,7 @@ import { paths } from 'src/routes/paths';
 import { useMockedUser } from 'src/hooks/use-mocked-user';
 import { useResponsive } from 'src/hooks/use-responsive';
 
-// import { clickConversation } from 'src/api/chat';
+import { clickConversation } from 'src/utils/chat';
 
 import { useGetNavItem } from './hooks';
 
@@ -46,9 +46,9 @@ export default function ChatNavItem({ selected, collapse, conversation, onCloseM
         onCloseMobile();
       }
 
-      // await clickConversation(conversation.id);
+      await clickConversation(conversation.id);
 
-      router.push(`${paths.dashboard.chat}?id=${conversation.id}`);
+      router.push(`${paths.dashboard.messages.root}?id=${conversation.id}`);
     } catch (error) {
       console.error(error);
     }

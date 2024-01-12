@@ -70,7 +70,7 @@ export default function ChatNav({ loading, contacts, conversations, selectedConv
     if (!mdUp) {
       onCloseMobile();
     }
-    router.push(paths.dashboard.chat);
+    router.push(paths.dashboard.messages.root);
   }, [mdUp, onCloseMobile, router]);
 
   const handleSearchContacts = useCallback(
@@ -105,7 +105,7 @@ export default function ChatNav({ loading, contacts, conversations, selectedConv
     (result) => {
       handleClickAwaySearch();
 
-      router.push(`${paths.dashboard.chat}?id=${result.id}`);
+      router.push(`${paths.dashboard.messages.root}?id=${result.id}`);
     },
     [handleClickAwaySearch, router]
   );

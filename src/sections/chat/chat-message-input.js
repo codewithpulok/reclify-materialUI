@@ -11,6 +11,8 @@ import { useRouter } from 'src/routes/hooks';
 import { useMockedUser } from 'src/hooks/use-mocked-user';
 
 import Iconify from 'src/components/common/iconify';
+import { paths } from 'src/routes/paths';
+import { createConversation, sendMessage } from 'src/utils/chat';
 
 // ----------------------------------------------------------------------
 
@@ -79,25 +81,28 @@ export default function ChatMessageInput({
     setMessage(event.target.value);
   }, []);
 
-  const handleSendMessage = useCallback(async (event) => {
-    try {
-      // *************** commented for demo only ********************
-      // if (event.key === 'Enter') {
-      //   if (message) {
-      //     if (selectedConversationId) {
-      //       await sendMessage(selectedConversationId, messageData);
-      //     } else {
-      //       const res = await createConversation(conversationData);
-      //       router.push(`${paths.dashboard.chat}?id=${res.conversation.id}`);
-      //       onAddRecipients([]);
-      //     }
-      //   }
-      //   setMessage('');
-      // }
-    } catch (error) {
-      console.error(error);
-    }
-  }, []);
+  const handleSendMessage = useCallback(
+    async (event) => {
+      try {
+        // *************** commented for demo only ********************
+        if (event.key === 'Enter') {
+          if (message) {
+            if (selectedConversationId) {
+              await sendMessage(selectedConversationId, messageData);
+            } else {
+              const res = await createConversation(conversationData);
+              router.push(`${paths.dashboard.messages.root}?id=${res.conversation.id}`);
+              onAddRecipients([]);
+            }
+          }
+          setMessage('');
+        }
+      } catch (error) {
+        console.error(error);
+      }
+    },
+    [conversationData, message, messageData, onAddRecipients, router, selectedConversationId]
+  );
 
   return (
     <>
