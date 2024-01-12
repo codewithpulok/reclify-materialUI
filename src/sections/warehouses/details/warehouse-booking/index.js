@@ -104,7 +104,7 @@ const WarehouseBooking = (props) => {
           {warehouse.discountRate > 0 && (
             <Chip
               label={`${warehouse.discountRate}% OFF`}
-              color="warning"
+              color="secondary"
               variant="outlined"
               icon={ICONS.discount()}
             />
@@ -212,7 +212,7 @@ const WarehouseBooking = (props) => {
           flexWrap="wrap"
         >
           <Typography variant="h5">Total Price:</Typography>
-          <Typography variant="h5" ml={1} color={discount > 0 ? 'warning.main' : 'default'}>
+          <Typography variant="h5" ml={1} color={discount > 0 ? 'secondary.main' : 'default'}>
             {totalPrice !== undefined ? fCurrency(totalPrice - discount) : '$0.00'}
           </Typography>
           {discount > 0 ? (

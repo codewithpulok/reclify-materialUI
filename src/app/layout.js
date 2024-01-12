@@ -31,7 +31,7 @@ export const metadata = {
 export default function RootLayout({ children }) {
   return (
     <html lang="en" className={primaryFont.className}>
-      <body>
+      <body style={{ scrollBehavior: 'smooth' }}>
         <SettingsProvider
           defaultSettings={{
             themeMode: 'light', // 'light' | 'dark'

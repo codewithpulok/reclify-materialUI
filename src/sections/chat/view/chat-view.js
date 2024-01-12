@@ -12,7 +12,7 @@ import { paths } from 'src/routes/paths';
 
 import { useMockedUser } from 'src/hooks/use-mocked-user';
 
-// import { useGetContacts, useGetConversation, useGetConversations } from 'src/api/chat';
+import { useGetContacts, useGetConversation, useGetConversations } from 'src/utils/chat';
 
 import { useSettingsContext } from 'src/components/common/settings';
 
@@ -39,18 +39,18 @@ export default function ChatView() {
   const [recipients, setRecipients] = useState([]);
 
   // *************** Commented for demo view ***********************
-  // const { contacts } = useGetContacts();
-  // const { conversations, conversationsLoading } = useGetConversations();
-  // const { conversation, conversationError } = useGetConversation(`${selectedConversationId}`);
+  const { contacts } = useGetContacts();
+  const { conversations, conversationsLoading } = useGetConversations();
+  const { conversation, conversationError } = useGetConversation(`${selectedConversationId}`);
 
-  const { contacts } = { contacts: [] };
+  // const { contacts } = { contacts: [] };
 
-  const { conversations, conversationsLoading } = {
-    conversations: undefined,
-    conversationsLoading: true,
-  };
+  // const { conversations, conversationsLoading } = {
+  //   conversations: undefined,
+  //   conversationsLoading: true,
+  // };
 
-  const { conversation, conversationError } = { conversation: undefined, conversationError: true };
+  // const { conversation, conversationError } = { conversation: undefined, conversationError: true };
 
   const participants = conversation
     ? conversation.participants?.filter((participant) => participant.id !== `${user.id}`)

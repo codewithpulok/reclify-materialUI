@@ -1,29 +1,26 @@
-import { Box, Grid, Typography } from '@mui/material';
+import { Grid, Typography } from '@mui/material';
 import PropTypes from 'prop-types';
 import { useMemo } from 'react';
-import { predefinedFacility } from 'src/assets/data';
+import { predefinedServices } from 'src/assets/data';
+import { WarehouseDetailsBox } from 'src/components/warehouse/box';
 import { getPredefinedFieldsValue } from 'src/utils/predefined-fields';
-import { detailsBoxStyle } from '../../styles';
 
-const FacilityTabProps = {
-  /** @type {WarehouseFacilityDetails} */
-  facilityDetails: PropTypes.object.isRequired,
+const Props = {
+  /** @type {WarehouseServices[]} */
+  services: PropTypes.object.isRequired,
   /** @type {SxProps} */
   sx: PropTypes.object,
 };
 
 /**
- * @param {FacilityTabProps} props
+ * @param {Props} props
  * @returns {JSX.Element}
  */
-const FacilityTab = (props) => {
-  const { facilityDetails, sx = {} } = props;
-  const values = useMemo(
-    () => getPredefinedFieldsValue(facilityDetails, predefinedFacility),
-    [facilityDetails]
-  );
+const WarehouseServices = (props) => {
+  const { services, sx } = props;
+  const values = useMemo(() => getPredefinedFieldsValue(services, predefinedServices), [services]);
   return (
-    <Box sx={{ ...detailsBoxStyle, ...sx }}>
+    <WarehouseDetailsBox title="Services" sx={sx}>
       <Grid container sx={{ rowGap: { xs: 1.3, sm: 1 } }}>
         {values.map((field) => (
           <Grid item container key={field.key} xs={12} spacing={0.2}>
@@ -46,10 +43,10 @@ const FacilityTab = (props) => {
           </Grid>
         ))}
       </Grid>
-    </Box>
+    </WarehouseDetailsBox>
   );
 };
 
-FacilityTab.propTypes = FacilityTabProps;
+WarehouseServices.propTypes = Props;
 
-export default FacilityTab;
+export default WarehouseServices;

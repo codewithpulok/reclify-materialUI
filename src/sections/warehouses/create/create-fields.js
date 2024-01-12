@@ -123,6 +123,18 @@ const CreateFields = (props) => (
           <Label sx={{ mb: 1 }}>Photos</Label>
           <WarehousePhotoUpload name="photos" />
         </Grid>
+
+        <Grid item xs={12}>
+          <PredefinedFields
+            name="services"
+            fields={predefinedServices}
+            label="Available Services and Rates"
+            defaultExpanded
+          />
+        </Grid>
+        <Grid item xs={12}>
+          <ArrayField name="rules" label="Facility Rules" defaultExpanded />
+        </Grid>
       </Grid>
     </Grid>
 
@@ -151,17 +163,6 @@ const CreateFields = (props) => (
             label="Facility Details"
             defaultExpanded
           />
-        </Grid>
-        <Grid item xs={12}>
-          <PredefinedFields
-            name="services"
-            fields={predefinedServices}
-            label="Available Services and Rates"
-            defaultExpanded
-          />
-        </Grid>
-        <Grid item xs={12}>
-          <ArrayField name="rules" label="Facility Rules" defaultExpanded />
         </Grid>
       </Grid>
     </Grid>

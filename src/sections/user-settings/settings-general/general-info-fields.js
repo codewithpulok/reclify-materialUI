@@ -1,22 +1,19 @@
 import { useFormContext } from 'react-hook-form';
 // mui
 import LoadingButton from '@mui/lab/LoadingButton';
+import { Grid } from '@mui/material';
 import Box from '@mui/material/Box';
 import Card from '@mui/material/Card';
 import Stack from '@mui/material/Stack';
-import { Grid, MenuItem } from '@mui/material';
 // components
 import { AddressField } from 'src/components/common/custom-fields';
 import { RHFTextField } from 'src/components/common/hook-form';
-import { selectAuth } from 'src/redux-toolkit/features/auth/authSlice';
-import { useAppSelector } from 'src/redux-toolkit/hooks';
 
 // ----------------------------------------------------------------------
 
 const GeneralInfoFields = () => {
   const { formState } = useFormContext();
   const { isSubmitting } = formState;
-  const { user } = useAppSelector(selectAuth);
 
   return (
     <Card sx={{ p: 3 }}>

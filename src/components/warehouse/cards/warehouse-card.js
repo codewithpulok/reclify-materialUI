@@ -43,9 +43,6 @@ const WarehouseCard = (props) => {
     <Card
       className="card"
       sx={{
-        ':hover .actions': {
-          opacity: 1,
-        },
         ...sx,
       }}
     >
@@ -81,7 +78,7 @@ const WarehouseCard = (props) => {
 
           {/* if there is a discount then show badge */}
           {!!warehouse.discountRate && (
-            <Label color="error" variant="soft" sx={{ position: 'absolute', top: 6, right: 6 }}>
+            <Label color="secondary" variant="soft" sx={{ position: 'absolute', top: 6, right: 6 }}>
               {warehouse.discountRate}% OFF
             </Label>
           )}
@@ -120,7 +117,6 @@ const WarehouseCard = (props) => {
             right: 4,
             bgcolor: 'grey.100',
             borderRadius: 5,
-            opacity: 0,
             transition: '0.3s',
           }}
         >

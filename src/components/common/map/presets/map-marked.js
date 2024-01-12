@@ -1,5 +1,4 @@
 import { Box, Typography } from '@mui/material';
-import 'mapbox-gl/dist/mapbox-gl.css';
 import PropTypes from 'prop-types';
 import { memo, useMemo } from 'react';
 import Map from 'react-map-gl';

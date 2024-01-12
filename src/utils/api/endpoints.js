@@ -13,6 +13,11 @@ export const endpoints = {
     create: '/warehouse',
     update: '/warehouse',
   },
+  reviews: {
+    delete: '/review',
+    create: '/review',
+    update: '/review',
+  },
 };
 
 /**

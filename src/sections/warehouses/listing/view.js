@@ -102,7 +102,7 @@ export default function ListingView() {
             gap: 0.5,
           }}
         >
-          {ICONS.hot_deals(28, { color: 'error.main' })}
+          {ICONS.hot_deals(28, { color: 'secondary.main' })}
           <Typography variant="h4">Hot Deals</Typography>
 
           <Button
