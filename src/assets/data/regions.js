@@ -1,8 +1,8 @@
 /** @type {RegionType[]} */
 export const regions = [
-  { name: 'Midwest', code: 'midwest' },
   { name: 'Northeast', code: 'northeast' },
   { name: 'Northwest', code: 'northwest' },
+  { name: 'Midwest', code: 'midwest' },
   { name: 'Southeast', code: 'southeast' },
   { name: 'Southwest', code: 'southwest' },
 ];
