@@ -1,6 +1,6 @@
 'use client';
 
-import { Grid, Stack } from '@mui/material';
+import { Grid, Pagination, Stack } from '@mui/material';
 import Container from '@mui/material/Container';
 import { useCallback, useEffect, useMemo, useState } from 'react';
 // local components
@@ -99,6 +99,10 @@ const HotDealsView = (props) => {
         <Grid container spacing={2}>
           {renderWarehouses(hotdeals, 'No hot deals available')}
         </Grid>
+
+        <Stack direction="row" justifyContent="center" mt={3} mb={1}>
+          <Pagination count={10} color="primary" size="small" />
+        </Stack>
       </Stack>
     </Container>
   );

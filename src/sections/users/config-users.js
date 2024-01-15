@@ -11,4 +11,6 @@ export const ICONS = {
 
   address: (width, sx) => getIconify('mingcute:location-fill', width, sx),
   email: (width, sx) => getIconify('fluent:mail-24-filled', width, sx),
+
+  send_message: (width, sx) => getIconify('tabler:send', width, sx),
 };

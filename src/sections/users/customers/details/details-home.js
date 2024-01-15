@@ -1,6 +1,6 @@
 'use client';
 
-import { Link } from '@mui/material';
+import { Button, Link } from '@mui/material';
 import Box from '@mui/material/Box';
 import Card from '@mui/material/Card';
 import CardHeader from '@mui/material/CardHeader';
@@ -18,9 +18,8 @@ import { ICONS } from '../../config-users';
 // ----------------------------------------------------------------------
 
 const DetailsHomeProps = {
-  totalWarehouses: PropTypes.number,
-  totalFeaturedWarehouses: PropTypes.number,
-  totalVerifiedWarehouses: PropTypes.number,
+  totalPurchase: PropTypes.number,
+  spentMoney: PropTypes.number,
   /** @type {User} */
   user: PropTypes.object,
 };
@@ -30,7 +29,7 @@ const DetailsHomeProps = {
  * @returns {JSX.Element}
  */
 const DetailsHome = (props) => {
-  const { totalFeaturedWarehouses, totalVerifiedWarehouses, totalWarehouses, user } = props;
+  const { spentMoney, totalPurchase, user } = props;
 
   const renderStats = (
     <Card sx={{ py: 3, textAlign: 'center', typography: 'h4' }}>
@@ -39,29 +38,17 @@ const DetailsHome = (props) => {
         divider={<Divider orientation="horizontal" flexItem sx={{ borderStyle: 'dashed' }} />}
       >
         <Stack width={1}>
-          {fNumber(totalWarehouses)}
+          {fNumber(totalPurchase)}
           <Box component="span" sx={{ color: 'text.secondary', typography: 'body2' }}>
-            Warehouses
+            Total Purchase
           </Box>
         </Stack>
 
-        <Stack
-          direction="row"
-          divider={<Divider orientation="vertical" flexItem sx={{ borderStyle: 'dashed' }} />}
-        >
-          <Stack width={1}>
-            {fNumber(totalFeaturedWarehouses)}
-            <Box component="span" sx={{ color: 'text.secondary', typography: 'body2' }}>
-              Featured
-            </Box>
-          </Stack>
-
-          <Stack width={1}>
-            {fNumber(totalVerifiedWarehouses)}
-            <Box component="span" sx={{ color: 'text.secondary', typography: 'body2' }}>
-              Verified
-            </Box>
-          </Stack>
+        <Stack width={1}>
+          {fNumber(spentMoney)}
+          <Box component="span" sx={{ color: 'text.secondary', typography: 'body2' }}>
+            Spent Money
+          </Box>
         </Stack>
       </Stack>
     </Card>
@@ -69,7 +56,14 @@ const DetailsHome = (props) => {
 
   const renderAbout = (
     <Card>
-      <CardHeader title="About" />
+      <CardHeader
+        title="About"
+        action={
+          <Button variant="outlined" color="primary" endIcon={ICONS.send_message()}>
+            Send Message
+          </Button>
+        }
+      />
 
       <Stack spacing={2} sx={{ p: 3 }}>
         <Box sx={{ typography: 'body2' }}>{user.about}</Box>
@@ -79,7 +73,7 @@ const DetailsHome = (props) => {
 
           <Box sx={{ typography: 'body2' }}>
             {`Live at `}
-            {user.country}
+            {user.address.country}
           </Box>
         </Stack>
 

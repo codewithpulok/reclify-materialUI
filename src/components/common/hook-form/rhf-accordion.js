@@ -58,9 +58,6 @@ const RHFAccordion = (props) => {
         borderWidth: 1,
         borderStyle: 'solid',
         borderColor: (theme) => (isError ? 'error.main' : alpha(theme.palette.grey[500], 0.2)),
-        '&.Mui-expanded': {
-          bgcolor: 'background.default',
-        },
         mb: 1,
         ...sx,
       }}

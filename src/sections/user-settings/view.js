@@ -10,7 +10,7 @@ import { useSettingsContext } from 'src/components/common/settings';
 
 import { useRouter } from 'next/navigation';
 import CustomBreadcrumbs from 'src/components/common/custom-breadcrumbs';
-import { LoadingState } from 'src/components/common/custom-state';
+import { EmptyState, LoadingState } from 'src/components/common/custom-state';
 import useHash from 'src/hooks/use-hash';
 import { selectAuth } from 'src/redux-toolkit/features/auth/authSlice';
 import { useAppSelector } from 'src/redux-toolkit/hooks';
@@ -73,10 +73,6 @@ const UserSettingsView = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
     []
   );
-  const resetToDefaultState = useCallback(
-    () => handleChangeTab(undefined, '#general'),
-    [handleChangeTab]
-  );
 
   // choosing the page heading according to user role
   let headingPrefix = null;
@@ -115,10 +111,8 @@ const UserSettingsView = () => {
             return <Warehouses />; // warehouses for seller
           }
           default:
-            resetToDefaultState();
-            break;
+            return <EmptyState />;
         }
-        break;
       }
       case '#billing': {
         switch (user?.userType) {
@@ -129,10 +123,8 @@ const UserSettingsView = () => {
             return <SettingsCustomerBillings />;
           }
           default:
-            resetToDefaultState();
-            break;
+            return <EmptyState />;
         }
-        break;
       }
       case '#transactions': {
         switch (user?.userType) {
@@ -143,20 +135,17 @@ const UserSettingsView = () => {
             return <SettingsSellerTransactions />;
           }
           default:
-            resetToDefaultState();
-            break;
+            return <EmptyState />;
         }
-        break;
       }
       case undefined:
         break;
       default:
-        resetToDefaultState();
-        break;
+        return <EmptyState />;
     }
 
     return <LoadingState text="Something is cooking" />;
-  }, [currentTab, resetToDefaultState, user]);
+  }, [currentTab, user]);
 
   return (
     <Container maxWidth={settings.themeStretch ? false : 'lg'}>

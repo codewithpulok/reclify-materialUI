@@ -8,10 +8,16 @@ import {
   predefinedServices,
   regions,
 } from 'src/assets/data';
-import { AddressField, ArrayField, PredefinedFields } from 'src/components/common/custom-fields';
+import {
+  AddressField,
+  ArrayField,
+  PredefinedFields,
+  ReferenceTextField,
+} from 'src/components/common/custom-fields';
 import { RHFAccordion, RHFTextField } from 'src/components/common/hook-form';
 import Label from 'src/components/common/label';
 import { WarehousePhotoUpload } from 'src/components/warehouse/upload';
+import { SQUARE_FEET_PER_PALLET } from 'src/constant/pallet';
 
 const CreateFields = (props) => (
   <Grid container spacing={1.5}>
@@ -36,11 +42,21 @@ const CreateFields = (props) => (
         <Grid item xs={12}>
           <RHFTextField type="number" name="totalSpace" label="Total space (Pallet)" fullWidth />
         </Grid>
+        <Grid item xs={12}>
+          <ReferenceTextField
+            type="number"
+            name="totalSpace"
+            label="Total space (Square Feet)"
+            fullWidth
+            srcTransformer={(v) => (v === undefined ? '' : v * SQUARE_FEET_PER_PALLET)}
+            valueTransformer={(v) => (v === '' ? undefined : v / SQUARE_FEET_PER_PALLET)}
+          />
+        </Grid>
         <Grid item xs={6}>
           <RHFTextField
             type="number"
             name="minSpaceOrder"
-            label="Minimum space to order"
+            label="Minimum space to order (Pallet)"
             fullWidth
           />
         </Grid>
@@ -48,7 +64,7 @@ const CreateFields = (props) => (
           <RHFTextField
             type="number"
             name="maxSpaceOrder"
-            label="Maximum space to order"
+            label="Maximum space to order (Pallet)"
             fullWidth
           />
         </Grid>
@@ -110,7 +126,9 @@ const CreateFields = (props) => (
             label="Discount Rate"
             InputProps={{
               startAdornment: <InputAdornment position="start">%</InputAdornment>,
+              min: 0,
             }}
+            onChangeMiddleware={(v) => (Number(v) < 0 ? 0 : v)}
             fullWidth
           />
         </Grid>

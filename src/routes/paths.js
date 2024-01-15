@@ -42,6 +42,11 @@ export const paths = {
       create: `${ROOTS.DASHBOARD}/warehouses/create`,
       edit: `${ROOTS.DASHBOARD}/warehouses/edit`,
       hot_deals: `${ROOTS.DASHBOARD}/warehouses/hot-deals`,
+
+      hidden: `${ROOTS.DASHBOARD}/warehouses/hidden`,
+      not_verified: `${ROOTS.DASHBOARD}/warehouses/not-verified`,
+      not_featured: `${ROOTS.DASHBOARD}/warehouses/not-featured`,
+
       // warehouses by region
       ...regions.reduce(
         (prev, next) =>
@@ -52,6 +57,12 @@ export const paths = {
     // messages section
     messages: {
       root: `${ROOTS.DASHBOARD}/messages`,
+    },
+
+    search: {
+      root: `${ROOTS.DASHBOARD}/search`,
+      warehouses: `${ROOTS.DASHBOARD}/search/warehouses`,
+      users: `${ROOTS.DASHBOARD}/search/users`,
     },
   },
 

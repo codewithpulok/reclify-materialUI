@@ -15,7 +15,7 @@ import { selectAuth } from '../authSlice';
 const Props = {
   children: PropTypes.node,
   hasContent: PropTypes.bool,
-  /** @type {AuthUserRole[]} */
+  /** @type {UserType[]} */
   roles: PropTypes.arrayOf(PropTypes.string),
   sx: PropTypes.object,
 };

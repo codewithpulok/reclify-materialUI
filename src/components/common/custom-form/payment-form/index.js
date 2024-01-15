@@ -1,4 +1,4 @@
-import { Box } from '@mui/material';
+import { Alert, Stack } from '@mui/material';
 import { useSnackbar } from 'notistack';
 import PropTypes from 'prop-types';
 import { useEffect } from 'react';
@@ -73,14 +73,16 @@ const PaymentForm = (props) => {
   return (
     <>
       <FormProvider methods={methods} onSubmit={handleSubmit(onSubmit)}>
-        <Box component={wrapperElement} sx={{ py: 1 }}>
-          <BillingDetails
-            billingDetails={billingDetails}
-            onClick={billingDetailsDialog.onTrue}
-            sx={{ mb: 2 }}
-          />
+        <Stack component={wrapperElement} sx={{ py: 1 }} spacing={2}>
+          <BillingDetails billingDetails={billingDetails} onClick={billingDetailsDialog.onTrue} />
           <PaymentCard card={card} onClick={cardsDialog.onTrue} />
-        </Box>
+
+          <Alert severity="info" variant="outlined" sx={{ typography: 'body2' }}>
+            By clicking confirm payment, you are authorizing a hold hold on your payment method for
+            the total amount specified. Your purchase is pending approval by the warehouse. If
+            approved your payment method will be charged. If denied, the hold will be removed.
+          </Alert>
+        </Stack>
 
         {actions}
       </FormProvider>

@@ -1,11 +1,11 @@
 import { headers } from 'next/headers';
-import { ApiError, endpoints, getEndpoint, serverAsyncWrapper } from 'src/utils/api';
+import { ApiError, endpoints, serverAsyncWrapper } from 'src/utils/api/server';
 
 // create new reviews
 export const POST = serverAsyncWrapper(async (req) => {
   const body = await req.json();
   const authorization = headers().get('authorization');
-  const response = await fetch(getEndpoint(endpoints.reviews.create), {
+  const response = await fetch(endpoints.reviews.create, {
     body: JSON.stringify(body),
     method: 'POST',
     headers: {

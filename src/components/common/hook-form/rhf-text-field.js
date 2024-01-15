@@ -8,6 +8,8 @@ import TextField from '@mui/material/TextField';
 const RHFTextFieldProps = {
   helperText: PropTypes.object,
   name: PropTypes.string,
+  /** @type {(value: string) => string } */
+  onChangeMiddleware: PropTypes.func,
 };
 
 /**
@@ -16,7 +18,7 @@ const RHFTextFieldProps = {
  * @returns {JSX.Element}
  */
 export default function RHFTextField(props) {
-  const { name, helperText, ...other } = props;
+  const { name, helperText, onChangeMiddleware, ...other } = props;
   const { control } = useFormContext();
 
   return (
@@ -28,10 +30,15 @@ export default function RHFTextField(props) {
           {...field}
           value={field.value === undefined ? '' : field.value}
           onChange={(event) => {
+            const value =
+              onChangeMiddleware === undefined
+                ? event.target.value
+                : onChangeMiddleware(event.target.value);
+
             if (other?.type === 'number') {
-              field.onChange(event.target.value === '' ? undefined : Number(event.target.value));
+              field.onChange(value === '' ? undefined : Number(value));
             } else {
-              field.onChange(event.target.value);
+              field.onChange(value);
             }
           }}
           error={!!error}

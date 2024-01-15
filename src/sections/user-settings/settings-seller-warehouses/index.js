@@ -118,7 +118,7 @@ export default function Warehouses() {
           LinkComponent={RouterLink}
           href={paths.dashboard.warehouses.create}
           sx={{ width: { xs: '100%', sm: 'auto' } }}
-          color="info"
+          color="primary"
           variant="contained"
           fullWidth
         >

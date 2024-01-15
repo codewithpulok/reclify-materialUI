@@ -1,3 +1,5 @@
+'use client';
+
 import { Stack, SvgIcon, Typography, alpha } from '@mui/material';
 import PropTypes from 'prop-types';
 import { getIconify } from '../iconify/utilities';

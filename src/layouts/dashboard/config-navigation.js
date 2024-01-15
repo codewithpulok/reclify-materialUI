@@ -15,6 +15,10 @@ const ICONS = {
   hot_deals: (width, sx) => getIconify('solar:fire-bold-duotone', width, sx),
   messages: (width, sx) => getIconify('solar:chat-round-line-bold-duotone', width, sx),
   region: (width, sx) => getIconify('solar:earth-bold-duotone', width, sx),
+
+  not_verified: (width, sx) => getIconify('lucide:badge-minus', width, sx),
+  not_featured: (width, sx) => getIconify('iconamoon:star-off-fill', width, sx),
+  hidden: (width, sx) => getIconify('solar:eye-closed-bold-duotone', width, sx),
 };
 
 // ----------------------------------------------------------------------
@@ -28,6 +32,7 @@ export function useNavData() {
         title: 'Warehouses',
         path: paths.dashboard.warehouses.root,
         icon: ICONS.warehouse(),
+        index: 0,
       },
       {
         title: 'Hot Deals',
@@ -37,7 +42,7 @@ export function useNavData() {
       ...regions.map((r) => ({
         title: r.name,
         path: paths.dashboard.warehouses[r.code],
-        icon: ICONS.region(),
+        icon: getIconify(r.icon, undefined, { rotate: `${r.rotate ? 90 * r.rotate : 0}deg` }),
       })),
       {
         title: 'Messages',
@@ -50,6 +55,24 @@ export function useNavData() {
 
   const adminRoutes = useMemo(
     () => [
+      {
+        title: 'Not Featured',
+        path: paths.dashboard.warehouses.not_featured,
+        icon: ICONS.not_featured(),
+        index: 1,
+      },
+      {
+        title: 'Not Verified',
+        path: paths.dashboard.warehouses.not_verified,
+        icon: ICONS.not_verified(),
+        index: 2,
+      },
+      {
+        title: 'Hidden',
+        path: paths.dashboard.warehouses.hidden,
+        icon: ICONS.hidden(),
+        index: 3,
+      },
       {
         title: 'Users',
         path: '#',
@@ -73,11 +96,18 @@ export function useNavData() {
 
           // if user role is admin then only show admin routes
           ...(user?.userType === 'admin' ? adminRoutes : []),
-        ],
+        ].sort((a, b) => {
+          if (a?.index === undefined) return 1;
+          if (b?.index === undefined) return -1;
+
+          return a.index - b.index;
+        }),
       },
     ],
     [adminRoutes, commonRoutes, user?.userType]
   );
+
+  console.log({ data });
 
   return data;
 }

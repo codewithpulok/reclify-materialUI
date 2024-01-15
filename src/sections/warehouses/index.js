@@ -5,3 +5,8 @@ export { default as WarehousesListingView } from './listing/view';
 
 export { default as WarehousesHotDealsView } from './hot-deals/view';
 export { default as WarehousesRegionView } from './region/view';
+
+// admin views
+export { default as WarehouseHiddenView } from './(admin)/hidden/view';
+export { default as WarehouseNotFeaturedView } from './(admin)/not-featured/view';
+export { default as WarehouseNotVerifiedView } from './(admin)/not-verified/view';
