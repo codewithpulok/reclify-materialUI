@@ -1,10 +1,10 @@
 /** @type {RegionType[]} */
 export const regions = [
-  { name: 'Midwest', code: 'midwest' },
-  { name: 'Northeast', code: 'northeast' },
-  { name: 'Northwest', code: 'northwest' },
-  { name: 'Southeast', code: 'southeast' },
-  { name: 'Southwest', code: 'southwest' },
+  { name: 'Northeast', code: 'northeast', icon: 'ri:progress-2-line', rotate: 0 },
+  { name: 'Northwest', code: 'northwest', icon: 'ri:progress-2-line', rotate: 3 },
+  { name: 'Midwest', code: 'midwest', icon: 'ri:circle-line' },
+  { name: 'Southeast', code: 'southeast', icon: 'ri:progress-2-line', rotate: 1 },
+  { name: 'Southwest', code: 'southwest', icon: 'ri:progress-2-line', rotate: 2 },
 ];
 
 /**

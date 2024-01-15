@@ -1,6 +1,7 @@
 export { default as ArrayField } from './array-field';
 export { default as DaysField } from './days-field';
 export { default as PasswordField } from './password-field';
+export { default as ReferenceTextField } from './reference-text-field';
 
 // predefined fields
 export { default as PredefinedFields } from './predefined-fields';

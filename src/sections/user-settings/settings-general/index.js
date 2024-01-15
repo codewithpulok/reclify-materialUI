@@ -1,15 +1,17 @@
 import { yupResolver } from '@hookform/resolvers/yup';
+import { useSnackbar } from 'notistack';
 import { useForm } from 'react-hook-form';
 import * as Yup from 'yup';
-import { useSnackbar } from 'notistack';
 // mui
+import { Button, Card, CardContent, CardHeader, InputAdornment, Stack } from '@mui/material';
 import Grid from '@mui/material/Unstable_Grid2';
-import { Button } from '@mui/material';
 // components
+import { socialsBrands } from 'src/assets/data';
 import { getUserByID, getUserByType } from 'src/assets/dummy/users';
 import { addressFieldSchema } from 'src/components/common/custom-fields';
 import { EmptyState } from 'src/components/common/custom-state';
-import FormProvider from 'src/components/common/hook-form';
+import FormProvider, { RHFTextField } from 'src/components/common/hook-form';
+import { getIconify } from 'src/components/common/iconify/utilities';
 import { selectAuth } from 'src/redux-toolkit/features/auth/authSlice';
 import { useAppSelector } from 'src/redux-toolkit/hooks';
 import GeneralAvatarFields from './general-avatar-fields';
@@ -78,9 +80,31 @@ const SettingsGeneral = () => {
         <Grid xs={12} md={4}>
           <GeneralAvatarFields />
 
-          <Button variant="soft" color="error" sx={{ mt: 3 }} fullWidth>
+          <Button variant="soft" color="error" sx={{ mt: 3, mb: 3 }} fullWidth>
             Delete Account
           </Button>
+
+          <Card>
+            <CardHeader title="Social Links" />
+            <CardContent component={Stack} spacing={1.5}>
+              {socialsBrands.map((brand) => (
+                <RHFTextField
+                  name={`socials.${brand.key}`}
+                  label={brand.name}
+                  size="small"
+                  type="url"
+                  InputProps={{
+                    startAdornment: (
+                      <InputAdornment position="start">
+                        {getIconify(brand.icon, brand.iconSize, { color: brand.color })}
+                      </InputAdornment>
+                    ),
+                  }}
+                  fullWidth
+                />
+              ))}
+            </CardContent>
+          </Card>
         </Grid>
 
         <Grid xs={12} md={8}>

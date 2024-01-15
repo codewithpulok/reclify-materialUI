@@ -61,27 +61,3 @@ export const serverAsyncWrapper = (handlerFunc) => async (req, others) => {
     );
   }
 };
-
-/**
- * client side async wrapper
- * @param {ClientAsyncHandler<T>} handlerFunc
- * @returns {ClientAsyncReturn<T>}
- * @template T
- */
-export const clientAsyncWrapper = (handlerFunc) => async (param) => {
-  try {
-    const response = await handlerFunc(param);
-
-    // success response
-    return { ...response };
-  } catch (error) {
-    console.log('Client Side Error: ', error);
-
-    // failure response for - runtime error
-    return {
-      message: error?.message || 'Error in requesting the api',
-      isError: true,
-      statusCode: 500,
-    };
-  }
-};

@@ -1,6 +1,6 @@
 'use client';
 
-import { Grid, Stack } from '@mui/material';
+import { Grid, Pagination, Stack } from '@mui/material';
 import Container from '@mui/material/Container';
 import PropTypes from 'prop-types';
 import { useCallback, useEffect, useMemo, useState } from 'react';
@@ -105,6 +105,10 @@ const RegionView = (props) => {
         <Grid container spacing={2}>
           {renderWarehouses(regionWarehouses, 'Nothing here')}
         </Grid>
+
+        <Stack direction="row" justifyContent="center" mt={3} mb={1}>
+          <Pagination count={10} color="primary" size="small" />
+        </Stack>
       </Stack>
     </Container>
   );

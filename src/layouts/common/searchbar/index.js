@@ -2,14 +2,14 @@ import { memo, useCallback, useEffect, useState } from 'react';
 
 import IconButton from '@mui/material/IconButton';
 
-import { Dialog, InputAdornment, OutlinedInput } from '@mui/material';
+import { Dialog, FilledInput, InputAdornment } from '@mui/material';
 import { useRouter, useSearchParams } from 'next/navigation';
 import Iconify from 'src/components/common/iconify';
 import { useBoolean } from 'src/hooks/use-boolean';
 import { paths } from 'src/routes/paths';
 import { createQueryString } from 'src/utils/query';
 
-const BASE_PATH = paths.dashboard.warehouses.root;
+const BASE_PATH = paths.dashboard.search.root;
 
 // ----------------------------------------------------------------------
 
@@ -32,11 +32,15 @@ function Searchbar() {
     setSearchQuery(event.target.value);
   }, []);
 
-  const handleSearch = useCallback(() => {
-    console.log('Searched For: ', searchQuery);
-    router.push(`${BASE_PATH}/?${createQueryString('query', searchQuery, searchParams)}`);
-    closeSearchDialog();
-  }, [closeSearchDialog, router, searchParams, searchQuery]);
+  const handleSearch = useCallback(
+    (e) => {
+      e.preventDefault();
+      console.log('Searched For: ', searchQuery);
+      router.push(`${BASE_PATH}/?${createQueryString('query', searchQuery, searchParams)}`);
+      closeSearchDialog();
+    },
+    [closeSearchDialog, router, searchParams, searchQuery]
+  );
 
   // update states after refresh
   useEffect(() => {
@@ -47,19 +51,21 @@ function Searchbar() {
 
   return (
     <>
-      <OutlinedInput
-        value={searchQuery}
-        onChange={handleSearchQuery}
-        endAdornment={
-          <InputAdornment position="end">
-            <IconButton onClick={handleSearch}>
+      <form style={{ width: '60%' }} onSubmit={handleSearch}>
+        <FilledInput
+          value={searchQuery}
+          onChange={handleSearchQuery}
+          startAdornment={
+            <InputAdornment position="start">
               <Iconify icon="eva:search-fill" />
-            </IconButton>
-          </InputAdornment>
-        }
-        size="small"
-        sx={{ maxWidth: '350px', width: '100%', display: { xs: 'none', sm: 'inherit' } }}
-      />
+            </InputAdornment>
+          }
+          placeholder="Search here"
+          hiddenLabel
+          sx={{ display: { xs: 'none', sm: 'flex' }, bgcolor: 'background.paper' }}
+          fullWidth
+        />
+      </form>
 
       <IconButton onClick={openSearchDialog} sx={{ display: { sm: 'none', xs: 'inherit' } }}>
         <Iconify icon="eva:search-fill" />
@@ -71,19 +77,20 @@ function Searchbar() {
         open={searchDialog.value}
         onClose={closeSearchDialog}
       >
-        <OutlinedInput
-          value={searchQuery}
-          onChange={handleSearchQuery}
-          endAdornment={
-            <InputAdornment position="end">
-              <IconButton onClick={handleSearch}>
+        <form style={{ width: '100%' }} onSubmit={handleSearch}>
+          <FilledInput
+            value={searchQuery}
+            onChange={handleSearchQuery}
+            startAdornment={
+              <InputAdornment position="start">
                 <Iconify icon="eva:search-fill" />
-              </IconButton>
-            </InputAdornment>
-          }
-          size="small"
-          fullWidth
-        />
+              </InputAdornment>
+            }
+            size="small"
+            fullWidth
+            hiddenLabel
+          />
+        </form>
       </Dialog>
     </>
   );

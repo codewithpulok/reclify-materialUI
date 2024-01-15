@@ -11,7 +11,7 @@
  * @property {string} avatar - The URL of the user's profile photo.
  * @property {string} phoneNumber - The phone number of the user.
  * @property {string} country - The country of residence for the user.
- * @property {string} address - The street address of the user.
+ * @property {Address} address - The street address of the user.
  * @property {string} state - The state or province of the user.
  * @property {string} city - The city of residence for the user.
  * @property {string} zipCode - The ZIP or postal code of the user's address.
