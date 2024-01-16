@@ -10,6 +10,8 @@ const RHFTextFieldProps = {
   name: PropTypes.string,
   /** @type {(value: string) => string } */
   onChangeMiddleware: PropTypes.func,
+  /** @type {(value: string| number) => string| number } */
+  valueFormatter: PropTypes.func,
 };
 
 /**
@@ -18,7 +20,13 @@ const RHFTextFieldProps = {
  * @returns {JSX.Element}
  */
 export default function RHFTextField(props) {
-  const { name, helperText, onChangeMiddleware, ...other } = props;
+  const {
+    name,
+    helperText,
+    onChangeMiddleware,
+    valueFormatter = (value) => value,
+    ...other
+  } = props;
   const { control } = useFormContext();
 
   return (
@@ -28,7 +36,7 @@ export default function RHFTextField(props) {
       render={({ field, fieldState: { error } }) => (
         <TextField
           {...field}
-          value={field.value === undefined ? '' : field.value}
+          value={field.value === undefined ? '' : valueFormatter(field.value)}
           onChange={(event) => {
             const value =
               onChangeMiddleware === undefined
