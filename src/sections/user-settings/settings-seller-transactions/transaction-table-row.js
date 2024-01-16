@@ -9,11 +9,14 @@ import Stack from '@mui/material/Stack';
 import TableCell from '@mui/material/TableCell';
 import TableRow from '@mui/material/TableRow';
 
+import { Link, Typography } from '@mui/material';
 import { getTransactionStatusColor } from 'src/assets/dummy/transactions';
 import { usePopover } from 'src/components/common/custom-popover';
 import CustomPopover from 'src/components/common/custom-popover/custom-popover';
 import Label from 'src/components/common/label';
 import { getWarehouseAddress } from 'src/components/warehouse/utils';
+import { RouterLink } from 'src/routes/components';
+import { paths } from 'src/routes/paths';
 import { fCurrency } from 'src/utils/format-number';
 import { ICONS } from '../config-settings';
 
@@ -67,10 +70,29 @@ const TransactionTableRow = (props) => {
       <TableCell>
         <Stack direction="row" alignItems="center">
           <Avatar alt={row.customer.displayName} src={row.customer.avatar} sx={{ mr: 2 }} />
-          <ListItemText
-            primary={row.customer.displayName}
-            primaryTypographyProps={{ typography: 'body2' }}
-          />
+          <Stack>
+            <Link
+              component={RouterLink}
+              href={`${paths.dashboard.users.customers}/${row.customer.id}`}
+            >
+              <Typography variant="body2">{row.customer.displayName}</Typography>
+            </Link>
+            <Typography variant="body2" color="text.secondary">
+              {row.customer.email}
+            </Typography>
+            <Typography variant="body2" color="text.secondary">
+              {row.customer.phoneNumber}
+            </Typography>
+
+            <Stack mt={2} direction="row" spacing={0.3}>
+              <Link
+                component={RouterLink}
+                href={`${paths.dashboard.messages.root}?id=${row.customer.id}`}
+              >
+                <Label color="info">send a message</Label>
+              </Link>
+            </Stack>
+          </Stack>
         </Stack>
       </TableCell>
 

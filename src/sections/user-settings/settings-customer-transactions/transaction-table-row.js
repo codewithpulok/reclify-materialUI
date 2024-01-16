@@ -9,11 +9,14 @@ import Stack from '@mui/material/Stack';
 import TableCell from '@mui/material/TableCell';
 import TableRow from '@mui/material/TableRow';
 
+import { Link, Typography } from '@mui/material';
 import { getTransactionStatusColor } from 'src/assets/dummy';
 import { usePopover } from 'src/components/common/custom-popover';
 import CustomPopover from 'src/components/common/custom-popover/custom-popover';
 import Label from 'src/components/common/label';
 import { getWarehouseAddress } from 'src/components/warehouse/utils';
+import { RouterLink } from 'src/routes/components';
+import { paths } from 'src/routes/paths';
 import { fCurrency } from 'src/utils/format-number';
 import { ICONS } from '../config-settings';
 
@@ -64,12 +67,28 @@ const TransactionTableRow = (props) => {
       </TableCell>
 
       <TableCell>
-        <Stack direction="row" alignItems="center">
+        <Stack direction="row" alignItems="start">
           <Avatar alt={row.seller.displayName} src={row.seller.avatar} sx={{ mr: 2 }} />
-          <ListItemText
-            primary={row.seller.displayName}
-            primaryTypographyProps={{ typography: 'body2' }}
-          />
+          <Stack>
+            <Link component={RouterLink} href={`${paths.dashboard.users.sellers}/${row.seller.id}`}>
+              <Typography variant="body2">{row.seller.displayName}</Typography>
+            </Link>
+            <Typography variant="body2" color="text.secondary">
+              {row.seller.email}
+            </Typography>
+            <Typography variant="body2" color="text.secondary">
+              {row.seller.phoneNumber}
+            </Typography>
+
+            <Stack mt={2} direction="row" spacing={0.3}>
+              <Link
+                component={RouterLink}
+                href={`${paths.dashboard.messages.root}?id=${row.seller.id}`}
+              >
+                <Label color="info">send a message</Label>
+              </Link>
+            </Stack>
+          </Stack>
         </Stack>
       </TableCell>
 
