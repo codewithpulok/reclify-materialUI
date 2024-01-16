@@ -107,7 +107,5 @@ export function useNavData() {
     [adminRoutes, commonRoutes, user?.userType]
   );
 
-  console.log({ data });
-
   return data;
 }
