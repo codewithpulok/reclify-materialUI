@@ -12,7 +12,7 @@ import PropTypes from 'prop-types';
 // local components
 import { getSocialBrand } from 'src/assets/data/social-brands';
 import { getIconify } from 'src/components/common/iconify/utilities';
-import { fNumber } from 'src/utils/format-number';
+import { fCurrency, fNumber } from 'src/utils/format-number';
 import { ICONS } from '../../config-users';
 
 // ----------------------------------------------------------------------
@@ -57,7 +57,7 @@ const DetailsHome = (props) => {
           </Stack>
 
           <Stack width={1}>
-            {fNumber(totalSales)}
+            {fCurrency(totalSales)}
             <Box component="span" sx={{ color: 'text.secondary', typography: 'body2' }}>
               Sales
             </Box>
