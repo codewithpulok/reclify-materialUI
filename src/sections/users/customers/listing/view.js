@@ -23,7 +23,7 @@ const CustomerListingView = () => {
       <Grid container spacing={1}>
         {customers.map((user) => (
           <Grid item xs={12} sm={6} md={4} lg={3} key={user.id}>
-            <CustomerCard user={user} />
+            <CustomerCard user={user} totalTransactions={1000} />
           </Grid>
         ))}
       </Grid>

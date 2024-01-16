@@ -5,7 +5,7 @@ import { useSearchParams } from 'next/navigation';
 import { users, warehouses } from 'src/assets/dummy';
 import CustomBreadcrumbs from 'src/components/common/custom-breadcrumbs/custom-breadcrumbs';
 import { useSettingsContext } from 'src/components/common/settings';
-import { CustomerCard } from 'src/components/users/cards';
+import { CustomerCard, SellerCard } from 'src/components/users/cards';
 import { WarehouseCard } from 'src/components/warehouse/cards';
 import { RouterLink } from 'src/routes/components';
 import { paths } from 'src/routes/paths';
@@ -33,9 +33,11 @@ const SearchListView = (props) => {
           <Grid container spacing={1}>
             {users.slice(0, 4).map((user) => (
               <Grid item xs={12} sm={6} md={4} lg={3} key={user.id}>
-                {user.userType === 'seller' && <CustomerCard user={user} totalWarehouses={10} />}
-                {user.userType === 'customer' && <CustomerCard user={user} />}
-                {user.userType === 'admin' && <CustomerCard user={user} />}
+                {user.userType === 'seller' && <SellerCard user={user} totalWarehouses={10} />}
+                {user.userType === 'customer' && (
+                  <CustomerCard user={user} totalTransactions={100} />
+                )}
+                {user.userType === 'admin' && <CustomerCard user={user} totalTransactions={1000} />}
               </Grid>
             ))}
           </Grid>

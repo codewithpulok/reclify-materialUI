@@ -30,6 +30,12 @@ export function fShortenNumber(number) {
   return result(format, '.00');
 }
 
+export function fShortenCurrencyNumber(number) {
+  const format = number ? numeral(number).format('$0,0.00a') : '';
+
+  return result(format, '.00');
+}
+
 export function fData(number) {
   const format = number ? numeral(number).format('0.0 b') : '';
 

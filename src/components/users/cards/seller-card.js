@@ -3,7 +3,7 @@ import { useRouter } from 'next/navigation';
 import PropTypes from 'prop-types';
 import Image from 'src/components/common/image';
 import { paths } from 'src/routes/paths';
-import { fNumber } from 'src/utils/format-number';
+import { fShortenNumber } from 'src/utils/format-number';
 import { fDate } from 'src/utils/format-time';
 import { ICONS } from '../config-users';
 
@@ -52,7 +52,7 @@ const SellerCard = (props) => {
           <Stack direction="row" spacing={0.5} alignItems="center">
             {ICONS.warehouse(16, { color: 'primary.main' })}
             <Typography variant="body2">
-              {fNumber(totalWarehouses)} {totalWarehouses > 1 ? 'warehouses' : 'warehouse'}
+              {fShortenNumber(totalWarehouses)} {totalWarehouses > 1 ? 'warehouses' : 'warehouse'}
             </Typography>
           </Stack>
         </Stack>
