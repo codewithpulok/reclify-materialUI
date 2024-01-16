@@ -1,20 +1,16 @@
 'use client';
 
-import { Grid } from '@mui/material';
-import Container from '@mui/material/Container';
 import PropTypes from 'prop-types';
 // local components
-import { getSellers } from 'src/assets/dummy/users';
-import { useSettingsContext } from 'src/components/common/settings';
-import WarehouseHeader from './warehouse-header';
-import WarehosueDetailsMain from './warehouse-main';
-import WarehouseDetailsSidebar from './warehouse-sidebar';
+import { notFound } from 'next/navigation';
+import { getWarehouseReviews, warehouses } from 'src/assets/dummy';
+import { ErrorState } from 'src/components/common/custom-state';
+import { LoadingScreen } from 'src/components/common/loading-screen';
+import { useWarehouseQuery } from 'src/redux-toolkit/services/warehouseApi';
+import Content from './content';
 
 const Props = {
-  /** @type {Warehouse} */
-  warehouse: PropTypes.object.isRequired,
-  /** @type {Review[]} */
-  reviews: PropTypes.arrayOf(PropTypes.object).isRequired,
+  id: PropTypes.string.isRequired,
 };
 
 /**
@@ -23,28 +19,28 @@ const Props = {
  * @returns {JSX.Element}
  */
 function DetailsView(props) {
-  const { warehouse, reviews } = props;
-  const settings = useSettingsContext();
-  const seller = getSellers()[0]; // TODO: replace this with actual user
+  const { id } = props;
+  const warehouseResult = useWarehouseQuery(id);
+  const warehouseReviews = getWarehouseReviews('def456'); // dummy for now // TODO: Remove this
 
-  return (
-    <Container maxWidth={settings.themeStretch ? false : 'xl'}>
-      <WarehouseHeader warehouse={warehouse} />
-      <Grid container spacing={2}>
-        <Grid item xs={12} md={7}>
-          <WarehosueDetailsMain seller={seller} warehouse={warehouse} reviews={reviews} />
-        </Grid>
-        <Grid item xs={12} md={5}>
-          {/* show sidebar content in tab mode & hide in mobile mode */}
-          <WarehouseDetailsSidebar
-            seller={seller}
-            warehouse={warehouse}
-            sx={{ display: { xs: 'none', md: 'flex' } }}
-          />
-        </Grid>
-      </Grid>
-    </Container>
-  );
+  // ******** THIS IS FOR TEST PERPOSE ************* // TODO: Remove this
+  if (!warehouseResult.isLoading && id === 'test') {
+    return <Content warehouse={warehouses[0]} reviews={warehouseReviews} />;
+  }
+
+  // if error occured
+  if ((warehouseResult.isError || warehouseResult.data?.isError) && !warehouseResult.isLoading)
+    return <ErrorState />;
+
+  // if there is no warehouse then show error
+  if (warehouseResult.data?.statusCode === 404) notFound();
+
+  // on request success
+  if (warehouseResult.isSuccess && warehouseResult.data?.isSuccess) {
+    return <Content warehouse={warehouseResult.data?.results} reviews={warehouseReviews} />;
+  }
+
+  return <LoadingScreen />;
 }
 
 DetailsView.propTypes = Props;
