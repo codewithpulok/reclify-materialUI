@@ -43,7 +43,6 @@ const WarehouseOwnerCard = (props) => {
           alignItems: 'start',
         }}
         direction="row"
-        alignItems="center"
         spacing={1.5}
       >
         <Box
@@ -58,21 +57,8 @@ const WarehouseOwnerCard = (props) => {
             <Typography variant="h6">{user.displayName}</Typography>
 
             <Label color="primary" size="small" variant="soft">
-              owner
+              seller
             </Label>
-
-            <Button
-              LinkComponent={RouterLink}
-              href={`${paths.dashboard.messages.root}?user=${user.id}`}
-              color="primary"
-              variant="outlined"
-              startIcon={ICONS.send_message()}
-              size="small"
-              onClick={(e) => e.stopPropagation()}
-              sx={{ ml: 'auto' }}
-            >
-              Send a message
-            </Button>
           </Stack>
           <Stack direction="row" alignItems="center" spacing={0.5}>
             {ICONS.email(18)}
@@ -102,22 +88,32 @@ const WarehouseOwnerCard = (props) => {
               {user.phoneNumber}
             </Typography>
           </Stack>
-          {clickable && (
-            <Stack direction="row" alignItems="center" spacing={0.5} mt={2} justifyContent="end">
+          <Stack direction="row" alignItems="center" spacing={0.5} mt={2} justifyContent="start">
+            <Button
+              LinkComponent={RouterLink}
+              href={`${paths.dashboard.messages.root}?user=${user.id}`}
+              color="primary"
+              variant="contained"
+              startIcon={ICONS.send_message()}
+              size="small"
+              onClick={(e) => e.stopPropagation()}
+            >
+              Send a message
+            </Button>
+            {clickable && (
               <Button
                 LinkComponent={RouterLink}
                 href={`${paths.dashboard.users.sellers}/${user.id}`}
                 color="secondary"
-                variant="outlined"
+                variant="contained"
                 startIcon={ICONS.send_message()}
                 size="small"
                 onClick={(e) => e.stopPropagation()}
-                sx={{ ml: 'auto' }}
               >
                 Visit profile
               </Button>
-            </Stack>
-          )}
+            )}
+          </Stack>
         </Box>
       </Stack>
     </Card>

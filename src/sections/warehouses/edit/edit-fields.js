@@ -19,6 +19,7 @@ import { RHFAccordion, RHFTextField } from 'src/components/common/hook-form';
 import Label from 'src/components/common/label';
 import { WarehousePhotoUpload } from 'src/components/warehouse/upload';
 import { SQUARE_FEET_PER_PALLET } from 'src/constant/pallet';
+import { fFixedFloat } from 'src/utils/format-number';
 
 const WarehouseEditFields = (props) => (
   <Grid container spacing={1.5}>
@@ -43,7 +44,13 @@ const WarehouseEditFields = (props) => (
         </Grid>
 
         <Grid item xs={12}>
-          <RHFTextField type="number" name="totalSpace" label="Total space (Pallet)" fullWidth />
+          <RHFTextField
+            valueFormatter={fFixedFloat}
+            type="number"
+            name="totalSpace"
+            label="Total space (Pallet)"
+            fullWidth
+          />
         </Grid>
         <Grid item xs={12}>
           <ReferenceTextField
@@ -51,7 +58,9 @@ const WarehouseEditFields = (props) => (
             name="totalSpace"
             label="Total space (Square Feet)"
             fullWidth
-            srcTransformer={(v) => (v === undefined ? '' : v * SQUARE_FEET_PER_PALLET)}
+            srcTransformer={(v) =>
+              v === undefined ? '' : parseFloat(fFixedFloat(v * SQUARE_FEET_PER_PALLET))
+            }
             valueTransformer={(v) => (v === '' ? undefined : v / SQUARE_FEET_PER_PALLET)}
           />
         </Grid>

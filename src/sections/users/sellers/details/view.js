@@ -8,6 +8,8 @@ import { plans } from 'src/assets/dummy/plans';
 import { warehouses } from 'src/assets/dummy/warehouses';
 import CustomBreadcrumbs from 'src/components/common/custom-breadcrumbs/custom-breadcrumbs';
 import { useSettingsContext } from 'src/components/common/settings';
+import { selectAuth } from 'src/redux-toolkit/features/auth/authSlice';
+import { useAppSelector } from 'src/redux-toolkit/hooks';
 import { paths } from 'src/routes/paths';
 import { fDate } from 'src/utils/format-time';
 import { ICONS } from '../../config-users';
@@ -45,6 +47,7 @@ const Props = {
 const SellerDetailsView = (props) => {
   const settings = useSettingsContext();
   const { user } = props;
+  const { user: authUser } = useAppSelector(selectAuth);
 
   const [currentTab, setCurrentTab] = useState('profile');
 
@@ -74,41 +77,38 @@ const SellerDetailsView = (props) => {
           coverUrl="https://api-prod-minimal-v510.vercel.app/assets/images/cover/cover_4.jpg"
         />
 
-        <Tabs
-          value={currentTab}
-          onChange={handleChangeTab}
-          sx={{
-            width: 1,
-            bottom: 0,
-            zIndex: 9,
-            position: 'absolute',
-            bgcolor: 'background.paper',
-            [`& .${tabsClasses.flexContainer}`]: {
-              pr: { md: 3 },
-              justifyContent: {
-                sm: 'center',
-                md: 'flex-end',
+        {authUser && authUser?.userType === 'admin' && (
+          <Tabs
+            value={currentTab}
+            onChange={handleChangeTab}
+            sx={{
+              width: 1,
+              bottom: 0,
+              zIndex: 9,
+              position: 'absolute',
+              bgcolor: 'background.paper',
+              [`& .${tabsClasses.flexContainer}`]: {
+                pr: { md: 3 },
+                justifyContent: {
+                  sm: 'center',
+                  md: 'flex-end',
+                },
               },
-            },
-            pl: {
-              xs: 1.5,
-              sm: 0,
-            },
-          }}
-        >
-          {TABS.map((tab) => (
-            <Tab key={tab.value} value={tab.value} icon={tab.icon} label={tab.label} />
-          ))}
-        </Tabs>
+              pl: {
+                xs: 1.5,
+                sm: 0,
+              },
+            }}
+          >
+            {TABS.map((tab) => (
+              <Tab key={tab.value} value={tab.value} icon={tab.icon} label={tab.label} />
+            ))}
+          </Tabs>
+        )}
       </Card>
 
       {currentTab === 'profile' && (
-        <DetailsHome
-          user={user}
-          totalFeaturedWarehouses={10}
-          totalWarehouses={20}
-          totalVerifiedWarehouses={15}
-        />
+        <DetailsHome user={user} customerNumber={10} totalWarehouses={20} totalSales={1500} />
       )}
       {currentTab === 'warehouses' && <DetailsListing warehouses={warehouses} />}
       {currentTab === 'membership' && (

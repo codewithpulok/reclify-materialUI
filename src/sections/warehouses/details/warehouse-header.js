@@ -47,20 +47,6 @@ const WarehouseHeader = (props) => {
   const renderMetadata = (
     <Stack sx={metadataWrapperStyle}>
       <Stack flexDirection="row" spacing={1} alignItems="center" flexWrap="wrap">
-        {/* warehouse average rating */}
-        <Stack
-          flexDirection="row"
-          spacing={0.5}
-          alignItems="end"
-          component={Button}
-          onClick={goToReviewSection}
-        >
-          <Rating value={3.5} readOnly precision={0.5} onClick={goToReviewSection} />
-          <Typography variant="body1" lineHeight={1.3}>
-            (3.5)
-          </Typography>
-        </Stack>
-
         {isVerified && (
           <Chip label="Verified" icon={ICONS.verified()} color="success" size="small" />
         )}
@@ -99,6 +85,23 @@ const WarehouseHeader = (props) => {
             )}
           </>
         )}
+
+        {/* warehouse diamonds (admin can change only) */}
+        <WarehouseDiamond value={5} action={user?.userType === 'admin'} />
+
+        {/* warehouse average rating */}
+        <Stack
+          flexDirection="row"
+          spacing={0.5}
+          alignItems="end"
+          component={Button}
+          onClick={goToReviewSection}
+        >
+          <Rating value={3.5} readOnly precision={0.5} onClick={goToReviewSection} />
+          <Typography variant="body1" lineHeight={1.3}>
+            (5.2k reviews)
+          </Typography>
+        </Stack>
       </Stack>
       <Stack
         flexDirection="row"
@@ -107,8 +110,6 @@ const WarehouseHeader = (props) => {
         flexWrap="wrap"
         justifyContent="space-between"
       >
-        {/* warehouse diamonds (admin can change only) */}
-        <WarehouseDiamond value={5} action={user?.userType === 'admin'} />
         {/* admin action menu */}
         {user?.userType === 'admin' && (
           <WarehouseAdminMenu isVerified={isVerified} isFeatured={isFeatured} isVisible={visible} />

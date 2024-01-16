@@ -22,12 +22,22 @@ const Props = {
     'warning',
     'error',
   ]),
+  clickable: PropTypes.bool,
 };
 // ----------------------------------------------------------------------
 
-/** @type {React.FC<Props>} */
+/** @type {React.FC<Props & import('react').ButtonHTMLAttributes>} */
 const Label = forwardRef((props, ref) => {
-  const { children, color = 'default', variant = 'soft', startIcon, endIcon, sx, ...other } = props;
+  const {
+    children,
+    color = 'default',
+    variant = 'soft',
+    startIcon,
+    endIcon,
+    sx,
+    clickable,
+    ...other
+  } = props;
   const theme = useTheme();
 
   const iconStyles = {
@@ -39,7 +49,7 @@ const Label = forwardRef((props, ref) => {
   return (
     <StyledLabel
       ref={ref}
-      component="span"
+      component={clickable ? 'button' : 'span'}
       ownerState={{ color, variant }}
       sx={{
         ...(startIcon && { pl: 0.75 }),

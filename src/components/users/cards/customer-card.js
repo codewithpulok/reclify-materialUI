@@ -3,11 +3,14 @@ import { useRouter } from 'next/navigation';
 import PropTypes from 'prop-types';
 import Image from 'src/components/common/image';
 import { paths } from 'src/routes/paths';
+import { fShortenCurrencyNumber } from 'src/utils/format-number';
 import { fDate } from 'src/utils/format-time';
+import { ICONS } from '../config-users';
 
 const Props = {
   /** @type {User} */
   user: PropTypes.object.isRequired,
+  totalTransactions: PropTypes.number.isRequired,
 };
 
 /**
@@ -15,7 +18,7 @@ const Props = {
  * @returns {JSX.Element}
  */
 const CustomerCard = (props) => {
-  const { user } = props;
+  const { user, totalTransactions = 0 } = props;
   const router = useRouter();
 
   return (
@@ -37,6 +40,19 @@ const CustomerCard = (props) => {
             <Typography variant="body1">{user.displayName}</Typography>
             <Typography variant="subtitle2" sx={{ color: 'text.secondary' }}>
               {fDate(user.createdAt)}
+            </Typography>
+          </Stack>
+        </Stack>
+
+        <Stack
+          direction="row"
+          spacing={2}
+          sx={{ bgcolor: 'background.neutral', px: 0.5, py: 0.25, borderRadius: 0.5 }}
+        >
+          <Stack direction="row" spacing={0.5} alignItems="center">
+            {ICONS.transactions(16, { color: 'primary.main' })}
+            <Typography variant="body2">
+              {fShortenCurrencyNumber(totalTransactions)} Transactions
             </Typography>
           </Stack>
         </Stack>

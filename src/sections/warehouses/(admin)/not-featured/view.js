@@ -30,7 +30,7 @@ const WarehouseNotFeaturedView = (props) => {
   // handle warehouse filter
   useEffect(() => {
     if (results.isSuccess && results?.data?.results instanceof Array) {
-      const filtered = [...results.data.results];
+      const filtered = [...results.data.results].filter((w) => !w.isFeatured);
 
       setFilteredWarehouses(filtered);
     }

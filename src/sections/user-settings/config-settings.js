@@ -19,4 +19,9 @@ export const ICONS = {
   close: (width, sx) => getIconify('solar:close-circle-bold', width, sx),
 
   warehouse: (width, sx) => getIconify('solar:box-bold-duotone', width, sx),
+
+  send_message: (width, sx) => getIconify('tabler:send', width, sx),
+  profile: (width, sx) => getIconify('solar:user-circle-bold-duotone', width, sx),
+  email: (width, sx) => getIconify('tabler:mail', width, sx),
+  phone: (width, sx) => getIconify('solar:phone-bold-duotone', width, sx),
 };

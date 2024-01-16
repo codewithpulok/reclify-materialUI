@@ -59,8 +59,6 @@ export default function Warehouses() {
 
   // handle warehouse filter
   useEffect(() => {
-    console.log({ results });
-
     if (results.isLoading || results.isFetching) {
       setIsFiltered(false);
     } else if (results.isSuccess && results?.data?.results instanceof Array) {

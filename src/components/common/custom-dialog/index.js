@@ -1,7 +1,10 @@
 export * from './config-custom-dialog';
 
 export { default as ConfirmDialog } from './confirm-dialog';
-export { default as PaymentDialog } from './payment-dialog';
+
+// payment form dialog
+export { default as PurchasePaymentDialog } from './purchase-payment-dialog';
+export { default as UpgradePaymentDialog } from './upgrade-payment-dialog';
 
 // payment card dialog
 export { default as PaymentCardCreateDialog } from './payment-card/create';

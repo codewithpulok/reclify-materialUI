@@ -3,19 +3,17 @@ import { useSnackbar } from 'notistack';
 import { useForm } from 'react-hook-form';
 import * as Yup from 'yup';
 // mui
-import { Button, Card, CardContent, CardHeader, InputAdornment, Stack } from '@mui/material';
-import Grid from '@mui/material/Unstable_Grid2';
 // components
-import { socialsBrands } from 'src/assets/data';
+import { Card, Stack } from '@mui/material';
 import { getUserByID, getUserByType } from 'src/assets/dummy/users';
 import { addressFieldSchema } from 'src/components/common/custom-fields';
 import { EmptyState } from 'src/components/common/custom-state';
-import FormProvider, { RHFTextField } from 'src/components/common/hook-form';
-import { getIconify } from 'src/components/common/iconify/utilities';
+import FormProvider from 'src/components/common/hook-form';
 import { selectAuth } from 'src/redux-toolkit/features/auth/authSlice';
 import { useAppSelector } from 'src/redux-toolkit/hooks';
-import GeneralAvatarFields from './general-avatar-fields';
-import GeneralInfoFields from './general-info-fields';
+import { fDate } from 'src/utils/format-time';
+import Cover from './cover';
+import Fields from './fields';
 
 // ----------------------------------------------------------------------
 
@@ -75,43 +73,19 @@ const SettingsGeneral = () => {
   }
 
   return (
-    <FormProvider methods={methods} onSubmit={onSubmit}>
-      <Grid container spacing={3}>
-        <Grid xs={12} md={4}>
-          <GeneralAvatarFields />
-
-          <Button variant="soft" color="error" sx={{ mt: 3, mb: 3 }} fullWidth>
-            Delete Account
-          </Button>
-
-          <Card>
-            <CardHeader title="Social Links" />
-            <CardContent component={Stack} spacing={1.5}>
-              {socialsBrands.map((brand) => (
-                <RHFTextField
-                  name={`socials.${brand.key}`}
-                  label={brand.name}
-                  size="small"
-                  type="url"
-                  InputProps={{
-                    startAdornment: (
-                      <InputAdornment position="start">
-                        {getIconify(brand.icon, brand.iconSize, { color: brand.color })}
-                      </InputAdornment>
-                    ),
-                  }}
-                  fullWidth
-                />
-              ))}
-            </CardContent>
-          </Card>
-        </Grid>
-
-        <Grid xs={12} md={8}>
-          <GeneralInfoFields />
-        </Grid>
-      </Grid>
-    </FormProvider>
+    <Stack spacing={5}>
+      <Card sx={{ height: 290 }}>
+        <Cover
+          joined={fDate(user.createdAt)}
+          name={user?.displayName}
+          avatarUrl={user?.avatar}
+          coverUrl="https://api-prod-minimal-v510.vercel.app/assets/images/cover/cover_4.jpg"
+        />
+      </Card>
+      <FormProvider methods={methods} onSubmit={onSubmit}>
+        <Fields />
+      </FormProvider>
+    </Stack>
   );
 };
 

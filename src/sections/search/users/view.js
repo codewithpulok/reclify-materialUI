@@ -35,8 +35,8 @@ const SearchUsersView = (props) => {
           {users.map((user) => (
             <Grid item xs={12} sm={6} md={4} lg={3} key={user.id}>
               {user.userType === 'seller' && <SellerCard user={user} totalWarehouses={10} />}
-              {user.userType === 'customer' && <CustomerCard user={user} />}
-              {user.userType === 'admin' && <CustomerCard user={user} />}
+              {user.userType === 'customer' && <CustomerCard user={user} totalTransactions={100} />}
+              {user.userType === 'admin' && <CustomerCard user={user} totalTransactions={1000} />}
             </Grid>
           ))}
         </Grid>
