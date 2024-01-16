@@ -2,16 +2,16 @@ import { Button, Dialog, DialogActions, DialogContent, DialogTitle } from '@mui/
 import PropTypes from 'prop-types';
 import { PaymentForm } from '../../custom-form';
 
-const PayemntDialogProps = {
+const Props = {
   open: PropTypes.bool.isRequired,
   onClose: PropTypes.func.isRequired,
 };
 
 /**
- * @param {PayemntDialogProps} props
+ * @param {Props} props
  * @returns {JSX.Element}
  */
-const PayemntDialog = (props) => {
+const UpgradePaymentDialog = (props) => {
   const { open, onClose } = props;
   return (
     <Dialog fullWidth maxWidth="xs" open={open} onClose={onClose}>
@@ -32,6 +32,6 @@ const PayemntDialog = (props) => {
   );
 };
 
-PayemntDialog.propTypes = PayemntDialogProps;
+UpgradePaymentDialog.propTypes = Props;
 
-export default PayemntDialog;
+export default UpgradePaymentDialog;

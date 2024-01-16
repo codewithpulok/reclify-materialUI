@@ -1,7 +1,7 @@
 import { Box, Button, Card, Chip, Grid, Stack, Typography, useTheme } from '@mui/material';
 import PropTypes from 'prop-types';
 import { useEffect, useMemo, useState } from 'react';
-import { PaymentDialog } from 'src/components/common/custom-dialog';
+import { PurchasePaymentDialog } from 'src/components/common/custom-dialog';
 import { WarehouseMonthCard } from 'src/components/warehouse/cards';
 import { CUBIC_FEET_PER_PALLET, SQUARE_FEET_PER_PALLET } from 'src/constant/pallet';
 import { useBoolean } from 'src/hooks/use-boolean';
@@ -242,7 +242,7 @@ const WarehouseBooking = (props) => {
         ) : null}
       </Card>
 
-      <PaymentDialog open={paymentDialog.value} onClose={paymentDialog.onFalse} />
+      <PurchasePaymentDialog open={paymentDialog.value} onClose={paymentDialog.onFalse} />
     </>
   );
 };
