@@ -4,12 +4,15 @@ import { useForm } from 'react-hook-form';
 import * as Yup from 'yup';
 // mui
 // components
+import { Card, Stack } from '@mui/material';
 import { getUserByID, getUserByType } from 'src/assets/dummy/users';
 import { addressFieldSchema } from 'src/components/common/custom-fields';
 import { EmptyState } from 'src/components/common/custom-state';
 import FormProvider from 'src/components/common/hook-form';
 import { selectAuth } from 'src/redux-toolkit/features/auth/authSlice';
 import { useAppSelector } from 'src/redux-toolkit/hooks';
+import { fDate } from 'src/utils/format-time';
+import Cover from './cover';
 import Fields from './fields';
 
 // ----------------------------------------------------------------------
@@ -70,9 +73,19 @@ const SettingsGeneral = () => {
   }
 
   return (
-    <FormProvider methods={methods} onSubmit={onSubmit}>
-      <Fields />
-    </FormProvider>
+    <Stack spacing={5}>
+      <Card sx={{ height: 290 }}>
+        <Cover
+          joined={fDate(user.createdAt)}
+          name={user?.displayName}
+          avatarUrl={user?.avatar}
+          coverUrl="https://api-prod-minimal-v510.vercel.app/assets/images/cover/cover_4.jpg"
+        />
+      </Card>
+      <FormProvider methods={methods} onSubmit={onSubmit}>
+        <Fields />
+      </FormProvider>
+    </Stack>
   );
 };
 
