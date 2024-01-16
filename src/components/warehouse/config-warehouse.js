@@ -14,6 +14,6 @@ export const ICONS = {
   email: (width, sx) => getIconify('tabler:mail', width, sx),
   warehouse: (width, sx) => getIconify('solar:box-bold-duotone', width, sx),
   menu: (width, sx) => getIconify('solar:menu-dots-bold', width, sx),
-
+  discount: (width, sx) => getIconify('ic:outline-discount', width, sx),
   send_message: (width, sx) => getIconify('tabler:send', width, sx),
 };
