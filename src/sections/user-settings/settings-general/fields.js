@@ -3,8 +3,8 @@ import GeneralInfoFields from './general-info-fields';
 import SocialFields from './socials-fields';
 
 const Fields = () => (
-  <Grid container spacing={3}>
-    <Grid xs={12} md={8}>
+  <Grid container spacing={1.5}>
+    <Grid item xs={12} md={8}>
       <GeneralInfoFields />
     </Grid>
 
