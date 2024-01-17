@@ -12,12 +12,15 @@ import PropTypes from 'prop-types';
 // local components
 import { getSocialBrand } from 'src/assets/data/social-brands';
 import { getIconify } from 'src/components/common/iconify/utilities';
+import { RouterLink } from 'src/routes/components';
+import { paths } from 'src/routes/paths';
 import { fCurrency, fNumber } from 'src/utils/format-number';
 import { ICONS } from '../../config-users';
 
 // ----------------------------------------------------------------------
 
 const DetailsHomeProps = {
+  allowSendMessage: PropTypes.bool,
   totalPurchase: PropTypes.number,
   spentMoney: PropTypes.number,
   /** @type {User} */
@@ -29,7 +32,7 @@ const DetailsHomeProps = {
  * @returns {JSX.Element}
  */
 const DetailsHome = (props) => {
-  const { spentMoney, totalPurchase, user } = props;
+  const { spentMoney, totalPurchase, user, allowSendMessage } = props;
 
   const renderStats = (
     <Card sx={{ py: 3, textAlign: 'center', typography: 'h4' }}>
@@ -59,9 +62,17 @@ const DetailsHome = (props) => {
       <CardHeader
         title="About"
         action={
-          <Button variant="outlined" color="primary" endIcon={ICONS.send_message()}>
-            Send Message
-          </Button>
+          allowSendMessage ? (
+            <Button
+              LinkComponent={RouterLink}
+              href={`${paths.dashboard.messages.root}?id=${user.id}`}
+              variant="outlined"
+              color="primary"
+              endIcon={ICONS.send_message()}
+            >
+              Send Message
+            </Button>
+          ) : null
         }
       />
 

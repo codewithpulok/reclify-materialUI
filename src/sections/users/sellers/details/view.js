@@ -108,7 +108,13 @@ const SellerDetailsView = (props) => {
       </Card>
 
       {currentTab === 'profile' && (
-        <DetailsHome user={user} customerNumber={10} totalWarehouses={20} totalSales={1500} />
+        <DetailsHome
+          allowSendMessage={authUser && authUser.id !== user.id}
+          user={user}
+          customerNumber={10}
+          totalWarehouses={20}
+          totalSales={1500}
+        />
       )}
       {currentTab === 'warehouses' && <DetailsListing warehouses={warehouses} />}
       {currentTab === 'membership' && (

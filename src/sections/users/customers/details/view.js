@@ -100,7 +100,14 @@ const CustomerDetailsView = (props) => {
         )}
       </Card>
 
-      {currentTab === 'profile' && <DetailsHome user={user} totalPurchase={10} spentMoney={2000} />}
+      {currentTab === 'profile' && (
+        <DetailsHome
+          allowSendMessage={authUser && authUser.id !== user.id}
+          user={user}
+          totalPurchase={10}
+          spentMoney={2000}
+        />
+      )}
       {currentTab === 'purchases' && <DetailsPurchases transactions={transactions} />}
     </Container>
   );
