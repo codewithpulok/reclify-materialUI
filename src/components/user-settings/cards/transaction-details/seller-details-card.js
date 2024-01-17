@@ -1,12 +1,12 @@
+import { Link } from '@mui/material';
 import Avatar from '@mui/material/Avatar';
-import Chip from '@mui/material/Chip';
 import Stack from '@mui/material/Stack';
 import Typography from '@mui/material/Typography';
-import Link from 'next/link';
 import PropTypes from 'prop-types';
-
+// local components
 import Label from 'src/components/common/label';
-import { ICONS } from '../../config-user-settings';
+import { RouterLink } from 'src/routes/components';
+import { paths } from 'src/routes/paths';
 
 const SellerDetailsCardProps = {
   /** @type {User} */
@@ -33,28 +33,28 @@ const SellerDetailsCard = (props) => {
           {seller.displayName}
         </Typography>
         <Stack flexDirection="row" spacing={0.5}>
-          <Chip
-            icon={ICONS.phone()}
-            label="Phone"
-            component={Link}
-            href={`tel:${seller.phoneNumber}`}
-            sx={{ borderRadius: 0.5 }}
-            size="small"
-            color="primary"
-            variant="outlined"
-            clickable
-          />
-          <Chip
-            icon={ICONS.email()}
-            label="Email"
-            component={Link}
+          <Typography
+            component={RouterLink}
             href={`mailto:${seller.email}`}
-            sx={{ borderRadius: 0.5 }}
-            size="small"
-            color="primary"
-            variant="outlined"
-            clickable
-          />
+            variant="body2"
+            color="text.secondary"
+          >
+            {seller.email}
+          </Typography>
+          <Typography
+            component={RouterLink}
+            href={`tel:${seller.phoneNumber}`}
+            variant="body2"
+            color="text.secondary"
+          >
+            {seller.phoneNumber}
+          </Typography>
+
+          <Stack mt={2} direction="row" spacing={0.3}>
+            <Link component={RouterLink} href={`${paths.dashboard.messages.root}?id=${seller.id}`}>
+              <Label color="info">send a message</Label>
+            </Link>
+          </Stack>
         </Stack>
       </Stack>
 

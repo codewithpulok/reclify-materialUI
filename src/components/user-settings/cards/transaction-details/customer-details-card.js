@@ -1,12 +1,12 @@
+import { Link } from '@mui/material';
 import Avatar from '@mui/material/Avatar';
-import Chip from '@mui/material/Chip';
 import Stack from '@mui/material/Stack';
 import Typography from '@mui/material/Typography';
-import Link from 'next/link';
 import PropTypes from 'prop-types';
-
+// local components
 import Label from 'src/components/common/label';
-import { ICONS } from '../../config-user-settings';
+import { RouterLink } from 'src/routes/components';
+import { paths } from 'src/routes/paths';
 
 const CustomerDetailsCardProps = {
   /** @type {User} */
@@ -33,28 +33,31 @@ const CustomerDetailsCard = (props) => {
           {customer.displayName}
         </Typography>
         <Stack flexDirection="row" spacing={0.5}>
-          <Chip
-            icon={ICONS.phone()}
-            label="Phone"
-            component={Link}
-            href={`tel:${customer.phoneNumber}`}
-            sx={{ borderRadius: 0.5 }}
-            size="small"
-            color="primary"
-            variant="outlined"
-            clickable
-          />
-          <Chip
-            icon={ICONS.email()}
-            label="Email"
-            component={Link}
+          <Typography
+            component={RouterLink}
             href={`mailto:${customer.email}`}
-            sx={{ borderRadius: 0.5 }}
-            size="small"
-            color="primary"
-            variant="outlined"
-            clickable
-          />
+            variant="body2"
+            color="text.secondary"
+          >
+            {customer.email}
+          </Typography>
+          <Typography
+            component={RouterLink}
+            href={`tel:${customer.phoneNumber}`}
+            variant="body2"
+            color="text.secondary"
+          >
+            {customer.phoneNumber}
+          </Typography>
+
+          <Stack mt={2} direction="row" spacing={0.3}>
+            <Link
+              component={RouterLink}
+              href={`${paths.dashboard.messages.root}?id=${customer.id}`}
+            >
+              <Label color="info">send a message</Label>
+            </Link>
+          </Stack>
         </Stack>
       </Stack>
 
