@@ -14,10 +14,11 @@ import FormProvider from '../../hook-form/form-provider';
 import BillingDetails from './billing-details';
 import PaymentCard from './payment-card';
 
-const PaymentFormProps = {
+const Props = {
   wrapperElement: PropTypes.elementType,
   actions: PropTypes.node,
   submitCallback: PropTypes.func,
+  children: PropTypes.node,
 };
 
 const defaultValues = {
@@ -26,11 +27,11 @@ const defaultValues = {
 };
 
 /**
- * @param {PaymentFormProps} props
+ * @param {Props} props
  * @returns {JSX.Element}
  */
 const PaymentForm = (props) => {
-  const { wrapperElement, actions, submitCallback = () => {} } = props;
+  const { wrapperElement, actions, submitCallback = () => {}, children = null } = props;
   const { enqueueSnackbar } = useSnackbar();
 
   const { user } = useAppSelector(selectAuth);
@@ -76,6 +77,7 @@ const PaymentForm = (props) => {
         <Stack component={wrapperElement} sx={{ py: 1 }} spacing={2}>
           <BillingDetails billingDetails={billingDetails} onClick={billingDetailsDialog.onTrue} />
           <PaymentCard card={card} onClick={cardsDialog.onTrue} />
+          {children}
         </Stack>
 
         {actions}
@@ -100,6 +102,6 @@ const PaymentForm = (props) => {
   );
 };
 
-PaymentForm.propTypes = PaymentFormProps;
+PaymentForm.propTypes = Props;
 
 export default PaymentForm;

@@ -102,7 +102,7 @@ const CustomerDetailsView = (props) => {
 
       {currentTab === 'profile' && (
         <DetailsHome
-          allowSendMessage={authUser && authUser.id !== user.id}
+          allowSendMessage={authUser && authUser?.id !== user.id}
           user={user}
           totalPurchase={10}
           spentMoney={2000}

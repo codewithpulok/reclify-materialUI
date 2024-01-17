@@ -109,7 +109,7 @@ const SellerDetailsView = (props) => {
 
       {currentTab === 'profile' && (
         <DetailsHome
-          allowSendMessage={authUser && authUser.id !== user.id}
+          allowSendMessage={authUser && authUser?.id !== user.id}
           user={user}
           customerNumber={10}
           totalWarehouses={20}
