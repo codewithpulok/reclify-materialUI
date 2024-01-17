@@ -75,7 +75,9 @@ const TransactionTableRow = (props) => {
               component={RouterLink}
               href={`${paths.dashboard.users.customers}/${row.customer.id}`}
             >
-              <Typography variant="body2">{row.customer.displayName}</Typography>
+              <Typography variant="body2" color="text.primary">
+                {row.customer.displayName}
+              </Typography>
             </Link>
           </Stack>
         </Stack>

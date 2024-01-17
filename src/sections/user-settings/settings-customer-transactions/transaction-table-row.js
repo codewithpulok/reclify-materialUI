@@ -67,11 +67,13 @@ const TransactionTableRow = (props) => {
       </TableCell>
 
       <TableCell>
-        <Stack direction="row" alignItems="start">
+        <Stack direction="row" alignItems="center">
           <Avatar alt={row.seller.displayName} src={row.seller.avatar} sx={{ mr: 2 }} />
           <Stack>
             <Link component={RouterLink} href={`${paths.dashboard.users.sellers}/${row.seller.id}`}>
-              <Typography variant="body2">{row.seller.displayName}</Typography>
+              <Typography variant="body2" color="text.primary">
+                {row.seller.displayName}
+              </Typography>
             </Link>
           </Stack>
         </Stack>

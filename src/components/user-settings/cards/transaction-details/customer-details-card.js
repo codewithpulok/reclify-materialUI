@@ -1,4 +1,4 @@
-import { Link } from '@mui/material';
+import { Button, Link } from '@mui/material';
 import Avatar from '@mui/material/Avatar';
 import Stack from '@mui/material/Stack';
 import Typography from '@mui/material/Typography';
@@ -7,6 +7,7 @@ import PropTypes from 'prop-types';
 import Label from 'src/components/common/label';
 import { RouterLink } from 'src/routes/components';
 import { paths } from 'src/routes/paths';
+import { ICONS } from '../../config-user-settings';
 
 const CustomerDetailsCardProps = {
   /** @type {User} */
@@ -25,38 +26,50 @@ const CustomerDetailsCard = (props) => {
       direction="row"
       spacing={1.5}
       sx={{ bgcolor: 'background.default', p: 1.5, borderRadius: 1, ...sx }}
-      alignItems="center"
+      alignItems="start"
     >
       <Avatar src={customer.avatar} alt={customer.displayName} sx={{ width: 60, height: 60 }} />
       <Stack>
-        <Typography variant="h6" mb={0.8}>
-          {customer.displayName}
-        </Typography>
-        <Stack flexDirection="row" spacing={0.5}>
-          <Typography
-            component={RouterLink}
-            href={`mailto:${customer.email}`}
-            variant="body2"
-            color="text.secondary"
-          >
-            {customer.email}
+        <Link component={RouterLink} href={`${paths.dashboard.users.customers}/${customer.id}`}>
+          <Typography variant="h6" color="text.primary" mb={0.5}>
+            {customer.displayName}
           </Typography>
-          <Typography
-            component={RouterLink}
-            href={`tel:${customer.phoneNumber}`}
-            variant="body2"
-            color="text.secondary"
-          >
-            {customer.phoneNumber}
-          </Typography>
-
-          <Stack mt={2} direction="row" spacing={0.3}>
+        </Link>
+        <Stack spacing={0}>
+          <Stack direction="row" alignItems="center" spacing={0.5}>
+            {ICONS.phone(18, { color: 'secondary.main' })}
             <Link
               component={RouterLink}
-              href={`${paths.dashboard.messages.root}?id=${customer.id}`}
+              href={`tel:${customer.phoneNumber}`}
+              typography="body2"
+              color="text.secondary"
             >
-              <Label color="info">send a message</Label>
+              {customer.phoneNumber}
             </Link>
+          </Stack>
+          <Stack direction="row" alignItems="center" spacing={0.5}>
+            {ICONS.email(18, { color: 'secondary.main' })}
+            <Link
+              component={RouterLink}
+              href={`mailto:${customer.email}`}
+              typography="body2"
+              color="text.secondary"
+            >
+              {customer.email}
+            </Link>
+          </Stack>
+
+          <Stack mt={1.5} direction="row" spacing={0.3}>
+            <Button
+              LinkComponent={RouterLink}
+              href={`${paths.dashboard.messages.root}?id=${customer.id}`}
+              variant="outlined"
+              color="secondary"
+              size="small"
+              startIcon={ICONS.send_message()}
+            >
+              send a message
+            </Button>
           </Stack>
         </Stack>
       </Stack>
