@@ -45,7 +45,7 @@ const WarehouseEditFields = (props) => (
 
         <Grid item xs={12}>
           <RHFTextField
-            valueFormatter={fFixedFloat}
+            valueFormatter={(v) => Math.round(v)}
             type="number"
             name="totalSpace"
             label="Total space (Pallet)"

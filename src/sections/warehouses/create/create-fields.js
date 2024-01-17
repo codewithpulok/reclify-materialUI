@@ -42,7 +42,7 @@ const CreateFields = (props) => (
 
         <Grid item xs={12}>
           <RHFTextField
-            valueFormatter={fFixedFloat}
+            valueFormatter={(v) => Math.round(v)}
             type="number"
             name="totalSpace"
             label="Total space (Pallet)"
@@ -61,6 +61,7 @@ const CreateFields = (props) => (
             valueTransformer={(v) => (v === '' ? undefined : v / SQUARE_FEET_PER_PALLET)}
           />
         </Grid>
+
         <Grid item xs={6}>
           <RHFTextField
             type="number"
