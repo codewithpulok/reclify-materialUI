@@ -3,7 +3,7 @@ import { Controller, useFormContext } from 'react-hook-form';
 
 import FormHelperText from '@mui/material/FormHelperText';
 
-import { Upload, UploadBox, UploadAvatar } from '../upload';
+import { Upload, UploadAvatar, UploadBox } from '../upload';
 
 // ----------------------------------------------------------------------
 

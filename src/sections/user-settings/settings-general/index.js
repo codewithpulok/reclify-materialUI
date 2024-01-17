@@ -5,7 +5,8 @@ import * as Yup from 'yup';
 // mui
 // components
 import { Card, Stack } from '@mui/material';
-import { getUserByID, getUserByType } from 'src/assets/dummy/users';
+import { useCallback, useMemo } from 'react';
+import { getUserByType } from 'src/assets/dummy/users';
 import { addressFieldSchema } from 'src/components/common/custom-fields';
 import { EmptyState } from 'src/components/common/custom-state';
 import FormProvider from 'src/components/common/hook-form';
@@ -15,48 +16,51 @@ import { fDate } from 'src/utils/format-time';
 import Cover from './cover';
 import Fields from './fields';
 
+// schema
+const UpdateUserSchema = Yup.object().shape({
+  firstName: Yup.string().required('First name is required'),
+  lastName: Yup.string().required('Last name is required'),
+  email: Yup.string().required('Email is required').email('Email must be a valid email address'),
+  avatar: Yup.mixed().nullable().required('Avatar is required'),
+  phoneNumber: Yup.string().required('Phone number is required'),
+  address: addressFieldSchema,
+  about: Yup.string().required('About is required'),
+  // not required
+  isPublic: Yup.boolean(),
+});
+
 // ----------------------------------------------------------------------
 
 const SettingsGeneral = () => {
   const { enqueueSnackbar } = useSnackbar();
   const { user: authUser } = useAppSelector(selectAuth);
 
-  const user = getUserByID(authUser?.id) || getUserByType(authUser?.userType); // TODO: added for testing.
+  const user = getUserByType(authUser?.userType); // TODO: added for testing.
 
-  const UpdateUserSchema = Yup.object().shape({
-    firstName: Yup.string().required('First name is required'),
-    lastName: Yup.string().required('Last name is required'),
-    email: Yup.string().required('Email is required').email('Email must be a valid email address'),
-    avatar: Yup.mixed().nullable().required('Avatar is required'),
-    phoneNumber: Yup.string().required('Phone number is required'),
-    address: addressFieldSchema,
-    about: Yup.string().required('About is required'),
-    // not required
-    isPublic: Yup.boolean(),
-  });
+  const defaultValues = useMemo(
+    () => ({
+      firstName: user?.firstName || '',
+      lastName: user?.lastName || '',
+      email: user?.email || '',
+      avatar: user?.avatar || null,
+      cover:
+        user?.cover || 'https://api-prod-minimal-v510.vercel.app/assets/images/cover/cover_4.jpg',
+      phoneNumber: user?.phoneNumber || '',
+      country: user?.country || '',
+      address: user?.address || '',
+      state: user?.state || '',
+      city: user?.city || '',
+      zipCode: user?.zipCode || '',
+      about: user?.about || '',
+      isPublic: user?.isPublic || false,
+    }),
+    [user]
+  );
 
-  const defaultValues = {
-    firstName: user?.firstName || '',
-    lastName: user?.lastName || '',
-    email: user?.email || '',
-    avatar: user?.avatar || null,
-    phoneNumber: user?.phoneNumber || '',
-    country: user?.country || '',
-    address: user?.address || '',
-    state: user?.state || '',
-    city: user?.city || '',
-    zipCode: user?.zipCode || '',
-    about: user?.about || '',
-    isPublic: user?.isPublic || false,
-  };
+  const methods = useForm({ resolver: yupResolver(UpdateUserSchema), defaultValues });
+  const { handleSubmit, reset } = methods;
 
-  const methods = useForm({
-    resolver: yupResolver(UpdateUserSchema),
-    defaultValues,
-  });
-
-  const { handleSubmit } = methods;
-
+  // handle form submit
   const onSubmit = handleSubmit(async (data) => {
     try {
       await new Promise((resolve) => setTimeout(resolve, 500));
@@ -67,25 +71,25 @@ const SettingsGeneral = () => {
     }
   });
 
+  // handle form reset
+  const onReset = useCallback(async () => {
+    reset(defaultValues);
+  }, [defaultValues, reset]);
+
   // if somehow user account is not available then show some errors
   if (!user) {
     return <EmptyState text="User Account not found" />;
   }
 
   return (
-    <Stack spacing={5}>
-      <Card sx={{ height: 290 }}>
-        <Cover
-          joined={fDate(user.createdAt)}
-          name={user?.displayName}
-          avatarUrl={user?.avatar}
-          coverUrl="https://api-prod-minimal-v510.vercel.app/assets/images/cover/cover_4.jpg"
-        />
-      </Card>
-      <FormProvider methods={methods} onSubmit={onSubmit}>
+    <FormProvider methods={methods} onSubmit={onSubmit} onReset={onReset}>
+      <Stack spacing={5}>
+        <Card sx={{ height: 290 }}>
+          <Cover joined={fDate(user.createdAt)} name={user?.displayName} />
+        </Card>
         <Fields />
-      </FormProvider>
-    </Stack>
+      </Stack>
+    </FormProvider>
   );
 };
 

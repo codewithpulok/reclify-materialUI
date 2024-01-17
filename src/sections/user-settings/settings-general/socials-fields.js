@@ -9,6 +9,7 @@ const SocialFields = () => (
     <CardContent component={Stack} spacing={1.5}>
       {socialsBrands.map((brand) => (
         <RHFTextField
+          key={brand.key}
           name={`socials.${brand.key}`}
           label={brand.name}
           size="small"
