@@ -1,4 +1,4 @@
-import { Button, Link } from '@mui/material';
+import { Card, Chip, Link } from '@mui/material';
 import Avatar from '@mui/material/Avatar';
 import Stack from '@mui/material/Stack';
 import Typography from '@mui/material/Typography';
@@ -11,7 +11,7 @@ import { ICONS } from '../../config-user-settings';
 
 const CustomerDetailsCardProps = {
   /** @type {User} */
-  customer: PropTypes.object.isRequired,
+  user: PropTypes.object.isRequired,
   /** @type {SxProps} */
   sx: PropTypes.object,
 };
@@ -20,64 +20,83 @@ const CustomerDetailsCardProps = {
  * @returns {JSX.Element}
  */
 const CustomerDetailsCard = (props) => {
-  const { customer, sx = {} } = props;
+  const { user, sx = {} } = props;
   return (
-    <Stack
-      direction="row"
-      spacing={1.5}
-      sx={{ bgcolor: 'background.default', p: 1.5, borderRadius: 1, ...sx }}
-      alignItems="start"
-    >
-      <Avatar src={customer.avatar} alt={customer.displayName} sx={{ width: 60, height: 60 }} />
-      <Stack>
-        <Link component={RouterLink} href={`${paths.dashboard.users.customers}/${customer.id}`}>
-          <Typography variant="h6" color="text.primary" mb={0.5}>
-            {customer.displayName}
-          </Typography>
-        </Link>
-        <Stack spacing={0}>
-          <Stack direction="row" alignItems="center" spacing={0.5}>
-            {ICONS.phone(18, { color: 'secondary.main' })}
-            <Link
-              component={RouterLink}
-              href={`tel:${customer.phoneNumber}`}
-              typography="body2"
-              color="text.secondary"
-            >
-              {customer.phoneNumber}
-            </Link>
-          </Stack>
-          <Stack direction="row" alignItems="center" spacing={0.5}>
-            {ICONS.email(18, { color: 'secondary.main' })}
-            <Link
-              component={RouterLink}
-              href={`mailto:${customer.email}`}
-              typography="body2"
-              color="text.secondary"
-            >
-              {customer.email}
-            </Link>
-          </Stack>
+    <Card
+      component={Stack}
+      sx={{
+        // card
+        p: { xs: 1.5, sm: 2 },
+        borderRadius: 1,
+        bgcolor: 'background.default',
 
-          <Stack mt={1.5} direction="row" spacing={0.3}>
-            <Button
-              LinkComponent={RouterLink}
-              href={`${paths.dashboard.messages.root}?id=${customer.id}`}
+        // stack
+        flexDirection: {
+          xs: 'column',
+          sm: 'row',
+        },
+        alignItems: {
+          xs: 'start',
+          sm: 'center',
+        },
+        gap: 1.5,
+
+        ...sx,
+      }}
+    >
+      <Avatar src={user.avatar} alt={user.displayName} sx={{ width: 90, height: 90 }} />
+      <Stack spacing={0.2} sx={{ width: '100%', flex: 1 }}>
+        <Stack direction="row" alignItems="center" flexWrap="wrap" spacing={1} mb={0.8}>
+          <Typography variant="h6">{user.displayName}</Typography>
+
+          <Label color="primary" size="small" variant="soft" sx={{ mr: 'auto' }}>
+            seller
+          </Label>
+
+          <Link
+            component={RouterLink}
+            sx={{ width: { xs: '100%', sm: 'auto' } }}
+            href={`${paths.dashboard.messages.root}?id=${user.id}`}
+          >
+            <Chip
+              sx={{ width: { xs: '100%', sm: 'auto' } }}
+              icon={ICONS.send_message()}
+              label="Send Message"
               variant="outlined"
-              color="secondary"
-              size="small"
-              startIcon={ICONS.send_message()}
-            >
-              send a message
-            </Button>
-          </Stack>
+              clickable
+            />
+          </Link>
+        </Stack>
+        <Stack direction="row" alignItems="center" spacing={0.5}>
+          {ICONS.email(18)}
+
+          <Typography
+            variant="body2"
+            color="text.primary"
+            sx={{ textDecoration: 'none' }}
+            component={RouterLink}
+            href={`mailto:${user.email}`}
+            onClick={(e) => e.stopPropagation()}
+          >
+            {user.email}
+          </Typography>
+        </Stack>
+        <Stack direction="row" alignItems="center" flexWrap="wrap" spacing={0.5}>
+          {ICONS.phone(18)}
+
+          <Typography
+            variant="body2"
+            color="text.primary"
+            sx={{ textDecoration: 'none', mr: 'auto' }}
+            component={RouterLink}
+            href={`tel:${user.phoneNumber}`}
+            onClick={(e) => e.stopPropagation()}
+          >
+            {user.phoneNumber}
+          </Typography>
         </Stack>
       </Stack>
-
-      <Label variant="soft" color="primary" sx={{ alignSelf: 'self-start', ml: 'auto' }}>
-        Customer
-      </Label>
-    </Stack>
+    </Card>
   );
 };
 

@@ -48,7 +48,7 @@ const TransactionDialog = (props) => {
         <DialogContent>
           <Stack spacing={1.5}>
             {transaction?.warehouse && <WarehouseDetailsCard warehouse={transaction.warehouse} />}
-            {transaction?.seller && <SellerDetailsCard seller={transaction.seller} />}
+            {transaction?.seller && <SellerDetailsCard user={transaction.seller} />}
             {transaction && (
               <AmountDetailsCard
                 pricePerSquare={transaction.pricePerSquare}
