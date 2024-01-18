@@ -1,9 +1,9 @@
-import { Box, Grid, Stack, Typography } from '@mui/material';
+import { Grid, Typography } from '@mui/material';
 import PropTypes from 'prop-types';
 
 import { predefinedApprovedUses } from 'src/assets/data';
 import { getIconify } from 'src/components/common/iconify/utilities';
-import { detailsBoxStyle, detailsHeaderStyle } from '../styles';
+import { WarehouseDetailsBox } from 'src/components/warehouse/box';
 
 const WarehouseApprovedUsesProps = {
   /** @type {WarehouseApprovedUses} */
@@ -21,12 +21,7 @@ const WarehouseApprovedUses = (props) => {
   const { approvedUses, sx } = props;
 
   return (
-    <Box sx={{ ...sx, ...detailsBoxStyle }}>
-      <Stack direction="row" alignItems="center" justifyContent="space-between" mb={3}>
-        <Typography variant="h5" sx={detailsHeaderStyle}>
-          Approved Uses
-        </Typography>
-      </Stack>
+    <WarehouseDetailsBox title="Approved Uses" sx={sx}>
       <Grid spacing={0.7} container>
         {predefinedApprovedUses.map((uses) => {
           const currentUse = approvedUses[uses.key];
@@ -45,7 +40,7 @@ const WarehouseApprovedUses = (props) => {
           );
         })}
       </Grid>
-    </Box>
+    </WarehouseDetailsBox>
   );
 };
 

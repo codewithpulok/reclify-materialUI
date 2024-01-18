@@ -1,9 +1,9 @@
-import { Box, Grid, Stack, Typography } from '@mui/material';
+import { Grid, Typography } from '@mui/material';
 import PropTypes from 'prop-types';
 
 import { predefinedFeatures } from 'src/assets/data';
 import { getIconify } from 'src/components/common/iconify/utilities';
-import { detailsBoxStyle, detailsHeaderStyle } from '../styles';
+import { WarehouseDetailsBox } from 'src/components/warehouse/box';
 
 const WarehouseFeaturesProps = {
   /** @type {WarehouseFeatures} */
@@ -21,12 +21,7 @@ const WarehouseFeatures = (props) => {
   const { features, sx } = props;
 
   return (
-    <Box sx={{ ...sx, ...detailsBoxStyle }}>
-      <Stack direction="row" alignItems="center" justifyContent="space-between" mb={3}>
-        <Typography variant="h5" sx={detailsHeaderStyle}>
-          Facility Amenities + Features
-        </Typography>
-      </Stack>
+    <WarehouseDetailsBox title="Facility Amenities + Features" sx={sx}>
       <Grid spacing={0.7} container>
         {predefinedFeatures.map((feature) => {
           const currentFeature = features[feature.key];
@@ -46,7 +41,7 @@ const WarehouseFeatures = (props) => {
           );
         })}
       </Grid>
-    </Box>
+    </WarehouseDetailsBox>
   );
 };
 
