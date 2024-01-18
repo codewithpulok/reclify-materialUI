@@ -10,11 +10,8 @@ import PropTypes from 'prop-types';
 import { getTransactionStatusColor } from 'src/assets/dummy';
 import Label from 'src/components/common/label';
 import Scrollbar from 'src/components/common/scrollbar';
-import {
-  AmountDetailsCard,
-  SellerDetailsCard,
-  WarehouseDetailsCard,
-} from 'src/components/user-settings/cards';
+import { AmountDetailsCard, WarehouseDetailsCard } from 'src/components/user-settings/cards';
+import { UserDetailsCard } from 'src/components/users/cards';
 import { ICONS } from '../config-settings';
 
 const TransactionDialogProps = {
@@ -48,7 +45,7 @@ const TransactionDialog = (props) => {
         <DialogContent>
           <Stack spacing={1.5}>
             {transaction?.warehouse && <WarehouseDetailsCard warehouse={transaction.warehouse} />}
-            {transaction?.seller && <SellerDetailsCard user={transaction.seller} />}
+            {transaction?.seller && <UserDetailsCard user={transaction.seller} />}
             {transaction && (
               <AmountDetailsCard
                 pricePerSquare={transaction.pricePerSquare}

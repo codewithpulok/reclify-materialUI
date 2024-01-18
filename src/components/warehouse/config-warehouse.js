@@ -10,10 +10,11 @@ export const ICONS = {
   edit: (width, sx) => getIconify('solar:pen-new-square-linear', width, sx),
   verified: (width, sx) => getIconify('solar:verified-check-bold', width, sx),
   featured: (width, sx) => getIconify('solar:medal-ribbons-star-bold-duotone', width, sx),
-  phone: (width, sx) => getIconify('solar:phone-rounded-outline', width, sx),
-  email: (width, sx) => getIconify('tabler:mail', width, sx),
   warehouse: (width, sx) => getIconify('solar:box-bold-duotone', width, sx),
   menu: (width, sx) => getIconify('solar:menu-dots-bold', width, sx),
   discount: (width, sx) => getIconify('ic:outline-discount', width, sx),
+
+  phone: (width, sx) => getIconify('solar:phone-rounded-outline', width, sx),
+  email: (width, sx) => getIconify('tabler:mail', width, sx),
   send_message: (width, sx) => getIconify('tabler:send', width, sx),
 };

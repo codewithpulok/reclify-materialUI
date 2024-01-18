@@ -1,26 +1,25 @@
-import { Card, Chip, Link } from '@mui/material';
-import Avatar from '@mui/material/Avatar';
-import Stack from '@mui/material/Stack';
-import Typography from '@mui/material/Typography';
+import { Avatar, Card, Chip, Link, Stack, Typography } from '@mui/material';
 import PropTypes from 'prop-types';
 // local components
 import Label from 'src/components/common/label';
 import { RouterLink } from 'src/routes/components';
 import { paths } from 'src/routes/paths';
-import { ICONS } from '../../config-user-settings';
+import { ICONS } from '../config-users';
 
-const SellerDetailsCardProps = {
+const Props = {
   /** @type {User} */
   user: PropTypes.object.isRequired,
   /** @type {SxProps} */
   sx: PropTypes.object,
 };
+
 /**
- * @param {SellerDetailsCardProps} props
+ * @param {Props} props
  * @returns {JSX.Element}
  */
-const SellerDetailsCard = (props) => {
-  const { user, sx = {} } = props;
+const UserDetailsCard = (props) => {
+  const { user, sx } = props;
+
   return (
     <Card
       component={Stack}
@@ -28,7 +27,6 @@ const SellerDetailsCard = (props) => {
         // card
         p: { xs: 1.5, sm: 2 },
         borderRadius: 1,
-        bgcolor: 'background.default',
 
         // stack
         flexDirection: {
@@ -50,7 +48,7 @@ const SellerDetailsCard = (props) => {
           <Typography variant="h6">{user.displayName}</Typography>
 
           <Label color="primary" size="small" variant="soft" sx={{ mr: 'auto' }}>
-            seller
+            {user?.userType?.toLowerCase()}
           </Label>
 
           <Link
@@ -94,12 +92,27 @@ const SellerDetailsCard = (props) => {
           >
             {user.phoneNumber}
           </Typography>
+
+          <Link
+            component={RouterLink}
+            sx={{ width: { xs: '100%', sm: 'auto' } }}
+            href={`${paths.dashboard.users[user.userType === 'seller' ? 'sellers' : 'customers']}/${
+              user.id
+            }`}
+          >
+            <Chip
+              sx={{ width: { xs: '100%', sm: 'auto' } }}
+              label=" Visit profile"
+              color="primary"
+              clickable
+            />
+          </Link>
         </Stack>
       </Stack>
     </Card>
   );
 };
 
-SellerDetailsCard.propTypes = SellerDetailsCardProps;
+UserDetailsCard.propTypes = Props;
 
-export default SellerDetailsCard;
+export default UserDetailsCard;
