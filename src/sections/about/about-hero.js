@@ -35,13 +35,13 @@ export default function AboutHero() {
             },
           }}
         >
-          <TextAnimate text="Who" variants={varFade().inRight} sx={{ color: 'primary.main' }} />
+          <TextAnimate text="Welcome" variants={varFade().inRight} sx={{ color: 'primary.main' }} />
 
           <br />
 
           <Stack spacing={2} display="inline-flex" direction="row" sx={{ color: 'common.white' }}>
-            <TextAnimate text="we" />
-            <TextAnimate text="are?" />
+            <TextAnimate text="to" />
+            <TextAnimate text="Racklify" />
           </Stack>
 
           <m.div variants={varFade().inRight}>
@@ -53,8 +53,8 @@ export default function AboutHero() {
                 fontWeight: 'fontWeightSemiBold',
               }}
             >
-              Let&apos;s work together and
-              <br /> make awesome site easily
+              An innovative unicorn born from the collaboration
+              <br /> of seasoned logistics professionals and tech-savvy entrepreneurs.
             </Typography>
           </m.div>
         </Box>

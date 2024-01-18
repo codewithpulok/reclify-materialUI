@@ -27,18 +27,16 @@ const StyledRoot = styled('div')(({ theme }) => ({
 
 export default function ContactMap({ contacts }) {
   const theme = useTheme();
-
   const lightMode = theme.palette.mode === 'light';
-
   const [popupInfo, setPopupInfo] = useState(null);
 
   return (
     <StyledRoot>
       <Map
         initialViewState={{
-          latitude: 12,
-          longitude: 42,
-          zoom: 2,
+          latitude: 32,
+          longitude: -100,
+          zoom: 8,
         }}
         mapStyle={`mapbox://styles/mapbox/${lightMode ? 'light' : 'dark'}-v10`}
         mapboxAccessToken={MAPBOX_API}
