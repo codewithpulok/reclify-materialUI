@@ -5,6 +5,7 @@ import Chip from '@mui/material/Chip';
 import Stack from '@mui/material/Stack';
 import Typography from '@mui/material/Typography';
 
+import { Card } from '@mui/material';
 import Image from 'src/components/common/image';
 import { getWarehouseAddress } from 'src/components/warehouse/utils';
 import { ICONS } from '../../config-user-settings';
@@ -22,7 +23,7 @@ const WarehouseDetailsCardProps = {
 const WarehouseDetailsCard = (props) => {
   const { warehouse, sx = {} } = props;
   return (
-    <Stack spacing={1.5} sx={{ bgcolor: 'background.default', p: 1.5, borderRadius: 1, ...sx }}>
+    <Card component={Stack} spacing={1.5} sx={{ p: 1.5, borderRadius: 1, ...sx }}>
       <Box sx={{ width: '100%' }}>
         <Image
           src={warehouse.photos[0].coverUrl}
@@ -46,7 +47,7 @@ const WarehouseDetailsCard = (props) => {
         </Stack>
         <Typography variant="body1">{warehouse.description}</Typography>
       </Stack>
-    </Stack>
+    </Card>
   );
 };
 
