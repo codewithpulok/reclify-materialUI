@@ -75,23 +75,10 @@ const TransactionTableRow = (props) => {
               component={RouterLink}
               href={`${paths.dashboard.users.customers}/${row.customer.id}`}
             >
-              <Typography variant="body2">{row.customer.displayName}</Typography>
+              <Typography variant="body2" color="text.primary">
+                {row.customer.displayName}
+              </Typography>
             </Link>
-            <Typography variant="body2" color="text.secondary">
-              {row.customer.email}
-            </Typography>
-            <Typography variant="body2" color="text.secondary">
-              {row.customer.phoneNumber}
-            </Typography>
-
-            <Stack mt={2} direction="row" spacing={0.3}>
-              <Link
-                component={RouterLink}
-                href={`${paths.dashboard.messages.root}?id=${row.customer.id}`}
-              >
-                <Label color="info">send a message</Label>
-              </Link>
-            </Stack>
           </Stack>
         </Stack>
       </TableCell>

@@ -78,6 +78,9 @@ const Content = (props) => {
   // handle form submit
   const onSubmit = useCallback(
     async (values) => {
+      // updateing total space
+      values.totalSpace = Math.round(values.totalSpace);
+
       console.log('Warehouse Create: ', values);
       const response = await createWarehouse(values);
       const { data, error } = response;

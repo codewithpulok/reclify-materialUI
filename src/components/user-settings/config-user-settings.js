@@ -17,10 +17,11 @@ export const ICONS = {
   verified: (width, sx) => getIconify('solar:verified-check-bold', width, sx),
   featured: (width, sx) => getIconify('solar:medal-ribbons-star-bold-duotone', width, sx),
 
-  phone: (width, sx) => getIconify('solar:phone-rounded-outline', width, sx),
-  email: (width, sx) => getIconify('tabler:mail', width, sx),
-
   close: (width, sx) => getIconify('solar:close-circle-bold', width, sx),
 
   feature: (width, sx) => getIconify('tabler:check', width, sx),
+
+  send_message: (width, sx) => getIconify('tabler:send', width, sx),
+  email: (width, sx) => getIconify('tabler:mail', width, sx),
+  phone: (width, sx) => getIconify('solar:phone-bold-duotone', width, sx),
 };

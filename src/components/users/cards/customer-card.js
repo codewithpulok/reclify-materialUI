@@ -3,7 +3,7 @@ import { useRouter } from 'next/navigation';
 import PropTypes from 'prop-types';
 import Image from 'src/components/common/image';
 import { paths } from 'src/routes/paths';
-import { fShortenCurrencyNumber } from 'src/utils/format-number';
+import { fShortenNumber } from 'src/utils/format-number';
 import { fDate } from 'src/utils/format-time';
 import { ICONS } from '../config-users';
 
@@ -52,7 +52,7 @@ const CustomerCard = (props) => {
           <Stack direction="row" spacing={0.5} alignItems="center">
             {ICONS.transactions(16, { color: 'primary.main' })}
             <Typography variant="body2">
-              {fShortenCurrencyNumber(totalTransactions)} Transactions
+              {fShortenNumber(totalTransactions)} Transactions
             </Typography>
           </Stack>
         </Stack>

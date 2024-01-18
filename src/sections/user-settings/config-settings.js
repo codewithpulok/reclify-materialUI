@@ -24,4 +24,6 @@ export const ICONS = {
   profile: (width, sx) => getIconify('solar:user-circle-bold-duotone', width, sx),
   email: (width, sx) => getIconify('tabler:mail', width, sx),
   phone: (width, sx) => getIconify('solar:phone-bold-duotone', width, sx),
+
+  cover_edit: (width, sx) => getIconify('solar:gallery-edit-line-duotone', width, sx),
 };

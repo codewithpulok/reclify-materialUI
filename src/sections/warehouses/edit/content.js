@@ -46,6 +46,9 @@ const Content = ({ warehouse }) => {
 
   const onSubmit = useCallback(
     async (values) => {
+      // updateing total space
+      values.totalSpace = Math.round(values.totalSpace);
+
       console.log('Warehouse Update: ', values);
 
       const response = await updateWarehouse({ warehouseData: values, id: warehouse?.id });
