@@ -85,7 +85,7 @@ const SettingsGeneral = () => {
     <FormProvider methods={methods} onSubmit={onSubmit} onReset={onReset}>
       <Stack spacing={5}>
         <Card sx={{ height: 290 }}>
-          <Cover joined={fDate(user.createdAt)} name={user?.displayName} />
+          <Cover joined={fDate(user.createdAt)} />
         </Card>
         <Fields />
       </Stack>

@@ -1,3 +1,4 @@
+import { Card } from '@mui/material';
 import Stack from '@mui/material/Stack';
 import Typography from '@mui/material/Typography';
 import PropTypes from 'prop-types';
@@ -18,7 +19,7 @@ const AmountDetailsCardProps = {
 const AmountDetailsCard = (props) => {
   const { pricePerSquare, totalArea, sx = {} } = props;
   return (
-    <Stack sx={{ bgcolor: 'background.default', p: 1.5, borderRadius: 1, ...sx }} spacing={0.5}>
+    <Card component={Stack} sx={{ p: 1.5, borderRadius: 1, ...sx }} spacing={0.5}>
       <Stack direction="row" justifyContent="space-between" alignItems="baseline" spacing={1}>
         <Typography variant="subtitle2">Puchased Area:</Typography>
         <Typography variant="subtitle2" color="text.secondary">
@@ -38,7 +39,7 @@ const AmountDetailsCard = (props) => {
         spacing={1}
         sx={{
           borderTopWidth: 2,
-          borderTopColor: 'background.paper',
+          borderTopColor: 'text.disabled',
           borderTopStyle: 'dashed',
           pt: 1,
           mt: 0.5,
@@ -49,7 +50,7 @@ const AmountDetailsCard = (props) => {
           {fCurrency(totalArea * pricePerSquare)}
         </Typography>
       </Stack>
-    </Stack>
+    </Card>
   );
 };
 

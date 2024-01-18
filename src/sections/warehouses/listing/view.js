@@ -6,6 +6,7 @@ import { useCallback, useEffect, useMemo } from 'react';
 // local components
 import { regions } from 'src/assets/data';
 import { EmptyState, ErrorState } from 'src/components/common/custom-state';
+import { getIconify } from 'src/components/common/iconify/utilities';
 import { useSettingsContext } from 'src/components/common/settings';
 import { WarehouseCardSkeleton } from 'src/components/warehouse/cards';
 import { selectAuth } from 'src/redux-toolkit/features/auth/authSlice';
@@ -125,7 +126,10 @@ export default function ListingView() {
               gap: 0.5,
             }}
           >
-            {ICONS.warehouse(28, { color: 'secondary.main' })}
+            {getIconify(region.icon, 28, {
+              color: 'secondary.main',
+              rotate: `${region.rotate ? 90 * region.rotate : 0}deg`,
+            })}
             <Typography variant="h4">In {region.name}</Typography>
 
             <Button

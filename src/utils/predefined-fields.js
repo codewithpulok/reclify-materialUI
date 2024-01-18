@@ -100,8 +100,8 @@ const fieldTypeValidation = (field) => {
       break;
     case 'time-picker':
       validation = {
-        start: Yup.number().label('Start time').required(),
-        end: Yup.number().label('Start time').required(),
+        start: Yup.number().label('Start time'),
+        end: Yup.number().label('Start time'),
       };
       break;
     default:

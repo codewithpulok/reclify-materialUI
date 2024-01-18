@@ -6,7 +6,7 @@ const transactions = [
   {
     id: 'transaction-1',
     warehouseId: 'abc123',
-    sellerId: '2',
+    sellerId: '1',
     customerId: '3',
     createdAt: 238947981279,
     updatedAt: 237902790943,
@@ -17,7 +17,7 @@ const transactions = [
   {
     id: 'transaction-2',
     warehouseId: 'def456',
-    sellerId: '2',
+    sellerId: '1',
     customerId: '3',
     createdAt: 238947982134,
     updatedAt: 237902791587,
@@ -28,7 +28,7 @@ const transactions = [
   {
     id: 'transaction-3',
     warehouseId: 'ghi789',
-    sellerId: '2',
+    sellerId: '1',
     customerId: '3',
     createdAt: 238947983001,
     updatedAt: 237902792232,

@@ -1,8 +1,8 @@
-import { Box, Stack, Typography, useTheme } from '@mui/material';
+import { Box, useTheme } from '@mui/material';
 import PropTypes from 'prop-types';
 import { THEMES, baseSettings } from 'src/components/common/map';
 import { MapMarked } from 'src/components/common/map/presets';
-import { detailsBoxStyle, detailsHeaderStyle } from '../styles';
+import { WarehouseDetailsBox } from 'src/components/warehouse/box';
 
 const WarehouseAddressMapProps = {
   /** @type {SxProps} */
@@ -20,13 +20,7 @@ const WarehouseAddressMap = (props) => {
   const theme = useTheme();
 
   return (
-    <Box sx={{ ...sx, ...detailsBoxStyle }}>
-      <Stack direction="row" alignItems="center" justifyContent="space-between" mb={3}>
-        <Typography variant="h5" sx={detailsHeaderStyle}>
-          Map
-        </Typography>
-      </Stack>
-
+    <WarehouseDetailsBox title="Map" sx={sx}>
       <Box
         sx={{
           zIndex: 0,
@@ -50,7 +44,7 @@ const WarehouseAddressMap = (props) => {
           mapStyle={theme.palette.mode === 'dark' ? THEMES.dark : THEMES.light}
         />
       </Box>
-    </Box>
+    </WarehouseDetailsBox>
   );
 };
 

@@ -1,30 +1,21 @@
 'use client';
 
-import {
-  Box,
-  Button,
-  MenuItem,
-  Pagination,
-  Select,
-  Stack,
-  SvgIcon,
-  Typography,
-} from '@mui/material';
+import { Button, MenuItem, Pagination, Select, Stack, SvgIcon } from '@mui/material';
 import PropTypes from 'prop-types';
 import { useMemo, useState } from 'react';
 // local components
 import { EmptyState } from 'src/components/common/custom-state';
+import { WarehouseDetailsBox } from 'src/components/warehouse/box';
 import { WarehouseReviewCard } from 'src/components/warehouse/cards';
 import { useBoolean } from 'src/hooks/use-boolean';
 import { selectAuth } from 'src/redux-toolkit/features/auth/authSlice';
 import { useAppSelector } from 'src/redux-toolkit/hooks';
 import { ICONS } from '../../config-warehouse';
-import { detailsBoxStyle, detailsHeaderStyle } from '../../styles';
 import ReviewCreate from './review-create';
 import ReviewDelete from './review-delete';
 import ReviewEdit from './review-edit';
 
-const WarehouseReviewsProps = {
+const Props = {
   /** @type {Review[]} */
   reviews: PropTypes.arrayOf(PropTypes.object),
   canAddNewReview: PropTypes.bool.isRequired,
@@ -34,7 +25,7 @@ const WarehouseReviewsProps = {
 
 /**
  * List of warehouse reviews
- * @param {WarehouseReviewsProps} props
+ * @param {Props} props
  * @returns {React.JSX.Element}
  */
 const WarehouseReviews = (props) => {
@@ -80,57 +71,44 @@ const WarehouseReviews = (props) => {
 
   return (
     <>
-      <Box
-        sx={{
-          ...sx,
-          ...detailsBoxStyle,
-          scrollMarginTop: '70px',
-        }}
-        id="reviews"
-      >
-        <Stack
-          flexWrap="wrap"
-          direction="row"
-          alignItems="center"
-          justifyContent="space-between"
-          spacing={1}
-          mb={5}
-        >
-          <Typography variant="h5" sx={detailsHeaderStyle} mr="auto">
-            Reviews
-          </Typography>
-
-          <Select
-            labelId="sortBy"
-            id="demo-simple-select"
-            value={sortType}
-            size="small"
-            startAdornment={<SvgIcon sx={{ fontSize: 20 }}>{ICONS.sort()}</SvgIcon>}
-            onChange={(e) => setSortType(e.target.value)}
-          >
-            <MenuItem disabled>Sort by</MenuItem>
-            <MenuItem value="DEFAULT">Default</MenuItem>
-            <MenuItem value="NEW_FIRST">Most Recent</MenuItem>
-            <MenuItem value="OLD_FIRST">Most Old</MenuItem>
-          </Select>
-
-          {canAddNewReview && (
-            <Button
-              variant="contained"
-              color="primary"
-              sx={{
-                width: {
-                  xs: '100%',
-                  sm: 'auto',
-                },
-              }}
-              onClick={reviewAddModal.onTrue}
+      <WarehouseDetailsBox
+        title="Reviews"
+        sx={sx}
+        headerActions={
+          <>
+            <Select
+              labelId="sortBy"
+              id="demo-simple-select"
+              value={sortType}
+              size="small"
+              startAdornment={<SvgIcon sx={{ fontSize: 20 }}>{ICONS.sort()}</SvgIcon>}
+              onChange={(e) => setSortType(e.target.value)}
+              sx={{ ml: 'auto' }}
             >
-              Add New
-            </Button>
-          )}
-        </Stack>
+              <MenuItem disabled>Sort by</MenuItem>
+              <MenuItem value="DEFAULT">Default</MenuItem>
+              <MenuItem value="NEW_FIRST">Most Recent</MenuItem>
+              <MenuItem value="OLD_FIRST">Most Old</MenuItem>
+            </Select>
 
+            {canAddNewReview && (
+              <Button
+                variant="contained"
+                color="primary"
+                sx={{
+                  width: {
+                    xs: '100%',
+                    sm: 'auto',
+                  },
+                }}
+                onClick={reviewAddModal.onTrue}
+              >
+                Add New
+              </Button>
+            )}
+          </>
+        }
+      >
         {sortedReviews?.length ? (
           <>
             <Stack spacing={3.5}>
@@ -159,7 +137,7 @@ const WarehouseReviews = (props) => {
         ) : (
           <EmptyState icon={ICONS.review()} text="no reviews yet" />
         )}
-      </Box>
+      </WarehouseDetailsBox>
 
       <ReviewCreate open={reviewAddModal.value} onClose={reviewAddModal.onFalse} />
       <ReviewEdit open={reviewEdit.open} onClose={closeReviewEdit} review={reviewEdit.review} />
@@ -172,6 +150,6 @@ const WarehouseReviews = (props) => {
   );
 };
 
-WarehouseReviews.propTypes = WarehouseReviewsProps;
+WarehouseReviews.propTypes = Props;
 
 export default WarehouseReviews;
