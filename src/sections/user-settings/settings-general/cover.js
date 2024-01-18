@@ -6,7 +6,7 @@ import Stack from '@mui/material/Stack';
 import { alpha } from '@mui/material/styles';
 // local components
 import { IconButton } from '@mui/material';
-import { useCallback } from 'react';
+import { useCallback, useMemo } from 'react';
 import { useFormContext } from 'react-hook-form';
 import { bgGradient } from 'src/theme/css';
 import { ICONS } from '../config-settings';
@@ -37,7 +37,6 @@ const coverAvatarSx = {
 // ----------------------------------------------------------------------
 
 const Props = {
-  name: PropTypes.string,
   joined: PropTypes.string,
 };
 /**
@@ -45,8 +44,12 @@ const Props = {
  * @returns {JSX.Element}
  */
 const Cover = (props) => {
-  const { name, joined } = props;
+  const { joined } = props;
   const { setValue, watch } = useFormContext();
+
+  const firstName = watch('firstName');
+  const lastName = watch('lastName');
+  const name = useMemo(() => `${firstName} ${lastName}`, [firstName, lastName]);
 
   const coverUrl = watch('cover');
   const handleCoverUpdate = useCallback(
