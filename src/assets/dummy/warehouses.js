@@ -25,12 +25,12 @@ export const warehouses = [
       {
         id: '1',
         title: 'Warehouse Exterior',
-        coverUrl: 'https://picsum.photos/seed/abc1231/450/318',
+        link: 'https://picsum.photos/seed/abc1231/450/318',
       },
       {
         id: '2',
         title: 'Interior View',
-        coverUrl: 'https://picsum.photos/seed/abc1232/450/318',
+        link: 'https://picsum.photos/seed/abc1232/450/318',
       },
     ],
     isVerified: true,
@@ -113,12 +113,12 @@ export const warehouses = [
       {
         id: '3',
         title: 'Warehouse Exterior',
-        coverUrl: 'https://picsum.photos/seed/def4561/450/318',
+        link: 'https://picsum.photos/seed/def4561/450/318',
       },
       {
         id: '4',
         title: 'Interior View',
-        coverUrl: 'https://picsum.photos/seed/def4562/450/318',
+        link: 'https://picsum.photos/seed/def4562/450/318',
       },
     ],
     isVerified: true,
@@ -201,12 +201,12 @@ export const warehouses = [
       {
         id: '5',
         title: 'Warehouse Exterior',
-        coverUrl: 'https://picsum.photos/seed/ghi7891/450/318',
+        link: 'https://picsum.photos/seed/ghi7891/450/318',
       },
       {
         id: '6',
         title: 'Interior View',
-        coverUrl: 'https://picsum.photos/seed/ghi7892/450/318',
+        link: 'https://picsum.photos/seed/ghi7892/450/318',
       },
     ],
     isVerified: true,
@@ -289,12 +289,12 @@ export const warehouses = [
       {
         id: '5',
         title: 'Warehouse Exterior',
-        coverUrl: 'https://picsum.photos/seed/ghi7891/450/318',
+        link: 'https://picsum.photos/seed/ghi7891/450/318',
       },
       {
         id: '6',
         title: 'Interior View',
-        coverUrl: 'https://picsum.photos/seed/ghi7892/450/318',
+        link: 'https://picsum.photos/seed/ghi7892/450/318',
       },
     ],
     isVerified: true,

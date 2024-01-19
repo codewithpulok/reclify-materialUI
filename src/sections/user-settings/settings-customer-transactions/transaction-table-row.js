@@ -45,7 +45,7 @@ const TransactionTableRow = (props) => {
         <Stack direction="row" alignItems="center">
           <Avatar
             alt={row.warehouse.name}
-            src={row.warehouse.photos[0].coverUrl}
+            src={row.warehouse.photos[0].link}
             sx={{ mr: 2 }}
             variant="rounded"
           />

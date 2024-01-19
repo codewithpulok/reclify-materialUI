@@ -29,7 +29,6 @@ const WarehousePhotoEditDialog = (props) => {
 
   useEffect(() => {
     if (open && photo) {
-      console.log(photo);
       reset(photo);
     }
   }, [open, photo, reset]);
@@ -46,7 +45,7 @@ const WarehousePhotoEditDialog = (props) => {
         <Box sx={{ p: { xs: 1.5, sm: 3 } }}>
           <Box sx={{ width: '100%', mb: 2 }}>
             <Image
-              src={getValues('coverUrl')}
+              src={getValues('link')}
               aspect="16/9"
               alt={photo?.title}
               sx={{ borderRadius: 1 }}
