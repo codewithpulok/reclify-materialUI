@@ -26,4 +26,11 @@ export const endpoints = {
       delete: `${PRIVATE_BACKEND_API}/file-upload`,
     },
   },
+  addresses: {
+    get: `${PRIVATE_BACKEND_API}/address`,
+    search: `${PRIVATE_BACKEND_API}/address/search`,
+    delete: `${PRIVATE_BACKEND_API}/address`,
+    create: `${PRIVATE_BACKEND_API}/address`,
+    update: `${PRIVATE_BACKEND_API}/address`,
+  },
 };

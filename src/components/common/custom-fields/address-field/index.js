@@ -1,12 +1,11 @@
-import { Collapse, Grid, IconButton, Stack, TextField } from '@mui/material';
+import { Collapse, IconButton, Stack, TextField } from '@mui/material';
 import PropTypes from 'prop-types';
 // local components
 import { useFormContext } from 'react-hook-form';
-import { getCountries, getStates } from 'src/assets/data/address';
 import { getWarehouseAddress } from 'src/components/warehouse/utils';
 import { useBoolean } from 'src/hooks/use-boolean';
-import { RHFAutocomplete, RHFTextField } from '../../hook-form';
 import { ICONS } from '../config-fields';
+import Fields from './fields';
 
 const AddressFieldProps = {
   name: PropTypes.string.isRequired,
@@ -31,41 +30,7 @@ const AddressField = (props) => {
         </IconButton>
       </Stack>
       <Collapse in={addressCollapse.value} sx={{ mt: 1 }}>
-        <Grid container spacing={1.2}>
-          <Grid item xs={12}>
-            <RHFAutocomplete
-              name={`${name}.country`}
-              options={getCountries()}
-              label="Country"
-              fullWidth
-            />
-          </Grid>
-          <Grid item xs={12}>
-            <RHFAutocomplete
-              name={`${name}.state`}
-              options={getStates(addressValue?.country)}
-              label="State"
-              fullWidth
-            />
-          </Grid>
-          <Grid item xs={6}>
-            <RHFTextField name={`${name}.city`} label="City" fullWidth />
-          </Grid>
-          <Grid item xs={6}>
-            <RHFTextField name={`${name}.zipCode`} type="number" label="Zip code" fullWidth />
-          </Grid>
-          <Grid item xs={8}>
-            <RHFTextField name={`${name}.streetAddress`} label="Street Address" fullWidth />
-          </Grid>
-          <Grid item xs={4}>
-            <RHFTextField
-              name={`${name}.streetNumber`}
-              type="number"
-              label="Street Number"
-              fullWidth
-            />
-          </Grid>
-        </Grid>
+        <Fields name={name} value={addressValue} />
       </Collapse>
     </Stack>
   );

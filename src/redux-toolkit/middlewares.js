@@ -1,3 +1,4 @@
+import { addressApi } from './services/addressApi';
 import { authApi } from './services/authApi';
 import { reviewApi } from './services/reviewApi';
 import { uploadFilesApi } from './services/uploadFilesApi';
@@ -8,6 +9,7 @@ const middlewares = [
   warehouseApi.middleware,
   reviewApi.middleware,
   uploadFilesApi.middleware,
+  addressApi.middleware,
 ];
 
 export default middlewares;
