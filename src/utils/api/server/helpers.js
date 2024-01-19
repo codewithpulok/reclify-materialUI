@@ -1,3 +1,4 @@
+import { headers } from 'next/headers';
 import { NextResponse } from 'next/server';
 
 // custom error object
@@ -46,7 +47,7 @@ export const serverAsyncWrapper = (handlerFunc) => async (req, others) => {
           isError: true,
           statusCode: error.code,
         },
-        { status: error?.statusCode }
+        { status: error?.code }
       );
     }
 
@@ -60,4 +61,31 @@ export const serverAsyncWrapper = (handlerFunc) => async (req, others) => {
       { status: 500 }
     );
   }
+};
+
+/**
+ * fetch with credentials
+ * @param {string} url
+ * @param {RequestInit} config
+ * @returns {Promise<Response>}
+ */
+export const credentialFetch = (url, config = {}, overwriteContentType) => {
+  // get headers & content type from the server endpoint
+  const authorization = headers().get('authorization');
+  const contentType = headers().get('Content-Type');
+
+  // initial config headers
+  const configHeaders = config?.headers || {};
+
+  // assign content type
+  if (overwriteContentType !== false)
+    configHeaders['Content-Type'] = overwriteContentType || contentType;
+
+  // assign authorization token
+  if (authorization) configHeaders.authorization = authorization;
+
+  // update headers
+  config.headers = configHeaders;
+
+  return fetch(url, config);
 };

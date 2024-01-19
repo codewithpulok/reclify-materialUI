@@ -26,7 +26,7 @@ const WarehouseDetailsCard = (props) => {
     <Card component={Stack} spacing={1.5} sx={{ p: 1.5, borderRadius: 1, ...sx }}>
       <Box sx={{ width: '100%' }}>
         <Image
-          src={warehouse.photos[0].coverUrl}
+          src={warehouse.photos[0].link}
           alt={warehouse.photos[0].title}
           ratio="16/9"
           sx={{ borderRadius: 1 }}

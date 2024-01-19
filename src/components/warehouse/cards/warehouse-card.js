@@ -36,8 +36,7 @@ const WarehouseCardProps = {
 const WarehouseCard = (props) => {
   const router = useRouter();
   const { warehouse, onDelete = () => {}, hasControl = false, sx = {} } = props;
-  const thumbnail =
-    warehouse?.photos?.[0]?.coverUrl || 'https://placehold.co/450x318?text=Not+Found';
+  const thumbnail = warehouse?.photos?.[0]?.link || 'https://placehold.co/450x318?text=Not+Found';
 
   return (
     <Card

@@ -4,12 +4,13 @@ import { publicBaseQuery } from '../utills';
 
 // ********* Transform warehouse for testing perpuos *********** // TODO: REMOVE THIS
 const transformWarehouse = (warehouse) => {
-  warehouse.photos = [...Array(3)].map((v, i) => ({
-    id: i,
-    title: `Untitled ${i}`,
-    coverUrl: `https://picsum.photos/seed/${warehouse.id}${i}/450/318`,
-  }));
-
+  if (!warehouse?.photos?.length) {
+    warehouse.photos = [...Array(3)].map((v, i) => ({
+      id: i,
+      title: `Untitled ${i}`,
+      link: `https://picsum.photos/seed/${warehouse.id}${i}/450/318`,
+    }));
+  }
   warehouse.address = warehouses[Math.floor(Math.random() * warehouses.length)].address;
 
   return warehouse;

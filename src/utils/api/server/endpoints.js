@@ -18,4 +18,12 @@ export const endpoints = {
     create: `${PRIVATE_BACKEND_API}/review`,
     update: `${PRIVATE_BACKEND_API}/review`,
   },
+  upload: {
+    files: {
+      get: `${PRIVATE_BACKEND_API}/file-upload`,
+      list: `${PRIVATE_BACKEND_API}/file-upload`,
+      upload: `${PRIVATE_BACKEND_API}/file-upload`,
+      delete: `${PRIVATE_BACKEND_API}/file-upload`,
+    },
+  },
 };
