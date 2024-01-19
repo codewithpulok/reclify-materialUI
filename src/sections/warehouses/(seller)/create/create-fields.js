@@ -61,7 +61,6 @@ const CreateFields = (props) => (
             valueTransformer={(v) => (v === '' ? undefined : v / SQUARE_FEET_PER_PALLET)}
           />
         </Grid>
-
         <Grid item xs={6}>
           <RHFTextField
             type="number"

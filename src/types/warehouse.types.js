@@ -112,5 +112,5 @@
  * @typedef {Object} Photo
  * @property {string} id - The unique identifier for the photo.
  * @property {string} title - The title of the photo.
- * @property {string} coverUrl - The URL of the photo's cover image.
+ * @property {string} link - The URL of the photo's image.
  */

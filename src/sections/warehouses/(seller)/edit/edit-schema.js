@@ -81,7 +81,7 @@ const schema = {
   photos: Yup.array(
     Yup.object().shape({
       title: Yup.string().required('Photo title is required'),
-      coverUrl: Yup.string().required('Photo url is required'),
+      link: Yup.string().required('Photo url is required'),
     })
   ),
   rules: Yup.array(Yup.string()),

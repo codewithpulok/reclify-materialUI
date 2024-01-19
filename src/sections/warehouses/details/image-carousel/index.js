@@ -103,7 +103,7 @@ const ImageCarousel = (props) => {
         ref={carouselLarge.carouselRef}
       >
         {list.map((item) => (
-          <Image key={item.id} alt={item.title} src={item.coverUrl} ratio="16/9" />
+          <Image key={item.id} alt={item.title} src={item.link} ratio="16/9" />
         ))}
       </Carousel>
 
@@ -128,7 +128,7 @@ const ImageCarousel = (props) => {
             <Avatar
               variant="rounded"
               alt={item.title}
-              src={item.coverUrl}
+              src={item.link}
               sx={{
                 width: THUMB_SIZE,
                 height: THUMB_SIZE,
