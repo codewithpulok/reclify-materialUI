@@ -142,6 +142,7 @@ export default function HomeHero() {
       justifyContent="center"
       sx={{
         height: 1,
+
         mx: 'auto',
         maxWidth: 480,
         opacity: opacity > 0 ? opacity : 0,
@@ -151,13 +152,16 @@ export default function HomeHero() {
       }}
     >
       <m.div variants={varFade().in}>
-        <Logo sx={{ mt: 3, ml: 4, mb: 1, width: 450, height: 120 }} isLong />
+        <Logo
+          sx={{ mt: 3, mb: 1, maxWidth: 450, height: 'auto', width: '100%' }}
+          isLong
+          disabledLink
+        />
       </m.div>
 
       <m.div variants={varFade().in}>
         <Typography variant="body2" sx={{ textAlign: 'center' }}>
-          Lorem ipsum dolor sit amet consectetur, adipisicing elit. Possimus recusandae voluptas
-          iste eveniet accusantium unde tenetur quia.
+          Welcome to Racklify - Your Online Logistics Hub!
         </Typography>
       </m.div>
     </Stack>

@@ -27,6 +27,7 @@ export default function Header() {
   const theme = useTheme();
 
   const mdUp = useResponsive('up', 'md');
+  const smUp = useResponsive('up', 'sm');
 
   const offsetTop = useOffSetTop(HEADER.H_DESKTOP);
 
@@ -54,7 +55,7 @@ export default function Header() {
         }}
       >
         <Container sx={{ height: 1, display: 'flex', alignItems: 'center' }}>
-          <Logo isLong />
+          <Logo isLong={smUp} />
 
           <Box sx={{ flexGrow: 1 }} />
 
