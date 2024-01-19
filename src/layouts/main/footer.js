@@ -9,7 +9,6 @@ import Grid from '@mui/material/Unstable_Grid2';
 import { alpha } from '@mui/material/styles';
 
 import { RouterLink } from 'src/routes/components';
-import { usePathname } from 'src/routes/hooks';
 import { paths } from 'src/routes/paths';
 
 import { getSocialBrand, socials } from 'src/assets/data';
@@ -43,34 +42,6 @@ const LINKS = [
 // ----------------------------------------------------------------------
 
 export default function Footer() {
-  const pathname = usePathname();
-
-  const homePage = pathname === '/';
-
-  const simpleFooter = (
-    <Box
-      component="footer"
-      sx={{
-        py: 5,
-        textAlign: 'center',
-        position: 'relative',
-        bgcolor: 'background.default',
-      }}
-    >
-      <Container>
-        <Logo sx={{ mb: 1, mx: 'auto' }} isLong />
-
-        <Typography variant="caption" component="div">
-          © All rights reserved
-          <br /> made by{' '}
-          <MuiLink component={RouterLink} href={paths.website}>
-            racklify.com
-          </MuiLink>
-        </Typography>
-      </Container>
-    </Box>
-  );
-
   const mainFooter = (
     <Box
       component="footer"
@@ -176,5 +147,5 @@ export default function Footer() {
     </Box>
   );
 
-  return homePage ? simpleFooter : mainFooter;
+  return mainFooter;
 }
