@@ -22,7 +22,7 @@ const UpdateUserSchema = Yup.object().shape({
   lastName: Yup.string().label('Last name').required(),
   email: Yup.string().label('Email').required().email(),
   website: Yup.string().label('Website URL').url(),
-  avatar: Yup.mixed().nullable.label('Avatar')().required(),
+  avatar: Yup.mixed().label('Avatar').nullable().required(),
   phoneNumber: Yup.string().label('Phone number').required(),
   address: addressFieldSchema,
   about: Yup.string().label('About').required(),

@@ -61,7 +61,8 @@ const WarehouseReviews = (props) => {
     <>
       <WarehouseDetailsBox
         title="Reviews"
-        sx={sx}
+        sx={{ scrollMarginTop: '40px', ...sx }}
+        id="reviews"
         headerActions={
           <>
             <Select
