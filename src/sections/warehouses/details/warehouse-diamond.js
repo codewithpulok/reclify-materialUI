@@ -1,7 +1,8 @@
-import { Button, Rating } from '@mui/material';
+import { Button, Rating, Stack, Tooltip, Typography } from '@mui/material';
 import PropTypes from 'prop-types';
-import { useCallback, useState } from 'react';
+import { useCallback, useMemo, useState } from 'react';
 import { ConfirmDialog } from 'src/components/common/custom-dialog';
+import { diamondDetails } from 'src/constant/diamond';
 import { ICONS } from '../config-warehouse';
 
 const Props = {
@@ -33,24 +34,55 @@ const WarehouseDiamond = (props) => {
     closeDiamondDialog();
   }, [closeDiamondDialog, diamondDialog.value]);
 
+  const currentDiamondDetails = useMemo(
+    () => (diamond <= 5 && diamond >= 1 ? diamondDetails?.[diamond - 1] : undefined),
+    [diamond]
+  );
+
   return (
     <>
-      <Rating
-        readOnly={!action}
-        name="warehouse-diamond"
-        value={diamond}
-        icon={ICONS.diamond_fill(28)}
-        emptyIcon={ICONS.diamond_empty(28)}
-        sx={{
-          '& .MuiRating-iconFilled': {
-            color: 'info.main',
-          },
-          '& .MuiRating-iconHover': {
-            color: 'info.main',
-          },
-        }}
-        onChange={(_e, v) => openDiamondDialog(v)}
-      />
+      <Tooltip
+        defaultChecked
+        title={
+          <>
+            {currentDiamondDetails.title && (
+              <Typography variant="subtitle2" sx={{ mb: 1 }}>
+                {currentDiamondDetails.title}
+              </Typography>
+            )}
+            {currentDiamondDetails.features && (
+              <Stack>
+                {currentDiamondDetails.features.map((f) => (
+                  <Typography key={f} variant="caption">
+                    - {f}
+                  </Typography>
+                ))}
+              </Stack>
+            )}
+          </>
+        }
+        placement="bottom-start"
+        arrow
+      >
+        <span>
+          <Rating
+            readOnly={!action}
+            name="warehouse-diamond"
+            value={diamond}
+            icon={ICONS.diamond_fill(28)}
+            emptyIcon={ICONS.diamond_empty(28)}
+            sx={{
+              '& .MuiRating-iconFilled': {
+                color: 'info.main',
+              },
+              '& .MuiRating-iconHover': {
+                color: 'info.main',
+              },
+            }}
+            onChange={(_e, v) => openDiamondDialog(v)}
+          />
+        </span>
+      </Tooltip>
       <ConfirmDialog
         open={diamondDialog.open}
         title="Change the warehouse diamonds?"
