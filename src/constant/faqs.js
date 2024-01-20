@@ -14,8 +14,30 @@ Whether you are a seasoned warehouse operator with years of experience or a serv
   {
     id: 'panel-3',
     heading: 'What Is A Racklify Rating?',
-    detail: `The Racklify Rating is a numerical evaluation, ranging from 1 to 5, that assesses the features and overall capabilities of a warehousing provider. Our rating system takes into account various factors, including the number of locations, age of buildings and equipment, services offered, and any restrictions in order to provide a comprehensive overview. It's important to clarify that Racklify Ratings are distinct from reviews and are designed to offer an objective assessment of a facility's attributes rather than reflecting its day-to-day performance. These ratings serve as a valuable tool for users seeking to make informed decisions based on the specific features and capabilities offered by different warehousing providers.
-Click here to view the rating rubric.`,
+    detail: `Racklify Ratings provides a detailed and nuanced evaluation system to assess the quality and features of different facilities. Our comprehensive rubric aims to provide a thorough analysis, considering various aspects of buildings and their amenities.
+The ratings are categorized as follows:
+* 5 Diamond Rating - Premier Excellence:
+Reserved for Class A Buildings
+Multi-location establishments
+Distinguished as a premier provider in the industry
+Encompasses all conceivable amenities for an unparalleled experience
+* 4 Diamond Rating - Superior Quality:
+Applicable to Class A or B Buildings
+Presence in multiple locations
+Offers an extensive array of amenities, ensuring a comfortable and enriching environment
+* 3 Diamond Rating - Above Average Standard:
+Applies to Class A or B Buildings
+Can be single or multi-location
+Provides amenities that meet the industry average, ensuring a satisfactory experience
+* 2 Diamond Rating - Adequate Facilities:
+Designated for Class B or C Buildings
+Singular facility locations
+Offers limited amenities but fulfills essential needs
+* 1 Diamond Rating - Basic Utilitarian:
+Assigned to Class B or C Buildings
+Single facility establishments
+Limited amenities, suitable for basic use
+Our enhanced rubric considers the type of building, its class, the number of locations, and the range of amenities provided, offering a more comprehensive and detailed assessment to guide users in making informed decisions about their facility choices.`,
   },
   {
     id: 'panel-4',

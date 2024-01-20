@@ -45,7 +45,7 @@ const CreateFields = (props) => (
             valueFormatter={(v) => Math.round(v)}
             type="number"
             name="totalSpace"
-            label="Total space (Pallet)"
+            label="Total space available (Pallets)"
             fullWidth
           />
         </Grid>
@@ -53,7 +53,7 @@ const CreateFields = (props) => (
           <ReferenceTextField
             type="number"
             name="totalSpace"
-            label="Total space (Square Feet)"
+            label="Total space available (Square Feet)"
             fullWidth
             srcTransformer={(v) =>
               v === undefined ? '' : parseFloat(fFixedFloat(v * SQUARE_FEET_PER_PALLET))
@@ -80,7 +80,7 @@ const CreateFields = (props) => (
 
         <Grid item xs={12}>
           <RHFAccordion
-            label="Warehouse Prices"
+            label="Warehouse Prices (Per Pallet)"
             names={['price1', 'price3', 'price6', 'price12']}
             defaultExpanded
           >
@@ -88,7 +88,7 @@ const CreateFields = (props) => (
               <RHFTextField
                 type="number"
                 name="price1"
-                label="For 1 Month"
+                label="1 Month"
                 InputProps={{
                   startAdornment: <InputAdornment position="start">$</InputAdornment>,
                 }}
@@ -98,7 +98,7 @@ const CreateFields = (props) => (
               <RHFTextField
                 type="number"
                 name="price3"
-                label="For 3 Month"
+                label="3 Month"
                 InputProps={{
                   startAdornment: <InputAdornment position="start">$</InputAdornment>,
                 }}
@@ -108,7 +108,7 @@ const CreateFields = (props) => (
               <RHFTextField
                 type="number"
                 name="price6"
-                label="For 6 Month"
+                label="6 Month"
                 InputProps={{
                   startAdornment: <InputAdornment position="start">$</InputAdornment>,
                 }}
@@ -118,7 +118,7 @@ const CreateFields = (props) => (
               <RHFTextField
                 type="number"
                 name="price12"
-                label="For 12 Month"
+                label="12 Month"
                 InputProps={{
                   startAdornment: <InputAdornment position="start">$</InputAdornment>,
                 }}

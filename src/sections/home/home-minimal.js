@@ -83,7 +83,7 @@ export default function HomeMinimal() {
         </m.div>
 
         <m.div variants={varFade().inDown}>
-          <Typography variant="h2">What Racklify helps you?</Typography>
+          <Typography variant="h2">How Racklify helps you</Typography>
         </m.div>
       </Stack>
 

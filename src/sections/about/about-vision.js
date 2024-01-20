@@ -45,6 +45,28 @@ export default function AboutVision() {
             logistics journey, where Racklify redefines the way you connect with warehouse solutions
             – making storage space accessible, pricing transparent, and trust paramount.
           </Typography>
+          <Typography>
+            Racklify Ratings provides a detailed and nuanced evaluation system to assess the quality
+            and features of different facilities. Our comprehensive rubric aims to provide a
+            thorough analysis, considering various aspects of buildings and their amenities.{' '}
+          </Typography>
+          <Typography>
+            The ratings are categorized as follows: <br />5 Diamonds Rating - Premier Excellence:
+            Reserved for Class A Buildings Multi-location establishments Distinguished as a premier
+            provider in the industry Encompasses all conceivable amenities for an unparalleled
+            experience <br />4 Diamonds Rating - Superior Quality: Applicable to Class A or B
+            Buildings Presence in multiple locations Offers an extensive array of amenities,
+            ensuring a comfortable and enriching environment <br />3 Diamonds Rating - Above Average
+            Standard: Applies to Class A or B Buildings Can be single or multi-location Provides
+            amenities that meet the industry average, ensuring a satisfactory experience <br />2
+            Diamonds Rating - Adequate Facilities: Designated for Class B or C Buildings Singular
+            facility locations Offers limited amenities but fulfills essential needs <br />1 Diamond
+            Rating - Basic Utilitarian: Assigned to Class B or C Buildings Single facility
+            establishments Limited amenities, suitable for basic use Our enhanced rubric considers
+            the type of building, its class, the number of locations, and the range of amenities
+            provided, offering a more comprehensive and detailed assessment to guide users in making
+            informed decisions about their facility choices.
+          </Typography>
         </Stack>
       </Container>
     </Box>

@@ -80,7 +80,7 @@ const WarehouseCard = (props) => {
             <Label
               color="secondary"
               variant="outlined"
-              sx={{ position: 'absolute', top: 6, right: 6 }}
+              sx={{ position: 'absolute', top: 6, right: 10 }}
               startIcon={ICONS.discount()}
             >
               {warehouse.discountRate}% OFF

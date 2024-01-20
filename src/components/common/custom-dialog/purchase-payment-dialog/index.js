@@ -29,9 +29,9 @@ const PurchasePaymentDialog = (props) => {
         submitCallback={onClose}
       >
         <Alert severity="info" variant="outlined" sx={{ typography: 'body2' }}>
-          By clicking confirm payment, you are authorizing a hold hold on your payment method for
-          the total amount specified. Your purchase is pending approval by the warehouse. If
-          approved your payment method will be charged. If denied, the hold will be removed.
+          By clicking confirm payment, you are authorizing a hold on your payment method for the
+          total amount specified. Your purchase is pending approval by the warehouse. If approved
+          your payment method will be charged. If denied, the hold will be removed.
         </Alert>
       </PaymentForm>
     </Dialog>

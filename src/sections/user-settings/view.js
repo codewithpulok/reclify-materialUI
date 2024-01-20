@@ -33,7 +33,7 @@ export const TABS = [
   },
   {
     value: '#warehouses',
-    label: 'My Warehouses',
+    label: 'Warehouses',
     icon: ICONS.warehouse(),
     roles: ['seller'],
   },
