@@ -76,6 +76,12 @@ export const getSellerTransactions = (id) => {
   return filteredTransactions.map((t) => generateTransaction(t.id));
 };
 
+/**
+ * get all transactions
+ * @returns {Transaction[]}
+ */
+export const getAllTransactions = () => transactions.map((t) => generateTransaction(t.id));
+
 export const TRANSACTION_STATUS_OPTIONS = [
   { value: 'completed', label: 'Completed', color: 'success' },
   { value: 'pending', label: 'Pending', color: 'warning' },

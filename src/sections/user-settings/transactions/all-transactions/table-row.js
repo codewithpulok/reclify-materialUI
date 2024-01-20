@@ -18,26 +18,24 @@ import { RouterLink } from 'src/routes/components';
 import { paths } from 'src/routes/paths';
 import { joinAddressObj } from 'src/utils/address';
 import { fCurrency } from 'src/utils/format-number';
-import { ICONS } from '../config-settings';
+import { ICONS } from '../../config-settings';
 
 // ----------------------------------------------------------------------
 
-const TransactionTableRowProps = {
+const Props = {
   /** @type {Transaction} */
   row: PropTypes.object.isRequired,
   /** @type {(id: string, newStatus: TransactionStatus) => {}} */
   onViewTransaction: PropTypes.func.isRequired,
-  onCancelOrder: PropTypes.func.isRequired,
-  onConfirmOrder: PropTypes.func.isRequired,
 };
 
 /**
  * Transection Table Row UI
- * @param {TransactionTableRowProps} props
+ * @param {Props} props
  * @returns
  */
 const TransactionTableRow = (props) => {
-  const { row, onViewTransaction, onCancelOrder, onConfirmOrder } = props;
+  const { row, onViewTransaction } = props;
   const popover = usePopover(false);
 
   const renderPrimary = (
@@ -64,6 +62,19 @@ const TransactionTableRow = (props) => {
               WebkitBoxOrient: 'vertical',
             }}
           />
+        </Stack>
+      </TableCell>
+
+      <TableCell>
+        <Stack direction="row" alignItems="center">
+          <Avatar alt={row.seller.displayName} src={row.seller.avatar} sx={{ mr: 2 }} />
+          <Stack>
+            <Link component={RouterLink} href={`${paths.dashboard.users.sellers}/${row.seller.id}`}>
+              <Typography variant="body2" color="text.primary">
+                {row.seller.displayName}
+              </Typography>
+            </Link>
+          </Stack>
         </Stack>
       </TableCell>
 
@@ -129,33 +140,11 @@ const TransactionTableRow = (props) => {
         >
           Transaction details
         </MenuItem>
-        {row.status === 'pending' && (
-          <>
-            <MenuItem
-              color="success"
-              onClick={() => {
-                onConfirmOrder();
-                popover.onClose();
-              }}
-            >
-              Confirm Order
-            </MenuItem>
-            <MenuItem
-              color="error"
-              onClick={() => {
-                onCancelOrder();
-                popover.onClose();
-              }}
-            >
-              Cancel Order
-            </MenuItem>
-          </>
-        )}
       </CustomPopover>
     </>
   );
 };
 
-TransactionTableRow.propTypes = TransactionTableRowProps;
+TransactionTableRow.propTypes = Props;
 
 export default TransactionTableRow;

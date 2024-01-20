@@ -12,9 +12,9 @@ import Label from 'src/components/common/label';
 import Scrollbar from 'src/components/common/scrollbar';
 import { AmountDetailsCard, WarehouseDetailsCard } from 'src/components/user-settings/cards';
 import { UserDetailsCard } from 'src/components/users/cards';
-import { ICONS } from '../config-settings';
+import { ICONS } from '../../config-settings';
 
-const TransactionDialogProps = {
+const Props = {
   /** @type {Transaction | undefined} */
   transaction: PropTypes.object,
   open: PropTypes.bool.isRequired,
@@ -24,7 +24,7 @@ const TransactionDialogProps = {
 };
 
 /**
- * @param {TransactionDialogProps} props
+ * @param {Props} props
  * @returns {JSX.Element}
  */
 const TransactionDialog = (props) => {
@@ -73,6 +73,6 @@ const TransactionDialog = (props) => {
   );
 };
 
-TransactionDialog.propTypes = TransactionDialogProps;
+TransactionDialog.propTypes = Props;
 
 export default TransactionDialog;

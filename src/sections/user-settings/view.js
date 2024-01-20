@@ -16,12 +16,11 @@ import { selectAuth } from 'src/redux-toolkit/features/auth/authSlice';
 import { useAppSelector } from 'src/redux-toolkit/hooks';
 import { ICONS } from './config-settings';
 import SettingsCustomerBillings from './settings-customer-billings';
-import SettingsCustomerTransactions from './settings-customer-transactions';
 import SettingsGeneral from './settings-general';
 import SettingsSecurity from './settings-security';
 import SettingsSellerBillings from './settings-seller-billings';
-import SettingsSellerTransactions from './settings-seller-transactions';
 import Warehouses from './settings-seller-warehouses';
+import SettingsTransactions from './transactions';
 
 // ----------------------------------------------------------------------
 
@@ -47,7 +46,6 @@ export const TABS = [
     value: '#transactions',
     label: 'Transactions',
     icon: ICONS.transactions(),
-    roles: ['seller', 'customer'],
   },
   {
     value: '#security',
@@ -127,16 +125,7 @@ const UserSettingsView = () => {
         }
       }
       case '#transactions': {
-        switch (user?.userType) {
-          case 'customer': {
-            return <SettingsCustomerTransactions />;
-          }
-          case 'seller': {
-            return <SettingsSellerTransactions />;
-          }
-          default:
-            return <EmptyState />;
-        }
+        return <SettingsTransactions role={user?.userType} />;
       }
       case undefined:
         break;
