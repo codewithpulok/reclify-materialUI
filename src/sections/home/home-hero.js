@@ -160,7 +160,7 @@ export default function HomeHero() {
       </m.div>
 
       <m.div variants={varFade().in}>
-        <Typography variant="body2" sx={{ textAlign: 'center' }}>
+        <Typography variant="h5" color="primary.main" sx={{ textAlign: 'center' }}>
           Welcome to Racklify - Your Online Logistics Hub!
         </Typography>
       </m.div>

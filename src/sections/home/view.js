@@ -6,7 +6,6 @@ import ScrollProgress from 'src/components/common/scroll-progress';
 import MainLayout from 'src/layouts/main';
 
 import { Box } from '@mui/material';
-import HomeDarkMode from './home-dark-mode';
 import HomeHero from './home-hero';
 import HomeMinimal from './home-minimal';
 
@@ -29,8 +28,6 @@ export default function HomeView() {
         }}
       >
         <HomeMinimal />
-
-        <HomeDarkMode />
       </Box>
     </MainLayout>
   );
