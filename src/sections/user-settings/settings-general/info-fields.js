@@ -27,6 +27,14 @@ const InfoFields = () => (
         <RHFTextField name="email" label="Email Address" fullWidth />
         <RHFTextField name="phoneNumber" label="Phone Number" fullWidth />
 
+        <RHFTextField
+          name="website"
+          type="url"
+          label="Your Website Address"
+          sx={{ gridColumn: { xs: 'span 1', sm: 'span 2' } }}
+          fullWidth
+        />
+
         <Grid item sx={{ gridColumn: { xs: 'span 1', sm: 'span 2' } }}>
           <AddressField name="address" />
         </Grid>
