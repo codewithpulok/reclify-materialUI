@@ -5,8 +5,8 @@ export const warehouses = [
     name: 'Prime Storage',
     region: 'northeast',
     address: {
-      streetNumber: '456',
-      streetAddress: 'Oak Avenue',
+      street2: '456',
+      street1: 'Oak Avenue',
       city: 'Metropolis',
       state: 'State B',
       zipCode: '67890',
@@ -93,8 +93,8 @@ export const warehouses = [
     name: 'Metro Warehousing',
     region: 'midwest',
     address: {
-      streetNumber: '789',
-      streetAddress: 'Maple Street',
+      street2: '789',
+      street1: 'Maple Street',
       city: 'Metropolis',
       state: 'State B',
       zipCode: '54321',
@@ -181,8 +181,8 @@ export const warehouses = [
     name: 'Central Logistics Hub',
     region: 'southeast',
     address: {
-      streetNumber: '101',
-      streetAddress: 'Cedar Lane',
+      street2: '101',
+      street1: 'Cedar Lane',
       city: 'Metropolis',
       state: 'State B',
       zipCode: '98765',
@@ -269,8 +269,8 @@ export const warehouses = [
     name: 'Central Logistics Hub',
     region: 'southeast',
     address: {
-      streetNumber: '101',
-      streetAddress: 'Cedar Lane',
+      street2: '101',
+      street1: 'Cedar Lane',
       city: 'Metropolis',
       state: 'State B',
       zipCode: '98765',

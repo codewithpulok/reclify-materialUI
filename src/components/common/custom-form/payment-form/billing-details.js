@@ -1,7 +1,7 @@
 import { ListItemButton, Stack, Typography } from '@mui/material';
 import PropTypes from 'prop-types';
 
-import { getWarehouseAddress } from 'src/components/warehouse/utils';
+import { joinAddressObj } from 'src/utils/address';
 import { ICONS } from '../config-custom-form';
 
 const BillingDetailsProps = {
@@ -44,7 +44,7 @@ const BillingDetails = (props) => {
       {billingDetails && (
         <>
           <Typography variant="body2" sx={{ color: 'text.secondary' }}>
-            {getWarehouseAddress(billingDetails.address)}
+            {joinAddressObj(billingDetails.address)}
           </Typography>
 
           {billingDetails.phoneNumber && (

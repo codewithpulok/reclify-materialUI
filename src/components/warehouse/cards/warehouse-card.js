@@ -16,8 +16,8 @@ import PropTypes from 'prop-types';
 import Image from 'src/components/common/image';
 import Label from 'src/components/common/label';
 import { paths } from 'src/routes/paths';
+import { joinAddressObj } from 'src/utils/address';
 import { ICONS } from '../config-warehouse';
-import { getWarehouseAddress } from '../utils';
 
 const WarehouseCardProps = {
   /** @type {Warehouse} */
@@ -72,7 +72,7 @@ const WarehouseCard = (props) => {
               WebkitBoxOrient: 'vertical',
             }}
           >
-            {getWarehouseAddress(warehouse.address)}
+            {joinAddressObj(warehouse.address)}
           </Typography>
 
           {/* if there is a discount then show badge */}

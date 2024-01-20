@@ -14,10 +14,12 @@ const Props = {
  */
 const Fields = (props) => {
   const { value, name } = props;
+  console.log({ value });
   return (
     <Grid container spacing={1.2}>
       <Grid item xs={12}>
         <RHFAutocomplete
+          value={value?.country || ''}
           name={`${name}.country`}
           options={getCountries()}
           label="Country"
@@ -26,6 +28,7 @@ const Fields = (props) => {
       </Grid>
       <Grid item xs={12}>
         <RHFAutocomplete
+          value={value?.state || ''}
           name={`${name}.state`}
           options={getStates(value?.country)}
           label="State"
@@ -33,16 +36,33 @@ const Fields = (props) => {
         />
       </Grid>
       <Grid item xs={6}>
-        <RHFTextField name={`${name}.city`} label="City" fullWidth />
+        <RHFTextField name={`${name}.city`} value={value?.city || ''} label="City" fullWidth />
       </Grid>
       <Grid item xs={6}>
-        <RHFTextField name={`${name}.zipCode`} type="number" label="Zip code" fullWidth />
+        <RHFTextField
+          name={`${name}.zipCode`}
+          value={value?.zipCode || ''}
+          type="text"
+          label="Zip code"
+          fullWidth
+        />
       </Grid>
       <Grid item xs={8}>
-        <RHFTextField name={`${name}.streetAddress`} label="Street Address" fullWidth />
+        <RHFTextField
+          name={`${name}.street1`}
+          value={value?.street1 || ''}
+          label="Street Address"
+          fullWidth
+        />
       </Grid>
       <Grid item xs={4}>
-        <RHFTextField name={`${name}.streetNumber`} type="number" label="Street Number" fullWidth />
+        <RHFTextField
+          name={`${name}.street2`}
+          value={value?.street2 || ''}
+          type="text"
+          label="Street Number"
+          fullWidth
+        />
       </Grid>
     </Grid>
   );

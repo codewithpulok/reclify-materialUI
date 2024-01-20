@@ -58,7 +58,7 @@ export default function UploadBox({ placeholder, error, disabled, sx, ...other }
 }
 
 UploadBox.propTypes = {
-  disabled: PropTypes.object,
+  disabled: PropTypes.bool,
   error: PropTypes.bool,
   placeholder: PropTypes.object,
   sx: PropTypes.object,

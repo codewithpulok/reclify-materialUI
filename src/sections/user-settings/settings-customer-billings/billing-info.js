@@ -12,8 +12,8 @@ import {
   BillingAddressListDialog,
   PaymentCardListDialog,
 } from 'src/components/common/custom-dialog';
-import { getWarehouseAddress } from 'src/components/warehouse/utils';
 import { useBoolean } from 'src/hooks/use-boolean';
+import { joinAddressObj } from 'src/utils/address';
 import { ICONS } from '../config-settings';
 
 // ----------------------------------------------------------------------
@@ -81,7 +81,7 @@ const BillingInfo = (props) => {
               Billing address
             </Grid>
             <Grid xs={12} md={8} sx={{ color: 'text.secondary' }}>
-              {getWarehouseAddress(selectedAddress?.address)}
+              {joinAddressObj(selectedAddress?.address)}
             </Grid>
           </Grid>
 

@@ -7,7 +7,7 @@ import Typography from '@mui/material/Typography';
 
 import { Card } from '@mui/material';
 import Image from 'src/components/common/image';
-import { getWarehouseAddress } from 'src/components/warehouse/utils';
+import { joinAddressObj } from 'src/utils/address';
 import { ICONS } from '../../config-user-settings';
 
 const WarehouseDetailsCardProps = {
@@ -35,7 +35,7 @@ const WarehouseDetailsCard = (props) => {
       <Stack>
         <Typography variant="h6">{warehouse.name}</Typography>
         <Typography variant="body2" color="text.secondary" sx={{ mb: 1 }}>
-          {getWarehouseAddress(warehouse.address)}
+          {joinAddressObj(warehouse.address)}
         </Typography>
         <Stack flexDirection="row" alignItems="center" spacing={0.5} flexWrap="wrap" sx={{ mb: 3 }}>
           {warehouse.isVerified && (

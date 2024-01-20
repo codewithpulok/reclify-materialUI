@@ -2,11 +2,11 @@ import * as Yup from 'yup';
 
 /** @type {Address} */
 const schema = {
-  streetNumber: Yup.number().label('Street number').required(),
-  streetAddress: Yup.string().label('Street address').required(),
+  street1: Yup.string().label('Street address').required(),
+  street2: Yup.string().label('Street number').required(),
   city: Yup.string().label('City').required(),
   state: Yup.string().label('State').required(),
-  zipCode: Yup.number().label('Zip code').required(),
+  zipCode: Yup.string().label('Zip code').required(),
   country: Yup.string().label('Country').required(),
 };
 
