@@ -10,8 +10,10 @@ import { useEffect } from 'react';
 import { useForm } from 'react-hook-form';
 import * as Yup from 'yup';
 // local components
-import { useSnackbar } from 'notistack';
+import { LoadingButton } from '@mui/lab';
+import { enqueueSnackbar } from 'notistack';
 import FormProvider from 'src/components/common/hook-form/form-provider';
+import { useReviewUpdateMutation } from 'src/redux-toolkit/services/reviewApi';
 import { ICONS } from 'src/sections/warehouses/config-warehouse';
 import ReviewEditFields from './fields';
 
@@ -28,26 +30,46 @@ const defaultValues = {
   rating: 0,
 };
 
-const ReviewEditProps = {
+const Props = {
   open: PropTypes.bool.isRequired,
   onClose: PropTypes.func.isRequired,
-  review: PropTypes.object.isRequired,
+  review: PropTypes.object,
+  warehouseId: PropTypes.string,
 };
 /**
- * @param {ReviewEditProps} props
+ * @param {Props} props
  * @returns {JSX.Element}
  */
 const ReviewEdit = (props) => {
-  const { onClose, open, review } = props;
-  const { enqueueSnackbar } = useSnackbar();
+  const { onClose, open, review, warehouseId } = props;
 
   const methods = useForm({ defaultValues, resolver: yupResolver(reviewEditSchema) });
-  const { handleSubmit, reset } = methods;
+  const { handleSubmit, reset, formState } = methods;
+  const { isSubmitting } = formState;
 
-  const onSubmit = (values) => {
-    console.log('Edit Review: ', values);
-    enqueueSnackbar('Review Edited');
-    onClose();
+  const [updateReview] = useReviewUpdateMutation();
+
+  const onSubmit = async (values) => {
+    console.log('Update Review: ', values);
+
+    const response = await updateReview({
+      id: review.id,
+      data: { ...review, ...values, warehouseId },
+    });
+    const { data, error } = response;
+
+    // error state
+    if (error || data?.isError) {
+      console.error('Error in update review', response);
+      enqueueSnackbar('Error in update review', { variant: 'error' });
+    }
+    // success state
+    else if (data?.isSuccess) {
+      console.warn('Review updated', response);
+      enqueueSnackbar('Review updated');
+      reset(defaultValues);
+      onClose();
+    }
   };
 
   const onReset = () => {
@@ -58,8 +80,8 @@ const ReviewEdit = (props) => {
   useEffect(() => {
     const changes = {};
 
-    if (review.feedback) changes.feedback = review.feedback;
-    if (review.rating) changes.rating = review.rating;
+    if (review?.feedback) changes.feedback = review.feedback;
+    if (review?.rating) changes.rating = review.rating;
 
     reset(changes);
   }, [reset, review]);
@@ -85,15 +107,15 @@ const ReviewEdit = (props) => {
           <Button type="button" color="error" onClick={onReset}>
             Cancel
           </Button>
-          <Button type="submit" variant="contained" color="primary">
-            Submit
-          </Button>
+          <LoadingButton loading={isSubmitting} type="submit" variant="contained" color="primary">
+            Update
+          </LoadingButton>
         </DialogActions>
       </FormProvider>
     </Dialog>
   );
 };
 
-ReviewEdit.propTypes = ReviewEditProps;
+ReviewEdit.propTypes = Props;
 
 export default ReviewEdit;

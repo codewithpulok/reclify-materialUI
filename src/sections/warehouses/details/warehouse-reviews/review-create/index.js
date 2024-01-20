@@ -9,8 +9,10 @@ import PropTypes from 'prop-types';
 import { useForm } from 'react-hook-form';
 import * as Yup from 'yup';
 // local components
-import { useSnackbar } from 'notistack';
+import { LoadingButton } from '@mui/lab';
+import { enqueueSnackbar } from 'notistack';
 import FormProvider from 'src/components/common/hook-form/form-provider';
+import { useReviewCreateMutation } from 'src/redux-toolkit/services/reviewApi';
 import { ICONS } from 'src/sections/warehouses/config-warehouse';
 import ReviewCreateFields from './fields';
 
@@ -27,25 +29,42 @@ const defaultValues = {
   rating: 0,
 };
 
-const ReviewCreateProps = {
+const Props = {
+  warehouseId: PropTypes.string,
   open: PropTypes.bool.isRequired,
   onClose: PropTypes.func.isRequired,
 };
 /**
- * @param {ReviewCreateProps} props
+ * @param {Props} props
  * @returns {JSX.Element}
  */
 const ReviewCreate = (props) => {
-  const { onClose, open } = props;
-  const { enqueueSnackbar } = useSnackbar();
+  const { onClose, open, warehouseId } = props;
 
   const methods = useForm({ defaultValues, resolver: yupResolver(reviewCreateSchema) });
-  const { handleSubmit, reset } = methods;
+  const { handleSubmit, reset, formState } = methods;
+  const { isSubmitting } = formState;
 
-  const onSubmit = (values) => {
+  const [createReview] = useReviewCreateMutation();
+
+  const onSubmit = async (values) => {
     console.log('Create Review: ', values);
-    enqueueSnackbar('Review Created');
-    onClose();
+
+    const response = await createReview({ ...values, warehouseId });
+    const { data, error } = response;
+
+    // error state
+    if (error || data?.isError) {
+      console.error('Error in create review', response);
+      enqueueSnackbar('Error in create review', { variant: 'error' });
+    }
+    // success state
+    else if (data?.isSuccess) {
+      console.warn('Review created', response);
+      enqueueSnackbar('Review Created');
+      reset(defaultValues);
+      onClose();
+    }
   };
 
   const onReset = () => {
@@ -74,15 +93,15 @@ const ReviewCreate = (props) => {
           <Button type="button" color="error" onClick={onReset}>
             Cancel
           </Button>
-          <Button type="submit" variant="contained" color="primary">
-            Submit
-          </Button>
+          <LoadingButton loading={isSubmitting} type="submit" variant="contained" color="primary">
+            Create
+          </LoadingButton>
         </DialogActions>
       </FormProvider>
     </Dialog>
   );
 };
 
-ReviewCreate.propTypes = ReviewCreateProps;
+ReviewCreate.propTypes = Props;
 
 export default ReviewCreate;

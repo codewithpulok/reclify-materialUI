@@ -49,7 +49,11 @@ const WarehosueDetailsMain = (props) => {
       <WarehouseRules rules={warehouse.rules} />
       <WarehouseServices services={warehouse.services} />
 
-      <WarehouseReviews reviews={reviews} canAddNewReview={user && user.userType === 'customer'} />
+      <WarehouseReviews
+        reviews={reviews}
+        canAddNewReview={user && user.userType === 'customer'}
+        warehouseId={warehouse.id}
+      />
     </Stack>
   );
 };

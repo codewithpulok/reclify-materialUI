@@ -45,7 +45,7 @@ const generateReview = (id) => {
 
   if (!review) return undefined;
 
-  review.author = getUserByID(review.authorId);
+  review.userData = getUserByID(review.authorId);
 
   return review;
 };

@@ -37,7 +37,16 @@ function DetailsView(props) {
 
   // on request success
   if (warehouseResult.isSuccess && warehouseResult.data?.isSuccess) {
-    return <Content warehouse={warehouseResult.data?.results} reviews={warehouseReviews} />;
+    return (
+      <Content
+        warehouse={warehouseResult.data?.results}
+        reviews={
+          warehouseResult.data?.results?.reviews?.length
+            ? warehouseResult.data?.results?.reviews
+            : warehouseReviews
+        }
+      />
+    );
   }
 
   return <LoadingScreen />;
