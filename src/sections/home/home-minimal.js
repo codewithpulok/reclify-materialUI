@@ -61,7 +61,7 @@ const CARDS = [
 
 // ----------------------------------------------------------------------
 
-export default function HomeMinimal() {
+export default function HomeRacklify() {
   return (
     <Container
       component={MotionViewport}

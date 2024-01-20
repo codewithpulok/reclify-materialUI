@@ -8,7 +8,7 @@ import MainLayout from 'src/layouts/main';
 import { Box } from '@mui/material';
 import HomeDarkMode from './home-dark-mode';
 import HomeHero from './home-hero';
-import HomeMinimal from './home-minimal';
+import HomeRacklify from './home-minimal';
 
 // ----------------------------------------------------------------------
 
@@ -28,7 +28,7 @@ export default function HomeView() {
           bgcolor: 'background.default',
         }}
       >
-        <HomeMinimal />
+        <HomeRacklify />
 
         <HomeDarkMode />
       </Box>
