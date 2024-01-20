@@ -26,6 +26,7 @@ const ICONS = {
 
   not_verified: (width, sx) => getIconify('lucide:badge-minus', width, sx),
   not_featured: (width, sx) => getIconify('iconamoon:star-off-fill', width, sx),
+  not_rated: (width, sx) => getIconify('tabler:diamond-off', width, sx),
   hidden: (width, sx) => getIconify('solar:eye-closed-bold-duotone', width, sx),
 };
 
@@ -68,6 +69,11 @@ export function useNavData() {
         title: 'Not Verified',
         path: paths.dashboard.warehouses.not_verified,
         icon: ICONS.not_verified(),
+      },
+      {
+        title: 'Not Rated',
+        path: paths.dashboard.warehouses.not_rated,
+        icon: ICONS.not_rated(),
       },
       {
         title: 'Hidden',

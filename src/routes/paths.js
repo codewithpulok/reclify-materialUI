@@ -46,6 +46,7 @@ export const paths = {
       hidden: `${ROOTS.DASHBOARD}/warehouses/hidden`,
       not_verified: `${ROOTS.DASHBOARD}/warehouses/not-verified`,
       not_featured: `${ROOTS.DASHBOARD}/warehouses/not-featured`,
+      not_rated: `${ROOTS.DASHBOARD}/warehouses/not-rated`,
 
       // warehouses by region
       ...regions.reduce(

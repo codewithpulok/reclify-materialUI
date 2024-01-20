@@ -1,4 +1,4 @@
-import { Button, Rating, Stack, Tooltip, Typography } from '@mui/material';
+import { Box, Button, Rating, Stack, Tooltip, Typography } from '@mui/material';
 import PropTypes from 'prop-types';
 import { useCallback, useMemo, useState } from 'react';
 import { ConfirmDialog } from 'src/components/common/custom-dialog';
@@ -7,6 +7,7 @@ import { ICONS } from '../config-warehouse';
 
 const Props = {
   value: PropTypes.number.isRequired,
+  size: PropTypes.number,
   action: PropTypes.bool,
 };
 
@@ -15,7 +16,7 @@ const Props = {
  * @returns {JSX.Element}
  */
 const WarehouseDiamond = (props) => {
-  const { value = 0, action = false } = props;
+  const { value = 0, action = false, size = 28 } = props;
 
   const [diamond, setDiamond] = useState(value);
 
@@ -64,13 +65,13 @@ const WarehouseDiamond = (props) => {
         placement="bottom-start"
         arrow
       >
-        <span>
+        <Box sx={{ display: 'inline-flex', alignItems: 'center' }}>
           <Rating
             readOnly={!action}
             name="warehouse-diamond"
             value={diamond}
-            icon={ICONS.diamond_fill(28)}
-            emptyIcon={ICONS.diamond_empty(28)}
+            icon={ICONS.diamond_fill(size)}
+            emptyIcon={ICONS.diamond_empty(size)}
             sx={{
               '& .MuiRating-iconFilled': {
                 color: 'info.main',
@@ -81,7 +82,7 @@ const WarehouseDiamond = (props) => {
             }}
             onChange={(_e, v) => openDiamondDialog(v)}
           />
-        </span>
+        </Box>
       </Tooltip>
       <ConfirmDialog
         open={diamondDialog.open}

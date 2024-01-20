@@ -10,4 +10,5 @@ export { default as WarehousesEditView } from './(seller)/edit/view';
 // admin views
 export { default as WarehouseHiddenView } from './(admin)/hidden/view';
 export { default as WarehouseNotFeaturedView } from './(admin)/not-featured/view';
+export { default as WarehouseNotRatedView } from './(admin)/not-rated/view';
 export { default as WarehouseNotVerifiedView } from './(admin)/not-verified/view';
