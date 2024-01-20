@@ -53,6 +53,7 @@ const WarehosueDetailsMain = (props) => {
         reviews={reviews}
         canAddNewReview={user && user.userType === 'customer'}
         warehouseId={warehouse.id}
+        sx={{ display: { md: 'none' } }}
       />
     </Stack>
   );
