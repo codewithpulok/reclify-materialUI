@@ -1,4 +1,3 @@
-import PropTypes from 'prop-types';
 import { useState } from 'react';
 import Map from 'react-map-gl';
 // mui
@@ -90,7 +89,3 @@ export default function ContactMap() {
     </StyledRoot>
   );
 }
-
-ContactMap.propTypes = {
-  contacts: PropTypes.array,
-};
