@@ -9,6 +9,14 @@ import { useAppSelector } from 'src/redux-toolkit/hooks';
 
 // ----------------------------------------------------------------------
 
+/**
+ * @typedef {Object} Route
+ * @property {string} title
+ * @property {string} path
+ * @property {JSX.Element} icon
+ * @property {Route[]} children
+ */
+
 const ICONS = {
   warehouse: (width, sx) => getIconify('solar:box-bold-duotone', width, sx),
   users: (width, sx) => getIconify('solar:users-group-two-rounded-bold', width, sx),
@@ -26,53 +34,12 @@ const ICONS = {
 export function useNavData() {
   const { user } = useAppSelector(selectAuth);
 
-  const commonRoutes = useMemo(
-    () => [
-      {
-        title: 'Warehouses',
-        path: paths.dashboard.warehouses.root,
-        icon: ICONS.warehouse(),
-        index: 0,
-      },
-      {
-        title: 'Hot Deals',
-        path: paths.dashboard.warehouses.hot_deals,
-        icon: ICONS.hot_deals(),
-      },
-      ...regions.map((r) => ({
-        title: r.name,
-        path: paths.dashboard.warehouses[r.code],
-        icon: getIconify(r.icon, undefined, { rotate: `${r.rotate ? 90 * r.rotate : 0}deg` }),
-      })),
-      {
-        title: 'Messages',
-        path: paths.dashboard.messages.root,
-        icon: ICONS.messages(),
-      },
-    ],
-    []
-  );
-
+  /**
+   * admin all routes
+   * @type {Route[]}
+   */
   const adminRoutes = useMemo(
     () => [
-      {
-        title: 'Not Featured',
-        path: paths.dashboard.warehouses.not_featured,
-        icon: ICONS.not_featured(),
-        index: 1,
-      },
-      {
-        title: 'Not Verified',
-        path: paths.dashboard.warehouses.not_verified,
-        icon: ICONS.not_verified(),
-        index: 2,
-      },
-      {
-        title: 'Hidden',
-        path: paths.dashboard.warehouses.hidden,
-        icon: ICONS.hidden(),
-        index: 3,
-      },
       {
         title: 'Users',
         path: '#',
@@ -86,25 +53,81 @@ export function useNavData() {
     []
   );
 
+  /**
+   * admin warehouse routes
+   * @type {Route[]}
+   */
+  const adminWarehouseRoutes = useMemo(
+    () => [
+      {
+        title: 'Not Featured',
+        path: paths.dashboard.warehouses.not_featured,
+        icon: ICONS.not_featured(),
+      },
+      {
+        title: 'Not Verified',
+        path: paths.dashboard.warehouses.not_verified,
+        icon: ICONS.not_verified(),
+      },
+      {
+        title: 'Hidden',
+        path: paths.dashboard.warehouses.hidden,
+        icon: ICONS.hidden(),
+      },
+    ],
+    []
+  );
+
+  /**
+   * all routes
+   * @type {Route[]}
+   */
+  const allRoutes = useMemo(
+    () => [
+      {
+        title: 'Warehouses',
+        path: paths.dashboard.warehouses.root,
+        icon: ICONS.warehouse(),
+        children: [
+          // admin warehouse routes
+          ...(user?.userType === 'admin' ? adminWarehouseRoutes : []),
+
+          // common warehouse routes
+          {
+            title: 'Hot Deals',
+            path: paths.dashboard.warehouses.hot_deals,
+            icon: ICONS.hot_deals(),
+          },
+
+          // region warehouse routes
+          ...regions.map((r) => ({
+            title: r.name,
+            path: paths.dashboard.warehouses[r.code],
+            icon: getIconify(r.icon, undefined, { rotate: `${r.rotate ? 90 * r.rotate : 0}deg` }),
+          })),
+        ],
+        defaultOpen: true,
+      },
+      {
+        title: 'Messages',
+        path: paths.dashboard.messages.root,
+        icon: ICONS.messages(),
+      },
+
+      // admin routes
+      ...(user?.userType === 'admin' ? adminRoutes : []),
+    ],
+    [adminRoutes, adminWarehouseRoutes, user?.userType]
+  );
+
   const data = useMemo(
     () => [
       {
         subheader: 'beta v1.0.0',
-        items: [
-          // routes for all user
-          ...commonRoutes,
-
-          // if user role is admin then only show admin routes
-          ...(user?.userType === 'admin' ? adminRoutes : []),
-        ].sort((a, b) => {
-          if (a?.index === undefined) return 1;
-          if (b?.index === undefined) return -1;
-
-          return a.index - b.index;
-        }),
+        items: allRoutes,
       },
     ],
-    [adminRoutes, commonRoutes, user?.userType]
+    [allRoutes]
   );
 
   return data;

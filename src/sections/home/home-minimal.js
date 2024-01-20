@@ -1,32 +1,61 @@
+'use client';
+
 import { m } from 'framer-motion';
 
-import Box from '@mui/material/Box';
 import Card from '@mui/material/Card';
 import Container from '@mui/material/Container';
 import Stack from '@mui/material/Stack';
 import Typography from '@mui/material/Typography';
-import { alpha } from '@mui/material/styles';
 
+import { Grid } from '@mui/material';
 import { MotionViewport, varFade } from 'src/components/common/animate';
+import { getIconify } from 'src/components/common/iconify/utilities';
 
 // ----------------------------------------------------------------------
 
 const CARDS = [
   {
-    icon: ' /assets/icons/home/ic_make_brand.svg',
-    title: 'Branding',
-    description: 'Consistent design makes it easy to brand your own.',
+    id: '1',
+    icon: 'noto:rocket',
+    title: 'Welcome to the future of warehousing!',
+    description: `At Racklify, we're reshaping the logistics industry by introducing a groundbreaking platform that connects businesses with top warehousing and fulfillment providers across the country. Say goodbye to uncertainty and unexpected costs - Racklify guarantees the best rates and ensures a seamless booking experience for both warehouse providers and users.`,
   },
   {
-    icon: ' /assets/icons/home/ic_design.svg',
-    title: 'UI & UX Design',
-    description:
-      'The kit is built on the principles of the atomic design system. It helps you to create projects fastest and easily customized packages for your projects.',
+    id: '2',
+    icon: 'noto:globe-with-meridians',
+    title: 'Discover Your Perfect Space',
+    description: `Tired of sifting through endless options? With Racklify, finding the ideal storage space is a breeze. Our platform showcases a curated selection of vetted warehouses, offering on-demand storage solutions at guaranteed prices. Whether you need short-term or long-term storage, we've got you covered.`,
   },
   {
-    icon: ' /assets/icons/home/ic_development.svg',
-    title: 'Development',
-    description: 'Easy to customize and extend, saving you time and money.',
+    id: '3',
+    icon: 'noto:briefcase',
+    title: 'Save Big with Guaranteed Rates',
+    description: `No more hidden fees or unexpected charges. Racklify eliminates the guesswork by providing transparent and guaranteed pallet rates. We've given the tools to warehouses to offer the best rates, saving you money and ensuring a stress-free storage experience.`,
+  },
+  {
+    id: '4',
+    icon: 'noto:alarm-clock',
+    title: 'HotRacks - Limited Time Deals',
+    description: `Ready for unbeatable savings? Explore our exclusive HotRacks, where deeply discounted and time-limited listings await. Jump on these promotions to enjoy even more cost-effective storage solutions. It's a win-win for businesses seeking budget-friendly options as well as warehouses with extra capacity.`,
+  },
+  {
+    id: '5',
+    icon: 'noto:counterclockwise-arrows-button',
+    title: 'Matchmaking Made Easy',
+    description: `Are you a warehouse owner looking to maximize your space utilization? Or a business in need of reliable storage? Racklify is the perfect matchmaker! Join our two-sided marketplace and unlock a world of opportunities for both warehouse and end user`,
+  },
+  {
+    id: '6',
+    icon: 'noto:package',
+    title: 'Beyond Storage',
+    description: `Racklify isn't just about storage - it's a comprehensive platform offering various services to streamline your logistics. From freight and consulting to packaging and manufacturing, we've got everything you need under one roof.`,
+  },
+  {
+    id: '7',
+    icon: 'noto:handshake',
+    title: 'Join the Racklify Revolution',
+    description: `Experience the future of warehousing. Join Racklify today and take control of your storage solutions. Whether you're a warehouse looking to optimize space or a business seeking affordable and reliable storage, Racklify is your go-to destination.
+    Ready to revolutionize your storage experience? Sign up now and elevate your business with Racklify!`,
   },
 ];
 
@@ -54,56 +83,36 @@ export default function HomeMinimal() {
         </m.div>
 
         <m.div variants={varFade().inDown}>
-          <Typography variant="h2">
-            What Racklify <br /> helps you?
-          </Typography>
+          <Typography variant="h2">What Racklify helps you?</Typography>
         </m.div>
       </Stack>
 
-      <Box
-        gap={{ xs: 3, lg: 10 }}
-        display="grid"
-        alignItems="center"
-        gridTemplateColumns={{
-          xs: 'repeat(1, 1fr)',
-          md: 'repeat(3, 1fr)',
-        }}
-      >
-        {CARDS.map((card, index) => (
-          <m.div variants={varFade().inUp} key={card.title}>
+      <Grid container justifyContent="center" spacing={{ xs: 3 }}>
+        {CARDS.map((card) => (
+          <Grid item sm={12} md={4} key={card.id}>
             <Card
+              component={Stack}
               sx={{
                 textAlign: 'center',
-                boxShadow: { md: 'none' },
-                bgcolor: 'background.default',
+                alignItems: 'center',
+                width: '100%',
+                height: '100%',
                 p: (theme) => theme.spacing(10, 5),
-                ...(index === 1 && {
-                  boxShadow: (theme) => ({
-                    md: `-40px 40px 80px ${
-                      theme.palette.mode === 'light'
-                        ? alpha(theme.palette.grey[500], 0.16)
-                        : alpha(theme.palette.common.black, 0.4)
-                    }`,
-                  }),
-                }),
               }}
             >
-              <Box
-                component="img"
-                src={card.icon}
-                alt={card.title}
-                sx={{ mx: 'auto', width: 48, height: 48 }}
-              />
+              {getIconify(card.icon, 58)}
 
-              <Typography variant="h5" sx={{ mt: 8, mb: 2 }}>
+              <Typography variant="h5" sx={{ mt: 7, mb: 2 }}>
                 {card.title}
               </Typography>
 
-              <Typography sx={{ color: 'text.secondary' }}>{card.description}</Typography>
+              <Typography variant="body2" sx={{ color: 'text.secondary' }}>
+                {card.description}
+              </Typography>
             </Card>
-          </m.div>
+          </Grid>
         ))}
-      </Box>
+      </Grid>
     </Container>
   );
 }
