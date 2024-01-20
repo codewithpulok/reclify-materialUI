@@ -105,8 +105,7 @@ export default function Footer() {
                 mx: { xs: 'auto', md: 'unset' },
               }}
             >
-              Lorem ipsum dolor sit amet consectetur adipisicing elit. Sit accusamus, maxime fugit
-              quaerat porro earum? Voluptas, optio a! Corporis, qui!
+              Welcome to Racklify - Your Online Logistics Hub!
             </Typography>
 
             <Stack

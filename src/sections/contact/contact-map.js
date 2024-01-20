@@ -1,12 +1,13 @@
 import PropTypes from 'prop-types';
 import { useState } from 'react';
 import Map from 'react-map-gl';
-
+// mui
 import Typography from '@mui/material/Typography';
 import { styled, useTheme } from '@mui/material/styles';
-
+// constants
+import { ADDRESS } from 'src/constant/address';
+// components
 import { MAPBOX_API } from 'src/config-global';
-
 import Iconify from 'src/components/common/iconify';
 import { MapControl, MapMarker, MapPopup } from 'src/components/common/map';
 
@@ -25,40 +26,37 @@ const StyledRoot = styled('div')(({ theme }) => ({
 
 // ----------------------------------------------------------------------
 
-export default function ContactMap({ contacts }) {
+export default function ContactMap() {
   const theme = useTheme();
   const lightMode = theme.palette.mode === 'light';
   const [popupInfo, setPopupInfo] = useState(null);
+  console.log({ popupInfo });
 
   return (
     <StyledRoot>
       <Map
         initialViewState={{
-          latitude: 32,
-          longitude: -100,
+          latitude: 40.013217,
+          longitude: -75.0887584,
           zoom: 8,
         }}
         mapStyle={`mapbox://styles/mapbox/${lightMode ? 'light' : 'dark'}-v10`}
         mapboxAccessToken={MAPBOX_API}
       >
         <MapControl hideGeolocateControl />
-
-        {contacts.map((country, index) => (
-          <MapMarker
-            key={`marker-${index}`}
-            latitude={country.latlng[0]}
-            longitude={country.latlng[1]}
-            onClick={(event) => {
-              event.originalEvent.stopPropagation();
-              setPopupInfo(country);
-            }}
-          />
-        ))}
+        <MapMarker
+          latitude={ADDRESS.lat}
+          longitude={ADDRESS.long}
+          onClick={(event) => {
+            event.originalEvent.stopPropagation();
+            setPopupInfo(ADDRESS);
+          }}
+        />
 
         {popupInfo && (
           <MapPopup
-            longitude={popupInfo.latlng[1]}
-            latitude={popupInfo.latlng[0]}
+            longitude={popupInfo.lat}
+            latitude={popupInfo.long}
             onClose={() => setPopupInfo(null)}
             sx={{
               '& .mapboxgl-popup-content': { bgcolor: 'common.white' },
