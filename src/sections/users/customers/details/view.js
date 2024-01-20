@@ -14,6 +14,7 @@ import { ICONS } from '../../config-users';
 import DetailsCover from './details-cover';
 import DetailsHome from './details-home';
 import DetailsPurchases from './details-purchases';
+import DetailsTransactions from './details-transactions';
 
 const TABS = [
   {
@@ -25,6 +26,11 @@ const TABS = [
     value: 'purchases',
     label: 'Purchases',
     icon: ICONS.purchase(),
+  },
+  {
+    value: 'transactions',
+    label: 'Transactions',
+    icon: ICONS.transactions(),
   },
 ];
 
@@ -109,6 +115,7 @@ const CustomerDetailsView = (props) => {
         />
       )}
       {currentTab === 'purchases' && <DetailsPurchases transactions={transactions} />}
+      {currentTab === 'transactions' && <DetailsTransactions />}
     </Container>
   );
 };

@@ -17,6 +17,7 @@ import DetailsCover from './details-cover';
 import DetailsHome from './details-home';
 import DetailsListing from './details-listing';
 import DetailsMembership from './details-membership';
+import SellerTransactions from './details-transactions';
 
 const TABS = [
   {
@@ -33,6 +34,11 @@ const TABS = [
     value: 'membership',
     label: 'Membership',
     icon: ICONS.membership(),
+  },
+  {
+    value: 'transactions',
+    label: 'Transactions',
+    icon: ICONS.transactions(),
   },
 ];
 
@@ -120,6 +126,7 @@ const SellerDetailsView = (props) => {
       {currentTab === 'membership' && (
         <DetailsMembership currentPlan={plans[0]} membershipHistory={membershipHistory} />
       )}
+      {currentTab === 'transactions' && <SellerTransactions />}
     </Container>
   );
 };
