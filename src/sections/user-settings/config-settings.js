@@ -17,6 +17,7 @@ export const ICONS = {
   more: (width) => getIconify('eva:more-vertical-fill', width),
   eye: (width) => getIconify('solar:eye-bold', width),
   close: (width, sx) => getIconify('solar:close-circle-bold', width, sx),
+  membership: (width, sx) => getIconify('solar:bill-list-bold', width, sx),
 
   warehouse: (width, sx) => getIconify('solar:box-bold-duotone', width, sx),
 

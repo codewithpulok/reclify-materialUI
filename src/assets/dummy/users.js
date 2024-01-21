@@ -130,7 +130,7 @@ export const users = [
       country: 'United States',
     },
     about: 'A new customer with realistic data.',
-    userType: '',
+    userType: 'seller',
     createdAt: 1680327890000,
     updatedAt: 1680354876000,
     socials: {
