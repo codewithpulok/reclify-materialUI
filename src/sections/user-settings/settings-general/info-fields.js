@@ -6,46 +6,54 @@ import Stack from '@mui/material/Stack';
 // components
 import { AddressField } from 'src/components/common/custom-fields';
 import { RHFTextField } from 'src/components/common/hook-form';
+import { selectAuth } from 'src/redux-toolkit/features/auth/authSlice';
+import { useAppSelector } from 'src/redux-toolkit/hooks';
 
 // ----------------------------------------------------------------------
 
-const InfoFields = () => (
-  <Card>
-    <CardHeader title="General Info" />
-    <CardContent>
-      <Box
-        rowGap={3}
-        columnGap={2}
-        display="grid"
-        gridTemplateColumns={{
-          xs: 'repeat(1, 1fr)',
-          sm: 'repeat(2, 1fr)',
-        }}
-      >
-        <RHFTextField name="firstName" label="First Name" fullWidth />
-        <RHFTextField name="lastName" label="Last Name" fullWidth />
-        <RHFTextField name="email" label="Email Address" fullWidth />
-        <RHFTextField name="phoneNumber" label="Phone Number" fullWidth />
+const InfoFields = () => {
+  const { user } = useAppSelector(selectAuth);
 
-        <RHFTextField
-          name="website"
-          type="url"
-          label="Your Website Address"
-          sx={{ gridColumn: { xs: 'span 1', sm: 'span 2' } }}
-          fullWidth
-        />
+  return (
+    <Card>
+      <CardHeader title="General Info" />
+      <CardContent>
+        <Box
+          rowGap={3}
+          columnGap={2}
+          display="grid"
+          gridTemplateColumns={{
+            xs: 'repeat(1, 1fr)',
+            sm: 'repeat(2, 1fr)',
+          }}
+        >
+          <RHFTextField name="firstName" label="First Name" fullWidth />
+          <RHFTextField name="lastName" label="Last Name" fullWidth />
+          <RHFTextField name="email" label="Email Address" fullWidth />
+          <RHFTextField name="phoneNumber" label="Phone Number" fullWidth />
 
-        <Grid item sx={{ gridColumn: { xs: 'span 1', sm: 'span 2' } }}>
-          <AddressField name="address" />
-        </Grid>
-      </Box>
+          {user?.userType === 'seller' && (
+            <RHFTextField
+              name="website"
+              type="url"
+              label="Website"
+              sx={{ gridColumn: { xs: 'span 1', sm: 'span 2' } }}
+              fullWidth
+            />
+          )}
 
-      <Stack spacing={3} alignItems="flex-end" sx={{ mt: 3 }}>
-        <RHFTextField name="about" multiline rows={4} label="About" fullWidth />
-      </Stack>
-    </CardContent>
-  </Card>
-);
+          <Grid item sx={{ gridColumn: { xs: 'span 1', sm: 'span 2' } }}>
+            <AddressField name="address" />
+          </Grid>
+        </Box>
+
+        <Stack spacing={3} alignItems="flex-end" sx={{ mt: 3 }}>
+          <RHFTextField name="about" multiline rows={4} label="About" fullWidth />
+        </Stack>
+      </CardContent>
+    </Card>
+  );
+};
 
 InfoFields.propTypes = {};
 
