@@ -59,6 +59,7 @@ export const paths = {
     // messages section
     messages: {
       root: `${ROOTS.DASHBOARD}/messages`,
+      thread: (id) => `${ROOTS.DASHBOARD}/messages?id=${id}`,
     },
 
     search: {

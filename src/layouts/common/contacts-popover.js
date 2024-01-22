@@ -15,6 +15,8 @@ import { varHover } from 'src/components/common/animate';
 import CustomPopover, { usePopover } from 'src/components/common/custom-popover';
 import Iconify from 'src/components/common/iconify';
 import Scrollbar from 'src/components/common/scrollbar';
+import { RouterLink } from 'src/routes/components';
+import { paths } from 'src/routes/paths';
 
 // ----------------------------------------------------------------------
 
@@ -46,7 +48,12 @@ export default function ContactsPopover() {
 
         <Scrollbar sx={{ height: 320 }}>
           {_contacts.map((contact) => (
-            <MenuItem key={contact.id} sx={{ p: 1 }}>
+            <MenuItem
+              component={RouterLink}
+              href={paths.dashboard.messages.thread(contact.id)}
+              key={contact.id}
+              sx={{ p: 1 }}
+            >
               <Badge
                 variant={contact.status}
                 anchorOrigin={{ vertical: 'bottom', horizontal: 'right' }}
