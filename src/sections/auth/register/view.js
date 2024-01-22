@@ -125,8 +125,6 @@ const RegisterView = (props) => {
     </FormProvider>
   );
 
-  console.log({ formState });
-
   return (
     <>
       {renderHead}

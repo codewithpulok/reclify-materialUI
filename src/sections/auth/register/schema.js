@@ -18,7 +18,7 @@ const schema = {
       },
       skipAbsent: true,
     })
-    .oneOf(serviceTypes.map((t) => t.type))
+    .oneOf(serviceTypes.map((t) => t.value))
     .optional(),
   email: Yup.string().required('Email is required').email('Email must be a valid email address'),
   password: Yup.string().required('Password is required'),
