@@ -26,8 +26,8 @@ const defaultValues = {
   lastName: '',
   email: '',
   password: '',
-  region: '',
   userType: 'customer',
+  serviceType: 'Warehouse',
 };
 // ----------------------------------------------------------------------
 
@@ -124,6 +124,8 @@ const RegisterView = (props) => {
       </Stack>
     </FormProvider>
   );
+
+  console.log({ formState });
 
   return (
     <>

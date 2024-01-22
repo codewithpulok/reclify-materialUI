@@ -51,6 +51,7 @@ export default function ContactsPopover() {
             <MenuItem
               component={RouterLink}
               href={paths.dashboard.messages.thread(contact.id)}
+              onClick={popover.onClose}
               key={contact.id}
               sx={{ p: 1 }}
             >
