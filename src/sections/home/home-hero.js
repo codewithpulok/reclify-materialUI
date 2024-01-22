@@ -64,7 +64,7 @@ export default function HomeHero() {
   const mdUp = useResponsive('up', 'md');
 
   const renderDescription = (
-    <Stack alignItems="center" justifyContent="center">
+    <Stack alignItems="center" justifyContent="center" height={{ xs: 1 }}>
       <m.div variants={varFade().in}>
         <Logo sx={{ maxWidth: 450, height: 'auto', width: '100%' }} isLong disabledLink />
       </m.div>
@@ -80,7 +80,7 @@ export default function HomeHero() {
   const renderSlides = (
     <Image
       src="/assets/images/home/hero/empty_warehouse.jpg"
-      sx={{ borderRadius: 1, maxWidth: 450, width: '100%' }}
+      sx={{ borderRadius: 1, maxWidth: 450, width: '100%', mx: 'auto' }}
     />
   );
 
@@ -96,9 +96,9 @@ export default function HomeHero() {
   return (
     <StyledRoot>
       <Container component={MotionContainer}>
-        <Grid container columnSpacing={10} rowSpacing={3}>
+        <Grid container columnSpacing={10} rowSpacing={3} mt={5}>
           {!mdUp && (
-            <Grid item xs={12}>
+            <Grid item container xs={12}>
               {renderSlides}
             </Grid>
           )}
