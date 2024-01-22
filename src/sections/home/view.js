@@ -7,7 +7,8 @@ import MainLayout from 'src/layouts/main';
 
 import { Box } from '@mui/material';
 import HomeHero from './home-hero';
-import HomeMinimal from './home-minimal';
+import HomeJoin from './home-join';
+import HomeRacklify from './home-racklify';
 
 // ----------------------------------------------------------------------
 
@@ -27,7 +28,8 @@ export default function HomeView() {
           bgcolor: 'background.default',
         }}
       >
-        <HomeMinimal />
+        <HomeRacklify />
+        <HomeJoin />
       </Box>
     </MainLayout>
   );

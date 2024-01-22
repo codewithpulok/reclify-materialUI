@@ -50,18 +50,11 @@ const CARDS = [
     title: 'Beyond Storage',
     description: `Racklify isn't just about storage - it's a comprehensive platform offering various services to streamline your logistics. From freight and consulting to packaging and manufacturing, we've got everything you need under one roof.`,
   },
-  {
-    id: '7',
-    icon: 'noto:handshake',
-    title: 'Join the Racklify Revolution',
-    description: `Experience the future of warehousing. Join Racklify today and take control of your storage solutions. Whether you're a warehouse looking to optimize space or a business seeking affordable and reliable storage, Racklify is your go-to destination.
-    Ready to revolutionize your storage experience? Sign up now and elevate your business with Racklify!`,
-  },
 ];
 
 // ----------------------------------------------------------------------
 
-export default function HomeMinimal() {
+export default function HomeRacklify() {
   return (
     <Container
       component={MotionViewport}
