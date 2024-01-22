@@ -46,7 +46,7 @@ export default function AuthClassicLayout({ children, image, title }) {
   const renderSection = (
     <Stack
       flexGrow={1}
-      spacing={10}
+      spacing={5}
       alignItems="center"
       justifyContent="center"
       sx={{
@@ -66,13 +66,14 @@ export default function AuthClassicLayout({ children, image, title }) {
       <Box
         component="img"
         alt="auth"
-        src={image || '/assets/illustrations/illustration_dashboard.png'}
+        src={image || '/assets/images/auth/man_in_warehouse.jpg'}
         sx={{
           maxWidth: {
-            xs: 480,
-            lg: 560,
-            xl: 720,
+            xs: 300,
+            lg: 380,
+            xl: 560,
           },
+          borderRadius: 1,
         }}
       />
     </Stack>

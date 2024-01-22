@@ -78,9 +78,8 @@ export default function Header() {
             </Button>
 
             <LoginButton />
-
-            {!mdUp && <NavMobile data={navConfig} />}
           </Stack>
+          {!mdUp && <NavMobile data={navConfig} />}
         </Container>
       </Toolbar>
 
