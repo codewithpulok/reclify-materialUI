@@ -54,8 +54,29 @@ const WarehouseCard = (props) => {
       <CardActionArea
         onClick={() => router.push(`${paths.dashboard.warehouses.root}/${warehouse.id}`)}
       >
-        <Box width="100%">
+        <Box width="100%" sx={{ position: 'relative' }}>
           <Image src={thumbnail} ratio="16/9" />
+
+          <Box
+            sx={{
+              position: 'absolute',
+              bottom: 5,
+              left: 5,
+              bgcolor: 'grey.100',
+              borderRadius: 3,
+              transition: '0.3s',
+              display: 'flex',
+              alignItems: 'center',
+              py: 0.5,
+              px: 0.5,
+            }}
+          >
+            <WarehouseDiamond
+              value={warehouse?.diamond || 0}
+              size={22}
+              action={user?.userType === 'admin'}
+            />
+          </Box>
         </Box>
         <CardContent sx={{ position: 'relative' }}>
           <Typography gutterBottom variant="h5">
@@ -117,7 +138,7 @@ const WarehouseCard = (props) => {
         ) : null}
       </CardActionArea>
 
-      {/* if loggedin user has access to the operation then show controls */}
+      {/* if seller user has access to the operation then show controls */}
       {hasControl && (
         <Box
           sx={{
@@ -159,23 +180,6 @@ const WarehouseCard = (props) => {
           <WarehouseAdminMenu iconBtnProps={{ color: 'primary' }} />
         </Box>
       )}
-
-      <Box
-        sx={{
-          position: 'absolute',
-          top: 5,
-          left: 5,
-          bgcolor: 'grey.100',
-          borderRadius: 3,
-          transition: '0.3s',
-          display: 'flex',
-          alignItems: 'center',
-          py: 0.5,
-          px: 0.5,
-        }}
-      >
-        <WarehouseDiamond value={5} size={22} action={user?.userType === 'admin'} />
-      </Box>
     </Card>
   );
 };

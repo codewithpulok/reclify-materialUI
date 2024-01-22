@@ -2,7 +2,7 @@
 
 import { Grid, Pagination, Stack } from '@mui/material';
 import Container from '@mui/material/Container';
-import { useCallback, useEffect, useState } from 'react';
+import { useCallback, useEffect } from 'react';
 // local components
 import CustomBreadcrumbs from 'src/components/common/custom-breadcrumbs/custom-breadcrumbs';
 import { EmptyState, ErrorState } from 'src/components/common/custom-state';
@@ -25,16 +25,6 @@ const WarehouseNotVerifiedView = (props) => {
   const { user } = useAppSelector(selectAuth);
 
   const [getWarehouses, results] = useLazyWarehouseListQuery();
-  const [filteredWarehouses, setFilteredWarehouses] = useState([]);
-
-  // handle warehouse filter
-  useEffect(() => {
-    if (results.isSuccess && results?.data?.results instanceof Array) {
-      const filtered = [...results.data.results].filter((w) => w.diamond === 0);
-
-      setFilteredWarehouses(filtered);
-    }
-  }, [results]);
 
   useEffect(() => {
     if (user !== null && user) {
@@ -61,11 +51,13 @@ const WarehouseNotVerifiedView = (props) => {
 
       // success state
       if (results.isSuccess && warehouses.length) {
-        return warehouses.map((warehouse) => (
-          <Grid item key={warehouse.id} xs={12} sm={6} md={4}>
-            <WarehouseCard key={warehouse.id} warehouse={warehouse} />
-          </Grid>
-        ));
+        return warehouses
+          .filter((w) => !w.diamond)
+          .map((warehouse) => (
+            <Grid item key={warehouse.id} xs={12} sm={6} md={4}>
+              <WarehouseCard key={warehouse.id} warehouse={warehouse} />
+            </Grid>
+          ));
       }
 
       // loading state
@@ -91,7 +83,7 @@ const WarehouseNotVerifiedView = (props) => {
         />
 
         <Grid container spacing={2}>
-          {renderWarehouses(filteredWarehouses, 'No not rated warehouse available')}
+          {renderWarehouses(results.data?.results, 'No not rated warehouse available')}
         </Grid>
 
         <Stack direction="row" justifyContent="center" mt={3} mb={1}>

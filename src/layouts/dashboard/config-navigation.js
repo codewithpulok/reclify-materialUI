@@ -95,9 +95,6 @@ export function useNavData() {
         path: paths.dashboard.warehouses.root,
         icon: ICONS.warehouse(),
         children: [
-          // admin warehouse routes
-          ...(user?.userType === 'admin' ? adminWarehouseRoutes : []),
-
           // common warehouse routes
           {
             title: 'Hot Deals',
@@ -111,6 +108,9 @@ export function useNavData() {
             path: paths.dashboard.warehouses[r.code],
             icon: getIconify(r.icon, undefined, { rotate: `${r.rotate ? 90 * r.rotate : 0}deg` }),
           })),
+
+          // admin warehouse routes
+          ...(user?.userType === 'admin' ? adminWarehouseRoutes : []),
         ],
         defaultOpen: true,
       },

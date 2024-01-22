@@ -43,15 +43,14 @@ const WarehouseDiamond = (props) => {
   return (
     <>
       <Tooltip
-        defaultChecked
         title={
           <>
-            {currentDiamondDetails.title && (
+            {currentDiamondDetails?.title && (
               <Typography variant="subtitle2" sx={{ mb: 1 }}>
                 {currentDiamondDetails.title}
               </Typography>
             )}
-            {currentDiamondDetails.features && (
+            {currentDiamondDetails?.features && (
               <Stack>
                 {currentDiamondDetails.features.map((f) => (
                   <Typography key={f} variant="caption">
@@ -62,6 +61,7 @@ const WarehouseDiamond = (props) => {
             )}
           </>
         }
+        disableHoverListener={diamond === 0}
         placement="bottom-start"
         arrow
       >
