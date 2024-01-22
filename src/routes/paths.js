@@ -1,11 +1,12 @@
-// ----------------------------------------------------------------------
-
 import { regions } from 'src/assets/data';
+
+// ----------------------------------------------------------------------
 
 const ROOTS = {
   AUTH: '/auth',
   DASHBOARD: '/dashboard',
   SETTINGS: '/settings',
+  NEWS: '/news',
 };
 
 // ----------------------------------------------------------------------
@@ -67,6 +68,7 @@ export const paths = {
     },
   },
 
+  // SETTINGS
   settings: {
     root: ROOTS.SETTINGS,
     general: `${ROOTS.SETTINGS}#general`,
@@ -74,5 +76,11 @@ export const paths = {
     billing: `${ROOTS.SETTINGS}#billing`,
     transactions: `${ROOTS.SETTINGS}#transactions`,
     security: `${ROOTS.SETTINGS}#security`,
+  },
+
+  // NEWS
+  news: {
+    root: ROOTS.NEWS,
+    details: (slug) => `${ROOTS.NEWS}/${slug}`,
   },
 };

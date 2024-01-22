@@ -11,4 +11,6 @@ export { default as RHFTextField } from './rhf-text-field';
 export { default as RHFTextSwitch } from './rhf-text-switch';
 export { default as RHFTimePicker } from './rhf-time-picker';
 export { default as RHFTimeRangePicker } from './rhf-time-range-picker';
-export { RHFUploadAvatar } from './rhf-upload';
+
+export { default as RHFEditor } from './rhf-editor';
+export * from './rhf-upload';
