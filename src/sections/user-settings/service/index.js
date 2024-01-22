@@ -58,12 +58,10 @@ const SettingsService = (props) => {
   // handle form submit
   const onSubmit = useCallback(async (values) => {
     // updateing total space
-    values.totalSpace = Math.round(values.totalSpace);
-
-    console.log('Warehouse Create: ', values);
+    // values.totalSpace = Math.round(values.totalSpace);
+    // console.log('Warehouse Create: ', values);
     // const response = await createWarehouse(values);
     // const { data, error } = response;
-
     // if (error || data?.isError) {
     //   enqueueSnackbar(data?.message || 'Error in warehouse create', { variant: 'error' });
     // } else if (!error || data?.isSuccess) {

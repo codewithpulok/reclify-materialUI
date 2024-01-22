@@ -25,7 +25,7 @@ const Fields = (props) => {
       {userType === 'seller' && (
         <RHFTextField name="serviceType" label="Service Type" select>
           {serviceTypes.map((serviceType) => (
-            <MenuItem key={serviceType.type} value={serviceType.type}>
+            <MenuItem key={serviceType.value} value={serviceType.value}>
               {serviceType.type}
             </MenuItem>
           ))}

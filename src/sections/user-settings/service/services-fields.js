@@ -6,15 +6,14 @@ import { RHFDatePicker, RHFTextField } from 'src/components/common/hook-form';
 import Label from 'src/components/common/label';
 import { WarehousePhotoUpload } from 'src/components/warehouse/upload';
 import { serviceTypes } from 'src/constant/service-types';
-import { paramCase } from 'src/utils/change-case';
 
 const ServiceFields = (props) => {
   /** @type {PredefinedField[]} */
   const subServices = useMemo(
     () =>
       serviceTypes[2].subtypes.map((t) => ({
-        key: paramCase(t),
-        label: t,
+        key: t.value,
+        label: t.label,
         fieldType: 'switch',
         dataType: 'boolean',
       })),

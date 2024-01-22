@@ -27,7 +27,7 @@ const defaultValues = {
   email: '',
   password: '',
   userType: 'customer',
-  serviceType: 'Warehouse',
+  serviceType: 'warehouse',
 };
 // ----------------------------------------------------------------------
 
