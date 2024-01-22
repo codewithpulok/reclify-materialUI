@@ -27,17 +27,15 @@ const Props = {
   row: PropTypes.object.isRequired,
   /** @type {(id: string, newStatus: TransactionStatus) => {}} */
   onViewTransaction: PropTypes.func.isRequired,
-  onCancelOrder: PropTypes.func.isRequired,
-  onConfirmOrder: PropTypes.func.isRequired,
 };
 
 /**
- * Transection Table Row UI
+ * Table Row UI
  * @param {Props} props
  * @returns
  */
 const TransactionTableRow = (props) => {
-  const { row, onViewTransaction, onCancelOrder, onConfirmOrder } = props;
+  const { row, onViewTransaction } = props;
   const popover = usePopover(false);
 
   const renderPrimary = (
@@ -129,28 +127,6 @@ const TransactionTableRow = (props) => {
         >
           Transaction details
         </MenuItem>
-        {row.status === 'pending' && (
-          <>
-            <MenuItem
-              color="success"
-              onClick={() => {
-                onConfirmOrder();
-                popover.onClose();
-              }}
-            >
-              Confirm Order
-            </MenuItem>
-            <MenuItem
-              color="error"
-              onClick={() => {
-                onCancelOrder();
-                popover.onClose();
-              }}
-            >
-              Cancel Order
-            </MenuItem>
-          </>
-        )}
       </CustomPopover>
     </>
   );

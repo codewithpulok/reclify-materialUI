@@ -27,7 +27,6 @@ const TransactionTableRowProps = {
   row: PropTypes.object.isRequired,
   selected: PropTypes.bool.isRequired,
   onViewTransaction: PropTypes.func.isRequired,
-  onCancelOrder: PropTypes.func.isRequired,
 };
 
 /**
@@ -36,7 +35,7 @@ const TransactionTableRowProps = {
  * @returns
  */
 const TransactionTableRow = (props) => {
-  const { row, selected, onCancelOrder, onViewTransaction } = props;
+  const { row, selected, onViewTransaction } = props;
   const popover = usePopover(false);
 
   const renderPrimary = (
@@ -125,16 +124,6 @@ const TransactionTableRow = (props) => {
         >
           Transaction details
         </MenuItem>
-        {row.status === 'pending' && (
-          <MenuItem
-            onClick={() => {
-              onCancelOrder();
-              popover.onClose();
-            }}
-          >
-            Cancel Order
-          </MenuItem>
-        )}
       </CustomPopover>
     </>
   );

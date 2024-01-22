@@ -1,6 +1,4 @@
-import Button from '@mui/material/Button';
 import Dialog from '@mui/material/Dialog';
-import DialogActions from '@mui/material/DialogActions';
 import DialogContent from '@mui/material/DialogContent';
 import DialogTitle from '@mui/material/DialogTitle';
 import IconButton from '@mui/material/IconButton';
@@ -19,8 +17,6 @@ const Props = {
   transaction: PropTypes.object,
   open: PropTypes.bool.isRequired,
   onClose: PropTypes.func.isRequired,
-  onCancelOrder: PropTypes.func.isRequired,
-  onConfirmOrder: PropTypes.func.isRequired,
 };
 
 /**
@@ -28,7 +24,7 @@ const Props = {
  * @returns {JSX.Element}
  */
 const TransactionDialog = (props) => {
-  const { transaction, open, onClose, onCancelOrder, onConfirmOrder } = props;
+  const { transaction, open, onClose } = props;
   return (
     <Dialog open={open} onClose={onClose} fullWidth maxWidth="sm">
       <DialogTitle display="flex" flexDirection="row" alignItems="center" width="100%" gap={1}>
@@ -56,19 +52,6 @@ const TransactionDialog = (props) => {
           </Stack>
         </DialogContent>
       </Scrollbar>
-
-      <DialogActions>
-        {transaction?.status === 'pending' && (
-          <>
-            <Button variant="soft" color="error" onClick={onCancelOrder}>
-              Cancel order
-            </Button>
-            <Button variant="soft" color="success" onClick={onConfirmOrder}>
-              Confirm order
-            </Button>
-          </>
-        )}
-      </DialogActions>
     </Dialog>
   );
 };

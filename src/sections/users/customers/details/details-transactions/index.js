@@ -2,7 +2,6 @@
 
 import { useCallback, useState } from 'react';
 
-import { Button } from '@mui/material';
 import Card from '@mui/material/Card';
 import { alpha } from '@mui/material/styles';
 import Tab from '@mui/material/Tab';
@@ -10,10 +9,8 @@ import Table from '@mui/material/Table';
 import TableBody from '@mui/material/TableBody';
 import TableContainer from '@mui/material/TableContainer';
 import Tabs from '@mui/material/Tabs';
-import { useSnackbar } from 'notistack';
 
 import { getCustomerTransactions, TRANSACTION_STATUS_OPTIONS } from 'src/assets/dummy';
-import { ConfirmDialog } from 'src/components/common/custom-dialog';
 import Label from 'src/components/common/label';
 import Scrollbar from 'src/components/common/scrollbar';
 import {
@@ -52,17 +49,12 @@ const defaultFilters = {
 
 const DetailsTransactions = () => {
   const { user } = useAppSelector(selectAuth);
-  const { enqueueSnackbar } = useSnackbar();
   const transactions = getCustomerTransactions('3') || getCustomerTransactions(user?.id);
 
   const table = useTable({ defaultOrderBy: 'createdAt' });
   const [tableData] = useState(transactions);
 
   const [transactionDialog, setTransactionDialog] = useState({
-    open: false,
-    transaction: undefined,
-  });
-  const [orderCancelDialog, setOrderCancelDialog] = useState({
     open: false,
     transaction: undefined,
   });
@@ -139,21 +131,6 @@ const DetailsTransactions = () => {
     setTransactionDialog((prev) => ({ ...prev, open: false }));
   };
 
-  // open transaction status change dialog
-  const openOrderCancelDialog = (transaction) => {
-    setOrderCancelDialog({ open: true, transaction });
-  };
-  // close transaction status change dialog
-  const closeOrderCancelDialog = () => {
-    setOrderCancelDialog({ open: false, transaction: undefined });
-  };
-  // handle order cancel
-  const handleCancelOrder = useCallback(() => {
-    console.log('Order Cancel: ', orderCancelDialog.transaction);
-    enqueueSnackbar('Order Canceled.');
-    closeOrderCancelDialog();
-  }, [enqueueSnackbar, orderCancelDialog.transaction]);
-
   return (
     <Card>
       <Tabs
@@ -190,7 +167,6 @@ const DetailsTransactions = () => {
                     key={row.id}
                     row={row}
                     onViewTransaction={() => openTransactionDialog(row)}
-                    onCancelOrder={() => openOrderCancelDialog(row)}
                   />
                 ))}
 
@@ -217,19 +193,6 @@ const DetailsTransactions = () => {
         open={transactionDialog.open}
         transaction={transactionDialog.transaction}
         onClose={closeTransactionDialog}
-        onCancelOrder={() => openOrderCancelDialog(transactionDialog.transaction)}
-      />
-
-      <ConfirmDialog
-        open={orderCancelDialog.open}
-        onClose={closeOrderCancelDialog}
-        title="Cancel Order!"
-        content="After canceling order, this can not be undone!"
-        action={
-          <Button onClick={handleCancelOrder} color="error" variant="contained">
-            Confirm
-          </Button>
-        }
       />
     </Card>
   );
