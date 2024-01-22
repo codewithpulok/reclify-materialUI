@@ -93,7 +93,7 @@ const ArrayField = (props) => {
             ))}
           </List>
         ) : (
-          <EmptyState text="No rules are applied" />
+          <EmptyState text={`No ${label} are here`} />
         )}
       </Stack>
     </RHFAccordion>

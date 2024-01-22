@@ -16,6 +16,7 @@ import { selectAuth } from 'src/redux-toolkit/features/auth/authSlice';
 import { useAppSelector } from 'src/redux-toolkit/hooks';
 import { ICONS } from './config-settings';
 import Memberships from './memberships';
+import SettingsService from './service';
 import SettingsCustomerBillings from './settings-customer-billings';
 import SettingsGeneral from './settings-general';
 import SettingsSecurity from './settings-security';
@@ -35,6 +36,12 @@ export const TABS = [
     value: '#warehouses',
     label: 'Warehouses',
     icon: ICONS.warehouse(),
+    roles: ['seller'],
+  },
+  {
+    value: '#service',
+    label: 'Service',
+    icon: ICONS.service(),
     roles: ['seller'],
   },
   {
@@ -109,6 +116,15 @@ const UserSettingsView = () => {
       }
       case '#security': {
         return <SettingsSecurity />;
+      }
+      case '#service': {
+        switch (user?.userType) {
+          case 'seller': {
+            return <SettingsService />; // service for seller
+          }
+          default:
+            return <EmptyState />;
+        }
       }
       case '#warehouses': {
         switch (user?.userType) {
