@@ -6,14 +6,9 @@ import { useForm } from 'react-hook-form';
 // local components
 import { LoadingButton } from '@mui/lab';
 import { useCallback } from 'react';
-import {
-  predefinedApprovedUses,
-  predefinedFacility,
-  predefinedFeatures,
-  predefinedServices,
-} from 'src/assets/data';
+
+import { getServiceById } from 'src/assets/dummy/services';
 import FormProvider from 'src/components/common/hook-form/form-provider';
-import { getPredefinedFieldsDefaultValue } from 'src/utils/predefined-fields';
 import CreateFields from './services-fields';
 import createSchema from './services-schema';
 
@@ -21,21 +16,16 @@ const Props = {};
 
 /** @type {Warehouse} */
 const defaultValues = {
-  name: '',
-  address: '',
-  totalSpace: undefined,
-  pricePerSpace: undefined,
-  discountRate: undefined,
-  maxSpaceOrder: undefined,
-  minSpaceOrder: undefined,
-  description: '',
+  type: '',
+  features: {},
   photos: [],
-  approvedUses: getPredefinedFieldsDefaultValue(predefinedApprovedUses),
-  features: getPredefinedFieldsDefaultValue(predefinedFeatures),
-  facilityDetails: getPredefinedFieldsDefaultValue(predefinedFacility),
-  services: getPredefinedFieldsDefaultValue(predefinedServices),
-  rules: [],
-  region: 'northeast',
+  description: '',
+  keyFeatures: [],
+  clientList: '',
+  businessSize: 0,
+  foundedYear: 1800,
+  cta: '',
+  promoCode: '',
 };
 
 /**
@@ -43,9 +33,10 @@ const defaultValues = {
  * @returns {JSX.Element}
  */
 const SettingsService = (props) => {
+  const service = getServiceById();
   const methods = useForm({
     resolver: yupResolver(createSchema),
-    defaultValues,
+    defaultValues: service,
   });
   const { handleSubmit, formState, reset } = methods;
   const { isSubmitting } = formState;
@@ -57,18 +48,7 @@ const SettingsService = (props) => {
 
   // handle form submit
   const onSubmit = useCallback(async (values) => {
-    // updateing total space
-    // values.totalSpace = Math.round(values.totalSpace);
-    // console.log('Warehouse Create: ', values);
-    // const response = await createWarehouse(values);
-    // const { data, error } = response;
-    // if (error || data?.isError) {
-    //   enqueueSnackbar(data?.message || 'Error in warehouse create', { variant: 'error' });
-    // } else if (!error || data?.isSuccess) {
-    //   enqueueSnackbar('Warehouse created!');
-    //   reset(defaultValues);
-    //   router.push(`${paths.dashboard.warehouses.root}/${data?.results?.id}`);
-    // }
+    console.log('Update Service:', values);
   }, []);
 
   return (

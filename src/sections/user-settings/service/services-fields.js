@@ -11,7 +11,7 @@ const ServiceFields = (props) => {
   /** @type {PredefinedField[]} */
   const subServices = useMemo(
     () =>
-      serviceTypes[2].subtypes.map((t) => ({
+      serviceTypes[1].subtypes.map((t) => ({
         key: t.value,
         label: t.label,
         fieldType: 'switch',
@@ -25,7 +25,7 @@ const ServiceFields = (props) => {
       <Grid item xs={12} md={6}>
         <Grid container spacing={1.2}>
           <Grid item xs={12}>
-            <RHFTextField name="name" label="Client list" fullWidth />
+            <RHFTextField name="clientList" label="Client list" fullWidth />
           </Grid>
           <Grid item xs={12}>
             <RHFTextField
@@ -76,7 +76,7 @@ const ServiceFields = (props) => {
             <PredefinedFields
               name="services"
               fields={subServices}
-              label="Services"
+              label="Features"
               defaultExpanded
             />
           </Grid>
