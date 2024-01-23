@@ -25,7 +25,7 @@ const WarehouseDetailsBox = (props) => {
   return (
     <Card sx={{ ...detailsBoxStyle, ...sx }} {...other}>
       {(title || headerActions) && (
-        <Stack direction="row" flexWrap="wrap" alignItems="center" mb={2}>
+        <Stack direction="row" flexWrap="wrap" alignItems="center" spacing={1} mb={2}>
           <Typography variant="h5">{title}</Typography>
           {headerActions}
         </Stack>

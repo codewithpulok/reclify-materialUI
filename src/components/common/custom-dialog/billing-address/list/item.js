@@ -10,7 +10,7 @@ import PropTypes from 'prop-types';
 import { useCallback } from 'react';
 import CustomPopover, { usePopover } from 'src/components/common/custom-popover';
 import Label from 'src/components/common/label';
-import { getWarehouseAddress } from 'src/components/warehouse/utils';
+import { joinAddressObj } from 'src/utils/address';
 import { ICONS } from '../../config-custom-dialog';
 
 const Props = {
@@ -105,7 +105,7 @@ const Item = (props) => {
         </Typography>
 
         <Typography variant="body2" sx={{ color: 'text.secondary' }}>
-          {getWarehouseAddress(billingAddress.address)}
+          {joinAddressObj(billingAddress.address)}
         </Typography>
       </Stack>
       <CustomPopover open={popover.open} onClose={popover.onClose}>

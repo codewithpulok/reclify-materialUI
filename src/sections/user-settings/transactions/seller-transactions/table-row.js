@@ -14,15 +14,15 @@ import { getTransactionStatusColor } from 'src/assets/dummy/transactions';
 import { usePopover } from 'src/components/common/custom-popover';
 import CustomPopover from 'src/components/common/custom-popover/custom-popover';
 import Label from 'src/components/common/label';
-import { getWarehouseAddress } from 'src/components/warehouse/utils';
 import { RouterLink } from 'src/routes/components';
 import { paths } from 'src/routes/paths';
+import { joinAddressObj } from 'src/utils/address';
 import { fCurrency } from 'src/utils/format-number';
-import { ICONS } from '../config-settings';
+import { ICONS } from '../../config-settings';
 
 // ----------------------------------------------------------------------
 
-const TransactionTableRowProps = {
+const Props = {
   /** @type {Transaction} */
   row: PropTypes.object.isRequired,
   /** @type {(id: string, newStatus: TransactionStatus) => {}} */
@@ -33,7 +33,7 @@ const TransactionTableRowProps = {
 
 /**
  * Transection Table Row UI
- * @param {TransactionTableRowProps} props
+ * @param {Props} props
  * @returns
  */
 const TransactionTableRow = (props) => {
@@ -53,7 +53,7 @@ const TransactionTableRow = (props) => {
 
           <ListItemText
             primary={row.warehouse.name}
-            secondary={getWarehouseAddress(row.warehouse.address)}
+            secondary={joinAddressObj(row.warehouse.address)}
             primaryTypographyProps={{ typography: 'body2' }}
             secondaryTypographyProps={{
               color: 'text.disabled',
@@ -156,6 +156,6 @@ const TransactionTableRow = (props) => {
   );
 };
 
-TransactionTableRow.propTypes = TransactionTableRowProps;
+TransactionTableRow.propTypes = Props;
 
 export default TransactionTableRow;

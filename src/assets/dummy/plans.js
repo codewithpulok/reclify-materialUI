@@ -1,3 +1,5 @@
+import { getSellers } from './users';
+
 /**
  * Plans dummy list
  * @type {Plan[]}
@@ -46,3 +48,24 @@ export const plans = [
  * @returns {Plan[]}
  */
 export const getAllPlans = () => plans;
+
+/**
+ * Get all memberships
+ * @returns {{user: User, plan: Plan}[]}
+ */
+export const getAllMemberships = () =>
+  getSellers().map((user) => ({ user, plan: plans[Math.round(Math.random() * plans.length)] }));
+
+export const PLAN_SUBSCRIPTION_OPTIONS = [
+  { value: 'basic', label: 'Basic', color: 'success' },
+  { value: 'starter', label: 'Starter', color: 'warning' },
+  { value: 'premium', label: 'Premium', color: 'primary' },
+];
+
+export const getPlanSubscriptionColor = (planSub) => {
+  const planOption = PLAN_SUBSCRIPTION_OPTIONS.find((option) => option.value === planSub);
+
+  if (!planOption) return 'default';
+
+  return planOption.color;
+};

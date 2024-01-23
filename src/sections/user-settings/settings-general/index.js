@@ -18,13 +18,14 @@ import Fields from './fields';
 
 // schema
 const UpdateUserSchema = Yup.object().shape({
-  firstName: Yup.string().required('First name is required'),
-  lastName: Yup.string().required('Last name is required'),
-  email: Yup.string().required('Email is required').email('Email must be a valid email address'),
-  avatar: Yup.mixed().nullable().required('Avatar is required'),
-  phoneNumber: Yup.string().required('Phone number is required'),
+  firstName: Yup.string().label('First name').required(),
+  lastName: Yup.string().label('Last name').required(),
+  email: Yup.string().label('Email').required().email(),
+  website: Yup.string().label('Website URL').url(),
+  avatar: Yup.mixed().label('Avatar').nullable().required(),
+  phoneNumber: Yup.string().label('Phone number').required(),
   address: addressFieldSchema,
-  about: Yup.string().required('About is required'),
+  about: Yup.string().label('About').required(),
   // not required
   isPublic: Yup.boolean(),
 });
@@ -42,17 +43,13 @@ const SettingsGeneral = () => {
       firstName: user?.firstName || '',
       lastName: user?.lastName || '',
       email: user?.email || '',
+      website: user?.website || '',
       avatar: user?.avatar || null,
       cover:
         user?.cover || 'https://api-prod-minimal-v510.vercel.app/assets/images/cover/cover_4.jpg',
       phoneNumber: user?.phoneNumber || '',
-      country: user?.country || '',
       address: user?.address || '',
-      state: user?.state || '',
-      city: user?.city || '',
-      zipCode: user?.zipCode || '',
       about: user?.about || '',
-      isPublic: user?.isPublic || false,
     }),
     [user]
   );

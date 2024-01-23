@@ -1,6 +1,8 @@
-import { Avatar, Card, Chip, Link, Stack, Typography } from '@mui/material';
+import { Avatar, Card, Chip, IconButton, Link, Stack, Typography } from '@mui/material';
 import PropTypes from 'prop-types';
 // local components
+import { socialsBrands } from 'src/assets/data';
+import { getIconify } from 'src/components/common/iconify/utilities';
 import Label from 'src/components/common/label';
 import { RouterLink } from 'src/routes/components';
 import { paths } from 'src/routes/paths';
@@ -85,13 +87,33 @@ const UserDetailsCard = (props) => {
           <Typography
             variant="body2"
             color="text.primary"
-            sx={{ textDecoration: 'none', mr: 'auto' }}
+            sx={{ textDecoration: 'none' }}
             component={RouterLink}
             href={`tel:${user.phoneNumber}`}
             onClick={(e) => e.stopPropagation()}
           >
             {user.phoneNumber}
           </Typography>
+        </Stack>
+
+        <Stack direction="row" alignItems="center" flexWrap="wrap" spacing={0.5} mt={0.5}>
+          <Stack direction="row" alignItems="center" spacing={0.3} mr="auto">
+            {socialsBrands.map((social) => {
+              if (user?.socials?.[social.key] === undefined) return null;
+
+              return (
+                <IconButton
+                  key={social.key}
+                  LinkComponent={RouterLink}
+                  href={user.socials[social.key]}
+                  size="small"
+                  title={social.name}
+                >
+                  {getIconify(social.icon, social.iconSize, { color: social.color })}
+                </IconButton>
+              );
+            })}
+          </Stack>
 
           <Link
             component={RouterLink}

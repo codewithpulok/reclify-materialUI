@@ -18,7 +18,7 @@ import {
   PaymentCardListDialog,
   UpgradePaymentDialog,
 } from 'src/components/common/custom-dialog';
-import { getWarehouseAddress } from 'src/components/warehouse/utils';
+import { joinAddressObj } from 'src/utils/address';
 import { ICONS } from '../config-settings';
 
 // ----------------------------------------------------------------------
@@ -124,7 +124,7 @@ const BillingPlan = (props) => {
               Billing address
             </Grid>
             <Grid xs={12} md={8} sx={{ color: 'text.secondary' }}>
-              {getWarehouseAddress(selectedAddress?.address)}
+              {joinAddressObj(selectedAddress?.address)}
             </Grid>
           </Grid>
 

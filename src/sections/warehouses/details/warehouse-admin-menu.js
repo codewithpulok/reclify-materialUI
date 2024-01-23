@@ -19,6 +19,10 @@ const WarehouseAdminMenuProps = {
   isVerified: PropTypes.bool.isRequired,
   isFeatured: PropTypes.bool.isRequired,
   isVisible: PropTypes.bool.isRequired,
+  /** @type {import('@mui/material').MenuProps} */
+  menuProps: PropTypes.object,
+  /** @type {import('@mui/material').IconButtonProps} */
+  iconBtnProps: PropTypes.object,
 };
 
 /**
@@ -26,7 +30,7 @@ const WarehouseAdminMenuProps = {
  * @returns {JSX.Element}
  */
 const WarehouseAdminMenu = (props) => {
-  const { isFeatured, isVerified, isVisible } = props;
+  const { isFeatured, isVerified, isVisible, menuProps = {}, iconBtnProps = {} } = props;
   const menu = useBoolean(false);
 
   const anchorRef = useRef(null);
@@ -107,7 +111,7 @@ const WarehouseAdminMenu = (props) => {
 
   return (
     <div>
-      <IconButton ref={anchorRef} onClick={menu.onToggle}>
+      <IconButton ref={anchorRef} onClick={menu.onToggle} {...iconBtnProps}>
         {ICONS.adminSettings()}
       </IconButton>
       <Menu
@@ -116,8 +120,16 @@ const WarehouseAdminMenu = (props) => {
         anchorEl={anchorRef?.current}
         anchorOrigin={{
           vertical: 'bottom',
-          horizontal: 'left',
+          horizontal: 'right',
         }}
+        transformOrigin={{
+          vertical: 'top',
+          horizontal: 'right',
+        }}
+        sx={{
+          mt: 1,
+        }}
+        {...menuProps}
       >
         <MenuList sx={{ minWidth: '250px' }}>
           {items.map((item, index) => {

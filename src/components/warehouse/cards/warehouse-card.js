@@ -15,11 +15,15 @@ import PropTypes from 'prop-types';
 // local components
 import Image from 'src/components/common/image';
 import Label from 'src/components/common/label';
+import { selectAuth } from 'src/redux-toolkit/features/auth/authSlice';
+import { useAppSelector } from 'src/redux-toolkit/hooks';
 import { paths } from 'src/routes/paths';
+import WarehouseAdminMenu from 'src/sections/warehouses/details/warehouse-admin-menu';
+import WarehouseDiamond from 'src/sections/warehouses/details/warehouse-diamond';
+import { joinAddressObj } from 'src/utils/address';
 import { ICONS } from '../config-warehouse';
-import { getWarehouseAddress } from '../utils';
 
-const WarehouseCardProps = {
+const Props = {
   /** @type {Warehouse} */
   warehouse: PropTypes.object.isRequired,
   /** @type {() => {}} */
@@ -31,12 +35,14 @@ const WarehouseCardProps = {
 };
 /**
  * Card for showing warehouse data
- * @param {WarehouseCardProps} props
+ * @param {Props} props
  */
 const WarehouseCard = (props) => {
   const router = useRouter();
   const { warehouse, onDelete = () => {}, hasControl = false, sx = {} } = props;
   const thumbnail = warehouse?.photos?.[0]?.link || 'https://placehold.co/450x318?text=Not+Found';
+
+  const { user } = useAppSelector(selectAuth);
 
   return (
     <Card
@@ -48,8 +54,29 @@ const WarehouseCard = (props) => {
       <CardActionArea
         onClick={() => router.push(`${paths.dashboard.warehouses.root}/${warehouse.id}`)}
       >
-        <Box width="100%">
+        <Box width="100%" sx={{ position: 'relative' }}>
           <Image src={thumbnail} ratio="16/9" />
+
+          <Box
+            sx={{
+              position: 'absolute',
+              bottom: 5,
+              left: 5,
+              bgcolor: 'grey.100',
+              borderRadius: 3,
+              transition: '0.3s',
+              display: 'flex',
+              alignItems: 'center',
+              py: 0.5,
+              px: 0.5,
+            }}
+          >
+            <WarehouseDiamond
+              value={warehouse?.diamond || 0}
+              size={22}
+              action={user?.userType === 'admin'}
+            />
+          </Box>
         </Box>
         <CardContent sx={{ position: 'relative' }}>
           <Typography gutterBottom variant="h5">
@@ -72,7 +99,7 @@ const WarehouseCard = (props) => {
               WebkitBoxOrient: 'vertical',
             }}
           >
-            {getWarehouseAddress(warehouse.address)}
+            {joinAddressObj(warehouse.address)}
           </Typography>
 
           {/* if there is a discount then show badge */}
@@ -111,10 +138,9 @@ const WarehouseCard = (props) => {
         ) : null}
       </CardActionArea>
 
-      {/* if loggedin user has access to the operation then show controls */}
+      {/* if seller user has access to the operation then show controls */}
       {hasControl && (
         <Box
-          className="actions"
           sx={{
             position: 'absolute',
             top: 5,
@@ -139,11 +165,26 @@ const WarehouseCard = (props) => {
           </IconButton>
         </Box>
       )}
+
+      {user?.userType === 'admin' && (
+        <Box
+          sx={{
+            position: 'absolute',
+            top: 5,
+            right: 5,
+            bgcolor: 'rgba(255,255,255,1)',
+            borderRadius: 5,
+            transition: '0.3s',
+          }}
+        >
+          <WarehouseAdminMenu iconBtnProps={{ color: 'primary' }} />
+        </Box>
+      )}
     </Card>
   );
 };
 
-WarehouseCard.propTypes = WarehouseCardProps;
+WarehouseCard.propTypes = Props;
 
 export default WarehouseCard;
 

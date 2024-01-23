@@ -8,6 +8,8 @@ export const ICONS = {
   duplicate: (width, sx) => getIconify('solar:copy-bold', width, sx),
   delete: (width, sx) => getIconify('solar:trash-bin-trash-bold', width, sx),
   edit: (width, sx) => getIconify('solar:pen-new-square-linear', width, sx),
+  settings: (width, sx) => getIconify('solar:settings-bold', width, sx),
+
   verified: (width, sx) => getIconify('solar:verified-check-bold', width, sx),
   featured: (width, sx) => getIconify('solar:medal-ribbons-star-bold-duotone', width, sx),
   warehouse: (width, sx) => getIconify('solar:box-bold-duotone', width, sx),

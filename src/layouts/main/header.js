@@ -20,6 +20,7 @@ import LoginButton from '../common/login-button';
 import { HEADER } from '../config-layout';
 import { navConfig } from './config-navigation';
 import NavDesktop from './nav/desktop';
+import NavMobile from './nav/mobile';
 
 // ----------------------------------------------------------------------
 
@@ -77,9 +78,8 @@ export default function Header() {
             </Button>
 
             <LoginButton />
-
-            {/* {!mdUp && <NavMobile data={navConfig} />} */}
           </Stack>
+          {!mdUp && <NavMobile data={navConfig} />}
         </Container>
       </Toolbar>
 

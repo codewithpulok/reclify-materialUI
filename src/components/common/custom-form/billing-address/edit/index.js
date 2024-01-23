@@ -17,7 +17,7 @@ const Props = {
 
 /** @type {BillingAddress} */
 const defaultValues = {
-  address: { city: '', country: '', state: '', streetAddress: '', streetNumber: '', zipCode: '' },
+  address: { city: '', country: '', state: '', street1: '', street2: '', zipCode: '' },
   addressType: 'office',
   fullName: '',
   email: '',

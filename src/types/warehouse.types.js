@@ -4,7 +4,7 @@
  * @property {string} id - The unique identifier for warehouse.
  * @property {string} name - The name of the warehouse, in this case, 'Ware House'.
  * @property {'northeast' | 'southwest' | 'northwest' | 'southeast' |'midwest'} region - The region of the warehouse
- * @property {WarehouseAddress} address - The address of the warehouse
+ * @property {Address} address - The address of the warehouse
  * @property {string} description - The description of the warehouse, e.g., 'Modern storage facility in the heart of the city.'.
  * @property {number} totalSpace - The total space of the warehouse in pallet, e.g., 5000.
  * @property {number} price1 - price for one month
@@ -24,17 +24,6 @@
  * @property {WarehouseServices} services - Object representing services available in the warehouse.
  * @property {string[]} rules - Array of rules associated with the warehouse.
  * @property {boolean} visible - indicate that warehouse visible or not. (only admin can change it)
- */
-
-/**
- * Represents the address of the warehouse.
- * @typedef {Object} WarehouseAddress
- * @property {string} streetNumber - The street number of the warehouse address.
- * @property {string} streetAddress - The street address of the warehouse.
- * @property {string} city - The city where the warehouse is located.
- * @property {string} state - The state where the warehouse is located.
- * @property {string} zipCode - The zip code of the warehouse address.
- * @property {string} country - The country where the warehouse is located.
  */
 
 /**

@@ -13,6 +13,7 @@ const Props = {
   seller: PropTypes.object.isRequired,
   /** @type {SxProps} */
   sx: PropTypes.object,
+  children: PropTypes.node,
 };
 
 /**
@@ -20,7 +21,7 @@ const Props = {
  * @returns {JSX.Element}
  */
 const WarehouseDetailsSidebar = (props) => {
-  const { warehouse, seller, sx = {} } = props;
+  const { warehouse, seller, sx = {}, children } = props;
   const { user } = useAppSelector(selectAuth);
   return (
     <Stack sx={sx} spacing={2}>
@@ -28,6 +29,8 @@ const WarehouseDetailsSidebar = (props) => {
       {user && seller?.id !== user?.id ? <UserDetailsCard user={seller} /> : null}
       <WarehouseBooking warehouse={warehouse} showPurchase={user?.userType === 'customer'} />
       <WarehouseAddressMap warehouse={warehouse} />
+
+      {children}
     </Stack>
   );
 };

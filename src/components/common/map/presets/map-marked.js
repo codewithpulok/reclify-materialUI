@@ -4,8 +4,8 @@ import { memo, useMemo } from 'react';
 import Map from 'react-map-gl';
 
 import { MapControl, MapMarker, MapPopup } from 'src/components/common/map';
-import { getWarehouseAddress } from 'src/components/warehouse/utils';
 import { useBoolean } from 'src/hooks/use-boolean';
+import { joinAddressObj } from 'src/utils/address';
 
 // ----------------------------------------------------------------------
 
@@ -51,7 +51,7 @@ const MapMarked = (props) => {
             </Typography>
 
             <Typography component="div" variant="caption">
-              <b>Address:</b> {getWarehouseAddress(marked?.warehouse?.address)}
+              <b>Address:</b> {joinAddressObj(marked?.warehouse?.address)}
             </Typography>
           </Box>
         </MapPopup>

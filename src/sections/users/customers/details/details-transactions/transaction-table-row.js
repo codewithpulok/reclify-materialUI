@@ -14,11 +14,11 @@ import { getTransactionStatusColor } from 'src/assets/dummy';
 import { usePopover } from 'src/components/common/custom-popover';
 import CustomPopover from 'src/components/common/custom-popover/custom-popover';
 import Label from 'src/components/common/label';
-import { getWarehouseAddress } from 'src/components/warehouse/utils';
 import { RouterLink } from 'src/routes/components';
 import { paths } from 'src/routes/paths';
+import { ICONS } from 'src/sections/users/config-users';
+import { joinAddressObj } from 'src/utils/address';
 import { fCurrency } from 'src/utils/format-number';
-import { ICONS } from '../config-settings';
 
 // ----------------------------------------------------------------------
 
@@ -27,7 +27,6 @@ const TransactionTableRowProps = {
   row: PropTypes.object.isRequired,
   selected: PropTypes.bool.isRequired,
   onViewTransaction: PropTypes.func.isRequired,
-  onCancelOrder: PropTypes.func.isRequired,
 };
 
 /**
@@ -36,7 +35,7 @@ const TransactionTableRowProps = {
  * @returns
  */
 const TransactionTableRow = (props) => {
-  const { row, selected, onCancelOrder, onViewTransaction } = props;
+  const { row, selected, onViewTransaction } = props;
   const popover = usePopover(false);
 
   const renderPrimary = (
@@ -52,7 +51,7 @@ const TransactionTableRow = (props) => {
 
           <ListItemText
             primary={row.warehouse.name}
-            secondary={getWarehouseAddress(row.warehouse.address)}
+            secondary={joinAddressObj(row.warehouse.address)}
             primaryTypographyProps={{ typography: 'body2' }}
             secondaryTypographyProps={{
               color: 'text.disabled',
@@ -125,16 +124,6 @@ const TransactionTableRow = (props) => {
         >
           Transaction details
         </MenuItem>
-        {row.status === 'pending' && (
-          <MenuItem
-            onClick={() => {
-              onCancelOrder();
-              popover.onClose();
-            }}
-          >
-            Cancel Order
-          </MenuItem>
-        )}
       </CustomPopover>
     </>
   );

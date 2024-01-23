@@ -12,23 +12,22 @@ import Label from 'src/components/common/label';
 import Scrollbar from 'src/components/common/scrollbar';
 import { AmountDetailsCard, WarehouseDetailsCard } from 'src/components/user-settings/cards';
 import { UserDetailsCard } from 'src/components/users/cards';
-import { ICONS } from '../config-settings';
+import { ICONS } from 'src/sections/users/config-users';
 
-const TransactionDialogProps = {
+const Props = {
   /** @type {Transaction | undefined} */
   transaction: PropTypes.object,
   open: PropTypes.bool.isRequired,
   onClose: PropTypes.func.isRequired,
   onCancelOrder: PropTypes.func.isRequired,
-  onConfirmOrder: PropTypes.func.isRequired,
 };
 
 /**
- * @param {TransactionDialogProps} props
+ * @param {Props} props
  * @returns {JSX.Element}
  */
 const TransactionDialog = (props) => {
-  const { transaction, open, onClose, onCancelOrder, onConfirmOrder } = props;
+  const { transaction, open, onClose, onCancelOrder } = props;
   return (
     <Dialog open={open} onClose={onClose} fullWidth maxWidth="sm">
       <DialogTitle display="flex" flexDirection="row" alignItems="center" width="100%" gap={1}>
@@ -46,7 +45,7 @@ const TransactionDialog = (props) => {
         <DialogContent>
           <Stack spacing={1.5}>
             {transaction?.warehouse && <WarehouseDetailsCard warehouse={transaction.warehouse} />}
-            {transaction?.customer && <UserDetailsCard user={transaction.customer} />}
+            {transaction?.seller && <UserDetailsCard user={transaction.seller} />}
             {transaction && (
               <AmountDetailsCard
                 pricePerSquare={transaction.pricePerSquare}
@@ -59,20 +58,15 @@ const TransactionDialog = (props) => {
 
       <DialogActions>
         {transaction?.status === 'pending' && (
-          <>
-            <Button variant="soft" color="error" onClick={onCancelOrder}>
-              Cancel order
-            </Button>
-            <Button variant="soft" color="success" onClick={onConfirmOrder}>
-              Confirm order
-            </Button>
-          </>
+          <Button variant="soft" color="error" onClick={onCancelOrder}>
+            Cancel order
+          </Button>
         )}
       </DialogActions>
     </Dialog>
   );
 };
 
-TransactionDialog.propTypes = TransactionDialogProps;
+TransactionDialog.propTypes = Props;
 
 export default TransactionDialog;

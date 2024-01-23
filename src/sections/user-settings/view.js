@@ -15,13 +15,14 @@ import useHash from 'src/hooks/use-hash';
 import { selectAuth } from 'src/redux-toolkit/features/auth/authSlice';
 import { useAppSelector } from 'src/redux-toolkit/hooks';
 import { ICONS } from './config-settings';
+import Memberships from './memberships';
+import SettingsService from './service';
 import SettingsCustomerBillings from './settings-customer-billings';
-import SettingsCustomerTransactions from './settings-customer-transactions';
 import SettingsGeneral from './settings-general';
 import SettingsSecurity from './settings-security';
 import SettingsSellerBillings from './settings-seller-billings';
-import SettingsSellerTransactions from './settings-seller-transactions';
 import Warehouses from './settings-seller-warehouses';
+import SettingsTransactions from './transactions';
 
 // ----------------------------------------------------------------------
 
@@ -38,16 +39,27 @@ export const TABS = [
     roles: ['seller'],
   },
   {
+    value: '#service',
+    label: 'Service',
+    icon: ICONS.service(),
+    roles: ['seller'],
+  },
+  {
     value: '#billing',
     label: 'Billing',
     icon: ICONS.bills(),
     roles: ['seller', 'customer'],
   },
   {
+    value: '#memberships',
+    label: 'Memberships',
+    icon: ICONS.membership(),
+    roles: ['admin'],
+  },
+  {
     value: '#transactions',
     label: 'Transactions',
     icon: ICONS.transactions(),
-    roles: ['seller', 'customer'],
   },
   {
     value: '#security',
@@ -105,10 +117,28 @@ const UserSettingsView = () => {
       case '#security': {
         return <SettingsSecurity />;
       }
+      case '#service': {
+        switch (user?.userType) {
+          case 'seller': {
+            return <SettingsService />; // service for seller
+          }
+          default:
+            return <EmptyState />;
+        }
+      }
       case '#warehouses': {
         switch (user?.userType) {
           case 'seller': {
             return <Warehouses />; // warehouses for seller
+          }
+          default:
+            return <EmptyState />;
+        }
+      }
+      case '#memberships': {
+        switch (user?.userType) {
+          case 'admin': {
+            return <Memberships />; // memberships for admin
           }
           default:
             return <EmptyState />;
@@ -127,16 +157,7 @@ const UserSettingsView = () => {
         }
       }
       case '#transactions': {
-        switch (user?.userType) {
-          case 'customer': {
-            return <SettingsCustomerTransactions />;
-          }
-          case 'seller': {
-            return <SettingsSellerTransactions />;
-          }
-          default:
-            return <EmptyState />;
-        }
+        return <SettingsTransactions role={user?.userType} />;
       }
       case undefined:
         break;

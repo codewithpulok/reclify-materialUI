@@ -8,6 +8,7 @@ import { EmptyState } from 'src/components/common/custom-state';
 import { WarehouseDetailsBox } from 'src/components/warehouse/box';
 import { WarehouseReviewCard } from 'src/components/warehouse/cards';
 import { useBoolean } from 'src/hooks/use-boolean';
+import { useDialog } from 'src/hooks/use-dialog';
 import { selectAuth } from 'src/redux-toolkit/features/auth/authSlice';
 import { useAppSelector } from 'src/redux-toolkit/hooks';
 import { ICONS } from '../../config-warehouse';
@@ -18,6 +19,7 @@ import ReviewEdit from './review-edit';
 const Props = {
   /** @type {Review[]} */
   reviews: PropTypes.arrayOf(PropTypes.object),
+  warehouseId: PropTypes.string,
   canAddNewReview: PropTypes.bool.isRequired,
   /** @type {SxProps} */
   sx: PropTypes.object,
@@ -29,27 +31,13 @@ const Props = {
  * @returns {React.JSX.Element}
  */
 const WarehouseReviews = (props) => {
-  const { reviews, sx, canAddNewReview } = props;
+  const { reviews, sx, canAddNewReview, warehouseId } = props;
   const [sortType, setSortType] = useState('DEFAULT'); // NEW_FIRST, OLD_FIRST, DEFAULT
   const auth = useAppSelector(selectAuth);
 
-  const reviewAddModal = useBoolean(false);
-  const [reviewEdit, setReviewEdit] = useState({ open: false, review: {} });
-  const [reviewDelete, setReviewDelete] = useState({ open: false, review: {} });
-
-  const openReviewEdit = (review) => {
-    setReviewEdit({ open: true, review });
-  };
-  const closeReviewEdit = () => {
-    setReviewEdit({ open: false, review: {} });
-  };
-
-  const openReviewDelete = (review) => {
-    setReviewDelete({ open: true, review });
-  };
-  const closeReviewDelete = () => {
-    setReviewDelete({ open: false, review: {} });
-  };
+  const createDialog = useBoolean(false);
+  const editDialog = useDialog();
+  const deleteDialog = useDialog();
 
   const sortedReviews = useMemo(
     () =>
@@ -73,7 +61,8 @@ const WarehouseReviews = (props) => {
     <>
       <WarehouseDetailsBox
         title="Reviews"
-        sx={sx}
+        sx={{ scrollMarginTop: '40px', ...sx }}
+        id="reviews"
         headerActions={
           <>
             <Select
@@ -101,7 +90,7 @@ const WarehouseReviews = (props) => {
                     sm: 'auto',
                   },
                 }}
-                onClick={reviewAddModal.onTrue}
+                onClick={createDialog.onTrue}
               >
                 Add New
               </Button>
@@ -115,17 +104,17 @@ const WarehouseReviews = (props) => {
               {sortedReviews.map((review) => (
                 <WarehouseReviewCard
                   key={review.id}
-                  avatar={review.author.avatar}
-                  createdAt={review.createdAt}
+                  avatar={review.userData?.avatar}
+                  createdAt={review.createdAt || Date.now()}
                   feedback={review.feedback}
-                  name={review.author.displayName}
+                  name={`${review.userData?.firstName} ${review.userData?.lastName}`}
                   rating={review.rating}
                   showDeleteOption={
-                    auth?.user?.userType === 'admin' || auth?.user?.id === review?.authorId
+                    auth?.user?.userType === 'admin' || auth?.user?.id === review?.userData?.id
                   }
-                  showEditOption={auth?.user?.id === review?.authorId}
-                  onDelete={() => openReviewDelete(review)}
-                  onEdit={() => openReviewEdit(review)}
+                  showEditOption={auth?.user?.id === review?.userData?.id}
+                  onDelete={() => deleteDialog.onOpen(review)}
+                  onEdit={() => editDialog.onOpen(review)}
                 />
               ))}
             </Stack>
@@ -139,12 +128,21 @@ const WarehouseReviews = (props) => {
         )}
       </WarehouseDetailsBox>
 
-      <ReviewCreate open={reviewAddModal.value} onClose={reviewAddModal.onFalse} />
-      <ReviewEdit open={reviewEdit.open} onClose={closeReviewEdit} review={reviewEdit.review} />
+      <ReviewCreate
+        warehouseId={warehouseId}
+        open={createDialog.value}
+        onClose={createDialog.onFalse}
+      />
+      <ReviewEdit
+        warehouseId={warehouseId}
+        open={editDialog.open}
+        onClose={editDialog.onClose}
+        review={editDialog.value}
+      />
       <ReviewDelete
-        open={reviewDelete.open}
-        onClose={closeReviewDelete}
-        review={reviewDelete.review}
+        open={deleteDialog.open}
+        onClose={deleteDialog.onClose}
+        review={deleteDialog.value}
       />
     </>
   );

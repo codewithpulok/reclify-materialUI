@@ -1,11 +1,12 @@
-// ----------------------------------------------------------------------
-
 import { regions } from 'src/assets/data';
+
+// ----------------------------------------------------------------------
 
 const ROOTS = {
   AUTH: '/auth',
   DASHBOARD: '/dashboard',
   SETTINGS: '/settings',
+  NEWS: '/news',
 };
 
 // ----------------------------------------------------------------------
@@ -45,6 +46,7 @@ export const paths = {
       hidden: `${ROOTS.DASHBOARD}/warehouses/hidden`,
       not_verified: `${ROOTS.DASHBOARD}/warehouses/not-verified`,
       not_featured: `${ROOTS.DASHBOARD}/warehouses/not-featured`,
+      not_rated: `${ROOTS.DASHBOARD}/warehouses/not-rated`,
 
       // warehouses by region
       ...regions.reduce(
@@ -56,6 +58,7 @@ export const paths = {
     // messages section
     messages: {
       root: `${ROOTS.DASHBOARD}/messages`,
+      thread: (id) => `${ROOTS.DASHBOARD}/messages?id=${id}`,
     },
 
     search: {
@@ -65,6 +68,7 @@ export const paths = {
     },
   },
 
+  // SETTINGS
   settings: {
     root: ROOTS.SETTINGS,
     general: `${ROOTS.SETTINGS}#general`,
@@ -72,5 +76,11 @@ export const paths = {
     billing: `${ROOTS.SETTINGS}#billing`,
     transactions: `${ROOTS.SETTINGS}#transactions`,
     security: `${ROOTS.SETTINGS}#security`,
+  },
+
+  // NEWS
+  news: {
+    root: ROOTS.NEWS,
+    details: (slug) => `${ROOTS.NEWS}/${slug}`,
   },
 };

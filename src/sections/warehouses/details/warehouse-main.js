@@ -1,6 +1,7 @@
 import { Stack } from '@mui/material';
 import PropTypes from 'prop-types';
 // local components
+import { useResponsive } from 'src/hooks/use-responsive';
 import { selectAuth } from 'src/redux-toolkit/features/auth/authSlice';
 import { useAppSelector } from 'src/redux-toolkit/hooks';
 import ImageCarousel from './image-carousel';
@@ -29,6 +30,9 @@ const Props = {
 const WarehosueDetailsMain = (props) => {
   const { warehouse, reviews, seller } = props;
   const { user } = useAppSelector(selectAuth);
+
+  const mdDown = useResponsive('down', 'md');
+
   return (
     <Stack spacing={2}>
       <ImageCarousel list={warehouse.photos} />
@@ -49,7 +53,13 @@ const WarehosueDetailsMain = (props) => {
       <WarehouseRules rules={warehouse.rules} />
       <WarehouseServices services={warehouse.services} />
 
-      <WarehouseReviews reviews={reviews} canAddNewReview={user && user.userType === 'customer'} />
+      {mdDown && (
+        <WarehouseReviews
+          reviews={reviews}
+          canAddNewReview={user && user.userType === 'customer'}
+          warehouseId={warehouse.id}
+        />
+      )}
     </Stack>
   );
 };

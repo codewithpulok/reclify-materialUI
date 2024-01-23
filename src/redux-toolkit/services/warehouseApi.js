@@ -11,7 +11,10 @@ const transformWarehouse = (warehouse) => {
       link: `https://picsum.photos/seed/${warehouse.id}${i}/450/318`,
     }));
   }
-  warehouse.address = warehouses[Math.floor(Math.random() * warehouses.length)].address;
+
+  if (!warehouse?.address?.country) {
+    warehouse.address = warehouses[Math.floor(Math.random() * warehouses.length)].address;
+  }
 
   return warehouse;
 };

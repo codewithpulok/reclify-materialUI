@@ -26,6 +26,7 @@ const ICONS = {
 
   not_verified: (width, sx) => getIconify('lucide:badge-minus', width, sx),
   not_featured: (width, sx) => getIconify('iconamoon:star-off-fill', width, sx),
+  not_rated: (width, sx) => getIconify('tabler:diamond-off', width, sx),
   hidden: (width, sx) => getIconify('solar:eye-closed-bold-duotone', width, sx),
 };
 
@@ -70,6 +71,11 @@ export function useNavData() {
         icon: ICONS.not_verified(),
       },
       {
+        title: 'Not Rated',
+        path: paths.dashboard.warehouses.not_rated,
+        icon: ICONS.not_rated(),
+      },
+      {
         title: 'Hidden',
         path: paths.dashboard.warehouses.hidden,
         icon: ICONS.hidden(),
@@ -89,9 +95,6 @@ export function useNavData() {
         path: paths.dashboard.warehouses.root,
         icon: ICONS.warehouse(),
         children: [
-          // admin warehouse routes
-          ...(user?.userType === 'admin' ? adminWarehouseRoutes : []),
-
           // common warehouse routes
           {
             title: 'Hot Deals',
@@ -105,6 +108,9 @@ export function useNavData() {
             path: paths.dashboard.warehouses[r.code],
             icon: getIconify(r.icon, undefined, { rotate: `${r.rotate ? 90 * r.rotate : 0}deg` }),
           })),
+
+          // admin warehouse routes
+          ...(user?.userType === 'admin' ? adminWarehouseRoutes : []),
         ],
         defaultOpen: true,
       },

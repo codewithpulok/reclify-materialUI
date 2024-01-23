@@ -2,7 +2,6 @@
 
 import { useCallback, useState } from 'react';
 
-import { Button } from '@mui/material';
 import Card from '@mui/material/Card';
 import { alpha } from '@mui/material/styles';
 import Tab from '@mui/material/Tab';
@@ -10,10 +9,7 @@ import Table from '@mui/material/Table';
 import TableBody from '@mui/material/TableBody';
 import TableContainer from '@mui/material/TableContainer';
 import Tabs from '@mui/material/Tabs';
-import { useSnackbar } from 'notistack';
 
-import { getCustomerTransactions, TRANSACTION_STATUS_OPTIONS } from 'src/assets/dummy';
-import { ConfirmDialog } from 'src/components/common/custom-dialog';
 import Label from 'src/components/common/label';
 import Scrollbar from 'src/components/common/scrollbar';
 import {
@@ -25,22 +21,21 @@ import {
   TablePaginationCustom,
   useTable,
 } from 'src/components/common/table';
-import { selectAuth } from 'src/redux-toolkit/features/auth/authSlice';
-import { useAppSelector } from 'src/redux-toolkit/hooks';
-import TransactionDialog from './transaction-details-dialog';
-import TransactionTableRow from './transaction-table-row';
+
+import {
+  getAllMemberships,
+  getPlanSubscriptionColor,
+  PLAN_SUBSCRIPTION_OPTIONS,
+} from 'src/assets/dummy';
+import TransactionTableRow from './table-row';
 
 // ----------------------------------------------------------------------
 
-const STATUS_OPTIONS = [{ value: 'all', label: 'All' }, ...TRANSACTION_STATUS_OPTIONS];
+const STATUS_OPTIONS = [{ value: 'all', label: 'All' }, ...PLAN_SUBSCRIPTION_OPTIONS];
 
 const TABLE_HEAD = [
-  { id: 'warehouse', label: 'Warehouse' },
   { id: 'seller', label: 'Seller' },
-  { id: 'createdAt', label: 'Date', width: 140 },
-  { id: 'price', label: 'Price', width: 140 },
-  { id: 'status', label: 'Status', width: 110 },
-  { id: 'actions', width: 30 },
+  { id: 'plan', label: 'Plan' },
 ];
 
 const defaultFilters = {
@@ -50,22 +45,10 @@ const defaultFilters = {
 
 // ----------------------------------------------------------------------
 
-const SettingsCustomerTransactions = () => {
-  const { user } = useAppSelector(selectAuth);
-  const { enqueueSnackbar } = useSnackbar();
-  const transactions = getCustomerTransactions('3') || getCustomerTransactions(user?.id);
-
+const Memberships = () => {
+  const memberships = getAllMemberships();
   const table = useTable({ defaultOrderBy: 'createdAt' });
-  const [tableData] = useState(transactions);
-
-  const [transactionDialog, setTransactionDialog] = useState({
-    open: false,
-    transaction: undefined,
-  });
-  const [orderCancelDialog, setOrderCancelDialog] = useState({
-    open: false,
-    transaction: undefined,
-  });
+  const [tableData] = useState(memberships);
 
   const [filters, setFilters] = useState(defaultFilters);
 
@@ -76,6 +59,7 @@ const SettingsCustomerTransactions = () => {
   });
 
   const canReset = !!filters.name || filters.status !== 'all';
+
   const notFound = (!dataFiltered.length && canReset) || !dataFiltered.length;
 
   const handleFilters = useCallback(
@@ -89,7 +73,7 @@ const SettingsCustomerTransactions = () => {
     [table]
   );
   const handleFilterStatus = useCallback(
-    (event, newValue) => {
+    (_event, newValue) => {
       handleFilters('status', newValue);
     },
     [handleFilters]
@@ -108,51 +92,19 @@ const SettingsCustomerTransactions = () => {
               variant={
                 ((tab.value === 'all' || tab.value === filters.status) && 'filled') || 'soft'
               }
-              color={
-                (tab.value === 'completed' && 'success') ||
-                (tab.value === 'pending' && 'warning') ||
-                (tab.value === 'declined' && 'error') ||
-                'default'
-              }
+              color={getPlanSubscriptionColor(tab.value)}
             >
               {tab.value === 'all' && tableData.length}
-              {tab.value === 'completed' &&
-                tableData.filter((order) => order.status === 'completed').length}
-
-              {tab.value === 'pending' &&
-                tableData.filter((order) => order.status === 'pending').length}
-              {tab.value === 'declined' &&
-                tableData.filter((order) => order.status === 'declined').length}
+              {
+                tableData.filter((membership) => membership?.plan?.subscription === tab.value)
+                  .length
+              }
             </Label>
           }
         />
       )),
     [filters.status, tableData]
   );
-
-  // open transaction details
-  const openTransactionDialog = (transaction) => {
-    setTransactionDialog({ open: true, transaction });
-  };
-  // close transaction details
-  const closeTransactionDialog = () => {
-    setTransactionDialog((prev) => ({ ...prev, open: false }));
-  };
-
-  // open transaction status change dialog
-  const openOrderCancelDialog = (transaction) => {
-    setOrderCancelDialog({ open: true, transaction });
-  };
-  // close transaction status change dialog
-  const closeOrderCancelDialog = () => {
-    setOrderCancelDialog({ open: false, transaction: undefined });
-  };
-  // handle order cancel
-  const handleCancelOrder = useCallback(() => {
-    console.log('Order Cancel: ', orderCancelDialog.transaction);
-    enqueueSnackbar('Order Canceled.');
-    closeOrderCancelDialog();
-  }, [enqueueSnackbar, orderCancelDialog.transaction]);
 
   return (
     <Card>
@@ -186,12 +138,7 @@ const SettingsCustomerTransactions = () => {
                   table.page * table.rowsPerPage + table.rowsPerPage
                 )
                 .map((row) => (
-                  <TransactionTableRow
-                    key={row.id}
-                    row={row}
-                    onViewTransaction={() => openTransactionDialog(row)}
-                    onCancelOrder={() => openOrderCancelDialog(row)}
-                  />
+                  <TransactionTableRow key={row?.user?.id} plan={row?.plan} user={row?.user} />
                 ))}
 
               <TableEmptyRows
@@ -212,25 +159,6 @@ const SettingsCustomerTransactions = () => {
         onPageChange={table.onChangePage}
         onRowsPerPageChange={table.onChangeRowsPerPage}
       />
-
-      <TransactionDialog
-        open={transactionDialog.open}
-        transaction={transactionDialog.transaction}
-        onClose={closeTransactionDialog}
-        onCancelOrder={() => openOrderCancelDialog(transactionDialog.transaction)}
-      />
-
-      <ConfirmDialog
-        open={orderCancelDialog.open}
-        onClose={closeOrderCancelDialog}
-        title="Cancel Order!"
-        content="After canceling order, this can not be undone!"
-        action={
-          <Button onClick={handleCancelOrder} color="error" variant="contained">
-            Confirm
-          </Button>
-        }
-      />
     </Card>
   );
 };
@@ -243,8 +171,8 @@ function applyFilter({ inputData, comparator, filters }) {
   const stabilizedThis = inputData.map((el, index) => [el, index]);
 
   stabilizedThis.sort((a, b) => {
-    const order = comparator(a[0], b[0]);
-    if (order !== 0) return order;
+    const membership = comparator(a[0], b[0]);
+    if (membership !== 0) return membership;
     return a[1] - b[1];
   });
 
@@ -252,18 +180,18 @@ function applyFilter({ inputData, comparator, filters }) {
 
   if (name) {
     inputData = inputData.filter(
-      (order) =>
-        order.orderNumber.toLowerCase().indexOf(name.toLowerCase()) !== -1 ||
-        order.customer.name.toLowerCase().indexOf(name.toLowerCase()) !== -1 ||
-        order.customer.email.toLowerCase().indexOf(name.toLowerCase()) !== -1
+      (membership) =>
+        membership.orderNumber.toLowerCase().indexOf(name.toLowerCase()) !== -1 ||
+        membership.customer.name.toLowerCase().indexOf(name.toLowerCase()) !== -1 ||
+        membership.customer.email.toLowerCase().indexOf(name.toLowerCase()) !== -1
     );
   }
 
   if (status !== 'all') {
-    inputData = inputData.filter((order) => order.status === status);
+    inputData = inputData.filter((membership) => membership?.plan?.subscription === status);
   }
 
   return inputData;
 }
 
-export default SettingsCustomerTransactions;
+export default Memberships;

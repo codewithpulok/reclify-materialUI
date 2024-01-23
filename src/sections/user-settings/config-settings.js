@@ -17,8 +17,10 @@ export const ICONS = {
   more: (width) => getIconify('eva:more-vertical-fill', width),
   eye: (width) => getIconify('solar:eye-bold', width),
   close: (width, sx) => getIconify('solar:close-circle-bold', width, sx),
+  membership: (width, sx) => getIconify('solar:bill-list-bold', width, sx),
 
   warehouse: (width, sx) => getIconify('solar:box-bold-duotone', width, sx),
+  service: (width, sx) => getIconify('ic:twotone-home-repair-service', width, sx),
 
   send_message: (width, sx) => getIconify('tabler:send', width, sx),
   profile: (width, sx) => getIconify('solar:user-circle-bold-duotone', width, sx),
