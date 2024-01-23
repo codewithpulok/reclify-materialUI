@@ -141,7 +141,7 @@ const WarehouseEditFields = (props) => (
               startAdornment: <InputAdornment position="start">%</InputAdornment>,
               min: 0,
             }}
-            onChangeMiddleware={(v) => (Number(v) < 0 ? 0 : v)}
+            onChangeMiddleware={(v) => (v !== '' && Number(v) < 0 ? 0 : v)}
             fullWidth
           />
         </Grid>

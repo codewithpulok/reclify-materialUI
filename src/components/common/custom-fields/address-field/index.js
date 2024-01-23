@@ -9,7 +9,7 @@ import {
 } from '@mui/material';
 import PropTypes from 'prop-types';
 // local components
-import { useCallback, useMemo } from 'react';
+import { useCallback, useEffect, useMemo } from 'react';
 import { useFormContext } from 'react-hook-form';
 import { useBoolean } from 'src/hooks/use-boolean';
 import { useLazyAddressSearchQuery } from 'src/redux-toolkit/services/addressApi';
@@ -35,6 +35,8 @@ const AddressField = (props) => {
   const { watch, setValue } = useFormContext();
   const addressValue = watch(name);
 
+  const isEditable = useBoolean(true);
+
   const handleInputChange = useMemo(
     () =>
       debounce((_event, newValue) => {
@@ -56,6 +58,16 @@ const AddressField = (props) => {
     },
     [name, setValue]
   );
+
+  useEffect(() => {
+    if (addressValue?.id === undefined) {
+      isEditable.onTrue();
+    } else {
+      isEditable.onFalse();
+    }
+  }, [addressValue, isEditable]);
+
+  console.log('isEditable', isEditable.value);
 
   return (
     <Stack>
@@ -105,11 +117,13 @@ const AddressField = (props) => {
           value={addressValue}
         />
 
-        <IconButton onClick={addressCollapse.onToggle}>
-          {addressCollapse.value ? ICONS.close() : ICONS.edit()}
-        </IconButton>
+        {isEditable.value && (
+          <IconButton onClick={addressCollapse.onToggle}>
+            {addressCollapse.value ? ICONS.close() : ICONS.edit()}
+          </IconButton>
+        )}
       </Stack>
-      <Collapse unmountOnExit in={addressCollapse.value} sx={{ mt: 1 }}>
+      <Collapse unmountOnExit in={addressCollapse.value && isEditable.value} sx={{ mt: 1 }}>
         <Fields name={name} value={addressValue} />
       </Collapse>
     </Stack>
