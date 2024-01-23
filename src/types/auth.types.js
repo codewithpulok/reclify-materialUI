@@ -15,4 +15,5 @@
  * @property {string} firstName
  * @property {string} lastName
  * @property {UserType} userType
+ * @property {string} serviceType
  */

@@ -1,3 +1,5 @@
+import { serviceTypes } from 'src/constant/service-types';
+
 /**
  * User collection
  * @type {User[]}
@@ -90,7 +92,7 @@ export const users = [
     displayName: 'John Doe',
     firstName: 'John',
     lastName: 'Doe',
-    email: 'john.doe@example.com',
+    email: 'seller2@test.com',
     password: 'newuser123',
     avatar: 'https://i.pravatar.cc/150?u=JohnDoe',
     phoneNumber: '+1 123456789',
@@ -117,7 +119,7 @@ export const users = [
     displayName: 'Emma Smith',
     firstName: 'Emma',
     lastName: 'Smith',
-    email: 'emma.smith@example.com',
+    email: 'seller3@test.com',
     password: 'customer456',
     avatar: 'https://i.pravatar.cc/150?u=EmmaSmith',
     phoneNumber: '+1 987654321',
@@ -131,6 +133,7 @@ export const users = [
     },
     about: 'A new customer with realistic data.',
     userType: 'seller',
+    serviceType: serviceTypes[1].value,
     createdAt: 1680327890000,
     updatedAt: 1680354876000,
     socials: {
@@ -147,6 +150,13 @@ export const users = [
  * @returns {User | undefined}
  */
 export const getUserByID = (id) => users.find((user) => user.id === id);
+
+/**
+ * Find user by user email
+ * @param {string} email
+ * @returns {User | undefined}
+ */
+export const getUserByEmail = (email) => users.find((user) => user.email === email);
 
 export const getUserByType = (type) => users.find((user) => user.userType === type);
 
