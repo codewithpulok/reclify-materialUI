@@ -67,8 +67,6 @@ const AddressField = (props) => {
     }
   }, [addressValue, isEditable]);
 
-  console.log('isEditable', isEditable.value);
-
   return (
     <Stack>
       <Stack direction="row" alignItems="center" spacing={1}>
