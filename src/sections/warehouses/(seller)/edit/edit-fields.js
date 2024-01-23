@@ -139,7 +139,6 @@ const WarehouseEditFields = (props) => (
             label="Discount Rate"
             InputProps={{
               startAdornment: <InputAdornment position="start">%</InputAdornment>,
-              min: 0,
             }}
             onChangeMiddleware={(v) => (v !== '' && Number(v) < 0 ? 0 : v)}
             fullWidth

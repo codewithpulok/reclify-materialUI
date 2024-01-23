@@ -2,17 +2,17 @@ import PropTypes from 'prop-types';
 import { useDropzone } from 'react-dropzone';
 
 import Box from '@mui/material/Box';
-import Stack from '@mui/material/Stack';
 import Button from '@mui/material/Button';
-import { alpha } from '@mui/material/styles';
 import IconButton from '@mui/material/IconButton';
+import Stack from '@mui/material/Stack';
 import Typography from '@mui/material/Typography';
+import { alpha } from '@mui/material/styles';
 
 import { UploadIllustration } from 'src/assets/illustrations';
 
 import Iconify from '../iconify';
-import MultiFilePreview from './preview-multi-file';
 import RejectionFiles from './errors-rejection-files';
+import MultiFilePreview from './preview-multi-file';
 import SingleFilePreview from './preview-single-file';
 
 // ----------------------------------------------------------------------
@@ -171,11 +171,11 @@ export default function Upload({
 }
 
 Upload.propTypes = {
-  disabled: PropTypes.object,
+  disabled: PropTypes.bool,
   error: PropTypes.bool,
   file: PropTypes.oneOfType([PropTypes.string, PropTypes.object]),
   files: PropTypes.array,
-  helperText: PropTypes.object,
+  helperText: PropTypes.bool,
   multiple: PropTypes.bool,
   onDelete: PropTypes.func,
   onRemove: PropTypes.func,
