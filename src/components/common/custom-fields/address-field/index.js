@@ -9,7 +9,7 @@ import {
 } from '@mui/material';
 import PropTypes from 'prop-types';
 // local components
-import { useCallback, useMemo } from 'react';
+import { useCallback, useEffect, useMemo } from 'react';
 import { useFormContext } from 'react-hook-form';
 import { useBoolean } from 'src/hooks/use-boolean';
 import { useLazyAddressSearchQuery } from 'src/redux-toolkit/services/addressApi';
@@ -35,6 +35,8 @@ const AddressField = (props) => {
   const { watch, setValue } = useFormContext();
   const addressValue = watch(name);
 
+  const isEditable = useBoolean(true);
+
   const handleInputChange = useMemo(
     () =>
       debounce((_event, newValue) => {
@@ -48,14 +50,22 @@ const AddressField = (props) => {
   const handleOptionChange = useCallback(
     (_event, newValue) => {
       const option = { ...newValue };
-      // remove id
-      option.id = option._id;
-      delete option._id;
+
+      console.log({ option });
 
       setValue(name, option, true);
     },
     [name, setValue]
   );
+
+  useEffect(() => {
+    if (addressValue?.id === undefined) {
+      isEditable.onTrue();
+    } else {
+      isEditable.onFalse();
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [addressValue]);
 
   return (
     <Stack>
@@ -64,20 +74,23 @@ const AddressField = (props) => {
           name={name}
           options={results?.data?.results || []}
           noOptionsText="No Address Found"
-          getOptionKey={(option) => option?._id}
+          getOptionKey={(option) => option.id}
           filterOptions={(x) => x}
           getOptionLabel={(option) => joinAddressObj(option)}
           autoComplete={false}
           filterSelectedOptions
           autoHighlight
           fullWidth
+          isOptionEqualToValue={(option, value) =>
+            value?.id && option?.id && option?.id === value?.id
+          }
           onInputChange={handleInputChange}
           renderOption={(params, option) => {
             const primary = joinAddressObj({ country: option?.country, state: option?.state });
             const secondary = joinAddressObj({ ...option, country: undefined, state: undefined });
 
             return (
-              <li {...params}>
+              <li {...params} key={option.id}>
                 <ListItemText primary={primary} secondary={secondary} />
               </li>
             );
@@ -105,11 +118,13 @@ const AddressField = (props) => {
           value={addressValue}
         />
 
-        <IconButton onClick={addressCollapse.onToggle}>
-          {addressCollapse.value ? ICONS.close() : ICONS.edit()}
-        </IconButton>
+        {isEditable.value && (
+          <IconButton onClick={addressCollapse.onToggle}>
+            {addressCollapse.value ? ICONS.close() : ICONS.edit()}
+          </IconButton>
+        )}
       </Stack>
-      <Collapse unmountOnExit in={addressCollapse.value} sx={{ mt: 1 }}>
+      <Collapse in={addressCollapse.value && isEditable.value} sx={{ mt: 1 }}>
         <Fields name={name} value={addressValue} />
       </Collapse>
     </Stack>

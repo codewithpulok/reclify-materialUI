@@ -1,7 +1,8 @@
 import PropTypes from 'prop-types';
-import SellerTransactions from 'src/sections/users/sellers/details/details-transactions';
+
 import AllTransactions from './all-transactions';
 import CustomerTransactions from './customer-transactions';
+import SellerTransactions from './seller-transactions';
 
 const Props = {
   /** @type {UserType} */

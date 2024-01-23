@@ -36,7 +36,7 @@ export default function RHFTextField(props) {
       render={({ field, fieldState: { error } }) => (
         <TextField
           {...field}
-          value={field.value === undefined ? '' : valueFormatter(field.value)}
+          value={field.value === undefined || field.value === '' ? '' : valueFormatter(field.value)}
           onChange={(event) => {
             const value =
               onChangeMiddleware === undefined
@@ -44,7 +44,7 @@ export default function RHFTextField(props) {
                 : onChangeMiddleware(event.target.value);
 
             if (other?.type === 'number') {
-              field.onChange(value === '' ? undefined : Number(value));
+              field.onChange(value === '' ? '' : Number(value));
             } else {
               field.onChange(value);
             }

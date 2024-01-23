@@ -36,6 +36,7 @@ export const paths = {
       sellers: `${ROOTS.DASHBOARD}/users/sellers`,
       customers: `${ROOTS.DASHBOARD}/users/customers`,
     },
+
     // warehouses section
     warehouses: {
       root: `${ROOTS.DASHBOARD}/warehouses`,
@@ -55,6 +56,13 @@ export const paths = {
         {}
       ),
     },
+
+    // services section
+    services: {
+      root: `${ROOTS.DASHBOARD}/services`,
+      details: (id) => `${ROOTS.DASHBOARD}/services/${id}`,
+    },
+
     // messages section
     messages: {
       root: `${ROOTS.DASHBOARD}/messages`,

@@ -1,5 +1,6 @@
 import Grid from '@mui/material/Grid';
 import { useMemo } from 'react';
+import { predefinedServiceFeatures } from 'src/assets/data/predefined-fields/service';
 // local components
 import { ArrayField, PredefinedFields } from 'src/components/common/custom-fields';
 import { RHFDatePicker, RHFTextField } from 'src/components/common/hook-form';
@@ -9,23 +10,14 @@ import { serviceTypes } from 'src/constant/service-types';
 
 const ServiceFields = (props) => {
   /** @type {PredefinedField[]} */
-  const subServices = useMemo(
-    () =>
-      serviceTypes[2].subtypes.map((t) => ({
-        key: t.value,
-        label: t.label,
-        fieldType: 'switch',
-        dataType: 'boolean',
-      })),
-    []
-  );
+  const subServices = useMemo(() => predefinedServiceFeatures(serviceTypes[1].subtypes), []);
 
   return (
     <Grid container spacing={1.5}>
       <Grid item xs={12} md={6}>
         <Grid container spacing={1.2}>
           <Grid item xs={12}>
-            <RHFTextField name="name" label="Client list" fullWidth />
+            <RHFTextField name="clientList" label="Client list" fullWidth />
           </Grid>
           <Grid item xs={12}>
             <RHFTextField
@@ -47,7 +39,12 @@ const ServiceFields = (props) => {
             />
           </Grid>
           <Grid item xs={12}>
-            <RHFTextField name="cta" label="What do you want to achieve?" fullWidth />
+            <RHFTextField
+              name="cta"
+              label="Call To Action"
+              placeholder="What do you want to achieve?"
+              fullWidth
+            />
           </Grid>
 
           <Grid item xs={12}>
@@ -71,7 +68,7 @@ const ServiceFields = (props) => {
             <PredefinedFields
               name="services"
               fields={subServices}
-              label="Services"
+              label="Features"
               defaultExpanded
             />
           </Grid>

@@ -120,7 +120,10 @@ const UserSettingsView = () => {
       case '#service': {
         switch (user?.userType) {
           case 'seller': {
-            return <SettingsService />; // service for seller
+            if (user?.serviceType && user?.serviceType !== 'warehouse') {
+              return <SettingsService />; // service for seller
+            }
+            return <EmptyState />;
           }
           default:
             return <EmptyState />;
@@ -188,6 +191,10 @@ const UserSettingsView = () => {
         {TABS.map((tab) => {
           // filter role specific tabs
           if (tab?.roles && !tab.roles.includes(user?.userType)) return null;
+
+          // filter service
+          if (tab.value === '#warehouses' && user?.serviceType !== 'warehouse') return null;
+          if (tab.value === '#service' && user?.serviceType === 'warehouse') return null;
 
           return <Tab key={tab.value} label={tab.label} icon={tab.icon} value={tab.value} />;
         })}

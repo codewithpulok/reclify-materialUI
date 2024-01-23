@@ -10,13 +10,13 @@ import Stack from '@mui/material/Stack';
 import Typography from '@mui/material/Typography';
 import { alpha } from '@mui/material/styles';
 // routes
-import { useRouter } from 'src/routes/hooks';
 import { getUserByType } from 'src/assets/dummy';
 import { varHover } from 'src/components/common/animate';
 import CustomPopover, { usePopover } from 'src/components/common/custom-popover';
 import { selectAuth } from 'src/redux-toolkit/features/auth/authSlice';
 import { useAppSelector } from 'src/redux-toolkit/hooks';
 import { useLogoutMutation } from 'src/redux-toolkit/services/authApi';
+import { useRouter } from 'src/routes/hooks';
 import { TABS as settingsTabs } from 'src/sections/user-settings/view';
 
 // ----------------------------------------------------------------------
@@ -54,11 +54,19 @@ export default function AccountPopover() {
         label: 'Settings',
         linkTo: false,
         children: [
-          ...settingsTabs.map((tab) => ({
-            label: tab.label,
-            linkTo: `/settings${tab.value}`,
-            show: !tab?.roles || tab.roles.includes(user?.userType),
-          })),
+          ...settingsTabs.map((tab) => {
+            let show = true;
+            if (tab?.roles && !tab.roles.includes(user?.userType)) show = false;
+            // filter service
+            if (tab.value === '#warehouses' && user?.serviceType !== 'warehouse') show = false;
+            if (tab.value === '#service' && user?.serviceType === 'warehouse') show = false;
+
+            return {
+              label: tab.label,
+              linkTo: `/settings${tab.value}`,
+              show,
+            };
+          }),
         ],
       },
     ],

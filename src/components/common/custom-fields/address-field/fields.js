@@ -14,7 +14,7 @@ const Props = {
  */
 const Fields = (props) => {
   const { value, name } = props;
-  console.log({ value });
+
   return (
     <Grid container spacing={1.2}>
       <Grid item xs={12}>
