@@ -29,7 +29,7 @@ const ArrayFieldProps = {
 const ArrayField = (props) => {
   const { name, label, defaultExpanded } = props;
   const { setValue, watch } = useFormContext();
-  const value = watch(name, []);
+  const value = watch(name);
 
   const [newRule, setNewRule] = useState('');
 
@@ -79,7 +79,7 @@ const ArrayField = (props) => {
           }}
           sx={{ mb: 2 }}
         />
-        {value?.length ? (
+        {value && value?.length ? (
           <List sx={{ bgcolor: 'background.paper', borderRadius: 1 }}>
             {value.map((v, index) => (
               <ListItem key={`${v}-${index}`} disablePadding>

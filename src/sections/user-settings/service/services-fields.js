@@ -1,5 +1,6 @@
 import Grid from '@mui/material/Grid';
 import { useMemo } from 'react';
+import { predefinedServiceFeatures } from 'src/assets/data/predefined-fields/service';
 // local components
 import { ArrayField, PredefinedFields } from 'src/components/common/custom-fields';
 import { RHFDatePicker, RHFTextField } from 'src/components/common/hook-form';
@@ -9,16 +10,7 @@ import { serviceTypes } from 'src/constant/service-types';
 
 const ServiceFields = (props) => {
   /** @type {PredefinedField[]} */
-  const subServices = useMemo(
-    () =>
-      serviceTypes[1].subtypes.map((t) => ({
-        key: t.value,
-        label: t.label,
-        fieldType: 'switch',
-        dataType: 'boolean',
-      })),
-    []
-  );
+  const subServices = useMemo(() => predefinedServiceFeatures(serviceTypes[1].subtypes), []);
 
   return (
     <Grid container spacing={1.5}>

@@ -1,7 +1,7 @@
 import { Typography } from '@mui/material';
 import PropTypes from 'prop-types';
 
-import { WarehouseDetailsBox } from 'src/components/warehouse/box';
+import { ServiceDetailsBox } from '../../box';
 
 const Props = {
   description: PropTypes.string.isRequired,
@@ -10,20 +10,19 @@ const Props = {
 };
 
 /**
- *  Warehouse description
  * @param {Props} props
- * @returns
+ * @returns {JSX.Element}
  */
-const WarehouseDescription = (props) => {
+const ServiceDescription = (props) => {
   const { description, sx } = props;
 
   return (
-    <WarehouseDetailsBox title="Description" sx={sx}>
+    <ServiceDetailsBox title="Description" sx={sx}>
       <Typography variant="body2">{description}</Typography>
-    </WarehouseDetailsBox>
+    </ServiceDetailsBox>
   );
 };
 
-WarehouseDescription.propTypes = Props;
+ServiceDescription.propTypes = Props;
 
-export default WarehouseDescription;
+export default ServiceDescription;
