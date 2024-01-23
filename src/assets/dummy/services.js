@@ -43,3 +43,5 @@ export const services = [
 ];
 
 export const getServiceById = (id = 'test') => services.find((s) => s.id === id);
+
+export const getServices = () => services;

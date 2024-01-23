@@ -19,6 +19,7 @@ import { useAppSelector } from 'src/redux-toolkit/hooks';
 
 const ICONS = {
   warehouse: (width, sx) => getIconify('solar:box-bold-duotone', width, sx),
+  service: (width, sx) => getIconify('ic:twotone-home-repair-service', width, sx),
   users: (width, sx) => getIconify('solar:users-group-two-rounded-bold', width, sx),
   hot_deals: (width, sx) => getIconify('solar:fire-bold-duotone', width, sx),
   messages: (width, sx) => getIconify('solar:chat-round-line-bold-duotone', width, sx),
@@ -113,6 +114,11 @@ export function useNavData() {
           ...(user?.userType === 'admin' ? adminWarehouseRoutes : []),
         ],
         defaultOpen: true,
+      },
+      {
+        title: 'Services',
+        path: paths.dashboard.services.root,
+        icon: ICONS.service(),
       },
       {
         title: 'Messages',
