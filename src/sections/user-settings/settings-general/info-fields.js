@@ -48,7 +48,7 @@ const InfoFields = () => {
           <RHFTextField name="email" label="Email Address" fullWidth />
           <RHFTextField name="firstName" label="First Name" fullWidth />
           <RHFTextField name="lastName" label="Last Name" fullWidth />
-          <RHFTextField name="phoneNumber" label="Phone Number" fullWidth />
+          <RHFTextField name="phone" label="Phone Number" fullWidth />
 
           {websiteField}
 
