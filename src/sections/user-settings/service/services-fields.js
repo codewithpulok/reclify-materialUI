@@ -1,16 +1,21 @@
 import Grid from '@mui/material/Grid';
 import { useMemo } from 'react';
+import { useFormContext } from 'react-hook-form';
 import { predefinedServiceFeatures } from 'src/assets/data/predefined-fields/service';
 // local components
 import { ArrayField, PredefinedFields } from 'src/components/common/custom-fields';
 import { RHFDatePicker, RHFTextField } from 'src/components/common/hook-form';
 import Label from 'src/components/common/label';
 import { WarehousePhotoUpload } from 'src/components/warehouse/upload';
-import { serviceTypes } from 'src/constant/service-types';
 
 const ServiceFields = (props) => {
+  const { watch } = useFormContext();
+  const type = watch('type', undefined);
+
   /** @type {PredefinedField[]} */
-  const subServices = useMemo(() => predefinedServiceFeatures(serviceTypes[1].subtypes), []);
+  const subServices = useMemo(() => predefinedServiceFeatures(type), [type]);
+
+  console.log({ subServices });
 
   return (
     <Grid container spacing={1.5}>
@@ -66,7 +71,7 @@ const ServiceFields = (props) => {
         <Grid container spacing={1.2}>
           <Grid item xs={12}>
             <PredefinedFields
-              name="services"
+              name="features"
               fields={subServices}
               label="Features"
               defaultExpanded
