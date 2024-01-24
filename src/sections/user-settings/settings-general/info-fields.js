@@ -17,7 +17,7 @@ const InfoFields = () => {
 
   const websiteField =
     user?.userType === 'seller' ? (
-      <RHFTextField name="website" type="url" label="Website" fullWidth />
+      <RHFTextField name="website" type="url" label="Website" placeholder="https://" fullWidth />
     ) : null;
 
   const serviceField =
@@ -48,7 +48,7 @@ const InfoFields = () => {
           <RHFTextField name="email" label="Email Address" fullWidth />
           <RHFTextField name="firstName" label="First Name" fullWidth />
           <RHFTextField name="lastName" label="Last Name" fullWidth />
-          <RHFTextField name="phone" label="Phone Number" fullWidth />
+          <RHFTextField name="phone" label="Phone Number" placeholder="000-000-0000" fullWidth />
 
           {websiteField}
 

@@ -14,7 +14,7 @@ const Fields = (props) => (
   <Scrollbar sx={{ maxHeight: 400, pt: 0.7 }}>
     <Stack spacing={1}>
       <RHFTextField name="fullName" label="Full Name" />
-      <RHFTextField name="phoneNumber" label="Phone Number" />
+      <RHFTextField name="phoneNumber" label="Phone Number" placeholder="000-000-0000" />
       <RHFTextField name="email" type="email" label="Email" />
       <AddressField name="address" />
       <Grid container spacing={1}>
