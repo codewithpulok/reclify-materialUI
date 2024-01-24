@@ -16,6 +16,18 @@ export default function NavList({ data, depth, slotProps }) {
   const active = useActiveLink(data.path, !!data.children);
 
   const [openMenu, setOpenMenu] = useState(active);
+  const [userInterect, setUserInterect] = useState(false);
+
+  const handleToggleMenu = useCallback(() => {
+    if (data.children) {
+      setOpenMenu((prev) => !prev);
+      setUserInterect(true); // by toggle menu we confrim that user has interected
+    }
+  }, [data.children]);
+
+  const handleCloseMenu = useCallback(() => {
+    setOpenMenu(false);
+  }, []);
 
   useEffect(() => {
     if (!active) {
@@ -23,16 +35,6 @@ export default function NavList({ data, depth, slotProps }) {
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [pathname]);
-
-  const handleToggleMenu = useCallback(() => {
-    if (data.children) {
-      setOpenMenu((prev) => !prev);
-    }
-  }, [data.children]);
-
-  const handleCloseMenu = useCallback(() => {
-    setOpenMenu(false);
-  }, []);
 
   return (
     <>
@@ -62,7 +64,10 @@ export default function NavList({ data, depth, slotProps }) {
       />
 
       {!!data.children && (
-        <Collapse in={openMenu} unmountOnExit>
+        <Collapse
+          in={data?.defaultOpen && !userInterect ? data?.defaultOpen : openMenu}
+          unmountOnExit
+        >
           <NavSubList data={data.children} depth={depth} slotProps={slotProps} />
         </Collapse>
       )}
