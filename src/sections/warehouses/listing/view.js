@@ -71,7 +71,7 @@ export default function ListingView() {
   const hotdeals = useMemo(
     () =>
       results?.data?.results instanceof Array
-        ? results?.data?.results.filter((w) => w.discountRate > 0)
+        ? results?.data?.results.filter((w) => w.discountRate > 0 && w?.visible)
         : [],
     [results]
   );
@@ -81,7 +81,7 @@ export default function ListingView() {
       regions.reduce((prev, next) => {
         prev[next.code] =
           results?.data?.results instanceof Array
-            ? results?.data?.results.filter((w) => w.region === next.code)
+            ? results.data?.results.filter((w) => w.region === next.code && w.visible)
             : [];
         return prev;
       }, {}),

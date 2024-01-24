@@ -2,7 +2,7 @@
 
 import { Grid, Pagination, Stack } from '@mui/material';
 import Container from '@mui/material/Container';
-import { useCallback, useEffect, useMemo, useState } from 'react';
+import { useCallback, useEffect, useMemo } from 'react';
 // local components
 import CustomBreadcrumbs from 'src/components/common/custom-breadcrumbs/custom-breadcrumbs';
 import { EmptyState, ErrorState } from 'src/components/common/custom-state';
@@ -25,16 +25,6 @@ const HotDealsView = (props) => {
   const { user } = useAppSelector(selectAuth);
 
   const [getWarehouses, results] = useLazyWarehouseListQuery();
-  const [filteredWarehouses, setFilteredWarehouses] = useState([]);
-
-  // handle warehouse filter
-  useEffect(() => {
-    if (results.isSuccess && results?.data?.results instanceof Array) {
-      const filtered = [...results.data.results];
-
-      setFilteredWarehouses(filtered);
-    }
-  }, [results]);
 
   useEffect(() => {
     if (user !== null && user) {
@@ -80,8 +70,11 @@ const HotDealsView = (props) => {
 
   // hot deals
   const hotdeals = useMemo(
-    () => filteredWarehouses.filter((w) => w.discountRate > 0),
-    [filteredWarehouses]
+    () =>
+      results?.data?.results instanceof Array
+        ? results?.data?.results.filter((w) => w.discountRate > 0 && w?.visible)
+        : [],
+    [results]
   );
 
   return (

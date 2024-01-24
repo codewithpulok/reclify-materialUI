@@ -2,7 +2,7 @@
 
 import { Grid, Pagination, Stack } from '@mui/material';
 import Container from '@mui/material/Container';
-import { useCallback, useEffect } from 'react';
+import { useCallback, useEffect, useMemo } from 'react';
 // local components
 import CustomBreadcrumbs from 'src/components/common/custom-breadcrumbs/custom-breadcrumbs';
 import { EmptyState, ErrorState } from 'src/components/common/custom-state';
@@ -70,6 +70,15 @@ const WarehouseHiddenView = (props) => {
     [results]
   );
 
+  // filtered data
+  const filteredData = useMemo(
+    () =>
+      results?.data?.results instanceof Array
+        ? results?.data?.results.filter((w) => !w?.visible)
+        : [],
+    [results]
+  );
+
   return (
     <Container maxWidth={settings.themeStretch ? false : 'xl'}>
       <Stack mb={5} spacing={5}>
@@ -83,7 +92,7 @@ const WarehouseHiddenView = (props) => {
         />
 
         <Grid container spacing={2}>
-          {renderWarehouses(results.data?.results, 'No Warehouse available')}
+          {renderWarehouses(filteredData, 'No Warehouse available')}
         </Grid>
 
         <Stack direction="row" justifyContent="center" mt={3} mb={1}>

@@ -33,4 +33,7 @@ export const endpoints = {
     create: `${PRIVATE_BACKEND_API}/address`,
     update: `${PRIVATE_BACKEND_API}/address`,
   },
+  admin: {
+    warehouse: `${PRIVATE_BACKEND_API}/admin/warehouse`,
+  },
 };
