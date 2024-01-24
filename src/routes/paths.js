@@ -1,4 +1,5 @@
 import { regions } from 'src/assets/data';
+import { getAvailableServiceTypes } from 'src/constant/service-types';
 
 // ----------------------------------------------------------------------
 
@@ -61,6 +62,13 @@ export const paths = {
     services: {
       root: `${ROOTS.DASHBOARD}/services`,
       details: (id) => `${ROOTS.DASHBOARD}/services/${id}`,
+
+      // services by type
+      ...getAvailableServiceTypes().reduce(
+        (prev, next) =>
+          Object.assign(prev, { [next.value]: `${ROOTS.DASHBOARD}/services/type/${next.value}` }),
+        {}
+      ),
     },
 
     // messages section

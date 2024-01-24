@@ -8,8 +8,9 @@ import { getServices } from 'src/assets/dummy/services';
 import { EmptyState, ErrorState } from 'src/components/common/custom-state';
 import { useSettingsContext } from 'src/components/common/settings';
 import { ServiceCardSkeleton } from 'src/components/service/cards';
-import { serviceTypes } from 'src/constant/service-types';
+import { getAvailableServiceTypes, serviceTypes } from 'src/constant/service-types';
 import { RouterLink } from 'src/routes/components';
+import { paths } from 'src/routes/paths';
 import { ICONS } from '../config-services';
 import ServiceCarousel from './service-carousel';
 
@@ -73,7 +74,7 @@ export default function ListingView() {
 
   return (
     <Container maxWidth={settings.themeStretch ? false : 'xl'}>
-      {serviceTypes.slice(1).map((service) => (
+      {getAvailableServiceTypes().map((service) => (
         <Stack mb={5} spacing={5} key={service.value}>
           <Stack
             sx={{
@@ -86,7 +87,7 @@ export default function ListingView() {
 
             <Button
               LinkComponent={RouterLink}
-              href="#"
+              href={paths.dashboard.services[service.value]}
               variant="soft"
               color="primary"
               sx={{ ml: 'auto' }}
