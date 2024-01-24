@@ -5,7 +5,7 @@ export const USER_STORAGE_KEY = 'RACKLIFY_USER';
 export const TOKEN_STORAGE_KEY = 'RACKLIFY_TOKEN';
 
 // PLACEHOLDER IMAGE // ---------------------------------------------------------------------
-export const PLACEHOLDER_PROFILE_COVER =
+export const PLACEHOLDER_PROFILE_BANNER =
   'https://api-prod-minimal-v510.vercel.app/assets/images/cover/cover_4.jpg';
 
 // API // ----------------------------------------------------------------------

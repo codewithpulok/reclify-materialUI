@@ -5,10 +5,14 @@ import { useFormContext } from 'react-hook-form';
 import { PasswordField } from 'src/components/common/custom-fields';
 import { RHFTextField } from 'src/components/common/hook-form';
 import { serviceTypes } from 'src/constant/service-types';
+import { useBoolean } from 'src/hooks/use-boolean';
 
 const Fields = (props) => {
   const { watch } = useFormContext();
+
   const userType = watch('userType');
+
+  const showUserTypeField = useBoolean(true);
 
   const serviceField =
     userType === 'seller' ? (
@@ -28,14 +32,27 @@ const Fields = (props) => {
         <RHFTextField name="lastName" label="Last name" />
       </Stack>
 
-      <RHFTextField name="userType" label="Account Type" select>
-        <MenuItem value="customer">Customer</MenuItem>
-        <MenuItem value="seller">Service Provider</MenuItem>
-      </RHFTextField>
+      <RHFTextField
+        name="email"
+        label="Email address"
+        onChangeMiddleware={(v) => {
+          if (v?.includes('@racklify.com')) {
+            showUserTypeField.onFalse();
+          } else {
+            showUserTypeField.onTrue();
+          }
+          return v;
+        }}
+      />
+
+      {showUserTypeField.value && (
+        <RHFTextField name="userType" label="Account Type" select>
+          <MenuItem value="customer">Customer</MenuItem>
+          <MenuItem value="seller">Service Provider</MenuItem>
+        </RHFTextField>
+      )}
 
       {serviceField}
-
-      <RHFTextField name="email" label="Email address" />
 
       <PasswordField name="password" label="Password" />
     </Stack>

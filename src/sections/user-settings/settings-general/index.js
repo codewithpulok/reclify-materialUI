@@ -9,7 +9,7 @@ import { useCallback, useEffect } from 'react';
 import { addressFieldSchema } from 'src/components/common/custom-fields';
 import { EmptyState } from 'src/components/common/custom-state';
 import FormProvider from 'src/components/common/hook-form';
-import { PLACEHOLDER_PROFILE_COVER } from 'src/config-global';
+import { PLACEHOLDER_PROFILE_BANNER } from 'src/config-global';
 import { selectAuth } from 'src/redux-toolkit/features/auth/authSlice';
 import { useAppSelector } from 'src/redux-toolkit/hooks';
 import {
@@ -17,7 +17,7 @@ import {
   useProfileUpdateMutation,
 } from 'src/redux-toolkit/services/profileApi';
 import { fDate } from 'src/utils/format-time';
-import Cover from './cover';
+import BannerFields from './banner-fields';
 import Fields from './fields';
 
 const defaultValues = {
@@ -27,9 +27,9 @@ const defaultValues = {
   website: '',
   serviceType: '',
   avatar: null,
-  cover: PLACEHOLDER_PROFILE_COVER,
+  banner: PLACEHOLDER_PROFILE_BANNER,
   phone: '',
-  address: '',
+  address: {},
   about: '',
 };
 
@@ -40,6 +40,7 @@ const UpdateUserSchema = Yup.object().shape({
   email: Yup.string().label('Email').required().email(),
   website: Yup.string().label('Website URL').url(),
   // avatar: Yup.mixed().label('Avatar').nullable().required(),
+  // banner: Yup.mixed().label('banner').nullable().required(),
   phone: Yup.string().label('Phone number').required(),
   address: addressFieldSchema,
   about: Yup.string().label('About').required(),
@@ -102,7 +103,7 @@ const SettingsGeneral = () => {
     <FormProvider methods={methods} onSubmit={onSubmit} onReset={onReset}>
       <Stack spacing={5}>
         <Card sx={{ height: 290 }}>
-          <Cover joined={fDate(new Date())} />
+          <BannerFields joined={fDate(new Date())} />
         </Card>
         <Fields />
       </Stack>
