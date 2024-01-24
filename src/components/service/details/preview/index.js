@@ -15,6 +15,7 @@ const Props = {
  */
 const ServiceDetailsPreview = (props) => {
   const { service } = props;
+
   const seller = getSellers()[0];
 
   const mdUp = useResponsive('up', 'md');

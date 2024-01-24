@@ -12,7 +12,7 @@ import { bgGradient } from 'src/theme/css';
 import { ICONS } from '../config-settings';
 import AvatarFields from './avatar-fields';
 
-const coverContainerSx = (coverUrl) => (theme) => ({
+const bannerContainerSx = (coverUrl) => (theme) => ({
   ...bgGradient({
     color: alpha(theme.palette.primary.darker, 0.8),
     imgUrl: coverUrl,
@@ -20,14 +20,14 @@ const coverContainerSx = (coverUrl) => (theme) => ({
   height: 1,
   color: 'common.white',
 });
-const converContentSx = {
+const bannerContentSx = {
   left: { md: 24 },
   bottom: { md: 24 },
   zIndex: { md: 10 },
   pt: { xs: 6, md: 0 },
   position: { md: 'absolute' },
 };
-const coverAvatarSx = {
+const bannerAvatarSx = {
   mx: 'auto',
   width: { xs: 100, sm: 128 },
   height: { xs: 100, sm: 128 },
@@ -40,10 +40,10 @@ const Props = {
   joined: PropTypes.string,
 };
 /**
- * @param {DetailsCoverProps} param0
+ * @param {Props} param0
  * @returns {JSX.Element}
  */
-const Cover = (props) => {
+const BannerFields = (props) => {
   const { joined } = props;
   const { setValue, watch } = useFormContext();
 
@@ -51,8 +51,8 @@ const Cover = (props) => {
   const lastName = watch('lastName');
   const name = useMemo(() => `${firstName} ${lastName}`, [firstName, lastName]);
 
-  const coverUrl = watch('cover');
-  const handleCoverUpdate = useCallback(
+  const bannerUrl = watch('banner');
+  const handleBannerUpdate = useCallback(
     (acceptedFiles) => {
       const file = acceptedFiles[0];
 
@@ -66,9 +66,9 @@ const Cover = (props) => {
   );
 
   return (
-    <Box sx={coverContainerSx(coverUrl)}>
-      <Stack direction={{ xs: 'column', md: 'row' }} sx={converContentSx}>
-        <AvatarFields sx={coverAvatarSx} />
+    <Box sx={bannerContainerSx(bannerUrl)}>
+      <Stack direction={{ xs: 'column', md: 'row' }} sx={bannerContentSx}>
+        <AvatarFields sx={bannerAvatarSx} />
 
         <ListItemText
           sx={{
@@ -96,12 +96,12 @@ const Cover = (props) => {
         <input
           type="file"
           style={{ display: 'none' }}
-          onChange={(e) => handleCoverUpdate(e.target.files)}
+          onChange={(e) => handleBannerUpdate(e.target.files)}
         />
       </IconButton>
     </Box>
   );
 };
 
-Cover.propTypes = Props;
-export default Cover;
+BannerFields.propTypes = Props;
+export default BannerFields;

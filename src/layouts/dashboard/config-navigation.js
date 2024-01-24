@@ -4,6 +4,7 @@ import { paths } from 'src/routes/paths';
 
 import { regions } from 'src/assets/data';
 import { getIconify } from 'src/components/common/iconify/utilities';
+import { getAvailableServiceTypes } from 'src/constant/service-types';
 import { selectAuth } from 'src/redux-toolkit/features/auth/authSlice';
 import { useAppSelector } from 'src/redux-toolkit/hooks';
 
@@ -119,6 +120,13 @@ export function useNavData() {
         title: 'Services',
         path: paths.dashboard.services.root,
         icon: ICONS.service(),
+        children: [
+          // service type routes
+          ...getAvailableServiceTypes().map((s) => ({
+            title: s.label,
+            path: paths.dashboard.services[s.value],
+          })),
+        ],
       },
       {
         title: 'Messages',

@@ -1,5 +1,4 @@
 import { createApi } from '@reduxjs/toolkit/query/react';
-import { getUserByEmail } from 'src/assets/dummy';
 import { getAuthState, removeAuthState, saveAuthState } from 'src/utils/auth-persist';
 import { login, logout } from '../features/auth/authSlice';
 import { publicBaseQuery } from '../utills';
@@ -38,12 +37,7 @@ export const authApi = createApi({
           const { data } = await queryFulfilled;
           if (data?.isError) throw new Error(data?.message);
 
-          // TODO: REMOVE THIS
-          const user = { ...(data.results?.data || {}), serviceType: 'warehouse' };
-          const dummyuser = getUserByEmail(user?.email);
-          if (dummyuser?.serviceType) user.serviceType = dummyuser?.serviceType;
-
-          const state = await saveAuthState(data.results?.token, user);
+          const state = await saveAuthState(data.results?.token, data?.results?.data);
 
           dispatch(login(state));
         } catch (error) {

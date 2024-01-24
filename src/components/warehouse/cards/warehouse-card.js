@@ -70,8 +70,12 @@ const WarehouseCard = (props) => {
               py: 0.5,
               px: 0.5,
             }}
+            onClick={(e) => e.stopPropagation()}
+            onMouseEnter={(e) => e.stopPropagation()}
+            onTouch
           >
             <WarehouseDiamond
+              id={warehouse.id}
               value={warehouse?.diamond || 0}
               size={22}
               action={user?.userType === 'admin'}
@@ -177,7 +181,13 @@ const WarehouseCard = (props) => {
             transition: '0.3s',
           }}
         >
-          <WarehouseAdminMenu iconBtnProps={{ color: 'primary' }} />
+          <WarehouseAdminMenu
+            isVerified={warehouse?.isVerified}
+            isFeatured={warehouse?.isFeatured}
+            isVisible={warehouse?.visible}
+            id={warehouse?.id}
+            iconBtnProps={{ color: 'primary' }}
+          />
         </Box>
       )}
     </Card>

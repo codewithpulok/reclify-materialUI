@@ -87,7 +87,11 @@ const WarehouseHeader = (props) => {
         )}
 
         {/* warehouse diamonds (admin can change only) */}
-        <WarehouseDiamond value={5} action={user?.userType === 'admin'} />
+        <WarehouseDiamond
+          value={warehouse?.diamond}
+          action={user?.userType === 'admin'}
+          id={warehouse.id}
+        />
 
         {/* warehouse average rating */}
         <Stack
@@ -112,7 +116,12 @@ const WarehouseHeader = (props) => {
       >
         {/* admin action menu */}
         {user?.userType === 'admin' && (
-          <WarehouseAdminMenu isVerified={isVerified} isFeatured={isFeatured} isVisible={visible} />
+          <WarehouseAdminMenu
+            isVerified={warehouse?.isVerified}
+            isFeatured={warehouse?.isFeatured}
+            isVisible={warehouse?.visible}
+            id={warehouse?.id}
+          />
         )}
       </Stack>
     </Stack>

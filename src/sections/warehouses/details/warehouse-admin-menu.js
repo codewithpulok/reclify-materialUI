@@ -1,24 +1,24 @@
 'use client';
 
-import {
-  Button,
-  IconButton,
-  ListItemIcon,
-  ListItemText,
-  Menu,
-  MenuItem,
-  MenuList,
-} from '@mui/material';
+import { LoadingButton } from '@mui/lab';
+import { IconButton, ListItemIcon, ListItemText, Menu, MenuItem, MenuList } from '@mui/material';
+import { enqueueSnackbar } from 'notistack';
 import PropTypes from 'prop-types';
 import { useCallback, useMemo, useRef } from 'react';
 import { ConfirmDialog } from 'src/components/common/custom-dialog';
 import { useBoolean } from 'src/hooks/use-boolean';
+import {
+  useUpdateWarehouseFeaturedMutation,
+  useUpdateWarehouseVerifiedMutation,
+  useUpdateWarehouseVisibleMutation,
+} from 'src/redux-toolkit/services/adminApi';
 import { ICONS } from '../config-warehouse';
 
-const WarehouseAdminMenuProps = {
+const Props = {
   isVerified: PropTypes.bool.isRequired,
   isFeatured: PropTypes.bool.isRequired,
   isVisible: PropTypes.bool.isRequired,
+  id: PropTypes.string.isRequired,
   /** @type {import('@mui/material').MenuProps} */
   menuProps: PropTypes.object,
   /** @type {import('@mui/material').IconButtonProps} */
@@ -26,13 +26,17 @@ const WarehouseAdminMenuProps = {
 };
 
 /**
- * @param {WarehouseAdminMenuProps} props
+ * @param {Props} props
  * @returns {JSX.Element}
  */
 const WarehouseAdminMenu = (props) => {
-  const { isFeatured, isVerified, isVisible, menuProps = {}, iconBtnProps = {} } = props;
-  const menu = useBoolean(false);
+  const { isFeatured, isVerified, isVisible, menuProps = {}, iconBtnProps = {}, id } = props;
 
+  const [updateFeatured, featuredResults] = useUpdateWarehouseFeaturedMutation();
+  const [updateVerified, verifiedResults] = useUpdateWarehouseVerifiedMutation();
+  const [updateVisible, visibleResults] = useUpdateWarehouseVisibleMutation();
+
+  const menu = useBoolean(false);
   const anchorRef = useRef(null);
 
   const verifyDialog = useBoolean(false);
@@ -45,22 +49,40 @@ const WarehouseAdminMenu = (props) => {
   const invisibleDialog = useBoolean(false);
 
   const openVerifyDialog = useCallback(() => verifyDialog.onTrue(), [verifyDialog]);
-  const closeVerifyDialog = () => verifyDialog.onFalse();
+  const closeVerifyDialog = useCallback(() => {
+    verifyDialog.onFalse();
+    menu.onFalse();
+  }, [menu, verifyDialog]);
 
   const openUnverifyDialog = useCallback(() => unverifyDialog.onTrue(), [unverifyDialog]);
-  const closeUnverifyDialog = () => unverifyDialog.onFalse();
+  const closeUnverifyDialog = useCallback(() => {
+    unverifyDialog.onFalse();
+    menu.onFalse();
+  }, [menu, unverifyDialog]);
 
   const openFeaturedDialog = useCallback(() => featuredDialog.onTrue(), [featuredDialog]);
-  const closeFeaturedDialog = () => featuredDialog.onFalse();
+  const closeFeaturedDialog = useCallback(() => {
+    featuredDialog.onFalse();
+    menu.onFalse();
+  }, [featuredDialog, menu]);
 
   const openUnfeaturedDialog = useCallback(() => unfeaturedDialog.onTrue(), [unfeaturedDialog]);
-  const closeUnfeaturedDialog = () => unfeaturedDialog.onFalse();
+  const closeUnfeaturedDialog = useCallback(() => {
+    unfeaturedDialog.onFalse();
+    menu.onFalse();
+  }, [menu, unfeaturedDialog]);
 
   const openVisibleDialog = useCallback(() => visibleDialog.onTrue(), [visibleDialog]);
-  const closeVisibleDialog = () => visibleDialog.onFalse();
+  const closeVisibleDialog = useCallback(() => {
+    visibleDialog.onFalse();
+    menu.onFalse();
+  }, [menu, visibleDialog]);
 
   const openInvisibleDialog = useCallback(() => invisibleDialog.onTrue(), [invisibleDialog]);
-  const closeInvisibleDialog = () => invisibleDialog.onFalse();
+  const closeInvisibleDialog = useCallback(() => {
+    invisibleDialog.onFalse();
+    menu.onFalse();
+  }, [invisibleDialog, menu]);
 
   const items = useMemo(
     () => [
@@ -109,6 +131,126 @@ const WarehouseAdminMenu = (props) => {
     ]
   );
 
+  // verifiy handler
+  const confirmVerifyDialog = useCallback(async () => {
+    const response = await updateVerified({ id, isVerified: true });
+    const { data, error } = response;
+
+    // handle error state
+    if (error || data?.isError) {
+      enqueueSnackbar('Error in verifing warehouse!', { variant: 'error' });
+      console.error('Error in verifing warehouse:', response);
+    }
+
+    // handle success state
+    else if (data?.isSuccess) {
+      enqueueSnackbar('Warehouse Verified');
+      console.warn('Warehouse Verified:', response);
+    }
+
+    closeVerifyDialog();
+  }, [closeVerifyDialog, id, updateVerified]);
+
+  // unverify handler
+  const confirmUnverifyDialog = useCallback(async () => {
+    const response = await updateVerified({ id, isVerified: false });
+    const { data, error } = response;
+
+    // handle error state
+    if (error || data?.isError) {
+      enqueueSnackbar('Error in unverifing warehouse!', { variant: 'error' });
+      console.error('Error in unverifing warehouse:', response);
+    }
+
+    // handle success state
+    else if (data?.isSuccess) {
+      enqueueSnackbar('Warehouse Unverified');
+      console.warn('Warehouse Unverified:', response);
+    }
+
+    closeUnverifyDialog();
+  }, [closeUnverifyDialog, id, updateVerified]);
+
+  // featured handler
+  const confirmFeaturedDialog = useCallback(async () => {
+    const response = await updateFeatured({ id, isFeatured: true });
+    const { data, error } = response;
+
+    // handle error state
+    if (error || data?.isError) {
+      enqueueSnackbar('Error in featured warehouse!', { variant: 'error' });
+      console.error('Error in featured warehouse:', response);
+    }
+
+    // handle success state
+    else if (data?.isSuccess) {
+      enqueueSnackbar('Warehouse Featured');
+      console.warn('Warehouse Featured:', response);
+    }
+
+    closeFeaturedDialog();
+  }, [closeFeaturedDialog, id, updateFeatured]);
+
+  // unfeatured handler
+  const confirmUnfeaturedDialog = useCallback(async () => {
+    const response = await updateFeatured({ id, isFeatured: false });
+    const { data, error } = response;
+
+    // handle error state
+    if (error || data?.isError) {
+      enqueueSnackbar('Error in unfeatured warehouse!', { variant: 'error' });
+      console.error('Error in unfeatured warehouse:', response);
+    }
+
+    // handle success state
+    else if (data?.isSuccess) {
+      enqueueSnackbar('Warehouse Unfeatured');
+      console.warn('Warehouse Unfeatured:', response);
+    }
+
+    closeUnfeaturedDialog();
+  }, [closeUnfeaturedDialog, id, updateFeatured]);
+
+  // visible handler
+  const confirmVisibleDialog = useCallback(async () => {
+    const response = await updateVisible({ id, visible: true });
+    const { data, error } = response;
+
+    // handle error state
+    if (error || data?.isError) {
+      enqueueSnackbar('Error in visible warehouse!', { variant: 'error' });
+      console.error('Error in visible warehouse:', response);
+    }
+
+    // handle success state
+    else if (data?.isSuccess) {
+      enqueueSnackbar('Warehouse Visibled');
+      console.warn('Warehouse Visibled:', response);
+    }
+
+    closeVisibleDialog();
+  }, [closeVisibleDialog, id, updateVisible]);
+
+  // hidden handler
+  const confirmHiddenDialog = useCallback(async () => {
+    const response = await updateVisible({ id, visible: false });
+    const { data, error } = response;
+
+    // handle error state
+    if (error || data?.isError) {
+      enqueueSnackbar('Error in hide warehouse!', { variant: 'error' });
+      console.error('Error in hide warehouse:', response);
+    }
+
+    // handle success state
+    else if (data?.isSuccess) {
+      enqueueSnackbar('Warehouse Hidden');
+      console.warn('Warehouse Hidden:', response);
+    }
+
+    closeInvisibleDialog();
+  }, [closeInvisibleDialog, id, updateVisible]);
+
   return (
     <div>
       <IconButton ref={anchorRef} onClick={menu.onToggle} {...iconBtnProps}>
@@ -151,9 +293,14 @@ const WarehouseAdminMenu = (props) => {
         content="Are you sure to make this warehouse verified?"
         onClose={closeVerifyDialog}
         action={
-          <Button color="primary" variant="contained" onClick={closeVerifyDialog}>
+          <LoadingButton
+            loading={verifiedResults.isLoading}
+            color="primary"
+            variant="contained"
+            onClick={confirmVerifyDialog}
+          >
             Confirm
-          </Button>
+          </LoadingButton>
         }
       />
 
@@ -164,9 +311,14 @@ const WarehouseAdminMenu = (props) => {
         content="Are you sure to remove verification from this warehouse?"
         onClose={closeUnverifyDialog}
         action={
-          <Button color="error" variant="contained" onClick={closeUnverifyDialog}>
+          <LoadingButton
+            loading={verifiedResults.isLoading}
+            color="error"
+            variant="contained"
+            onClick={confirmUnverifyDialog}
+          >
             Confirm
-          </Button>
+          </LoadingButton>
         }
       />
 
@@ -177,9 +329,14 @@ const WarehouseAdminMenu = (props) => {
         content="Are you sure to feature this warehouse?"
         onClose={closeFeaturedDialog}
         action={
-          <Button color="primary" variant="contained" onClick={closeFeaturedDialog}>
+          <LoadingButton
+            loading={featuredResults.isLoading}
+            color="primary"
+            variant="contained"
+            onClick={confirmFeaturedDialog}
+          >
             Make Featured
-          </Button>
+          </LoadingButton>
         }
       />
 
@@ -190,9 +347,14 @@ const WarehouseAdminMenu = (props) => {
         content="Are you sure to remove featured from this warehouse?"
         onClose={closeUnfeaturedDialog}
         action={
-          <Button color="error" variant="contained" onClick={closeUnfeaturedDialog}>
+          <LoadingButton
+            loading={featuredResults.isLoading}
+            color="error"
+            variant="contained"
+            onClick={confirmUnfeaturedDialog}
+          >
             Confirm
-          </Button>
+          </LoadingButton>
         }
       />
 
@@ -203,9 +365,14 @@ const WarehouseAdminMenu = (props) => {
         content="Are you sure to make this warehouse visible?"
         onClose={closeVisibleDialog}
         action={
-          <Button color="primary" variant="contained" onClick={closeVisibleDialog}>
+          <LoadingButton
+            loading={visibleResults.isLoading}
+            color="primary"
+            variant="contained"
+            onClick={confirmVisibleDialog}
+          >
             Make Visible
-          </Button>
+          </LoadingButton>
         }
       />
 
@@ -216,15 +383,20 @@ const WarehouseAdminMenu = (props) => {
         content="Are you sure to make this warehouse invisible?"
         onClose={closeInvisibleDialog}
         action={
-          <Button color="error" variant="contained" onClick={closeInvisibleDialog}>
+          <LoadingButton
+            loading={visibleResults.isLoading}
+            color="error"
+            variant="contained"
+            onClick={confirmHiddenDialog}
+          >
             Confirm
-          </Button>
+          </LoadingButton>
         }
       />
     </div>
   );
 };
 
-WarehouseAdminMenu.propTypes = WarehouseAdminMenuProps;
+WarehouseAdminMenu.propTypes = Props;
 
 export default WarehouseAdminMenu;

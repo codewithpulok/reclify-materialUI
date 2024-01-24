@@ -3,7 +3,7 @@
 import { Grid, Pagination, Stack } from '@mui/material';
 import Container from '@mui/material/Container';
 import PropTypes from 'prop-types';
-import { useCallback, useEffect, useMemo, useState } from 'react';
+import { useCallback, useEffect, useMemo } from 'react';
 // local components
 import CustomBreadcrumbs from 'src/components/common/custom-breadcrumbs/custom-breadcrumbs';
 import { EmptyState, ErrorState } from 'src/components/common/custom-state';
@@ -31,16 +31,6 @@ const RegionView = (props) => {
   const { user } = useAppSelector(selectAuth);
 
   const [getWarehouses, results] = useLazyWarehouseListQuery();
-  const [filteredWarehouses, setFilteredWarehouses] = useState([]);
-
-  // handle warehouse filter
-  useEffect(() => {
-    if (results.isSuccess && results?.data?.results instanceof Array) {
-      const filtered = [...results.data.results];
-
-      setFilteredWarehouses(filtered);
-    }
-  }, [results]);
 
   useEffect(() => {
     if (user !== null && user) {
@@ -86,8 +76,11 @@ const RegionView = (props) => {
 
   // warehouse based on region
   const regionWarehouses = useMemo(
-    () => filteredWarehouses.filter((w) => w.region === region.code),
-    [filteredWarehouses, region]
+    () =>
+      results.data?.results?.length
+        ? results.data?.results.filter((w) => w.region === region.code && w.visible)
+        : [],
+    [results, region]
   );
 
   return (

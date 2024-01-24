@@ -2,7 +2,6 @@ import { ListItem, ListItemText, Stack } from '@mui/material';
 import PropTypes from 'prop-types';
 import { useMemo } from 'react';
 import { predefinedServiceFeatures } from 'src/assets/data/predefined-fields/service';
-import { serviceTypes } from 'src/constant/service-types';
 import { getPredefinedFieldsValue } from 'src/utils/predefined-fields';
 import { ServiceDetailsBox } from '../../box';
 
@@ -20,13 +19,10 @@ const Props = {
  */
 const ServiceFeatures = (props) => {
   const { features = {}, sx = {}, type } = props;
-  const predefinedFields = useMemo(
-    () => predefinedServiceFeatures(serviceTypes.find((s) => s.value === type)?.subtypes || []),
-    [type]
-  );
+
   const values = useMemo(
-    () => getPredefinedFieldsValue(features, predefinedFields),
-    [features, predefinedFields]
+    () => getPredefinedFieldsValue(features, predefinedServiceFeatures(type)),
+    [features, type]
   );
   return (
     <ServiceDetailsBox sx={sx} title="Features">
