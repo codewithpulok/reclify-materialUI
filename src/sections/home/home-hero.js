@@ -79,7 +79,7 @@ export default function HomeHero() {
 
   const renderSlides = (
     <Image
-      src="/assets/images/home/hero/empty_warehouse.jpg"
+      src="/assets/images/home/landing01.png"
       sx={{ borderRadius: 1, maxWidth: 450, width: '100%', mx: 'auto' }}
     />
   );
