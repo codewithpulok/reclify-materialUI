@@ -24,7 +24,7 @@ import { loginSchema } from './schema';
 
 const defaultValues = {
   email: 'seller@test.com',
-  password: 'test123',
+  password: 'test@123',
 };
 // ----------------------------------------------------------------------
 
