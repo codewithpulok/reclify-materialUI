@@ -32,8 +32,8 @@ export const adminApi = createApi({
   endpoints: (builder) => ({
     updateWarehouseVerified: builder.mutation({
       query: ({ id, isVerified }) => ({
-        url: '/warehouse',
-        body: { isVerified, id },
+        url: `/warehouse/${id}`,
+        body: { isVerified },
         method: 'PUT',
       }),
       onQueryStarted: async (arg, { dispatch, queryFulfilled }) => {
@@ -48,8 +48,8 @@ export const adminApi = createApi({
     }),
     updateWarehouseFeatured: builder.mutation({
       query: ({ id, isFeatured }) => ({
-        url: `/warehouse`,
-        body: { id, isFeatured },
+        url: `/warehouse/${id}`,
+        body: { isFeatured },
         method: 'PUT',
       }),
       onQueryStarted: async (arg, { dispatch, queryFulfilled }) => {
@@ -64,8 +64,8 @@ export const adminApi = createApi({
     }),
     updateWarehouseDiamond: builder.mutation({
       query: ({ id, diamond }) => ({
-        url: `/warehouse`,
-        body: { id, diamond },
+        url: `/warehouse/${id}`,
+        body: { diamond },
         method: 'PUT',
       }),
       onQueryStarted: async (arg, { dispatch, queryFulfilled }) => {
@@ -80,8 +80,8 @@ export const adminApi = createApi({
     }),
     updateWarehouseVisible: builder.mutation({
       query: ({ id, visible }) => ({
-        url: `/warehouse`,
-        body: { id, visible },
+        url: `/warehouse/${id}`,
+        body: { visible },
         method: 'PUT',
       }),
       onQueryStarted: async (arg, { dispatch, queryFulfilled }) => {

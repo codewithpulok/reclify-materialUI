@@ -9,13 +9,12 @@ import Label from 'src/components/common/label';
 import { WarehousePhotoUpload } from 'src/components/warehouse/upload';
 
 const ServiceFields = (props) => {
-  const { watch } = useFormContext();
+  const { watch, setValue } = useFormContext();
   const type = watch('type', undefined);
+  const foundedYear = watch('foundedYear');
 
   /** @type {PredefinedField[]} */
   const subServices = useMemo(() => predefinedServiceFeatures(type), [type]);
-
-  console.log({ subServices });
 
   return (
     <Grid container spacing={1.5}>
@@ -41,6 +40,8 @@ const ServiceFields = (props) => {
               slotProps={{ textField: { fullWidth: true } }}
               minDate={new Date().setFullYear(1800, 0, 0)}
               maxDate={new Date()}
+              value={new Date().setFullYear(foundedYear || 1800)}
+              onChange={(value) => setValue('foundedYear', new Date(value).getFullYear())}
             />
           </Grid>
           <Grid item xs={12}>

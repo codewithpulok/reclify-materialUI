@@ -34,7 +34,7 @@ export const endpoints = {
     update: `${PRIVATE_BACKEND_API}/address`,
   },
   admin: {
-    warehouse: `${PRIVATE_BACKEND_API}/admin/warehouse`,
+    warehouse: (id) => `${PRIVATE_BACKEND_API}/admin/warehouse/${id}`,
   },
   profile: {
     get: `${PRIVATE_BACKEND_API}/user/profile`,
