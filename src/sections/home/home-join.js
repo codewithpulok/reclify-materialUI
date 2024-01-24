@@ -1,17 +1,22 @@
 import { m } from 'framer-motion';
-
+// mui
 import Box from '@mui/material/Box';
 import Container from '@mui/material/Container';
 import Stack from '@mui/material/Stack';
 import Typography from '@mui/material/Typography';
-
+// components
 import { MotionViewport, varFade } from 'src/components/common/animate';
+import Image from 'src/components/common/image';
 
 // ----------------------------------------------------------------------
 
 export default function HomeJoin() {
   const renderDescription = (
     <Stack alignItems="center" spacing={3}>
+      <Image
+        src="/assets/images/home/3d-warehouse.png"
+        sx={{ borderRadius: 1, maxWidth: 180, width: '100%', mx: 'auto' }}
+      />
       <m.div variants={varFade().inUp}>
         <Typography component="div" variant="overline" sx={{ color: 'primary.main' }}>
           Experience the future of warehousing.
