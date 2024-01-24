@@ -6,10 +6,11 @@ import * as Yup from 'yup';
 // components
 import { Card, Stack } from '@mui/material';
 import { useCallback, useMemo } from 'react';
-import { getUserByType } from 'src/assets/dummy/users';
+import { getUserByServiceType, getUserByType } from 'src/assets/dummy/users';
 import { addressFieldSchema } from 'src/components/common/custom-fields';
 import { EmptyState } from 'src/components/common/custom-state';
 import FormProvider from 'src/components/common/hook-form';
+import { PLACEHOLDER_PROFILE_COVER } from 'src/config-global';
 import { selectAuth } from 'src/redux-toolkit/features/auth/authSlice';
 import { useAppSelector } from 'src/redux-toolkit/hooks';
 import { fDate } from 'src/utils/format-time';
@@ -36,7 +37,7 @@ const SettingsGeneral = () => {
   const { enqueueSnackbar } = useSnackbar();
   const { user: authUser } = useAppSelector(selectAuth);
 
-  const user = getUserByType(authUser?.userType); // TODO: added for testing.
+  const user = getUserByServiceType(authUser?.serviceType) || getUserByType(authUser.userType); // TODO: added for testing.
 
   const defaultValues = useMemo(
     () => ({
@@ -44,9 +45,9 @@ const SettingsGeneral = () => {
       lastName: user?.lastName || '',
       email: user?.email || '',
       website: user?.website || '',
+      serviceType: user?.serviceType || '',
       avatar: user?.avatar || null,
-      cover:
-        user?.cover || 'https://api-prod-minimal-v510.vercel.app/assets/images/cover/cover_4.jpg',
+      cover: user?.cover || PLACEHOLDER_PROFILE_COVER,
       phoneNumber: user?.phoneNumber || '',
       address: user?.address || '',
       about: user?.about || '',

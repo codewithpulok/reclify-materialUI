@@ -11,6 +11,7 @@
  * @property {string} avatar - The URL of the user's profile photo.
  * @property {string} phoneNumber - The phone number of the user.
  * @property {UserType} userType - The type of the user ('admin', 'customer', 'seller').
+ * @property {string} serviceType
  * @property {Address} address - The street address of the user.
  * @property {string} about - A brief description or bio of the user.
  * @property {number} createdAt - The timestamp when the user account was created.

@@ -159,6 +159,8 @@ export const getUserByID = (id) => users.find((user) => user.id === id);
 export const getUserByEmail = (email) => users.find((user) => user.email === email);
 
 export const getUserByType = (type) => users.find((user) => user.userType === type);
+export const getUserByServiceType = (serviceType) =>
+  users.find((user) => user?.serviceType === serviceType);
 
 /**
  * all seller users

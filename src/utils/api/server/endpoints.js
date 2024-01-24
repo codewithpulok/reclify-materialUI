@@ -4,7 +4,7 @@ import { PRIVATE_BACKEND_API } from 'src/config-global';
 export const endpoints = {
   auth: {
     login: `${PRIVATE_BACKEND_API}/auth/login`,
-    register: `${PRIVATE_BACKEND_API}/users/signup`,
+    register: `${PRIVATE_BACKEND_API}/auth/signup`,
   },
   warehouses: {
     list: `${PRIVATE_BACKEND_API}/warehouse`,

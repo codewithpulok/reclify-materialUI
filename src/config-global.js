@@ -4,6 +4,10 @@ import { paths } from 'src/routes/paths';
 export const USER_STORAGE_KEY = 'RACKLIFY_USER';
 export const TOKEN_STORAGE_KEY = 'RACKLIFY_TOKEN';
 
+// PLACEHOLDER IMAGE // ---------------------------------------------------------------------
+export const PLACEHOLDER_PROFILE_COVER =
+  'https://api-prod-minimal-v510.vercel.app/assets/images/cover/cover_4.jpg';
+
 // API // ----------------------------------------------------------------------
 export const MAPBOX_API = process.env.NEXT_PUBLIC_MAPBOX_API; // mapbox api key
 

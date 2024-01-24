@@ -10,6 +10,17 @@ const Fields = (props) => {
   const { watch } = useFormContext();
   const userType = watch('userType');
 
+  const serviceField =
+    userType === 'seller' ? (
+      <RHFTextField name="serviceType" label="Service Type" select>
+        {serviceTypes.map((serviceType) => (
+          <MenuItem key={serviceType.value} value={serviceType.value}>
+            {serviceType.label}
+          </MenuItem>
+        ))}
+      </RHFTextField>
+    ) : null;
+
   return (
     <Stack spacing={2.5}>
       <Stack direction={{ xs: 'column', sm: 'row' }} spacing={2}>
@@ -22,15 +33,7 @@ const Fields = (props) => {
         <MenuItem value="seller">Service Provider</MenuItem>
       </RHFTextField>
 
-      {userType === 'seller' && (
-        <RHFTextField name="serviceType" label="Service Type" select>
-          {serviceTypes.map((serviceType) => (
-            <MenuItem key={serviceType.value} value={serviceType.value}>
-              {serviceType.label}
-            </MenuItem>
-          ))}
-        </RHFTextField>
-      )}
+      {serviceField}
 
       <RHFTextField name="email" label="Email address" />
 
