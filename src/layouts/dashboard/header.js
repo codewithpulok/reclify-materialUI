@@ -29,17 +29,12 @@ import { HEADER, NAV } from '../config-layout';
 
 export default function Header({ onOpenNav }) {
   const theme = useTheme();
-
   const settings = useSettingsContext();
-
   const isNavHorizontal = settings.themeLayout === 'horizontal';
-
   const isNavMini = settings.themeLayout === 'mini';
 
   const lgUp = useResponsive('up', 'lg');
-
   const offset = useOffSetTop(HEADER.H_DESKTOP);
-
   const offsetTop = offset && !isNavHorizontal;
 
   const renderContent = (

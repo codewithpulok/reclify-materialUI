@@ -63,6 +63,8 @@ const StyledPolygon = styled('div')(({ opacity = 1, anchor = 'left', theme }) =>
   }),
 }));
 
+const MotionButton = m(Button);
+
 // ----------------------------------------------------------------------
 
 export default function HomeHero() {
@@ -70,7 +72,7 @@ export default function HomeHero() {
 
   const renderDescription = (
     <Stack alignItems="center" justifyContent="center" height={{ xs: 1 }}>
-      <m.div variants={varFade().inRight}>
+      <m.div variants={varFade().inRight} transition={{ duration: 2 }}>
         <Logo sx={{ maxWidth: 450, height: 'auto', width: '100%' }} isLong disabledLink />
       </m.div>
       <m.div variants={varFade().inRight}>
@@ -79,30 +81,41 @@ export default function HomeHero() {
         </Typography>
       </m.div>
       <Stack sx={{ mt: 6 }}>
-        <m.div variants={varFade().inRight}>
-          <Button
-            LinkComponent={Link}
-            href={paths.auth.register}
-            variant="contained"
-            color="primary"
-            startIcon={getIconify('ion:rocket', 24)}
-            size="large"
-            sx={{ px: 4 }}
-          >
-            Start today
-          </Button>
-        </m.div>
+        <MotionButton
+          LinkComponent={Link}
+          href={paths.auth.register}
+          variant="contained"
+          color="primary"
+          startIcon={getIconify('ion:rocket', 24)}
+          size="large"
+          sx={{ px: 4 }}
+          variants={varFade().inRight}
+          whileHover={{ scale: 1.2 }}
+          whileTap={{ scale: 0.8 }}
+        >
+          Start today
+        </MotionButton>
       </Stack>
     </Stack>
   );
 
   const renderSlides = (
-    <m.div variants={varFade().inDown}>
-      <Image
-        src="/assets/images/home/landing01.png"
-        sx={{ borderRadius: 1, maxWidth: 450, width: '100%', mx: 'auto' }}
-      />
-    </m.div>
+    <Stack sx={{ position: 'relative' }}>
+      <m.div
+        variants={{
+          hidden: { opacity: 0, x: 300, y: 0 },
+          enter: { opacity: 1, x: 0, y: 0 },
+        }}
+        initial="hidden"
+        animate="enter"
+        transition={{ type: 'spring', damping: 10, stiffness: 100, duration: 2 }}
+      >
+        <Image
+          src="/assets/images/home/landing01.png"
+          sx={{ borderRadius: 1, maxWidth: 450, width: '100%', mx: 'auto' }}
+        />
+      </m.div>
+    </Stack>
   );
 
   const renderPolygons = (

@@ -58,26 +58,17 @@ export default function Header() {
       >
         <Container sx={{ height: 1, display: 'flex', alignItems: 'center' }}>
           <Logo isLong={smUp} />
-
           <Box sx={{ flexGrow: 1 }} />
-
           {mdUp && <NavDesktop data={navConfig} />}
-
           <Stack
             alignItems="center"
             direction={{
               xs: 'row-reverse',
             }}
           >
-            <Button
-              LinkComponent={Link}
-              href={paths.contact_us}
-              variant="contained"
-              color="primary"
-            >
+            <Button LinkComponent={Link} href={paths.contact_us} variant="outlined" color="primary">
               Contact Us
             </Button>
-
             <LoginButton />
           </Stack>
           {!mdUp && <NavMobile data={navConfig} />}
