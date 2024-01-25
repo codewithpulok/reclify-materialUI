@@ -1,9 +1,10 @@
 import { createApi } from '@reduxjs/toolkit/query/react';
+import { endpoints } from 'src/utils/api/client';
 import { publicBaseQuery } from '../utills';
 
 export const uploadFilesApi = createApi({
   reducerPath: 'uploadFilesApi',
-  baseQuery: publicBaseQuery('/upload/files'),
+  baseQuery: publicBaseQuery(endpoints.file_upload.root),
   endpoints: (builder) => ({
     filesUpload: builder.mutation({
       query: (files = []) => {
@@ -11,7 +12,7 @@ export const uploadFilesApi = createApi({
         files.forEach((file) => bodyFormData.append('files', file));
 
         return {
-          url: '/',
+          url: endpoints.file_upload.create,
           method: 'POST',
           body: bodyFormData,
         };
@@ -19,18 +20,18 @@ export const uploadFilesApi = createApi({
     }),
     fileDelete: builder.mutation({
       query: (id) => ({
-        url: `/${id}`,
+        url: endpoints.file_upload.delete(id),
         method: 'DELETE',
       }),
     }),
     fileGet: builder.query({
       query: (id) => ({
-        url: `/${id}`,
+        url: endpoints.file_upload.get(id),
       }),
     }),
     filesList: builder.query({
       query: () => ({
-        url: `/`,
+        url: endpoints.file_upload.list,
       }),
     }),
   }),

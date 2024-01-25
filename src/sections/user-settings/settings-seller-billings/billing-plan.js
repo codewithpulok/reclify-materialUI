@@ -16,7 +16,7 @@ import { card as creditCards } from 'creditcards';
 import {
   BillingAddressListDialog,
   PaymentCardListDialog,
-  UpgradePaymentDialog,
+  SubscriptionPaymentDialog,
 } from 'src/components/common/custom-dialog';
 import { joinAddressObj } from 'src/utils/address';
 import { ICONS } from '../config-settings';
@@ -186,7 +186,7 @@ const BillingPlan = (props) => {
         onSelect={handleSelectAddress}
       />
 
-      <UpgradePaymentDialog open={openPaymentForm.value} onClose={openPaymentForm.onFalse} />
+      <SubscriptionPaymentDialog open={openPaymentForm.value} onClose={openPaymentForm.onFalse} />
     </>
   );
 };

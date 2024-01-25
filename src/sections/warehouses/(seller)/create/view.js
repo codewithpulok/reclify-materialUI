@@ -39,7 +39,7 @@ const WarehouseCreateView = (props) => {
     if (result.data?.statusCode === 404) notFound();
 
     // on request success
-    if (result.isSuccess && result.data?.isSuccess) {
+    if (result.isSuccess && result.data?.success) {
       return <Content sourceWarehouse={result.data?.results} />;
     }
 

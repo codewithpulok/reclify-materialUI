@@ -5,12 +5,18 @@ import { Button, Stack } from '@mui/material';
 
 import { yupResolver } from '@hookform/resolvers/yup';
 import { LoadingButton } from '@mui/lab';
+import { enqueueSnackbar } from 'notistack';
 import { useCallback, useEffect } from 'react';
 import { useForm } from 'react-hook-form';
-import { getServiceById } from 'src/assets/dummy/services';
 import FormProvider from 'src/components/common/hook-form/form-provider';
 import { ServiceDetailsPreview } from 'src/components/service/details';
 import { useBoolean } from 'src/hooks/use-boolean';
+import { selectAuth } from 'src/redux-toolkit/features/auth/authSlice';
+import { useAppSelector } from 'src/redux-toolkit/hooks';
+import {
+  useLazyGetOwnServiceQuery,
+  useUpdateOwnServiceMutation,
+} from 'src/redux-toolkit/services/serviceApi';
 import ServiceFields from './services-fields';
 import createSchema from './services-schema';
 
@@ -35,7 +41,9 @@ const Props = {};
  * @returns {JSX.Element}
  */
 const SettingsService = (props) => {
-  const service = getServiceById();
+  const { user } = useAppSelector(selectAuth);
+  const [getService, serviceResponse] = useLazyGetOwnServiceQuery();
+  const [updateService] = useUpdateOwnServiceMutation();
   const previewMode = useBoolean(false);
 
   const methods = useForm({ resolver: yupResolver(createSchema), defaultValues });
@@ -48,15 +56,51 @@ const SettingsService = (props) => {
   }, [reset]);
 
   // handle form submit
-  const onSubmit = useCallback(async (values) => {
-    console.log('Update Service:', values);
-  }, []);
+  const onSubmit = useCallback(
+    async (values) => {
+      console.log('Updating Service:', values);
+
+      const response = await updateService(values);
+      const { error, data } = response;
+
+      // handle error state
+      if (error || data?.isError) {
+        enqueueSnackbar('Error in service update', { variant: 'error' });
+        console.error('Error in service update:', response);
+      }
+      // handle success state
+      else if (data?.success) {
+        enqueueSnackbar('Service updated');
+        console.warn('Service updated:', response);
+      }
+    },
+    [updateService]
+  );
+
+  // get service details
+  useEffect(() => {
+    if (user) getService();
+  }, [getService, user]);
 
   // update values
   useEffect(() => {
-    reset(service);
+    if (serviceResponse.isSuccess && serviceResponse?.data?.success && user?.serviceType) {
+      const changes = {};
+
+      Object.keys(defaultValues).forEach((key) => {
+        if (serviceResponse?.data?.results?.[key]) {
+          changes[key] = serviceResponse.data.results[key];
+        } else if (key === 'type') {
+          changes[key] = user.serviceType;
+        } else {
+          changes[key] = defaultValues[key];
+        }
+      });
+
+      reset(changes);
+    }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [service]);
+  }, [serviceResponse, user]);
 
   return (
     <>

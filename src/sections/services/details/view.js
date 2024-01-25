@@ -21,7 +21,7 @@ function DetailsView(props) {
   const { id } = props;
   const result = useMemo(
     () => ({
-      data: { results: getServiceById(id), isSuccess: true },
+      data: { results: getServiceById(id), success: true },
       isSuccess: true,
       isLoading: false,
     }),
@@ -35,7 +35,7 @@ function DetailsView(props) {
   if (result.data?.statusCode === 404) notFound();
 
   // on request success
-  if (result.isSuccess && result.data?.isSuccess) {
+  if (result.isSuccess && result.data?.success) {
     return <ServiceDetails service={result.data.results} />;
   }
 

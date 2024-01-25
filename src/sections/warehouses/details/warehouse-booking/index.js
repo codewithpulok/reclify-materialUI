@@ -1,10 +1,10 @@
 import { Box, Button, Card, Chip, Grid, Stack, Typography, useTheme } from '@mui/material';
 import PropTypes from 'prop-types';
-import { useEffect, useMemo, useState } from 'react';
+import { useCallback, useEffect, useMemo, useState } from 'react';
 import { PurchasePaymentDialog } from 'src/components/common/custom-dialog';
 import { WarehouseMonthCard } from 'src/components/warehouse/cards';
 import { CUBIC_FEET_PER_PALLET, SQUARE_FEET_PER_PALLET } from 'src/constant/pallet';
-import { useBoolean } from 'src/hooks/use-boolean';
+import { useDialog } from 'src/hooks/use-dialog';
 import { fCurrency, fNumber } from 'src/utils/format-number';
 import { ICONS } from '../../config-warehouse';
 import SpaceField from './space-field';
@@ -50,7 +50,7 @@ const WarehouseBooking = (props) => {
   const [requiredSpace, setRequiredSpace] = useState(1);
   const [error, setError] = useState(undefined);
   const { palette } = useTheme();
-  const paymentDialog = useBoolean();
+  const paymentDialog = useDialog();
 
   // current price maybe differ based on selected month
   const currentPrice = useMemo(() => {
@@ -87,6 +87,17 @@ const WarehouseBooking = (props) => {
     }
     return 0;
   }, [totalPrice, warehouse.discountRate]);
+
+  // open payment dialog
+  const openPaymentDialog = useCallback(() => {
+    paymentDialog.onOpen({
+      warehouse,
+      pallet: requiredSpace,
+      month: selectedMonth,
+      total: totalPrice,
+      price: currentPrice,
+    });
+  }, [currentPrice, paymentDialog, requiredSpace, selectedMonth, totalPrice, warehouse]);
 
   // update according to warehouse
   useEffect(() => {
@@ -232,7 +243,7 @@ const WarehouseBooking = (props) => {
             variant="contained"
             size="large"
             endIcon={ICONS.purchase()}
-            onClick={paymentDialog.onTrue}
+            onClick={openPaymentDialog}
             disabled={!!error || totalPrice === undefined}
             sx={{ mt: 1.5 }}
             fullWidth
@@ -242,7 +253,11 @@ const WarehouseBooking = (props) => {
         ) : null}
       </Card>
 
-      <PurchasePaymentDialog open={paymentDialog.value} onClose={paymentDialog.onFalse} />
+      <PurchasePaymentDialog
+        open={paymentDialog.open}
+        onClose={paymentDialog.onClose}
+        purchaseData={paymentDialog.value}
+      />
     </>
   );
 };

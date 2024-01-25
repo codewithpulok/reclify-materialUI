@@ -1,5 +1,7 @@
 export * from './config-custom-form';
-export { default as PaymentForm } from './payment-form';
+// payment forms
+export { default as PurchaseForm } from './payment-form/purchase-form';
+export { default as SubscriptionForm } from './payment-form/subscription-form';
 
 // payment card forms
 export { default as PaymentCardCreateForm } from './payment-card/create';

@@ -143,7 +143,7 @@ const WarehouseAdminMenu = (props) => {
     }
 
     // handle success state
-    else if (data?.isSuccess) {
+    else if (data?.success) {
       enqueueSnackbar('Warehouse Verified');
       console.warn('Warehouse Verified:', response);
     }
@@ -163,7 +163,7 @@ const WarehouseAdminMenu = (props) => {
     }
 
     // handle success state
-    else if (data?.isSuccess) {
+    else if (data?.success) {
       enqueueSnackbar('Warehouse Unverified');
       console.warn('Warehouse Unverified:', response);
     }
@@ -183,7 +183,7 @@ const WarehouseAdminMenu = (props) => {
     }
 
     // handle success state
-    else if (data?.isSuccess) {
+    else if (data?.success) {
       enqueueSnackbar('Warehouse Featured');
       console.warn('Warehouse Featured:', response);
     }
@@ -203,7 +203,7 @@ const WarehouseAdminMenu = (props) => {
     }
 
     // handle success state
-    else if (data?.isSuccess) {
+    else if (data?.success) {
       enqueueSnackbar('Warehouse Unfeatured');
       console.warn('Warehouse Unfeatured:', response);
     }
@@ -223,7 +223,7 @@ const WarehouseAdminMenu = (props) => {
     }
 
     // handle success state
-    else if (data?.isSuccess) {
+    else if (data?.success) {
       enqueueSnackbar('Warehouse Visibled');
       console.warn('Warehouse Visibled:', response);
     }
@@ -243,7 +243,7 @@ const WarehouseAdminMenu = (props) => {
     }
 
     // handle success state
-    else if (data?.isSuccess) {
+    else if (data?.success) {
       enqueueSnackbar('Warehouse Hidden');
       console.warn('Warehouse Hidden:', response);
     }

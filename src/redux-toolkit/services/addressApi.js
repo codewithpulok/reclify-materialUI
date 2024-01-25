@@ -1,38 +1,39 @@
 import { createApi } from '@reduxjs/toolkit/query/react';
+import { endpoints } from 'src/utils/api/client';
 import { publicBaseQuery } from '../utills';
 
 export const addressApi = createApi({
   reducerPath: 'addressApi',
-  baseQuery: publicBaseQuery('/addresses'),
+  baseQuery: publicBaseQuery(endpoints.address.root),
   endpoints: (builder) => ({
     addressCreate: builder.mutation({
       query: (data) => ({
-        url: '/',
+        url: endpoints.address.create,
         body: data,
         method: 'POST',
       }),
     }),
     addressUpdate: builder.mutation({
       query: ({ id, data }) => ({
-        url: `/${id}`,
+        url: endpoints.address.update,
         body: data,
         method: 'PUT',
       }),
     }),
     addressDelete: builder.mutation({
       query: (id) => ({
-        url: `/${id}`,
+        url: endpoints.address.delete(id),
         method: 'DELETE',
       }),
     }),
     addressSearch: builder.query({
       query: (query) => ({
-        url: `/search?search=${query}`,
+        url: endpoints.address.search(query),
       }),
     }),
     addressGet: builder.query({
       query: (id) => ({
-        url: `/${id}`,
+        url: endpoints.address.get(id),
       }),
     }),
   }),

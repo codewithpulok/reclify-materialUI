@@ -33,7 +33,7 @@ const ReviewDelete = (props) => {
       enqueueSnackbar('Error in delete review', { variant: 'error' });
     }
     // success state
-    else if (data?.isSuccess) {
+    else if (data?.success) {
       console.warn('Review deleted', response);
       enqueueSnackbar('Review deleted');
     }

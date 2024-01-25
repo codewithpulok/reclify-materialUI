@@ -36,7 +36,7 @@ function DetailsView(props) {
   if (warehouseResult.data?.statusCode === 404) notFound();
 
   // on request success
-  if (warehouseResult.isSuccess && warehouseResult.data?.isSuccess) {
+  if (warehouseResult.isSuccess && warehouseResult.data?.success) {
     return (
       <Content
         warehouse={warehouseResult.data?.results}

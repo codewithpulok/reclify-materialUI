@@ -64,7 +64,7 @@ const ReviewEdit = (props) => {
       enqueueSnackbar('Error in update review', { variant: 'error' });
     }
     // success state
-    else if (data?.isSuccess) {
+    else if (data?.success) {
       console.warn('Review updated', response);
       enqueueSnackbar('Review updated');
       reset(defaultValues);

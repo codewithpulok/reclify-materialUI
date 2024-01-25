@@ -60,7 +60,7 @@ export default function LoginView() {
       }
 
       // handle success
-      if (data?.isSuccess) {
+      if (data?.success) {
         console.info('Login Success: ', data);
         router.push(returnTo);
       }

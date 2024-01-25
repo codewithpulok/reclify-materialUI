@@ -41,3 +41,29 @@ export const getAuthState = () =>
       reject(error);
     }
   });
+
+export const updateAuthState = (newToken = null, userUpdates = null) =>
+  // eslint-disable-next-line no-async-promise-executor
+  new Promise(async (resolve, reject) => {
+    try {
+      if (!newToken && !userUpdates) throw new Error('Invalid auth state update value');
+
+      // remove undefined values
+      const parsedUserUpdates = userUpdates
+        ? Object.keys(userUpdates).reduce((prev, curr) => {
+            if (userUpdates[curr]) prev[curr] = userUpdates[curr];
+            return prev;
+          }, {})
+        : {};
+
+      const { user } = await getAuthState();
+
+      if (newToken) sessionStorage.setItem(TOKEN_STORAGE_KEY, newToken);
+      if (parsedUserUpdates)
+        sessionStorage.setItem(USER_STORAGE_KEY, JSON.stringify({ ...user, ...parsedUserUpdates }));
+
+      resolve({ token: newToken, user: { ...user, ...parsedUserUpdates } });
+    } catch (error) {
+      reject(error);
+    }
+  });

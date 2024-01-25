@@ -13,7 +13,7 @@ import { PLACEHOLDER_PROFILE_BANNER } from 'src/config-global';
 import { selectAuth } from 'src/redux-toolkit/features/auth/authSlice';
 import { useAppSelector } from 'src/redux-toolkit/hooks';
 import {
-  useProfileGetQuery,
+  useLazyProfileGetQuery,
   useProfileUpdateMutation,
 } from 'src/redux-toolkit/services/profileApi';
 import { fDate } from 'src/utils/format-time';
@@ -52,7 +52,7 @@ const SettingsGeneral = () => {
   const { enqueueSnackbar } = useSnackbar();
   const { user } = useAppSelector(selectAuth);
 
-  const profileResponse = useProfileGetQuery();
+  const [getProfile, profileResponse] = useLazyProfileGetQuery();
   const [updateProfile] = useProfileUpdateMutation();
 
   const methods = useForm({ resolver: yupResolver(UpdateUserSchema), defaultValues });
@@ -69,7 +69,7 @@ const SettingsGeneral = () => {
       console.error('Error in profile update:', response);
     }
     // handle success state
-    else if (data?.isSuccess) {
+    else if (data?.success) {
       enqueueSnackbar('Profile updated');
       console.info('Profile updated:', response);
     }
@@ -80,11 +80,17 @@ const SettingsGeneral = () => {
     reset(defaultValues);
   }, [reset]);
 
+  useEffect(() => {
+    if (user) {
+      getProfile();
+    }
+  }, [getProfile, user]);
+
   // update state
   useEffect(() => {
     const changes = defaultValues;
 
-    if (profileResponse.isSuccess && profileResponse.data?.isSuccess) {
+    if (profileResponse.isSuccess && profileResponse.data?.success) {
       Object.keys(defaultValues).forEach((key) => {
         if (profileResponse.data?.results?.[key])
           changes[key] = profileResponse.data?.results?.[key];

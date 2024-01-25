@@ -6,12 +6,15 @@ import Stack from '@mui/material/Stack';
 import { alpha } from '@mui/material/styles';
 // local components
 import { IconButton } from '@mui/material';
-import { useCallback, useMemo } from 'react';
+import { enqueueSnackbar } from 'notistack';
+import { useMemo } from 'react';
 import { useFormContext } from 'react-hook-form';
+import { useFilesUploadMutation } from 'src/redux-toolkit/services/uploadFilesApi';
 import { bgGradient } from 'src/theme/css';
 import { ICONS } from '../config-settings';
 import AvatarFields from './avatar-fields';
 
+const fieldName = 'banner';
 const bannerContainerSx = (coverUrl) => (theme) => ({
   ...bgGradient({
     color: alpha(theme.palette.primary.darker, 0.8),
@@ -45,25 +48,60 @@ const Props = {
  */
 const BannerFields = (props) => {
   const { joined } = props;
+  const [uploadFile, uploadResults] = useFilesUploadMutation();
+
   const { setValue, watch } = useFormContext();
 
   const firstName = watch('firstName');
   const lastName = watch('lastName');
   const name = useMemo(() => `${firstName} ${lastName}`, [firstName, lastName]);
+  const bannerUrl = watch(fieldName);
 
-  const bannerUrl = watch('banner');
-  const handleBannerUpdate = useCallback(
-    (acceptedFiles) => {
-      const file = acceptedFiles[0];
+  const handlePreview = (file) => {
+    const newFile = {
+      file,
+      preview: URL.createObjectURL(file),
+    };
 
-      const preview = URL.createObjectURL(file);
+    setValue(fieldName, newFile.preview, { shouldValidate: false });
 
-      if (file) {
-        setValue('cover', preview, { shouldValidate: true });
-      }
-    },
-    [setValue]
-  );
+    return newFile;
+  };
+
+  const handleSuccess = (newUrl, tempUrl) => {
+    URL.revokeObjectURL(tempUrl);
+    setValue(fieldName, newUrl, { shouldValidate: true });
+  };
+
+  const handleError = (tempUrl) => {
+    URL.revokeObjectURL(tempUrl);
+    setValue(fieldName, null, { shouldValidate: true });
+  };
+
+  const handleDrop = async (acceptedFiles) => {
+    // check file
+    const file = acceptedFiles[0];
+    if (!file) return;
+    // handle temp file
+    const tempFile = handlePreview(file);
+
+    const response = await uploadFile([tempFile.file]);
+    const { error, data } = response;
+
+    // handle error state
+    if (error || data?.isError) {
+      enqueueSnackbar('Error in uploading banner', { variant: 'error' });
+      console.error('Error in uploading banner:', response);
+      handleError(tempFile.preview);
+    }
+
+    // handle success state
+    else if (data?.success && data?.results?.[0]?.link) {
+      enqueueSnackbar('Banner uploaded');
+      console.warn('Banner uploaded', response);
+      handleSuccess(data.results[0].link, tempFile.preview);
+    }
+  };
 
   return (
     <Box sx={bannerContainerSx(bannerUrl)}>
@@ -91,12 +129,18 @@ const BannerFields = (props) => {
         />
       </Stack>
 
-      <IconButton component="label" sx={{ position: 'absolute', top: 10, right: 10 }}>
-        {ICONS.cover_edit()}
+      <IconButton
+        disabled={uploadResults?.isLoading}
+        component="label"
+        sx={{ position: 'absolute', top: 10, right: 10 }}
+      >
+        {uploadResults?.isLoading ? ICONS.uploading() : ICONS.cover_edit()}
         <input
           type="file"
           style={{ display: 'none' }}
-          onChange={(e) => handleBannerUpdate(e.target.files)}
+          onChange={(e) => handleDrop(e.target.files)}
+          accept="image/*"
+          multiple={false}
         />
       </IconButton>
     </Box>

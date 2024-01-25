@@ -1,5 +1,5 @@
 import { fetchBaseQuery } from '@reduxjs/toolkit/query';
-import { PUBLIC_BACKEND_API } from 'src/config-global';
+import { endpoints } from 'src/utils/api/client';
 
 /**
  * public backend base query handler
@@ -8,7 +8,7 @@ import { PUBLIC_BACKEND_API } from 'src/config-global';
  */
 export const publicBaseQuery = (path) =>
   fetchBaseQuery({
-    baseUrl: `${PUBLIC_BACKEND_API}${path}`,
+    baseUrl: `${endpoints.root}${path}`,
     prepareHeaders: (headers, { getState }) => {
       const authState = getState().auth;
 

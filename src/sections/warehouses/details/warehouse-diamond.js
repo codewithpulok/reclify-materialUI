@@ -47,7 +47,7 @@ const WarehouseDiamond = (props) => {
     }
 
     // handle success state
-    else if (data?.isSuccess) {
+    else if (data?.success) {
       enqueueSnackbar('Warehouse Diamond Updated');
       console.warn('Warehouse Diamond Updated:', response);
     }
