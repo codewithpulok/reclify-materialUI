@@ -1,3 +1,5 @@
+import Link from 'next/link';
+// mui
 import AppBar from '@mui/material/AppBar';
 import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
@@ -5,16 +7,15 @@ import Container from '@mui/material/Container';
 import Stack from '@mui/material/Stack';
 import Toolbar from '@mui/material/Toolbar';
 import { useTheme } from '@mui/material/styles';
-
+// hooks
 import { useOffSetTop } from 'src/hooks/use-off-set-top';
 import { useResponsive } from 'src/hooks/use-responsive';
-
+// style
 import { bgBlur } from 'src/theme/css';
-
-import Logo from 'src/components/common/logo';
-
-import Link from 'next/link';
+// routes
 import { paths } from 'src/routes/paths';
+// components
+import Logo from 'src/components/common/logo';
 import HeaderShadow from '../common/header-shadow';
 import LoginButton from '../common/login-button';
 import { HEADER } from '../config-layout';

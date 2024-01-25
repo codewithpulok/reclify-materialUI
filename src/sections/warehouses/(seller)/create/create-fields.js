@@ -65,7 +65,7 @@ const CreateFields = (props) => (
           <RHFTextField
             type="number"
             name="minSpaceOrder"
-            label="Minimum space to order (Pallet)"
+            label="Minimum space available (Pallets)"
             fullWidth
           />
         </Grid>
@@ -73,7 +73,7 @@ const CreateFields = (props) => (
           <RHFTextField
             type="number"
             name="maxSpaceOrder"
-            label="Maximum space to order (Pallet)"
+            label="Maximum space available (Pallets)"
             fullWidth
           />
         </Grid>

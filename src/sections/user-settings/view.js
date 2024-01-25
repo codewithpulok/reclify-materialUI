@@ -40,7 +40,7 @@ export const TABS = [
   },
   {
     value: '#service',
-    label: 'Service',
+    label: 'Services',
     icon: ICONS.service(),
     roles: ['seller'],
   },

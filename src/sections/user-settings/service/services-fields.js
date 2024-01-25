@@ -74,7 +74,7 @@ const ServiceFields = (props) => {
             <PredefinedFields
               name="features"
               fields={subServices}
-              label="Features"
+              label="Services"
               defaultExpanded
             />
           </Grid>

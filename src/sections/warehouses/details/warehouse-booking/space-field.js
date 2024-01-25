@@ -27,8 +27,8 @@ const SpaceField = (props) => {
       try {
         const validation = await Yup.number()
           .label('Order Space')
-          .min(min, `Minimum orderable space is ${min}`)
-          .max(max, `Maximum orderable space is ${max}`)
+          .min(min, `Minimum available space is ${min} pallets`)
+          .max(max, `Maximum available space is ${max} pallets`)
           .required()
           .validate(numValue);
 

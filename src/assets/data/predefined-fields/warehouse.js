@@ -143,7 +143,12 @@ export const predefinedApprovedUses = [
  * @type {PredefinedField[]}
  */
 export const predefinedFacility = [
-  { key: 'totalSpace', label: 'Total Facility Size', dataType: 'number', fieldType: 'text-field' },
+  {
+    key: 'totalSpace',
+    label: 'Total Facility Size (Square Feet)',
+    dataType: 'number',
+    fieldType: 'text-field',
+  },
   { key: 'operatingDays', label: 'Operating Days', dataType: 'array', fieldType: 'days-picker' },
   { key: 'operatingHours', label: 'Operating Hours', dataType: 'object', fieldType: 'time-picker' },
   {

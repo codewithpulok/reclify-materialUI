@@ -9,9 +9,7 @@ import { GuestGuard } from 'src/redux-toolkit/features/auth/guard';
 export default function Layout({ children }) {
   return (
     <GuestGuard>
-      <AuthClassicLayout title="Manage the job more effectively with Racklify">
-        {children}
-      </AuthClassicLayout>
+      <AuthClassicLayout title="Sign up for Racklify">{children}</AuthClassicLayout>
     </GuestGuard>
   );
 }

@@ -69,7 +69,7 @@ const WarehouseEditFields = (props) => (
           <RHFTextField
             type="number"
             name="minSpaceOrder"
-            label="Minimum space to order"
+            label="Minimum space avaiable (Pallets)"
             fullWidth
           />
         </Grid>
@@ -77,7 +77,7 @@ const WarehouseEditFields = (props) => (
           <RHFTextField
             type="number"
             name="maxSpaceOrder"
-            label="Maximum space to order"
+            label="Maximum space available (Pallets)"
             fullWidth
           />
         </Grid>

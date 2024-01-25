@@ -25,7 +25,7 @@ const ServiceFeatures = (props) => {
     [features, type]
   );
   return (
-    <ServiceDetailsBox sx={sx} title="Features">
+    <ServiceDetailsBox sx={sx} title="Services">
       <Stack>
         {values.map((field) => {
           if (!field?.value) return null;

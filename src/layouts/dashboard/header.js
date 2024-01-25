@@ -51,9 +51,7 @@ export default function Header({ onOpenNav }) {
           <SvgColor src="/assets/icons/navbar/ic_menu_item.svg" />
         </IconButton>
       )}
-
       <Searchbar />
-
       <Stack
         flexGrow={1}
         direction="row"
@@ -62,15 +60,14 @@ export default function Header({ onOpenNav }) {
         spacing={{ xs: 0.5, sm: 1 }}
       >
         <NotificationsPopover />
-
         <ContactsPopover />
-
         <AppearanceButton />
-
+        <IconButton LinkComponent={RouterLink} href={paths.news.root}>
+          {getIconify('foundation:burst-new', 24)}
+        </IconButton>
         <IconButton LinkComponent={RouterLink} href={paths.settings.root}>
           {getIconify('solar:settings-bold-duotone', 24)}
         </IconButton>
-
         <AccountPopover />
       </Stack>
     </>
