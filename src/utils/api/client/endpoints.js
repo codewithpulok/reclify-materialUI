@@ -2,20 +2,55 @@ import { PUBLIC_BACKEND_API } from 'src/config-global';
 
 /** Api Endpoints for public api */
 export const endpoints = {
+  root: PUBLIC_BACKEND_API,
   auth: {
-    login: `${PUBLIC_BACKEND_API}/auth/login`,
-    register: `${PUBLIC_BACKEND_API}/auth/register`,
+    root: '/auth',
+    login: `/login`,
+    register: `/register`,
   },
   warehouses: {
-    list: `${PUBLIC_BACKEND_API}/warehouses`,
-    get: `${PUBLIC_BACKEND_API}/warehouses`,
-    delete: `${PUBLIC_BACKEND_API}/warehouses`,
-    create: `${PUBLIC_BACKEND_API}/warehouses`,
-    update: `${PUBLIC_BACKEND_API}/warehouses`,
+    root: '/warehouse',
+    list: `/`,
+    create: `/`,
+    own: `/own`,
+    get: (id) => `/${id}`,
+    delete: (id) => `/${id}`,
+    update: (id) => `/${id}`,
   },
   reviews: {
-    delete: `${PUBLIC_BACKEND_API}/reviews`,
-    create: `${PUBLIC_BACKEND_API}/reviews`,
-    update: `${PUBLIC_BACKEND_API}/reviews`,
+    root: '/review',
+    create: '/',
+    delete: (id) => `/${id}`,
+    update: (id) => `/${id}`,
+  },
+  address: {
+    root: '/address',
+    search: (query) => `/search?search=${query}`,
+    create: '/',
+    update: '/',
+    get: (id) => `/${id}`,
+    delete: (id) => `/${id}`,
+  },
+  file_upload: {
+    root: '/file-upload',
+    list: '/',
+    create: '/',
+    get: (id) => `/${id}`,
+    delete: (id) => `/${id}`,
+  },
+  admin: {
+    root: '/admin',
+    warehouse: {
+      update: (id) => `/warehouse/${id}`,
+    },
+    users: {
+      list: '/users',
+      get: (id) => `/users/${id}`,
+    },
+  },
+  profile: {
+    root: '/user/profile',
+    update: '/',
+    get: '/',
   },
 };

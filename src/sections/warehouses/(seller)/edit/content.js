@@ -51,7 +51,7 @@ const Content = ({ warehouse }) => {
 
       console.log('Warehouse Update: ', values);
 
-      const response = await updateWarehouse({ warehouseData: values, id: warehouse?.id });
+      const response = await updateWarehouse({ data: values, id: warehouse?.id });
       const { data, error } = response;
 
       if (error || data?.isError) {

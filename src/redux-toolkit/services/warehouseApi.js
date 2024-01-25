@@ -1,5 +1,6 @@
 import { createApi } from '@reduxjs/toolkit/query/react';
 import { warehouses } from 'src/assets/dummy';
+import { endpoints } from 'src/utils/api/client';
 import { publicBaseQuery } from '../utills';
 
 // ********* Transform warehouse for testing perpuos *********** // TODO: REMOVE THIS
@@ -21,10 +22,10 @@ const transformWarehouse = (warehouse) => {
 
 export const warehouseApi = createApi({
   reducerPath: 'warehouseApi',
-  baseQuery: publicBaseQuery('/warehouses'),
+  baseQuery: publicBaseQuery(endpoints.warehouses.root),
   endpoints: (builder) => ({
     warehouse: builder.query({
-      query: (id) => `/${id}`,
+      query: (id) => endpoints.warehouses.get(id),
       transformResponse: (response, meta, arg) => {
         /** @type {Warehouse} */
         const resWarehouse = { ...response }.results;
@@ -37,7 +38,7 @@ export const warehouseApi = createApi({
       },
     }),
     warehouseList: builder.query({
-      query: () => '/',
+      query: () => endpoints.warehouses.list,
       transformResponse: (response, meta, arg) => {
         /** @type {Warehouse[]} */
         const resWarehouses = { ...response }.results;
@@ -50,7 +51,7 @@ export const warehouseApi = createApi({
       },
     }),
     warehouseOwnList: builder.query({
-      query: () => '/own',
+      query: () => endpoints.warehouses.own,
       transformResponse: (response, meta, arg) => {
         /** @type {Warehouse[]} */
         const resWarehouses = { ...response }.results;
@@ -63,9 +64,9 @@ export const warehouseApi = createApi({
       },
     }),
     warehouseCreate: builder.mutation({
-      query: (warehouseData) => ({
-        url: '/',
-        body: warehouseData,
+      query: (data) => ({
+        url: endpoints.warehouses.create,
+        body: data,
         method: 'POST',
       }),
       onQueryStarted: async (warehouse, { dispatch, queryFulfilled }) => {
@@ -91,12 +92,12 @@ export const warehouseApi = createApi({
       },
     }),
     warehouseUpdate: builder.mutation({
-      query: ({ id, warehouseData }) => ({
-        url: `/${id}`,
-        body: warehouseData,
+      query: ({ id, data }) => ({
+        url: endpoints.warehouses.update(id),
+        body: data,
         method: 'PUT',
       }),
-      onQueryStarted: async ({ id, warehouse }, { dispatch, queryFulfilled }) => {
+      onQueryStarted: async (arg, { dispatch, queryFulfilled }) => {
         try {
           const response = await queryFulfilled;
           const { data } = response;
@@ -104,20 +105,20 @@ export const warehouseApi = createApi({
           // update the waehouse list cache
           dispatch(
             warehouseApi.util.updateQueryData('warehouseList', undefined, (draft) => {
-              const updateIndex = draft.results.findIndex((w) => w.id === id);
+              const updateIndex = draft.results.findIndex((w) => w.id === arg.id);
               if (updateIndex !== -1) draft.results[updateIndex] = data?.results;
             })
           );
           // update the own waehouse list cache
           dispatch(
             warehouseApi.util.updateQueryData('warehouseOwnList', undefined, (draft) => {
-              const updateIndex = draft.results.findIndex((w) => w.id === id);
+              const updateIndex = draft.results.findIndex((w) => w.id === arg.id);
               if (updateIndex !== -1) draft.results[updateIndex] = data?.results;
             })
           );
           // update the individual warehouse cache
           dispatch(
-            warehouseApi.util.updateQueryData('warehouse', id, (draft) => {
+            warehouseApi.util.updateQueryData('warehouse', arg.id, (draft) => {
               draft.results = data.results;
             })
           );
@@ -128,7 +129,7 @@ export const warehouseApi = createApi({
     }),
     warehouseDelete: builder.mutation({
       query: (id) => ({
-        url: `/${id}`,
+        url: endpoints.warehouses.delete(id),
         method: 'DELETE',
       }),
       onQueryStarted: async (id, { dispatch, queryFulfilled }) => {

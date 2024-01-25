@@ -1,14 +1,15 @@
 import { createApi } from '@reduxjs/toolkit/query/react';
+import { endpoints } from 'src/utils/api/client';
 import { publicBaseQuery } from '../utills';
 import { warehouseApi } from './warehouseApi';
 
 export const reviewApi = createApi({
   reducerPath: 'reviewApi',
-  baseQuery: publicBaseQuery('/reviews'),
+  baseQuery: publicBaseQuery(endpoints.reviews.root),
   endpoints: (builder) => ({
     reviewCreate: builder.mutation({
       query: (data) => ({
-        url: '/',
+        url: endpoints.reviews.create,
         body: data,
         method: 'POST',
       }),
@@ -34,7 +35,7 @@ export const reviewApi = createApi({
     }),
     reviewUpdate: builder.mutation({
       query: ({ id, data }) => ({
-        url: `/${id}`,
+        url: endpoints.reviews.update(id),
         body: data,
         method: 'PUT',
       }),
@@ -61,7 +62,7 @@ export const reviewApi = createApi({
     }),
     reviewDelete: builder.mutation({
       query: (data) => ({
-        url: `/${data.id}`,
+        url: endpoints.reviews.delete(data.id),
         method: 'DELETE',
       }),
       onQueryStarted: async (arg, { dispatch, queryFulfilled }) => {

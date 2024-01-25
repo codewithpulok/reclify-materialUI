@@ -1,4 +1,5 @@
 import { createApi } from '@reduxjs/toolkit/query/react';
+import { endpoints } from 'src/utils/api/client';
 import { publicBaseQuery } from '../utills';
 import { warehouseApi } from './warehouseApi';
 
@@ -28,11 +29,11 @@ const updateWarehoueCache = (dispatch, arg = {}, updates = {}) => {
 
 export const adminApi = createApi({
   reducerPath: 'adminApi',
-  baseQuery: publicBaseQuery('/admin'),
+  baseQuery: publicBaseQuery(endpoints.admin.root),
   endpoints: (builder) => ({
     updateWarehouseVerified: builder.mutation({
       query: ({ id, isVerified }) => ({
-        url: `/warehouse/${id}`,
+        url: endpoints.admin.warehouse.update(id),
         body: { isVerified },
         method: 'PUT',
       }),
@@ -48,7 +49,7 @@ export const adminApi = createApi({
     }),
     updateWarehouseFeatured: builder.mutation({
       query: ({ id, isFeatured }) => ({
-        url: `/warehouse/${id}`,
+        url: endpoints.admin.warehouse.update(id),
         body: { isFeatured },
         method: 'PUT',
       }),
@@ -64,7 +65,7 @@ export const adminApi = createApi({
     }),
     updateWarehouseDiamond: builder.mutation({
       query: ({ id, diamond }) => ({
-        url: `/warehouse/${id}`,
+        url: endpoints.admin.warehouse.update(id),
         body: { diamond },
         method: 'PUT',
       }),
@@ -80,7 +81,7 @@ export const adminApi = createApi({
     }),
     updateWarehouseVisible: builder.mutation({
       query: ({ id, visible }) => ({
-        url: `/warehouse/${id}`,
+        url: endpoints.admin.warehouse.update(id),
         body: { visible },
         method: 'PUT',
       }),

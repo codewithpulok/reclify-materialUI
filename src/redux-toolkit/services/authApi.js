@@ -1,11 +1,12 @@
 import { createApi } from '@reduxjs/toolkit/query/react';
+import { endpoints } from 'src/utils/api/client';
 import { getAuthState, removeAuthState, saveAuthState } from 'src/utils/auth-persist';
 import { login, logout } from '../features/auth/authSlice';
 import { publicBaseQuery } from '../utills';
 
 export const authApi = createApi({
   reducerPath: 'authApi',
-  baseQuery: publicBaseQuery('/auth'),
+  baseQuery: publicBaseQuery(endpoints.auth.root),
   endpoints: (builder) => ({
     initAuth: builder.mutation({
       queryFn: async () => {
@@ -27,10 +28,10 @@ export const authApi = createApi({
       },
     }),
     login: builder.mutation({
-      query: (credentials) => ({
-        url: '/login',
+      query: (data) => ({
+        url: endpoints.auth.login,
         method: 'POST',
-        body: credentials,
+        body: data,
       }),
       onQueryStarted: async (arg, { dispatch, queryFulfilled }) => {
         try {
@@ -47,10 +48,10 @@ export const authApi = createApi({
       },
     }),
     register: builder.mutation({
-      query: (credentials) => ({
-        url: '/register',
+      query: (data) => ({
+        url: endpoints.auth.register,
         method: 'POST',
-        body: credentials,
+        body: data,
       }),
       onQueryStarted: async (arg, { dispatch, queryFulfilled }) => {
         try {
