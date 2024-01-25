@@ -103,7 +103,7 @@ export default function HomeHero() {
     <Stack sx={{ position: 'relative' }}>
       <m.div
         variants={{
-          hidden: { opacity: 0, x: 300, y: 0 },
+          hidden: { opacity: 0, x: 0, y: 300 },
           enter: { opacity: 1, x: 0, y: 0 },
         }}
         initial="hidden"
