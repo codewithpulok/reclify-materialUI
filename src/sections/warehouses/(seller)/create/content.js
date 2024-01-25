@@ -87,7 +87,7 @@ const Content = (props) => {
 
       if (error || data?.isError) {
         enqueueSnackbar(data?.message || 'Error in warehouse create', { variant: 'error' });
-      } else if (!error || data?.isSuccess) {
+      } else if (!error || data?.success) {
         enqueueSnackbar('Warehouse created!');
         reset(defaultValues);
         router.push(`${paths.dashboard.warehouses.root}/${data?.results?.id}`);

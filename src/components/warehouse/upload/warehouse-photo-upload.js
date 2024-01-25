@@ -74,7 +74,7 @@ const WarehousePhotoUpload = (props) => {
       }
 
       // handle success state
-      else if (data && data.isSuccess) {
+      else if (data && data?.success) {
         console.log('Image Deleted Successfully: ', response);
         enqueueSnackbar('Image Deleted successfully');
         remove(fields.findIndex((f) => f._id === image._id));
@@ -119,7 +119,7 @@ const WarehousePhotoUpload = (props) => {
     }
 
     // handle success state
-    else if (data && data.isSuccess) {
+    else if (data && data?.success) {
       console.log('Image Uploaded Successfully: ', response);
       enqueueSnackbar('Image uploaded successfully');
       insertImages(data.results); // insert images

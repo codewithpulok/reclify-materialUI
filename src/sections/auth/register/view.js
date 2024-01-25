@@ -62,7 +62,7 @@ const RegisterView = (props) => {
       }
 
       // handle success
-      if (data?.isSuccess) {
+      if (data?.success) {
         console.info('Register Success: ', data);
         router.push(returnTo);
       }

@@ -59,7 +59,7 @@ const ReviewCreate = (props) => {
       enqueueSnackbar('Error in create review', { variant: 'error' });
     }
     // success state
-    else if (data?.isSuccess) {
+    else if (data?.success) {
       console.warn('Review created', response);
       enqueueSnackbar('Review Created');
       reset(defaultValues);

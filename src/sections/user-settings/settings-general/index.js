@@ -69,7 +69,7 @@ const SettingsGeneral = () => {
       console.error('Error in profile update:', response);
     }
     // handle success state
-    else if (data?.isSuccess) {
+    else if (data?.success) {
       enqueueSnackbar('Profile updated');
       console.info('Profile updated:', response);
     }
@@ -84,7 +84,7 @@ const SettingsGeneral = () => {
   useEffect(() => {
     const changes = defaultValues;
 
-    if (profileResponse.isSuccess && profileResponse.data?.isSuccess) {
+    if (profileResponse.isSuccess && profileResponse.data?.success) {
       Object.keys(defaultValues).forEach((key) => {
         if (profileResponse.data?.results?.[key])
           changes[key] = profileResponse.data?.results?.[key];

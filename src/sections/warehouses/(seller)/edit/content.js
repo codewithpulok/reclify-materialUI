@@ -24,10 +24,11 @@ const Props = {
 };
 
 /**
- * @param {Props} param0
+ * @param {Props} props
  * @returns {JSX.Element}
  */
-const Content = ({ warehouse }) => {
+const Content = (props) => {
+  const { warehouse } = props;
   const router = useRouter();
   const settings = useSettingsContext();
   const { enqueueSnackbar } = useSnackbar();
@@ -57,7 +58,7 @@ const Content = ({ warehouse }) => {
       if (error || data?.isError) {
         enqueueSnackbar(data?.message || 'Error in warehouse update', { variant: 'error' });
         console.error('Error Warehouse Update: ', error || data?.message);
-      } else if (!error && data?.isSuccess) {
+      } else if (!error && data?.success) {
         enqueueSnackbar('Warehouse updated!');
         reset({});
         router.push(`${paths.dashboard.warehouses.root}/${data?.results?.id}`);
