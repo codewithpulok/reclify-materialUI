@@ -53,4 +53,11 @@ export const endpoints = {
     update: '/',
     get: '/',
   },
+  service: {
+    root: '/services',
+    list: '/',
+    get: (id) => `/${id}`,
+    own: `/own`,
+    updateOwn: `/own`,
+  },
 };

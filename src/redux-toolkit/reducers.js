@@ -6,6 +6,7 @@ import { adminApi } from './services/adminApi';
 import { authApi } from './services/authApi';
 import { profileApi } from './services/profileApi';
 import { reviewApi } from './services/reviewApi';
+import { serviceApi } from './services/serviceApi';
 import { uploadFilesApi } from './services/uploadFilesApi';
 import { warehouseApi } from './services/warehouseApi';
 
@@ -20,6 +21,7 @@ const reducers = combineReducers({
   [addressApi.reducerPath]: addressApi.reducer,
   [adminApi.reducerPath]: adminApi.reducer,
   [profileApi.reducerPath]: profileApi.reducer,
+  [serviceApi.reducerPath]: serviceApi.reducer,
 });
 
 export default reducers;
