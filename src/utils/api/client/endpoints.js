@@ -60,4 +60,14 @@ export const endpoints = {
     own: `/own`,
     updateOwn: `/own`,
   },
+  purchase: {
+    root: '/purchase',
+    create: '/',
+  },
+  transaction: {
+    root: '/user/transaction',
+    list: '/',
+    cancel: (id) => `/cancel/${id}`,
+    approve: (id) => `/approve/${id}`,
+  },
 };

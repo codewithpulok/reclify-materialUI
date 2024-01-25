@@ -1,10 +1,17 @@
-import { Alert, Button, Dialog, DialogActions, DialogContent, DialogTitle } from '@mui/material';
+import { Button, Dialog, DialogActions, DialogContent, DialogTitle } from '@mui/material';
 import PropTypes from 'prop-types';
-import { PaymentForm } from '../../custom-form';
+import { PurchaseForm } from '../../custom-form';
 
 const Props = {
   open: PropTypes.bool.isRequired,
   onClose: PropTypes.func.isRequired,
+  purchaseData: {
+    warehouse: PropTypes.object.isRequired,
+    pallet: PropTypes.number.isRequired,
+    price: PropTypes.number.isRequired,
+    total: PropTypes.number.isRequired,
+    month: PropTypes.number.isRequired,
+  },
 };
 
 /**
@@ -12,11 +19,11 @@ const Props = {
  * @returns {JSX.Element}
  */
 const PurchasePaymentDialog = (props) => {
-  const { open, onClose } = props;
+  const { open, onClose, purchaseData } = props;
   return (
     <Dialog fullWidth maxWidth="xs" open={open} onClose={onClose}>
       <DialogTitle>Payment</DialogTitle>
-      <PaymentForm
+      <PurchaseForm
         wrapperElement={DialogContent}
         actions={
           <DialogActions>
@@ -27,13 +34,8 @@ const PurchasePaymentDialog = (props) => {
           </DialogActions>
         }
         submitCallback={onClose}
-      >
-        <Alert severity="info" variant="outlined" sx={{ typography: 'body2' }}>
-          By clicking confirm payment, you are authorizing a hold on your payment method for the
-          total amount specified. Your purchase is pending approval by the warehouse. If approved
-          your payment method will be charged. If denied, the hold will be removed.
-        </Alert>
-      </PaymentForm>
+        purchaseData={purchaseData}
+      />
     </Dialog>
   );
 };
