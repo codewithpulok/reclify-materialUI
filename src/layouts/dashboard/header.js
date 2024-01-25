@@ -61,10 +61,10 @@ export default function Header({ onOpenNav }) {
       >
         <NotificationsPopover />
         <ContactsPopover />
-        <AppearanceButton />
         <IconButton LinkComponent={RouterLink} href={paths.news.root}>
           {getIconify('foundation:burst-new', 24)}
         </IconButton>
+        <AppearanceButton />
         <IconButton LinkComponent={RouterLink} href={paths.settings.root}>
           {getIconify('solar:settings-bold-duotone', 24)}
         </IconButton>

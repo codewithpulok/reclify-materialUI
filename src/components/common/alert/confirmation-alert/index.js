@@ -29,15 +29,10 @@ const ConfirmationAlertProps = {
 const ConfirmationAlert = (props) => {
   const { open, title, text, onAgree, onDisagree, onClose, isLoading } = props;
   return (
-    <Dialog
-      open={open}
-      onClose={onClose}
-      aria-labelledby="alert-dialog-title"
-      aria-describedby="alert-dialog-description"
-    >
-      <DialogTitle id="alert-dialog-title">{title}</DialogTitle>
+    <Dialog open={open} onClose={onClose}>
+      <DialogTitle>{title}</DialogTitle>
       <DialogContent>
-        <DialogContentText id="alert-dialog-description">{text}</DialogContentText>
+        <DialogContentText>{text}</DialogContentText>
       </DialogContent>
       <DialogActions>
         <Button onClick={onDisagree}>Disagree</Button>

@@ -1,17 +1,22 @@
 import { m } from 'framer-motion';
-
+// mui
+import Button from '@mui/material/Button';
 import Container from '@mui/material/Container';
 import Grid from '@mui/material/Grid';
+import Link from '@mui/material/Link';
 import Stack from '@mui/material/Stack';
 import Typography from '@mui/material/Typography';
 import { alpha, styled } from '@mui/material/styles';
-
+// routes
+import { paths } from 'src/routes/paths';
+// components
 import Logo from 'src/components/common/logo';
 import { useResponsive } from 'src/hooks/use-responsive';
 
 import { bgBlur, bgGradient } from 'src/theme/css';
 
 import { MotionContainer, varFade } from 'src/components/common/animate';
+import { getIconify } from 'src/components/common/iconify/utilities';
 import Image from 'src/components/common/image';
 
 // ----------------------------------------------------------------------
@@ -65,23 +70,39 @@ export default function HomeHero() {
 
   const renderDescription = (
     <Stack alignItems="center" justifyContent="center" height={{ xs: 1 }}>
-      <m.div variants={varFade().in}>
+      <m.div variants={varFade().inRight}>
         <Logo sx={{ maxWidth: 450, height: 'auto', width: '100%' }} isLong disabledLink />
       </m.div>
-
-      <m.div variants={varFade().in}>
+      <m.div variants={varFade().inRight}>
         <Typography variant="h5" color="primary.main" sx={{ textAlign: 'center' }}>
           Welcome to Racklify - Your Online Logistics Hub!
         </Typography>
       </m.div>
+      <Stack sx={{ mt: 6 }}>
+        <m.div variants={varFade().inRight}>
+          <Button
+            LinkComponent={Link}
+            href={paths.auth.register}
+            variant="contained"
+            color="primary"
+            startIcon={getIconify('ion:rocket', 24)}
+            size="large"
+            sx={{ px: 4 }}
+          >
+            Start today
+          </Button>
+        </m.div>
+      </Stack>
     </Stack>
   );
 
   const renderSlides = (
-    <Image
-      src="/assets/images/home/landing01.png"
-      sx={{ borderRadius: 1, maxWidth: 450, width: '100%', mx: 'auto' }}
-    />
+    <m.div variants={varFade().inDown}>
+      <Image
+        src="/assets/images/home/landing01.png"
+        sx={{ borderRadius: 1, maxWidth: 450, width: '100%', mx: 'auto' }}
+      />
+    </m.div>
   );
 
   const renderPolygons = (
@@ -95,7 +116,7 @@ export default function HomeHero() {
 
   return (
     <StyledRoot>
-      <Container component={MotionContainer} action animate>
+      <Container component={MotionContainer}>
         <Grid container columnSpacing={10} rowSpacing={3} mt={5}>
           {!mdUp && (
             <Grid item container xs={12}>
