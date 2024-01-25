@@ -62,7 +62,7 @@ const WarehouseCard = (props) => {
               position: 'absolute',
               bottom: 5,
               left: 5,
-              bgcolor: 'grey.100',
+              bgcolor: 'action.diamond',
               borderRadius: 3,
               transition: '0.3s',
               display: 'flex',
