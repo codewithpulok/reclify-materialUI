@@ -19,7 +19,7 @@ import Image from 'src/components/common/image';
 const StyledRoot = styled('div')(({ theme }) => ({
   ...bgGradient({
     color: alpha(theme.palette.background.default, theme.palette.mode === 'light' ? 0.8 : 0.94),
-    imgUrl: '/assets/background/back-01.jpg',
+    imgUrl: '/assets/background/back-04.jpg',
   }),
   width: '100%',
   height: '100vh',
