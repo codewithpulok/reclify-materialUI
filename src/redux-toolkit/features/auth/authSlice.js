@@ -24,10 +24,16 @@ export const authSlice = createSlice({
       state.user = null;
       state.token = null;
     },
+    update: (state, action) => {
+      if (action.payload?.firstName) state.user.firstName = action.payload.firstName;
+      if (action.payload?.lastName) state.user.lastName = action.payload.lastName;
+      if (action.payload?.email) state.user.email = action.payload.email;
+      if (action.payload?.serviceType) state.user.serviceType = action.payload.serviceType;
+    },
   },
 });
 
-export const { login, logout } = authSlice.actions;
+export const { login, logout, update } = authSlice.actions;
 
 /**
  * Select auth state

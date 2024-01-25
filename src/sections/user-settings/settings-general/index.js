@@ -13,7 +13,7 @@ import { PLACEHOLDER_PROFILE_BANNER } from 'src/config-global';
 import { selectAuth } from 'src/redux-toolkit/features/auth/authSlice';
 import { useAppSelector } from 'src/redux-toolkit/hooks';
 import {
-  useProfileGetQuery,
+  useLazyProfileGetQuery,
   useProfileUpdateMutation,
 } from 'src/redux-toolkit/services/profileApi';
 import { fDate } from 'src/utils/format-time';
@@ -52,7 +52,7 @@ const SettingsGeneral = () => {
   const { enqueueSnackbar } = useSnackbar();
   const { user } = useAppSelector(selectAuth);
 
-  const profileResponse = useProfileGetQuery();
+  const [getProfile, profileResponse] = useLazyProfileGetQuery();
   const [updateProfile] = useProfileUpdateMutation();
 
   const methods = useForm({ resolver: yupResolver(UpdateUserSchema), defaultValues });
@@ -79,6 +79,12 @@ const SettingsGeneral = () => {
   const onReset = useCallback(async () => {
     reset(defaultValues);
   }, [reset]);
+
+  useEffect(() => {
+    if (user) {
+      getProfile();
+    }
+  }, [getProfile, user]);
 
   // update state
   useEffect(() => {

@@ -1,5 +1,7 @@
 import { createApi } from '@reduxjs/toolkit/query/react';
 import { endpoints } from 'src/utils/api/client';
+import { updateAuthState } from 'src/utils/auth-persist';
+import { update } from '../features/auth/authSlice';
 import { publicBaseQuery } from '../utills';
 
 export const profileApi = createApi({
@@ -12,6 +14,27 @@ export const profileApi = createApi({
         body: data,
         method: 'PUT',
       }),
+      onQueryStarted: async (arg, { dispatch, queryFulfilled }) => {
+        try {
+          const response = await queryFulfilled;
+          const { data } = response;
+
+          // prepare changes
+          const changes = {
+            firstName: data?.results?.firstName,
+            lastName: data?.results?.lastName,
+            serviceType: data?.results?.serviceType,
+            email: data?.results?.email,
+          };
+
+          // update session
+          const authResponse = await updateAuthState(null, changes);
+          // update local state
+          dispatch(update(authResponse.user));
+        } catch (error) {
+          console.error('Update Cache Warehouse Verified Error:', error);
+        }
+      },
     }),
     profileGet: builder.query({
       query: () => ({

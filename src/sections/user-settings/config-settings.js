@@ -28,4 +28,5 @@ export const ICONS = {
   phone: (width, sx) => getIconify('solar:phone-bold-duotone', width, sx),
 
   cover_edit: (width, sx) => getIconify('solar:gallery-edit-line-duotone', width, sx),
+  uploading: (width, sx) => getIconify('line-md:uploading-loop', width, sx),
 };
