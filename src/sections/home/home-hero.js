@@ -80,7 +80,7 @@ export default function HomeHero() {
           Welcome to Racklify - Your Online Logistics Hub!
         </Typography>
       </m.div>
-      <Stack sx={{ mt: 6 }}>
+      <Stack sx={{ mt: 6, mb: 4 }}>
         <MotionButton
           LinkComponent={Link}
           href={paths.auth.register}
