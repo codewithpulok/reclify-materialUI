@@ -14,6 +14,7 @@ import { getTransactionStatusColor } from 'src/assets/dummy';
 import { usePopover } from 'src/components/common/custom-popover';
 import CustomPopover from 'src/components/common/custom-popover/custom-popover';
 import Label from 'src/components/common/label';
+import { PLACEHOLDER_WAREHOUSE_IMAGE } from 'src/config-global';
 import { RouterLink } from 'src/routes/components';
 import { paths } from 'src/routes/paths';
 import { joinAddressObj } from 'src/utils/address';
@@ -39,20 +40,16 @@ const TransactionTableRow = (props) => {
   const { row, selected, onCancelOrder, onViewTransaction } = props;
   const popover = usePopover(false);
 
+  const warehouseImage = row.warehouse?.photos?.[0]?.link || PLACEHOLDER_WAREHOUSE_IMAGE;
+
   const renderPrimary = (
     <TableRow hover selected={selected}>
       <TableCell>
         <Stack direction="row" alignItems="center">
-          <Avatar
-            alt={row.warehouse.name}
-            src={row.warehouse.photos[0].link}
-            sx={{ mr: 2 }}
-            variant="rounded"
-          />
-
+          <Avatar alt={row.warehouse.title} src={warehouseImage} sx={{ mr: 2 }} variant="rounded" />
           <ListItemText
-            primary={row.warehouse.name}
-            secondary={joinAddressObj(row.warehouse.address)}
+            primary={row.warehouse?.title}
+            secondary={joinAddressObj(row.warehouse?.address) || 'Address not available'}
             primaryTypographyProps={{ typography: 'body2' }}
             secondaryTypographyProps={{
               color: 'text.disabled',
@@ -68,11 +65,11 @@ const TransactionTableRow = (props) => {
 
       <TableCell>
         <Stack direction="row" alignItems="center">
-          <Avatar alt={row.seller.displayName} src={row.seller.avatar} sx={{ mr: 2 }} />
+          <Avatar alt={row.seller?.firstName} src={row.seller.avatar} sx={{ mr: 2 }} />
           <Stack>
             <Link component={RouterLink} href={`${paths.dashboard.users.sellers}/${row.seller.id}`}>
               <Typography variant="body2" color="text.primary">
-                {row.seller.displayName}
+                {row.seller?.firstName} {row.seller?.lastName}
               </Typography>
             </Link>
           </Stack>
@@ -81,8 +78,10 @@ const TransactionTableRow = (props) => {
 
       <TableCell>
         <ListItemText
-          primary={format(new Date(row.createdAt), 'dd MMM yyyy')}
-          secondary={format(new Date(row.createdAt), 'p')}
+          primary={
+            row?.createdAt ? format(new Date(row?.createdAt), 'dd MMM yyyy') : 'Date not available'
+          }
+          secondary={row?.createdAt ? format(new Date(row?.createdAt), 'p') : 'Time not available'}
           primaryTypographyProps={{ typography: 'body2', noWrap: true }}
           secondaryTypographyProps={{
             mt: 0.5,
@@ -92,7 +91,8 @@ const TransactionTableRow = (props) => {
         />
       </TableCell>
 
-      <TableCell> {fCurrency(row.area * row.pricePerSquare)} </TableCell>
+      {/* TODO: FIX THIS purchase */}
+      <TableCell> {fCurrency(row.purcase?.total)} </TableCell>
 
       <TableCell>
         <Label variant="soft" color={getTransactionStatusColor(row.status)}>

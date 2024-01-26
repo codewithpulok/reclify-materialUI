@@ -5,31 +5,32 @@ import PropTypes from 'prop-types';
 
 import { fCurrency, fNumber } from 'src/utils/format-number';
 
-const AmountDetailsCardProps = {
-  pricePerSquare: PropTypes.number.isRequired,
-  totalArea: PropTypes.number.isRequired,
+const Props = {
+  pricePerSpace: PropTypes.number.isRequired,
+  totalSpace: PropTypes.number.isRequired,
+  totalPrice: PropTypes.number.isRequired,
   /** @type {SxProps} */
   sx: PropTypes.object,
 };
 
 /**
- * @param {AmountDetailsCardProps} props
+ * @param {Props} props
  * @returns {JSX.Element}
  */
 const AmountDetailsCard = (props) => {
-  const { pricePerSquare, totalArea, sx = {} } = props;
+  const { pricePerSpace, totalPrice, totalSpace, sx = {} } = props;
   return (
     <Card component={Stack} sx={{ p: 1.5, borderRadius: 1, ...sx }} spacing={0.5}>
       <Stack direction="row" justifyContent="space-between" alignItems="baseline" spacing={1}>
-        <Typography variant="subtitle2">Puchased Area:</Typography>
+        <Typography variant="subtitle2">Total Pallet:</Typography>
         <Typography variant="subtitle2" color="text.secondary">
-          {fNumber(totalArea)}
+          {fNumber(totalSpace)}
         </Typography>
       </Stack>
       <Stack direction="row" justifyContent="space-between" alignItems="baseline" spacing={1}>
-        <Typography variant="subtitle2">Price Per Square: </Typography>
+        <Typography variant="subtitle2">Price Per Pallet: </Typography>
         <Typography variant="subtitle2" color="text.secondary">
-          {fCurrency(pricePerSquare)}
+          {fCurrency(pricePerSpace)}
         </Typography>
       </Stack>
       <Stack
@@ -47,13 +48,13 @@ const AmountDetailsCard = (props) => {
       >
         <Typography variant="subtitle2">Total: </Typography>
         <Typography variant="subtitle2" color="text.secondary">
-          {fCurrency(totalArea * pricePerSquare)}
+          {fCurrency(totalPrice)}
         </Typography>
       </Stack>
     </Card>
   );
 };
 
-AmountDetailsCard.propTypes = AmountDetailsCardProps;
+AmountDetailsCard.propTypes = Props;
 
 export default AmountDetailsCard;

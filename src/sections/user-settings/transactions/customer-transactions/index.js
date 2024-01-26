@@ -1,8 +1,7 @@
 'use client';
 
-import { useCallback, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 
-import { Button } from '@mui/material';
 import Card from '@mui/material/Card';
 import { alpha } from '@mui/material/styles';
 import Tab from '@mui/material/Tab';
@@ -10,10 +9,9 @@ import Table from '@mui/material/Table';
 import TableBody from '@mui/material/TableBody';
 import TableContainer from '@mui/material/TableContainer';
 import Tabs from '@mui/material/Tabs';
-import { useSnackbar } from 'notistack';
 
-import { getCustomerTransactions, TRANSACTION_STATUS_OPTIONS } from 'src/assets/dummy';
-import { ConfirmDialog } from 'src/components/common/custom-dialog';
+import { TRANSACTION_STATUS_OPTIONS } from 'src/assets/dummy';
+import { CancelTransactionDialog } from 'src/components/common/custom-dialog';
 import Label from 'src/components/common/label';
 import Scrollbar from 'src/components/common/scrollbar';
 import {
@@ -25,8 +23,10 @@ import {
   TablePaginationCustom,
   useTable,
 } from 'src/components/common/table';
+import { useDialog } from 'src/hooks/use-dialog';
 import { selectAuth } from 'src/redux-toolkit/features/auth/authSlice';
 import { useAppSelector } from 'src/redux-toolkit/hooks';
+import { useLazyListTransactionQuery } from 'src/redux-toolkit/services/transactionApi';
 import TransactionDialog from './details-dialog';
 import TransactionTableRow from './table-row';
 
@@ -52,20 +52,17 @@ const defaultFilters = {
 
 const CustomerTransactions = () => {
   const { user } = useAppSelector(selectAuth);
-  const { enqueueSnackbar } = useSnackbar();
-  const transactions = getCustomerTransactions('3') || getCustomerTransactions(user?.id);
+
+  const [getTransactions, transactionsResponse] = useLazyListTransactionQuery();
 
   const table = useTable({ defaultOrderBy: 'createdAt' });
-  const [tableData] = useState(transactions);
+  const [tableData, setTableData] = useState([]);
 
   const [transactionDialog, setTransactionDialog] = useState({
     open: false,
     transaction: undefined,
   });
-  const [orderCancelDialog, setOrderCancelDialog] = useState({
-    open: false,
-    transaction: undefined,
-  });
+  const cancelDialog = useDialog();
 
   const [filters, setFilters] = useState(defaultFilters);
 
@@ -139,20 +136,20 @@ const CustomerTransactions = () => {
     setTransactionDialog((prev) => ({ ...prev, open: false }));
   };
 
-  // open transaction status change dialog
-  const openOrderCancelDialog = (transaction) => {
-    setOrderCancelDialog({ open: true, transaction });
-  };
-  // close transaction status change dialog
-  const closeOrderCancelDialog = () => {
-    setOrderCancelDialog({ open: false, transaction: undefined });
-  };
-  // handle order cancel
-  const handleCancelOrder = useCallback(() => {
-    console.log('Order Cancel: ', orderCancelDialog.transaction);
-    enqueueSnackbar('Order Canceled.');
-    closeOrderCancelDialog();
-  }, [enqueueSnackbar, orderCancelDialog.transaction]);
+  // fetch transactions
+  useEffect(() => {
+    if (user) {
+      getTransactions();
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [user]);
+
+  // update table data
+  useEffect(() => {
+    if (transactionsResponse.isSuccess && transactionsResponse.data?.success) {
+      setTableData(transactionsResponse.data.results);
+    }
+  }, [transactionsResponse]);
 
   return (
     <Card>
@@ -190,7 +187,7 @@ const CustomerTransactions = () => {
                     key={row.id}
                     row={row}
                     onViewTransaction={() => openTransactionDialog(row)}
-                    onCancelOrder={() => openOrderCancelDialog(row)}
+                    onCancelOrder={() => cancelDialog.onOpen(row)}
                   />
                 ))}
 
@@ -217,19 +214,13 @@ const CustomerTransactions = () => {
         open={transactionDialog.open}
         transaction={transactionDialog.transaction}
         onClose={closeTransactionDialog}
-        onCancelOrder={() => openOrderCancelDialog(transactionDialog.transaction)}
+        onCancelOrder={() => cancelDialog.onOpen(transactionDialog.transaction)}
       />
 
-      <ConfirmDialog
-        open={orderCancelDialog.open}
-        onClose={closeOrderCancelDialog}
-        title="Cancel Order!"
-        content="After canceling order, this can not be undone!"
-        action={
-          <Button onClick={handleCancelOrder} color="error" variant="contained">
-            Confirm
-          </Button>
-        }
+      <CancelTransactionDialog
+        open={cancelDialog.open}
+        onClose={cancelDialog.onClose}
+        transaction={cancelDialog.value}
       />
     </Card>
   );

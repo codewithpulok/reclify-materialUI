@@ -15,6 +15,7 @@ import PropTypes from 'prop-types';
 // local components
 import Image from 'src/components/common/image';
 import Label from 'src/components/common/label';
+import { PLACEHOLDER_WAREHOUSE_IMAGE } from 'src/config-global';
 import { selectAuth } from 'src/redux-toolkit/features/auth/authSlice';
 import { useAppSelector } from 'src/redux-toolkit/hooks';
 import { paths } from 'src/routes/paths';
@@ -40,7 +41,7 @@ const Props = {
 const WarehouseCard = (props) => {
   const router = useRouter();
   const { warehouse, onDelete = () => {}, hasControl = false, sx = {} } = props;
-  const thumbnail = warehouse?.photos?.[0]?.link || 'https://placehold.co/450x318?text=Not+Found';
+  const thumbnail = warehouse?.photos?.[0]?.link || PLACEHOLDER_WAREHOUSE_IMAGE;
 
   const { user } = useAppSelector(selectAuth);
 

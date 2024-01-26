@@ -17,3 +17,6 @@ export { default as BillingAddressCreateDialog } from './billing-address/create'
 export { default as BillingAddressDeleteDialog } from './billing-address/delete';
 export { default as BillingAddressEditDialog } from './billing-address/edit';
 export { default as BillingAddressListDialog } from './billing-address/list';
+
+// transaction dialog
+export { default as CancelTransactionDialog } from './transaction/cancel-transaction-dialog';

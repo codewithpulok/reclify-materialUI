@@ -1,6 +1,6 @@
 'use client';
 
-import { useCallback, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 
 import Card from '@mui/material/Card';
 import { alpha } from '@mui/material/styles';
@@ -23,11 +23,12 @@ import {
 } from 'src/components/common/table';
 
 import { Button } from '@mui/material';
-import { useSnackbar } from 'notistack';
-import { getSellerTransactions, TRANSACTION_STATUS_OPTIONS } from 'src/assets/dummy';
+import { enqueueSnackbar } from 'notistack';
+import { TRANSACTION_STATUS_OPTIONS } from 'src/assets/dummy';
 import { ConfirmDialog } from 'src/components/common/custom-dialog';
 import { selectAuth } from 'src/redux-toolkit/features/auth/authSlice';
 import { useAppSelector } from 'src/redux-toolkit/hooks';
+import { useLazyListTransactionQuery } from 'src/redux-toolkit/services/transactionApi';
 import TransactionDialog from './details-dialog';
 import TransactionTableRow from './table-row';
 
@@ -53,11 +54,11 @@ const defaultFilters = {
 
 const SellerTransactions = () => {
   const { user } = useAppSelector(selectAuth);
-  const { enqueueSnackbar } = useSnackbar();
 
-  const transactions = getSellerTransactions('1') || getSellerTransactions(user?.id);
+  const [getTransactions, transactionsResponse] = useLazyListTransactionQuery();
+
   const table = useTable({ defaultOrderBy: 'createdAt' });
-  const [tableData] = useState(transactions);
+  const [tableData, setTableData] = useState([]);
 
   const [filters, setFilters] = useState(defaultFilters);
 
@@ -160,7 +161,7 @@ const SellerTransactions = () => {
     console.log('Order Cancel: ', orderCancelDialog.transaction);
     enqueueSnackbar('Order Canceled.');
     closeOrderCancelDialog();
-  }, [enqueueSnackbar, orderCancelDialog.transaction]);
+  }, [orderCancelDialog.transaction]);
 
   // open transaction status confirm dialog
   const openOrderConfirmDialog = (transaction) => {
@@ -175,7 +176,22 @@ const SellerTransactions = () => {
     console.log('Order Confirm: ', orderConfirmDialog.transaction);
     enqueueSnackbar('Order Confirm.');
     closeOrderConfirmDialog();
-  }, [enqueueSnackbar, orderConfirmDialog.transaction]);
+  }, [orderConfirmDialog.transaction]);
+
+  // fetch transactions
+  useEffect(() => {
+    if (user) {
+      getTransactions();
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [user]);
+
+  // update table data
+  useEffect(() => {
+    if (transactionsResponse.isSuccess && transactionsResponse.data?.success) {
+      setTableData(transactionsResponse.data.results);
+    }
+  }, [transactionsResponse]);
 
   return (
     <Card>
