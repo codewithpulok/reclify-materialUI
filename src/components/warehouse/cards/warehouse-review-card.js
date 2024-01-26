@@ -17,10 +17,10 @@ import { useBoolean } from 'src/hooks/use-boolean';
 import { fToNow } from 'src/utils/format-time';
 import { ICONS } from '../config-warehouse';
 
-const WarehouseReviewCardProps = {
+const Props = {
   avatar: PropTypes.string,
   name: PropTypes.string.isRequired,
-  createdAt: PropTypes.number.isRequired,
+  createdAt: PropTypes.number,
   rating: PropTypes.number.isRequired,
   feedback: PropTypes.string,
   showDeleteOption: PropTypes.bool.isRequired,
@@ -32,7 +32,7 @@ const WarehouseReviewCardProps = {
 
 /**
  * Warehouse Review Card
- * @param {WarehouseReviewCardProps} props
+ * @param {Props} props
  * @returns {JSX.Element}
  */
 const WarehouseReviewCard = (props) => {
@@ -79,7 +79,7 @@ const WarehouseReviewCard = (props) => {
           <Stack direction="row" alignItems="center" columnGap={1.5} flexWrap="wrap">
             <Rating value={rating} size="small" readOnly />
             <Typography variant="body2" color={palette.grey[600]}>
-              ({fToNow(createdAt)})
+              ({fToNow(createdAt) || 'not available'})
             </Typography>
           </Stack>
         </Box>
@@ -119,6 +119,6 @@ const WarehouseReviewCard = (props) => {
   );
 };
 
-WarehouseReviewCard.propTypes = WarehouseReviewCardProps;
+WarehouseReviewCard.propTypes = Props;
 
 export default WarehouseReviewCard;
