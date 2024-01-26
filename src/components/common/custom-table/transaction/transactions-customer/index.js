@@ -10,7 +10,7 @@ import TableBody from '@mui/material/TableBody';
 import TableContainer from '@mui/material/TableContainer';
 import Tabs from '@mui/material/Tabs';
 
-import { TRANSACTION_STATUS_OPTIONS } from 'src/assets/dummy';
+import { getTransactionStatusColor, TRANSACTION_STATUS_OPTIONS } from 'src/assets/dummy';
 import { CancelTransactionDialog } from 'src/components/common/custom-dialog';
 import Label from 'src/components/common/label';
 import Scrollbar from 'src/components/common/scrollbar';
@@ -27,8 +27,8 @@ import { useDialog } from 'src/hooks/use-dialog';
 import { selectAuth } from 'src/redux-toolkit/features/auth/authSlice';
 import { useAppSelector } from 'src/redux-toolkit/hooks';
 import { useLazyListTransactionQuery } from 'src/redux-toolkit/services/transactionApi';
-import TransactionDialog from './details-dialog';
-import TransactionTableRow from './table-row';
+import TransactionDetailsDialog from '../common/transaction-details-dialog';
+import TransactionRow from '../common/transaction-row';
 
 // ----------------------------------------------------------------------
 
@@ -50,31 +50,28 @@ const defaultFilters = {
 
 // ----------------------------------------------------------------------
 
-const CustomerTransactions = () => {
+const TransactionsCustomerTable = () => {
   const { user } = useAppSelector(selectAuth);
 
+  // data state
   const [getTransactions, transactionsResponse] = useLazyListTransactionQuery();
 
-  const table = useTable({ defaultOrderBy: 'createdAt' });
-  const [tableData, setTableData] = useState([]);
-
-  const [transactionDialog, setTransactionDialog] = useState({
-    open: false,
-    transaction: undefined,
-  });
+  // dialog states
+  const transactionDialog = useDialog();
   const cancelDialog = useDialog();
 
+  // table states
+  const table = useTable({ defaultOrderBy: 'createdAt' });
+  const [tableData, setTableData] = useState([]);
   const [filters, setFilters] = useState(defaultFilters);
-
   const dataFiltered = applyFilter({
     inputData: tableData,
     comparator: getComparator(table.order, table.orderBy),
     filters,
   });
-
   const canReset = !!filters.name || filters.status !== 'all';
   const notFound = (!dataFiltered.length && canReset) || !dataFiltered.length;
-
+  // filter actions
   const handleFilters = useCallback(
     (name, value) => {
       table.onResetPage();
@@ -105,36 +102,17 @@ const CustomerTransactions = () => {
               variant={
                 ((tab.value === 'all' || tab.value === filters.status) && 'filled') || 'soft'
               }
-              color={
-                (tab.value === 'completed' && 'success') ||
-                (tab.value === 'pending' && 'warning') ||
-                (tab.value === 'declined' && 'error') ||
-                'default'
-              }
+              color={getTransactionStatusColor(tab.value)}
             >
-              {tab.value === 'all' && tableData.length}
-              {tab.value === 'completed' &&
-                tableData.filter((order) => order.status === 'completed').length}
-
-              {tab.value === 'pending' &&
-                tableData.filter((order) => order.status === 'pending').length}
-              {tab.value === 'declined' &&
-                tableData.filter((order) => order.status === 'declined').length}
+              {tab.value === 'all'
+                ? tableData.length
+                : tableData.filter((order) => order.status === tab.value).length}
             </Label>
           }
         />
       )),
     [filters.status, tableData]
   );
-
-  // open transaction details
-  const openTransactionDialog = (transaction) => {
-    setTransactionDialog({ open: true, transaction });
-  };
-  // close transaction details
-  const closeTransactionDialog = () => {
-    setTransactionDialog((prev) => ({ ...prev, open: false }));
-  };
 
   // fetch transactions
   useEffect(() => {
@@ -183,11 +161,12 @@ const CustomerTransactions = () => {
                   table.page * table.rowsPerPage + table.rowsPerPage
                 )
                 .map((row) => (
-                  <TransactionTableRow
+                  <TransactionRow
                     key={row.id}
                     row={row}
-                    onViewTransaction={() => openTransactionDialog(row)}
+                    onViewTransaction={() => transactionDialog.onOpen(row)}
                     onCancelOrder={() => cancelDialog.onOpen(row)}
+                    show={TABLE_HEAD.map((t) => t.id)}
                   />
                 ))}
 
@@ -210,10 +189,10 @@ const CustomerTransactions = () => {
         onRowsPerPageChange={table.onChangeRowsPerPage}
       />
 
-      <TransactionDialog
+      <TransactionDetailsDialog
         open={transactionDialog.open}
-        transaction={transactionDialog.transaction}
-        onClose={closeTransactionDialog}
+        transaction={transactionDialog.value}
+        onClose={transactionDialog.onClose}
         onCancelOrder={() => cancelDialog.onOpen(transactionDialog.transaction)}
       />
 
@@ -257,4 +236,4 @@ function applyFilter({ inputData, comparator, filters }) {
   return inputData;
 }
 
-export default CustomerTransactions;
+export default TransactionsCustomerTable;

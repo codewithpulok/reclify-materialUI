@@ -20,3 +20,4 @@ export { default as BillingAddressListDialog } from './billing-address/list';
 
 // transaction dialog
 export { default as CancelTransactionDialog } from './transaction/cancel-transaction-dialog';
+export { default as ConfirmTransactionDialog } from './transaction/confirm-transaction-dialog';

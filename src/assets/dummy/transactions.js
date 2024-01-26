@@ -85,7 +85,7 @@ export const getAllTransactions = () => transactions.map((t) => generateTransact
 export const TRANSACTION_STATUS_OPTIONS = [
   { value: 'completed', label: 'Completed', color: 'success' },
   { value: 'pending', label: 'Pending', color: 'warning' },
-  { value: 'declined', label: 'Declined', color: 'error' },
+  { value: 'cancelled', label: 'Cancelled', color: 'error' },
 ];
 export const getTransactionStatusColor = (transactionStatus) => {
   const transactionOpiton = TRANSACTION_STATUS_OPTIONS.find(
