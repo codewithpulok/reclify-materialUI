@@ -3,11 +3,10 @@
 import PropTypes from 'prop-types';
 // local components
 import { notFound } from 'next/navigation';
-import { useMemo } from 'react';
-import { getServiceById } from 'src/assets/dummy/services';
 import { ErrorState } from 'src/components/common/custom-state';
 import { LoadingScreen } from 'src/components/common/loading-screen';
 import { ServiceDetails } from 'src/components/service/details';
+import { useGetServiceQuery } from 'src/redux-toolkit/services/serviceApi';
 
 const Props = {
   id: PropTypes.string.isRequired,
@@ -19,24 +18,18 @@ const Props = {
  */
 function DetailsView(props) {
   const { id } = props;
-  const result = useMemo(
-    () => ({
-      data: { results: getServiceById(id), success: true },
-      isSuccess: true,
-      isLoading: false,
-    }),
-    [id]
-  );
+  const serviceResponse = useGetServiceQuery(id);
 
   // if error occured
-  if ((result.isError || result.data?.isError) && !result.isLoading) return <ErrorState />;
+  if ((serviceResponse.isError || serviceResponse.data?.isError) && !serviceResponse.isLoading)
+    return <ErrorState />;
 
   // if there is no warehouse then show error
-  if (result.data?.statusCode === 404) notFound();
+  if (serviceResponse.data?.statusCode === 404) notFound();
 
   // on request success
-  if (result.isSuccess && result.data?.success) {
-    return <ServiceDetails service={result.data.results} />;
+  if (serviceResponse.isSuccess && serviceResponse.data?.success) {
+    return <ServiceDetails service={serviceResponse.data.results} />;
   }
 
   return <LoadingScreen />;

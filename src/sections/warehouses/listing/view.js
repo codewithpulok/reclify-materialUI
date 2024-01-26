@@ -2,16 +2,14 @@
 
 import { Button, Grid, Stack, Typography } from '@mui/material';
 import Container from '@mui/material/Container';
-import { useCallback, useEffect, useMemo } from 'react';
+import { useCallback, useMemo } from 'react';
 // local components
 import { regions } from 'src/assets/data';
 import { EmptyState, ErrorState } from 'src/components/common/custom-state';
 import { getIconify } from 'src/components/common/iconify/utilities';
 import { useSettingsContext } from 'src/components/common/settings';
 import { WarehouseCardSkeleton } from 'src/components/warehouse/cards';
-import { selectAuth } from 'src/redux-toolkit/features/auth/authSlice';
-import { useAppSelector } from 'src/redux-toolkit/hooks';
-import { useLazyWarehouseListQuery } from 'src/redux-toolkit/services/warehouseApi';
+import { useWarehouseListQuery } from 'src/redux-toolkit/services/warehouseApi';
 import { RouterLink } from 'src/routes/components';
 import { paths } from 'src/routes/paths';
 import { ICONS } from '../config-warehouse';
@@ -21,15 +19,8 @@ import WarehouseCarousel from './warehouse-carousel';
 
 export default function ListingView() {
   const settings = useSettingsContext();
-  const { user } = useAppSelector(selectAuth);
 
-  const [getWarehouses, results] = useLazyWarehouseListQuery();
-
-  useEffect(() => {
-    if (user !== null && user) {
-      getWarehouses();
-    }
-  }, [getWarehouses, user]);
+  const warehousesResponse = useWarehouseListQuery();
 
   // render warehouses
   const renderWarehouses = useCallback(
@@ -39,17 +30,17 @@ export default function ListingView() {
       errorText = 'Something went to wrong'
     ) => {
       // error state
-      if (results.isError) {
-        return <ErrorState text={results?.error?.data?.message || errorText} />;
+      if (warehousesResponse.isError) {
+        return <ErrorState text={warehousesResponse?.error?.data?.message || errorText} />;
       }
 
       // empty state
-      if (results.isSuccess && warehouses.length === 0) {
+      if (warehousesResponse.isSuccess && warehouses.length === 0) {
         return <EmptyState text={notFoundText} icon={ICONS.warehouse()} />;
       }
 
       // success state
-      if (results.isSuccess && warehouses.length) {
+      if (warehousesResponse.isSuccess && warehouses.length) {
         return (
           <Grid item xs={12}>
             <WarehouseCarousel data={warehouses} />
@@ -64,28 +55,28 @@ export default function ListingView() {
         </Grid>
       ));
     },
-    [results]
+    [warehousesResponse]
   );
 
   // hot deals
   const hotdeals = useMemo(
     () =>
-      results?.data?.results instanceof Array
-        ? results?.data?.results.filter((w) => w.discountRate > 0 && w?.visible)
+      warehousesResponse?.data?.results instanceof Array
+        ? warehousesResponse?.data?.results.filter((w) => w.discountRate > 0 && w?.visible)
         : [],
-    [results]
+    [warehousesResponse]
   );
   // warehouse based on region
   const regionWarehouses = useMemo(
     () =>
       regions.reduce((prev, next) => {
         prev[next.code] =
-          results?.data?.results instanceof Array
-            ? results.data?.results.filter((w) => w.region === next.code && w.visible)
+          warehousesResponse?.data?.results instanceof Array
+            ? warehousesResponse.data?.results.filter((w) => w.region === next.code && w.visible)
             : [];
         return prev;
       }, {}),
-    [results]
+    [warehousesResponse]
   );
 
   return (

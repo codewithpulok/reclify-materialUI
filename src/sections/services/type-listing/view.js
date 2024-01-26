@@ -5,12 +5,12 @@ import Container from '@mui/material/Container';
 import PropTypes from 'prop-types';
 import { useCallback, useMemo } from 'react';
 // local components
-import { getServicesByType } from 'src/assets/dummy/services';
 import CustomBreadcrumbs from 'src/components/common/custom-breadcrumbs/custom-breadcrumbs';
 import { EmptyState, ErrorState } from 'src/components/common/custom-state';
 import { useSettingsContext } from 'src/components/common/settings';
 import { ServiceCard, ServiceCardSkeleton } from 'src/components/service/cards';
 import { getServiceType } from 'src/constant/service-types';
+import { useListServicesQuery } from 'src/redux-toolkit/services/serviceApi';
 import { paths } from 'src/routes/paths';
 import { ICONS } from '../config-services';
 
@@ -28,29 +28,23 @@ const RegionView = (props) => {
   const settings = useSettingsContext();
   const service = getServiceType(serviceType);
 
-  const results = useMemo(
-    () => ({
-      data: { results: getServicesByType(serviceType) },
-      isSuccess: true,
-    }),
-    [serviceType]
-  );
+  const servicesResponse = useListServicesQuery();
 
   // render services
   const renderServices = useCallback(
     (services = [], notFoundText = 'No Services found', errorText = 'Something went to wrong') => {
       // error state
-      if (results.isError) {
-        return <ErrorState text={results?.error?.data?.message || errorText} />;
+      if (servicesResponse.isError) {
+        return <ErrorState text={servicesResponse?.error?.data?.message || errorText} />;
       }
 
       // empty state
-      if (results.isSuccess && services.length === 0) {
+      if (servicesResponse.isSuccess && services.length === 0) {
         return <EmptyState text={notFoundText} icon={ICONS.warehouse()} />;
       }
 
       // success state
-      if (results.isSuccess && services.length) {
+      if (servicesResponse.isSuccess && services.length) {
         return services.map((serviceData) => (
           <Grid item key={serviceData.id} xs={12} sm={6} md={4}>
             <ServiceCard key={serviceData.id} service={serviceData} />
@@ -65,14 +59,16 @@ const RegionView = (props) => {
         </Grid>
       ));
     },
-    [results]
+    [servicesResponse]
   );
 
   // services based on service type
   const filteredData = useMemo(
     () =>
-      results?.data?.results ? results.data.results.filter((d) => d.type === serviceType) : [],
-    [results, serviceType]
+      servicesResponse?.data?.results
+        ? servicesResponse.data.results.filter((d) => d.type === serviceType)
+        : [],
+    [servicesResponse, serviceType]
   );
 
   return (

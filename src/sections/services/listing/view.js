@@ -4,11 +4,11 @@ import { Button, Grid, Stack, Typography } from '@mui/material';
 import Container from '@mui/material/Container';
 import { useCallback, useMemo } from 'react';
 // local components
-import { getServices } from 'src/assets/dummy/services';
 import { EmptyState, ErrorState } from 'src/components/common/custom-state';
 import { useSettingsContext } from 'src/components/common/settings';
 import { ServiceCardSkeleton } from 'src/components/service/cards';
 import { getAvailableServiceTypes, serviceTypes } from 'src/constant/service-types';
+import { useListServicesQuery } from 'src/redux-toolkit/services/serviceApi';
 import { RouterLink } from 'src/routes/components';
 import { paths } from 'src/routes/paths';
 import { ICONS } from '../config-services';
@@ -19,29 +19,23 @@ import ServiceCarousel from './service-carousel';
 export default function ListingView() {
   const settings = useSettingsContext();
 
-  const results = useMemo(
-    () => ({
-      data: { results: getServices() },
-      isSuccess: true,
-    }),
-    []
-  );
+  const servicesResponse = useListServicesQuery();
 
   // render services
   const renderServices = useCallback(
     (services = [], notFoundText = 'No Services found', errorText = 'Something went to wrong') => {
       // error state
-      if (results.isError) {
-        return <ErrorState text={results?.error?.data?.message || errorText} />;
+      if (servicesResponse.isError) {
+        return <ErrorState text={servicesResponse?.error?.data?.message || errorText} />;
       }
 
       // empty state
-      if (results.isSuccess && services.length === 0) {
+      if (servicesResponse.isSuccess && services.length === 0) {
         return <EmptyState text={notFoundText} icon={ICONS.warehouse()} />;
       }
 
       // success state
-      if (results.isSuccess && services.length) {
+      if (servicesResponse.isSuccess && services.length) {
         return (
           <Grid item xs={12}>
             <ServiceCarousel data={services} />
@@ -56,7 +50,7 @@ export default function ListingView() {
         </Grid>
       ));
     },
-    [results]
+    [servicesResponse]
   );
 
   // services based on types
@@ -64,12 +58,12 @@ export default function ListingView() {
     () =>
       serviceTypes.reduce((prev, next) => {
         prev[next.value] =
-          results?.data?.results instanceof Array
-            ? results?.data?.results.filter((s) => s.type === next.value)
+          servicesResponse?.data?.results instanceof Array
+            ? servicesResponse?.data?.results.filter((s) => s.type === next.value)
             : [];
         return prev;
       }, {}),
-    [results]
+    [servicesResponse]
   );
 
   return (
