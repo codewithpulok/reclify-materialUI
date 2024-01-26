@@ -1,6 +1,6 @@
 'use client';
 
-import { useCallback, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 
 import Card from '@mui/material/Card';
 import { alpha } from '@mui/material/styles';
@@ -22,14 +22,17 @@ import {
   useTable,
 } from 'src/components/common/table';
 
-import { Button } from '@mui/material';
-import { useSnackbar } from 'notistack';
-import { getSellerTransactions, TRANSACTION_STATUS_OPTIONS } from 'src/assets/dummy';
-import { ConfirmDialog } from 'src/components/common/custom-dialog';
+import { getTransactionStatusColor, TRANSACTION_STATUS_OPTIONS } from 'src/assets/dummy';
+import {
+  CancelTransactionDialog,
+  ConfirmTransactionDialog,
+} from 'src/components/common/custom-dialog';
+import { useDialog } from 'src/hooks/use-dialog';
 import { selectAuth } from 'src/redux-toolkit/features/auth/authSlice';
 import { useAppSelector } from 'src/redux-toolkit/hooks';
-import TransactionDialog from './details-dialog';
-import TransactionTableRow from './table-row';
+import { useLazyListTransactionQuery } from 'src/redux-toolkit/services/transactionApi';
+import TransactionDetailsDialog from '../common/transaction-details-dialog';
+import TransactionRow from '../common/transaction-row';
 
 // ----------------------------------------------------------------------
 
@@ -51,39 +54,30 @@ const defaultFilters = {
 
 // ----------------------------------------------------------------------
 
-const SellerTransactions = () => {
+const TransactionsSellerTable = () => {
   const { user } = useAppSelector(selectAuth);
-  const { enqueueSnackbar } = useSnackbar();
 
-  const transactions = getSellerTransactions('1') || getSellerTransactions(user?.id);
+  // data states
+  const [getTransactions, transactionsResponse] = useLazyListTransactionQuery();
+
+  // dialog states
+  const transactionDialog = useDialog();
+  const confirmDialog = useDialog();
+  const cancelDialog = useDialog();
+
+  // table states
   const table = useTable({ defaultOrderBy: 'createdAt' });
-  const [tableData] = useState(transactions);
-
+  const [tableData, setTableData] = useState([]);
   const [filters, setFilters] = useState(defaultFilters);
-
-  const [transactionDialog, setTransactionDialog] = useState({
-    open: false,
-    transaction: undefined,
-  });
-  const [orderCancelDialog, setOrderCancelDialog] = useState({
-    open: false,
-    transaction: undefined,
-  });
-  const [orderConfirmDialog, setOrderConfirmDialog] = useState({
-    open: false,
-    transaction: undefined,
-  });
-
   const dataFiltered = applyFilter({
     inputData: tableData,
     comparator: getComparator(table.order, table.orderBy),
     filters,
   });
-
   const canReset = !!filters.name || filters.status !== 'all';
-
   const notFound = (!dataFiltered.length && canReset) || !dataFiltered.length;
 
+  // filter functions
   const handleFilters = useCallback(
     (name, value) => {
       table.onResetPage();
@@ -114,23 +108,11 @@ const SellerTransactions = () => {
               variant={
                 ((tab.value === 'all' || tab.value === filters.status) && 'filled') || 'soft'
               }
-              color={
-                (tab.value === 'completed' && 'success') ||
-                (tab.value === 'pending' && 'warning') ||
-                (tab.value === 'declined' && 'error') ||
-                'default'
-              }
+              color={getTransactionStatusColor(tab.value)}
             >
-              {tab.value === 'all' && tableData.length}
-              {tab.value === 'completed' &&
-                tableData.filter((order) => order.status === 'completed').length}
-
-              {tab.value === 'pending' &&
-                tableData.filter((order) => order.status === 'pending').length}
-              {tab.value === 'canceled' &&
-                tableData.filter((order) => order.status === 'canceled').length}
-              {tab.value === 'declined' &&
-                tableData.filter((order) => order.status === 'refunded').length}
+              {tab.value === 'all'
+                ? tableData.length
+                : tableData.filter((order) => order.status === tab.value).length}
             </Label>
           }
         />
@@ -138,44 +120,20 @@ const SellerTransactions = () => {
     [filters.status, tableData]
   );
 
-  // open transaction details
-  const openTransactionDialog = (transaction) => {
-    setTransactionDialog({ open: true, transaction });
-  };
-  // close transaction details
-  const closeTransactionDialog = () => {
-    setTransactionDialog((prev) => ({ ...prev, open: false }));
-  };
+  // fetch transactions
+  useEffect(() => {
+    if (user) {
+      getTransactions();
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [user]);
 
-  // open transaction status cancel dialog
-  const openOrderCancelDialog = (transaction) => {
-    setOrderCancelDialog({ open: true, transaction });
-  };
-  // close transaction status cancel dialog
-  const closeOrderCancelDialog = () => {
-    setOrderCancelDialog({ open: false, transaction: undefined });
-  };
-  // handle order cancel
-  const handleCancelOrder = useCallback(() => {
-    console.log('Order Cancel: ', orderCancelDialog.transaction);
-    enqueueSnackbar('Order Canceled.');
-    closeOrderCancelDialog();
-  }, [enqueueSnackbar, orderCancelDialog.transaction]);
-
-  // open transaction status confirm dialog
-  const openOrderConfirmDialog = (transaction) => {
-    setOrderConfirmDialog({ open: true, transaction });
-  };
-  // close transaction status confirm dialog
-  const closeOrderConfirmDialog = () => {
-    setOrderConfirmDialog({ open: false, transaction: undefined });
-  };
-  // handle order confirm
-  const handleConfirmOrder = useCallback(() => {
-    console.log('Order Confirm: ', orderConfirmDialog.transaction);
-    enqueueSnackbar('Order Confirm.');
-    closeOrderConfirmDialog();
-  }, [enqueueSnackbar, orderConfirmDialog.transaction]);
+  // update table data
+  useEffect(() => {
+    if (transactionsResponse.isSuccess && transactionsResponse.data?.success) {
+      setTableData(transactionsResponse.data.results);
+    }
+  }, [transactionsResponse]);
 
   return (
     <Card>
@@ -209,12 +167,13 @@ const SellerTransactions = () => {
                   table.page * table.rowsPerPage + table.rowsPerPage
                 )
                 .map((row) => (
-                  <TransactionTableRow
+                  <TransactionRow
                     key={row.id}
                     row={row}
-                    onCancelOrder={() => openOrderCancelDialog(row)}
-                    onConfirmOrder={() => openOrderConfirmDialog(row)}
-                    onViewTransaction={() => openTransactionDialog(row)}
+                    onCancelOrder={() => cancelDialog.onOpen(row)}
+                    onConfirmOrder={() => confirmDialog.onOpen(row)}
+                    onViewTransaction={() => transactionDialog.onOpen(row)}
+                    show={TABLE_HEAD.map((t) => t.id)}
                   />
                 ))}
 
@@ -237,36 +196,24 @@ const SellerTransactions = () => {
         onRowsPerPageChange={table.onChangeRowsPerPage}
       />
 
-      <TransactionDialog
+      <TransactionDetailsDialog
         open={transactionDialog.open}
-        transaction={transactionDialog.transaction}
-        onClose={closeTransactionDialog}
-        onCancelOrder={() => openOrderCancelDialog(transactionDialog.transaction)}
-        onConfirmOrder={() => openOrderConfirmDialog(transactionDialog.transaction)}
+        transaction={transactionDialog.value}
+        onClose={transactionDialog.onClose}
+        onCancelOrder={() => cancelDialog.onOpen(transactionDialog.value)}
+        onConfirmOrder={() => confirmDialog.onOpen(transactionDialog.value)}
       />
 
-      <ConfirmDialog
-        open={orderCancelDialog.open}
-        onClose={closeOrderCancelDialog}
-        title="Cancel Order!"
-        content="After canceling order, this can not be undone!"
-        action={
-          <Button onClick={handleCancelOrder} color="error" variant="contained">
-            Confirm
-          </Button>
-        }
+      <CancelTransactionDialog
+        open={cancelDialog.open}
+        onClose={cancelDialog.onClose}
+        transaction={cancelDialog.value}
       />
 
-      <ConfirmDialog
-        open={orderConfirmDialog.open}
-        onClose={closeOrderConfirmDialog}
-        title="Confirm Order!"
-        content="After confirming order, this can not be undone!"
-        action={
-          <Button onClick={handleConfirmOrder} color="success" variant="contained">
-            Confirm
-          </Button>
-        }
+      <ConfirmTransactionDialog
+        open={confirmDialog.open}
+        onClose={confirmDialog.onClose}
+        transaction={confirmDialog.value}
       />
     </Card>
   );
@@ -303,4 +250,4 @@ function applyFilter({ inputData, comparator, filters }) {
   return inputData;
 }
 
-export default SellerTransactions;
+export default TransactionsSellerTable;

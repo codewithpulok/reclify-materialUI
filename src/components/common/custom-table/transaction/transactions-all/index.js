@@ -1,6 +1,6 @@
 'use client';
 
-import { useCallback, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 
 import Card from '@mui/material/Card';
 import { alpha } from '@mui/material/styles';
@@ -22,9 +22,13 @@ import {
   useTable,
 } from 'src/components/common/table';
 
-import { getAllTransactions, TRANSACTION_STATUS_OPTIONS } from 'src/assets/dummy';
-import TransactionDialog from './details-dialog';
-import TransactionTableRow from './table-row';
+import { getTransactionStatusColor, TRANSACTION_STATUS_OPTIONS } from 'src/assets/dummy';
+import { useDialog } from 'src/hooks/use-dialog';
+import { selectAuth } from 'src/redux-toolkit/features/auth/authSlice';
+import { useAppSelector } from 'src/redux-toolkit/hooks';
+import { useLazyListTransactionQuery } from 'src/redux-toolkit/services/transactionApi';
+import TransactionDetailsDialog from '../common/transaction-details-dialog';
+import TransactionRow from '../common/transaction-row';
 
 // ----------------------------------------------------------------------
 
@@ -47,28 +51,28 @@ const defaultFilters = {
 
 // ----------------------------------------------------------------------
 
-const AllTransactions = () => {
-  const transactions = getAllTransactions();
+const TransactionsTable = () => {
+  const { user } = useAppSelector(selectAuth);
+
+  // data states
+  const [getTransactions, transactionsResponse] = useLazyListTransactionQuery();
+
+  // dialog states
+  const transactionDialog = useDialog();
+
+  // table states
   const table = useTable({ defaultOrderBy: 'createdAt' });
-  const [tableData] = useState(transactions);
-
+  const [tableData, setTableData] = useState([]);
   const [filters, setFilters] = useState(defaultFilters);
-
-  const [transactionDialog, setTransactionDialog] = useState({
-    open: false,
-    transaction: undefined,
-  });
-
   const dataFiltered = applyFilter({
     inputData: tableData,
     comparator: getComparator(table.order, table.orderBy),
     filters,
   });
-
   const canReset = !!filters.name || filters.status !== 'all';
-
   const notFound = (!dataFiltered.length && canReset) || !dataFiltered.length;
 
+  // filter functions
   const handleFilters = useCallback(
     (name, value) => {
       table.onResetPage();
@@ -99,23 +103,11 @@ const AllTransactions = () => {
               variant={
                 ((tab.value === 'all' || tab.value === filters.status) && 'filled') || 'soft'
               }
-              color={
-                (tab.value === 'completed' && 'success') ||
-                (tab.value === 'pending' && 'warning') ||
-                (tab.value === 'declined' && 'error') ||
-                'default'
-              }
+              color={getTransactionStatusColor(tab.value)}
             >
-              {tab.value === 'all' && tableData.length}
-              {tab.value === 'completed' &&
-                tableData.filter((order) => order.status === 'completed').length}
-
-              {tab.value === 'pending' &&
-                tableData.filter((order) => order.status === 'pending').length}
-              {tab.value === 'canceled' &&
-                tableData.filter((order) => order.status === 'canceled').length}
-              {tab.value === 'declined' &&
-                tableData.filter((order) => order.status === 'refunded').length}
+              {tab.value === 'all'
+                ? tableData.length
+                : tableData.filter((order) => order.status === tab.value).length}
             </Label>
           }
         />
@@ -123,14 +115,20 @@ const AllTransactions = () => {
     [filters.status, tableData]
   );
 
-  // open transaction details
-  const openTransactionDialog = (transaction) => {
-    setTransactionDialog({ open: true, transaction });
-  };
-  // close transaction details
-  const closeTransactionDialog = () => {
-    setTransactionDialog((prev) => ({ ...prev, open: false }));
-  };
+  // fetch transactions
+  useEffect(() => {
+    if (user) {
+      getTransactions();
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [user]);
+
+  // update table data
+  useEffect(() => {
+    if (transactionsResponse.isSuccess && transactionsResponse.data?.success) {
+      setTableData(transactionsResponse.data.results);
+    }
+  }, [transactionsResponse]);
 
   return (
     <Card>
@@ -164,10 +162,11 @@ const AllTransactions = () => {
                   table.page * table.rowsPerPage + table.rowsPerPage
                 )
                 .map((row) => (
-                  <TransactionTableRow
+                  <TransactionRow
                     key={row.id}
                     row={row}
-                    onViewTransaction={() => openTransactionDialog(row)}
+                    onViewTransaction={() => transactionDialog.onOpen(row)}
+                    show={TABLE_HEAD.map((t) => t.id)}
                   />
                 ))}
 
@@ -190,10 +189,10 @@ const AllTransactions = () => {
         onRowsPerPageChange={table.onChangeRowsPerPage}
       />
 
-      <TransactionDialog
+      <TransactionDetailsDialog
         open={transactionDialog.open}
-        transaction={transactionDialog.transaction}
-        onClose={closeTransactionDialog}
+        transaction={transactionDialog.value}
+        onClose={transactionDialog.onClose}
       />
     </Card>
   );
@@ -230,4 +229,4 @@ function applyFilter({ inputData, comparator, filters }) {
   return inputData;
 }
 
-export default AllTransactions;
+export default TransactionsTable;

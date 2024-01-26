@@ -17,5 +17,5 @@
  */
 
 /**
- * @typedef {'completed' | 'pending' | 'declined'} TransactionStatus
+ * @typedef {'completed' | 'pending' | 'declined' | 'cancelled'} TransactionStatus
  */

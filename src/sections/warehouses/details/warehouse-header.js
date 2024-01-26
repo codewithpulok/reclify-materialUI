@@ -5,6 +5,7 @@ import PropTypes from 'prop-types';
 import { selectAuth } from 'src/redux-toolkit/features/auth/authSlice';
 import { useAppSelector } from 'src/redux-toolkit/hooks';
 import { joinAddressObj } from 'src/utils/address';
+import { fShortenNumber } from 'src/utils/format-number';
 import { ICONS } from '../config-warehouse';
 import WarehouseAdminMenu from './warehouse-admin-menu';
 import WarehouseDiamond from './warehouse-diamond';
@@ -38,7 +39,7 @@ const Props = {
 const WarehouseHeader = (props) => {
   const { user } = useAppSelector(selectAuth);
   const { warehouse } = props;
-  const { name, address, isVerified, isFeatured, visible } = warehouse;
+  const { name, address, isVerified, isFeatured, visible, reviews } = warehouse;
   const router = useRouter();
 
   const goToReviewSection = () => router.push('#reviews', { scroll: true });
@@ -103,7 +104,7 @@ const WarehouseHeader = (props) => {
         >
           <Rating value={3.5} readOnly precision={0.5} onClick={goToReviewSection} />
           <Typography variant="body1" lineHeight={1.3}>
-            (5.2k reviews)
+            ({reviews?.length ? fShortenNumber(reviews?.length) : 0} reviews)
           </Typography>
         </Stack>
       </Stack>

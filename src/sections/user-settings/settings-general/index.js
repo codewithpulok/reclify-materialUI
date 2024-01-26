@@ -43,7 +43,7 @@ const UpdateUserSchema = Yup.object().shape({
   // banner: Yup.mixed().label('banner').nullable().required(),
   phone: Yup.string().label('Phone number').required(),
   address: addressFieldSchema,
-  about: Yup.string().label('About').required(),
+  about: Yup.string().label('About').optional(),
 });
 
 // ----------------------------------------------------------------------

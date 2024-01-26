@@ -105,7 +105,7 @@ const WarehouseReviews = (props) => {
                 <WarehouseReviewCard
                   key={review.id}
                   avatar={review.userData?.avatar}
-                  createdAt={review.createdAt || Date.now()}
+                  createdAt={review?.createdAt}
                   feedback={review.feedback}
                   name={`${review.userData?.firstName} ${review.userData?.lastName}`}
                   rating={review.rating}

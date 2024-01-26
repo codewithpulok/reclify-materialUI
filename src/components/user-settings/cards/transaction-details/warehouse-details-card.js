@@ -7,6 +7,7 @@ import Typography from '@mui/material/Typography';
 
 import { Card } from '@mui/material';
 import Image from 'src/components/common/image';
+import { PLACEHOLDER_WAREHOUSE_IMAGE } from 'src/config-global';
 import { joinAddressObj } from 'src/utils/address';
 import { ICONS } from '../../config-user-settings';
 
@@ -22,20 +23,18 @@ const WarehouseDetailsCardProps = {
  */
 const WarehouseDetailsCard = (props) => {
   const { warehouse, sx = {} } = props;
+
+  const warehouseImage = warehouse?.photos?.[0]?.link || PLACEHOLDER_WAREHOUSE_IMAGE;
+
   return (
     <Card component={Stack} spacing={1.5} sx={{ p: 1.5, borderRadius: 1, ...sx }}>
       <Box sx={{ width: '100%' }}>
-        <Image
-          src={warehouse.photos[0].link}
-          alt={warehouse.photos[0].title}
-          ratio="16/9"
-          sx={{ borderRadius: 1 }}
-        />
+        <Image src={warehouseImage} alt={warehouse?.title} ratio="16/9" sx={{ borderRadius: 1 }} />
       </Box>
       <Stack>
-        <Typography variant="h6">{warehouse.name}</Typography>
+        <Typography variant="h6">{warehouse.title}</Typography>
         <Typography variant="body2" color="text.secondary" sx={{ mb: 1 }}>
-          {joinAddressObj(warehouse.address)}
+          {joinAddressObj(warehouse.address) || 'address not available'}
         </Typography>
         <Stack flexDirection="row" alignItems="center" spacing={0.5} flexWrap="wrap" sx={{ mb: 3 }}>
           {warehouse.isVerified && (

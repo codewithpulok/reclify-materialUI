@@ -11,6 +11,11 @@ import { useSettingsContext } from 'src/components/common/settings';
 import { useRouter } from 'next/navigation';
 import CustomBreadcrumbs from 'src/components/common/custom-breadcrumbs';
 import { EmptyState, LoadingState } from 'src/components/common/custom-state';
+import {
+  TransactionsCustomerTable,
+  TransactionsSellerTable,
+  TransactionsTable,
+} from 'src/components/common/custom-table';
 import useHash from 'src/hooks/use-hash';
 import { selectAuth } from 'src/redux-toolkit/features/auth/authSlice';
 import { useAppSelector } from 'src/redux-toolkit/hooks';
@@ -22,7 +27,6 @@ import SettingsGeneral from './settings-general';
 import SettingsSecurity from './settings-security';
 import SettingsSellerBillings from './settings-seller-billings';
 import Warehouses from './settings-seller-warehouses';
-import SettingsTransactions from './transactions';
 
 // ----------------------------------------------------------------------
 
@@ -160,7 +164,19 @@ const UserSettingsView = () => {
         }
       }
       case '#transactions': {
-        return <SettingsTransactions role={user?.userType} />;
+        switch (user?.userType) {
+          case 'seller': {
+            return <TransactionsSellerTable />;
+          }
+          case 'customer': {
+            return <TransactionsCustomerTable />;
+          }
+          case 'admin': {
+            return <TransactionsTable />;
+          }
+          default:
+            return <EmptyState />;
+        }
       }
       case undefined:
         break;
