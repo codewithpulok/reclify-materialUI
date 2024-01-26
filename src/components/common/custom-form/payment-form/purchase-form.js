@@ -13,13 +13,13 @@ import PaymentFields, { Props as FieldProps } from './payment-fields';
 
 export const Props = {
   submitCallback: PropTypes.func,
-  purchaseData: {
-    warehouse: PropTypes.object.isRequired,
-    pallet: PropTypes.number.isRequired,
-    price: PropTypes.number.isRequired,
-    total: PropTypes.number.isRequired,
-    month: PropTypes.number.isRequired,
-  },
+  purchaseData: PropTypes.objectOf({
+    warehouse: PropTypes.object,
+    pallet: PropTypes.number,
+    price: PropTypes.number,
+    total: PropTypes.number,
+    month: PropTypes.number,
+  }),
   ...FieldProps,
 };
 

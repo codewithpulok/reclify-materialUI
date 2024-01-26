@@ -23,7 +23,7 @@ export default function RHFTextField(props) {
   const {
     name,
     helperText,
-    onChangeMiddleware,
+    onChangeMiddleware = (value) => value,
     valueFormatter = (value) => value,
     ...other
   } = props;
@@ -36,15 +36,15 @@ export default function RHFTextField(props) {
       render={({ field, fieldState: { error } }) => (
         <TextField
           {...field}
-          value={field.value === undefined || field.value === '' ? '' : valueFormatter(field.value)}
+          value={field.value === null ? '' : valueFormatter(field.value)}
           onChange={(event) => {
-            const value =
-              onChangeMiddleware === undefined
-                ? event.target.value
-                : onChangeMiddleware(event.target.value);
+            let { value } = event.target;
+
+            // if there is a onchange middleware then handle it
+            if (onChangeMiddleware) value = onChangeMiddleware(value);
 
             if (other?.type === 'number') {
-              field.onChange(value === '' ? '' : Number(value));
+              field.onChange(value === '' ? null : Number(value));
             } else {
               field.onChange(value);
             }
