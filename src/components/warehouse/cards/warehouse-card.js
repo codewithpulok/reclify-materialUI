@@ -57,32 +57,8 @@ const WarehouseCard = (props) => {
       >
         <Box width="100%" sx={{ position: 'relative' }}>
           <Image src={thumbnail} ratio="16/9" />
-
-          <Box
-            sx={{
-              position: 'absolute',
-              bottom: 5,
-              left: 5,
-              bgcolor: 'action.diamond',
-              borderRadius: 3,
-              transition: '0.3s',
-              display: 'flex',
-              alignItems: 'center',
-              py: 0.5,
-              px: 0.5,
-            }}
-            onClick={(e) => e.stopPropagation()}
-            onMouseEnter={(e) => e.stopPropagation()}
-            onTouch
-          >
-            <WarehouseDiamond
-              id={warehouse.id}
-              value={warehouse?.diamond || 0}
-              size={22}
-              action={user?.userType === 'admin'}
-            />
-          </Box>
         </Box>
+
         <CardContent sx={{ position: 'relative' }}>
           <Typography gutterBottom variant="h5">
             {warehouse.name}
@@ -143,54 +119,69 @@ const WarehouseCard = (props) => {
         ) : null}
       </CardActionArea>
 
-      {/* if seller user has access to the operation then show controls */}
-      {hasControl && (
-        <Box
-          sx={{
-            position: 'absolute',
-            top: 5,
-            right: 4,
-            bgcolor: 'grey.100',
-            borderRadius: 5,
-            transition: '0.3s',
-          }}
-        >
-          <Link href={`${paths.dashboard.warehouses.create}?clone=${warehouse.id}`}>
-            <IconButton size="small" color="primary">
-              {ICONS.duplicate()}
-            </IconButton>
-          </Link>
-          <Link href={`${paths.dashboard.warehouses.edit}/${warehouse.id}`}>
-            <IconButton size="small" color="warning">
-              {ICONS.edit()}
-            </IconButton>
-          </Link>
-          <IconButton size="small" color="error" onClick={onDelete}>
-            {ICONS.delete()}
-          </IconButton>
-        </Box>
-      )}
+      <Stack
+        sx={{
+          position: 'absolute',
+          top: 5,
+          right: 4,
+          flexDirection: 'row',
+          alignItems: 'center',
+          gap: 0.5,
+        }}
+      >
+        {/* if diamond not exist then, hide this for everyone except admin */}
+        {(!!warehouse?.diamond || user?.userType === 'admin') && (
+          <Box
+            sx={{
+              bgcolor: 'action.diamond',
+              borderRadius: 3,
+              transition: '0.3s',
+              display: 'flex',
+              alignItems: 'center',
+              py: 0.5,
+              px: 0.5,
+            }}
+          >
+            <WarehouseDiamond
+              id={warehouse.id}
+              value={warehouse?.diamond || 0}
+              size={22}
+              action={user?.userType === 'admin'}
+            />
+          </Box>
+        )}
 
-      {user?.userType === 'admin' && (
-        <Box
-          sx={{
-            position: 'absolute',
-            top: 5,
-            right: 5,
-            bgcolor: 'rgba(255,255,255,1)',
-            borderRadius: 5,
-            transition: '0.3s',
-          }}
-        >
-          <WarehouseAdminMenu
-            isVerified={warehouse?.isVerified}
-            isFeatured={warehouse?.isFeatured}
-            isVisible={warehouse?.visible}
-            id={warehouse?.id}
-            iconBtnProps={{ color: 'primary' }}
-          />
-        </Box>
-      )}
+        {/* if seller user has access to the operation then show controls */}
+        {hasControl && (
+          <Box sx={{ bgcolor: 'grey.100', borderRadius: 5, transition: '0.3s' }}>
+            <Link href={`${paths.dashboard.warehouses.create}?clone=${warehouse.id}`}>
+              <IconButton size="small" color="primary">
+                {ICONS.duplicate()}
+              </IconButton>
+            </Link>
+            <Link href={`${paths.dashboard.warehouses.edit}/${warehouse.id}`}>
+              <IconButton size="small" color="warning">
+                {ICONS.edit()}
+              </IconButton>
+            </Link>
+            <IconButton size="small" color="error" onClick={onDelete}>
+              {ICONS.delete()}
+            </IconButton>
+          </Box>
+        )}
+
+        {user?.userType === 'admin' && (
+          <Box sx={{ bgcolor: 'rgba(255,255,255,1)', borderRadius: 5 }}>
+            <WarehouseAdminMenu
+              isVerified={warehouse?.isVerified}
+              isFeatured={warehouse?.isFeatured}
+              isVisible={warehouse?.visible}
+              id={warehouse?.id}
+              iconBtnProps={{ color: 'primary' }}
+            />
+          </Box>
+        )}
+      </Stack>
     </Card>
   );
 };
