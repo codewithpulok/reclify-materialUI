@@ -3,8 +3,10 @@
 import { Button, Container, Grid, Stack, Typography } from '@mui/material';
 import { useSearchParams } from 'next/navigation';
 import { users, warehouses } from 'src/assets/dummy';
+import { services } from 'src/assets/dummy/services';
 import CustomBreadcrumbs from 'src/components/common/custom-breadcrumbs/custom-breadcrumbs';
 import { useSettingsContext } from 'src/components/common/settings';
+import { ServiceCard } from 'src/components/service/cards';
 import { CustomerCard, SellerCard } from 'src/components/users/cards';
 import { WarehouseCard } from 'src/components/warehouse/cards';
 import { RouterLink } from 'src/routes/components';
@@ -27,7 +29,7 @@ const SearchListView = (props) => {
           heading={`You've searched for - ${query}`}
           links={[{ name: 'Dashboard', href: paths.dashboard.root }, { name: 'Search' }]}
         />
-        <Stack mb={5} spacing={3}>
+        <Stack spacing={3}>
           <Typography variant="h4">Users</Typography>
 
           <Grid container spacing={1}>
@@ -42,19 +44,19 @@ const SearchListView = (props) => {
             ))}
           </Grid>
 
-          <Stack direction="row" justifyContent="end" mt={5}>
+          <Stack direction="row" justifyContent="end" mt={1}>
             <Button
               variant="contained"
               color="primary"
               LinkComponent={RouterLink}
-              href={`${paths.dashboard.search.users}?query=${query}`}
+              href={paths.dashboard.search.users(query)}
             >
               Show More
             </Button>
           </Stack>
         </Stack>
 
-        <Stack mb={5} spacing={3}>
+        <Stack spacing={3}>
           <Typography variant="h4">Warehouses</Typography>
 
           <Grid container spacing={1.5}>
@@ -65,12 +67,35 @@ const SearchListView = (props) => {
             ))}
           </Grid>
 
-          <Stack direction="row" justifyContent="end" mt={5}>
+          <Stack direction="row" justifyContent="end" mt={1}>
             <Button
               variant="contained"
               color="primary"
               LinkComponent={RouterLink}
-              href={`${paths.dashboard.search.warehouses}?query=${query}`}
+              href={paths.dashboard.search.warehouses(query)}
+            >
+              Show More
+            </Button>
+          </Stack>
+        </Stack>
+
+        <Stack spacing={3}>
+          <Typography variant="h4">Services</Typography>
+
+          <Grid container spacing={1.5}>
+            {services.slice(0, 3).map((service) => (
+              <Grid item key={service.id} xs={12} sm={6} md={4}>
+                <ServiceCard key={service.id} service={service} sx={{ boxShadow: 0 }} />
+              </Grid>
+            ))}
+          </Grid>
+
+          <Stack direction="row" justifyContent="end" mt={1}>
+            <Button
+              variant="contained"
+              color="primary"
+              LinkComponent={RouterLink}
+              href={paths.dashboard.search.services(query)}
             >
               Show More
             </Button>

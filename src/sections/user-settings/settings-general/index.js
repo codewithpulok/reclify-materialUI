@@ -17,7 +17,7 @@ import {
   useProfileUpdateMutation,
 } from 'src/redux-toolkit/services/profileApi';
 import { fDate } from 'src/utils/format-time';
-import BannerFields from './banner-fields';
+import BannerField from './banner-field';
 import Fields from './fields';
 
 const defaultValues = {
@@ -27,6 +27,7 @@ const defaultValues = {
   website: '',
   serviceType: '',
   avatar: null,
+  logo: null,
   banner: PLACEHOLDER_PROFILE_BANNER,
   phone: '',
   address: {},
@@ -39,8 +40,9 @@ const UpdateUserSchema = Yup.object().shape({
   lastName: Yup.string().label('Last name').required(),
   email: Yup.string().label('Email').required().email(),
   website: Yup.string().label('Website URL').url(),
-  // avatar: Yup.mixed().label('Avatar').nullable().required(),
-  // banner: Yup.mixed().label('banner').nullable().required(),
+  avatar: Yup.string().label('Avatar').notRequired(),
+  banner: Yup.string().label('Banner').notRequired(),
+  logo: Yup.string().label('Logo').notRequired(),
   phone: Yup.string().label('Phone number').required(),
   address: addressFieldSchema,
   about: Yup.string().label('About').optional(),
@@ -109,7 +111,7 @@ const SettingsGeneral = () => {
     <FormProvider methods={methods} onSubmit={onSubmit} onReset={onReset}>
       <Stack spacing={5}>
         <Card sx={{ height: 290 }}>
-          <BannerFields joined={fDate(new Date())} />
+          <BannerField joined={fDate(new Date())} />
         </Card>
         <Fields />
       </Stack>

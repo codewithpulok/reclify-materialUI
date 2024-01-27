@@ -1,10 +1,11 @@
 import PropTypes from 'prop-types';
-import { memo, useState, useCallback } from 'react';
+import { memo, useCallback, useState } from 'react';
 
-import Stack from '@mui/material/Stack';
 import Collapse from '@mui/material/Collapse';
 import ListSubheader from '@mui/material/ListSubheader';
+import Stack from '@mui/material/Stack';
 
+import { Divider } from '@mui/material';
 import NavList from './nav-list';
 
 // ----------------------------------------------------------------------
@@ -40,9 +41,12 @@ function Group({ subheader, items, slotProps }) {
     setOpen((prev) => !prev);
   }, []);
 
-  const renderContent = items.map((list) => (
-    <NavList key={list.title} data={list} depth={1} slotProps={slotProps} />
-  ));
+  const renderContent = items.map((list, index) => {
+    if (list?.type === 'DIVIDER')
+      return <Divider key={index} sx={{ mb: 0.5, borderStyle: 'dashed' }} />;
+
+    return <NavList key={list.title} data={list} depth={1} slotProps={slotProps} />;
+  });
 
   return (
     <Stack sx={{ px: 2 }}>

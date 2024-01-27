@@ -2,6 +2,7 @@ import Stack from '@mui/material/Stack';
 
 import { MenuItem } from '@mui/material';
 import { useFormContext } from 'react-hook-form';
+import { FormRadioCard } from 'src/components/auth/form';
 import { PasswordField } from 'src/components/common/custom-fields';
 import { RHFTextField } from 'src/components/common/hook-form';
 import { serviceTypes } from 'src/constant/service-types';
@@ -46,10 +47,22 @@ const Fields = (props) => {
       />
 
       {showUserTypeField.value && (
-        <RHFTextField name="userType" label="Account Type" select>
-          <MenuItem value="customer">Customer</MenuItem>
-          <MenuItem value="seller">Service Provider</MenuItem>
-        </RHFTextField>
+        <Stack spacing={1}>
+          <FormRadioCard
+            text="Find warehouse & other services"
+            title="USER"
+            name="userType"
+            value="customer"
+            icon="lets-icons:user-box-duotone"
+          />
+          <FormRadioCard
+            text="Find warehouse & other services"
+            title="SERVICE PROVIDER"
+            name="userType"
+            value="seller"
+            icon="lets-icons:3d-box-duotone"
+          />
+        </Stack>
       )}
 
       {serviceField}

@@ -9,7 +9,7 @@ import Stack from '@mui/material/Stack';
 import TableCell from '@mui/material/TableCell';
 import TableRow from '@mui/material/TableRow';
 
-import { Link, Typography } from '@mui/material';
+import { Chip, Link, Tooltip, Typography } from '@mui/material';
 import { getTransactionStatusColor } from 'src/assets/dummy/transactions';
 import { usePopover } from 'src/components/common/custom-popover';
 import CustomPopover from 'src/components/common/custom-popover/custom-popover';
@@ -63,11 +63,26 @@ const TransactionRow = (props) => {
                 overflow: 'hidden',
                 textOverflow: 'ellipsis',
                 display: '-webkit-box',
-                WebkitLineClamp: '1',
-                WebkitBoxOrient: 'vertical',
+                webkitlineclamp: '1',
+                webkitboxorient: 'vertical',
               }}
             />
           </Stack>
+        </TableCell>
+      )}
+
+      {show.includes('invoice') && (
+        <TableCell>
+          <Tooltip title="Click to visit invoice PDF" arrow>
+            <Chip
+              label="Invoice"
+              icon={ICONS.invoice()}
+              clickable
+              variant="outlined"
+              component={RouterLink}
+              href="#"
+            />
+          </Tooltip>
         </TableCell>
       )}
 

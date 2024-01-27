@@ -17,6 +17,7 @@ import { selectAuth } from 'src/redux-toolkit/features/auth/authSlice';
 import { useAppSelector } from 'src/redux-toolkit/hooks';
 import { useLogoutMutation } from 'src/redux-toolkit/services/authApi';
 import { useRouter } from 'src/routes/hooks';
+import { paths } from 'src/routes/paths';
 import { TABS as settingsTabs } from 'src/sections/user-settings/view';
 
 // ----------------------------------------------------------------------
@@ -37,7 +38,7 @@ export default function AccountPopover() {
     try {
       await logout().unwrap();
       popover.onClose();
-      router.replace('/');
+      router.replace(paths.auth.login);
     } catch (error) {
       console.error(error);
     }

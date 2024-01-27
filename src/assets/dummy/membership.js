@@ -7,6 +7,10 @@ export const membershipHistory = [
       subscription: 'basic',
       price: 150,
     },
+    invoice: {
+      name: 'Invoice 01',
+      link: '#',
+    },
   },
   {
     id: 'random2',
@@ -14,6 +18,10 @@ export const membershipHistory = [
     plan: {
       subscription: 'starter',
       price: 500,
+    },
+    invoice: {
+      name: 'Invoice 02',
+      link: '#',
     },
   },
   {
@@ -23,6 +31,10 @@ export const membershipHistory = [
       subscription: 'premium',
       price: 1000,
     },
+    invoice: {
+      name: 'Invoice 03',
+      link: '#',
+    },
   },
   {
     id: 'random4',
@@ -30,6 +42,10 @@ export const membershipHistory = [
     plan: {
       subscription: 'basic',
       price: 150,
+    },
+    invoice: {
+      name: 'Invoice 04',
+      link: '#',
     },
   },
   {
@@ -39,6 +55,10 @@ export const membershipHistory = [
       subscription: 'starter',
       price: 500,
     },
+    invoice: {
+      name: 'Invoice 05',
+      link: '#',
+    },
   },
   {
     id: 'random6',
@@ -46,6 +66,10 @@ export const membershipHistory = [
     plan: {
       subscription: 'premium',
       price: 1000,
+    },
+    invoice: {
+      name: 'Invoice 06',
+      link: '#',
     },
   },
   {
@@ -55,6 +79,10 @@ export const membershipHistory = [
       subscription: 'basic',
       price: 150,
     },
+    invoice: {
+      name: 'Invoice 07',
+      link: '#',
+    },
   },
   {
     id: 'random8',
@@ -62,6 +90,10 @@ export const membershipHistory = [
     plan: {
       subscription: 'starter',
       price: 500,
+    },
+    invoice: {
+      name: 'Invoice 08',
+      link: '#',
     },
   },
   {
@@ -71,6 +103,10 @@ export const membershipHistory = [
       subscription: 'premium',
       price: 1000,
     },
+    invoice: {
+      name: 'Invoice 09',
+      link: '#',
+    },
   },
   {
     id: 'random10',
@@ -78,6 +114,10 @@ export const membershipHistory = [
     plan: {
       subscription: 'basic',
       price: 150,
+    },
+    invoice: {
+      name: 'Invoice 10',
+      link: '#',
     },
   },
 ];

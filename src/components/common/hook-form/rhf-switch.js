@@ -8,7 +8,8 @@ import Switch from '@mui/material/Switch';
 const RHFSwitchProps = {
   helperText: PropTypes.string,
   name: PropTypes.string,
-  label: PropTypes.string,
+  icon: PropTypes.string,
+  label: PropTypes.node,
   /** @type {import('@mui/material').FormControlLabelProps} */
   labelProps: PropTypes.object,
 };

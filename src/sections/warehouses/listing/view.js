@@ -125,7 +125,7 @@ export default function ListingView() {
 
             <Button
               LinkComponent={RouterLink}
-              href={paths.dashboard.warehouses[region.code]}
+              href={paths.dashboard.warehouses.region(region.code)}
               variant="soft"
               color="primary"
               sx={{ ml: 'auto' }}

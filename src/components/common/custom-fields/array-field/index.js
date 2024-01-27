@@ -64,7 +64,7 @@ const ArrayField = (props) => {
     <RHFAccordion name={name} label={label} defaultExpanded={defaultExpanded}>
       <Stack>
         <TextField
-          label="New Rule"
+          label="New Item"
           value={newRule}
           onChange={(e) => setNewRule(e.target.value)}
           onKeyDown={handleCatchEnter}

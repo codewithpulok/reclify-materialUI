@@ -2,6 +2,7 @@ import { Box, Button, Chip, IconButton, Rating, Stack, Typography } from '@mui/m
 import { useRouter } from 'next/navigation';
 import PropTypes from 'prop-types';
 
+import Label from 'src/components/common/label';
 import { selectAuth } from 'src/redux-toolkit/features/auth/authSlice';
 import { useAppSelector } from 'src/redux-toolkit/hooks';
 import { joinAddressObj } from 'src/utils/address';
@@ -39,7 +40,7 @@ const Props = {
 const WarehouseHeader = (props) => {
   const { user } = useAppSelector(selectAuth);
   const { warehouse } = props;
-  const { name, address, isVerified, isFeatured, visible, reviews } = warehouse;
+  const { name, address, isVerified, isFeatured, visible, reviews, region } = warehouse;
   const router = useRouter();
 
   const goToReviewSection = () => router.push('#reviews', { scroll: true });
@@ -135,9 +136,10 @@ const WarehouseHeader = (props) => {
       </IconButton>
 
       <Typography variant="h2">{name}</Typography>
-      <Typography variant="body2" mb={2}>
-        {joinAddressObj(address)}
-      </Typography>
+      <Stack direction="row" spacing={1.5} alignItems="center" mb={2} flexWrap="wrap">
+        <Typography variant="body2">{joinAddressObj(address)}</Typography>
+        {region && <Label>{region}</Label>}
+      </Stack>
 
       {renderMetadata}
     </Box>

@@ -34,11 +34,11 @@ const Props = {
 const defaultValues = {
   name: '',
   address: '',
-  totalSpace: undefined,
-  pricePerSpace: undefined,
-  discountRate: undefined,
-  maxSpaceOrder: undefined,
-  minSpaceOrder: undefined,
+  totalSpace: null,
+  pricePerSpace: null,
+  discountRate: null,
+  maxSpaceOrder: null,
+  minSpaceOrder: null,
   description: '',
   photos: [],
   approvedUses: getPredefinedFieldsDefaultValue(predefinedApprovedUses),
@@ -46,7 +46,8 @@ const defaultValues = {
   facilityDetails: getPredefinedFieldsDefaultValue(predefinedFacility),
   services: getPredefinedFieldsDefaultValue(predefinedServices),
   rules: [],
-  region: 'northeast',
+  subRegion: '',
+  region: '',
 };
 
 /**

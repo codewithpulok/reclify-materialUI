@@ -39,12 +39,16 @@ function Content(props) {
       <WarehouseHeader warehouse={warehouse} />
       <Grid container spacing={2}>
         <Grid item xs={12} md={7}>
-          <WarehosueDetailsMain seller={seller} warehouse={warehouse} reviews={reviews} />
+          <WarehosueDetailsMain
+            seller={warehouse?.seller || seller}
+            warehouse={warehouse}
+            reviews={reviews}
+          />
         </Grid>
         <Grid item xs={12} md={5}>
           {/* show sidebar content in tab mode & hide in mobile mode */}
           {mdUp && (
-            <WarehouseDetailsSidebar seller={seller} warehouse={warehouse}>
+            <WarehouseDetailsSidebar seller={warehouse?.seller || seller} warehouse={warehouse}>
               <WarehouseReviews
                 reviews={reviews}
                 canAddNewReview={user && user.userType === 'customer'}

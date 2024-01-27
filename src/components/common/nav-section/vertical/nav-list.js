@@ -1,40 +1,25 @@
 import PropTypes from 'prop-types';
-import { useCallback, useEffect, useState } from 'react';
+import { useCallback, useState } from 'react';
 
 import Collapse from '@mui/material/Collapse';
 
-import { usePathname } from 'src/routes/hooks';
 import { useActiveLink } from 'src/routes/hooks/use-active-link';
 
+import { Divider } from '@mui/material';
 import NavItem from './nav-item';
 
 // ----------------------------------------------------------------------
 
 export default function NavList({ data, depth, slotProps }) {
-  const pathname = usePathname();
-
   const active = useActiveLink(data.path, !!data.children);
 
-  const [openMenu, setOpenMenu] = useState(active);
-  const [userInterect, setUserInterect] = useState(false);
+  const [openMenu, setOpenMenu] = useState(active || data?.defaultOpen);
 
   const handleToggleMenu = useCallback(() => {
     if (data.children) {
       setOpenMenu((prev) => !prev);
-      setUserInterect(true); // by toggle menu we confrim that user has interected
     }
   }, [data.children]);
-
-  const handleCloseMenu = useCallback(() => {
-    setOpenMenu(false);
-  }, []);
-
-  useEffect(() => {
-    if (!active) {
-      handleCloseMenu();
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [pathname]);
 
   return (
     <>
@@ -64,10 +49,7 @@ export default function NavList({ data, depth, slotProps }) {
       />
 
       {!!data.children && (
-        <Collapse
-          in={data?.defaultOpen && !userInterect ? data?.defaultOpen : openMenu}
-          unmountOnExit
-        >
+        <Collapse in={openMenu} unmountOnExit>
           <NavSubList data={data.children} depth={depth} slotProps={slotProps} />
         </Collapse>
       )}
@@ -86,9 +68,12 @@ NavList.propTypes = {
 function NavSubList({ data, depth, slotProps }) {
   return (
     <>
-      {data.map((list) => (
-        <NavList key={list.title} data={list} depth={depth + 1} slotProps={slotProps} />
-      ))}
+      {data.map((list, index) => {
+        if (list?.type === 'DIVIDER')
+          return <Divider key={index} sx={{ mb: 0.5, borderStyle: 'dashed' }} />;
+
+        return <NavList key={list.title} data={list} depth={depth + 1} slotProps={slotProps} />;
+      })}
     </>
   );
 }

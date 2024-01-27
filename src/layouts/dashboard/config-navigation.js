@@ -2,8 +2,8 @@ import { useMemo } from 'react';
 
 import { paths } from 'src/routes/paths';
 
-import { regions } from 'src/assets/data';
-import { getIconify } from 'src/components/common/iconify/utilities';
+import { getRegionsBySubRegions, subRegions } from 'src/assets/data';
+import { getIconify, getIconifyFunc } from 'src/components/common/iconify/utilities';
 import { getAvailableServiceTypes } from 'src/constant/service-types';
 import { selectAuth } from 'src/redux-toolkit/features/auth/authSlice';
 import { useAppSelector } from 'src/redux-toolkit/hooks';
@@ -19,17 +19,18 @@ import { useAppSelector } from 'src/redux-toolkit/hooks';
  */
 
 const ICONS = {
-  warehouse: (width, sx) => getIconify('solar:box-bold-duotone', width, sx),
-  service: (width, sx) => getIconify('ic:twotone-home-repair-service', width, sx),
-  users: (width, sx) => getIconify('solar:users-group-two-rounded-bold', width, sx),
-  hot_deals: (width, sx) => getIconify('solar:fire-bold-duotone', width, sx),
-  messages: (width, sx) => getIconify('solar:chat-round-line-bold-duotone', width, sx),
-  region: (width, sx) => getIconify('solar:earth-bold-duotone', width, sx),
+  warehouse: getIconifyFunc('solar:box-bold-duotone'),
+  service: getIconifyFunc('ic:twotone-home-repair-service'),
+  users: getIconifyFunc('solar:users-group-two-rounded-bold'),
+  hot_deals: getIconifyFunc('solar:fire-bold-duotone'),
+  messages: getIconifyFunc('solar:chat-round-line-bold-duotone'),
+  region: getIconifyFunc('solar:earth-bold-duotone'),
 
-  not_verified: (width, sx) => getIconify('lucide:badge-minus', width, sx),
-  not_featured: (width, sx) => getIconify('iconamoon:star-off-fill', width, sx),
-  not_rated: (width, sx) => getIconify('tabler:diamond-off', width, sx),
-  hidden: (width, sx) => getIconify('solar:eye-closed-bold-duotone', width, sx),
+  not_verified: getIconifyFunc('lucide:badge-minus'),
+  not_featured: getIconifyFunc('iconamoon:star-off-fill'),
+  not_rated: getIconifyFunc('tabler:diamond-off'),
+  hidden: getIconifyFunc('solar:eye-closed-bold-duotone'),
+  news: getIconifyFunc('bxs:news'),
 };
 
 // ----------------------------------------------------------------------
@@ -51,6 +52,7 @@ export function useNavData() {
           { title: 'Sellers', path: paths.dashboard.users.sellers },
           { title: 'Customers', path: paths.dashboard.users.customers },
         ],
+        defaultOpen: true,
       },
     ],
     []
@@ -62,6 +64,11 @@ export function useNavData() {
    */
   const adminWarehouseRoutes = useMemo(
     () => [
+      {
+        type: 'DIVIDER',
+        path: '#',
+        title: 'Divider 1',
+      },
       {
         title: 'Not Featured',
         path: paths.dashboard.warehouses.not_featured,
@@ -104,11 +111,19 @@ export function useNavData() {
             icon: ICONS.hot_deals(),
           },
 
-          // region warehouse routes
-          ...regions.map((r) => ({
-            title: r.name,
-            path: paths.dashboard.warehouses[r.code],
-            icon: getIconify(r.icon, undefined, { rotate: `${r.rotate ? 90 * r.rotate : 0}deg` }),
+          // sub region warehouse routes
+          ...subRegions.map((s) => ({
+            title: s.name,
+            path: '#',
+            icon: s.icon ? getIconify(s.icon) : undefined,
+            defaultOpen: true,
+            children: getRegionsBySubRegions(s.code).map((r) => ({
+              title: r.name,
+              path: paths.dashboard.warehouses.region(r.code),
+              icon: r.icon
+                ? getIconify(r.icon, undefined, { rotate: `${r.rotate ? 90 * r.rotate : 0}deg` })
+                : undefined,
+            })),
           })),
 
           // admin warehouse routes
@@ -125,15 +140,22 @@ export function useNavData() {
           ...getAvailableServiceTypes().map((s) => ({
             title: s.label,
             path: paths.dashboard.services[s.value],
+            icon: s?.icon ? getIconify(s.icon) : undefined,
           })),
         ],
+        defaultOpen: true,
       },
       {
         title: 'Messages',
         path: paths.dashboard.messages.root,
         icon: ICONS.messages(),
       },
-
+      // news route
+      {
+        title: 'Racklify News',
+        path: paths.news.root,
+        icon: ICONS.news(),
+      },
       // admin routes
       ...(user?.userType === 'admin' ? adminRoutes : []),
     ],

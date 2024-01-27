@@ -13,116 +13,97 @@ import Iconify from '../../iconify';
 
 // ----------------------------------------------------------------------
 
-const NavItem = forwardRef(
-  (
-    {
-      title,
-      path,
-      icon,
-      info,
-      disabled,
-      caption,
-      roles,
-      //
-      open,
-      depth,
-      active,
-      hasChild,
-      externalLink,
-      currentRole = 'admin',
-      ...other
-    },
-    ref
-  ) => {
-    const subItem = depth !== 1;
+const NavItem = forwardRef((props, ref) => {
+  const {
+    title,
+    path,
+    icon,
+    info,
+    disabled,
+    caption,
+    roles,
+    //
+    open,
+    depth,
+    active,
+    hasChild,
+    externalLink,
+    currentRole = 'admin',
+    ...other
+  } = props;
+  const subItem = depth !== 1;
 
-    const renderContent = (
-      <StyledNavItem
-        ref={ref}
-        disableGutters
-        open={open}
-        depth={depth}
-        active={active}
-        disabled={disabled}
-        {...other}
-      >
-        {!subItem && icon && (
-          <Box component="span" className="icon">
-            {icon}
+  const renderContent = (
+    <StyledNavItem
+      ref={ref}
+      disableGutters
+      open={open}
+      depth={depth}
+      active={active}
+      disabled={disabled}
+      {...other}
+    >
+      {!subItem && icon && (
+        <Box component="span" className="icon">
+          {icon}
+        </Box>
+      )}
+
+      {subItem && icon ? (
+        <Box component="span" className="icon" sx={{ ml: 0.5 }}>
+          {icon}
+        </Box>
+      ) : (
+        <Box component="span" className="sub-icon" />
+      )}
+
+      {title && (
+        <Box component="span" sx={{ flex: '1 1 auto', minWidth: 0 }}>
+          <Box component="span" className="label">
+            {title}
           </Box>
-        )}
 
-        {subItem && icon ? (
-          <Box component="span" className="icon">
-            {icon}
-          </Box>
-        ) : (
-          <Box component="span" className="sub-icon" />
-        )}
+          {caption && (
+            <Tooltip title={caption} placement="top-start">
+              <Box component="span" className="caption">
+                {caption}
+              </Box>
+            </Tooltip>
+          )}
+        </Box>
+      )}
 
-        {title && (
-          <Box component="span" sx={{ flex: '1 1 auto', minWidth: 0 }}>
-            <Box component="span" className="label">
-              {title}
-            </Box>
+      {info && (
+        <Box component="span" className="info">
+          {info}
+        </Box>
+      )}
 
-            {caption && (
-              <Tooltip title={caption} placement="top-start">
-                <Box component="span" className="caption">
-                  {caption}
-                </Box>
-              </Tooltip>
-            )}
-          </Box>
-        )}
+      {hasChild && (
+        <Iconify
+          width={16}
+          className="arrow"
+          icon={open ? 'eva:arrow-ios-downward-fill' : 'eva:arrow-ios-forward-fill'}
+        />
+      )}
+    </StyledNavItem>
+  );
 
-        {info && (
-          <Box component="span" className="info">
-            {info}
-          </Box>
-        )}
+  // Hidden item by role
+  if (roles && !roles.includes(`${currentRole}`)) {
+    return null;
+  }
 
-        {hasChild && (
-          <Iconify
-            width={16}
-            className="arrow"
-            icon={open ? 'eva:arrow-ios-downward-fill' : 'eva:arrow-ios-forward-fill'}
-          />
-        )}
-      </StyledNavItem>
-    );
+  if (hasChild && (!path || path === '#')) {
+    return renderContent;
+  }
 
-    // Hidden item by role
-    if (roles && !roles.includes(`${currentRole}`)) {
-      return null;
-    }
-
-    if (hasChild && !path) {
-      return renderContent;
-    }
-
-    if (externalLink)
-      return (
-        <Link
-          href={path}
-          target="_blank"
-          rel="noopener"
-          color="inherit"
-          underline="none"
-          sx={{
-            ...(disabled && {
-              cursor: 'default',
-            }),
-          }}
-        >
-          {renderContent}
-        </Link>
-      );
-
+  if (externalLink)
     return (
       <Link
-        component={RouterLink}
         href={path}
+        target="_blank"
+        rel="noopener"
         color="inherit"
         underline="none"
         sx={{
@@ -134,8 +115,23 @@ const NavItem = forwardRef(
         {renderContent}
       </Link>
     );
-  }
-);
+
+  return (
+    <Link
+      component={RouterLink}
+      href={path}
+      color="inherit"
+      underline="none"
+      sx={{
+        ...(disabled && {
+          cursor: 'default',
+        }),
+      }}
+    >
+      {renderContent}
+    </Link>
+  );
+});
 
 NavItem.propTypes = {
   open: PropTypes.bool,

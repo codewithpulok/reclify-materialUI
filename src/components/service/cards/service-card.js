@@ -39,8 +39,8 @@ const ServiceCard = (props) => {
               overflow: 'hidden',
               textOverflow: 'ellipsis',
               display: '-webkit-box',
-              WebkitLineClamp: '1',
-              WebkitBoxOrient: 'vertical',
+              webkitlineclamp: '1',
+              webkitboxorient: 'vertical',
             }}
           >
             {service.description}
@@ -73,8 +73,8 @@ export const ServiceCardSkeleton = () => (
           overflow: 'hidden',
           textOverflow: 'ellipsis',
           display: '-webkit-box',
-          WebkitLineClamp: '1',
-          WebkitBoxOrient: 'vertical',
+          webkitlineclamp: '1',
+          webkitboxorient: 'vertical',
         }}
       >
         <Skeleton />

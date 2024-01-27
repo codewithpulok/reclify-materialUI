@@ -16,7 +16,7 @@ const fieldName = 'avatar';
  * @param {Props} props
  * @returns {JSX.Element}
  */
-const AvatarFields = (props) => {
+const AvatarField = (props) => {
   const { sx } = props;
   const { setValue } = useFormContext();
   const [uploadFile, uploadResults] = useFilesUploadMutation();
@@ -78,6 +78,6 @@ const AvatarFields = (props) => {
   );
 };
 
-AvatarFields.propTypes = Props;
+AvatarField.propTypes = Props;
 
-export default AvatarFields;
+export default AvatarField;

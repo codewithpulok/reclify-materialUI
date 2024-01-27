@@ -1,12 +1,13 @@
 import PropTypes from 'prop-types';
-import { useRef, useState, useEffect, useCallback } from 'react';
+import { useCallback, useEffect, useRef, useState } from 'react';
 
-import Stack from '@mui/material/Stack';
 import Popover from '@mui/material/Popover';
+import Stack from '@mui/material/Stack';
 
 import { usePathname } from 'src/routes/hooks';
 import { useActiveLink } from 'src/routes/hooks/use-active-link';
 
+import { Divider } from '@mui/material';
 import NavItem from './nav-item';
 
 // ----------------------------------------------------------------------
@@ -105,9 +106,12 @@ NavList.propTypes = {
 function NavSubList({ data, depth, slotProps }) {
   return (
     <Stack spacing={0.5}>
-      {data.map((list) => (
-        <NavList key={list.title} data={list} depth={depth + 1} slotProps={slotProps} />
-      ))}
+      {data.map((list, index) => {
+        if (list?.type === 'DIVIDER')
+          return <Divider key={index} sx={{ mb: 0.5, borderStyle: 'dashed' }} />;
+
+        return <NavList key={list.title} data={list} depth={depth + 1} slotProps={slotProps} />;
+      })}
     </Stack>
   );
 }

@@ -3,6 +3,7 @@
 import PropTypes from 'prop-types';
 // local components
 import { notFound } from 'next/navigation';
+import { services } from 'src/assets/dummy/services';
 import { ErrorState } from 'src/components/common/custom-state';
 import { LoadingScreen } from 'src/components/common/loading-screen';
 import { ServiceDetails } from 'src/components/service/details';
@@ -18,7 +19,11 @@ const Props = {
  */
 function DetailsView(props) {
   const { id } = props;
-  const serviceResponse = useGetServiceQuery(id);
+  const serviceResponse = useGetServiceQuery(id, { skip: id === 'test' });
+
+  if (!serviceResponse.isLoading && id === 'test') {
+    return <ServiceDetails service={services[0]} />;
+  }
 
   // if error occured
   if ((serviceResponse.isError || serviceResponse.data?.isError) && !serviceResponse.isLoading)

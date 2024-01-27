@@ -33,7 +33,7 @@ const WarehouseFeatures = (props) => {
               item
               xs={12}
               sm={6}
-              sx={{ display: 'flex', alignItems: 'center', gap: 0.5 }}
+              sx={{ display: 'flex', alignItems: 'center', gap: 1 }}
             >
               {feature?.icon && getIconify(feature.icon, 16, { color: 'text.secondary' })}
               <Typography variant="subtitle2">{feature.label}</Typography>

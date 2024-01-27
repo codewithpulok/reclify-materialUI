@@ -12,7 +12,7 @@ import { useFormContext } from 'react-hook-form';
 import { useFilesUploadMutation } from 'src/redux-toolkit/services/uploadFilesApi';
 import { bgGradient } from 'src/theme/css';
 import { ICONS } from '../config-settings';
-import AvatarFields from './avatar-fields';
+import AvatarField from './avatar-field';
 
 const fieldName = 'banner';
 const bannerContainerSx = (coverUrl) => (theme) => ({
@@ -46,7 +46,7 @@ const Props = {
  * @param {Props} param0
  * @returns {JSX.Element}
  */
-const BannerFields = (props) => {
+const BannerField = (props) => {
   const { joined } = props;
   const [uploadFile, uploadResults] = useFilesUploadMutation();
 
@@ -106,7 +106,7 @@ const BannerFields = (props) => {
   return (
     <Box sx={bannerContainerSx(bannerUrl)}>
       <Stack direction={{ xs: 'column', md: 'row' }} sx={bannerContentSx}>
-        <AvatarFields sx={bannerAvatarSx} />
+        <AvatarField sx={bannerAvatarSx} />
 
         <ListItemText
           sx={{
@@ -147,5 +147,5 @@ const BannerFields = (props) => {
   );
 };
 
-BannerFields.propTypes = Props;
-export default BannerFields;
+BannerField.propTypes = Props;
+export default BannerField;
