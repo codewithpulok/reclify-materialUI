@@ -40,6 +40,7 @@ const STATUS_OPTIONS = [{ value: 'all', label: 'All' }, ...TRANSACTION_STATUS_OP
 
 const TABLE_HEAD = [
   { id: 'warehouse', label: 'Warehouse' },
+  { id: 'invoice', label: 'Invoice' },
   { id: 'customer', label: 'Customer' },
   { id: 'createdAt', label: 'Date', width: 140 },
   { id: 'price', label: 'Price', width: 140 },

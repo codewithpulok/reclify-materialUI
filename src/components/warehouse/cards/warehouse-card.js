@@ -76,8 +76,8 @@ const WarehouseCard = (props) => {
               overflow: 'hidden',
               textOverflow: 'ellipsis',
               display: '-webkit-box',
-              WebkitLineClamp: '1',
-              WebkitBoxOrient: 'vertical',
+              webkitlineclamp: '1',
+              webkitboxorient: 'vertical',
             }}
           >
             {joinAddressObj(warehouse.address)}
@@ -208,8 +208,8 @@ export const WarehouseCardSkeleton = () => (
           overflow: 'hidden',
           textOverflow: 'ellipsis',
           display: '-webkit-box',
-          WebkitLineClamp: '1',
-          WebkitBoxOrient: 'vertical',
+          webkitlineclamp: '1',
+          webkitboxorient: 'vertical',
         }}
       >
         <Skeleton />

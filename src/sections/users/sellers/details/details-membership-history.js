@@ -1,8 +1,19 @@
-import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow } from '@mui/material';
+import {
+  Chip,
+  Table,
+  TableBody,
+  TableCell,
+  TableContainer,
+  TableHead,
+  TableRow,
+  Tooltip,
+} from '@mui/material';
 import PropTypes from 'prop-types';
+import { RouterLink } from 'src/routes/components';
 // local components
 import { fCurrency } from 'src/utils/format-number';
 import { fDate } from 'src/utils/format-time';
+import { ICONS } from '../../config-users';
 
 const DetailsMembershipHistoryProps = {
   /** @type {Membership[]} */
@@ -23,6 +34,7 @@ const DetailsMembershipHistory = (props) => {
           <TableRow>
             <TableCell>Plan Name</TableCell>
             <TableCell align="right">Price</TableCell>
+            <TableCell align="right">Invoice</TableCell>
             <TableCell align="right">Date</TableCell>
           </TableRow>
         </TableHead>
@@ -33,6 +45,18 @@ const DetailsMembershipHistory = (props) => {
                 {row.plan?.subscription}
               </TableCell>
               <TableCell align="right">{fCurrency(row.plan?.price)}</TableCell>
+              <TableCell align="right">
+                <Tooltip title="Click to visit invoice PDF" arrow>
+                  <Chip
+                    label={row.invoice?.name}
+                    icon={ICONS.invoice()}
+                    clickable
+                    variant="outlined"
+                    component={RouterLink}
+                    href="#"
+                  />
+                </Tooltip>
+              </TableCell>
               <TableCell align="right">{fDate(row.createdAt)}</TableCell>
             </TableRow>
           ))}

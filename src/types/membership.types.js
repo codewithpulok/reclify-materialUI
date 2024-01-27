@@ -6,4 +6,7 @@
  * @property {Object} plan - The details of the subscription plan.
  * @property {string} plan.subscription - The type of subscription (e.g., 'basic', 'starter', 'premium').
  * @property {number} plan.price - The price of the subscription plan.
+ * @property {Object} invoice
+ * @property {string} invoice.name
+ * @property {string} invoice.link
  */

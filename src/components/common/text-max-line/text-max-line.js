@@ -16,8 +16,8 @@ const TextMaxLine = forwardRef(
       overflow: 'hidden',
       textOverflow: 'ellipsis',
       display: '-webkit-box',
-      WebkitLineClamp: line,
-      WebkitBoxOrient: 'vertical',
+      webkitlineclamp: line,
+      webkitboxorient: 'vertical',
       ...(persistent && {
         height: lineHeight * line,
       }),
