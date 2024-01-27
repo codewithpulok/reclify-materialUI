@@ -6,6 +6,7 @@ import Collapse from '@mui/material/Collapse';
 import { usePathname } from 'src/routes/hooks';
 import { useActiveLink } from 'src/routes/hooks/use-active-link';
 
+import { Divider } from '@mui/material';
 import NavItem from './nav-item';
 
 // ----------------------------------------------------------------------
@@ -86,9 +87,12 @@ NavList.propTypes = {
 function NavSubList({ data, depth, slotProps }) {
   return (
     <>
-      {data.map((list) => (
-        <NavList key={list.title} data={list} depth={depth + 1} slotProps={slotProps} />
-      ))}
+      {data.map((list, index) => {
+        if (list?.type === 'DIVIDER')
+          return <Divider key={index} sx={{ mb: 0.5, borderStyle: 'dashed' }} />;
+
+        return <NavList key={list.title} data={list} depth={depth + 1} slotProps={slotProps} />;
+      })}
     </>
   );
 }

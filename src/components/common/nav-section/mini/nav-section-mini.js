@@ -1,8 +1,9 @@
-import { memo } from 'react';
 import PropTypes from 'prop-types';
+import { memo } from 'react';
 
 import Stack from '@mui/material/Stack';
 
+import { Divider } from '@mui/material';
 import NavList from './nav-list';
 
 // ----------------------------------------------------------------------
@@ -29,9 +30,12 @@ export default memo(NavSectionMini);
 function Group({ items, slotProps }) {
   return (
     <>
-      {items.map((list) => (
-        <NavList key={list.title} data={list} depth={1} slotProps={slotProps} />
-      ))}
+      {items.map((list, index) => {
+        if (list?.type === 'DIVIDER')
+          return <Divider key={index} sx={{ mb: 0.5, borderStyle: 'dashed' }} />;
+
+        return <NavList key={list.title} data={list} depth={1} slotProps={slotProps} />;
+      })}
     </>
   );
 }

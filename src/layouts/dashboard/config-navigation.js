@@ -63,6 +63,11 @@ export function useNavData() {
   const adminWarehouseRoutes = useMemo(
     () => [
       {
+        type: 'DIVIDER',
+        path: '#',
+        title: 'Divider 1',
+      },
+      {
         title: 'Not Featured',
         path: paths.dashboard.warehouses.not_featured,
         icon: ICONS.not_featured(),
