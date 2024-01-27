@@ -3,7 +3,6 @@
 import { Card, Container, Tab, Tabs, tabsClasses } from '@mui/material';
 import PropTypes from 'prop-types';
 import { useCallback, useState } from 'react';
-import { getCustomerTransactions } from 'src/assets/dummy';
 import CustomBreadcrumbs from 'src/components/common/custom-breadcrumbs/custom-breadcrumbs';
 import { useSettingsContext } from 'src/components/common/settings';
 import { selectAuth } from 'src/redux-toolkit/features/auth/authSlice';
@@ -13,7 +12,6 @@ import { fDate } from 'src/utils/format-time';
 import { ICONS } from '../../config-users';
 import DetailsCover from './details-cover';
 import DetailsHome from './details-home';
-import DetailsPurchases from './details-purchases';
 import DetailsTransactions from './details-transactions';
 
 const TABS = [
@@ -21,11 +19,6 @@ const TABS = [
     value: 'profile',
     label: 'Profile',
     icon: ICONS.profile(),
-  },
-  {
-    value: 'purchases',
-    label: 'Purchases',
-    icon: ICONS.purchase(),
   },
   {
     value: 'transactions',
@@ -48,7 +41,6 @@ const CustomerDetailsView = (props) => {
   const { user: authUser } = useAppSelector(selectAuth);
 
   const [currentTab, setCurrentTab] = useState('profile');
-  const transactions = getCustomerTransactions(user.id);
 
   // handle tab change function
   const handleChangeTab = useCallback((event, newValue) => {
@@ -114,7 +106,6 @@ const CustomerDetailsView = (props) => {
           spentMoney={2000}
         />
       )}
-      {currentTab === 'purchases' && <DetailsPurchases transactions={transactions} />}
       {currentTab === 'transactions' && <DetailsTransactions />}
     </Container>
   );
