@@ -79,8 +79,9 @@ export const paths = {
 
     search: {
       root: `${ROOTS.DASHBOARD}/search`,
-      warehouses: `${ROOTS.DASHBOARD}/search/warehouses`,
-      users: `${ROOTS.DASHBOARD}/search/users`,
+      warehouses: (query) => `${ROOTS.DASHBOARD}/search/warehouses?query=${query}`,
+      users: (query) => `${ROOTS.DASHBOARD}/search/users?query=${query}`,
+      services: (query) => `${ROOTS.DASHBOARD}/search/services?query=${query}`,
     },
   },
 
