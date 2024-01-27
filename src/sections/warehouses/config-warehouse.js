@@ -1,33 +1,33 @@
-import { getIconify } from 'src/components/common/iconify/utilities';
+import { getIconifyFunc } from 'src/components/common/iconify/utilities';
 
 /**
  * All icons for warehouse section
  */
 export const ICONS = {
-  verified: (width, sx) => getIconify('solar:verified-check-bold', width, sx),
-  unverified: (width, sx) => getIconify('solar:minus-circle-bold-duotone', width, sx),
+  verified: getIconifyFunc('solar:verified-check-bold'),
+  unverified: getIconifyFunc('solar:minus-circle-bold-duotone'),
 
-  featured: (width, sx) => getIconify('solar:medal-ribbons-star-bold-duotone', width, sx),
-  unfeatured: (width, sx) => getIconify('solar:minus-circle-bold-duotone', width, sx),
+  featured: getIconifyFunc('solar:medal-ribbons-star-bold-duotone'),
+  unfeatured: getIconifyFunc('solar:minus-circle-bold-duotone'),
 
-  visible: (width, sx) => getIconify('solar:eye-bold-duotone', width, sx),
-  invisible: (width, sx) => getIconify('solar:eye-closed-bold-duotone', width, sx),
+  visible: getIconifyFunc('solar:eye-bold-duotone'),
+  invisible: getIconifyFunc('solar:eye-closed-bold-duotone'),
 
-  review: (width, sx) => getIconify('solar:chat-round-like-broken', width, sx),
-  sort: (width, sx) => getIconify('solar:sort-vertical-outline', width, sx),
-  back: (width, sx) => getIconify('solar:arrow-left-outline', width, sx),
-  purchase: (width, sx) => getIconify('solar:arrow-right-outline', width, sx),
-  edit: (width, sx) => getIconify('solar:pen-new-square-linear', width, sx),
-  close: (width, sx) => getIconify('solar:close-circle-bold', width, sx),
-  adminSettings: (width, sx) => getIconify('solar:settings-bold', width, sx),
-  expand: (width, sx) => getIconify('solar:alt-arrow-down-line-duotone', width, sx),
-  rule: (width, sx) => getIconify('solar:danger-circle-line-duotone', width, sx),
-  discount: (width, sx) => getIconify('ic:outline-discount', width, sx),
+  review: getIconifyFunc('solar:chat-round-like-broken'),
+  sort: getIconifyFunc('solar:sort-vertical-outline'),
+  back: getIconifyFunc('solar:arrow-left-outline'),
+  purchase: getIconifyFunc('solar:arrow-right-outline'),
+  edit: getIconifyFunc('solar:pen-new-square-linear'),
+  close: getIconifyFunc('solar:close-circle-bold'),
+  adminSettings: getIconifyFunc('solar:settings-bold'),
+  expand: getIconifyFunc('solar:alt-arrow-down-line-duotone'),
+  rule: getIconifyFunc('solar:danger-circle-line-duotone'),
+  discount: getIconifyFunc('ic:outline-discount'),
 
-  warehouse: (width, sx) => getIconify('solar:box-bold-duotone', width, sx),
+  warehouse: getIconifyFunc('solar:box-bold-duotone'),
 
-  hot_deals: (width, sx) => getIconify('solar:fire-bold-duotone', width, sx),
+  hot_deals: getIconifyFunc('solar:fire-bold-duotone'),
 
-  diamond_fill: (width, sx) => getIconify('ic:twotone-diamond', width, sx),
-  diamond_empty: (width, sx) => getIconify('ic:outline-diamond', width, sx),
+  diamond_fill: getIconifyFunc('ic:twotone-diamond'),
+  diamond_empty: getIconifyFunc('ic:outline-diamond'),
 };

@@ -9,6 +9,8 @@ const Props = {
   valueTransformer: PropTypes.func.isRequired,
   /** @type {(value: string | number) => string | number } */
   srcTransformer: PropTypes.func.isRequired,
+  /** @type {(value: string | number) => string | number } */
+  onChangeMiddleware: PropTypes.func,
 };
 
 /**
@@ -16,7 +18,7 @@ const Props = {
  * @returns {JSX.Element}
  */
 const ReferenceTextField = (props) => {
-  const { name, valueTransformer, srcTransformer, ...other } = props;
+  const { name, valueTransformer, srcTransformer, onChangeMiddleware = () => {}, ...other } = props;
   const { watch, setValue } = useFormContext();
 
   // field value
@@ -24,11 +26,13 @@ const ReferenceTextField = (props) => {
 
   const onChange = useCallback(
     (v) => {
-      const returnedValue = valueTransformer(v);
+      const newV = onChangeMiddleware(v);
+
+      const returnedValue = valueTransformer(newV);
 
       setValue(name, returnedValue);
     },
-    [name, setValue, valueTransformer]
+    [name, onChangeMiddleware, setValue, valueTransformer]
   );
 
   return (

@@ -1,5 +1,6 @@
-import { Stack } from '@mui/material';
+import { Stack, Typography } from '@mui/material';
 import PropTypes from 'prop-types';
+import { getIconify } from 'src/components/common/iconify/utilities';
 import {
   RHFAccordion,
   RHFSwitch,
@@ -15,6 +16,7 @@ const Props = {
   /** @type {PredefinedField[]} */
   fields: PropTypes.arrayOf(PropTypes.object).isRequired,
   defaultExpanded: PropTypes.bool,
+  showIcon: PropTypes.bool,
 };
 
 /**
@@ -22,7 +24,7 @@ const Props = {
  * @returns {JSX.Element}
  */
 const PredefinedFields = (props) => {
-  const { name, fields, label, defaultExpanded } = props;
+  const { name, fields, label, defaultExpanded, showIcon } = props;
 
   return (
     <RHFAccordion name={name} label={label} defaultExpanded={defaultExpanded}>
@@ -39,7 +41,16 @@ const PredefinedFields = (props) => {
               <RHFSwitch
                 name={fieldName}
                 size="small"
-                label={field.label}
+                label={
+                  showIcon ? (
+                    <Stack direction="row" alignItems="center" spacing={1}>
+                      {field?.icon ? getIconify(field.icon, 16) : '-'}
+                      <Typography>{field.label}</Typography>
+                    </Stack>
+                  ) : (
+                    field.label
+                  )
+                }
                 key={field.key}
                 labelProps={{
                   labelPlacement: 'start',

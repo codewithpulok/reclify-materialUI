@@ -1,4 +1,3 @@
-import { regions } from 'src/assets/data';
 import { getAvailableServiceTypes } from 'src/constant/service-types';
 
 // ----------------------------------------------------------------------
@@ -51,11 +50,7 @@ export const paths = {
       not_rated: `${ROOTS.DASHBOARD}/warehouses/not-rated`,
 
       // warehouses by region
-      ...regions.reduce(
-        (prev, next) =>
-          Object.assign(prev, { [next.code]: `${ROOTS.DASHBOARD}/warehouses/${next.code}` }),
-        {}
-      ),
+      region: (region) => `${ROOTS.DASHBOARD}/warehouses/region/${region}`,
     },
 
     // services section

@@ -13,7 +13,9 @@ export const users = [
     email: 'seller@test.com',
     password: 'test123',
     avatar: 'https://i.pravatar.cc/150?u=SophiaMiller',
-    phoneNumber: '+1 555666777',
+    // logo: 'https://picsum.photos/seed/abc1231/150/150',
+    logo: '/logo/logo_single.png',
+    phone: '+1 555666777',
     address: {
       street2: '456',
       street1: 'Oak Avenue',
@@ -40,7 +42,7 @@ export const users = [
     email: 'admin@test.com',
     password: 'test123',
     avatar: 'https://i.pravatar.cc/150?u=EthanJohnson',
-    phoneNumber: '+44 7700112233',
+    phone: '+44 7700112233',
     address: {
       street2: '456',
       street1: 'Oak Avenue',
@@ -68,7 +70,7 @@ export const users = [
     email: 'customer@test.com',
     password: 'test123',
     avatar: 'https://i.pravatar.cc/150?u=JaydonFrankie',
-    phoneNumber: '+40 777666555',
+    phone: '+40 777666555',
     address: {
       street2: '456',
       street1: 'Oak Avenue',
@@ -95,7 +97,7 @@ export const users = [
     email: 'seller2@test.com',
     password: 'newuser123',
     avatar: 'https://i.pravatar.cc/150?u=JohnDoe',
-    phoneNumber: '+1 123456789',
+    phone: '+1 123456789',
     address: {
       street2: '789',
       street1: 'Maple Street',
@@ -122,7 +124,7 @@ export const users = [
     email: 'seller3@test.com',
     password: 'customer456',
     avatar: 'https://i.pravatar.cc/150?u=EmmaSmith',
-    phoneNumber: '+1 987654321',
+    phone: '+1 987654321',
     address: {
       street2: '123',
       street1: 'Rose Street',

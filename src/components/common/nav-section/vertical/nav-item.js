@@ -94,7 +94,7 @@ const NavItem = forwardRef((props, ref) => {
     return null;
   }
 
-  if (hasChild && !path) {
+  if (hasChild && (!path || path === '#')) {
     return renderContent;
   }
 

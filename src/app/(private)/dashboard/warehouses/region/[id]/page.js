@@ -3,15 +3,15 @@ import { getRegionByCode } from 'src/assets/data';
 import { WarehousesRegionView } from 'src/sections/warehouses';
 
 export const metadata = {
-  title: 'Southwest Warehouses',
+  title: 'Region Warehouses',
 };
 
-const WarehouseSouthwestPage = async (props) => {
-  const region = getRegionByCode('southwest');
+const WarehouseMidwestPage = async (props) => {
+  const region = getRegionByCode(props.params?.id);
 
   if (region === undefined) notFound();
 
   return <WarehousesRegionView region={region} />;
 };
 
-export default WarehouseSouthwestPage;
+export default WarehouseMidwestPage;

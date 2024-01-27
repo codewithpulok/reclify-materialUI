@@ -50,8 +50,8 @@ const WarehosueDetailsMain = (props) => {
       <WarehouseApprovedUses approvedUses={warehouse.approvedUses} />
 
       <WarehouseFacilities facilityDetails={warehouse.facilityDetails} />
-      <WarehouseRules rules={warehouse.rules} />
       <WarehouseServices services={warehouse.services} />
+      <WarehouseRules rules={warehouse.rules} />
 
       {mdDown && (
         <WarehouseReviews

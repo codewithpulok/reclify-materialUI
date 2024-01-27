@@ -5,6 +5,7 @@ export const serviceTypes = [
     subtypes: [],
   },
   {
+    icon: 'solar:delivery-bold-duotone',
     label: 'Transportation',
     value: 'transportation',
     subtypes: [
@@ -71,6 +72,7 @@ export const serviceTypes = [
     ],
   },
   {
+    icon: 'icon-park-twotone:application-one',
     label: 'Software',
     value: 'software',
     subtypes: [
@@ -129,6 +131,7 @@ export const serviceTypes = [
     ],
   },
   {
+    icon: 'ph:package-duotone',
     label: 'Packaging & Supply',
     value: 'packaging',
     subtypes: [
@@ -179,6 +182,7 @@ export const serviceTypes = [
     ],
   },
   {
+    icon: 'material-symbols:precision-manufacturing-outline-rounded',
     label: 'Manufacturing/Wholesale',
     value: 'manufacturing',
     subtypes: [
@@ -253,6 +257,7 @@ export const serviceTypes = [
     ],
   },
   {
+    icon: 'nimbus:marketing',
     label: 'Marketing/Creative',
     value: 'marketing',
     subtypes: [
@@ -335,6 +340,7 @@ export const serviceTypes = [
     ],
   },
   {
+    icon: 'ic:twotone-support',
     label: 'Consultants',
     value: 'consultants',
     subtypes: [

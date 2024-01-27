@@ -2,7 +2,7 @@ import { useMemo } from 'react';
 
 import { paths } from 'src/routes/paths';
 
-import { regions } from 'src/assets/data';
+import { getRegionsBySubRegions, subRegions } from 'src/assets/data';
 import { getIconify, getIconifyFunc } from 'src/components/common/iconify/utilities';
 import { getAvailableServiceTypes } from 'src/constant/service-types';
 import { selectAuth } from 'src/redux-toolkit/features/auth/authSlice';
@@ -52,6 +52,7 @@ export function useNavData() {
           { title: 'Sellers', path: paths.dashboard.users.sellers },
           { title: 'Customers', path: paths.dashboard.users.customers },
         ],
+        defaultOpen: true,
       },
     ],
     []
@@ -110,11 +111,19 @@ export function useNavData() {
             icon: ICONS.hot_deals(),
           },
 
-          // region warehouse routes
-          ...regions.map((r) => ({
-            title: r.name,
-            path: paths.dashboard.warehouses[r.code],
-            icon: getIconify(r.icon, undefined, { rotate: `${r.rotate ? 90 * r.rotate : 0}deg` }),
+          // sub region warehouse routes
+          ...subRegions.map((s) => ({
+            title: s.name,
+            path: '#',
+            icon: s.icon ? getIconify(s.icon) : undefined,
+            defaultOpen: true,
+            children: getRegionsBySubRegions(s.code).map((r) => ({
+              title: r.name,
+              path: paths.dashboard.warehouses.region(r.code),
+              icon: r.icon
+                ? getIconify(r.icon, undefined, { rotate: `${r.rotate ? 90 * r.rotate : 0}deg` })
+                : undefined,
+            })),
           })),
 
           // admin warehouse routes
@@ -131,8 +140,10 @@ export function useNavData() {
           ...getAvailableServiceTypes().map((s) => ({
             title: s.label,
             path: paths.dashboard.services[s.value],
+            icon: s?.icon ? getIconify(s.icon) : undefined,
           })),
         ],
+        defaultOpen: true,
       },
       {
         title: 'Messages',
