@@ -7,11 +7,12 @@ import Card from '@mui/material/Card';
 import Stack from '@mui/material/Stack';
 
 import { enqueueSnackbar } from 'notistack';
-import Fields from 'src/components/common/custom-form/payment-card/create/fields';
+
 import FormProvider from 'src/components/common/hook-form';
 import { selectAuth } from 'src/redux-toolkit/features/auth/authSlice';
 import { useAppSelector } from 'src/redux-toolkit/hooks';
 import { useUpdatePasswordMutation } from 'src/redux-toolkit/services/authApi';
+import Fields from './fields';
 
 const defaultValues = {
   currentPassword: '',
