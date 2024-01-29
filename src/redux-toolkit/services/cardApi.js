@@ -12,6 +12,15 @@ export const cardApi = createApi({
     cardGet: builder.query({
       query: (id) => endpoints.cards.get(id),
     }),
+    cardPrimary: builder.query({
+      query: () => endpoints.cards.list,
+      transformResponse: (response, meta, arg) => {
+        if (response?.results instanceof Array) {
+          response.results = response.results?.find((c) => c?.primary) || null;
+        }
+        return response;
+      },
+    }),
     cardCreate: builder.mutation({
       query: (data) => ({
         url: endpoints.cards.create,
@@ -43,4 +52,6 @@ export const {
   useCardUpdateMutation,
   useLazyCardGetQuery,
   useLazyCardListQuery,
+  useCardPrimaryQuery,
+  useLazyCardPrimaryQuery,
 } = cardApi;

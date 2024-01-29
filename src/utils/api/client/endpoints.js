@@ -72,7 +72,7 @@ export const endpoints = {
   },
   billing_info: {
     root: '/user/billing-info',
-    list: '/',
+    list: `${PUBLIC_BACKEND_API}/user/billing`,
     create: '/',
     get: (id) => `/${id}`,
     update: (id) => `/${id}`,

@@ -11,8 +11,6 @@ export const Props = {
   wrapperElement: PropTypes.elementType,
   actions: PropTypes.node,
   children: PropTypes.node,
-  billingAddresses: PropTypes.arrayOf(PropTypes.object),
-  paymentCards: PropTypes.arrayOf(PropTypes.object),
 };
 
 /**
@@ -20,19 +18,13 @@ export const Props = {
  * @returns {JSX.Element}
  */
 const PaymentFields = (props) => {
-  const {
-    wrapperElement,
-    actions,
-    children = null,
-    billingAddresses = [],
-    paymentCards = [],
-  } = props;
+  const { wrapperElement, actions, children = null } = props;
 
   const methods = useFormContext();
   const { setValue, watch } = methods;
 
-  const billingDetails = watch('billing_details');
-  const card = watch('card');
+  const billingDetails = watch('billing_details', undefined);
+  const card = watch('card', undefined);
 
   const cardsDialog = useBoolean();
   const billingDetailsDialog = useBoolean();
@@ -55,7 +47,6 @@ const PaymentFields = (props) => {
       {actions}
 
       <BillingAddressListDialog
-        list={billingAddresses}
         onClose={billingDetailsDialog.onFalse}
         open={billingDetailsDialog.value}
         selected={(id) => billingDetails?.id === id}
@@ -63,7 +54,6 @@ const PaymentFields = (props) => {
       />
 
       <PaymentCardListDialog
-        list={paymentCards}
         onClose={cardsDialog.onFalse}
         open={cardsDialog.value}
         selected={(id) => card?.id === id}

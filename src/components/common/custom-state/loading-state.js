@@ -17,7 +17,7 @@ const Props = {
 const LoadingState = (props) => {
   const {
     icon = getIconify('line-md:loading-twotone-loop'),
-    text = 'Nothing Here',
+    text = 'Processing Request',
     sx = {},
   } = props;
   return (

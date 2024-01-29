@@ -45,13 +45,7 @@ const PaymentCard = (props) => {
       onClick={onClick}
       {...other}
     >
-      <Stack
-        mb={1.5}
-        width="100%"
-        direction="row"
-        alignItems="start"
-        justifyContent="space-between"
-      >
+      <Stack width="100%" direction="row" alignItems="start" justifyContent="space-between">
         {card && getCreditCardIcon(card.cardNumber)(20)}
 
         {!card && <Typography variant="subtitle2">Select Payment card</Typography>}

@@ -1,5 +1,8 @@
+import { LoadingButton } from '@mui/lab';
 import { Button, Dialog, DialogActions, DialogContent, DialogTitle } from '@mui/material';
+import { enqueueSnackbar } from 'notistack';
 import PropTypes from 'prop-types';
+import { useCreatePurchaseMutation } from 'src/redux-toolkit/services/purchaseApi';
 import { PurchaseForm } from '../../custom-form';
 
 const Props = {
@@ -20,6 +23,33 @@ const Props = {
  */
 const PurchasePaymentDialog = (props) => {
   const { open, onClose, purchaseData } = props;
+
+  const [createPurchase, createResponse] = useCreatePurchaseMutation();
+
+  const handleCreatePurchase = async (values) => {
+    const newValues = {
+      warehouseId: purchaseData?.warehouse?.id,
+      pallet: purchaseData?.pallet,
+      price: purchaseData?.price,
+      total: purchaseData?.total,
+      month: purchaseData?.month,
+      billingInfoId: values?.billing_details?.id,
+      cardId: values?.card?.id,
+    };
+
+    console.log('Purchase Create: ', newValues);
+    const response = await createPurchase(newValues);
+    const { data, error } = response;
+
+    if (error || data?.isError) {
+      enqueueSnackbar('Error in create purchase', { variant: 'error' });
+      console.error('Error in create purchase', response);
+    } else if (!error || data?.success) {
+      enqueueSnackbar('Purchase Created!');
+      console.warn('Purchase Created!', response);
+    }
+  };
+
   return (
     <Dialog fullWidth maxWidth="xs" open={open} onClose={onClose}>
       <DialogTitle>Payment</DialogTitle>
@@ -28,13 +58,17 @@ const PurchasePaymentDialog = (props) => {
         actions={
           <DialogActions>
             <Button onClick={onClose}>Cancel</Button>
-            <Button type="submit" color="primary" variant="contained">
+            <LoadingButton
+              loading={createResponse.isLoading}
+              type="submit"
+              color="primary"
+              variant="contained"
+            >
               Confirm Payment
-            </Button>
+            </LoadingButton>
           </DialogActions>
         }
-        submitCallback={onClose}
-        purchaseData={purchaseData}
+        submitCallback={handleCreatePurchase}
       />
     </Dialog>
   );
