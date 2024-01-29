@@ -1,12 +1,17 @@
 import PropTypes from 'prop-types';
-import { useCallback, useState } from 'react';
+import { useCallback, useEffect } from 'react';
 
 import Dialog from '@mui/material/Dialog';
 import Stack from '@mui/material/Stack';
 import Typography from '@mui/material/Typography';
 
 import { Button } from '@mui/material';
+import { EmptyState, ErrorState, LoadingState } from 'src/components/common/custom-state';
 import { useBoolean } from 'src/hooks/use-boolean';
+import { useDialog } from 'src/hooks/use-dialog';
+import { selectAuth } from 'src/redux-toolkit/features/auth/authSlice';
+import { useAppSelector } from 'src/redux-toolkit/hooks';
+import { useBillingInfoListQuery } from 'src/redux-toolkit/services/billingInfoApi';
 import { ICONS } from '../../config-custom-dialog';
 import BillingAddressCreateDialog from '../create';
 import BillingAddressDeleteDialog from '../delete';
@@ -15,7 +20,6 @@ import Item from './item';
 
 const Props = {
   /** @type {BillingAddress[]} */
-  list: PropTypes.array,
   onClose: PropTypes.func,
   onSelect: PropTypes.func,
   open: PropTypes.bool,
@@ -32,7 +36,6 @@ const Props = {
 const BillingAddressListDialog = (props) => {
   const {
     title = 'Address Book',
-    list,
     //
     open,
     onClose,
@@ -41,27 +44,15 @@ const BillingAddressListDialog = (props) => {
     onSelect,
   } = props;
 
-  const openCreate = useBoolean();
-  const [openEdit, setOpenEdit] = useState({ open: false, address: undefined });
-  const [openDelete, setOpenDelete] = useState({ open: false, address: undefined });
+  // auth state
+  const { user } = useAppSelector(selectAuth);
 
-  // handle open edit dialog
-  const openEditDialog = useCallback((billingAddress) => {
-    setOpenEdit({ open: true, address: billingAddress });
-  }, []);
-  // handle close edit dialog
-  const closeEditDialog = useCallback(() => {
-    setOpenEdit({ open: false, address: undefined });
-  }, []);
+  // api state
+  const billingInfoResponse = useBillingInfoListQuery();
 
-  // handle open delete dialog
-  const openDeleteDialog = useCallback((billingAddress) => {
-    setOpenDelete({ open: true, address: billingAddress });
-  }, []);
-  // handle close delete dialog
-  const closeDeleteDialog = useCallback(() => {
-    setOpenDelete({ open: false, address: undefined });
-  }, []);
+  const createDialog = useBoolean();
+  const editDialog = useDialog();
+  const deleteDialog = useDialog();
 
   // handle select event
   const handleSelectAddress = useCallback(
@@ -72,27 +63,67 @@ const BillingAddressListDialog = (props) => {
     [onClose, onSelect]
   );
 
-  const renderList = (
-    <Stack
-      spacing={0.5}
-      sx={{
-        p: 0.5,
-        maxHeight: 80 * 8,
-        overflowX: 'hidden',
-      }}
-    >
-      {list.map((billingAddress) => (
-        <Item
-          key={billingAddress.id}
-          billingAddress={billingAddress}
-          isSelected={selected(`${billingAddress.id}`)}
-          onSelect={handleSelectAddress}
-          onDelete={openDeleteDialog}
-          onEdit={openEditDialog}
-        />
-      ))}
-    </Stack>
+  // handle error, empty, loading, & data state
+  const renderList = useCallback(
+    (data = []) => {
+      if (!billingInfoResponse.isLoading && billingInfoResponse.isError) {
+        return <ErrorState />;
+      }
+
+      if (!billingInfoResponse.isLoading && billingInfoResponse.isSuccess && data?.length === 0) {
+        return <EmptyState />;
+      }
+
+      if (
+        !billingInfoResponse.isLoading &&
+        !billingInfoResponse.isFetching &&
+        billingInfoResponse.isSuccess &&
+        data?.length
+      ) {
+        return (
+          <Stack
+            spacing={0.5}
+            sx={{
+              p: 0.5,
+              maxHeight: 80 * 8,
+              overflowX: 'hidden',
+            }}
+          >
+            {data.map((billingAddress) => (
+              <Item
+                key={billingAddress.id}
+                billingAddress={billingAddress}
+                isSelected={selected(`${billingAddress.id}`)}
+                onSelect={handleSelectAddress}
+                onDelete={() => deleteDialog.onOpen(billingAddress)}
+                onEdit={() => editDialog.onOpen(billingAddress)}
+              />
+            ))}
+          </Stack>
+        );
+      }
+
+      return <LoadingState />;
+    },
+    [
+      billingInfoResponse.isError,
+      billingInfoResponse.isFetching,
+      billingInfoResponse.isLoading,
+      billingInfoResponse.isSuccess,
+      deleteDialog,
+      editDialog,
+      handleSelectAddress,
+      selected,
+    ]
   );
+
+  // refetch only if user id changed
+  useEffect(() => {
+    if (user?.id) {
+      billingInfoResponse.refetch();
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [user?.id]);
 
   return (
     <>
@@ -106,28 +137,29 @@ const BillingAddressListDialog = (props) => {
           <Typography variant="h6"> {title} </Typography>
 
           <Button
-            onClick={openCreate.onTrue}
+            onClick={createDialog.onTrue}
             size="small"
             startIcon={ICONS.plus()}
             sx={{ alignSelf: 'flex-end' }}
+            disabled={billingInfoResponse.isLoading || billingInfoResponse?.isFetching}
           >
             New
           </Button>
         </Stack>
 
-        {renderList}
+        {renderList(billingInfoResponse.data?.results || [])}
       </Dialog>
 
-      <BillingAddressCreateDialog onClose={openCreate.onFalse} open={openCreate.value} />
+      <BillingAddressCreateDialog onClose={createDialog.onFalse} open={createDialog.value} />
       <BillingAddressEditDialog
-        onClose={closeEditDialog}
-        open={openEdit.open}
-        billingAddress={openEdit.address}
+        onClose={editDialog.onClose}
+        open={editDialog.open}
+        billingAddress={editDialog.value}
       />
       <BillingAddressDeleteDialog
-        open={openDelete.open}
-        onClose={closeDeleteDialog}
-        billingAddress={openDelete.address}
+        open={deleteDialog.open}
+        onClose={deleteDialog.onClose}
+        billingAddress={deleteDialog.value}
       />
     </>
   );

@@ -70,4 +70,20 @@ export const endpoints = {
     cancel: (id) => `/cancel/${id}`,
     approve: (id) => `/approve/${id}`,
   },
+  billing_info: {
+    root: '/user/billing-info',
+    list: '/',
+    create: '/',
+    get: (id) => `/${id}`,
+    update: (id) => `/${id}`,
+    delete: (id) => `/${id}`,
+  },
+  cards: {
+    root: '/user/cards',
+    list: '/',
+    create: '/',
+    get: (id) => `/${id}`,
+    update: (id) => `/${id}`,
+    delete: (id) => `/${id}`,
+  },
 };

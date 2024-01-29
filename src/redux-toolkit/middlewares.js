@@ -1,6 +1,8 @@
 import { addressApi } from './services/addressApi';
 import { adminApi } from './services/adminApi';
 import { authApi } from './services/authApi';
+import { billingInfoApi } from './services/billingInfoApi';
+import { cardApi } from './services/cardApi';
 import { profileApi } from './services/profileApi';
 import { purchaseApi } from './services/purchaseApi';
 import { reviewApi } from './services/reviewApi';
@@ -20,6 +22,8 @@ const middlewares = [
   serviceApi.middleware,
   purchaseApi.middleware,
   transactionApi.middleware,
+  billingInfoApi.middleware,
+  cardApi.middleware,
 ];
 
 export default middlewares;

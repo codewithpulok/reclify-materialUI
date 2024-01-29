@@ -1,8 +1,9 @@
-import { Button } from '@mui/material';
-import { useSnackbar } from 'notistack';
+import { LoadingButton } from '@mui/lab';
+import { enqueueSnackbar } from 'notistack';
 import PropTypes from 'prop-types';
 import { useCallback } from 'react';
 import { ConfirmDialog } from 'src/components/common/custom-dialog';
+import { useBillingInfoDeleteMutation } from 'src/redux-toolkit/services/billingInfoApi';
 
 const Props = {
   /** @type {BillingAddress | undefined} */
@@ -26,14 +27,30 @@ const BillingAddressDeleteDialog = (props) => {
     // optional props
     sx = {},
   } = props;
-  const { enqueueSnackbar } = useSnackbar();
+
+  // api state
+  const [deleteBillingInfo, deleteResponse] = useBillingInfoDeleteMutation();
 
   // handle delete
-  const onConfirm = useCallback(() => {
-    enqueueSnackbar('Billing Address Deleted!');
-    console.log('Billing Address Deleted: ', billingAddress);
-    onClose();
-  }, [billingAddress, enqueueSnackbar, onClose]);
+  const onConfirm = useCallback(async () => {
+    console.log('Delete Billing Info:', billingAddress);
+
+    const response = await deleteBillingInfo(billingAddress?.id);
+    const { data, error } = response;
+
+    // error state
+    if (error || !data?.isError) {
+      console.log('Error in deleting billing info:', response);
+      enqueueSnackbar('Error in deleting billing info!', { variant: 'error' });
+    }
+
+    // success state
+    else if (data?.success) {
+      enqueueSnackbar('Billing info deleted!');
+      console.log('Billing info deleted:', response);
+      onClose(); // close dialog after delete success
+    }
+  }, [billingAddress, deleteBillingInfo, onClose]);
 
   return (
     <ConfirmDialog
@@ -42,9 +59,14 @@ const BillingAddressDeleteDialog = (props) => {
       open={open}
       onClose={onClose}
       action={
-        <Button color="error" variant="contained" onClick={onConfirm}>
+        <LoadingButton
+          loading={deleteResponse.isLoading}
+          color="error"
+          variant="contained"
+          onClick={onConfirm}
+        >
           Confirm
-        </Button>
+        </LoadingButton>
       }
       sx={sx}
     />
