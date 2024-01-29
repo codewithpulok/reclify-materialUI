@@ -14,7 +14,7 @@ import {
 import PropTypes from 'prop-types';
 import { useRef } from 'react';
 import { useBoolean } from 'src/hooks/use-boolean';
-import { fToNow } from 'src/utils/format-time';
+import { fDate } from 'src/utils/format-time';
 import { ICONS } from '../config-warehouse';
 
 const Props = {
@@ -79,7 +79,7 @@ const WarehouseReviewCard = (props) => {
           <Stack direction="row" alignItems="center" columnGap={1.5} flexWrap="wrap">
             <Rating value={rating} size="small" readOnly />
             <Typography variant="body2" color={palette.grey[600]}>
-              ({fToNow(createdAt) || 'not available'})
+              ({fDate(createdAt) || 'not available'})
             </Typography>
           </Stack>
         </Box>

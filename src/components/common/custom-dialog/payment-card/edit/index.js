@@ -1,7 +1,9 @@
+import { LoadingButton } from '@mui/lab';
 import { Button, Dialog, DialogActions, DialogContent, DialogTitle } from '@mui/material';
+import { enqueueSnackbar } from 'notistack';
 import PropTypes from 'prop-types';
-import { useCallback } from 'react';
 import { PaymentCardEditForm } from 'src/components/common/custom-form';
+import { useCardUpdateMutation } from 'src/redux-toolkit/services/cardApi';
 
 const Props = {
   open: PropTypes.bool.isRequired,
@@ -17,21 +19,29 @@ const Props = {
 const PayemntCardEditDialog = (props) => {
   const { open, onClose, card } = props;
 
-  const handleSuccess = useCallback(
-    (values, errors, reset) => {
-      onClose();
-      reset();
-    },
-    [onClose]
-  );
+  // api state
+  const [updateCard, updateResponse] = useCardUpdateMutation();
 
-  const handleFailed = useCallback(
-    (values, errors, reset) => {
-      onClose();
-      reset();
-    },
-    [onClose]
-  );
+  // handle update api call
+  const handleSubmit = async (values, reset) => {
+    console.log('Update Payment Card:', values);
+
+    const response = await updateCard(values);
+    const { data, error } = response;
+
+    // error state
+    if (error || !data?.isError) {
+      console.log('Error in updating Payment Card:', response);
+      enqueueSnackbar('Error in updating Payment Card!', { variant: 'error' });
+    }
+
+    // success state
+    else if (data?.success) {
+      enqueueSnackbar('Payment Card updated!');
+      console.log('Payment Card updated:', response);
+      reset(); // reset form after update success
+    }
+  };
 
   return (
     <Dialog fullWidth maxWidth="xs" open={open} onClose={onClose}>
@@ -43,14 +53,18 @@ const PayemntCardEditDialog = (props) => {
             <Button type="reset" onClick={onClose}>
               Cancel
             </Button>
-            <Button type="submit" color="primary" variant="contained">
-              Edit
-            </Button>
+            <LoadingButton
+              loading={updateResponse.isLoading}
+              type="submit"
+              color="primary"
+              variant="contained"
+            >
+              Update
+            </LoadingButton>
           </DialogActions>
         }
-        successCallback={handleSuccess}
-        failedCallback={handleFailed}
         card={card}
+        submitCallback={handleSubmit}
       />
     </Dialog>
   );

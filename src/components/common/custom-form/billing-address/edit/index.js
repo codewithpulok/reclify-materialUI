@@ -1,6 +1,5 @@
 import { yupResolver } from '@hookform/resolvers/yup';
 import { Box } from '@mui/material';
-import { useSnackbar } from 'notistack';
 import { useCallback, useEffect } from 'react';
 import { useForm } from 'react-hook-form';
 
@@ -30,18 +29,10 @@ const defaultValues = {
  * @returns {JSX.Element}
  */
 const BillingDetailsEditForm = (props) => {
-  const {
-    actions,
-    failedCallback = () => {},
-    successCallback = () => {},
-    wrapperElement,
-    sx = {},
-    billingAddress,
-  } = props;
+  const { submitCallback = () => {}, actions, wrapperElement, sx = {}, billingAddress } = props;
 
   const methods = useForm({ defaultValues, resolver: yupResolver(billingAddressEditSchema) });
   const { handleSubmit, reset } = methods;
-  const { enqueueSnackbar } = useSnackbar();
 
   // handle form reset
   const onReset = useCallback(
@@ -52,20 +43,7 @@ const BillingDetailsEditForm = (props) => {
   );
 
   // handle edit billing address
-  const onSubmit = useCallback(
-    (values) => {
-      try {
-        enqueueSnackbar('Billing address edited!');
-        console.log('Billing address edited: ', values);
-        successCallback(values, false, onReset);
-      } catch (error) {
-        enqueueSnackbar('Error in editing billing address!', { variant: 'error' });
-        console.error('Billing address edit error: ', error);
-        failedCallback(values, error, onReset);
-      }
-    },
-    [enqueueSnackbar, failedCallback, onReset, successCallback]
-  );
+  const onSubmit = (values) => submitCallback(values, onReset);
 
   // update default values
   useEffect(() => {

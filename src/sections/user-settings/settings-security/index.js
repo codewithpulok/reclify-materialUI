@@ -4,118 +4,72 @@ import * as Yup from 'yup';
 
 import LoadingButton from '@mui/lab/LoadingButton';
 import Card from '@mui/material/Card';
-import IconButton from '@mui/material/IconButton';
-import InputAdornment from '@mui/material/InputAdornment';
 import Stack from '@mui/material/Stack';
 
-import { useBoolean } from 'src/hooks/use-boolean';
+import { enqueueSnackbar } from 'notistack';
 
-import Iconify from 'src/components/common/iconify';
+import FormProvider from 'src/components/common/hook-form';
+import { selectAuth } from 'src/redux-toolkit/features/auth/authSlice';
+import { useAppSelector } from 'src/redux-toolkit/hooks';
+import { useUpdatePasswordMutation } from 'src/redux-toolkit/services/authApi';
+import Fields from './fields';
 
-import { useSnackbar } from 'notistack';
-import FormProvider, { RHFTextField } from 'src/components/common/hook-form';
+const defaultValues = {
+  currentPassword: '',
+  newPassword: '',
+  confirmNewPassword: '',
+};
+
+const Schema = Yup.object().shape({
+  currentPassword: Yup.string().required('Old Password is required'),
+  newPassword: Yup.string()
+    .required('New Password is required')
+    .min(6, 'Password must be at least 6 characters')
+    .test(
+      'no-match',
+      'New password must be different than old password',
+      (value, { parent }) => value !== parent.currentPassword
+    ),
+  confirmNewPassword: Yup.string().oneOf([Yup.ref('newPassword')], 'Passwords must match'),
+});
 
 // ----------------------------------------------------------------------
 
 const SettingsSecurity = () => {
-  const { enqueueSnackbar } = useSnackbar();
+  // auth state
+  const { user } = useAppSelector(selectAuth);
 
-  const password = useBoolean();
+  // api state
+  const [updatePassword] = useUpdatePasswordMutation();
 
-  const ChangePassWordSchema = Yup.object().shape({
-    oldPassword: Yup.string().required('Old Password is required'),
-    newPassword: Yup.string()
-      .required('New Password is required')
-      .min(6, 'Password must be at least 6 characters')
-      .test(
-        'no-match',
-        'New password must be different than old password',
-        (value, { parent }) => value !== parent.oldPassword
-      ),
-    confirmNewPassword: Yup.string().oneOf([Yup.ref('newPassword')], 'Passwords must match'),
-  });
+  // form state
+  const methods = useForm({ resolver: yupResolver(Schema), defaultValues });
+  const { reset, handleSubmit, formState } = methods;
+  const { isSubmitting } = formState;
 
-  const defaultValues = {
-    oldPassword: '',
-    newPassword: '',
-    confirmNewPassword: '',
+  const onSubmit = async (values) => {
+    const response = await updatePassword({ ...values, email: user?.email });
+    const { data, error } = response;
+
+    // handle success state
+    if (error || data?.isError) {
+      console.error('Error in changing password:', response);
+      enqueueSnackbar('Error in changing password!', { variant: 'error' });
+    }
+
+    // handle success state
+    else if (data?.success) {
+      console.error('Password changed:', response);
+      enqueueSnackbar('Password changed!');
+
+      reset(); // reset form if success
+    }
   };
 
-  const methods = useForm({
-    resolver: yupResolver(ChangePassWordSchema),
-    defaultValues,
-  });
-
-  const {
-    reset,
-    handleSubmit,
-    formState: { isSubmitting },
-  } = methods;
-
-  const onSubmit = handleSubmit(async (data) => {
-    try {
-      await new Promise((resolve) => setTimeout(resolve, 500));
-      reset();
-      enqueueSnackbar('Update success!', { variant: 'success' });
-      console.info('DATA', data);
-    } catch (error) {
-      console.error(error);
-    }
-  });
-
   return (
-    <FormProvider methods={methods} onSubmit={onSubmit}>
+    <FormProvider methods={methods} onSubmit={handleSubmit(onSubmit)}>
       <Stack component={Card} spacing={3} sx={{ p: 3 }}>
-        <RHFTextField
-          name="oldPassword"
-          type={password.value ? 'text' : 'password'}
-          label="Old Password"
-          InputProps={{
-            endAdornment: (
-              <InputAdornment position="end">
-                <IconButton onClick={password.onToggle} edge="end">
-                  <Iconify icon={password.value ? 'solar:eye-bold' : 'solar:eye-closed-bold'} />
-                </IconButton>
-              </InputAdornment>
-            ),
-          }}
-        />
-
-        <RHFTextField
-          name="newPassword"
-          label="New Password"
-          type={password.value ? 'text' : 'password'}
-          InputProps={{
-            endAdornment: (
-              <InputAdornment position="end">
-                <IconButton onClick={password.onToggle} edge="end">
-                  <Iconify icon={password.value ? 'solar:eye-bold' : 'solar:eye-closed-bold'} />
-                </IconButton>
-              </InputAdornment>
-            ),
-          }}
-          helperText={
-            <Stack component="span" direction="row" alignItems="center">
-              <Iconify icon="eva:info-fill" width={16} sx={{ mr: 0.5 }} /> Password must be minimum
-              6+
-            </Stack>
-          }
-        />
-
-        <RHFTextField
-          name="confirmNewPassword"
-          type={password.value ? 'text' : 'password'}
-          label="Confirm New Password"
-          InputProps={{
-            endAdornment: (
-              <InputAdornment position="end">
-                <IconButton onClick={password.onToggle} edge="end">
-                  <Iconify icon={password.value ? 'solar:eye-bold' : 'solar:eye-closed-bold'} />
-                </IconButton>
-              </InputAdornment>
-            ),
-          }}
-        />
+        <Fields />
 
         <LoadingButton
           type="submit"

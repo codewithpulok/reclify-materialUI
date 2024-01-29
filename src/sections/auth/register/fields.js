@@ -1,6 +1,7 @@
 import Stack from '@mui/material/Stack';
 
 import { MenuItem } from '@mui/material';
+import { useMemo } from 'react';
 import { useFormContext } from 'react-hook-form';
 import { FormRadioCard } from 'src/components/auth/form';
 import { PasswordField } from 'src/components/common/custom-fields';
@@ -15,16 +16,19 @@ const Fields = (props) => {
 
   const showUserTypeField = useBoolean(true);
 
-  const serviceField =
-    userType === 'seller' ? (
-      <RHFTextField name="serviceType" label="Service Type" select>
-        {serviceTypes.map((serviceType) => (
-          <MenuItem key={serviceType.value} value={serviceType.value}>
-            {serviceType.label}
-          </MenuItem>
-        ))}
-      </RHFTextField>
-    ) : null;
+  const serviceField = useMemo(
+    () =>
+      userType === 'seller' && showUserTypeField.value ? (
+        <RHFTextField name="serviceType" label="Service Type" select>
+          {serviceTypes.map((serviceType) => (
+            <MenuItem key={serviceType.value} value={serviceType.value}>
+              {serviceType.label}
+            </MenuItem>
+          ))}
+        </RHFTextField>
+      ) : null,
+    [showUserTypeField.value, userType]
+  );
 
   return (
     <Stack spacing={2.5}>

@@ -36,9 +36,7 @@ const FormRadioCard = (props) => {
               {icon && getIconify(icon, 56, { color: 'primary.main' })}
 
               <Stack mr="auto" spacing={0}>
-                <Typography variant="subtitle1" gutterBottom={0}>
-                  {title}
-                </Typography>
+                <Typography variant="subtitle1">{title}</Typography>
                 <Typography variant="body2" color="text.secondary">
                   {text}
                 </Typography>

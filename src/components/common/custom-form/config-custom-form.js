@@ -11,6 +11,8 @@ export const CustomFormProps = {
   successCallback: PropTypes.func,
   /** @type {(data: any, error: Object, reset: (values) => {}) => {}} */
   failedCallback: PropTypes.func,
+  /** @type {(data: any, reset: (values) => {}) => {}} */
+  submitCallback: PropTypes.func,
   /** @type {SxProps} */
   sx: PropTypes.object,
 };

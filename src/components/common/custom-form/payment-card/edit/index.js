@@ -1,6 +1,5 @@
 import { yupResolver } from '@hookform/resolvers/yup';
 import { Box } from '@mui/material';
-import { useSnackbar } from 'notistack';
 import PropTypes from 'prop-types';
 import { useCallback, useEffect } from 'react';
 import { useForm } from 'react-hook-form';
@@ -18,10 +17,11 @@ const Props = {
 
 /** @type {PaymentCard} */
 const defaultValues = {
-  number: '',
-  holder: '',
-  securityNumber: '',
-  expire: Date.now(),
+  cardNumber: '',
+  cardHolder: '',
+  cvv: '',
+  expirationDate: Date.now(),
+  primary: false,
 };
 
 /**
@@ -29,18 +29,10 @@ const defaultValues = {
  * @returns {JSX.Element}
  */
 const PaymentCardEditForm = (props) => {
-  const {
-    actions,
-    failedCallback = () => {},
-    successCallback = () => {},
-    wrapperElement,
-    sx = {},
-    card,
-  } = props;
+  const { actions, submitCallback = () => {}, wrapperElement, sx = {}, card } = props;
 
   const methods = useForm({ defaultValues, resolver: yupResolver(paymentCardEditSchema) });
   const { handleSubmit, reset } = methods;
-  const { enqueueSnackbar } = useSnackbar();
 
   // handle form reset
   const onReset = useCallback(
@@ -51,20 +43,7 @@ const PaymentCardEditForm = (props) => {
   );
 
   // handle edit payment card
-  const onSubmit = useCallback(
-    (values) => {
-      try {
-        enqueueSnackbar('Payment card edited!');
-        console.log('Payment card edited: ', values);
-        successCallback(values, false, onReset);
-      } catch (error) {
-        enqueueSnackbar('Error in editing payment card!', { variant: 'error' });
-        console.error('Payment card edit error: ', error);
-        failedCallback(values, error, onReset);
-      }
-    },
-    [enqueueSnackbar, failedCallback, onReset, successCallback]
-  );
+  const onSubmit = (values) => submitCallback(values, onReset);
 
   // update default values
   useEffect(() => {

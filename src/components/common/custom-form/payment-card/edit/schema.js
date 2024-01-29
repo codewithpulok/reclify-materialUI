@@ -3,18 +3,18 @@ import * as Yup from 'yup';
 
 /** @type {PaymentCard} */
 const validationSchema = {
-  number: Yup.string()
+  cardNumber: Yup.string()
     .required('Credit card number is required')
     .test('test-number', 'Credit card number is invalid', (value) =>
       card.isValid(value, card.type(value))
     ),
   primary: Yup.boolean(),
-  holder: Yup.string().required('Credit card holder name is required'),
-  expire: Yup.number().required('Credit card expire date is required'),
-  securityNumber: Yup.string()
+  cardHolder: Yup.string().required('Credit card holder name is required'),
+  expirationDate: Yup.number().required('Credit card expire date is required'),
+  cvv: Yup.number()
     .required('Credit card security number is required')
     .test('test-security-number', 'Credit security number is invalid', (value) =>
-      cvc.isValid(value)
+      cvc.isValid(value?.toString())
     ),
 };
 

@@ -1,8 +1,9 @@
-import { Button } from '@mui/material';
-import { useSnackbar } from 'notistack';
+import { LoadingButton } from '@mui/lab';
+import { enqueueSnackbar } from 'notistack';
 import PropTypes from 'prop-types';
 import { useCallback } from 'react';
 import { ConfirmDialog } from 'src/components/common/custom-dialog';
+import { useCardDeleteMutation } from 'src/redux-toolkit/services/cardApi';
 
 const Props = {
   /** @type {PaymentCard | undefined} */
@@ -26,14 +27,30 @@ const PaymentCardDeleteDialog = (props) => {
     // optional props
     sx = {},
   } = props;
-  const { enqueueSnackbar } = useSnackbar();
+
+  // api state
+  const [deleteCard, deleteResponse] = useCardDeleteMutation();
 
   // handle delete
-  const onConfirm = useCallback(() => {
-    enqueueSnackbar('Payment Card Deleted!');
-    console.log('Payment Card Deleted: ', card);
-    onClose();
-  }, [card, enqueueSnackbar, onClose]);
+  const onConfirm = useCallback(async () => {
+    console.log('Delete Payment Card:', card);
+
+    const response = await deleteCard(card?.id);
+    const { data, error } = response;
+
+    // error state
+    if (error || !data?.isError) {
+      console.log('Error in deleting Payment Card:', response);
+      enqueueSnackbar('Error in deleting Payment Card!', { variant: 'error' });
+    }
+
+    // success state
+    else if (data?.success) {
+      enqueueSnackbar('Payment Card deleted!');
+      console.log('Payment Card deleted:', response);
+      onClose(); // close dialog after delete success
+    }
+  }, [card, deleteCard, onClose]);
 
   return (
     <ConfirmDialog
@@ -42,9 +59,14 @@ const PaymentCardDeleteDialog = (props) => {
       open={open}
       onClose={onClose}
       action={
-        <Button color="error" variant="contained" onClick={onConfirm}>
+        <LoadingButton
+          loading={deleteResponse.isLoading}
+          color="error"
+          variant="contained"
+          onClick={onConfirm}
+        >
           Confirm
-        </Button>
+        </LoadingButton>
       }
       sx={sx}
     />

@@ -24,6 +24,7 @@ const NavItem = forwardRef((props, ref) => {
     roles,
     //
     open,
+    onClick,
     depth,
     active,
     hasChild,
@@ -41,7 +42,11 @@ const NavItem = forwardRef((props, ref) => {
       depth={depth}
       active={active}
       disabled={disabled}
+      onClick={onClick}
       {...other}
+      sx={{
+        bgcolor: (theme) => (hasChild ? alpha(theme.palette.text.disabled, 0.1) : undefined),
+      }}
     >
       {!subItem && icon && (
         <Box component="span" className="icon">
@@ -135,6 +140,7 @@ const NavItem = forwardRef((props, ref) => {
 
 NavItem.propTypes = {
   open: PropTypes.bool,
+  onClick: PropTypes.func,
   active: PropTypes.bool,
   path: PropTypes.string,
   depth: PropTypes.number,

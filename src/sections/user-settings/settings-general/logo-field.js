@@ -3,7 +3,7 @@ import { useFormContext } from 'react-hook-form';
 import { Card, CardContent, CardHeader } from '@mui/material';
 import { enqueueSnackbar } from 'notistack';
 import PropTypes from 'prop-types';
-import { RHFUploadAvatar } from 'src/components/common/hook-form';
+import { RHFUpload } from 'src/components/common/hook-form';
 import { useFilesUploadMutation } from 'src/redux-toolkit/services/uploadFilesApi';
 
 const Props = {
@@ -21,6 +21,10 @@ const LogoField = (props) => {
   const { sx } = props;
   const { setValue } = useFormContext();
   const [uploadFile, uploadResults] = useFilesUploadMutation();
+
+  const handleRemove = () => {
+    setValue(fieldName, null);
+  };
 
   const handlePreview = (file) => {
     const newFile = {
@@ -72,12 +76,12 @@ const LogoField = (props) => {
     <Card sx={{ ...sx }}>
       <CardHeader title="Logo" />
       <CardContent>
-        <RHFUploadAvatar
+        <RHFUpload
           name={fieldName}
           maxSize={3145728}
           onDrop={handleDrop}
-          sx={{}}
           disabled={uploadResults?.isLoading}
+          onDelete={handleRemove}
         />
       </CardContent>
     </Card>

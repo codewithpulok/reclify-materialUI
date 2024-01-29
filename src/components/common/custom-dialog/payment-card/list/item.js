@@ -74,14 +74,14 @@ const Item = (props) => {
         {...other}
       >
         <Stack mb={1.5} direction="row" alignItems="center" spacing={1}>
-          {getCreditCardIcon(card.number)(20)}
+          {getCreditCardIcon(card.cardNumber)(20)}
 
           {card.primary && <Label color="info">Default</Label>}
         </Stack>
 
-        <Typography variant="subtitle1">{creditCards.format(card.number)}</Typography>
+        <Typography variant="subtitle1">{creditCards.format(card.cardNumber)}</Typography>
         <Typography variant="subtitle2" color="text.secondary">
-          {card.holder}
+          {card.cardHolder}
         </Typography>
 
         <IconButton

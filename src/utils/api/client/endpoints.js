@@ -7,6 +7,9 @@ export const endpoints = {
     root: '/auth',
     login: `/login`,
     register: `/register`,
+    password: {
+      change: '/reset-password',
+    },
   },
   warehouses: {
     root: '/warehouse',
@@ -69,5 +72,21 @@ export const endpoints = {
     list: '/',
     cancel: (id) => `/cancel/${id}`,
     approve: (id) => `/approve/${id}`,
+  },
+  billing_info: {
+    root: '/user/billing-info',
+    list: `${PUBLIC_BACKEND_API}/user/billing`,
+    create: '/',
+    get: (id) => `/${id}`,
+    update: (id) => `/${id}`,
+    delete: (id) => `/${id}`,
+  },
+  cards: {
+    root: '/user/cards',
+    list: '/',
+    create: '/',
+    get: (id) => `/${id}`,
+    update: (id) => `/${id}`,
+    delete: (id) => `/${id}`,
   },
 };
