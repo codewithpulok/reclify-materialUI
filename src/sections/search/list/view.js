@@ -44,7 +44,7 @@ const SearchListView = (props) => {
             ))}
           </Grid>
 
-          <Stack direction="row" justifyContent="end" mt={1}>
+          <Stack direction="row" justifyContent="end">
             <Button
               variant="contained"
               color="primary"
@@ -67,7 +67,7 @@ const SearchListView = (props) => {
             ))}
           </Grid>
 
-          <Stack direction="row" justifyContent="end" mt={1}>
+          <Stack direction="row" justifyContent="end">
             <Button
               variant="contained"
               color="primary"
@@ -90,7 +90,7 @@ const SearchListView = (props) => {
             ))}
           </Grid>
 
-          <Stack direction="row" justifyContent="end" mt={1}>
+          <Stack direction="row" justifyContent="end">
             <Button
               variant="contained"
               color="primary"

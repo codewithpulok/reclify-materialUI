@@ -15,25 +15,49 @@ import RejectionFiles from './errors-rejection-files';
 import MultiFilePreview from './preview-multi-file';
 import SingleFilePreview from './preview-single-file';
 
+const Props = {
+  disabled: PropTypes.bool,
+  error: PropTypes.bool,
+  file: PropTypes.oneOfType([PropTypes.string, PropTypes.object]),
+  files: PropTypes.array,
+  helperText: PropTypes.bool,
+  multiple: PropTypes.bool,
+  onDelete: PropTypes.func,
+  onRemove: PropTypes.func,
+  onRemoveAll: PropTypes.func,
+  onUpload: PropTypes.func,
+  /** @type {SxProps} */
+  sx: PropTypes.object,
+  /** @type {SxProps} */
+  previewSx: PropTypes.object,
+  thumbnail: PropTypes.bool,
+};
+
 // ----------------------------------------------------------------------
 
-export default function Upload({
-  disabled,
-  multiple = false,
-  error,
-  helperText,
-  //
-  file,
-  onDelete,
-  //
-  files,
-  thumbnail,
-  onUpload,
-  onRemove,
-  onRemoveAll,
-  sx,
-  ...other
-}) {
+/**
+ * @param {Props} props
+ * @returns {JSX.Element}
+ */
+export default function Upload(props) {
+  const {
+    disabled,
+    multiple = false,
+    error,
+    helperText,
+    //
+    file,
+    onDelete,
+    //
+    files,
+    thumbnail,
+    onUpload,
+    onRemove,
+    onRemoveAll,
+    sx,
+    previewSx = {},
+    ...other
+  } = props;
   const { getRootProps, getInputProps, isDragActive, isDragReject, fileRejections } = useDropzone({
     multiple,
     disabled,
@@ -152,6 +176,7 @@ export default function Upload({
           ...(hasFile && {
             padding: '24% 0',
           }),
+          ...previewSx,
         }}
       >
         <input {...getInputProps()} />
@@ -170,17 +195,4 @@ export default function Upload({
   );
 }
 
-Upload.propTypes = {
-  disabled: PropTypes.bool,
-  error: PropTypes.bool,
-  file: PropTypes.oneOfType([PropTypes.string, PropTypes.object]),
-  files: PropTypes.array,
-  helperText: PropTypes.bool,
-  multiple: PropTypes.bool,
-  onDelete: PropTypes.func,
-  onRemove: PropTypes.func,
-  onRemoveAll: PropTypes.func,
-  onUpload: PropTypes.func,
-  sx: PropTypes.object,
-  thumbnail: PropTypes.bool,
-};
+Upload.propTypes = Props;
