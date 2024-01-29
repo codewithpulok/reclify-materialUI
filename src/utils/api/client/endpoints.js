@@ -7,6 +7,9 @@ export const endpoints = {
     root: '/auth',
     login: `/login`,
     register: `/register`,
+    password: {
+      change: '/reset-password',
+    },
   },
   warehouses: {
     root: '/warehouse',

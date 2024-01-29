@@ -83,8 +83,21 @@ export const authApi = createApi({
         }
       },
     }),
+    updatePassword: builder.mutation({
+      /** @type {(data: {email: string, newPassword: string, currentPassword: string}) => {}} */
+      query: (data) => ({
+        url: endpoints.auth.password.change,
+        body: data,
+        method: 'PUT',
+      }),
+    }),
   }),
 });
 
-export const { useLoginMutation, useRegisterMutation, useInitAuthMutation, useLogoutMutation } =
-  authApi;
+export const {
+  useLoginMutation,
+  useRegisterMutation,
+  useInitAuthMutation,
+  useLogoutMutation,
+  useUpdatePasswordMutation,
+} = authApi;
