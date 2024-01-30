@@ -2,8 +2,8 @@ import { Stack } from '@mui/material';
 import PropTypes from 'prop-types';
 import { useFormContext } from 'react-hook-form';
 
-import BillingDetails from './billing-details';
-import PaymentCard from './payment-card';
+import BillingDetails from './common/billing-details';
+import PaymentCard from './common/payment-card';
 
 export const Props = {
   wrapperElement: PropTypes.elementType,

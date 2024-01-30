@@ -46,6 +46,10 @@ const WarehouseEditFields = (props) => {
             <RHFTextField name="name" label="Name" fullWidth />
           </Grid>
 
+          <Grid item xs={12}>
+            <AddressField name="address" />
+          </Grid>
+
           <Grid item xs={6}>
             <RHFTextField name="regionScope" label="Region Scope" fullWidth select>
               <MenuItem disabled>Select Region Scope</MenuItem>

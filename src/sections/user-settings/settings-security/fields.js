@@ -1,4 +1,3 @@
-import Card from '@mui/material/Card';
 import IconButton from '@mui/material/IconButton';
 import InputAdornment from '@mui/material/InputAdornment';
 import Stack from '@mui/material/Stack';
@@ -12,7 +11,7 @@ import { RHFTextField } from 'src/components/common/hook-form';
 const Fields = (props) => {
   const password = useBoolean();
   return (
-    <Stack component={Card} spacing={3}>
+    <Stack spacing={3}>
       <RHFTextField
         name="currentPassword"
         type={password.value ? 'text' : 'password'}

@@ -2,6 +2,7 @@ export { default } from './form-provider';
 
 export { default as RHFAccordion } from './rhf-accordion';
 export { default as RHFAutocomplete } from './rhf-autocomplete';
+export { default as RHFCheckbox } from './rhf-checkbox';
 export { default as RHFCreditCardField } from './rhf-credit-card-field';
 export { default as RHFDateField } from './rhf-date-field';
 export { default as RHFDatePicker } from './rhf-date-picker';

@@ -69,6 +69,7 @@ const PurchasePaymentDialog = (props) => {
           </DialogActions>
         }
         submitCallback={handleCreatePurchase}
+        purchaseData={purchaseData}
       />
     </Dialog>
   );
