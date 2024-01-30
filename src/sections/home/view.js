@@ -28,8 +28,8 @@ export default function HomeView() {
         }}
       >
         <HomeRacklify />
-        <HomeJoin />
         <HomeFeaturedNews />
+        <HomeJoin />
       </Box>
     </MainLayout>
   );

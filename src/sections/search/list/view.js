@@ -62,7 +62,7 @@ const SearchListView = (props) => {
           <Grid container spacing={1.5}>
             {warehouses.slice(0, 3).map((warehouse) => (
               <Grid item key={warehouse.id} xs={12} sm={6} md={4}>
-                <WarehouseCard key={warehouse.id} warehouse={warehouse} sx={{ boxShadow: 0 }} />
+                <WarehouseCard key={warehouse.id} warehouse={warehouse} />
               </Grid>
             ))}
           </Grid>
@@ -85,7 +85,7 @@ const SearchListView = (props) => {
           <Grid container spacing={1.5}>
             {services.slice(0, 3).map((service) => (
               <Grid item key={service.id} xs={12} sm={6} md={4}>
-                <ServiceCard key={service.id} service={service} sx={{ boxShadow: 0 }} />
+                <ServiceCard key={service.id} service={service} />
               </Grid>
             ))}
           </Grid>

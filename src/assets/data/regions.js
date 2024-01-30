@@ -1,5 +1,5 @@
 /** @type {RegionType[]} */
-export const subRegions = [
+export const regionScopes = [
   { name: 'United States', code: 'us', icon: 'emojione-monotone:flag-for-united-states' },
   { name: 'Global', code: 'global', icon: 'solar:global-bold-duotone' },
 ];
@@ -23,7 +23,7 @@ export const globalRegions = [
   { name: 'Asia', code: 'asia' },
 ];
 
-export const getRegionsBySubRegions = (code) => {
+export const getRegionsByScope = (code) => {
   switch (code) {
     case 'us':
       return usRegions;
@@ -54,4 +54,4 @@ export const regions = [
  * @returns {RegionType | undefined}
  */
 export const getRegionByCode = (code) =>
-  [...globalRegions, ...usRegions, ...subRegions].find((r) => r.code === code);
+  [...globalRegions, ...usRegions, ...regionScopes].find((r) => r.code === code);

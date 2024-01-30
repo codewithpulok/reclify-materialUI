@@ -4,8 +4,8 @@ import Stack from '@mui/material/Stack';
 import Typography from '@mui/material/Typography';
 
 import { ListItemButton } from '@mui/material';
-import { getCreditCardIcon } from '../../custom-dialog';
-import { ICONS } from '../config-custom-form';
+import { getCreditCardIcon } from '../../../custom-dialog';
+import { ICONS } from '../../config-custom-form';
 
 const PaymentCardProps = {
   /** @type {PaymentCard | undefined} */

@@ -3,6 +3,7 @@ import { paths } from 'src/routes/paths';
 // LOCALSTORAGE KEY // ----------------------------------------------------------------------
 export const USER_STORAGE_KEY = 'RACKLIFY_USER';
 export const TOKEN_STORAGE_KEY = 'RACKLIFY_TOKEN';
+export const APPEARANCE_KEY = 'RACKLIFY_APPEARANCE';
 
 // PLACEHOLDER IMAGE // ---------------------------------------------------------------------
 export const PLACEHOLDER_PROFILE_BANNER =

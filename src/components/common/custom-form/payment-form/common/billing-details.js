@@ -2,7 +2,7 @@ import { ListItemButton, Stack, Typography } from '@mui/material';
 import PropTypes from 'prop-types';
 
 import { joinAddressObj } from 'src/utils/address';
-import { ICONS } from '../config-custom-form';
+import { ICONS } from '../../config-custom-form';
 
 const BillingDetailsProps = {
   /** @type {BillingAddress | undefined} */

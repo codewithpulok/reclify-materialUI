@@ -13,13 +13,7 @@ export const cardApi = createApi({
       query: (id) => endpoints.cards.get(id),
     }),
     cardPrimary: builder.query({
-      query: () => endpoints.cards.list,
-      transformResponse: (response, meta, arg) => {
-        if (response?.results instanceof Array) {
-          response.results = response.results?.find((c) => c?.primary) || null;
-        }
-        return response;
-      },
+      query: () => endpoints.cards.primary,
     }),
     cardCreate: builder.mutation({
       query: (data) => ({

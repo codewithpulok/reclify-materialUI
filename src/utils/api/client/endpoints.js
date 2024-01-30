@@ -75,8 +75,9 @@ export const endpoints = {
   },
   billing_info: {
     root: '/user/billing-info',
-    list: `${PUBLIC_BACKEND_API}/user/billing`,
+    list: `/`,
     create: '/',
+    primary: `/primary`,
     get: (id) => `/${id}`,
     update: (id) => `/${id}`,
     delete: (id) => `/${id}`,
@@ -85,6 +86,7 @@ export const endpoints = {
     root: '/user/cards',
     list: '/',
     create: '/',
+    primary: `/primary`,
     get: (id) => `/${id}`,
     update: (id) => `/${id}`,
     delete: (id) => `/${id}`,

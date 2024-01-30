@@ -69,20 +69,6 @@ const StyledNavItem = styled(ListItemButton, {
 })(({ open, active, subItem, theme }) => {
   const opened = open && !active;
 
-  const dotStyles = {
-    width: 6,
-    height: 6,
-    left: -12,
-    opacity: 0.64,
-    content: '""',
-    borderRadius: '50%',
-    position: 'absolute',
-    backgroundColor: 'currentColor',
-    ...(active && {
-      color: theme.palette.primary.main,
-    }),
-  };
-
   return {
     // Root item
     ...(!subItem && {
@@ -96,22 +82,13 @@ const StyledNavItem = styled(ListItemButton, {
       '&:hover': {
         opacity: 0.64,
         backgroundColor: 'transparent',
-        '&:before': {
-          ...dotStyles,
-        },
       },
       ...(active && {
         color: theme.palette.primary.main,
         fontWeight: theme.typography.fontWeightSemiBold,
-        '&:before': {
-          ...dotStyles,
-        },
       }),
       ...(opened && {
         opacity: 0.64,
-        '&:before': {
-          ...dotStyles,
-        },
       }),
     }),
 
@@ -128,16 +105,10 @@ const StyledNavItem = styled(ListItemButton, {
       '&:hover': {
         backgroundColor: 'transparent',
         color: theme.palette.text.primary,
-        '&:before': {
-          ...dotStyles,
-        },
       },
       ...(active && {
         color: theme.palette.text.primary,
         fontWeight: theme.typography.fontWeightSemiBold,
-        '&:before': {
-          ...dotStyles,
-        },
       }),
     }),
   };

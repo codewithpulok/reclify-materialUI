@@ -1,4 +1,3 @@
-import { Alert } from '@mui/material';
 import PropTypes from 'prop-types';
 import { useCallback, useEffect } from 'react';
 import { useForm } from 'react-hook-form';
@@ -7,20 +6,14 @@ import { selectAuth } from 'src/redux-toolkit/features/auth/authSlice';
 import { useAppSelector } from 'src/redux-toolkit/hooks';
 import { useBillingInfoPrimaryQuery } from 'src/redux-toolkit/services/billingInfoApi';
 import { useCardPrimaryQuery } from 'src/redux-toolkit/services/cardApi';
-import { BillingAddressListDialog, PaymentCardListDialog } from '../../custom-dialog';
-import { ErrorState, LoadingState } from '../../custom-state';
-import FormProvider from '../../hook-form/form-provider';
-import PaymentFields, { Props as FieldProps } from './payment-fields';
+import { BillingAddressListDialog, PaymentCardListDialog } from '../../../custom-dialog';
+import { ErrorState, LoadingState } from '../../../custom-state';
+import FormProvider from '../../../hook-form/form-provider';
+import { Props as FieldProps } from '../payment-fields';
+import PurchaseFormFields from './purchase-form-fields';
 
 export const Props = {
   submitCallback: PropTypes.func,
-  purchaseData: PropTypes.objectOf({
-    warehouse: PropTypes.object,
-    pallet: PropTypes.number,
-    price: PropTypes.number,
-    total: PropTypes.number,
-    month: PropTypes.number,
-  }),
   ...FieldProps,
 };
 
@@ -66,17 +59,11 @@ const PurchaseForm = (props) => {
 
     if (billingAddressResponse.isSuccess && paymentCardResponse.isSuccess) {
       return (
-        <PaymentFields
+        <PurchaseFormFields
           openBillingDialog={billingDetailsDialog.onTrue}
           openCardDialog={cardsDialog.onTrue}
           {...other}
-        >
-          <Alert severity="info" variant="outlined" sx={{ typography: 'body2' }}>
-            By clicking confirm payment, you are authorizing a hold on your payment method for the
-            total amount specified. Your purchase is pending approval by the warehouse. If approved
-            your payment method will be charged. If denied, the hold will be removed.
-          </Alert>
-        </PaymentFields>
+        />
       );
     }
 

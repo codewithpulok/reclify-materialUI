@@ -3,6 +3,13 @@ import useMediaQuery from '@mui/material/useMediaQuery';
 
 // ----------------------------------------------------------------------
 
+/**
+ * get responsive breakpoint
+ * @param {'up' | 'down' | 'between'} query
+ * @param {'sm' | 'md' | 'lg' | 'xl'} start
+ * @param {'sm' | 'md' | 'lg' | 'xl'} end
+ * @returns {boolean}
+ */
 export function useResponsive(query, start, end) {
   const theme = useTheme();
   const mediaUp = useMediaQuery(theme.breakpoints.up(start));

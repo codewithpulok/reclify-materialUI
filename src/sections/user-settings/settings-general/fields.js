@@ -3,6 +3,7 @@ import { Button, Grid, Stack } from '@mui/material';
 import { useFormContext } from 'react-hook-form';
 import { selectAuth } from 'src/redux-toolkit/features/auth/authSlice';
 import { useAppSelector } from 'src/redux-toolkit/hooks';
+import AppearanceField from './appearance-field';
 import InfoFields from './info-fields';
 import LogoField from './logo-field';
 import SocialFields from './socials-fields';
@@ -23,6 +24,8 @@ const Fields = () => {
           {user?.userType === 'seller' && <LogoField />}
 
           <SocialFields />
+
+          <AppearanceField />
 
           <LoadingButton
             sx={{ mt: 3 }}

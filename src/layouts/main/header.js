@@ -20,7 +20,6 @@ import HeaderShadow from '../common/header-shadow';
 import LoginButton from '../common/login-button';
 import { HEADER } from '../config-layout';
 import { navConfig } from './config-navigation';
-import NavDesktop from './nav/desktop';
 import NavMobile from './nav/mobile';
 
 // ----------------------------------------------------------------------
@@ -30,6 +29,7 @@ export default function Header() {
 
   const mdUp = useResponsive('up', 'md');
   const smUp = useResponsive('up', 'sm');
+  const mdDown = useResponsive('down', 'md');
 
   const offsetTop = useOffSetTop(HEADER.H_DESKTOP);
 
@@ -59,19 +59,31 @@ export default function Header() {
         <Container sx={{ height: 1, display: 'flex', alignItems: 'center' }}>
           <Logo isLong={smUp} />
           <Box sx={{ flexGrow: 1 }} />
-          {mdUp && <NavDesktop data={navConfig} />}
-          <Stack
-            alignItems="center"
-            direction={{
-              xs: 'row-reverse',
-            }}
-          >
-            <Button LinkComponent={Link} href={paths.contact_us} variant="outlined" color="primary">
-              Contact Us
-            </Button>
+          {/* {mdUp && <NavDesktop data={navConfig} />} */}
+          <Stack alignItems="center" direction="row" gap={0.5}>
+            {mdUp && (
+              <>
+                <Button
+                  LinkComponent={Link}
+                  href={paths.news.root}
+                  variant="outlined"
+                  color="primary"
+                >
+                  Racklify News
+                </Button>
+                <Button
+                  LinkComponent={Link}
+                  href={paths.contact_us}
+                  variant="outlined"
+                  color="primary"
+                >
+                  Contact Us
+                </Button>
+              </>
+            )}
             <LoginButton />
           </Stack>
-          {!mdUp && <NavMobile data={navConfig} />}
+          {mdDown && <NavMobile data={navConfig} />}
         </Container>
       </Toolbar>
 

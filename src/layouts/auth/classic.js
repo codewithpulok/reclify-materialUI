@@ -53,9 +53,9 @@ export default function AuthClassicLayout({ children, image, title }) {
         ...bgGradient({
           color: alpha(
             theme.palette.background.default,
-            theme.palette.mode === 'light' ? 0.88 : 0.94
+            theme.palette.mode === 'light' ? 0.6 : 0.94
           ),
-          imgUrl: '/assets/background/overlay_2.jpg',
+          imgUrl: '/assets/background/back-04-01.jpg',
         }),
       }}
     >

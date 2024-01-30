@@ -221,6 +221,7 @@ const WarehouseBooking = (props) => {
           justifyContent="center"
           spacing={0.5}
           flexWrap="wrap"
+          mt={1}
         >
           <Typography variant="h5">Total Price:</Typography>
           <Typography variant="h5" ml={1} color={discount > 0 ? 'secondary.main' : 'default'}>
@@ -235,6 +236,20 @@ const WarehouseBooking = (props) => {
               {` ${fCurrency(totalPrice)} `}
             </Typography>
           ) : null}
+        </Stack>
+        <Stack
+          direction="row"
+          alignItems="baseline"
+          justifyContent="center"
+          spacing={0.5}
+          flexWrap="wrap"
+        >
+          <Typography variant="overline" color="text.secondary">
+            Price Per Month:
+          </Typography>
+          <Typography variant="overline" color="text.secondary" ml={1}>
+            {currentPrice ? fCurrency(currentPrice) : '$0.00'}
+          </Typography>
         </Stack>
 
         {showPurchase ? (

@@ -1,7 +1,7 @@
 import Accordion from '@mui/material/Accordion';
-import Typography from '@mui/material/Typography';
-import AccordionSummary from '@mui/material/AccordionSummary';
 import AccordionDetails from '@mui/material/AccordionDetails';
+import AccordionSummary from '@mui/material/AccordionSummary';
+import Typography from '@mui/material/Typography';
 
 import { FAQS } from 'src/constant/faqs';
 
@@ -19,7 +19,9 @@ export default function FaqsList() {
           </AccordionSummary>
 
           <AccordionDetails>
-            <Typography>{accordion.detail}</Typography>
+            <Typography variant="body1" whiteSpace="pre-line">
+              {accordion.detail}
+            </Typography>
           </AccordionDetails>
         </Accordion>
       ))}
