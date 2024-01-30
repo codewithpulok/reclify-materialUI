@@ -29,7 +29,10 @@ const WarehouseDetailsSidebar = (props) => {
       {user && seller?.id !== user?.id ? (
         <UserDetailsCard user={seller} userType="seller" showLogo />
       ) : null}
-      <WarehouseBooking warehouse={warehouse} showPurchase={user?.userType === 'customer'} />
+      <WarehouseBooking
+        warehouse={warehouse}
+        showPurchase={user?.userType === 'customer' && warehouse?.regionScope !== 'global'}
+      />
       <WarehouseAddressMap warehouse={warehouse} />
 
       {children}

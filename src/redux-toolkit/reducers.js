@@ -1,5 +1,6 @@
 import { combineReducers } from '@reduxjs/toolkit';
 
+import { appearanceSlice } from './features/appearance/appearanceSlice';
 import { authSlice } from './features/auth/authSlice';
 import { addressApi } from './services/addressApi';
 import { adminApi } from './services/adminApi';
@@ -17,6 +18,7 @@ import { warehouseApi } from './services/warehouseApi';
 const reducers = combineReducers({
   // features
   [authSlice.name]: authSlice.reducer,
+  [appearanceSlice.name]: appearanceSlice.reducer,
   // services
   [authApi.reducerPath]: authApi.reducer,
   [warehouseApi.reducerPath]: warehouseApi.reducer,

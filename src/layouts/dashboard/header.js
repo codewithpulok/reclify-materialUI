@@ -19,7 +19,6 @@ import { getIconify } from 'src/components/common/iconify/utilities';
 import { RouterLink } from 'src/routes/components';
 import { paths } from 'src/routes/paths';
 import AccountPopover from '../common/account-popover';
-import AppearanceButton from '../common/appearance-button';
 import ContactsPopover from '../common/contacts-popover';
 import NotificationsPopover from '../common/notifications-popover';
 import Searchbar from '../common/searchbar';
@@ -59,7 +58,6 @@ export default function Header({ onOpenNav }) {
         <IconButton LinkComponent={RouterLink} href={paths.news.root}>
           {getIconify('bxs:news', 24)}
         </IconButton>
-        <AppearanceButton />
         <IconButton LinkComponent={RouterLink} href={paths.settings.root}>
           {getIconify('solar:settings-bold-duotone', 24)}
         </IconButton>

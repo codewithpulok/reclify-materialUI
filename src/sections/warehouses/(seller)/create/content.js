@@ -46,7 +46,7 @@ const defaultValues = {
   facilityDetails: getPredefinedFieldsDefaultValue(predefinedFacility),
   services: getPredefinedFieldsDefaultValue(predefinedServices),
   rules: [],
-  subRegion: '',
+  regionScope: '',
   region: '',
 };
 

@@ -1,9 +1,10 @@
 import {
+  getRegionsByScope,
   predefinedApprovedUses,
   predefinedFacility,
   predefinedFeatures,
   predefinedServices,
-  regions,
+  regionScopes,
 } from 'src/assets/data';
 import { getPredefinedFieldSchema } from 'src/utils/predefined-fields';
 import * as Yup from 'yup';
@@ -11,12 +12,23 @@ import * as Yup from 'yup';
 /** @type {Warehouse} */
 const schema = {
   name: Yup.string().label('Warehouse Name').required(),
+  regionScope: Yup.string()
+    .label('Region Scope')
+    .oneOf(
+      regionScopes.map((s) => s.code),
+      'Invalid Region scope'
+    )
+    .required(),
   region: Yup.string()
     .label('Region')
-    .oneOf(
-      regions.map((r) => r.code),
-      'Region code is not valid'
-    )
+    .test({
+      name: 'custom-one-of',
+      message: 'Region code is not valid',
+      test(value, ctx) {
+        return !!getRegionsByScope(ctx?.parent?.regionScope).find((i) => i.code === value);
+      },
+      skipAbsent: true,
+    })
     .required(),
   // address: addressFieldSchema,
   totalSpace: Yup.number().label('Total space').min(1).required(),

@@ -4,12 +4,12 @@ import { useEffect } from 'react';
 import { useFormContext } from 'react-hook-form';
 // local components
 import {
-  getRegionsBySubRegions,
+  getRegionsByScope,
   predefinedApprovedUses,
   predefinedFacility,
   predefinedFeatures,
   predefinedServices,
-  subRegions,
+  regionScopes,
 } from 'src/assets/data';
 import {
   AddressField,
@@ -26,16 +26,16 @@ import { fFixedFloat } from 'src/utils/format-number';
 
 const CreateFields = (props) => {
   const { watch, getValues, resetField } = useFormContext();
-  const subRegion = watch('subRegion');
+  const regionScope = watch('regionScope');
 
   useEffect(() => {
-    if (subRegion) {
+    if (regionScope) {
       const region = getValues('region');
-      const regions = getRegionsBySubRegions(subRegion);
+      const regions = getRegionsByScope(regionScope);
       if (regions.findIndex((r) => r.code === region) === -1) resetField('region');
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [subRegion]);
+  }, [regionScope]);
 
   return (
     <Grid container spacing={1.5}>
@@ -46,9 +46,9 @@ const CreateFields = (props) => {
           </Grid>
 
           <Grid item xs={6}>
-            <RHFTextField name="subRegion" label="Region Scope" fullWidth select>
+            <RHFTextField name="regionScope" label="Region Scope" fullWidth select>
               <MenuItem disabled>Select Region Scope</MenuItem>
-              {subRegions.map((option) => (
+              {regionScopes.map((option) => (
                 <MenuItem key={option.code} value={option.code}>
                   {option.name}
                 </MenuItem>
@@ -58,7 +58,7 @@ const CreateFields = (props) => {
           <Grid item xs={6}>
             <RHFTextField name="region" label="Region" fullWidth select>
               <MenuItem disabled>Select Region</MenuItem>
-              {getRegionsBySubRegions(subRegion).map((option) => (
+              {getRegionsByScope(regionScope).map((option) => (
                 <MenuItem key={option.code} value={option.code}>
                   {option.name}
                 </MenuItem>
