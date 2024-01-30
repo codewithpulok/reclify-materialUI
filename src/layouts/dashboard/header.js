@@ -57,7 +57,7 @@ export default function Header({ onOpenNav }) {
         <NotificationsPopover />
         <ContactsPopover />
         <IconButton LinkComponent={RouterLink} href={paths.news.root}>
-          {getIconify('foundation:burst-new', 24)}
+          {getIconify('bxs:news', 24)}
         </IconButton>
         <AppearanceButton />
         <IconButton LinkComponent={RouterLink} href={paths.settings.root}>

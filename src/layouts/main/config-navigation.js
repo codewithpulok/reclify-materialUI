@@ -9,4 +9,9 @@ export const navConfig = [
     icon: <Iconify icon="bxs:news" />,
     path: paths.news.root,
   },
+  {
+    title: 'Contact Us',
+    icon: <Iconify icon="solar:help-bold-duotone" />,
+    path: paths.contact_us,
+  },
 ];
