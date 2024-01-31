@@ -10,3 +10,7 @@ export { default as PaymentCardEditForm } from './payment-card/edit';
 // billing address forms
 export { default as BillingAddressCreateForm } from './billing-address/create';
 export { default as BillingAddressEditForm } from './billing-address/edit';
+
+// ach info forms
+export { default as ACHInfoCreateForm } from './ach-info/create';
+export { default as ACHInfoEditForm } from './ach-info/edit';

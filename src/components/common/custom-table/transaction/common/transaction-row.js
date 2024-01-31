@@ -10,15 +10,17 @@ import TableCell from '@mui/material/TableCell';
 import TableRow from '@mui/material/TableRow';
 
 import { Chip, Link, Tooltip, Typography } from '@mui/material';
-import { getTransactionStatusColor } from 'src/assets/dummy/transactions';
 import { usePopover } from 'src/components/common/custom-popover';
 import CustomPopover from 'src/components/common/custom-popover/custom-popover';
 import Label from 'src/components/common/label';
-import { PLACEHOLDER_WAREHOUSE_IMAGE } from 'src/config-global';
+import { getTransactionStatusColor, getTransactionStatusLabel } from 'src/constant/transaction';
+import { selectAuth } from 'src/redux-toolkit/features/auth/authSlice';
+import { useAppSelector } from 'src/redux-toolkit/hooks';
 import { RouterLink } from 'src/routes/components';
 import { paths } from 'src/routes/paths';
 import { joinAddressObj } from 'src/utils/address';
 import { fCurrency } from 'src/utils/format-number';
+import { getPrimaryPhoto } from 'src/utils/photos';
 import { ICONS } from '../../icons';
 
 // ----------------------------------------------------------------------
@@ -40,8 +42,9 @@ const Props = {
 const TransactionRow = (props) => {
   const { row, onViewTransaction, show = [], onCancelOrder, onConfirmOrder } = props;
   const popover = usePopover(false);
+  const { user } = useAppSelector(selectAuth);
 
-  const warehouseImage = row.warehouse?.photos?.[0]?.link || PLACEHOLDER_WAREHOUSE_IMAGE;
+  const warehouseImage = getPrimaryPhoto(row?.photos);
 
   const renderPrimary = (
     <TableRow hover>
@@ -148,7 +151,7 @@ const TransactionRow = (props) => {
       {show.includes('status') && (
         <TableCell>
           <Label variant="soft" color={getTransactionStatusColor(row.status)}>
-            {row.status}
+            {getTransactionStatusLabel(row.status)}
           </Label>
         </TableCell>
       )}
@@ -163,25 +166,24 @@ const TransactionRow = (props) => {
     </TableRow>
   );
 
-  return (
-    <>
-      {renderPrimary}
-      <CustomPopover
-        open={popover.open}
-        onClose={popover.onClose}
-        arrow="right-top"
-        sx={{ width: 300 }}
+  const renderMenu = (
+    <CustomPopover
+      open={popover.open}
+      onClose={popover.onClose}
+      arrow="right-top"
+      sx={{ width: 300 }}
+    >
+      <MenuItem
+        onClick={() => {
+          onViewTransaction();
+          popover.onClose();
+        }}
       >
-        <MenuItem
-          onClick={() => {
-            onViewTransaction();
-            popover.onClose();
-          }}
-        >
-          Transaction details
-        </MenuItem>
+        Transaction details
+      </MenuItem>
 
-        {row?.status === 'pending' && (
+      {row?.status === 'pending' ||
+        (row?.status === 'admin_pending' && (
           <>
             {onConfirmOrder !== undefined && (
               <MenuItem
@@ -190,6 +192,7 @@ const TransactionRow = (props) => {
                   onConfirmOrder();
                   popover.onClose();
                 }}
+                disabled={row?.status === 'admin_pending' && user?.userType !== 'admin'}
               >
                 Confirm Order
               </MenuItem>
@@ -207,8 +210,14 @@ const TransactionRow = (props) => {
               </MenuItem>
             )}
           </>
-        )}
-      </CustomPopover>
+        ))}
+    </CustomPopover>
+  );
+
+  return (
+    <>
+      {renderPrimary}
+      {renderMenu}
     </>
   );
 };

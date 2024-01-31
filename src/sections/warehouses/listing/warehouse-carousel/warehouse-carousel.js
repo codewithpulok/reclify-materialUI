@@ -1,5 +1,6 @@
 import { Box } from '@mui/material';
 import PropTypes from 'prop-types';
+import { useMemo } from 'react';
 import Carousel, { CarouselArrows, useCarousel } from 'src/components/common/carousel';
 import { WarehouseCard } from 'src/components/warehouse/cards';
 
@@ -13,17 +14,17 @@ const Props = {
  * @returns {JSX.Element}
  */
 const WarehouseCarousel = (props) => {
-  const { data } = props;
+  const { data = [] } = props;
 
   const carousel = useCarousel({
-    slidesToShow: 3,
+    slidesToShow: 4,
     infinite: false,
     initialSlide: 0,
     swipeToSlide: true,
     responsive: [
       {
         breakpoint: 1024,
-        settings: { slidesToShow: 2 },
+        settings: { slidesToShow: 3 },
       },
       {
         breakpoint: 600,
@@ -35,6 +36,10 @@ const WarehouseCarousel = (props) => {
       },
     ],
   });
+
+  const filteredData = useMemo(() => data?.filter((d) => !d.isFeatured), [data]);
+
+  if (!filteredData.length) return null;
 
   return (
     <Box
@@ -55,7 +60,7 @@ const WarehouseCarousel = (props) => {
         // rightButtonProps={{ disabled: !carousel?.hasNext }}
       >
         <Carousel ref={carousel.carouselRef} {...carousel.carouselSettings}>
-          {data.map((item) => (
+          {filteredData.map((item) => (
             <Box key={item.id} sx={{ px: 1 }}>
               <WarehouseCard warehouse={item} />
             </Box>

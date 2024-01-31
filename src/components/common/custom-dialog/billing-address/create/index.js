@@ -28,7 +28,7 @@ const BillingAddressCreateDialog = (props) => {
     const { data, error } = response;
 
     // error state
-    if (error || !data?.isError) {
+    if (error || data?.isError) {
       console.log('Error in creating billing info:', response);
       enqueueSnackbar('Error in creating billing info!', { variant: 'error' });
     }

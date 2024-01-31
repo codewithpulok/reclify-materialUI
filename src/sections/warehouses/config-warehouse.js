@@ -30,4 +30,6 @@ export const ICONS = {
 
   diamond_fill: getIconifyFunc('ic:twotone-diamond'),
   diamond_empty: getIconifyFunc('ic:outline-diamond'),
+
+  import: getIconifyFunc('solar:import-bold-duotone'),
 };

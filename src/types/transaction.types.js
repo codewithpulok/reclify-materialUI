@@ -11,11 +11,11 @@
  * @property {User} customer
  * @property {number} createdAt - The timestamp when the transaction was created (in milliseconds).
  * @property {number} updatedAt - The timestamp when the transaction was last updated (in milliseconds).
- * @property {TransactionStatus} status - The status of the transaction, which can be 'completed', 'pending', or 'declined'.
+ * @property {TransactionStatus} status - The status of the transaction, which can be 'completed', 'pending', 'admin_pending' or 'cancelled'.
  * @property {number} area - The area (space) associated with the transaction.
  * @property {number} pricePerSquare - The price per square unit of the transaction area.
  */
 
 /**
- * @typedef {'completed' | 'pending' | 'declined' | 'cancelled'} TransactionStatus
+ * @typedef {'completed' | 'pending' | 'cancelled' | 'admin_pending'} TransactionStatus
  */

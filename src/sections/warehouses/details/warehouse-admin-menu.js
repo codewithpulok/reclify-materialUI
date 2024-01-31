@@ -15,9 +15,8 @@ import {
 import { ICONS } from '../config-warehouse';
 
 const Props = {
-  isVerified: PropTypes.bool.isRequired,
-  isFeatured: PropTypes.bool.isRequired,
-  isVisible: PropTypes.bool.isRequired,
+  /** @type {Warehouse} */
+  warehouse: PropTypes.object,
   id: PropTypes.string.isRequired,
   /** @type {import('@mui/material').MenuProps} */
   menuProps: PropTypes.object,
@@ -30,7 +29,8 @@ const Props = {
  * @returns {JSX.Element}
  */
 const WarehouseAdminMenu = (props) => {
-  const { isFeatured, isVerified, isVisible, menuProps = {}, iconBtnProps = {}, id } = props;
+  const { warehouse, menuProps = {}, iconBtnProps = {}, id } = props;
+  const { isFeatured, isVerified, isVisible, seller } = warehouse || {};
 
   const [updateFeatured, featuredResults] = useUpdateWarehouseFeaturedMutation();
   const [updateVerified, verifiedResults] = useUpdateWarehouseVerifiedMutation();
@@ -104,6 +104,7 @@ const WarehouseAdminMenu = (props) => {
         aciton: openFeaturedDialog,
         show: !isFeatured,
         icon: ICONS.featured,
+        disabled: seller?.membershipId === 'free',
       },
       {
         name: 'Remove verified',
@@ -128,6 +129,7 @@ const WarehouseAdminMenu = (props) => {
       openUnverifyDialog,
       openVerifyDialog,
       openVisibleDialog,
+      seller,
     ]
   );
 
@@ -277,7 +279,7 @@ const WarehouseAdminMenu = (props) => {
           {items.map((item, index) => {
             if (!item.show) return null;
             return (
-              <MenuItem key={index} onClick={item.aciton}>
+              <MenuItem key={index} onClick={item.aciton} disabled={item?.disabled}>
                 <ListItemIcon sx={{ mr: 0 }}>{item.icon()}</ListItemIcon>
                 <ListItemText>{item.name}</ListItemText>
               </MenuItem>

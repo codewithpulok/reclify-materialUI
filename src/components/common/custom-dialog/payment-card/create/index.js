@@ -28,7 +28,7 @@ const PayemntCardCreateDialog = (props) => {
     const { data, error } = response;
 
     // error state
-    if (error || !data?.isError) {
+    if (error || data?.isError) {
       console.log('Error in creating Payment Card:', response);
       enqueueSnackbar('Error in creating Payment Card!', { variant: 'error' });
     }

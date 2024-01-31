@@ -1,5 +1,4 @@
-import { LoadingButton } from '@mui/lab';
-import { Button, Dialog, DialogActions, DialogContent, DialogTitle } from '@mui/material';
+import { Dialog, DialogContent, DialogTitle } from '@mui/material';
 import { enqueueSnackbar } from 'notistack';
 import PropTypes from 'prop-types';
 import { useCreatePurchaseMutation } from 'src/redux-toolkit/services/purchaseApi';
@@ -14,6 +13,7 @@ const Props = {
     price: PropTypes.number,
     total: PropTypes.number,
     month: PropTypes.number,
+    due: PropTypes.number,
   }),
 };
 
@@ -24,7 +24,7 @@ const Props = {
 const PurchasePaymentDialog = (props) => {
   const { open, onClose, purchaseData } = props;
 
-  const [createPurchase, createResponse] = useCreatePurchaseMutation();
+  const [createPurchase] = useCreatePurchaseMutation();
 
   const handleCreatePurchase = async (values) => {
     const newValues = {
@@ -55,21 +55,9 @@ const PurchasePaymentDialog = (props) => {
       <DialogTitle>Payment</DialogTitle>
       <PurchaseForm
         wrapperElement={DialogContent}
-        actions={
-          <DialogActions>
-            <Button onClick={onClose}>Cancel</Button>
-            <LoadingButton
-              loading={createResponse.isLoading}
-              type="submit"
-              color="primary"
-              variant="contained"
-            >
-              Confirm Payment
-            </LoadingButton>
-          </DialogActions>
-        }
         submitCallback={handleCreatePurchase}
         purchaseData={purchaseData}
+        cancelCallback={onClose}
       />
     </Dialog>
   );
