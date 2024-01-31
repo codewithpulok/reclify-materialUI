@@ -3,10 +3,13 @@ import { useMemo } from 'react';
 import { useFormContext } from 'react-hook-form';
 import { predefinedServiceFeatures } from 'src/assets/data/predefined-fields/service';
 // local components
-import { ArrayField, PredefinedFields } from 'src/components/common/custom-fields';
+import {
+  ArrayField,
+  PhotosUploadField,
+  PredefinedFields,
+} from 'src/components/common/custom-fields';
 import { RHFDatePicker, RHFTextField } from 'src/components/common/hook-form';
 import Label from 'src/components/common/label';
-import { WarehousePhotoUpload } from 'src/components/warehouse/upload';
 
 const ServiceFields = (props) => {
   const { watch, setValue } = useFormContext();
@@ -63,7 +66,7 @@ const ServiceFields = (props) => {
 
           <Grid item xs={12}>
             <Label sx={{ mb: 1 }}>Photos</Label>
-            <WarehousePhotoUpload name="photos" />
+            <PhotosUploadField name="photos" />
           </Grid>
         </Grid>
       </Grid>
@@ -74,7 +77,7 @@ const ServiceFields = (props) => {
             <PredefinedFields
               name="features"
               fields={subServices}
-              label="Services"
+              label="Features"
               defaultExpanded
             />
           </Grid>

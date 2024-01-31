@@ -4,6 +4,7 @@ import PropTypes from 'prop-types';
 // local components
 import Image from 'src/components/common/image';
 import { paths } from 'src/routes/paths';
+import { getPrimaryPhoto } from 'src/utils/photos';
 
 const Props = {
   /** @type {Service} */
@@ -18,7 +19,7 @@ const Props = {
 const ServiceCard = (props) => {
   const router = useRouter();
   const { service, sx = {} } = props;
-  const thumbnail = service?.photos?.[0]?.link || 'https://placehold.co/450x318?text=Not+Found';
+  const thumbnail = getPrimaryPhoto(service?.photos);
 
   return (
     <Card

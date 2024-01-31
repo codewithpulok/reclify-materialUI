@@ -20,6 +20,7 @@ import { paramCase } from 'src/utils/change-case';
 import PostList from '../post-list';
 import PostSearch from '../post-search';
 import PostSort from '../post-sort';
+import PostsFeatured from '../posts-featured';
 
 // ----------------------------------------------------------------------
 
@@ -59,6 +60,10 @@ export default function PostListHomeView() {
       >
         Racklify News
       </Typography>
+
+      {!!posts?.length && !postsLoading && (
+        <PostsFeatured list={posts?.slice(0, 3)} sx={{ mb: { xs: 3, md: 5 } }} />
+      )}
 
       <Stack
         spacing={3}

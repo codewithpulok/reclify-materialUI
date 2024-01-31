@@ -30,7 +30,7 @@ const PayemntCardEditDialog = (props) => {
     const { data, error } = response;
 
     // error state
-    if (error || !data?.isError) {
+    if (error || data?.isError) {
       console.log('Error in updating Payment Card:', response);
       enqueueSnackbar('Error in updating Payment Card!', { variant: 'error' });
     }

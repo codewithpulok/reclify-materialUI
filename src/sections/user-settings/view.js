@@ -24,6 +24,7 @@ import Memberships from './memberships';
 import SettingsService from './service';
 import SettingsCustomerBillings from './settings-customer-billings';
 import SettingsGeneral from './settings-general';
+import SettingsKyc from './settings-kyc';
 import SettingsSecurity from './settings-security';
 import SettingsSellerBillings from './settings-seller-billings';
 import Warehouses from './settings-seller-warehouses';
@@ -69,6 +70,12 @@ export const TABS = [
     value: '#security',
     label: 'Security',
     icon: ICONS.key(),
+  },
+  {
+    value: '#kyc',
+    label: 'KYC',
+    icon: ICONS.kyc(),
+    roles: ['seller', 'customer'],
   },
 ];
 
@@ -158,6 +165,18 @@ const UserSettingsView = () => {
           }
           case 'customer': {
             return <SettingsCustomerBillings />;
+          }
+          default:
+            return <EmptyState />;
+        }
+      }
+      case '#kyc': {
+        switch (user?.userType) {
+          case 'seller': {
+            return <SettingsKyc />;
+          }
+          case 'customer': {
+            return <SettingsKyc />;
           }
           default:
             return <EmptyState />;

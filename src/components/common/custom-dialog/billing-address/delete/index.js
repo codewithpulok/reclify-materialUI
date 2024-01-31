@@ -39,7 +39,7 @@ const BillingAddressDeleteDialog = (props) => {
     const { data, error } = response;
 
     // error state
-    if (error || !data?.isError) {
+    if (error || data?.isError) {
       console.log('Error in deleting billing info:', response);
       enqueueSnackbar('Error in deleting billing info!', { variant: 'error' });
     }

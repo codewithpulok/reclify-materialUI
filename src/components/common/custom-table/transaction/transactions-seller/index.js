@@ -22,11 +22,11 @@ import {
   useTable,
 } from 'src/components/common/table';
 
-import { getTransactionStatusColor, TRANSACTION_STATUS_OPTIONS } from 'src/assets/dummy';
 import {
   CancelTransactionDialog,
   ConfirmTransactionDialog,
 } from 'src/components/common/custom-dialog';
+import { getTransactionStatusColor, transactionStatusOptions } from 'src/constant/transaction';
 import { useDialog } from 'src/hooks/use-dialog';
 import { selectAuth } from 'src/redux-toolkit/features/auth/authSlice';
 import { useAppSelector } from 'src/redux-toolkit/hooks';
@@ -36,7 +36,7 @@ import TransactionRow from '../common/transaction-row';
 
 // ----------------------------------------------------------------------
 
-const STATUS_OPTIONS = [{ value: 'all', label: 'All' }, ...TRANSACTION_STATUS_OPTIONS];
+const STATUS_OPTIONS = [{ value: 'all', label: 'All' }, ...transactionStatusOptions];
 
 const TABLE_HEAD = [
   { id: 'warehouse', label: 'Warehouse' },

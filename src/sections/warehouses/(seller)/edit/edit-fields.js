@@ -1,4 +1,4 @@
-import { MenuItem, Stack } from '@mui/material';
+import { IconButton, MenuItem, Stack, Tooltip } from '@mui/material';
 import Grid from '@mui/material/Grid';
 import InputAdornment from '@mui/material/InputAdornment';
 import { useEffect } from 'react';
@@ -15,19 +15,33 @@ import {
 import {
   AddressField,
   ArrayField,
+  PhotosUploadField,
   PredefinedFields,
   ReferenceTextField,
 } from 'src/components/common/custom-fields';
 import { RHFAccordion, RHFTextField } from 'src/components/common/hook-form';
 import Label from 'src/components/common/label';
-import { WarehousePhotoUpload } from 'src/components/warehouse/upload';
 import { SQUARE_FEET_PER_PALLET } from 'src/constant/pallet';
+import { useBoolean } from 'src/hooks/use-boolean';
+import { selectAuth } from 'src/redux-toolkit/features/auth/authSlice';
+import { useAppSelector } from 'src/redux-toolkit/hooks';
+import { checkValidAddress } from 'src/utils/address';
 import { restrictNegetiveValue } from 'src/utils/form';
 import { fFixedFloat } from 'src/utils/format-number';
+import { ICONS } from '../../config-warehouse';
+import ReviewsList from '../common/reviews';
 
 const WarehouseEditFields = (props) => {
+  const { user } = useAppSelector(selectAuth);
+
+  // conditional state
+  const isImportable = useBoolean(false);
+
+  // form state
   const { watch, getValues, resetField } = useFormContext();
   const regionScope = watch('regionScope');
+  const address = watch('address');
+  const reviews = watch('reviews');
 
   useEffect(() => {
     if (regionScope) {
@@ -38,6 +52,11 @@ const WarehouseEditFields = (props) => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [regionScope]);
 
+  useEffect(() => {
+    isImportable.setValue(checkValidAddress(address));
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [address]);
+
   return (
     <Grid container spacing={1.5}>
       <Grid item xs={12} md={6}>
@@ -47,7 +66,16 @@ const WarehouseEditFields = (props) => {
           </Grid>
 
           <Grid item xs={12}>
-            <AddressField name="address" />
+            <AddressField
+              name="address"
+              actionBtn={
+                isImportable.value ? (
+                  <Tooltip title="Import reviews from Google!">
+                    <IconButton color="primary">{ICONS.import(24)}</IconButton>
+                  </Tooltip>
+                ) : null
+              }
+            />
           </Grid>
 
           <Grid item xs={6}>
@@ -69,10 +97,6 @@ const WarehouseEditFields = (props) => {
                 </MenuItem>
               ))}
             </RHFTextField>
-          </Grid>
-
-          <Grid item xs={12}>
-            <AddressField name="address" />
           </Grid>
 
           <Grid item xs={12}>
@@ -180,6 +204,12 @@ const WarehouseEditFields = (props) => {
                 startAdornment: <InputAdornment position="start">%</InputAdornment>,
               }}
               onChangeMiddleware={restrictNegetiveValue}
+              disabled={user?.membershipId === 'free'}
+              helperText={
+                user?.membershipId === 'free'
+                  ? 'You need to upgrade to a paid membership to add discount'
+                  : undefined
+              }
               fullWidth
             />
           </Grid>
@@ -190,7 +220,7 @@ const WarehouseEditFields = (props) => {
 
           <Grid item xs={12}>
             <Label sx={{ mb: 1 }}>Photos</Label>
-            <WarehousePhotoUpload name="photos" />
+            <PhotosUploadField name="photos" />
           </Grid>
 
           <Grid item xs={12}>
@@ -215,6 +245,7 @@ const WarehouseEditFields = (props) => {
               fields={predefinedFeatures}
               label="Features"
               defaultExpanded
+              showIcon
             />
           </Grid>
           <Grid item xs={12}>
@@ -223,6 +254,7 @@ const WarehouseEditFields = (props) => {
               fields={predefinedApprovedUses}
               label="Approved Uses"
               defaultExpanded
+              showIcon
             />
           </Grid>
           <Grid item xs={12}>
@@ -232,6 +264,10 @@ const WarehouseEditFields = (props) => {
               label="Facility Details"
               defaultExpanded
             />
+          </Grid>
+
+          <Grid item xs={12}>
+            <ReviewsList list={reviews || []} />
           </Grid>
         </Grid>
       </Grid>

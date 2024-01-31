@@ -14,3 +14,18 @@ export const joinAddressObj = (address) => {
 
   return addressArr.join(', ');
 };
+
+/**
+ * Check valid address or not
+ * @param {Address} address
+ */
+export const checkValidAddress = (address) => {
+  if (!address?.street2) return false;
+  if (!address?.street1) return false;
+  if (!address?.zipCode) return false;
+  if (!address?.city) return false;
+  if (!address?.state) return false;
+  if (!address?.country) return false;
+
+  return true;
+};

@@ -1,5 +1,5 @@
 import PropTypes from 'prop-types';
-import { useCallback, useEffect, useMemo, useState } from 'react';
+import { useCallback, useMemo, useState } from 'react';
 
 import Button from '@mui/material/Button';
 import Card from '@mui/material/Card';
@@ -12,44 +12,28 @@ import { useBoolean } from 'src/hooks/use-boolean';
 
 import PlanCard from 'src/components/user-settings/cards/plan-card';
 
-import { card as creditCards } from 'creditcards';
-import {
-  BillingAddressListDialog,
-  PaymentCardListDialog,
-  SubscriptionPaymentDialog,
-} from 'src/components/common/custom-dialog';
-import { joinAddressObj } from 'src/utils/address';
-import { ICONS } from '../config-settings';
+import { SubscriptionPaymentDialog } from 'src/components/common/custom-dialog';
 
 // ----------------------------------------------------------------------
 
-const BillingPlanProps = {
+const Props = {
   /** @type {Plan[]} */
   plans: PropTypes.array,
-  /** @type {PaymentCard} */
-  primaryCard: PropTypes.object,
-  /** @type {BillingAddress} */
-  primaryBillingInfo: PropTypes.object,
 };
 
 /**
  * Billing plans
- * @param {BillingPlanProps} props
+ * @param {Props} props
  * @returns
  */
 const BillingPlan = (props) => {
-  const { plans, primaryBillingInfo, primaryCard } = props;
+  const { plans } = props;
 
   const currentPlan = useMemo(() => plans.filter((plan) => plan.primary)[0].subscription, [plans]);
 
-  const openAddress = useBoolean();
-  const openCards = useBoolean();
   const openPaymentForm = useBoolean();
 
   const [selectedPlan, setSelectedPlan] = useState(currentPlan);
-
-  const [selectedBillingInfo, setSelectedBillingInfo] = useState(undefined);
-  const [selectedCard, setSelectedCard] = useState(undefined);
 
   const handleSelectPlan = useCallback(
     (newValue) => {
@@ -60,14 +44,6 @@ const BillingPlan = (props) => {
     [currentPlan]
   );
 
-  const handleSelectAddress = useCallback((newValue) => {
-    setSelectedBillingInfo(newValue);
-  }, []);
-
-  const handleSelectCard = useCallback((newValue) => {
-    setSelectedCard(newValue);
-  }, []);
-
   const renderPlans = plans.map((plan) => (
     <Grid xs={12} md={4} key={plan.subscription}>
       <PlanCard
@@ -77,16 +53,6 @@ const BillingPlan = (props) => {
       />
     </Grid>
   ));
-
-  // handle loading, empty, success state for billng info
-  useEffect(() => {
-    setSelectedBillingInfo(primaryBillingInfo);
-  }, [primaryBillingInfo]);
-
-  // handle loading, empty, success state for card
-  useEffect(() => {
-    setSelectedCard(primaryCard);
-  }, [primaryCard]);
 
   return (
     <>
@@ -106,64 +72,6 @@ const BillingPlan = (props) => {
               {selectedPlan || '-'}
             </Grid>
           </Grid>
-
-          <Grid container spacing={{ xs: 0.5, md: 2 }} alignItems="center">
-            <Grid xs={12} md={4} sx={{ color: 'text.secondary' }}>
-              Billing name
-            </Grid>
-            <Grid xs={12} md={8}>
-              <Button
-                onClick={openAddress.onTrue}
-                endIcon={ICONS.showMore(16)}
-                variant="outlined"
-                size="small"
-                sx={{ typography: 'subtitle2' }}
-                disabled={selectedBillingInfo === undefined}
-              >
-                {selectedBillingInfo === undefined && 'Loading'}
-                {selectedBillingInfo !== undefined && !selectedBillingInfo && 'Not Selected'}
-                {selectedBillingInfo && selectedBillingInfo?.fullName}
-              </Button>
-            </Grid>
-          </Grid>
-
-          <Grid container spacing={{ xs: 0.5, md: 2 }}>
-            <Grid xs={12} md={4} sx={{ color: 'text.secondary' }}>
-              Billing address
-            </Grid>
-            <Grid xs={12} md={8} sx={{ color: 'text.secondary' }}>
-              {joinAddressObj(selectedBillingInfo?.address) || '-'}
-            </Grid>
-          </Grid>
-
-          <Grid container spacing={{ xs: 0.5, md: 2 }}>
-            <Grid xs={12} md={4} sx={{ color: 'text.secondary' }}>
-              Billing phone number
-            </Grid>
-            <Grid xs={12} md={8} sx={{ color: 'text.secondary' }}>
-              {selectedBillingInfo?.phoneNumber || '-'}
-            </Grid>
-          </Grid>
-
-          <Grid container spacing={{ xs: 0.5, md: 2 }} alignItems="center">
-            <Grid xs={12} md={4} sx={{ color: 'text.secondary' }}>
-              Payment method
-            </Grid>
-            <Grid xs={12} md={8}>
-              <Button
-                onClick={openCards.onTrue}
-                endIcon={ICONS.showMore(16)}
-                variant="outlined"
-                size="small"
-                sx={{ typography: 'subtitle2' }}
-                disabled={selectedCard === undefined}
-              >
-                {selectedCard === undefined && 'Loading'}
-                {selectedCard !== undefined && !selectedCard && 'Not Selected'}
-                {selectedCard && creditCards.format(selectedCard?.cardNumber)}
-              </Button>
-            </Grid>
-          </Grid>
         </Stack>
 
         <Divider sx={{ borderStyle: 'dashed' }} />
@@ -181,25 +89,11 @@ const BillingPlan = (props) => {
         </Stack>
       </Card>
 
-      <PaymentCardListDialog
-        open={openCards.value}
-        onClose={openCards.onFalse}
-        selected={(selectedId) => selectedCard?.id === selectedId}
-        onSelect={handleSelectCard}
-      />
-
-      <BillingAddressListDialog
-        open={openAddress.value}
-        onClose={openAddress.onFalse}
-        selected={(selectedId) => selectedBillingInfo?.id === selectedId}
-        onSelect={handleSelectAddress}
-      />
-
       <SubscriptionPaymentDialog open={openPaymentForm.value} onClose={openPaymentForm.onFalse} />
     </>
   );
 };
 
-BillingPlan.propTypes = BillingPlanProps;
+BillingPlan.propTypes = Props;
 
 export default BillingPlan;

@@ -88,6 +88,20 @@ const WarehouseBooking = (props) => {
     return 0;
   }, [totalPrice, warehouse.discountRate]);
 
+  const totalPricePerMonth = useMemo(() => {
+    if (requiredSpace && currentPrice) {
+      return requiredSpace * currentPrice;
+    }
+    return undefined;
+  }, [requiredSpace, currentPrice]);
+
+  const discountPerMonth = useMemo(() => {
+    if (warehouse.discountRate && totalPricePerMonth) {
+      return (warehouse.discountRate / 100) * totalPricePerMonth;
+    }
+    return 0;
+  }, [totalPricePerMonth, warehouse.discountRate]);
+
   // open payment dialog
   const openPaymentDialog = useCallback(() => {
     paymentDialog.onOpen({
@@ -96,6 +110,7 @@ const WarehouseBooking = (props) => {
       month: selectedMonth,
       total: totalPrice,
       price: currentPrice,
+      due: totalPrice,
     });
   }, [currentPrice, paymentDialog, requiredSpace, selectedMonth, totalPrice, warehouse]);
 
@@ -247,9 +262,24 @@ const WarehouseBooking = (props) => {
           <Typography variant="overline" color="text.secondary">
             Price Per Month:
           </Typography>
-          <Typography variant="overline" color="text.secondary" ml={1}>
-            {currentPrice ? fCurrency(currentPrice) : '$0.00'}
+          <Typography
+            variant="overline"
+            ml={1}
+            color={discountPerMonth > 0 ? 'secondary.main' : 'text.secondary'}
+          >
+            {totalPricePerMonth !== undefined
+              ? fCurrency(totalPricePerMonth - discountPerMonth)
+              : '$0.00'}
           </Typography>
+          {discountPerMonth > 0 ? (
+            <Typography
+              variant="overline"
+              color="text.disabled"
+              sx={{ textDecoration: 'line-through' }}
+            >
+              {` ${fCurrency(totalPricePerMonth)} `}
+            </Typography>
+          ) : null}
         </Stack>
 
         {showPurchase ? (
@@ -263,7 +293,7 @@ const WarehouseBooking = (props) => {
             sx={{ mt: 1.5 }}
             fullWidth
           >
-            Purchase
+            Reserve
           </Button>
         ) : null}
       </Card>

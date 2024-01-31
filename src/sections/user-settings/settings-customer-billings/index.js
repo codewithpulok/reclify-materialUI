@@ -2,6 +2,7 @@ import { Grid } from '@mui/material';
 
 import { useEffect } from 'react';
 import { getInvoicesByUserId } from 'src/assets/dummy';
+import { achInfos } from 'src/assets/dummy/ach';
 import { selectAuth } from 'src/redux-toolkit/features/auth/authSlice';
 import { useAppSelector } from 'src/redux-toolkit/hooks';
 import { useBillingInfoPrimaryQuery } from 'src/redux-toolkit/services/billingInfoApi';
@@ -16,6 +17,17 @@ const SettingsCustomerBillings = (props) => {
   // api state
   const primaryBillingInfoResponse = useBillingInfoPrimaryQuery();
   const primaryCardResponse = useCardPrimaryQuery();
+  const primaryACHResponse = {
+    isLoading: false,
+    isError: false,
+    isSuccess: true,
+    data: {
+      /** @type {ACHType} */
+      results: achInfos[0],
+      success: true,
+    },
+    refetch: () => {},
+  };
 
   const userInvoices = getInvoicesByUserId('2') || getInvoicesByUserId(user?.id);
 
@@ -24,6 +36,7 @@ const SettingsCustomerBillings = (props) => {
     if (user?.id) {
       primaryBillingInfoResponse.refetch();
       primaryCardResponse.refetch();
+      primaryACHResponse.refetch();
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [user]);
@@ -34,6 +47,7 @@ const SettingsCustomerBillings = (props) => {
         <BillingInfo
           primaryCard={primaryCardResponse?.data?.results}
           primaryBillingInfo={primaryBillingInfoResponse?.data?.results}
+          primaryACH={primaryACHResponse?.data?.results}
         />
       </Grid>
 

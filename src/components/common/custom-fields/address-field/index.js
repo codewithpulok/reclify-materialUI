@@ -20,6 +20,7 @@ import Fields from './fields';
 
 const AddressFieldProps = {
   name: PropTypes.string.isRequired,
+  actionBtn: PropTypes.node,
 };
 
 /**
@@ -27,16 +28,21 @@ const AddressFieldProps = {
  * @returns {JSX.Element}
  */
 const AddressField = (props) => {
-  const { name } = props;
+  const { name, actionBtn = null } = props;
 
+  // api state
   const [searchAddress, results] = useLazyAddressSearchQuery();
 
+  // logic state
   const addressCollapse = useBoolean(false);
-  const { watch, setValue } = useFormContext();
-  const addressValue = watch(name);
-
   const isEditable = useBoolean(true);
 
+  // form state
+  const { watch, setValue, formState } = useFormContext();
+  const { errors } = formState;
+  const addressValue = watch(name);
+
+  // search for address while changing the input
   const handleInputChange = useMemo(
     () =>
       debounce((_event, newValue) => {
@@ -47,6 +53,7 @@ const AddressField = (props) => {
     [searchAddress]
   );
 
+  // handle opiton select from autocomplete
   const handleOptionChange = useCallback(
     (_event, newValue) => {
       const option = { ...newValue };
@@ -58,6 +65,7 @@ const AddressField = (props) => {
     [name, setValue]
   );
 
+  // make state editable or not
   useEffect(() => {
     if (addressValue?.id === undefined) {
       isEditable.onTrue();
@@ -112,6 +120,7 @@ const AddressField = (props) => {
                   </>
                 ),
               }}
+              error={Object.keys(errors?.[name] || {}).length}
             />
           )}
           onChange={handleOptionChange}
@@ -123,6 +132,8 @@ const AddressField = (props) => {
             {addressCollapse.value ? ICONS.close() : ICONS.edit()}
           </IconButton>
         )}
+        {/* custom action button */}
+        {actionBtn}
       </Stack>
       <Collapse in={addressCollapse.value && isEditable.value} sx={{ mt: 1 }}>
         <Fields name={name} value={addressValue} />

@@ -81,11 +81,11 @@ const HotDealsView = (props) => {
     <Container maxWidth={settings.themeStretch ? false : 'xl'}>
       <Stack mb={5} spacing={5}>
         <CustomBreadcrumbs
-          heading="Hot Deals"
+          heading="Hot Racks"
           links={[
             { name: 'Dashboard', href: paths.dashboard.root },
             { name: 'Warehouses', href: paths.dashboard.warehouses.root },
-            { name: 'Hot Deals' },
+            { name: 'Hot Racks' },
           ]}
         />
 

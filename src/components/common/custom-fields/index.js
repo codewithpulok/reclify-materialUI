@@ -9,3 +9,6 @@ export { default as PredefinedFields } from './predefined-fields';
 // address field
 export { default as AddressField } from './address-field';
 export { addressFieldSchema } from './address-field/schema';
+
+// photos upload field
+export { default as PhotosUploadField } from './photos-upload-field';

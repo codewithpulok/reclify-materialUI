@@ -30,7 +30,7 @@ const BillingAddressEditDialog = (props) => {
     const { data, error } = response;
 
     // error state
-    if (error || !data?.isError) {
+    if (error || data?.isError) {
       console.log('Error in updating billing info:', response);
       enqueueSnackbar('Error in updating billing info!', { variant: 'error' });
     }

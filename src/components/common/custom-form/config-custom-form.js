@@ -8,11 +8,9 @@ export const CustomFormProps = {
   /** action button for form */
   actions: PropTypes.node,
   /** @type {(data: any, error: false, reset: (values) => {}) => {}} */
-  successCallback: PropTypes.func,
-  /** @type {(data: any, error: Object, reset: (values) => {}) => {}} */
-  failedCallback: PropTypes.func,
   /** @type {(data: any, reset: (values) => {}) => {}} */
   submitCallback: PropTypes.func,
+  cancelCallback: PropTypes.func,
   /** @type {SxProps} */
   sx: PropTypes.object,
 };

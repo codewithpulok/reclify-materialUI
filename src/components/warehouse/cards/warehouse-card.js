@@ -1,4 +1,5 @@
 import {
+  Avatar,
   Box,
   Card,
   CardActionArea,
@@ -15,13 +16,13 @@ import PropTypes from 'prop-types';
 // local components
 import Image from 'src/components/common/image';
 import Label from 'src/components/common/label';
-import { PLACEHOLDER_WAREHOUSE_IMAGE } from 'src/config-global';
 import { selectAuth } from 'src/redux-toolkit/features/auth/authSlice';
 import { useAppSelector } from 'src/redux-toolkit/hooks';
 import { paths } from 'src/routes/paths';
 import WarehouseAdminMenu from 'src/sections/warehouses/details/warehouse-admin-menu';
 import WarehouseDiamond from 'src/sections/warehouses/details/warehouse-diamond';
 import { joinAddressObj } from 'src/utils/address';
+import { getPrimaryPhoto } from 'src/utils/photos';
 import { ICONS } from '../config-warehouse';
 
 const Props = {
@@ -41,7 +42,7 @@ const Props = {
 const WarehouseCard = (props) => {
   const router = useRouter();
   const { warehouse, onDelete = () => {}, hasControl = false, sx = {} } = props;
-  const thumbnail = warehouse?.photos?.[0]?.link || PLACEHOLDER_WAREHOUSE_IMAGE;
+  const thumbnail = getPrimaryPhoto(warehouse?.photos);
 
   const { user } = useAppSelector(selectAuth);
 
@@ -60,15 +61,17 @@ const WarehouseCard = (props) => {
         </Box>
 
         <CardContent sx={{ position: 'relative' }}>
-          <Typography gutterBottom variant="h5">
-            {warehouse.name}
-
+          <Stack direction="row" alignItems="center" spacing={0.3}>
+            {warehouse?.seller?.logo && (
+              <Avatar src={warehouse?.seller?.logo} sx={{ width: 20, height: 20 }} />
+            )}
+            <Typography variant="h5">{warehouse.name}</Typography>
             {warehouse.isVerified ? (
               <Tooltip title="Verified" placement="top" arrow>
-                {ICONS.verified(18, { ml: 0.3, color: 'primary.main', lineHeight: '1' })}
+                {ICONS.verified(18, { color: 'primary.main', lineHeight: '1' })}
               </Tooltip>
             ) : null}
-          </Typography>
+          </Stack>
           <Typography
             variant="body2"
             color="text.secondary"
@@ -173,9 +176,7 @@ const WarehouseCard = (props) => {
         {user?.userType === 'admin' && (
           <Box sx={{ bgcolor: 'rgba(255,255,255,1)', borderRadius: 5 }}>
             <WarehouseAdminMenu
-              isVerified={warehouse?.isVerified}
-              isFeatured={warehouse?.isFeatured}
-              isVisible={warehouse?.visible}
+              warehouse={warehouse}
               id={warehouse?.id}
               iconBtnProps={{ color: 'primary' }}
             />

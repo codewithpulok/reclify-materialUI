@@ -39,7 +39,7 @@ const PaymentCardDeleteDialog = (props) => {
     const { data, error } = response;
 
     // error state
-    if (error || !data?.isError) {
+    if (error || data?.isError) {
       console.log('Error in deleting Payment Card:', response);
       enqueueSnackbar('Error in deleting Payment Card!', { variant: 'error' });
     }

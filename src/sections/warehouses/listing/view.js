@@ -13,7 +13,8 @@ import { useWarehouseListQuery } from 'src/redux-toolkit/services/warehouseApi';
 import { RouterLink } from 'src/routes/components';
 import { paths } from 'src/routes/paths';
 import { ICONS } from '../config-warehouse';
-import WarehouseCarousel from './warehouse-carousel';
+import WarehouseCarousel from './warehouse-carousel/warehouse-carousel';
+import WarehouseFeaturedCarousel from './warehouse-carousel/warehouse-featured-carousel';
 
 // ----------------------------------------------------------------------
 
@@ -43,7 +44,10 @@ export default function ListingView() {
       if (warehousesResponse.isSuccess && warehouses.length) {
         return (
           <Grid item xs={12}>
-            <WarehouseCarousel data={warehouses} />
+            <Stack spacing={5}>
+              <WarehouseFeaturedCarousel data={warehouses} />
+              <WarehouseCarousel data={warehouses} />
+            </Stack>
           </Grid>
         );
       }
@@ -90,7 +94,7 @@ export default function ListingView() {
           }}
         >
           {ICONS.hot_deals(28, { color: 'secondary.main' })}
-          <Typography variant="h4">Hot Deals</Typography>
+          <Typography variant="h4">Hot Racks</Typography>
 
           <Button
             LinkComponent={RouterLink}

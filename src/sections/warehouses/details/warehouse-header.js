@@ -1,4 +1,4 @@
-import { Box, Button, Chip, IconButton, Rating, Stack, Typography } from '@mui/material';
+import { Avatar, Box, Button, Chip, IconButton, Rating, Stack, Typography } from '@mui/material';
 import { useRouter } from 'next/navigation';
 import PropTypes from 'prop-types';
 
@@ -118,12 +118,7 @@ const WarehouseHeader = (props) => {
       >
         {/* admin action menu */}
         {user?.userType === 'admin' && (
-          <WarehouseAdminMenu
-            isVerified={warehouse?.isVerified}
-            isFeatured={warehouse?.isFeatured}
-            isVisible={warehouse?.visible}
-            id={warehouse?.id}
-          />
+          <WarehouseAdminMenu warehouse={warehouse} id={warehouse?.id} />
         )}
       </Stack>
     </Stack>
@@ -135,7 +130,11 @@ const WarehouseHeader = (props) => {
         {ICONS.back(32)}
       </IconButton>
 
-      <Typography variant="h2">{name}</Typography>
+      <Stack direction="row" alignItems="center" spacing={1}>
+        {warehouse?.seller?.logo && <Avatar src={warehouse?.seller?.logo} />}
+        <Typography variant="h2">{name}</Typography>
+      </Stack>
+
       <Stack direction="row" spacing={1.5} alignItems="center" mb={2} flexWrap="wrap">
         <Typography variant="body2">{joinAddressObj(address)}</Typography>
         {region && <Label>{region}</Label>}

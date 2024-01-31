@@ -10,6 +10,7 @@ import { useResponsive } from 'src/hooks/use-responsive';
 import { useSettingsContext } from 'src/components/common/settings';
 
 import { SnackbarProvider } from 'src/components/common/snackbar';
+import Footer from '../main/footer';
 import Header from './header';
 import Main from './main';
 import NavHorizontal from './nav-horizontal';
@@ -43,6 +44,8 @@ export default function DashboardLayout({ children }) {
         {lgUp ? renderHorizontal : renderNavVertical}
 
         <Main>{children}</Main>
+
+        <Footer />
       </SnackbarProvider>
     );
   }
@@ -63,6 +66,8 @@ export default function DashboardLayout({ children }) {
 
           <Main>{children}</Main>
         </Box>
+
+        <Footer />
       </SnackbarProvider>
     );
   }
@@ -82,6 +87,8 @@ export default function DashboardLayout({ children }) {
 
         <Main>{children}</Main>
       </Box>
+
+      <Footer />
     </SnackbarProvider>
   );
 }

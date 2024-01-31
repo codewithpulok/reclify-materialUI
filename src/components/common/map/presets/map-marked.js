@@ -29,7 +29,7 @@ const MapMarked = (props) => {
   );
 
   return (
-    <Map initialViewState={{ ...initialViewState, ...initialPosition }} {...other}>
+    <Map initialViewState={{ ...initialViewState, ...initialPosition,  }} {...other}>
       <MapControl />
 
       {marked ? (
