@@ -46,7 +46,7 @@ const WarehouseCard = (props) => {
 
   const { user } = useAppSelector(selectAuth);
 
-  return (
+  const content = (
     <Card
       className="card"
       sx={{
@@ -54,6 +54,7 @@ const WarehouseCard = (props) => {
       }}
     >
       <CardActionArea
+        sx={{ bgcolor: 'background.neutral' }}
         onClick={() => router.push(`${paths.dashboard.warehouses.root}/${warehouse.id}`)}
       >
         <Box width="100%" sx={{ position: 'relative' }}>
@@ -184,6 +185,20 @@ const WarehouseCard = (props) => {
         )}
       </Stack>
     </Card>
+  );
+
+  return warehouse?.isFeatured ? (
+    <Box
+      sx={{
+        p: 0.5,
+        borderRadius: 2,
+      }}
+      className="glow"
+    >
+      {content}
+    </Box>
+  ) : (
+    content
   );
 };
 

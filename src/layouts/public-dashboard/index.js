@@ -19,7 +19,7 @@ import NavVertical from './nav-vertical';
 
 // ----------------------------------------------------------------------
 
-export default function DashboardLayout({ children }) {
+export default function PublicDashboardLayout({ children }) {
   const settings = useSettingsContext();
 
   const lgUp = useResponsive('up', 'lg');
@@ -96,6 +96,6 @@ export default function DashboardLayout({ children }) {
   );
 }
 
-DashboardLayout.propTypes = {
+PublicDashboardLayout.propTypes = {
   children: PropTypes.node,
 };

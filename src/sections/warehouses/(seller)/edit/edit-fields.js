@@ -204,9 +204,9 @@ const WarehouseEditFields = (props) => {
                 startAdornment: <InputAdornment position="start">%</InputAdornment>,
               }}
               onChangeMiddleware={restrictNegetiveValue}
-              disabled={user?.membershipId === 'free'}
+              disabled={user?.planId === 'free'}
               helperText={
-                user?.membershipId === 'free'
+                user?.planId === 'free'
                   ? 'You need to upgrade to a paid membership to add discount'
                   : undefined
               }

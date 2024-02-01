@@ -7,9 +7,25 @@ import Tooltip from '@mui/material/Tooltip';
 import DownloadButton from './download-button';
 import { fileData, fileFormat, fileThumb } from './utils';
 
+const Props = {
+  file: PropTypes.oneOfType([PropTypes.string, PropTypes.object]),
+  imageView: PropTypes.bool,
+  /** @type {SxProps} */
+  imgSx: PropTypes.object,
+  onDownload: PropTypes.func,
+  /** @type {SxProps} */
+  sx: PropTypes.object,
+  tooltip: PropTypes.bool,
+};
+
 // ----------------------------------------------------------------------
 
-export default function FileThumbnail({ file, tooltip, imageView, onDownload, sx, imgSx }) {
+/**
+ * @param {Props} props
+ * @returns {JSX.Element}
+ */
+export default function FileThumbnail(props) {
+  const { file, tooltip, imageView, onDownload, sx, imgSx } = props;
   const { name = '', path = '', preview = '' } = fileData(file);
 
   const format = fileFormat(path || preview);
@@ -68,11 +84,4 @@ export default function FileThumbnail({ file, tooltip, imageView, onDownload, sx
   );
 }
 
-FileThumbnail.propTypes = {
-  file: PropTypes.oneOfType([PropTypes.string, PropTypes.object]),
-  imageView: PropTypes.bool,
-  imgSx: PropTypes.object,
-  onDownload: PropTypes.func,
-  sx: PropTypes.object,
-  tooltip: PropTypes.bool,
-};
+FileThumbnail.propTypes = Props;

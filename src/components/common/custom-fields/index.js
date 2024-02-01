@@ -12,3 +12,7 @@ export { addressFieldSchema } from './address-field/schema';
 
 // photos upload field
 export { default as PhotosUploadField } from './photos-upload-field';
+
+// documents upload field
+export { default as DocumentsUploadField } from './documents-upload-field';
+export { default as DocumentsPreviewList } from './documents-upload-field/preview-list';

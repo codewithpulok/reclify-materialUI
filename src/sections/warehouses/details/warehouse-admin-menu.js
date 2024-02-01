@@ -104,7 +104,7 @@ const WarehouseAdminMenu = (props) => {
         aciton: openFeaturedDialog,
         show: !isFeatured,
         icon: ICONS.featured,
-        disabled: seller?.membershipId === 'free',
+        disabled: seller?.planId === 'free',
       },
       {
         name: 'Remove verified',

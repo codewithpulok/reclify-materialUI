@@ -27,7 +27,7 @@ const AddressCard = (props) => {
       <Stack direction="row" alignItems="center" spacing={1}>
         <Typography variant="subtitle2">{address.name}</Typography>
 
-        {address.primary && <Label color="info">Default</Label>}
+        {address.primary && <Label color="info">Primary</Label>}
       </Stack>
 
       {address.company && (

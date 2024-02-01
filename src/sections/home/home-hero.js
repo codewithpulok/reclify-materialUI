@@ -83,7 +83,7 @@ export default function HomeHero() {
       <Stack sx={{ mt: 6, mb: 4 }}>
         <MotionButton
           LinkComponent={Link}
-          href={paths.auth.register}
+          href={paths.warehouses.root}
           variant="contained"
           color="primary"
           startIcon={getIconify('ion:rocket', 24)}
