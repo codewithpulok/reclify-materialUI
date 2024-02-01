@@ -36,7 +36,7 @@ const schema = {
   price3: Yup.number().label('Price for 3 month').min(0).required(),
   price6: Yup.number().label('Price for 6 month').min(0).required(),
   price12: Yup.number().label('Price for 12 month').min(0).required(),
-  discountRate: Yup.number().label('Discount Rate').min(0).max(100).default(0).notRequired(),
+  discountRate: Yup.number().label('Discount Rate').min(0).max(100).notRequired(),
   maxSpaceOrder: Yup.number()
     .label('Max orderable space')
     .optional()
@@ -92,6 +92,7 @@ const schema = {
   description: Yup.string().required('Description is required'),
   photos: Yup.array(
     Yup.object().shape({
+      id: Yup.string().required('Photo id is required'),
       title: Yup.string().required('Photo title is required'),
       link: Yup.string().required('Photo url is required'),
     })

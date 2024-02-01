@@ -11,31 +11,31 @@ export const serviceTypes = [
     subtypes: [
       {
         value: 'freight',
-        label: 'Freight Forwarders',
+        label: 'Freight Forwarder',
       },
       {
         value: 'air',
-        label: 'Air Cargo Services',
+        label: 'Air Cargo Service',
       },
       {
         value: 'rail',
-        label: 'Rail Freight Services',
+        label: 'Rail Freight Service',
       },
       {
         value: 'courier',
-        label: 'Courier and White Glove Delivery Services',
+        label: 'Courier and White Glove Delivery Service',
       },
       {
         value: 'intermodal',
-        label: 'Intermodal Transportation Providers',
+        label: 'Intermodal Transportation Provider',
       },
       {
         value: 'last',
-        label: 'Last-Mile Delivery Services',
+        label: 'Last-Mile Delivery Service',
       },
       {
         value: 'refrigerated',
-        label: 'Refrigerated Transport Services',
+        label: 'Refrigerated Transport Service',
       },
       {
         value: 'trucking',
@@ -47,23 +47,23 @@ export const serviceTypes = [
       },
       {
         value: 'drayage',
-        label: 'Drayage Services',
+        label: 'Drayage Service',
       },
       {
         value: 'ocean',
-        label: 'Ocean Freight Services',
+        label: 'Ocean Freight Service',
       },
       {
         value: 'freight-cons',
-        label: 'Freight Consolidators',
+        label: 'Freight Consolidator',
       },
       {
         value: 'customs',
-        label: 'Customs Brokers',
+        label: 'Customs Broker',
       },
       {
         value: 'parcel',
-        label: 'Parcel Carriers',
+        label: 'Parcel Carrier',
       },
       {
         value: 'owneroperator',
@@ -118,7 +118,7 @@ export const serviceTypes = [
       },
       {
         value: 'ecommerce',
-        label: 'Ecommerce Seller Softwares',
+        label: 'Ecommerce Seller Software',
       },
       {
         value: 'website',
@@ -137,7 +137,7 @@ export const serviceTypes = [
     subtypes: [
       {
         value: 'packaging-mate',
-        label: 'Packaging Material Suppliers',
+        label: 'Packaging Material Supplier',
       },
       {
         value: 'custom',
@@ -145,19 +145,19 @@ export const serviceTypes = [
       },
       {
         value: 'production',
-        label: 'Production Machinery Suppliers',
+        label: 'Production Machinery Supplier',
       },
       {
         value: 'adhesive',
-        label: 'Adhesive and Tape Suppliers',
+        label: 'Adhesive and Tape Supplier',
       },
       {
         value: 'drum',
-        label: 'Drum and Barrel Suppliers',
+        label: 'Drum and Barrel Supplier',
       },
       {
         value: 'eco',
-        label: 'Eco-Friendly Packaging Solutions',
+        label: 'Eco-Friendly Packaging Solution',
       },
       {
         value: 'forklift',
@@ -165,19 +165,19 @@ export const serviceTypes = [
       },
       {
         value: 'retail',
-        label: 'Retail Packaging Solutions',
+        label: 'Retail Packaging Solution',
       },
       {
         value: 'packaging-test',
-        label: 'Packaging Testing and Quality Assurance Services',
+        label: 'Packaging Testing and Quality Assurance Service',
       },
       {
         value: 'recycling',
-        label: 'Recycling Services',
+        label: 'Recycling Service',
       },
       {
         value: 'pallet',
-        label: 'Pallet Suppliers',
+        label: 'Pallet Supplier',
       },
     ],
   },
@@ -188,71 +188,71 @@ export const serviceTypes = [
     subtypes: [
       {
         value: 'raw',
-        label: 'Raw Material Suppliers',
+        label: 'Raw Material Supplier',
       },
       {
         value: 'electronics',
-        label: 'Electronics Manufacturers',
+        label: 'Electronics Manufacturer',
       },
       {
         value: 'furniture',
-        label: 'Furniture Manufacturers',
+        label: 'Furniture Manufacturer',
       },
       {
         value: 'chemical',
-        label: 'Chemical Manufacturers',
+        label: 'Chemical Manufacturer',
       },
       {
         value: 'food',
-        label: 'Food and Beverage Manufacturers',
+        label: 'Food and Beverage Manufacturer',
       },
       {
         value: 'plastics',
-        label: 'Plastics Manufacturers',
+        label: 'Plastics Manufacturer',
       },
       {
         value: 'textile',
-        label: 'Textile Manufacturers',
+        label: 'Textile Manufacturer',
       },
       {
         value: 'metal',
-        label: 'Metal Fabricators',
+        label: 'Metal Fabricator',
       },
       {
         value: 'home',
-        label: 'Home Goods Manufacturers',
+        label: 'Home Goods Manufacturer',
       },
       {
         value: 'personal',
-        label: 'Personal Care Product Manufacturers',
+        label: 'Personal Care Product Manufacturer',
       },
       {
         value: 'sporting',
-        label: 'Sporting Goods Manufacturers',
+        label: 'Sporting Goods Manufacturer',
       },
       {
         value: 'medical',
-        label: 'Medical Equipment Manufacturers',
+        label: 'Medical Equipment Manufacturer',
       },
       {
         value: 'toy',
-        label: 'Toy Manufacturers',
+        label: 'Toy Manufacturer',
       },
       {
         value: 'cosmetic',
-        label: 'Cosmetic Product Manufacturers',
+        label: 'Cosmetic Product Manufacturer',
       },
       {
-        value: 'wholesalers',
-        label: 'Wholesalers',
+        value: 'wholesaler',
+        label: 'Wholesaler',
       },
       {
-        value: 'liquidators',
-        label: 'Liquidators',
+        value: 'liquidator',
+        label: 'Liquidator',
       },
       {
-        value: 'retail-chains',
-        label: 'Retail Chains',
+        value: 'retail-chain',
+        label: 'Retail Chain',
       },
     ],
   },
@@ -263,55 +263,55 @@ export const serviceTypes = [
     subtypes: [
       {
         value: 'graphic',
-        label: 'Graphic Design Services',
+        label: 'Graphic Design Service',
       },
       {
         value: 'branding',
-        label: 'Branding Agencies',
+        label: 'Branding Agency',
       },
       {
         value: 'content',
-        label: 'Content Marketing Agencies',
+        label: 'Content Marketing Agency',
       },
       {
         value: 'social',
-        label: 'Social Media Marketing Agencies',
+        label: 'Social Media Marketing Agency',
       },
       {
         value: 'public',
-        label: 'Public Relations Agencies',
+        label: 'Public Relations Agency',
       },
       {
         value: 'copywriting',
-        label: 'Copywriting Services',
+        label: 'Copywriting Service',
       },
       {
         value: 'web',
-        label: 'Web Design and Development Agencies',
+        label: 'Web Design and Development Agency',
       },
       {
         value: 'search',
-        label: 'Search Engine Optimization (SEO) Agencies',
+        label: 'Search Engine Optimization (SEO) Agency',
       },
       {
         value: 'email',
-        label: 'Email Marketing Services',
+        label: 'Email Marketing Service',
       },
       {
         value: 'influencer',
-        label: 'Influencer Marketing Agencies',
+        label: 'Influencer Marketing Agency',
       },
       {
         value: 'event',
-        label: 'Event Planning and Management Services',
+        label: 'Event Planning and Management Service',
       },
       {
         value: 'photography',
-        label: 'Photography Services',
+        label: 'Photography Service',
       },
       {
         value: 'marketing-auto',
-        label: 'Marketing Automation Services',
+        label: 'Marketing Automation Service',
       },
       {
         value: 'trade',
@@ -319,19 +319,19 @@ export const serviceTypes = [
       },
       {
         value: 'podcast',
-        label: 'Podcast Production Services',
+        label: 'Podcast Production Service',
       },
       {
         value: 'media',
-        label: 'Media Buying and Planning Agencies',
+        label: 'Media Buying and Planning Agency',
       },
       {
         value: 'user',
-        label: 'User Experience (UX) Design Services',
+        label: 'User Experience (UX) Design Service',
       },
       {
         value: 'sms',
-        label: 'SMS Marketing Services',
+        label: 'SMS Marketing Service',
       },
       {
         value: 'merchandising',
@@ -346,43 +346,43 @@ export const serviceTypes = [
     subtypes: [
       {
         value: 'logistics',
-        label: 'Logistics Strategy Consultants',
+        label: 'Logistics Strategy Consultant',
       },
       {
         value: 'supply',
-        label: 'Supply Chain Consultants',
+        label: 'Supply Chain Consultant',
       },
       {
         value: 'ecommerce-business',
-        label: 'Ecommerce Business Consultants',
+        label: 'Ecommerce Business Consultant',
       },
       {
         value: 'sustainability',
-        label: 'Sustainability Consultants',
+        label: 'Sustainability Consultant',
       },
       {
         value: 'thirdparty',
-        label: 'Third-Party Logistics (3PL) Consultants',
+        label: 'Third-Party Logistics (3PL) Consultant',
       },
       {
         value: 'lean',
-        label: 'Lean and Six Sigma Consultants',
+        label: 'Lean and Six Sigma Consultant',
       },
       {
         value: 'risk',
-        label: 'Risk Management Consultants',
+        label: 'Risk Management Consultant',
       },
       {
         value: 'customer',
-        label: 'Customer Experience Consultants',
+        label: 'Customer Experience Consultant',
       },
       {
         value: 'market',
-        label: 'Market Entry Strategy Consultants',
+        label: 'Market Entry Strategy Consultant',
       },
       {
         value: 'creative',
-        label: 'Creative Consultancy Services',
+        label: 'Creative Consultancy Service',
       },
     ],
   },

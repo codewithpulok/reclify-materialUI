@@ -59,13 +59,15 @@ const PhotosUploadField = (props) => {
 
   // insert images
   const insertImages = (files = []) => {
-    files.forEach((file) => {
+    const hasPrimary = getPrimary() !== -1;
+
+    files.forEach((file, index) => {
       /**  @type {Photo} */
       const photoObj = {
         id: file.id,
-        title: 'Untitled',
+        title: file.title,
         link: file.link,
-        primary: getPrimary() === -1,
+        primary: !hasPrimary && index === 0,
       };
 
       append(photoObj);
@@ -109,7 +111,7 @@ const PhotosUploadField = (props) => {
 
     if (photoIndex !== -1) {
       if (photo?.primary) removePrimary();
-      
+
       update(photoIndex, photo);
     }
 

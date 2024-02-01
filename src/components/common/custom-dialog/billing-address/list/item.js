@@ -93,7 +93,7 @@ const Item = (props) => {
 
         <Stack className="actions" direction="row" spacing={0.5}>
           <Label color="primary">{billingAddress.addressType}</Label>
-          {billingAddress.primary && <Label color="info">Default</Label>}
+          {billingAddress.primary && <Label color="info">Primary</Label>}
         </Stack>
 
         <Typography variant="body2" sx={{ color: 'text.secondary' }}>

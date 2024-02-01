@@ -81,7 +81,7 @@ export default function ListingView() {
 
             <Button
               LinkComponent={RouterLink}
-              href={paths.dashboard.services[service.value]}
+              href={paths.dashboard.services.type(service.value)}
               variant="soft"
               color="primary"
               sx={{ ml: 'auto' }}

@@ -32,7 +32,7 @@ const PaymentCard = ({ card, sx, ...other }) => {
         <Stack direction="row" alignItems="center" spacing={1}>
           {card.cardType === 'visa' ? ICONS.visacard() : ICONS.mastercard()}
 
-          {card.primary && <Label color="info">Default</Label>}
+          {card.primary && <Label color="info">Primary</Label>}
         </Stack>
 
         <Typography variant="subtitle2">{card.cardNumber}</Typography>

@@ -73,7 +73,7 @@ const Item = (props) => {
         {...other}
       >
         <Stack mb={1.5} direction="row" alignItems="center" spacing={1}>
-          {ach.primary && <Label color="info">Default</Label>}
+          {ach.primary && <Label color="info">Primary</Label>}
         </Stack>
 
         <Typography variant="subtitle1">{ach?.routingNumber}</Typography>

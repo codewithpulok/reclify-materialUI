@@ -1,5 +1,3 @@
-import { getAvailableServiceTypes } from 'src/constant/service-types';
-
 // ----------------------------------------------------------------------
 
 const ROOTS = {
@@ -7,6 +5,8 @@ const ROOTS = {
   DASHBOARD: '/dashboard',
   SETTINGS: '/settings',
   NEWS: '/news',
+  WAREHOUSES: '/warehouses',
+  SERVICES: '/services',
 };
 
 // ----------------------------------------------------------------------
@@ -59,11 +59,7 @@ export const paths = {
       details: (id) => `${ROOTS.DASHBOARD}/services/${id}`,
 
       // services by type
-      ...getAvailableServiceTypes().reduce(
-        (prev, next) =>
-          Object.assign(prev, { [next.value]: `${ROOTS.DASHBOARD}/services/type/${next.value}` }),
-        {}
-      ),
+      type: (type) => `${ROOTS.DASHBOARD}/services/type/${type}`,
     },
 
     // messages section
@@ -94,5 +90,22 @@ export const paths = {
   news: {
     root: ROOTS.NEWS,
     details: (slug) => `${ROOTS.NEWS}/${slug}`,
+  },
+
+  // WAREHOUSES
+  warehouses: {
+    root: `${ROOTS.WAREHOUSES}`,
+    details: (id) => `${ROOTS.WAREHOUSES}/${id}`,
+    hot_deals: `${ROOTS.WAREHOUSES}/hot-deals`,
+    // warehouses by region
+    region: (region) => `${ROOTS.WAREHOUSES}/region/${region}`,
+  },
+
+  // SERVICES
+  services: {
+    root: `${ROOTS.SERVICES}`,
+    details: (id) => `${ROOTS.SERVICES}/${id}`,
+    // services by type
+    type: (type) => `${ROOTS.SERVICES}/type/${type}`,
   },
 };
