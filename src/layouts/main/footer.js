@@ -159,4 +159,4 @@ export default function Footer(props) {
   );
 }
 
-Footer.propType = Props;
+Footer.propTypes = Props;
