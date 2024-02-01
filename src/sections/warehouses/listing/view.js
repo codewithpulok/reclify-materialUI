@@ -4,7 +4,7 @@ import { Button, Grid, Stack, Typography } from '@mui/material';
 import Container from '@mui/material/Container';
 import { useCallback, useMemo } from 'react';
 // local components
-import { regions } from 'src/assets/data';
+import { usRegions } from 'src/assets/data';
 import { EmptyState, ErrorState } from 'src/components/common/custom-state';
 import { getIconify } from 'src/components/common/iconify/utilities';
 import { useSettingsContext } from 'src/components/common/settings';
@@ -73,7 +73,7 @@ export default function ListingView() {
   // warehouse based on region
   const regionWarehouses = useMemo(
     () =>
-      regions.reduce((prev, next) => {
+      usRegions.reduce((prev, next) => {
         prev[next.code] =
           warehousesResponse?.data?.results instanceof Array
             ? warehousesResponse.data?.results.filter((w) => w.region === next.code && w.visible)
@@ -112,7 +112,7 @@ export default function ListingView() {
         </Grid>
       </Stack>
 
-      {regions.map((region) => (
+      {usRegions.map((region) => (
         <Stack mb={5} spacing={5} key={region.code}>
           <Stack
             sx={{

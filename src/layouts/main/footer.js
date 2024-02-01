@@ -11,6 +11,7 @@ import { alpha } from '@mui/material/styles';
 import { RouterLink } from 'src/routes/components';
 import { paths } from 'src/routes/paths';
 
+import PropTypes from 'prop-types';
 import { getSocialBrand, socials } from 'src/assets/data';
 import Iconify from 'src/components/common/iconify';
 import Logo from 'src/components/common/logo';
@@ -39,15 +40,26 @@ const LINKS = [
   },
 ];
 
+const Props = {
+  /** @type {SxProps} */
+  sx: PropTypes.object,
+};
+
 // ----------------------------------------------------------------------
 
-export default function Footer() {
-  const mainFooter = (
+/**
+ * @param {Props} props
+ * @returns {JSX.Element}
+ */
+export default function Footer(props) {
+  const { sx = {} } = props;
+  return (
     <Box
       component="footer"
       sx={{
         position: 'relative',
         bgcolor: 'background.default',
+        ...sx,
       }}
     >
       <Divider />
@@ -145,6 +157,6 @@ export default function Footer() {
       </Container>
     </Box>
   );
-
-  return mainFooter;
 }
+
+Footer.propType = Props;

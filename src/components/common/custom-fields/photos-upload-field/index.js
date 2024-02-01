@@ -65,7 +65,7 @@ const PhotosUploadField = (props) => {
       /**  @type {Photo} */
       const photoObj = {
         id: file.id,
-        title: 'Untitled',
+        title: file.title,
         link: file.link,
         primary: !hasPrimary && index === 0,
       };

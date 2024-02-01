@@ -22,14 +22,14 @@ export const usRegions = [
   {
     name: 'West',
     code: 'West',
-    icon: 'ri:progress-2-line',
-    rotate: 3,
+    icon: 'radix-icons:half-2',
+    rotate: 0,
     states: ['MT', 'WY', 'CO', 'NM', 'ID', 'UT', 'AZ', 'WA', 'OR', 'CA', 'NV'],
   },
   {
     name: 'South',
     code: 'south',
-    icon: 'ri:progress-2-line',
+    icon: 'radix-icons:half-2',
     rotate: 1,
     states: [
       'OK',
@@ -51,12 +51,18 @@ export const usRegions = [
       'FL',
     ],
   },
-  { name: 'Alaska/Hawaii', code: 'alaska-hawai', icon: undefined, rotate: 1, states: ['AK', 'HI'] },
+  {
+    name: 'Alaska/Hawaii',
+    code: 'alaska-hawai',
+    icon: 'circle-flags:us-ak',
+    rotate: 0,
+    states: ['AK', 'HI'],
+  },
   {
     name: 'Territories',
     code: 'territories',
-    icon: undefined,
-    rotate: 1,
+    icon: 'emojione-monotone:flag-for-us-virgin-islands',
+    rotate: 0,
     states: ['AS', 'MP', 'GU', 'PR', 'VI'],
   },
 ];
@@ -86,15 +92,6 @@ export const getRegionsByScope = (code) => {
 // ----------------------------------------------------
 // ----------------------------------------------------
 // ----------------------------------------------------
-
-/** @type {RegionType[]} */
-export const regions = [
-  { name: 'Northeast', code: 'northeast', icon: 'ri:progress-2-line', rotate: 0 },
-  { name: 'Northwest', code: 'northwest', icon: 'ri:progress-2-line', rotate: 3 },
-  { name: 'Midwest', code: 'midwest', icon: 'ri:progress-8-line' },
-  { name: 'Southeast', code: 'southeast', icon: 'ri:progress-2-line', rotate: 1 },
-  { name: 'Southwest', code: 'southwest', icon: 'ri:progress-2-line', rotate: 2 },
-];
 
 /**
  * get region by region code

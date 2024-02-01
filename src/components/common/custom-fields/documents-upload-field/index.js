@@ -34,7 +34,7 @@ const DocumentsUploadField = (props) => {
       /**  @type {Photo} */
       const obj = {
         id: file.id,
-        title: 'Untitled',
+        title: file.title,
         link: file.link,
       };
 

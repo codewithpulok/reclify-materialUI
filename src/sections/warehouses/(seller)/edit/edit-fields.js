@@ -1,10 +1,11 @@
-import { IconButton, MenuItem, Stack, Tooltip } from '@mui/material';
+import { IconButton, InputAdornment, MenuItem, Stack, Tooltip } from '@mui/material';
 import Grid from '@mui/material/Grid';
-import InputAdornment from '@mui/material/InputAdornment';
 import { useEffect } from 'react';
 import { useFormContext } from 'react-hook-form';
 // local components
 import {
+  getRegionByStateCode,
+  getRegionScope,
   getRegionsByScope,
   predefinedApprovedUses,
   predefinedFacility,
@@ -12,9 +13,11 @@ import {
   predefinedServices,
   regionScopes,
 } from 'src/assets/data';
+import { getCountryByLabel, getStateByLabel } from 'src/assets/data/address';
 import {
   AddressField,
   ArrayField,
+  DocumentsUploadField,
   PhotosUploadField,
   PredefinedFields,
   ReferenceTextField,
@@ -22,7 +25,6 @@ import {
 import { RHFAccordion, RHFTextField } from 'src/components/common/hook-form';
 import Label from 'src/components/common/label';
 import { SQUARE_FEET_PER_PALLET } from 'src/constant/pallet';
-import { useBoolean } from 'src/hooks/use-boolean';
 import { selectAuth } from 'src/redux-toolkit/features/auth/authSlice';
 import { useAppSelector } from 'src/redux-toolkit/hooks';
 import { checkValidAddress } from 'src/utils/address';
@@ -31,17 +33,19 @@ import { fFixedFloat } from 'src/utils/format-number';
 import { ICONS } from '../../config-warehouse';
 import ReviewsList from '../common/reviews';
 
-const WarehouseEditFields = (props) => {
+const CreateFields = (props) => {
   const { user } = useAppSelector(selectAuth);
 
-  // conditional state
-  const isImportable = useBoolean(false);
-
   // form state
-  const { watch, getValues, resetField } = useFormContext();
+  const { watch, getValues, resetField, setValue } = useFormContext();
   const regionScope = watch('regionScope');
   const address = watch('address');
-  const reviews = watch('reviews');
+  const addressCountry = watch('address.country', undefined);
+  const addressState = watch('address.state', undefined);
+  const reviews = watch('reviews', []);
+
+  // conditional state
+  const isImportable = checkValidAddress(address);
 
   useEffect(() => {
     if (regionScope) {
@@ -53,9 +57,24 @@ const WarehouseEditFields = (props) => {
   }, [regionScope]);
 
   useEffect(() => {
-    isImportable.setValue(checkValidAddress(address));
+    if (addressCountry) {
+      const countryCode = getCountryByLabel(addressCountry)?.code;
+      if (countryCode) {
+        setValue('regionScope', getRegionScope(countryCode?.toLowerCase()).code);
+      }
+    }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [address]);
+  }, [addressCountry]);
+
+  useEffect(() => {
+    if (addressState) {
+      const stateCode = getStateByLabel(addressState)?.code;
+      if (stateCode) {
+        setValue('region', getRegionByStateCode(stateCode).code);
+      }
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [addressState]);
 
   return (
     <Grid container spacing={1.5}>
@@ -69,7 +88,7 @@ const WarehouseEditFields = (props) => {
             <AddressField
               name="address"
               actionBtn={
-                isImportable.value ? (
+                isImportable ? (
                   <Tooltip title="Import reviews from Google!">
                     <IconButton color="primary">{ICONS.import(24)}</IconButton>
                   </Tooltip>
@@ -267,6 +286,11 @@ const WarehouseEditFields = (props) => {
           </Grid>
 
           <Grid item xs={12}>
+            <Label sx={{ mb: 1 }}>Warehouse Documents</Label>
+            <DocumentsUploadField name="documents" />
+          </Grid>
+
+          <Grid item xs={12}>
             <ReviewsList list={reviews || []} />
           </Grid>
         </Grid>
@@ -275,6 +299,6 @@ const WarehouseEditFields = (props) => {
   );
 };
 
-WarehouseEditFields.propTypes = {};
+CreateFields.propTypes = {};
 
-export default WarehouseEditFields;
+export default CreateFields;
