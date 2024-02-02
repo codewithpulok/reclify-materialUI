@@ -4,16 +4,23 @@ import IconButton from '@mui/material/IconButton';
 
 import { Dialog, FilledInput, InputAdornment } from '@mui/material';
 import { useRouter, useSearchParams } from 'next/navigation';
+import PropTypes from 'prop-types';
 import Iconify from 'src/components/common/iconify';
 import { useBoolean } from 'src/hooks/use-boolean';
-import { paths } from 'src/routes/paths';
 import { createQueryString } from 'src/utils/query';
 
-const BASE_PATH = paths.dashboard.search.root;
+const Props = {
+  basePath: PropTypes.string.isRequired,
+};
 
 // ----------------------------------------------------------------------
 
-function Searchbar() {
+/**
+ * @param {Props} props
+ * @returns {JSX.Element}
+ */
+function Searchbar(props) {
+  const { basePath } = props;
   const router = useRouter();
   const searchParams = useSearchParams();
 
@@ -36,10 +43,10 @@ function Searchbar() {
     (e) => {
       e.preventDefault();
       console.log('Searched For: ', searchQuery);
-      router.push(`${BASE_PATH}/?${createQueryString('query', searchQuery, searchParams)}`);
+      router.push(`${basePath}/?${createQueryString('query', searchQuery, searchParams)}`);
       closeSearchDialog();
     },
-    [closeSearchDialog, router, searchParams, searchQuery]
+    [basePath, closeSearchDialog, router, searchParams, searchQuery]
   );
 
   // update states after refresh
@@ -95,5 +102,7 @@ function Searchbar() {
     </>
   );
 }
+
+Searchbar.propTypes = Props;
 
 export default memo(Searchbar);

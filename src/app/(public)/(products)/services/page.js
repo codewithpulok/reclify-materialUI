@@ -1,4 +1,4 @@
-import { ServicesListingView } from 'src/sections/private/dashboard/services';
+import { ServicesListingView } from 'src/sections/public/products/services';
 
 export const metadata = {
   title: 'Services - Racklify',

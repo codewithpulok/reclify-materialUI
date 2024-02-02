@@ -1,4 +1,4 @@
-import { WarehousesListingView } from 'src/sections/private/dashboard/warehouses';
+import { WarehousesListingView } from 'src/sections/public/products/warehouses';
 
 const WarehousesListingPage = (props) => <WarehousesListingView />;
 

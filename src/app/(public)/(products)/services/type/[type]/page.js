@@ -1,6 +1,6 @@
 import PropTypes from 'prop-types';
 import { getAvailableServiceTypes, getServiceType } from 'src/constant/service-types';
-import { ServicesTypeListingView } from 'src/sections/private/dashboard/services';
+import { ServicesTypeListingView } from 'src/sections/public/products/services';
 
 export const generateStaticParams = async () =>
   getAvailableServiceTypes().map((service) => ({

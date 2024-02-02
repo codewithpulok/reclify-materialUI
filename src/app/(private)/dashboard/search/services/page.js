@@ -1,4 +1,4 @@
-import { SearchServicesView } from 'src/sections/search';
+import { SearchServicesView } from 'src/sections/private/dashboard/search';
 
 export const metadata = { title: 'Search Services - Racklify' };
 

@@ -1,6 +1,6 @@
 import { notFound } from 'next/navigation';
 import { getRegionByCode } from 'src/assets/data';
-import { WarehousesRegionView } from 'src/sections/private/dashboard/warehouses';
+import { WarehousesRegionView } from 'src/sections/public/products/warehouses';
 
 export const metadata = {
   title: 'Region Warehouses',

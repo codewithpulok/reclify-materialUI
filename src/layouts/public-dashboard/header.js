@@ -47,7 +47,7 @@ export default function Header({ onOpenNav }) {
           <SvgColor src="/assets/icons/navbar/ic_menu_item.svg" />
         </IconButton>
       )}
-      <Searchbar />
+      <Searchbar basePath={paths.search.root} />
       <Stack
         flexGrow={1}
         direction="row"

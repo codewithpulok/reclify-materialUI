@@ -7,12 +7,14 @@ const ROOTS = {
   NEWS: '/news',
   WAREHOUSES: '/warehouses',
   SERVICES: '/services',
+  SEARCH: '/search',
 };
 
 // ----------------------------------------------------------------------
 
 export const paths = {
   website: 'https://racklify.com',
+  root: '/',
 
   // Main Links
   about_us: '/about-us',
@@ -70,6 +72,7 @@ export const paths = {
 
     search: {
       root: `${ROOTS.DASHBOARD}/search`,
+      results: (query) => `${ROOTS.DASHBOARD}/search?query=${query}`,
       warehouses: (query) => `${ROOTS.DASHBOARD}/search/warehouses?query=${query}`,
       users: (query) => `${ROOTS.DASHBOARD}/search/users?query=${query}`,
       services: (query) => `${ROOTS.DASHBOARD}/search/services?query=${query}`,
@@ -107,5 +110,14 @@ export const paths = {
     details: (id) => `${ROOTS.SERVICES}/${id}`,
     // services by type
     type: (type) => `${ROOTS.SERVICES}/type/${type}`,
+  },
+
+  // SEARCH ROUTE
+  search: {
+    root: `${ROOTS.SEARCH}`,
+    results: (query) => `${ROOTS.SEARCH}?query=${query}`,
+    warehouses: (query) => `${ROOTS.SEARCH}/warehouses?query=${query}`,
+    users: (query) => `${ROOTS.SEARCH}/users?query=${query}`,
+    services: (query) => `${ROOTS.SEARCH}/services?query=${query}`,
   },
 };

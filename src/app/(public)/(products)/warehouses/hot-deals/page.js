@@ -1,4 +1,4 @@
-import { WarehousesHotDealsView } from 'src/sections/private/dashboard/warehouses';
+import { WarehousesHotDealsView } from 'src/sections/public/products/warehouses';
 
 const HotDealsPage = () => <WarehousesHotDealsView />;
 
