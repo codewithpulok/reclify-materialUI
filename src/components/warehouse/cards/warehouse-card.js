@@ -41,8 +41,13 @@ const Props = {
  */
 const WarehouseCard = (props) => {
   const router = useRouter();
+  const { isAuthenticated } = useAppSelector(selectAuth);
   const { warehouse, onDelete = () => {}, hasControl = false, sx = {} } = props;
   const thumbnail = getPrimaryPhoto(warehouse?.photos);
+
+  const detailsPath = isAuthenticated
+    ? paths.dashboard.warehouses.details(warehouse?.id)
+    : paths.warehouses.details(warehouse?.id);
 
   const { user } = useAppSelector(selectAuth);
 
@@ -55,7 +60,7 @@ const WarehouseCard = (props) => {
     >
       <CardActionArea
         sx={{ bgcolor: 'background.neutral' }}
-        onClick={() => router.push(`${paths.dashboard.warehouses.root}/${warehouse.id}`)}
+        onClick={() => router.push(detailsPath)}
       >
         <Box width="100%" sx={{ position: 'relative' }}>
           <Image src={thumbnail} ratio="16/9" />

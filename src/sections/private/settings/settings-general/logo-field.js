@@ -82,6 +82,7 @@ const LogoField = (props) => {
           onDrop={handleDrop}
           disabled={uploadResults?.isLoading}
           onDelete={handleRemove}
+          placeholderIllustration={false}
         />
       </CardContent>
     </Card>

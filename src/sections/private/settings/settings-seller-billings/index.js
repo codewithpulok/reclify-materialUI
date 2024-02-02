@@ -4,7 +4,6 @@ import { Stack } from '@mui/material';
 import { useEffect } from 'react';
 import { achInfos } from 'src/assets/dummy/ach';
 import { getInvoicesByUserId } from 'src/assets/dummy/invoices';
-import { getAllPlans } from 'src/assets/dummy/plans';
 import { selectAuth } from 'src/redux-toolkit/features/auth/authSlice';
 import { useAppSelector } from 'src/redux-toolkit/hooks';
 import { useBillingInfoPrimaryQuery } from 'src/redux-toolkit/services/billingInfoApi';
@@ -34,7 +33,6 @@ const SettingsSellerBillings = (props) => {
   };
 
   const userInvoices = getInvoicesByUserId('2') || getInvoicesByUserId(user?.id);
-  const plans = getAllPlans();
 
   // call api on user id changed
   useEffect(() => {
@@ -48,9 +46,9 @@ const SettingsSellerBillings = (props) => {
 
   return (
     <Grid container spacing={3} disableEqualOverflow>
-      <Grid item xs={12} md={8}>
+      <Grid xs={12} md={8}>
         <Stack spacing={3}>
-          <BillingPlan plans={plans} />
+          <BillingPlan />
           <BillingInfo
             primaryACH={primaryACHResponse?.data?.results}
             primaryCard={primaryCardResponse?.data?.results}
@@ -59,7 +57,7 @@ const SettingsSellerBillings = (props) => {
         </Stack>
       </Grid>
 
-      <Grid item xs={12} md={4}>
+      <Grid xs={12} md={4}>
         <BillingHistory invoices={userInvoices} />
       </Grid>
     </Grid>

@@ -91,4 +91,24 @@ export const endpoints = {
     update: (id) => `/${id}`,
     delete: (id) => `/${id}`,
   },
+  plans: {
+    root: '/plans',
+    list: '/',
+    create: '/',
+    get: (id) => `/${id}`,
+    upgrade: (id) => `${PUBLIC_BACKEND_API}/plan/upgrade/${id}`,
+    cancel: `${PUBLIC_BACKEND_API}/plan/cancel`,
+  },
+  invoices: {
+    root: '/invoices',
+    list: '/',
+  },
+  blogs: {
+    root: '/posts',
+    list: '/',
+    create: '/',
+    get: (id) => `/${id}`,
+    update: (id) => `/${id}`,
+    delete: (id) => `/${id}`,
+  },
 };

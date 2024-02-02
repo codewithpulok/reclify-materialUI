@@ -1,8 +1,10 @@
 import dynamic from 'next/dynamic';
 
-export { default as MultiFilePreview } from './preview-multi-file';
 export { default as RejectionFiles } from './errors-rejection-files';
+export { default as MultiFilePreview } from './preview-multi-file';
 export { default as SingleFilePreview } from './preview-single-file';
+
+export { Props as UploadProps } from './upload';
 
 export const Upload = dynamic(() => import('./upload'), {
   ssr: false,

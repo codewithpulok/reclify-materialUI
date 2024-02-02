@@ -1,5 +1,4 @@
-import PropTypes from 'prop-types';
-import { useCallback, useMemo, useState } from 'react';
+import { useCallback, useEffect, useMemo, useState } from 'react';
 
 import Button from '@mui/material/Button';
 import Card from '@mui/material/Card';
@@ -13,13 +12,14 @@ import { useBoolean } from 'src/hooks/use-boolean';
 import PlanCard from 'src/components/user-settings/cards/plan-card';
 
 import { SubscriptionPaymentDialog } from 'src/components/common/custom-dialog';
+import { ErrorState, LoadingState } from 'src/components/common/custom-state';
+import { selectAuth } from 'src/redux-toolkit/features/auth/authSlice';
+import { useAppSelector } from 'src/redux-toolkit/hooks';
+import { usePlanListQuery } from 'src/redux-toolkit/services/planApi';
 
 // ----------------------------------------------------------------------
 
-const Props = {
-  /** @type {Plan[]} */
-  plans: PropTypes.array,
-};
+const Props = {};
 
 /**
  * Billing plans
@@ -27,32 +27,59 @@ const Props = {
  * @returns
  */
 const BillingPlan = (props) => {
-  const { plans } = props;
+  const { user } = useAppSelector(selectAuth);
 
-  const currentPlan = useMemo(() => plans.filter((plan) => plan.primary)[0].subscription, [plans]);
+  const currentPlan = useMemo(() => user?.planId || null, [user]);
+
+  // api state
+  const listResponse = usePlanListQuery();
 
   const openPaymentForm = useBoolean();
-
   const [selectedPlan, setSelectedPlan] = useState(currentPlan);
 
-  const handleSelectPlan = useCallback(
-    (newValue) => {
-      if (currentPlan !== newValue) {
-        setSelectedPlan(newValue);
-      }
-    },
-    [currentPlan]
-  );
+  const handleSelectPlan = useCallback((newValue) => {
+    setSelectedPlan(newValue);
+  }, []);
 
-  const renderPlans = plans.map((plan) => (
-    <Grid xs={12} md={4} key={plan.subscription}>
-      <PlanCard
-        isSelected={plan.subscription === selectedPlan}
-        onSelect={handleSelectPlan}
-        plan={plan}
-      />
-    </Grid>
-  ));
+  const renderPlans = useMemo(() => {
+    // error state
+    if (listResponse.isError || listResponse?.data?.isError) {
+      return <ErrorState />;
+    }
+
+    // success state
+    if (listResponse.isSuccess && listResponse?.data?.success) {
+      return listResponse?.data?.results?.map((plan) => (
+        <Grid xs={12} md={4} key={plan.id}>
+          <PlanCard
+            isSelected={plan.id === selectedPlan}
+            onSelect={handleSelectPlan}
+            plan={plan}
+            isCurrent={currentPlan === plan.id}
+          />
+        </Grid>
+      ));
+    }
+
+    // loading state
+    return <LoadingState />;
+  }, [
+    currentPlan,
+    handleSelectPlan,
+    listResponse?.data?.isError,
+    listResponse?.data?.results,
+    listResponse?.data?.success,
+    listResponse.isError,
+    listResponse.isSuccess,
+    selectedPlan,
+  ]);
+
+  // update selected plan
+  useEffect(() => {
+    if (currentPlan) {
+      setSelectedPlan(currentPlan);
+    }
+  }, [currentPlan]);
 
   return (
     <>
@@ -62,17 +89,6 @@ const BillingPlan = (props) => {
         <Grid container spacing={1.5} sx={{ p: 3 }}>
           {renderPlans}
         </Grid>
-
-        <Stack spacing={1.5} sx={{ p: 3, pt: 0, typography: 'body2' }}>
-          <Grid container spacing={{ xs: 0.5, md: 2 }}>
-            <Grid xs={12} md={4} sx={{ color: 'text.secondary' }}>
-              Plan
-            </Grid>
-            <Grid xs={12} md={8} sx={{ typography: 'subtitle2', textTransform: 'capitalize' }}>
-              {selectedPlan || '-'}
-            </Grid>
-          </Grid>
-        </Stack>
 
         <Divider sx={{ borderStyle: 'dashed' }} />
 

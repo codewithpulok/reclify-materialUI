@@ -42,6 +42,7 @@ export const paths = {
     // warehouses section
     warehouses: {
       root: `${ROOTS.DASHBOARD}/warehouses`,
+      details: (id) => `${ROOTS.DASHBOARD}/warehouses/${id}`,
       create: `${ROOTS.DASHBOARD}/warehouses/create`,
       edit: `${ROOTS.DASHBOARD}/warehouses/edit`,
       hot_deals: `${ROOTS.DASHBOARD}/warehouses/hot-deals`,
