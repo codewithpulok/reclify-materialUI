@@ -49,7 +49,7 @@ export default function ForgotPasswordView() {
 
   const renderForm = (
     <Stack spacing={3} alignItems="center">
-      <RHFTextField name="email" label="Email address" />
+      <RHFTextField name="email" label="Email address" fullWidth />
 
       <LoadingButton
         fullWidth

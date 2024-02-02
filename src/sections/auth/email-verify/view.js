@@ -57,6 +57,7 @@ export default function EmailVerifyView() {
         label="Email"
         placeholder="example@gmail.com"
         InputLabelProps={{ shrink: true }}
+        fullWidth
       />
 
       <LoadingButton

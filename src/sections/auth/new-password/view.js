@@ -78,6 +78,7 @@ export default function NewPasswordView() {
             </InputAdornment>
           ),
         }}
+        fullWidth
       />
 
       <RHFTextField
@@ -93,6 +94,7 @@ export default function NewPasswordView() {
             </InputAdornment>
           ),
         }}
+        fullWidth
       />
 
       <LoadingButton
