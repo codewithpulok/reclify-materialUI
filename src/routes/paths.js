@@ -71,12 +71,21 @@ export const paths = {
       thread: (id) => `${ROOTS.DASHBOARD}/messages?id=${id}`,
     },
 
+    // search section
     search: {
       root: `${ROOTS.DASHBOARD}/search`,
       results: (query) => `${ROOTS.DASHBOARD}/search?query=${query}`,
       warehouses: (query) => `${ROOTS.DASHBOARD}/search/warehouses?query=${query}`,
       users: (query) => `${ROOTS.DASHBOARD}/search/users?query=${query}`,
       services: (query) => `${ROOTS.DASHBOARD}/search/services?query=${query}`,
+    },
+
+    // news section
+    news: {
+      root: `${ROOTS.DASHBOARD}/news`,
+      create: `${ROOTS.DASHBOARD}/news/create`,
+      details: (id) => `${ROOTS.DASHBOARD}/news/${id}`,
+      edit: (id) => `${ROOTS.DASHBOARD}/news/edit/${id}`,
     },
   },
 

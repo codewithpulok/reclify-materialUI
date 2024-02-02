@@ -1,0 +1,15 @@
+import PropTypes from 'prop-types';
+import { NewsPreviewView } from 'src/sections/private/dashboard/news';
+
+const NewsPreviewPage = ({ params }) => {
+  const { id: slug } = params;
+  return <NewsPreviewView title={slug} />;
+};
+
+NewsPreviewPage.propTypes = {
+  params: PropTypes.shape({
+    id: PropTypes.string,
+  }),
+};
+
+export default NewsPreviewPage;

@@ -53,14 +53,20 @@ export default function PostItemHorizontal({ post }) {
             p: (theme) => theme.spacing(3, 3, 2, 3),
           }}
         >
-          <Stack direction="row" alignItems="center" justifyContent="space-between" sx={{ mb: 2 }}>
-            <Label variant="soft" color={(publish === 'published' && 'info') || 'default'}>
-              {publish}
-            </Label>
+          <Stack direction="row" alignItems="center" justifyContent="space-between" sx={{ mb: 1 }}>
+            <Stack direction="row" alignItems="center" spacing={1}>
+              <Label variant="soft" color={(publish === 'published' && 'info') || 'default'}>
+                {publish}
+              </Label>
 
-            <Box component="span" sx={{ typography: 'caption', color: 'text.disabled' }}>
-              {fDate(createdAt)}
-            </Box>
+              <Box component="span" sx={{ typography: 'caption', color: 'text.disabled' }}>
+                {fDate(createdAt)}
+              </Box>
+            </Stack>
+
+            <IconButton color={popover.open ? 'inherit' : 'default'} onClick={popover.onOpen}>
+              <Iconify icon="eva:more-horizontal-fill" />
+            </IconButton>
           </Stack>
 
           <Stack spacing={1} flexGrow={1}>
@@ -80,10 +86,6 @@ export default function PostItemHorizontal({ post }) {
           </Stack>
 
           <Stack direction="row" alignItems="center">
-            <IconButton color={popover.open ? 'inherit' : 'default'} onClick={popover.onOpen}>
-              <Iconify icon="eva:more-horizontal-fill" />
-            </IconButton>
-
             <Stack
               spacing={1.5}
               flexGrow={1}
@@ -136,7 +138,7 @@ export default function PostItemHorizontal({ post }) {
       <CustomPopover
         open={popover.open}
         onClose={popover.onClose}
-        arrow="bottom-center"
+        arrow="top-right"
         sx={{ width: 140 }}
       >
         <MenuItem
