@@ -16,9 +16,9 @@ import CustomPopover from 'src/components/common/custom-popover/custom-popover';
 import Label from 'src/components/common/label';
 import { RouterLink } from 'src/routes/components';
 import { paths } from 'src/routes/paths';
-import { ICONS } from 'src/sections/users/config-users';
 import { joinAddressObj } from 'src/utils/address';
 import { fCurrency } from 'src/utils/format-number';
+import { ICONS } from '../../../config-users';
 
 // ----------------------------------------------------------------------
 

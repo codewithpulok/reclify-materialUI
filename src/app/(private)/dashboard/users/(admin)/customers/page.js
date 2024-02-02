@@ -1,4 +1,4 @@
-import { CustomersListingView } from 'src/sections/users';
+import { CustomersListingView } from 'src/sections/private/dashboard/users';
 // ----------------------------------------------------------------------
 
 export const metadata = {

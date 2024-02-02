@@ -1,6 +1,6 @@
 import { notFound } from 'next/navigation';
 import { findSeller } from 'src/assets/dummy/users';
-import { SellerDetailsView } from 'src/sections/users';
+import { SellerDetailsView } from 'src/sections/private/dashboard/users';
 
 export const generateMetadata = async ({ params }) => {
   const user = await findSeller(params.id);

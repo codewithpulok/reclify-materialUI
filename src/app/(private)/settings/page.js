@@ -1,4 +1,4 @@
-import UserSettingsView from 'src/sections/user-settings/view';
+import UserSettingsView from 'src/sections/private/settings/view';
 
 export const metadata = {
   title: 'User Settings',

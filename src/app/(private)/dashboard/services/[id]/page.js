@@ -1,5 +1,5 @@
 import PropTypes from 'prop-types';
-import { ServicesDetailsView } from 'src/sections/services';
+import { ServicesDetailsView } from 'src/sections/private/dashboard/services';
 
 export const metadata = {
   title: 'Service Details - Racklify',
