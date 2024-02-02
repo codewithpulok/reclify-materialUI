@@ -1,4 +1,4 @@
-import { ChatView } from 'src/sections/chat/view';
+import { ChatView } from 'src/sections/private/dashboard/chat/view';
 
 export const metadata = {
   title: 'Messages - Racklify',

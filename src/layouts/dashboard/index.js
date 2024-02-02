@@ -45,7 +45,7 @@ export default function DashboardLayout({ children }) {
 
         <Main>
           {children}
-          <Footer sx={{ mt: 5 }} />
+          <Footer sx={{ mt: 10 }} />
         </Main>
       </SnackbarProvider>
     );
@@ -67,7 +67,7 @@ export default function DashboardLayout({ children }) {
 
           <Main>
             {children}
-            <Footer sx={{ mt: 5 }} />
+            <Footer sx={{ mt: 10 }} />
           </Main>
         </Box>
       </SnackbarProvider>
@@ -89,7 +89,7 @@ export default function DashboardLayout({ children }) {
 
         <Main>
           {children}
-          <Footer sx={{ mt: 5 }} />
+          <Footer sx={{ mt: 10 }} />
         </Main>
       </Box>
     </SnackbarProvider>

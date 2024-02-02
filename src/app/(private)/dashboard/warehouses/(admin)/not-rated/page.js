@@ -1,4 +1,4 @@
-import { WarehouseNotRatedView } from 'src/sections/warehouses';
+import { WarehouseNotRatedView } from 'src/sections/private/dashboard/warehouses';
 
 export const metadata = {
   title: 'Not Rated Warehouses - Racklify',

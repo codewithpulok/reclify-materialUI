@@ -15,7 +15,7 @@ import RejectionFiles from './errors-rejection-files';
 import MultiFilePreview from './preview-multi-file';
 import SingleFilePreview from './preview-single-file';
 
-const Props = {
+export const Props = {
   disabled: PropTypes.bool,
   error: PropTypes.bool,
   file: PropTypes.oneOfType([PropTypes.string, PropTypes.object]),
@@ -31,6 +31,7 @@ const Props = {
   /** @type {SxProps} */
   previewSx: PropTypes.object,
   thumbnail: PropTypes.bool,
+  placeholderIllustration: PropTypes.bool,
 };
 
 // ----------------------------------------------------------------------
@@ -56,6 +57,7 @@ export default function Upload(props) {
     onRemoveAll,
     sx,
     previewSx = {},
+    placeholderIllustration = true,
     ...other
   } = props;
   const { getRootProps, getInputProps, isDragActive, isDragReject, fileRejections } = useDropzone({
@@ -72,7 +74,7 @@ export default function Upload(props) {
 
   const renderPlaceholder = (
     <Stack spacing={3} alignItems="center" justifyContent="center" flexWrap="wrap">
-      <UploadIllustration sx={{ width: 1, maxWidth: 200 }} />
+      {placeholderIllustration && <UploadIllustration sx={{ width: 1, maxWidth: 200 }} />}
       <Stack spacing={1} sx={{ textAlign: 'center' }}>
         <Typography variant="h6">Drop or Select file</Typography>
         <Typography variant="body2" sx={{ color: 'text.secondary' }}>

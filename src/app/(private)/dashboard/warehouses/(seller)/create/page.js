@@ -1,4 +1,4 @@
-import { WarehousesCreateView } from 'src/sections/warehouses';
+import { WarehousesCreateView } from 'src/sections/private/dashboard/warehouses';
 
 export const metadata = {
   title: 'Create Warehouse - Racklify',

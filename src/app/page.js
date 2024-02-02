@@ -1,4 +1,4 @@
-import HomeView from 'src/sections/home/view';
+import HomeView from 'src/sections/public/marketing/home/view';
 // ----------------------------------------------------------------------
 
 export const metadata = {

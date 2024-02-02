@@ -19,8 +19,8 @@ import Label from 'src/components/common/label';
 import { selectAuth } from 'src/redux-toolkit/features/auth/authSlice';
 import { useAppSelector } from 'src/redux-toolkit/hooks';
 import { paths } from 'src/routes/paths';
-import WarehouseAdminMenu from 'src/sections/warehouses/details/warehouse-admin-menu';
-import WarehouseDiamond from 'src/sections/warehouses/details/warehouse-diamond';
+import WarehouseAdminMenu from 'src/sections/private/dashboard/warehouses/details/warehouse-admin-menu';
+import WarehouseDiamond from 'src/sections/private/dashboard/warehouses/details/warehouse-diamond';
 import { joinAddressObj } from 'src/utils/address';
 import { getPrimaryPhoto } from 'src/utils/photos';
 import { ICONS } from '../config-warehouse';
@@ -41,8 +41,13 @@ const Props = {
  */
 const WarehouseCard = (props) => {
   const router = useRouter();
+  const { isAuthenticated } = useAppSelector(selectAuth);
   const { warehouse, onDelete = () => {}, hasControl = false, sx = {} } = props;
   const thumbnail = getPrimaryPhoto(warehouse?.photos);
+
+  const detailsPath = isAuthenticated
+    ? paths.dashboard.warehouses.details(warehouse?.id)
+    : paths.warehouses.details(warehouse?.id);
 
   const { user } = useAppSelector(selectAuth);
 
@@ -55,7 +60,7 @@ const WarehouseCard = (props) => {
     >
       <CardActionArea
         sx={{ bgcolor: 'background.neutral' }}
-        onClick={() => router.push(`${paths.dashboard.warehouses.root}/${warehouse.id}`)}
+        onClick={() => router.push(detailsPath)}
       >
         <Box width="100%" sx={{ position: 'relative' }}>
           <Image src={thumbnail} ratio="16/9" />

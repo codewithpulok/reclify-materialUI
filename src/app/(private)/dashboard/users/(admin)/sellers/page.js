@@ -1,6 +1,5 @@
+import { SellersListingView } from 'src/sections/private/dashboard/users';
 // ----------------------------------------------------------------------
-
-import { SellersListingView } from 'src/sections/users';
 
 export const metadata = {
   title: 'Sellers - Dashboard',

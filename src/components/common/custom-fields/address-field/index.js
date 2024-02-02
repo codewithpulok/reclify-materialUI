@@ -40,17 +40,18 @@ const AddressField = (props) => {
   // form state
   const { watch, setValue, formState } = useFormContext();
   const { errors } = formState;
-  const addressValue = watch(name);
+  const addressValue = watch(name, {});
 
   // search for address while changing the input
   const handleInputChange = useMemo(
     () =>
       debounce((_event, newValue) => {
         if (newValue?.length === 0) return;
+        if (Object.values(addressValue || {}).some(Boolean)) return;
 
         searchAddress(newValue);
       }, 400),
-    [searchAddress]
+    [searchAddress, addressValue]
   );
 
   // handle opiton select from autocomplete

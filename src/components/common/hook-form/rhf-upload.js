@@ -3,7 +3,7 @@ import { Controller, useFormContext } from 'react-hook-form';
 
 import FormHelperText from '@mui/material/FormHelperText';
 
-import { Upload, UploadAvatar, UploadBox } from '../upload';
+import { Upload, UploadAvatar, UploadBox, UploadProps } from '../upload';
 
 // ----------------------------------------------------------------------
 
@@ -54,8 +54,18 @@ RHFUploadBox.propTypes = {
 };
 
 // ----------------------------------------------------------------------
-
-export function RHFUpload({ name, multiple, helperText, ...other }) {
+const RHFUploadProps = {
+  helperText: PropTypes.string,
+  multiple: PropTypes.bool,
+  name: PropTypes.string,
+  ...UploadProps,
+};
+/**
+ * @param {RHFUploadProps} props
+ * @returns {JSX.Element}
+ */
+export function RHFUpload(props) {
+  const { name, multiple, helperText, ...other } = props;
   const { control } = useFormContext();
 
   return (
@@ -98,8 +108,4 @@ export function RHFUpload({ name, multiple, helperText, ...other }) {
   );
 }
 
-RHFUpload.propTypes = {
-  helperText: PropTypes.string,
-  multiple: PropTypes.bool,
-  name: PropTypes.string,
-};
+RHFUpload.propTypes = RHFUploadProps;

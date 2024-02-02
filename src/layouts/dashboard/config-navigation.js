@@ -55,6 +55,11 @@ export function useNavData() {
         ],
         defaultOpen: true,
       },
+      {
+        title: 'News',
+        path: paths.dashboard.news.root,
+        icon: ICONS.news(),
+      },
     ],
     []
   );
@@ -70,11 +75,6 @@ export function useNavData() {
         path: '#',
         icon: ICONS.admin(),
         children: [
-          // {
-          //   type: 'DIVIDER',
-          //   path: '#',
-          //   title: 'Divider 1',
-          // },
           {
             title: 'Not Featured',
             path: paths.dashboard.warehouses.not_featured,

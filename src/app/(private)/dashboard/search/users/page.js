@@ -1,4 +1,4 @@
-const { SearchUsersView } = require('src/sections/search');
+const { SearchUsersView } = require('src/sections/private/dashboard/search');
 
 export const metadata = { title: 'Search Users - Racklify' };
 

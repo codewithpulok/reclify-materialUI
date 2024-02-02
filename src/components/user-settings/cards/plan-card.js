@@ -5,6 +5,12 @@ import Label from 'src/components/common/label';
 import { fCurrency } from 'src/utils/format-number';
 import { ICONS } from '../config-user-settings';
 
+const icons = {
+  free: <PlanFreeIcon />,
+  pro: <PlanStarterIcon />,
+  enterprise: <PlanPremiumIcon />,
+};
+
 const Props = {
   /** @type {Plan} */
   plan: PropTypes.object.isRequired,
@@ -14,6 +20,7 @@ const Props = {
   onSelect: PropTypes.func,
   /** @type {SxProps} */
   sx: PropTypes.object,
+  isCurrent: PropTypes.bool,
 };
 
 // ----------------------------------------------------------------------
@@ -24,15 +31,13 @@ const Props = {
  * @returns
  */
 const PlanCard = (props) => {
-  const { plan, isSelected, onSelect, sx = {} } = props;
+  const { plan, isSelected, onSelect, sx = {}, isCurrent } = props;
 
   return (
     <Stack
       component={Paper}
       variant="outlined"
-      onClick={() => {
-        if (onSelect) onSelect(plan.subscription);
-      }}
+      onClick={() => onSelect(plan.id)}
       sx={{
         p: 2.5,
         position: 'relative',
@@ -43,7 +48,7 @@ const PlanCard = (props) => {
         ...sx,
       }}
     >
-      {plan.primary && (
+      {isCurrent && (
         <Label
           color="info"
           startIcon={ICONS.current()}
@@ -53,11 +58,7 @@ const PlanCard = (props) => {
         </Label>
       )}
 
-      <Box sx={{ width: 48, height: 48 }}>
-        {plan.subscription === 'basic' && <PlanFreeIcon />}
-        {plan.subscription === 'starter' && <PlanStarterIcon />}
-        {plan.subscription === 'premium' && <PlanPremiumIcon />}
-      </Box>
+      {icons?.[plan.id] && <Box sx={{ width: 48, height: 48 }}>{icons?.[plan.id]}</Box>}
 
       <Box
         sx={{
@@ -67,7 +68,7 @@ const PlanCard = (props) => {
           textTransform: 'capitalize',
         }}
       >
-        {plan.subscription}
+        {plan.title}
       </Box>
 
       <Stack direction="row" alignItems="center" sx={{ typography: 'h4' }}>
@@ -90,9 +91,9 @@ const PlanCard = (props) => {
 
           <Stack spacing={0.5}>
             {plan.features.map((feature) => (
-              <Stack key={feature.id} direction="row" alignItems="center" gap={0.5}>
+              <Stack key={feature} direction="row" alignItems="center" gap={0.5}>
                 {ICONS.feature(14, { color: 'success.main' })}
-                <Typography variant="caption">{feature.title}</Typography>
+                <Typography variant="caption">{feature}</Typography>
               </Stack>
             ))}
           </Stack>

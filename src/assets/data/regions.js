@@ -23,7 +23,7 @@ export const usRegions = [
     name: 'West',
     code: 'West',
     icon: 'radix-icons:half-2',
-    rotate: 0,
+    rotate: 2,
     states: ['MT', 'WY', 'CO', 'NM', 'ID', 'UT', 'AZ', 'WA', 'OR', 'CA', 'NV'],
   },
   {

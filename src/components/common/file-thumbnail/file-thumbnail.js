@@ -10,6 +10,7 @@ import { fileData, fileFormat, fileThumb } from './utils';
 const Props = {
   file: PropTypes.oneOfType([PropTypes.string, PropTypes.object]),
   imageView: PropTypes.bool,
+  fileLink: PropTypes.string,
   /** @type {SxProps} */
   imgSx: PropTypes.object,
   onDownload: PropTypes.func,
@@ -25,10 +26,14 @@ const Props = {
  * @returns {JSX.Element}
  */
 export default function FileThumbnail(props) {
-  const { file, tooltip, imageView, onDownload, sx, imgSx } = props;
+  const { file, tooltip, imageView, onDownload, sx, imgSx, fileLink } = props;
   const { name = '', path = '', preview = '' } = fileData(file);
 
   const format = fileFormat(path || preview);
+
+  const renderDownload = (onDownload || fileLink) && (
+    <DownloadButton onDownload={onDownload} fileLink={fileLink} />
+  );
 
   const renderContent =
     format === 'image' && imageView ? (
@@ -70,7 +75,7 @@ export default function FileThumbnail(props) {
           }}
         >
           {renderContent}
-          {onDownload && <DownloadButton onDownload={onDownload} />}
+          {renderDownload}
         </Stack>
       </Tooltip>
     );
@@ -79,7 +84,7 @@ export default function FileThumbnail(props) {
   return (
     <>
       {renderContent}
-      {onDownload && <DownloadButton onDownload={onDownload} />}
+      {renderDownload}
     </>
   );
 }

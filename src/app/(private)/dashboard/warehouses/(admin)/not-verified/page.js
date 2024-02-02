@@ -1,4 +1,4 @@
-import { WarehouseNotVerifiedView } from 'src/sections/warehouses';
+import { WarehouseNotVerifiedView } from 'src/sections/private/dashboard/warehouses';
 
 export const metadata = {
   title: 'Not Verified Warehouses - Racklify',

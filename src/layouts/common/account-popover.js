@@ -18,7 +18,7 @@ import { useAppSelector } from 'src/redux-toolkit/hooks';
 import { useLogoutMutation } from 'src/redux-toolkit/services/authApi';
 import { useRouter } from 'src/routes/hooks';
 import { paths } from 'src/routes/paths';
-import { TABS as settingsTabs } from 'src/sections/user-settings/view';
+import { TABS as settingsTabs } from 'src/sections/private/settings/view';
 
 // ----------------------------------------------------------------------
 
