@@ -15,8 +15,8 @@ import FormProvider from 'src/components/common/hook-form/form-provider';
 import { useSettingsContext } from 'src/components/common/settings';
 import { useWarehouseUpdateMutation } from 'src/redux-toolkit/services/warehouseApi';
 import { paths } from 'src/routes/paths';
-import WarehouseEditFields from './edit-fields';
-import editSchema from './edit-schema';
+import WarehouseFields from '../common/warehouse-fields';
+import warehouseSchema from '../common/warehouse-schema';
 
 const Props = {
   /** @type {Warehouse} */
@@ -35,7 +35,7 @@ const Content = (props) => {
 
   const [updateWarehouse] = useWarehouseUpdateMutation();
 
-  const methods = useForm({ defaultValues: warehouse, resolver: yupResolver(editSchema) });
+  const methods = useForm({ defaultValues: warehouse, resolver: yupResolver(warehouseSchema) });
   const { handleSubmit, reset, formState } = methods;
   const { isSubmitting } = formState;
 
@@ -85,7 +85,7 @@ const Content = (props) => {
 
       <FormProvider methods={methods} onSubmit={handleSubmit(onSubmit)} onReset={onReset}>
         <Stack>
-          <WarehouseEditFields />
+          <WarehouseFields />
           <Stack
             sx={{
               flexDirection: {
@@ -99,6 +99,7 @@ const Content = (props) => {
             }}
             flexWrap="wrap"
             spacing={0.5}
+            mt={5}
           >
             <LoadingButton
               loading={isSubmitting}

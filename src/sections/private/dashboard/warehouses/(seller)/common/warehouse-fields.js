@@ -31,9 +31,9 @@ import { checkValidAddress } from 'src/utils/address';
 import { restrictNegetiveValue } from 'src/utils/form';
 import { fFixedFloat } from 'src/utils/format-number';
 import { ICONS } from '../../config-warehouse';
-import ReviewsList from '../common/reviews';
+import WarehouseReviews from './warehouse-reviews';
 
-const CreateFields = (props) => {
+const WarehouseFields = (props) => {
   const { user } = useAppSelector(selectAuth);
 
   // form state
@@ -98,7 +98,7 @@ const CreateFields = (props) => {
           </Grid>
 
           <Grid item xs={6}>
-            <RHFTextField name="regionScope" label="Region Scope" fullWidth select>
+            <RHFTextField name="regionScope" label="Region Scope" disabled fullWidth select>
               <MenuItem disabled>Select Region Scope</MenuItem>
               {regionScopes.map((option) => (
                 <MenuItem key={option.code} value={option.code}>
@@ -108,7 +108,7 @@ const CreateFields = (props) => {
             </RHFTextField>
           </Grid>
           <Grid item xs={6}>
-            <RHFTextField name="region" label="Region" fullWidth select>
+            <RHFTextField name="region" label="Region" disabled fullWidth select>
               <MenuItem disabled>Select Region</MenuItem>
               {getRegionsByScope(regionScope).map((option) => (
                 <MenuItem key={option.code} value={option.code}>
@@ -291,7 +291,7 @@ const CreateFields = (props) => {
           </Grid>
 
           <Grid item xs={12}>
-            <ReviewsList list={reviews || []} />
+            <WarehouseReviews list={reviews || []} />
           </Grid>
         </Grid>
       </Grid>
@@ -299,6 +299,6 @@ const CreateFields = (props) => {
   );
 };
 
-CreateFields.propTypes = {};
+WarehouseFields.propTypes = {};
 
-export default CreateFields;
+export default WarehouseFields;

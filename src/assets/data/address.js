@@ -64,11 +64,13 @@ const states = [
   { label: 'US Virgin Islands', code: 'VI', countryCode: 'US' },
 ];
 
-export const getCountries = () => [...countries].map((c) => c.label);
+export const getCountries = () =>
+  [...countries].map((c) => c.label).sort((a, b) => a.localeCompare(b));
 export const getCountryByLabel = (label) => countries.find((c) => c.label === label);
 
 export const getStates = (country) =>
   states
     .filter((state) => state.countryCode === getCountryByLabel(country)?.code)
-    .map((s) => s.label);
+    .map((s) => s.label)
+    .sort((a, b) => a.localeCompare(b));
 export const getStateByLabel = (label) => states.find((c) => c.label === label);

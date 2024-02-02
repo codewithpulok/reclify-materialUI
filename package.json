@@ -31,6 +31,7 @@
     "axios": "^1.6.5",
     "creditcards": "^4.2.0",
     "date-fns": "^2.30.0",
+    "file-saver": "^2.0.5",
     "framer-motion": "^10.16.4",
     "highlight.js": "^11.9.0",
     "lodash": "^4.17.21",

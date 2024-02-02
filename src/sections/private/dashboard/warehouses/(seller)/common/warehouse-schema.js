@@ -103,7 +103,6 @@ const schema = {
   facilityDetails: Yup.object().shape(getPredefinedFieldSchema(predefinedFacility)),
   services: Yup.object().shape(getPredefinedFieldSchema(predefinedServices)),
 };
+const warehouseSchema = Yup.object().shape(schema);
 
-const editSchema = Yup.object().shape(schema);
-
-export default editSchema;
+export default warehouseSchema;

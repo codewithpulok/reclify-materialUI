@@ -5,6 +5,7 @@ import { selectAuth } from 'src/redux-toolkit/features/auth/authSlice';
 import { useAppSelector } from 'src/redux-toolkit/hooks';
 import WarehouseAddressMap from './warehouse-address-map';
 import WarehouseBooking from './warehouse-booking';
+import WarehouseDocumentList from './warehouse-document-list';
 
 const Props = {
   /** @type {Warehouse} */
@@ -34,6 +35,8 @@ const WarehouseDetailsSidebar = (props) => {
         showPurchase={user?.userType === 'customer' && warehouse?.regionScope !== 'global'}
       />
       <WarehouseAddressMap warehouse={warehouse} />
+
+      <WarehouseDocumentList documents={warehouse?.documents || []} />
 
       {children}
     </Stack>

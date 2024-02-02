@@ -11,7 +11,7 @@ const Props = { list: PropTypes.arrayOf(PropTypes.object) };
  * @param {Props} props
  * @returns {JSX.Element}
  */
-const ReviewsList = (props) => {
+const WarehouseReviews = (props) => {
   const { list = [] } = props;
   return (
     <RHFAccordion label="Reviews" defaultExpanded name="reviews">
@@ -35,6 +35,6 @@ const ReviewsList = (props) => {
   );
 };
 
-ReviewsList.propTypes = Props;
+WarehouseReviews.propTypes = Props;
 
-export default ReviewsList;
+export default WarehouseReviews;

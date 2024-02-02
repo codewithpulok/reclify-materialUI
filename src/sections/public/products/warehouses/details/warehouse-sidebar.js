@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import { UserDetailsCard } from 'src/components/users/cards';
 import { selectAuth } from 'src/redux-toolkit/features/auth/authSlice';
 import { useAppSelector } from 'src/redux-toolkit/hooks';
+import WarehouseDocumentList from 'src/sections/private/dashboard/warehouses/details/warehouse-document-list';
 import WarehouseAddressMap from './warehouse-address-map';
 import WarehouseBooking from './warehouse-booking';
 
@@ -34,6 +35,8 @@ const WarehouseDetailsSidebar = (props) => {
         showPurchase={user?.userType === 'customer' && warehouse?.regionScope !== 'global'}
       />
       <WarehouseAddressMap warehouse={warehouse} />
+
+      <WarehouseDocumentList documents={warehouse?.documents || []} />
 
       {children}
     </Stack>

@@ -91,10 +91,10 @@ const SettingsService = (props) => {
       const changes = {};
 
       Object.keys(defaultValues).forEach((key) => {
-        if (serviceResponse?.data?.results?.[key]) {
-          changes[key] = serviceResponse.data.results[key];
-        } else if (key === 'type') {
+        if (key === 'type') {
           changes[key] = user.serviceType;
+        } else if (serviceResponse?.data?.results?.[key]) {
+          changes[key] = serviceResponse.data.results[key];
         } else {
           changes[key] = defaultValues[key];
         }

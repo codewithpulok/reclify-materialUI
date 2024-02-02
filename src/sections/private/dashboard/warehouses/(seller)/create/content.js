@@ -22,8 +22,8 @@ import { useWarehouseCreateMutation } from 'src/redux-toolkit/services/warehouse
 import { RouterLink } from 'src/routes/components';
 import { paths } from 'src/routes/paths';
 import { getPredefinedFieldsDefaultValue } from 'src/utils/predefined-fields';
-import CreateFields from './create-fields';
-import createSchema from './create-schema';
+import WarehouseFields from '../common/warehouse-fields';
+import warehouseSchema from '../common/warehouse-schema';
 
 const Props = {
   /** @type {Warehouse | undefined} */
@@ -65,7 +65,7 @@ const Content = (props) => {
   const [createWarehouse] = useWarehouseCreateMutation();
 
   const methods = useForm({
-    resolver: yupResolver(createSchema),
+    resolver: yupResolver(warehouseSchema),
     defaultValues: sourceWarehouse || defaultValues,
   });
   const { handleSubmit, formState, reset } = methods;
@@ -112,7 +112,7 @@ const Content = (props) => {
       />
       <FormProvider methods={methods} onSubmit={handleSubmit(onSubmit)} onReset={onReset}>
         <Stack spacing={1.5}>
-          <CreateFields />
+          <WarehouseFields />
           <Stack
             sx={{
               flexDirection: {

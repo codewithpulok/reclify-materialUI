@@ -1,4 +1,5 @@
 import { Box, IconButton, Stack } from '@mui/material';
+import { saveAs } from 'file-saver';
 import PropTypes from 'prop-types';
 import FileThumbnail from '../../file-thumbnail';
 import Iconify from '../../iconify';
@@ -16,6 +17,11 @@ const Props = {
  */
 const DocumentsPreviewList = (props) => {
   const { documents = [], downloadAble, onDelete, isLoading } = props;
+
+  const downloadFile = (link) => {
+    saveAs(link);
+  };
+
   return (
     <Stack direction="row" alignItems="center" spacing={1} flexWrap="wrap">
       {documents.map((doc) => (
@@ -31,12 +37,13 @@ const DocumentsPreviewList = (props) => {
             borderRadius: 1,
             overflow: 'hidden',
           }}
+          key={doc.id}
         >
           <FileThumbnail
             imageView
             file={doc.link}
             tooltip
-            onDownload={downloadAble ? () => {} : undefined}
+            onDownload={downloadAble ? () => downloadFile(doc.link) : undefined}
           />
           {onDelete && (
             <IconButton
