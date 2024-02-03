@@ -1,53 +1,40 @@
 'use client';
 
+import { notFound } from 'next/navigation';
 import PropTypes from 'prop-types';
+// local component
+import { ErrorState } from 'src/components/common/custom-state';
+import { LoadingScreen } from 'src/components/common/loading-screen';
+import { useBlogGetQuery } from 'src/redux-toolkit/services/blogApi';
+import EditContent from './content';
 
-import Container from '@mui/material/Container';
-
-import { paths } from 'src/routes/paths';
-
-// import { useGetPost } from 'src/api/blog';
-
-import CustomBreadcrumbs from 'src/components/common/custom-breadcrumbs';
-import { useSettingsContext } from 'src/components/common/settings';
-
-import { useGetPost } from 'src/utils/blog';
-import EditForm from './edit-form';
-
-// ----------------------------------------------------------------------
-
-export default function NewsEditView({ title }) {
-  const settings = useSettingsContext();
-
-  const { post: currentPost } = useGetPost(`${title}`);
-
-  return (
-    <Container maxWidth={settings.themeStretch ? false : 'lg'}>
-      <CustomBreadcrumbs
-        heading="Edit"
-        links={[
-          {
-            name: 'Dashboard',
-            href: paths.dashboard.root,
-          },
-          {
-            name: 'News',
-            href: paths.dashboard.news.root,
-          },
-          {
-            name: currentPost?.title,
-          },
-        ]}
-        sx={{
-          mb: { xs: 3, md: 5 },
-        }}
-      />
-
-      <EditForm currentPost={currentPost} />
-    </Container>
-  );
-}
-
-NewsEditView.propTypes = {
-  title: PropTypes.string,
+const Props = {
+  id: PropTypes.string.isRequired,
 };
+
+/**
+ * @param {Props} props
+ * @returns {JSX.Element}
+ */
+const NewsEditView = (props) => {
+  const { id } = props;
+  const blogResponse = useBlogGetQuery(id);
+
+  // if error occured
+  if ((blogResponse.isError || blogResponse.data?.isError) && !blogResponse.isLoading)
+    return <ErrorState />;
+
+  // if there is no warehouse then show error
+  if (blogResponse.data?.statusCode === 404) notFound();
+
+  // on request success
+  if (blogResponse.isSuccess && blogResponse.data?.success) {
+    return <EditContent post={blogResponse.data?.results} />;
+  }
+
+  return <LoadingScreen />;
+};
+
+NewsEditView.propTypes = Props;
+
+export default NewsEditView;

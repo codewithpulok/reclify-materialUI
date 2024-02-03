@@ -1,24 +1,6 @@
 import { createApi } from '@reduxjs/toolkit/query/react';
-import { warehouses } from 'src/assets/dummy';
 import { endpoints } from 'src/utils/api/client';
 import { publicBaseQuery } from '../utills';
-
-// ********* Transform warehouse for testing perpuos *********** // TODO: REMOVE THIS
-const transformWarehouse = (warehouse) => {
-  if (!warehouse?.photos?.length) {
-    warehouse.photos = [...Array(3)].map((v, i) => ({
-      id: i,
-      title: `Untitled ${i}`,
-      link: `https://picsum.photos/seed/${warehouse.id}${i}/450/318`,
-    }));
-  }
-
-  if (!warehouse?.address?.country) {
-    warehouse.address = warehouses[Math.floor(Math.random() * warehouses.length)].address;
-  }
-
-  return warehouse;
-};
 
 export const warehouseApi = createApi({
   reducerPath: 'warehouseApi',
@@ -26,42 +8,12 @@ export const warehouseApi = createApi({
   endpoints: (builder) => ({
     warehouse: builder.query({
       query: (id) => endpoints.warehouses.get(id),
-      transformResponse: (response, meta, arg) => {
-        /** @type {Warehouse} */
-        const resWarehouse = { ...response }.results;
-
-        const newWarehouse = transformWarehouse(resWarehouse);
-
-        response.results = newWarehouse;
-
-        return response;
-      },
     }),
     warehouseList: builder.query({
       query: () => endpoints.warehouses.list,
-      transformResponse: (response, meta, arg) => {
-        /** @type {Warehouse[]} */
-        const resWarehouses = { ...response }.results;
-
-        const newWarehouses = resWarehouses.map((warehouse) => transformWarehouse(warehouse));
-
-        response.results = newWarehouses;
-
-        return response;
-      },
     }),
     warehouseOwnList: builder.query({
       query: () => endpoints.warehouses.own,
-      transformResponse: (response, meta, arg) => {
-        /** @type {Warehouse[]} */
-        const resWarehouses = { ...response }.results;
-
-        const newWarehouses = resWarehouses.map((warehouse) => transformWarehouse(warehouse));
-
-        response.results = newWarehouses;
-
-        return response;
-      },
     }),
     warehouseCreate: builder.mutation({
       query: (data) => ({
@@ -123,7 +75,7 @@ export const warehouseApi = createApi({
             })
           );
         } catch (error) {
-          // console.log("Warehouse Update API Error: ", error);
+          console.log('Warehouse Update API Error: ', error);
         }
       },
     }),

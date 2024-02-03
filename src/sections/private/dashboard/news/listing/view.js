@@ -21,7 +21,7 @@ import Iconify from 'src/components/common/iconify';
 import Label from 'src/components/common/label';
 import { useSettingsContext } from 'src/components/common/settings';
 
-import { useGetPosts, useSearchPosts } from 'src/utils/blog';
+import { useBlogListQuery } from 'src/redux-toolkit/services/blogApi';
 import { paramCase } from 'src/utils/change-case';
 import PostListHorizontal from '../common/post-list-horizontal';
 import PostSearch from '../common/post-search';
@@ -38,20 +38,17 @@ const defaultFilters = {
 export default function NewsListingView() {
   const settings = useSettingsContext();
 
+  // api states
+  const listResponse = useBlogListQuery();
+
+  // app states
   const [sortBy, setSortBy] = useState('latest');
-
   const [filters, setFilters] = useState(defaultFilters);
-
   const [searchQuery, setSearchQuery] = useState('');
-
   const debouncedQuery = useDebounce(searchQuery);
 
-  const { posts, postsLoading } = useGetPosts();
-
-  const { searchResults, searchLoading } = useSearchPosts(debouncedQuery);
-
   const dataFiltered = applyFilter({
-    inputData: posts,
+    inputData: listResponse?.data?.results,
     filters,
     sortBy,
   });
@@ -118,9 +115,9 @@ export default function NewsListingView() {
       >
         <PostSearch
           query={debouncedQuery}
-          results={searchResults}
+          results={[]}
           onSearch={handleSearch}
-          loading={searchLoading}
+          loading={false}
           hrefItem={(title) => paths.dashboard.news.details(paramCase(title))}
         />
 
@@ -145,11 +142,13 @@ export default function NewsListingView() {
                 variant={((tab === 'all' || tab === filters.publish) && 'filled') || 'soft'}
                 color={(tab === 'published' && 'info') || 'default'}
               >
-                {tab === 'all' && posts.length}
+                {tab === 'all' && listResponse?.data?.results?.length}
 
-                {tab === 'published' && posts.filter((post) => post.publish === 'published').length}
+                {tab === 'published' &&
+                  listResponse?.data?.results?.filter((post) => post.isPublished)?.length}
 
-                {tab === 'draft' && posts.filter((post) => post.publish === 'draft').length}
+                {tab === 'draft' &&
+                  listResponse?.data?.results?.filter((post) => !post?.isPublished).length}
               </Label>
             }
             sx={{ textTransform: 'capitalize' }}
@@ -157,7 +156,7 @@ export default function NewsListingView() {
         ))}
       </Tabs>
 
-      <PostListHorizontal posts={dataFiltered} loading={postsLoading} />
+      <PostListHorizontal posts={dataFiltered} loading={listResponse?.isLoading} />
     </Container>
   );
 }
@@ -179,8 +178,12 @@ const applyFilter = ({ inputData, filters, sortBy }) => {
     inputData = orderBy(inputData, ['totalViews'], ['desc']);
   }
 
-  if (publish !== 'all') {
-    inputData = inputData.filter((post) => post.publish === publish);
+  if (publish === 'published') {
+    inputData = inputData.filter((post) => post?.isPublished);
+  }
+
+  if (publish === 'draft') {
+    inputData = inputData.filter((post) => !post?.isPublished);
   }
 
   return inputData;

@@ -3,6 +3,7 @@
  * @typedef {Object} NewsType
  * @property {string} id
  * @property {string} title
+ * @property {string} createdAt
  * @property {string} description
  * @property {string} content
  * @property {string | null} coverUrl

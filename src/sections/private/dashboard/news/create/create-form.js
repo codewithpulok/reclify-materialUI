@@ -55,7 +55,7 @@ const CreateForm = (props) => {
     // handle success state
     else if (data && data?.success) {
       console.warn('News Created successfully: ', response);
-      enqueueSnackbar('News Created successfully', { variant: 'error' });
+      enqueueSnackbar('News Created successfully');
       router.push(paths.dashboard.news.root);
       reset(); // reset form on successfully news create
     }

@@ -18,6 +18,23 @@ export const blogApi = createApi({
         body: data,
         method: 'POST',
       }),
+      onQueryStarted: async (arg, { dispatch, queryFulfilled }) => {
+        try {
+          const response = await queryFulfilled;
+          const { data } = response;
+
+          // update list cache
+          dispatch(
+            blogApi.util.updateQueryData('blogList', undefined, (draft) => {
+              if (Array.isArray(draft?.results)) {
+                draft.results?.push(data?.results);
+              }
+            })
+          );
+        } catch (error) {
+          console.error('ERROR: Blog Cache update', error);
+        }
+      },
     }),
     blogUpdate: builder.mutation({
       query: ({ id, data }) => ({
@@ -25,12 +42,43 @@ export const blogApi = createApi({
         body: data,
         method: 'PUT',
       }),
+      onQueryStarted: async (arg, { dispatch, queryFulfilled }) => {
+        try {
+          const response = await queryFulfilled;
+          const { data } = response;
+
+          // update list cache
+          dispatch(
+            blogApi.util.updateQueryData('blogList', undefined, (draft) => {
+              const updateIndex = draft?.results?.findIndex((d) => d.id === arg?.id);
+              if (updateIndex !== -1) draft.results[updateIndex] = data?.results;
+            })
+          );
+        } catch (error) {
+          console.error('ERROR: Blog Cache update', error);
+        }
+      },
     }),
     blogDelete: builder.mutation({
       query: (id) => ({
         url: endpoints.blogs.delete(id),
         method: 'DELETE',
       }),
+      onQueryStarted: async (arg, { dispatch, queryFulfilled }) => {
+        try {
+          await queryFulfilled;
+
+          // update list cache
+          dispatch(
+            blogApi.util.updateQueryData('blogList', undefined, (draft) => {
+              const filtered = draft.results.filter((b) => b.id !== arg);
+              draft.results = filtered;
+            })
+          );
+        } catch (error) {
+          console.error('ERROR: Blog Cache update', error);
+        }
+      },
     }),
   }),
 });

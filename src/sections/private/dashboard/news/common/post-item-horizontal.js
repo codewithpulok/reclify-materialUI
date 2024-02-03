@@ -22,22 +22,13 @@ import Iconify from 'src/components/common/iconify';
 import Image from 'src/components/common/image';
 import Label from 'src/components/common/label';
 import TextMaxLine from 'src/components/common/text-max-line';
-import { paramCase } from 'src/utils/change-case';
+import { PLACEHOLDER_WAREHOUSE_IMAGE } from 'src/config-global';
 
 // ----------------------------------------------------------------------
 
 const Props = {
-  post: PropTypes.shape({
-    author: PropTypes.object,
-    coverUrl: PropTypes.string,
-    createdAt: PropTypes.oneOfType([PropTypes.string, PropTypes.instanceOf(Date)]),
-    description: PropTypes.string,
-    publish: PropTypes.string,
-    title: PropTypes.string,
-    totalComments: PropTypes.number,
-    totalShares: PropTypes.number,
-    totalViews: PropTypes.number,
-  }),
+  /** @type {NewsType} */
+  post: PropTypes.object.isRequired,
   onDelete: PropTypes.func,
 };
 
@@ -47,8 +38,18 @@ const Props = {
  */
 export default function PostItemHorizontal(props) {
   const { post, onDelete } = props;
-  const { title, author, publish, coverUrl, createdAt, totalViews, totalComments, description } =
-    post;
+  const {
+    author,
+    coverUrl,
+    description,
+    id,
+    title,
+    isPublished,
+    createdAt,
+    totalComments = 10,
+    totalViews = 100,
+  } = post;
+  const cover = coverUrl || PLACEHOLDER_WAREHOUSE_IMAGE;
 
   const router = useRouter();
   const smUp = useResponsive('up', 'sm');
@@ -64,27 +65,28 @@ export default function PostItemHorizontal(props) {
   // handle edit
   const handleEdit = () => {
     popover.onClose();
-    router.push(paths.dashboard.news.edit(paramCase(title)));
+    router.push(paths.dashboard.news.edit(id));
   };
 
   // handle view
   const handleView = () => {
     popover.onClose();
-    router.push(paths.dashboard.news.details(paramCase(title)));
+    router.push(paths.dashboard.news.details(id));
   };
 
   return (
     <>
-      <Stack component={Card} direction="row">
+      <Stack component={Card} direction="row" sx={{ width: 1 }}>
         <Stack
           sx={{
             p: (theme) => theme.spacing(3, 3, 2, 3),
+            flexGrow: 1,
           }}
         >
           <Stack direction="row" alignItems="center" justifyContent="space-between" sx={{ mb: 1 }}>
             <Stack direction="row" alignItems="center" spacing={1}>
-              <Label variant="soft" color={(publish === 'published' && 'info') || 'default'}>
-                {publish}
+              <Label variant="soft" color={isPublished ? 'info' : 'default'}>
+                {isPublished ? 'published' : 'draft'}
               </Label>
 
               <Box component="span" sx={{ typography: 'caption', color: 'text.disabled' }}>
@@ -98,11 +100,7 @@ export default function PostItemHorizontal(props) {
           </Stack>
 
           <Stack spacing={1} flexGrow={1}>
-            <Link
-              color="inherit"
-              component={RouterLink}
-              href={paths.dashboard.news.details(paramCase(title))}
-            >
+            <Link color="inherit" component={RouterLink} href={paths.dashboard.news.details(id)}>
               <TextMaxLine variant="subtitle2" line={2}>
                 {title}
               </TextMaxLine>
@@ -149,11 +147,11 @@ export default function PostItemHorizontal(props) {
             }}
           >
             <Avatar
-              alt={author.name}
-              src={author.avatarUrl}
+              alt={`${author.firstName} ${author.lastName}`}
+              src={author.avatar}
               sx={{ position: 'absolute', top: 16, right: 16, zIndex: 9 }}
             />
-            <Image alt={title} src={coverUrl} sx={{ height: 1, borderRadius: 1.5 }} />
+            <Image alt={title} src={cover} sx={{ height: 1, borderRadius: 1.5 }} />
           </Box>
         )}
       </Stack>

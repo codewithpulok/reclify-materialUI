@@ -68,7 +68,7 @@ export default function EditForm(props) {
     // handle success state
     else if (data && data?.success) {
       console.warn('News Updated successfully: ', response);
-      enqueueSnackbar('News Updated successfully', { variant: 'error' });
+      enqueueSnackbar('News Updated successfully');
       router.push(paths.dashboard.news.root);
       reset(); // reset form on successfully news update
     }

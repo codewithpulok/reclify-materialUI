@@ -87,7 +87,7 @@ const PostFields = (props) => {
 
           <Stack spacing={3} sx={{ p: 3 }}>
             <RHFSwitch label="Publish" name="isPublished" />
-            <RHFSwitch label="Enable Comments" name="allowComments" />
+            <RHFSwitch label="Enable Comments" name="allowComment" />
           </Stack>
         </Card>
       </Grid>
@@ -97,7 +97,11 @@ const PostFields = (props) => {
   const renderActions = (
     <>
       {mdUp && <Grid md={4} />}
-      <Grid xs={12} md={8} sx={{ display: 'flex', alignItems: 'center' }}>
+      <Grid
+        xs={12}
+        md={8}
+        sx={{ display: 'flex', alignItems: 'center', justifyContent: 'flex-end' }}
+      >
         <Button color="inherit" variant="outlined" size="large" type="reset">
           Cancel
         </Button>
