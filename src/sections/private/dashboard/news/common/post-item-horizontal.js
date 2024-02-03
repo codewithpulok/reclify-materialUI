@@ -26,24 +26,52 @@ import { paramCase } from 'src/utils/change-case';
 
 // ----------------------------------------------------------------------
 
-export default function PostItemHorizontal({ post }) {
-  const popover = usePopover();
+const Props = {
+  post: PropTypes.shape({
+    author: PropTypes.object,
+    coverUrl: PropTypes.string,
+    createdAt: PropTypes.oneOfType([PropTypes.string, PropTypes.instanceOf(Date)]),
+    description: PropTypes.string,
+    publish: PropTypes.string,
+    title: PropTypes.string,
+    totalComments: PropTypes.number,
+    totalShares: PropTypes.number,
+    totalViews: PropTypes.number,
+  }),
+  onDelete: PropTypes.func,
+};
+
+/**
+ * @param {Props} props
+ * @returns {JSX.Element}
+ */
+export default function PostItemHorizontal(props) {
+  const { post, onDelete } = props;
+  const { title, author, publish, coverUrl, createdAt, totalViews, totalComments, description } =
+    post;
 
   const router = useRouter();
-
   const smUp = useResponsive('up', 'sm');
 
-  const {
-    title,
-    author,
-    publish,
-    coverUrl,
-    createdAt,
-    totalViews,
-    totalShares,
-    totalComments,
-    description,
-  } = post;
+  const popover = usePopover();
+
+  // handle delete
+  const handleDelete = () => {
+    popover.onClose();
+    onDelete();
+  };
+
+  // handle edit
+  const handleEdit = () => {
+    popover.onClose();
+    router.push(paths.dashboard.news.edit(paramCase(title)));
+  };
+
+  // handle view
+  const handleView = () => {
+    popover.onClose();
+    router.push(paths.dashboard.news.details(paramCase(title)));
+  };
 
   return (
     <>
@@ -106,11 +134,6 @@ export default function PostItemHorizontal({ post }) {
                 <Iconify icon="solar:eye-bold" width={16} sx={{ mr: 0.5 }} />
                 {fShortenNumber(totalViews)}
               </Stack>
-
-              <Stack direction="row" alignItems="center">
-                <Iconify icon="solar:share-bold" width={16} sx={{ mr: 0.5 }} />
-                {fShortenNumber(totalShares)}
-              </Stack>
             </Stack>
           </Stack>
         </Stack>
@@ -141,32 +164,17 @@ export default function PostItemHorizontal({ post }) {
         arrow="top-right"
         sx={{ width: 140 }}
       >
-        <MenuItem
-          onClick={() => {
-            popover.onClose();
-            router.push(paths.dashboard.news.details(paramCase(title)));
-          }}
-        >
+        <MenuItem onClick={handleView}>
           <Iconify icon="solar:eye-bold" />
           View
         </MenuItem>
 
-        <MenuItem
-          onClick={() => {
-            popover.onClose();
-            router.push(paths.dashboard.news.edit(paramCase(title)));
-          }}
-        >
+        <MenuItem onClick={handleEdit}>
           <Iconify icon="solar:pen-bold" />
           Edit
         </MenuItem>
 
-        <MenuItem
-          onClick={() => {
-            popover.onClose();
-          }}
-          sx={{ color: 'error.main' }}
-        >
+        <MenuItem onClick={handleDelete} sx={{ color: 'error.main' }}>
           <Iconify icon="solar:trash-bin-trash-bold" />
           Delete
         </MenuItem>
@@ -175,16 +183,4 @@ export default function PostItemHorizontal({ post }) {
   );
 }
 
-PostItemHorizontal.propTypes = {
-  post: PropTypes.shape({
-    author: PropTypes.object,
-    coverUrl: PropTypes.string,
-    createdAt: PropTypes.oneOfType([PropTypes.string, PropTypes.instanceOf(Date)]),
-    description: PropTypes.string,
-    publish: PropTypes.string,
-    title: PropTypes.string,
-    totalComments: PropTypes.number,
-    totalShares: PropTypes.number,
-    totalViews: PropTypes.number,
-  }),
-};
+PostItemHorizontal.propTypes = Props;

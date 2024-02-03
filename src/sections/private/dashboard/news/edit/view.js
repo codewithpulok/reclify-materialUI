@@ -12,7 +12,7 @@ import CustomBreadcrumbs from 'src/components/common/custom-breadcrumbs';
 import { useSettingsContext } from 'src/components/common/settings';
 
 import { useGetPost } from 'src/utils/blog';
-import PostNewEditForm from '../common/post-new-edit-form';
+import EditForm from './edit-form';
 
 // ----------------------------------------------------------------------
 
@@ -43,7 +43,7 @@ export default function NewsEditView({ title }) {
         }}
       />
 
-      <PostNewEditForm currentPost={currentPost} />
+      <EditForm currentPost={currentPost} />
     </Container>
   );
 }

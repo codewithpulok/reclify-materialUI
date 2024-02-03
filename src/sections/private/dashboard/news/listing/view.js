@@ -81,7 +81,7 @@ export default function NewsListingView() {
   return (
     <Container maxWidth={settings.themeStretch ? false : 'lg'}>
       <CustomBreadcrumbs
-        heading="List"
+        heading="News List"
         links={[
           {
             name: 'Dashboard',
@@ -90,9 +90,6 @@ export default function NewsListingView() {
           {
             name: 'News',
             href: paths.dashboard.news.root,
-          },
-          {
-            name: 'List',
           },
         ]}
         action={

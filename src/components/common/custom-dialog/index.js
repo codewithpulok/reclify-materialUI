@@ -30,3 +30,10 @@ export { default as ACHInfoCreateDialog } from './ach-info/create';
 export { default as ACHInfoDeleteDialog } from './ach-info/delete';
 export { default as ACHInfoEditDialog } from './ach-info/edit';
 export { default as ACHInfoListDialog } from './ach-info/list';
+
+// plan dialog
+export { default as PlanCancelDialog } from './plan/plan-cancel-dialog';
+export { default as PlanUpgradeDialog } from './plan/plan-upgrade-dialog';
+
+// news dialog
+export { default as NewsDeleteDialog } from './news/news-delete-dialog';

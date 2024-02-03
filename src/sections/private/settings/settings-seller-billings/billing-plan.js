@@ -7,12 +7,11 @@ import Divider from '@mui/material/Divider';
 import Stack from '@mui/material/Stack';
 import Grid from '@mui/material/Unstable_Grid2';
 
-import { useBoolean } from 'src/hooks/use-boolean';
-
 import PlanCard from 'src/components/user-settings/cards/plan-card';
 
-import { SubscriptionPaymentDialog } from 'src/components/common/custom-dialog';
+import { PlanCancelDialog, PlanUpgradeDialog } from 'src/components/common/custom-dialog';
 import { ErrorState, LoadingState } from 'src/components/common/custom-state';
+import { useDialog } from 'src/hooks/use-dialog';
 import { selectAuth } from 'src/redux-toolkit/features/auth/authSlice';
 import { useAppSelector } from 'src/redux-toolkit/hooks';
 import { usePlanListQuery } from 'src/redux-toolkit/services/planApi';
@@ -29,12 +28,14 @@ const Props = {};
 const BillingPlan = (props) => {
   const { user } = useAppSelector(selectAuth);
 
-  const currentPlan = useMemo(() => user?.planId || null, [user]);
-
   // api state
   const listResponse = usePlanListQuery();
 
-  const openPaymentForm = useBoolean();
+  // dialog state
+  const upgradeDialog = useDialog();
+  const cancelPlan = useDialog();
+
+  const currentPlan = useMemo(() => user?.planId || null, [user]);
   const [selectedPlan, setSelectedPlan] = useState(currentPlan);
 
   const handleSelectPlan = useCallback((newValue) => {
@@ -93,19 +94,30 @@ const BillingPlan = (props) => {
         <Divider sx={{ borderStyle: 'dashed' }} />
 
         <Stack spacing={1.5} direction="row" justifyContent="flex-end" sx={{ p: 3 }}>
-          <Button variant="outlined">Cancel Current Plan</Button>
+          <Button
+            variant="outlined"
+            onClick={cancelPlan.onOpen}
+            disabled={!currentPlan || currentPlan === 'free'}
+          >
+            Cancel Current Plan
+          </Button>
           <Button
             variant="contained"
             color="success"
             disabled={currentPlan === selectedPlan}
-            onClick={openPaymentForm.onTrue}
+            onClick={() => upgradeDialog.onOpen(selectedPlan)}
           >
             Upgrade Plan
           </Button>
         </Stack>
       </Card>
 
-      <SubscriptionPaymentDialog open={openPaymentForm.value} onClose={openPaymentForm.onFalse} />
+      <PlanUpgradeDialog
+        onClose={upgradeDialog.onClose}
+        open={upgradeDialog.open}
+        planId={upgradeDialog.value}
+      />
+      <PlanCancelDialog onClose={cancelPlan.onClose} open={cancelPlan.open} />
     </>
   );
 };

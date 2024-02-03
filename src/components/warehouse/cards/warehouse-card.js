@@ -85,8 +85,10 @@ const WarehouseCard = (props) => {
               overflow: 'hidden',
               textOverflow: 'ellipsis',
               display: '-webkit-box',
-              webkitlineclamp: '1',
-              webkitboxorient: 'vertical',
+              '-webkit-line-clamp': '2',
+              '-webkit-box-orient': 'vertical',
+              maxHeight: '44px',
+              height: '44px',
             }}
           >
             {joinAddressObj(warehouse.address)}
