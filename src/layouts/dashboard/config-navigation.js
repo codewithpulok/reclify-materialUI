@@ -64,6 +64,18 @@ export function useNavData() {
     []
   );
 
+  /** @type {Route[]} */
+  const notAdminRoutes = useMemo(
+    () => [
+      {
+        title: 'Racklify News',
+        path: paths.news.root,
+        icon: ICONS.news(),
+      },
+    ],
+    []
+  );
+
   /**
    * admin warehouse routes
    * @type {Route[]}
@@ -159,16 +171,12 @@ export function useNavData() {
         path: paths.dashboard.messages.root,
         icon: ICONS.messages(),
       },
-      // news route
-      {
-        title: 'Racklify News',
-        path: paths.news.root,
-        icon: ICONS.news(),
-      },
+      // not admin route
+      ...(user?.userType !== 'admin' ? notAdminRoutes : []),
       // admin routes
       ...(user?.userType === 'admin' ? adminRoutes : []),
     ],
-    [adminRoutes, adminWarehouseRoutes, user?.userType]
+    [adminRoutes, adminWarehouseRoutes, notAdminRoutes, user?.userType]
   );
 
   const data = useMemo(

@@ -25,10 +25,12 @@ export const authSlice = createSlice({
       state.token = null;
     },
     update: (state, action) => {
-      if (action.payload?.firstName) state.user.firstName = action.payload.firstName;
-      if (action.payload?.lastName) state.user.lastName = action.payload.lastName;
-      if (action.payload?.email) state.user.email = action.payload.email;
-      if (action.payload?.serviceType) state.user.serviceType = action.payload.serviceType;
+      if (action.payload?.firstName !== undefined) state.user.firstName = action.payload.firstName;
+      if (action.payload?.lastName !== undefined) state.user.lastName = action.payload.lastName;
+      if (action.payload?.email !== undefined) state.user.email = action.payload.email;
+      if (action.payload?.serviceType !== undefined)
+        state.user.serviceType = action.payload.serviceType;
+      if (action.payload?.planId !== undefined) state.user.planId = action.payload.planId;
     },
   },
 });
