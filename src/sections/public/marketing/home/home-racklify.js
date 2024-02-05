@@ -93,7 +93,7 @@ export default function HomeRacklify() {
                 p: (theme) => theme.spacing(10, 5),
               }}
             >
-              <Image src={card.image} sx={{ width: '100px' }} />
+              <Image src={`/assets/images/home/${card.image}`} sx={{ width: '100px' }} />
 
               <Typography variant="h5" sx={{ mt: 7, mb: 2 }}>
                 {card.title}
