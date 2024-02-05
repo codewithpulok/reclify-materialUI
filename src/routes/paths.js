@@ -27,6 +27,9 @@ export const paths = {
   auth: {
     login: `${ROOTS.AUTH}/login`,
     register: `${ROOTS.AUTH}/register`,
+    forgot_password: `${ROOTS.AUTH}/forgot-password`,
+    new_password: `${ROOTS.AUTH}/new-password`,
+    email_verify: `${ROOTS.AUTH}/email-verify`,
   },
 
   // DASHBOARD

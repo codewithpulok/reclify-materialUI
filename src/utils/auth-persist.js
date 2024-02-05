@@ -51,7 +51,7 @@ export const updateAuthState = (newToken = null, userUpdates = null) =>
       // remove undefined values
       const parsedUserUpdates = userUpdates
         ? Object.keys(userUpdates).reduce((prev, curr) => {
-            if (userUpdates[curr]) prev[curr] = userUpdates[curr];
+            if (userUpdates[curr] !== undefined) prev[curr] = userUpdates[curr];
             return prev;
           }, {})
         : {};

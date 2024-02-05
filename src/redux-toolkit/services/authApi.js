@@ -91,6 +91,30 @@ export const authApi = createApi({
         method: 'PUT',
       }),
     }),
+    forgotPassword: builder.mutation({
+      /** @type {(data: {email: string}) => {}} */
+      query: (data) => ({
+        url: endpoints.auth.password.forgot,
+        body: data,
+        method: 'POST',
+      }),
+    }),
+    resetPassword: builder.mutation({
+      /** @type {(data: {token: string, newPassword: string}) => {}} */
+      query: (data) => ({
+        url: endpoints.auth.password.reset,
+        body: data,
+        method: 'PUT',
+      }),
+    }),
+    emailVerify: builder.mutation({
+      /** @type {(data: {token: string}) => {}} */
+      query: (data) => ({
+        url: endpoints.auth.email.verify,
+        body: data,
+        method: 'POST',
+      }),
+    }),
   }),
 });
 
@@ -100,4 +124,7 @@ export const {
   useInitAuthMutation,
   useLogoutMutation,
   useUpdatePasswordMutation,
+  useEmailVerifyMutation,
+  useForgotPasswordMutation,
+  useResetPasswordMutation,
 } = authApi;

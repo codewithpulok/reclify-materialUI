@@ -21,8 +21,8 @@ const WarehouseDeleteDialog = (props) => {
 
   const [deleteWarehouse, deleteResponse] = useWarehouseDeleteMutation();
 
-  const handleCancelTransaction = useCallback(async () => {
-    console.log('Cancel Transaction: ', warehouse);
+  const handleConfirm = useCallback(async () => {
+    console.log('Delete Warehouse: ', warehouse);
     const response = await deleteWarehouse(warehouse?.id);
     const { data, error } = response;
 
@@ -45,7 +45,7 @@ const WarehouseDeleteDialog = (props) => {
       action={
         <LoadingButton
           loading={deleteResponse?.isLoading}
-          onClick={handleCancelTransaction}
+          onClick={handleConfirm}
           color="error"
           variant="contained"
         >

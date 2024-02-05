@@ -9,6 +9,11 @@ export const endpoints = {
     register: `/register`,
     password: {
       change: '/reset-password',
+      reset: '/reset-password',
+      forgot: '/forgot-password',
+    },
+    email: {
+      verify: '/verify-email',
     },
   },
   warehouses: {
@@ -96,8 +101,8 @@ export const endpoints = {
     list: '/',
     create: '/',
     get: (id) => `/${id}`,
-    upgrade: (id) => `${PUBLIC_BACKEND_API}/plan/upgrade/${id}`,
-    cancel: `${PUBLIC_BACKEND_API}/plan/cancel`,
+    upgrade: (id) => `/upgrade/${id}`,
+    cancel: `/cancel`,
   },
   invoices: {
     root: '/invoices',

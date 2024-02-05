@@ -7,7 +7,7 @@ import { paths } from 'src/routes/paths';
 import CustomBreadcrumbs from 'src/components/common/custom-breadcrumbs';
 import { useSettingsContext } from 'src/components/common/settings';
 
-import PostNewEditForm from '../common/post-new-edit-form';
+import CreateForm from './create-form';
 
 // ----------------------------------------------------------------------
 
@@ -36,7 +36,7 @@ export default function PostCreateView() {
         }}
       />
 
-      <PostNewEditForm />
+      <CreateForm />
     </Container>
   );
 }

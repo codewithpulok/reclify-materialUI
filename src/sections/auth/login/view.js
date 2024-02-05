@@ -88,7 +88,14 @@ export default function LoginView() {
 
       <Fields />
 
-      <Link variant="body2" color="inherit" underline="always" sx={{ alignSelf: 'flex-end' }}>
+      <Link
+        variant="body2"
+        component={RouterLink}
+        href={paths.auth.forgot_password}
+        color="inherit"
+        underline="always"
+        sx={{ alignSelf: 'flex-end' }}
+      >
         Forgot password?
       </Link>
 

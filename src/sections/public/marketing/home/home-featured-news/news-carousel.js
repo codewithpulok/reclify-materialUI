@@ -1,7 +1,7 @@
 import { Box } from '@mui/material';
 import PropTypes from 'prop-types';
 import Carousel, { CarouselArrows, useCarousel } from 'src/components/common/carousel';
-import PostItem from 'src/sections/public/marketing/news/post-item';
+import PostItem from '../../news/common/post-item';
 
 const Props = {
   /** @type {Warehouse[]} */

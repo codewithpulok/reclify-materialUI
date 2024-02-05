@@ -1,9 +1,9 @@
-import { PostListHomeView } from 'src/sections/public/marketing/news/view';
+import { NewsListingView } from 'src/sections/public/marketing/news';
 
 export const metadata = {
   title: 'News - Racklify',
 };
 
-const NewsPage = () => <PostListHomeView />;
+const NewsPage = () => <NewsListingView />;
 
 export default NewsPage;

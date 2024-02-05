@@ -2,8 +2,8 @@ import PropTypes from 'prop-types';
 import { NewsEditView } from 'src/sections/private/dashboard/news';
 
 const NewsEditPage = ({ params }) => {
-  const { id: slug } = params;
-  return <NewsEditView title={slug} />;
+  const { id } = params;
+  return <NewsEditView id={id} />;
 };
 
 NewsEditPage.propTypes = {
