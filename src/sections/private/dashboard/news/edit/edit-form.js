@@ -1,6 +1,6 @@
 import { yupResolver } from '@hookform/resolvers/yup';
 import PropTypes from 'prop-types';
-import { useEffect, useMemo } from 'react';
+import { useCallback, useEffect, useMemo } from 'react';
 import { useForm } from 'react-hook-form';
 
 import { useRouter } from 'src/routes/hooks';
@@ -53,26 +53,29 @@ export default function EditForm(props) {
   const values = watch();
 
   // handle create post
-  const onSubmit = async (formValues) => {
-    console.log('News Update:', formValues);
+  const onSubmit = useCallback(
+    async (formValues) => {
+      console.log('News Update:', formValues);
 
-    const response = await updateBlog(formValues);
-    const { data, error } = response;
+      const response = await updateBlog({ id: currentPost?.id, data: formValues });
+      const { data, error } = response;
 
-    // handle error state
-    if (error || data?.isError) {
-      console.error('Error in news update: ', response);
-      enqueueSnackbar('Error in news update', { variant: 'error' });
-    }
+      // handle error state
+      if (error || data?.isError) {
+        console.error('Error in news update: ', response);
+        enqueueSnackbar('Error in news update', { variant: 'error' });
+      }
 
-    // handle success state
-    else if (data && data?.success) {
-      console.warn('News Updated successfully: ', response);
-      enqueueSnackbar('News Updated successfully');
-      router.push(paths.dashboard.news.root);
-      reset(); // reset form on successfully news update
-    }
-  };
+      // handle success state
+      else if (data && data?.success) {
+        console.warn('News Updated successfully: ', response);
+        enqueueSnackbar('News Updated successfully');
+        router.push(paths.dashboard.news.root);
+        reset(); // reset form on successfully news update
+      }
+    },
+    [currentPost?.id, reset, router, updateBlog]
+  );
 
   useEffect(() => {
     if (currentPost) {
