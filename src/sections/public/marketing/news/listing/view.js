@@ -17,14 +17,14 @@ import { useGetPosts, useSearchPosts } from 'src/utils/blog';
 import { useSettingsContext } from 'src/components/common/settings';
 
 import { paramCase } from 'src/utils/change-case';
-import PostList from '../post-list';
-import PostSearch from '../post-search';
-import PostSort from '../post-sort';
-import PostsFeatured from '../posts-featured';
+import PostList from '../common/post-list';
+import PostSearch from '../common/post-search';
+import PostSort from '../common/post-sort';
+import PostsFeatured from '../common/posts-featured';
 
 // ----------------------------------------------------------------------
 
-export default function PostListHomeView() {
+export default function NewsListingView() {
   const settings = useSettingsContext();
 
   const [sortBy, setSortBy] = useState('latest');

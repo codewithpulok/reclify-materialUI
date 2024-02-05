@@ -25,15 +25,15 @@ import EmptyContent from 'src/components/common/empty-content';
 import Iconify from 'src/components/common/iconify';
 import Markdown from 'src/components/common/markdown';
 
-import PostCommentForm from '../post-comment-form';
-import PostCommentList from '../post-comment-list';
-import PostDetailsHero from '../post-details-hero';
-import PostList from '../post-list';
-import { PostDetailsSkeleton } from '../post-skeleton';
+import PostCommentForm from '../common/post-comment-form';
+import PostCommentList from '../common/post-comment-list';
+import PostDetailsHero from '../common/post-details-hero';
+import PostList from '../common/post-list';
+import { PostDetailsSkeleton } from '../common/post-skeleton';
 
 // ----------------------------------------------------------------------
 
-export default function PostDetailsHomeView({ title }) {
+export default function NewsDetailsView({ title }) {
   const { post, postError, postLoading } = useGetPost(title);
 
   const { latestPosts, latestPostsLoading } = useGetLatestPosts(title);
@@ -185,6 +185,6 @@ export default function PostDetailsHomeView({ title }) {
   );
 }
 
-PostDetailsHomeView.propTypes = {
+NewsDetailsView.propTypes = {
   title: PropTypes.string,
 };

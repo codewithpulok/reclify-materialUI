@@ -1,6 +1,6 @@
 import PropTypes from 'prop-types';
+import { NewsDetailsView } from 'src/sections/public/marketing/news';
 
-import { PostDetailsHomeView } from 'src/sections/public/marketing/news/view';
 import axios, { endpoints } from 'src/utils/axios';
 import { paramCase } from 'src/utils/change-case';
 
@@ -20,7 +20,7 @@ export const metadata = {
 
 const NewsDetailsPage = ({ params }) => {
   const { slug } = params;
-  return <PostDetailsHomeView title={slug} />;
+  return <NewsDetailsView title={slug} />;
 };
 
 NewsDetailsPage.propTypes = {
