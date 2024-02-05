@@ -2,125 +2,68 @@
 
 import { yupResolver } from '@hookform/resolvers/yup';
 import { useForm } from 'react-hook-form';
-import * as Yup from 'yup';
 
-import LoadingButton from '@mui/lab/LoadingButton';
-import IconButton from '@mui/material/IconButton';
-import InputAdornment from '@mui/material/InputAdornment';
-import Link from '@mui/material/Link';
 import Stack from '@mui/material/Stack';
 import Typography from '@mui/material/Typography';
 
 import { RouterLink } from 'src/routes/components';
 import { paths } from 'src/routes/paths';
 
-import { useBoolean } from 'src/hooks/use-boolean';
-
 import { SentIcon } from 'src/assets/icons';
 
-import FormProvider, { RHFTextField } from 'src/components/common/hook-form';
-import Iconify from 'src/components/common/iconify';
+import { Alert, Button } from '@mui/material';
+import { useSearchParams } from 'next/navigation';
+import { useCallback, useEffect, useState } from 'react';
+import FormProvider from 'src/components/common/hook-form';
+import { useResetPasswordMutation } from 'src/redux-toolkit/services/authApi';
+import PasswordFields from './password-fields';
+import passwordSchema from './password-schema';
 
 // ----------------------------------------------------------------------
 
+const defaultValues = {
+  token: '',
+  password: '',
+  confirmPassword: '',
+};
+
 export default function NewPasswordView() {
-  const password = useBoolean();
+  // url states
+  const searchParams = useSearchParams();
+  const token = searchParams.get('token');
 
-  const NewPasswordSchema = Yup.object().shape({
-    code: Yup.string().min(6, 'Code must be at least 6 characters').required('Code is required'),
-    email: Yup.string().required('Email is required').email('Email must be a valid email address'),
-    password: Yup.string()
-      .min(6, 'Password must be at least 6 characters')
-      .required('Password is required'),
-    confirmPassword: Yup.string()
-      .required('Confirm password is required')
-      .oneOf([Yup.ref('password')], 'Passwords must match'),
-  });
+  // app states
+  const [apiError, setApiError] = useState(null);
 
-  const defaultValues = {
-    token: '',
-    password: '',
-    confirmPassword: '',
-  };
+  // api state
+  const [resetPassword, resetResponse] = useResetPasswordMutation();
 
-  const methods = useForm({
-    mode: 'onChange',
-    resolver: yupResolver(NewPasswordSchema),
-    defaultValues,
-  });
+  // form states
+  const methods = useForm({ resolver: yupResolver(passwordSchema), defaultValues });
+  const { handleSubmit, setValue } = methods;
 
-  const {
-    handleSubmit,
-    formState: { isSubmitting },
-  } = methods;
+  const onSubmit = useCallback(
+    async (values) => {
+      // reset error state
+      setApiError(null);
+      console.log('Reset password: ', values);
 
-  const onSubmit = handleSubmit(async (data) => {
-    try {
-      await new Promise((resolve) => setTimeout(resolve, 500));
-      console.info('DATA', data);
-    } catch (error) {
-      console.error(error);
-    }
-  });
+      // call some api to register
+      const response = await resetPassword(values);
+      const { data, error } = response;
 
-  const renderForm = (
-    <Stack spacing={3} alignItems="center">
-      <RHFTextField
-        name="password"
-        label="Password"
-        type={password.value ? 'text' : 'password'}
-        InputProps={{
-          endAdornment: (
-            <InputAdornment position="end">
-              <IconButton onClick={password.onToggle} edge="end">
-                <Iconify icon={password.value ? 'solar:eye-bold' : 'solar:eye-closed-bold'} />
-              </IconButton>
-            </InputAdornment>
-          ),
-        }}
-        fullWidth
-      />
+      // handle error
+      if (error || data?.isError) {
+        console.error('Reset password Error: ', response);
+        setApiError(error?.data?.message || data?.message);
+      }
 
-      <RHFTextField
-        name="confirmPassword"
-        label="Confirm New Password"
-        type={password.value ? 'text' : 'password'}
-        InputProps={{
-          endAdornment: (
-            <InputAdornment position="end">
-              <IconButton onClick={password.onToggle} edge="end">
-                <Iconify icon={password.value ? 'solar:eye-bold' : 'solar:eye-closed-bold'} />
-              </IconButton>
-            </InputAdornment>
-          ),
-        }}
-        fullWidth
-      />
-
-      <LoadingButton
-        fullWidth
-        size="large"
-        type="submit"
-        variant="contained"
-        loading={isSubmitting}
-      >
-        Update Password
-      </LoadingButton>
-
-      <Link
-        component={RouterLink}
-        href={paths.auth.login}
-        color="inherit"
-        variant="subtitle2"
-        sx={{
-          alignItems: 'center',
-          display: 'inline-flex',
-        }}
-      >
-        <Iconify icon="eva:arrow-ios-back-fill" width={16} />
-        Return to sign in
-      </Link>
-    </Stack>
+      // handle success
+      if (data?.success) {
+        console.warn('Reset password mail sent: ', response);
+      }
+    },
+    [resetPassword]
   );
 
   const renderHead = (
@@ -137,11 +80,31 @@ export default function NewPasswordView() {
     </>
   );
 
+  useEffect(() => {
+    if (token) {
+      setValue('token', token);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [token]);
+
+  if (resetResponse.isSuccess && resetResponse?.isLoading) {
+    return (
+      <Stack spacing={5}>
+        <Alert severity="success">Password Reset Successfull</Alert>
+        <Button LinkComponent={RouterLink} href={paths.auth.login}>
+          Back to login
+        </Button>
+      </Stack>
+    );
+  }
+
   return (
-    <FormProvider methods={methods} onSubmit={onSubmit}>
+    <FormProvider methods={methods} onSubmit={handleSubmit(onSubmit)}>
       {renderHead}
 
-      {renderForm}
+      {!!apiError && <Alert severity="error">{apiError}</Alert>}
+
+      <PasswordFields />
     </FormProvider>
   );
 }

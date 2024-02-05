@@ -9,6 +9,11 @@ export const endpoints = {
     register: `/register`,
     password: {
       change: '/reset-password',
+      reset: '/reset-password',
+      forgot: '/forgot-password',
+    },
+    email: {
+      verify: '/verify-email',
     },
   },
   warehouses: {

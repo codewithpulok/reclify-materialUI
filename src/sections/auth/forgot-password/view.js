@@ -2,79 +2,60 @@
 
 import { yupResolver } from '@hookform/resolvers/yup';
 import { useForm } from 'react-hook-form';
-import * as Yup from 'yup';
 
-import LoadingButton from '@mui/lab/LoadingButton';
-import Link from '@mui/material/Link';
 import Stack from '@mui/material/Stack';
 import Typography from '@mui/material/Typography';
 
-import { RouterLink } from 'src/routes/components';
-import { paths } from 'src/routes/paths';
-
 import { PasswordIcon } from 'src/assets/icons';
 
-import FormProvider, { RHFTextField } from 'src/components/common/hook-form';
-import Iconify from 'src/components/common/iconify';
+import { Alert } from '@mui/material';
+import { useCallback, useState } from 'react';
+import FormProvider from 'src/components/common/hook-form';
+import { useForgotPasswordMutation } from 'src/redux-toolkit/services/authApi';
+import MailSuccess from '../common/mail-success';
+import ForgotFields from './forgot-fields';
+import forgotSchema from './forgot-schema';
+
+const defaultValues = {
+  email: '',
+};
 
 // ----------------------------------------------------------------------
 
 export default function ForgotPasswordView() {
-  const ForgotPasswordSchema = Yup.object().shape({
-    email: Yup.string().required('Email is required').email('Email must be a valid email address'),
-  });
+  // app state
+  const [apiError, setApiError] = useState(null);
 
-  const defaultValues = {
-    email: '',
-  };
+  // api state
+  const [forgotPassword, forgotResponse] = useForgotPasswordMutation();
 
-  const methods = useForm({
-    resolver: yupResolver(ForgotPasswordSchema),
-    defaultValues,
-  });
+  // form state
+  const methods = useForm({ resolver: yupResolver(forgotSchema), defaultValues });
 
-  const {
-    handleSubmit,
-    formState: { isSubmitting },
-  } = methods;
+  const { handleSubmit } = methods;
 
-  const onSubmit = handleSubmit(async (data) => {
-    try {
-      await new Promise((resolve) => setTimeout(resolve, 500));
-      console.info('DATA', data);
-    } catch (error) {
-      console.error(error);
-    }
-  });
+  const onSubmit = useCallback(
+    async (values) => {
+      // reset error state
+      setApiError(null);
+      console.log('Forgot Password: ', values);
 
-  const renderForm = (
-    <Stack spacing={3} alignItems="center">
-      <RHFTextField name="email" label="Email address" fullWidth />
+      // call some api to register
+      const response = await forgotPassword(values);
+      const { data, error } = response;
 
-      <LoadingButton
-        fullWidth
-        size="large"
-        type="submit"
-        variant="contained"
-        loading={isSubmitting}
-      >
-        Send Request
-      </LoadingButton>
+      // handle error
+      if (error || data?.isError) {
+        console.error('Forgot Password Error: ', response);
+        setApiError(error?.data?.message || data?.message);
+      }
 
-      <Link
-        component={RouterLink}
-        href={paths.auth.login}
-        color="inherit"
-        variant="subtitle2"
-        sx={{
-          alignItems: 'center',
-          display: 'inline-flex',
-        }}
-      >
-        <Iconify icon="eva:arrow-ios-back-fill" width={16} />
-        Return to sign in
-      </Link>
-    </Stack>
+      // handle success
+      if (data?.success) {
+        console.warn('Forgot Password Mail Sent: ', response);
+      }
+    },
+    [forgotPassword]
   );
 
   const renderHead = (
@@ -92,11 +73,18 @@ export default function ForgotPasswordView() {
     </>
   );
 
+  // success state
+  if (forgotResponse?.isSuccess && !forgotResponse?.isLoading) {
+    return <MailSuccess title="Reset Mail Sent" />;
+  }
+
   return (
-    <FormProvider methods={methods} onSubmit={onSubmit}>
+    <FormProvider methods={methods} onSubmit={handleSubmit(onSubmit)}>
       {renderHead}
 
-      {renderForm}
+      {!!apiError && <Alert severity="error">{apiError}</Alert>}
+
+      <ForgotFields />
     </FormProvider>
   );
 }
