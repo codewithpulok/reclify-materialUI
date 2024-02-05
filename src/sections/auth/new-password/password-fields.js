@@ -1,12 +1,11 @@
 import { LoadingButton } from '@mui/lab';
-import { InputAdornment, Link, Stack } from '@mui/material';
+import { IconButton, InputAdornment, Link, Stack } from '@mui/material';
 import { useFormContext } from 'react-hook-form';
 import { RHFTextField } from 'src/components/common/hook-form';
 import Iconify from 'src/components/common/iconify';
 import { useBoolean } from 'src/hooks/use-boolean';
 import { RouterLink } from 'src/routes/components';
 import { paths } from 'src/routes/paths';
-import { IconButton } from 'yet-another-react-lightbox';
 
 const PasswordFields = (props) => {
   // app states

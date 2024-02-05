@@ -7,8 +7,8 @@ import { RouterLink } from 'src/routes/components';
 import { paths } from 'src/routes/paths';
 
 const ForgotFields = (props) => {
-  const { isSubmitting } = formState;
   const { formState } = useFormContext();
+  const { isSubmitting } = formState;
   return (
     <Stack spacing={3} alignItems="center">
       <RHFTextField name="email" label="Email address" fullWidth />

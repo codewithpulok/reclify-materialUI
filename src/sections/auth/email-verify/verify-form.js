@@ -75,7 +75,11 @@ export default function VerifyForm() {
         </Typography>
       </Stack>
 
-      {!!apiError && <Alert severity="error">{apiError}</Alert>}
+      {!!apiError && (
+        <Alert severity="error" sx={{ mb: 5 }}>
+          {apiError}
+        </Alert>
+      )}
 
       <VerifyFields />
     </FormProvider>
