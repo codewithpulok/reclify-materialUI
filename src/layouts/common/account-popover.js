@@ -76,7 +76,7 @@ const AccountPopover = () => {
     [user]
   );
 
-  const avatar = profileResponse?.data?.avatar || PLACEHOLDER_PROFILE_AVATAR;
+  const avatar = profileResponse?.data?.results?.avatar || PLACEHOLDER_PROFILE_AVATAR;
 
   return (
     <>
@@ -97,7 +97,7 @@ const AccountPopover = () => {
         }}
       >
         <Avatar
-          src={avatar} // For demo
+          src={avatar}
           alt={profileResponse?.data?.firstName}
           sx={{
             width: 36,

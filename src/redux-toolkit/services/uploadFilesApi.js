@@ -25,10 +25,10 @@ export const uploadFilesApi = createApi({
       }),
     }),
     fileDeleteByURL: builder.mutation({
-      query: (link) => ({
+      query: (filelink) => ({
         url: endpoints.file_upload.delete_url,
         body: {
-          link,
+          filelink,
         },
         method: 'DELETE',
       }),
