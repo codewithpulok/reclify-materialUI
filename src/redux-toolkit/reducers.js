@@ -13,6 +13,7 @@ import { planApi } from './services/planApi';
 import { profileApi } from './services/profileApi';
 import { purchaseApi } from './services/purchaseApi';
 import { reviewApi } from './services/reviewApi';
+import { searchApi } from './services/searchApi';
 import { serviceApi } from './services/serviceApi';
 import { transactionApi } from './services/transactionApi';
 import { uploadFilesApi } from './services/uploadFilesApi';
@@ -38,6 +39,7 @@ const reducers = combineReducers({
   [planApi.reducerPath]: planApi.reducer,
   [invoiceApi.reducerPath]: invoiceApi.reducer,
   [blogApi.reducerPath]: blogApi.reducer,
+  [searchApi.reducerPath]: searchApi.reducer,
 });
 
 export default reducers;
