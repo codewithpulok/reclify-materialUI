@@ -1,10 +1,9 @@
-import { Box, Card, CardActionArea, Stack, Typography } from '@mui/material';
+import { Avatar, Box, Card, CardActionArea, Stack, Typography } from '@mui/material';
 import { useRouter } from 'next/navigation';
 import PropTypes from 'prop-types';
-import Image from 'src/components/common/image';
+import { PLACEHOLDER_PROFILE_AVATAR } from 'src/config-global';
 import { paths } from 'src/routes/paths';
 import { fShortenNumber } from 'src/utils/format-number';
-import { fDate } from 'src/utils/format-time';
 import { ICONS } from '../config-users';
 
 const Props = {
@@ -21,6 +20,8 @@ const SellerCard = (props) => {
   const { user, totalWarehouses } = props;
   const router = useRouter();
 
+  const avatar = user?.avatar || PLACEHOLDER_PROFILE_AVATAR;
+
   return (
     <Card sx={{ borderRadius: 1 }}>
       <CardActionArea
@@ -28,18 +29,19 @@ const SellerCard = (props) => {
         sx={{ minHeight: '100%', px: { xs: 1, sm: 1.5 }, py: { xs: 1, sm: 1.2 } }}
       >
         <Stack direction="row" spacing={1.5} mb={2} alignItems="center">
-          <Box sx={{ width: '60px', height: '60px' }}>
-            <Image
-              src={user.avatar}
-              alt={user.displayName}
-              ratio="1/1"
-              sx={{ borderRadius: 100 }}
+          <Box>
+            <Avatar
+              src={avatar}
+              alt={user?.firstName}
+              sx={{ borderRadius: 100, width: '60px', height: '60px' }}
             />
           </Box>
           <Stack sx={{ flex: 1, width: '100%' }}>
-            <Typography variant="body1">{user.displayName}</Typography>
+            <Typography variant="body1">
+              {user?.firstName} {user?.lastName}
+            </Typography>
             <Typography variant="subtitle2" sx={{ color: 'text.secondary' }}>
-              {fDate(user.createdAt)}
+              {user?.email}
             </Typography>
           </Stack>
         </Stack>

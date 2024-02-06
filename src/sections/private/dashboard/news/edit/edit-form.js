@@ -43,6 +43,7 @@ export default function EditForm(props) {
       content: currentPost?.content || '',
       coverUrl: currentPost?.coverUrl || null,
       isPublished: currentPost?.isPublished || true,
+      isFeatured: currentPost?.isFeatured || false,
       allowComment: currentPost?.allowComment || true,
     }),
     [currentPost]

@@ -5,7 +5,10 @@ import { enqueueSnackbar } from 'notistack';
 import PropTypes from 'prop-types';
 import { useCallback } from 'react';
 import { RHFUpload } from 'src/components/common/hook-form';
-import { useFilesUploadMutation } from 'src/redux-toolkit/services/uploadFilesApi';
+import {
+  useFileDeleteByURLMutation,
+  useFilesUploadMutation,
+} from 'src/redux-toolkit/services/uploadFilesApi';
 
 const Props = {
   sx: PropTypes.object,
@@ -21,28 +24,30 @@ const fieldName = 'logo';
 const LogoField = (props) => {
   const { sx } = props;
   const { setValue } = useFormContext();
+
+  // api state
   const [uploadFile, uploadResults] = useFilesUploadMutation();
-  // const [deleteFile] = useFileDeleteMutation(); //TODO: we need a api to delete file by url
+  const [deleteFile, deleteResponse] = useFileDeleteByURLMutation();
 
   const handleRemove = useCallback(
-    async (_image) => {
-      // const response = await deleteFile(image.id);
-      // const { error, data } = response;
+    async (imgLink) => {
+      const response = await deleteFile(imgLink);
+      const { error, data } = response;
 
-      // // handle error state
-      // if (error || data.isError) {
-      //   console.error('Image Delete Error:', error || data);
-      //   enqueueSnackbar('Error in deleting Images', { variant: 'error' });
-      // }
+      // handle error state
+      if (error || data.isError) {
+        console.error('Image Delete Error:', error || data);
+        enqueueSnackbar('Error in deleting Images', { variant: 'error' });
+      }
 
-      // // handle success state
-      // else if (data && data?.success) {
-      //   console.log('Image Deleted Successfully: ', response);
-      //   enqueueSnackbar('Image Deleted successfully');
-      // }
+      // handle success state
+      else if (data && data?.success) {
+        console.log('Image Deleted Successfully: ', response);
+        enqueueSnackbar('Image Deleted successfully');
+      }
       setValue(fieldName, null);
     },
-    [setValue]
+    [deleteFile, setValue]
   );
 
   const handlePreview = (file) => {
@@ -99,7 +104,7 @@ const LogoField = (props) => {
           name={fieldName}
           maxSize={3145728}
           onDrop={handleDrop}
-          disabled={uploadResults?.isLoading}
+          disabled={uploadResults?.isLoading || deleteResponse?.isLoading}
           onDelete={handleRemove}
           placeholderIllustration={false}
         />

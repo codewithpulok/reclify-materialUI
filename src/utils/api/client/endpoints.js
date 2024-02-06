@@ -43,6 +43,7 @@ export const endpoints = {
     root: '/file-upload',
     list: '/',
     create: '/',
+    delete_url: `/url`,
     get: (id) => `/${id}`,
     delete: (id) => `/${id}`,
   },

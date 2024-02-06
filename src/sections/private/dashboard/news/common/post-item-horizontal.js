@@ -22,7 +22,7 @@ import Iconify from 'src/components/common/iconify';
 import Image from 'src/components/common/image';
 import Label from 'src/components/common/label';
 import TextMaxLine from 'src/components/common/text-max-line';
-import { PLACEHOLDER_WAREHOUSE_IMAGE } from 'src/config-global';
+import { PLACEHOLDER_NEWS_COVER } from 'src/config-global';
 
 // ----------------------------------------------------------------------
 
@@ -49,7 +49,7 @@ export default function PostItemHorizontal(props) {
     totalComments = 10,
     totalViews = 100,
   } = post;
-  const cover = coverUrl || PLACEHOLDER_WAREHOUSE_IMAGE;
+  const cover = coverUrl || PLACEHOLDER_NEWS_COVER;
 
   const router = useRouter();
   const smUp = useResponsive('up', 'sm');
@@ -106,7 +106,7 @@ export default function PostItemHorizontal(props) {
               </TextMaxLine>
             </Link>
 
-            <TextMaxLine variant="body2" sx={{ color: 'text.secondary' }}>
+            <TextMaxLine line={4} variant="body2" sx={{ color: 'text.secondary' }}>
               {description}
             </TextMaxLine>
           </Stack>

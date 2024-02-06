@@ -88,6 +88,7 @@ const PostFields = (props) => {
           <Stack spacing={3} sx={{ p: 3 }}>
             <RHFSwitch label="Publish" name="isPublished" />
             <RHFSwitch label="Enable Comments" name="allowComment" />
+            <RHFSwitch label="Featured" name="isFeatured" />
           </Stack>
         </Card>
       </Grid>

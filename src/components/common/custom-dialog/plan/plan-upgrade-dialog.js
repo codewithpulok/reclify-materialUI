@@ -40,7 +40,7 @@ const PlanUpgradeDialog = (props) => {
       open={open}
       onClose={onClose}
       title="Upgrade Plan!"
-      content="Lorem ipsum dolor sit amet, consectetur adipisicing elit. Voluptatibus, similique!!"
+      content="By upgrading plan you'll get all extra features & you will subscribe to a monthly fee."
       action={
         <LoadingButton
           loading={upgradeResponse?.isLoading}

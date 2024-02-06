@@ -19,6 +19,7 @@ const defaultValues = {
   content: '',
   coverUrl: null,
   isPublished: true,
+  isFeatured: false,
   allowComment: true,
 };
 

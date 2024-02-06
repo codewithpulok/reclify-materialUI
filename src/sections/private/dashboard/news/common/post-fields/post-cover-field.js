@@ -2,18 +2,21 @@ import { enqueueSnackbar } from 'notistack';
 import { useCallback } from 'react';
 import { useFormContext } from 'react-hook-form';
 import { RHFUpload } from 'src/components/common/hook-form';
-import { useFilesUploadMutation } from 'src/redux-toolkit/services/uploadFilesApi';
+import {
+  useFileDeleteByURLMutation,
+  useFilesUploadMutation,
+} from 'src/redux-toolkit/services/uploadFilesApi';
 
 const fieldName = 'coverUrl';
 
 const PostCoverField = (props) => {
   // api state
   const [uploadFile, uploadResults] = useFilesUploadMutation();
-  // const [deleteFile] = useFileDeleteMutation(); //TODO: we need a api to delete file by url
+  const [deleteFile, deleteResponse] = useFileDeleteByURLMutation();
 
   // form state
   const methods = useFormContext();
-  const { setValue } = methods;
+  const { setValue, getValues } = methods;
 
   // handle file preview state
   const handlePreview = (file) => {
@@ -65,26 +68,24 @@ const PostCoverField = (props) => {
   };
 
   // handle cover remove
-  const handleRemove = useCallback(
-    async (_image) => {
-      // const response = await deleteFile(image.id);
-      // const { error, data } = response;
+  const handleRemove = useCallback(async () => {
+    const imgLink = getValues(fieldName);
+    const response = await deleteFile(imgLink);
+    const { error, data } = response;
 
-      // // handle error state
-      // if (error || data.isError) {
-      //   console.error('Image Delete Error:', error || data);
-      //   enqueueSnackbar('Error in deleting Images', { variant: 'error' });
-      // }
+    // handle error state
+    if (error || data.isError) {
+      console.error('Image Delete Error:', error || data);
+      enqueueSnackbar('Error in deleting Images', { variant: 'error' });
+    }
 
-      // // handle success state
-      // else if (data && data?.success) {
-      //   console.log('Image Deleted Successfully: ', response);
-      //   enqueueSnackbar('Image Deleted successfully');
-      // }
+    // handle success state
+    else if (data && data?.success) {
+      console.log('Image Deleted Successfully: ', response);
+      enqueueSnackbar('Image Deleted successfully');
       setValue(fieldName, null);
-    },
-    [setValue]
-  );
+    }
+  }, [deleteFile, getValues, setValue]);
 
   return (
     <RHFUpload
@@ -92,7 +93,7 @@ const PostCoverField = (props) => {
       maxSize={3145728}
       onDrop={handleDrop}
       onDelete={handleRemove}
-      disabled={uploadResults.isLoading}
+      disabled={uploadResults.isLoading || deleteResponse.isLoading}
     />
   );
 };

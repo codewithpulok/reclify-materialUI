@@ -18,7 +18,7 @@ const Props = {
   editLink: PropTypes.string,
   liveLink: PropTypes.string,
   onChangePublish: PropTypes.func,
-  isPublished: PropTypes.string,
+  isPublished: PropTypes.bool,
   sx: PropTypes.object,
 };
 
