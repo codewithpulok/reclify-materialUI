@@ -39,7 +39,7 @@ const PlanCancelDialog = (props) => {
       open={open}
       onClose={onClose}
       title="Cancel Plan!"
-      content="Lorem ipsum dolor sit amet, consectetur adipisicing elit. Voluptatibus, similique!!"
+      content="Your current plan will go back to the free plan."
       action={
         <LoadingButton
           loading={cancelResponse?.isLoading}

@@ -2,14 +2,12 @@
 
 import { Container, Grid, Pagination, Stack } from '@mui/material';
 import { useSearchParams } from 'next/navigation';
-import { useCallback, useEffect, useState } from 'react';
+import { useCallback, useEffect, useMemo } from 'react';
 import CustomBreadcrumbs from 'src/components/common/custom-breadcrumbs/custom-breadcrumbs';
 import { EmptyState, ErrorState } from 'src/components/common/custom-state';
 import { useSettingsContext } from 'src/components/common/settings';
 import { WarehouseCard, WarehouseCardSkeleton } from 'src/components/warehouse/cards';
-import { selectAuth } from 'src/redux-toolkit/features/auth/authSlice';
-import { useAppSelector } from 'src/redux-toolkit/hooks';
-import { useLazyWarehouseListQuery } from 'src/redux-toolkit/services/warehouseApi';
+import { useLazySearchWarehousesQuery } from 'src/redux-toolkit/services/searchApi';
 import { paths } from 'src/routes/paths';
 
 const Props = {};
@@ -22,46 +20,36 @@ const SearchWarehousesView = (props) => {
   const searchParam = useSearchParams();
   const query = searchParam.get('query');
   const settings = useSettingsContext();
-  const { user } = useAppSelector(selectAuth);
 
-  const [getWarehouses, results] = useLazyWarehouseListQuery();
-  const [filteredWarehouses, setFilteredWarehouses] = useState([]);
+  // api state
+  const [searchWarehouses, searchResponse] = useLazySearchWarehousesQuery();
+  const isLoading = useMemo(
+    () => searchResponse.isLoading || searchResponse.isFetching,
+    [searchResponse.isLoading, searchResponse.isFetching]
+  );
 
-  // handle warehouse filter
+  // make request on search
   useEffect(() => {
-    if (results.isSuccess && results?.data?.results instanceof Array) {
-      const filtered = [...results.data.results];
-
-      setFilteredWarehouses(filtered);
-    }
-  }, [results]);
-
-  useEffect(() => {
-    if (user !== null && user) {
-      getWarehouses();
-    }
-  }, [getWarehouses, user]);
+    if (query) searchWarehouses(query);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [query]);
 
   // render warehouses
   const renderWarehouses = useCallback(
-    (
-      warehouses = [],
-      notFoundText = 'No warehouses found',
-      errorText = 'Something went to wrong'
-    ) => {
+    (data = []) => {
       // error state
-      if (results.isError) {
-        return <ErrorState text={results?.error?.data?.message || errorText} />;
+      if (!isLoading && searchResponse.isError) {
+        return <ErrorState />;
       }
 
       // empty state
-      if (results.isSuccess && warehouses.length === 0) {
-        return <EmptyState text={notFoundText} />;
+      if (!isLoading && searchResponse.isSuccess && data.length === 0) {
+        return <EmptyState />;
       }
 
       // success state
-      if (results.isSuccess && warehouses.length) {
-        return warehouses.map((warehouse) => (
+      if (!isLoading && searchResponse.isSuccess && data.length) {
+        return data.map((warehouse) => (
           <Grid item key={warehouse.id} xs={12} sm={6} md={4}>
             <WarehouseCard key={warehouse.id} warehouse={warehouse} />
           </Grid>
@@ -75,7 +63,7 @@ const SearchWarehousesView = (props) => {
         </Grid>
       ));
     },
-    [results]
+    [isLoading, searchResponse.isError, searchResponse.isSuccess]
   );
 
   return (
@@ -91,7 +79,7 @@ const SearchWarehousesView = (props) => {
         />
 
         <Grid container spacing={2}>
-          {renderWarehouses(filteredWarehouses, 'No Warehouse available')}
+          {renderWarehouses(searchResponse.data?.results || [])}
         </Grid>
 
         <Stack direction="row" justifyContent="center" mt={3} mb={1}>

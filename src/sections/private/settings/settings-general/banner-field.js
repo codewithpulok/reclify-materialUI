@@ -48,8 +48,11 @@ const Props = {
  */
 const BannerField = (props) => {
   const { joined } = props;
+
+  // api state
   const [uploadFile, uploadResults] = useFilesUploadMutation();
 
+  // form state
   const { setValue, watch } = useFormContext();
 
   const firstName = watch('firstName');

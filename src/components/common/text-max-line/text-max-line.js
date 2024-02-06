@@ -12,12 +12,13 @@ const TextMaxLine = forwardRef(
   ({ asLink, variant = 'body1', line = 2, persistent = false, children, sx, ...other }, ref) => {
     const { lineHeight } = useTypography(variant);
 
+    /** @type {SxProps} */
     const styles = {
       overflow: 'hidden',
       textOverflow: 'ellipsis',
       display: '-webkit-box',
-      webkitlineclamp: line,
-      webkitboxorient: 'vertical',
+      WebkitBoxOrient: 'vertical',
+      WebkitLineClamp: line,
       ...(persistent && {
         height: lineHeight * line,
       }),

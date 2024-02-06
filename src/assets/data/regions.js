@@ -54,7 +54,7 @@ export const usRegions = [
   {
     name: 'Alaska/Hawaii',
     code: 'alaska-hawai',
-    icon: 'circle-flags:us-ak',
+    icon: 'simple-icons:paramountplus',
     rotate: 0,
     states: ['AK', 'HI'],
   },

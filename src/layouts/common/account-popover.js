@@ -10,12 +10,13 @@ import Stack from '@mui/material/Stack';
 import Typography from '@mui/material/Typography';
 import { alpha } from '@mui/material/styles';
 // routes
-import { getUserByType } from 'src/assets/dummy';
 import { varHover } from 'src/components/common/animate';
 import CustomPopover, { usePopover } from 'src/components/common/custom-popover';
+import { PLACEHOLDER_PROFILE_AVATAR } from 'src/config-global';
 import { selectAuth } from 'src/redux-toolkit/features/auth/authSlice';
 import { useAppSelector } from 'src/redux-toolkit/hooks';
 import { useLogoutMutation } from 'src/redux-toolkit/services/authApi';
+import { useProfileGetQuery } from 'src/redux-toolkit/services/profileApi';
 import { useRouter } from 'src/routes/hooks';
 import { paths } from 'src/routes/paths';
 import { TABS as settingsTabs } from 'src/sections/private/settings/view';
@@ -24,31 +25,32 @@ import { TABS as settingsTabs } from 'src/sections/private/settings/view';
 
 // ----------------------------------------------------------------------
 
-export default function AccountPopover() {
+const AccountPopover = () => {
+  // app state
   const router = useRouter();
-
-  const { user } = useAppSelector(selectAuth);
-  const [logout] = useLogoutMutation();
-
-  const userProfile = getUserByType(user?.userType);
-
   const popover = usePopover();
 
+  // auth state
+  const { user } = useAppSelector(selectAuth);
+
+  // api state
+  const profileResponse = useProfileGetQuery();
+  const [logout] = useLogoutMutation();
+
+  // handle logout function
   const handleLogout = async () => {
-    try {
-      await logout().unwrap();
-      popover.onClose();
-      router.replace(paths.auth.login);
-    } catch (error) {
-      console.error(error);
-    }
+    popover.onClose();
+    await logout();
+    router.replace(paths.auth.login);
   };
 
+  // handle item click - close popover on click
   const handleClickItem = (path) => {
     popover.onClose();
     router.push(path);
   };
 
+  // popover options
   const OPTIONS = useMemo(
     () => [
       {
@@ -74,6 +76,8 @@ export default function AccountPopover() {
     [user]
   );
 
+  const avatar = profileResponse?.data?.results?.avatar || PLACEHOLDER_PROFILE_AVATAR;
+
   return (
     <>
       <IconButton
@@ -93,8 +97,8 @@ export default function AccountPopover() {
         }}
       >
         <Avatar
-          src={userProfile?.avatar || 'https://i.pravatar.cc/150?u=SophiaMiller'} // For demo
-          alt={userProfile?.displayName}
+          src={avatar}
+          alt={profileResponse?.data?.firstName}
           sx={{
             width: 36,
             height: 36,
@@ -106,7 +110,7 @@ export default function AccountPopover() {
       <CustomPopover open={popover.open} onClose={popover.onClose} sx={{ width: 200, p: 0 }}>
         <Box sx={{ p: 2, pb: 1.5 }}>
           <Typography variant="subtitle2" noWrap>
-            {userProfile?.displayName}
+            {`${user?.firstName} ${user?.lastName}`}
           </Typography>
 
           <Typography variant="body2" sx={{ color: 'text.secondary' }} noWrap>
@@ -155,4 +159,6 @@ export default function AccountPopover() {
       </CustomPopover>
     </>
   );
-}
+};
+
+export default AccountPopover;

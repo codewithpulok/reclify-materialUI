@@ -6,8 +6,9 @@ export const TOKEN_STORAGE_KEY = 'RACKLIFY_TOKEN';
 export const APPEARANCE_KEY = 'RACKLIFY_APPEARANCE';
 
 // PLACEHOLDER IMAGE // ---------------------------------------------------------------------
-export const PLACEHOLDER_PROFILE_BANNER =
-  'https://api-prod-minimal-v510.vercel.app/assets/images/cover/cover_4.jpg';
+export const PLACEHOLDER_PROFILE_BANNER = '/assets/placeholder/PROFILE_COVER.jpg';
+export const PLACEHOLDER_PROFILE_AVATAR = '/assets/placeholder/PROFILE_AVATAR.png';
+export const PLACEHOLDER_NEWS_COVER = '/assets/placeholder/NEWS_COVER.jpg';
 export const PLACEHOLDER_WAREHOUSE_IMAGE = 'https://placehold.co/450x318?text=Not+Found';
 
 // API // ----------------------------------------------------------------------

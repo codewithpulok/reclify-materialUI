@@ -4,27 +4,20 @@ import Avatar from '@mui/material/Avatar';
 import Box from '@mui/material/Box';
 import Container from '@mui/material/Container';
 import ListItemText from '@mui/material/ListItemText';
-import SpeedDial from '@mui/material/SpeedDial';
-import SpeedDialAction from '@mui/material/SpeedDialAction';
 import Stack from '@mui/material/Stack';
 import Typography from '@mui/material/Typography';
 import { alpha, useTheme } from '@mui/material/styles';
 
-import { useResponsive } from 'src/hooks/use-responsive';
-
 import { fDate } from 'src/utils/format-time';
 
-import { _socials } from 'src/_mock';
 import { bgGradient } from 'src/theme/css';
 
-import Iconify from 'src/components/common/iconify';
+import { PLACEHOLDER_NEWS_COVER } from 'src/config-global';
 
 // ----------------------------------------------------------------------
 
 export default function PostDetailsHero({ title, author, coverUrl, createdAt }) {
   const theme = useTheme();
-
-  const smUp = useResponsive('up', 'sm');
 
   return (
     <Box
@@ -32,7 +25,7 @@ export default function PostDetailsHero({ title, author, coverUrl, createdAt }) 
         height: 480,
         overflow: 'hidden',
         ...bgGradient({
-          imgUrl: coverUrl,
+          imgUrl: coverUrl || PLACEHOLDER_NEWS_COVER,
           startColor: `${alpha(theme.palette.grey[900], 0.64)} 0%`,
           endColor: `${alpha(theme.palette.grey[900], 0.64)} 100%`,
         }),
@@ -88,28 +81,6 @@ export default function PostDetailsHero({ title, author, coverUrl, createdAt }) 
               />
             </Stack>
           )}
-
-          <SpeedDial
-            direction={smUp ? 'left' : 'up'}
-            ariaLabel="Share post"
-            icon={<Iconify icon="solar:share-bold" />}
-            FabProps={{ size: 'medium' }}
-            sx={{
-              position: 'absolute',
-              bottom: { xs: 32, md: 64 },
-              right: { xs: 16, md: 24 },
-            }}
-          >
-            {_socials.map((action) => (
-              <SpeedDialAction
-                key={action.name}
-                icon={<Iconify icon={action.icon} sx={{ color: action.color }} />}
-                tooltipTitle={action.name}
-                tooltipPlacement="top"
-                FabProps={{ color: 'default' }}
-              />
-            ))}
-          </SpeedDial>
         </Stack>
       </Container>
     </Box>

@@ -43,6 +43,7 @@ export const endpoints = {
     root: '/file-upload',
     list: '/',
     create: '/',
+    delete_url: `/file`,
     get: (id) => `/${id}`,
     delete: (id) => `/${id}`,
   },
@@ -115,5 +116,12 @@ export const endpoints = {
     get: (id) => `/${id}`,
     update: (id) => `/${id}`,
     delete: (id) => `/${id}`,
+  },
+  search: {
+    root: '/search',
+    query: (q) => `?query=${q}`,
+    warehouses: (q) => `?query=${q}`,
+    services: (q) => `?query=${q}`,
+    users: (q) => `?query=${q}`,
   },
 };

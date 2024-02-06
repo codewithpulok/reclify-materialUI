@@ -132,21 +132,19 @@ export function useNavData() {
           },
 
           // sub region warehouse routes (hiding global)
-          ...regionScopes
-            .filter((s) => s.code !== 'global')
-            .map((s) => ({
-              title: s.name,
-              path: '#',
-              icon: s.icon ? getIconify(s.icon) : undefined,
-              defaultOpen: true,
-              children: getRegionsByScope(s.code).map((r) => ({
-                title: r.name,
-                path: paths.dashboard.warehouses.region(r.code),
-                icon: r.icon
-                  ? getIconify(r.icon, undefined, { rotate: `${r.rotate ? 90 * r.rotate : 0}deg` })
-                  : undefined,
-              })),
+          ...regionScopes.map((s) => ({
+            title: s.name,
+            path: '#',
+            icon: s.icon ? getIconify(s.icon) : undefined,
+            defaultOpen: true,
+            children: getRegionsByScope(s.code).map((r) => ({
+              title: r.name,
+              path: paths.dashboard.warehouses.region(r.code),
+              icon: r.icon
+                ? getIconify(r.icon, undefined, { rotate: `${r.rotate ? 90 * r.rotate : 0}deg` })
+                : undefined,
             })),
+          })),
         ],
         defaultOpen: true,
       },
