@@ -27,7 +27,7 @@ const Fields = (props) => (
           <RHFTextField name="cvv" type="number" label="CVV/CVC" />
         </Grid>
       </Grid>
-      <RHFSwitch name="primary" label="Primary" />
+      <RHFSwitch name="isPrimary" label="Primary" />
     </Stack>
   </Scrollbar>
 );

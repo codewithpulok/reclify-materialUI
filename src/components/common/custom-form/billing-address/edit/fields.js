@@ -31,7 +31,7 @@ const Fields = (props) => (
           </RHFTextField>
         </Grid>
         <Grid item xs={12} sm={6} display="flex" justifyContent="end">
-          <RHFSwitch name="primary" label="Primary" sx={{ ml: 'auto' }} />
+          <RHFSwitch name="isPrimary" label="Primary" sx={{ ml: 'auto' }} />
         </Grid>
       </Grid>
     </Stack>

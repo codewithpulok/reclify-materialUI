@@ -18,7 +18,7 @@ const defaultValues = {
   cardHolder: '',
   cvv: '',
   expirationDate: Date.now(),
-  primary: false,
+  isPrimary: false,
 };
 
 /**

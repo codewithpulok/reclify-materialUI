@@ -21,7 +21,7 @@ const defaultValues = {
   fullName: '',
   email: '',
   phoneNumber: '',
-  primary: false,
+  isPrimary: false,
 };
 
 /**

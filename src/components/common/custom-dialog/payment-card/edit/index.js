@@ -30,7 +30,7 @@ const PayemntCardEditDialog = (props) => {
 
       const response = await updateCard({
         id: card?.id,
-        values: { ...values, expirationDate: new Date(values.expirationDate).toISOString() },
+        data: { ...values, expirationDate: new Date(values.expirationDate).toISOString() },
       });
       const { data, error } = response;
 

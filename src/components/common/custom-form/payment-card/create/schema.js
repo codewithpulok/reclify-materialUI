@@ -8,7 +8,7 @@ const validationSchema = {
     .test('test-number', 'Credit card number is invalid', (value) =>
       card.isValid(value, card.type(value))
     ),
-  primary: Yup.boolean(),
+  isPrimary: Yup.boolean().default(false),
   cardHolder: Yup.string().required('Credit card holder name is required'),
   expirationDate: Yup.number().required('Credit card expire date is required'),
   cvv: Yup.number()

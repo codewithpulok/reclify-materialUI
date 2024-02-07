@@ -8,7 +8,7 @@ const validationSchema = {
   addressType: Yup.string().label('Address type').oneOf(['office', 'home']).required(),
   fullName: Yup.string().label('Billing name').required(),
   phoneNumber: Yup.string().label('Billing phone number').required(),
-  primary: Yup.boolean().default(false),
+  isPrimary: Yup.boolean().default(false),
 };
 
 export const billingAddressEditSchema = Yup.object().shape(validationSchema);

@@ -76,7 +76,7 @@ const Item = (props) => {
         <Stack mb={1.5} direction="row" alignItems="center" spacing={1}>
           {getCreditCardIcon(card.cardNumber)(20)}
 
-          {card.primary && <Label color="info">Primary</Label>}
+          {card.isPrimary && <Label color="info">Primary</Label>}
         </Stack>
 
         <Typography variant="subtitle1">{creditCards.format(card.cardNumber)}</Typography>

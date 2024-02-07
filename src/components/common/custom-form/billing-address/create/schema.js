@@ -9,7 +9,7 @@ const validationSchema = {
   fullName: Yup.string().label('Billing name').required(),
   phoneNumber: Yup.string().label('Billing phone number').required(),
   email: Yup.string().email().label('Billing email').required(),
-  primary: Yup.boolean().default(false),
+  isPrimary: Yup.boolean().default(false),
 };
 
 export const billingAddressCreateSchema = Yup.object().shape(validationSchema);
