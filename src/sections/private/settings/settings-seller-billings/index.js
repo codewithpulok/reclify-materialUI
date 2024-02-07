@@ -22,6 +22,7 @@ const SettingsSellerBillings = (props) => {
   const primaryCardResponse = useCardPrimaryQuery();
   const primaryACHResponse = {
     isLoading: false,
+    isFetching: false,
     isError: false,
     isSuccess: true,
     data: {
@@ -53,6 +54,14 @@ const SettingsSellerBillings = (props) => {
             primaryACH={primaryACHResponse?.data?.results}
             primaryCard={primaryCardResponse?.data?.results}
             primaryBillingInfo={primaryBillingInfoResponse?.data?.results}
+            isLoading={
+              primaryACHResponse.isLoading ||
+              primaryCardResponse.isLoading ||
+              primaryBillingInfoResponse.isLoading ||
+              primaryACHResponse.isFetching ||
+              primaryCardResponse.isFetching ||
+              primaryBillingInfoResponse.isFetching
+            }
           />
         </Stack>
       </Grid>

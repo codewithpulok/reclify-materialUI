@@ -5,7 +5,7 @@ import Dialog from '@mui/material/Dialog';
 import Stack from '@mui/material/Stack';
 import Typography from '@mui/material/Typography';
 
-import { Button } from '@mui/material';
+import { Box, Button } from '@mui/material';
 import { EmptyState, ErrorState, LoadingState } from 'src/components/common/custom-state';
 import { useBoolean } from 'src/hooks/use-boolean';
 import { useDialog } from 'src/hooks/use-dialog';
@@ -67,11 +67,19 @@ const BillingAddressListDialog = (props) => {
   const renderList = useCallback(
     (data = []) => {
       if (!billingInfoResponse.isLoading && billingInfoResponse.isError) {
-        return <ErrorState />;
+        return (
+          <Box sx={{ px: 2 }}>
+            <ErrorState />
+          </Box>
+        );
       }
 
       if (!billingInfoResponse.isLoading && billingInfoResponse.isSuccess && data?.length === 0) {
-        return <EmptyState />;
+        return (
+          <Box sx={{ px: 2 }}>
+            <EmptyState />
+          </Box>
+        );
       }
 
       if (
@@ -103,7 +111,11 @@ const BillingAddressListDialog = (props) => {
         );
       }
 
-      return <LoadingState />;
+      return (
+        <Box sx={{ px: 2 }}>
+          <LoadingState />
+        </Box>
+      );
     },
     [
       billingInfoResponse.isError,

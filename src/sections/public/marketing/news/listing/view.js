@@ -1,7 +1,7 @@
 'use client';
 
 import orderBy from 'lodash/orderBy';
-import { useCallback, useState } from 'react';
+import { useCallback, useMemo, useState } from 'react';
 
 import Container from '@mui/material/Container';
 import Stack from '@mui/material/Stack';
@@ -12,33 +12,32 @@ import { paths } from 'src/routes/paths';
 import { useDebounce } from 'src/hooks/use-debounce';
 
 import { POST_SORT_OPTIONS } from 'src/_mock';
-import { useGetPosts, useSearchPosts } from 'src/utils/blog';
 
 import { useSettingsContext } from 'src/components/common/settings';
 
+import NewsPostList from 'src/components/news/details/common/news-list';
+import NewsFeatured from 'src/components/news/news-featured';
+
+import NewsSearch from 'src/components/news/news-search';
+import NewsSort from 'src/components/news/news-sort';
+import { useBlogListQuery } from 'src/redux-toolkit/services/blogApi';
 import { paramCase } from 'src/utils/change-case';
-import PostList from '../common/post-list';
-import PostSearch from '../common/post-search';
-import PostSort from '../common/post-sort';
-import PostsFeatured from '../common/posts-featured';
 
 // ----------------------------------------------------------------------
 
 export default function NewsListingView() {
   const settings = useSettingsContext();
 
+  // api states
+  const listResponse = useBlogListQuery();
+
+  // app states
   const [sortBy, setSortBy] = useState('latest');
-
   const [searchQuery, setSearchQuery] = useState('');
-
   const debouncedQuery = useDebounce(searchQuery);
 
-  const { posts, postsLoading } = useGetPosts();
-
-  const { searchResults, searchLoading } = useSearchPosts(debouncedQuery);
-
   const dataFiltered = applyFilter({
-    inputData: posts,
+    inputData: listResponse?.data?.results,
     sortBy,
   });
 
@@ -49,6 +48,13 @@ export default function NewsListingView() {
   const handleSearch = useCallback((inputValue) => {
     setSearchQuery(inputValue);
   }, []);
+
+  // featured news
+  const featuredNews = useMemo(
+    () =>
+      listResponse?.data?.results ? listResponse.data?.results?.filter((n) => n.isFeatured) : [],
+    [listResponse.data?.results]
+  );
 
   return (
     <Container maxWidth={settings.themeStretch ? false : 'lg'}>
@@ -61,8 +67,8 @@ export default function NewsListingView() {
         Racklify News
       </Typography>
 
-      {!!posts?.length && !postsLoading && (
-        <PostsFeatured list={posts?.slice(0, 3)} sx={{ mb: { xs: 3, md: 5 } }} />
+      {!!featuredNews?.length && !listResponse.isLoading && (
+        <NewsFeatured list={featuredNews} sx={{ mb: { xs: 3, md: 5 } }} />
       )}
 
       <Stack
@@ -72,18 +78,18 @@ export default function NewsListingView() {
         direction={{ xs: 'column', sm: 'row' }}
         sx={{ mb: { xs: 3, md: 5 } }}
       >
-        <PostSearch
+        <NewsSearch
           query={debouncedQuery}
-          results={searchResults}
+          results={[]}
           onSearch={handleSearch}
-          loading={searchLoading}
-          hrefItem={(title) => paths.news.details(paramCase(title))}
+          loading={false}
+          hrefItem={(title) => paths.dashboard.news.details(paramCase(title))}
         />
 
-        <PostSort sort={sortBy} onSort={handleSortBy} sortOptions={POST_SORT_OPTIONS} />
+        <NewsSort sort={sortBy} onSort={handleSortBy} sortOptions={POST_SORT_OPTIONS} />
       </Stack>
 
-      <PostList posts={dataFiltered} loading={postsLoading} />
+      <NewsPostList posts={dataFiltered} loading={listResponse?.isLoading} />
     </Container>
   );
 }

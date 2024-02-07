@@ -9,12 +9,11 @@ import { EmptyState, ErrorState } from 'src/components/common/custom-state';
 import { getIconify } from 'src/components/common/iconify/utilities';
 import { useSettingsContext } from 'src/components/common/settings';
 import { WarehouseCardSkeleton } from 'src/components/warehouse/cards';
+import { WarehouseCarousel, WarehouseFeaturedCarousel } from 'src/components/warehouse/carousel';
 import { useWarehouseListQuery } from 'src/redux-toolkit/services/warehouseApi';
 import { RouterLink } from 'src/routes/components';
 import { paths } from 'src/routes/paths';
 import { ICONS } from '../config-warehouse';
-import WarehouseCarousel from './warehouse-carousel/warehouse-carousel';
-import WarehouseFeaturedCarousel from './warehouse-carousel/warehouse-featured-carousel';
 
 // ----------------------------------------------------------------------
 

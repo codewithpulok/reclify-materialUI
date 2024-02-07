@@ -16,7 +16,6 @@ import { PLACEHOLDER_PROFILE_AVATAR } from 'src/config-global';
 import { selectAuth } from 'src/redux-toolkit/features/auth/authSlice';
 import { useAppSelector } from 'src/redux-toolkit/hooks';
 import { useLogoutMutation } from 'src/redux-toolkit/services/authApi';
-import { useProfileGetQuery } from 'src/redux-toolkit/services/profileApi';
 import { useRouter } from 'src/routes/hooks';
 import { paths } from 'src/routes/paths';
 import { TABS as settingsTabs } from 'src/sections/private/settings/view';
@@ -34,7 +33,6 @@ const AccountPopover = () => {
   const { user } = useAppSelector(selectAuth);
 
   // api state
-  const profileResponse = useProfileGetQuery();
   const [logout] = useLogoutMutation();
 
   // handle logout function
@@ -76,7 +74,7 @@ const AccountPopover = () => {
     [user]
   );
 
-  const avatar = profileResponse?.data?.results?.avatar || PLACEHOLDER_PROFILE_AVATAR;
+  const avatar = user?.avatar || PLACEHOLDER_PROFILE_AVATAR;
 
   return (
     <>
@@ -98,7 +96,7 @@ const AccountPopover = () => {
       >
         <Avatar
           src={avatar}
-          alt={profileResponse?.data?.firstName}
+          alt={user?.firstName}
           sx={{
             width: 36,
             height: 36,

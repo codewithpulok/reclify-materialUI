@@ -5,7 +5,7 @@ import { selectAuth } from 'src/redux-toolkit/features/auth/authSlice';
 import { useAppSelector } from 'src/redux-toolkit/hooks';
 import { useBillingInfoPrimaryQuery } from 'src/redux-toolkit/services/billingInfoApi';
 import { useCardPrimaryQuery } from 'src/redux-toolkit/services/cardApi';
-import { ErrorState, LoadingState } from '../../../custom-state';
+import { LoadingState } from '../../../custom-state';
 import { CustomFormProps } from '../../config-custom-form';
 import PurchaseFormFields from './purchase-form-fields';
 
@@ -23,31 +23,23 @@ const PurchaseForm = (props) => {
 
   const { user } = useAppSelector(selectAuth);
 
-  const billingAddressResponse = useBillingInfoPrimaryQuery();
-  const paymentCardResponse = useCardPrimaryQuery();
+  const infoResponse = useBillingInfoPrimaryQuery();
+  const cardResponse = useCardPrimaryQuery();
 
   // refetch api on user update
   useEffect(() => {
     if (user?.id) {
-      billingAddressResponse.refetch();
-      paymentCardResponse.refetch();
+      infoResponse.refetch();
+      cardResponse.refetch();
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [user]);
 
-  if (billingAddressResponse?.isError || paymentCardResponse?.isError) {
-    return (
-      <Stack component={wrapperElement} sx={{ py: 1 }}>
-        <ErrorState />
-      </Stack>
-    );
-  }
-
-  if (billingAddressResponse.isSuccess && paymentCardResponse.isSuccess) {
+  if (!infoResponse.isLoading && !cardResponse.isLoading) {
     return (
       <PurchaseFormFields
-        priamryPaymentCard={paymentCardResponse.data?.result}
-        primaryBillingAddress={billingAddressResponse.data?.result}
+        priamryPaymentCard={cardResponse.data?.result}
+        primaryBillingAddress={infoResponse.data?.result}
         wrapperElement={wrapperElement}
         {...other}
       />

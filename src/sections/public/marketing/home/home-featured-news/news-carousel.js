@@ -1,7 +1,7 @@
 import { Box } from '@mui/material';
 import PropTypes from 'prop-types';
 import Carousel, { CarouselArrows, useCarousel } from 'src/components/common/carousel';
-import PostItem from '../../news/common/post-item';
+import { NewsCard } from 'src/components/news/cards';
 
 const Props = {
   /** @type {Warehouse[]} */
@@ -60,7 +60,7 @@ const NewsCarousel = (props) => {
         <Carousel ref={carousel.carouselRef} {...carousel.carouselSettings}>
           {data.map((item, index) => (
             <Box key={item.id} sx={{ px: { xs: 0.5, sm: 1 } }}>
-              <PostItem post={item} index={index} />
+              <NewsCard post={item} index={index} />
             </Box>
           ))}
         </Carousel>

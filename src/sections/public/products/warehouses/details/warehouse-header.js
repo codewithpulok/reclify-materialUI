@@ -103,7 +103,12 @@ const WarehouseHeader = (props) => {
           component={Button}
           onClick={goToReviewSection}
         >
-          <Rating value={3.5} readOnly precision={0.5} onClick={goToReviewSection} />
+          <Rating
+            value={warehouse?.averageRating || 0}
+            readOnly
+            precision={0.5}
+            onClick={goToReviewSection}
+          />
           <Typography variant="body1" lineHeight={1.3}>
             ({reviews?.length ? fShortenNumber(reviews?.length) : 0} reviews)
           </Typography>

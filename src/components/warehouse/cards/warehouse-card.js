@@ -53,7 +53,7 @@ const WarehouseCard = (props) => {
 
   const content = (
     <Card
-      className="card"
+      className={`card ${warehouse?.isFeatured ? 'glow' : ''}`}
       sx={{
         ...sx,
       }}
@@ -67,32 +67,36 @@ const WarehouseCard = (props) => {
         </Box>
 
         <CardContent sx={{ position: 'relative' }}>
-          <Stack direction="row" alignItems="center" spacing={0.3}>
+          <Stack direction="row" alignItems="flex-start" spacing={1}>
             {warehouse?.seller?.logo && (
-              <Avatar src={warehouse?.seller?.logo} sx={{ width: 20, height: 20 }} />
+              <Avatar src={warehouse?.seller?.logo} sx={{ width: '70px', height: '70px' }} />
             )}
-            <Typography variant="h5">{warehouse.name}</Typography>
-            {warehouse.isVerified ? (
-              <Tooltip title="Verified" placement="top" arrow>
-                {ICONS.verified(18, { color: 'primary.main', lineHeight: '1' })}
-              </Tooltip>
-            ) : null}
+            <Stack>
+              <Stack direction="row" alignItems="center">
+                <Typography variant="h5">{warehouse.name}</Typography>
+                {warehouse.isVerified ? (
+                  <Tooltip title="Verified" placement="top" arrow>
+                    {ICONS.verified(18, { color: 'primary.main', lineHeight: '1' })}
+                  </Tooltip>
+                ) : null}
+              </Stack>
+              <Typography
+                variant="body2"
+                color="text.secondary"
+                sx={{
+                  overflow: 'hidden',
+                  textOverflow: 'ellipsis',
+                  display: '-webkit-box',
+                  '-webkit-line-clamp': '2',
+                  '-webkit-box-orient': 'vertical',
+                  maxHeight: '44px',
+                  height: '44px',
+                }}
+              >
+                {joinAddressObj(warehouse.address)}
+              </Typography>
+            </Stack>
           </Stack>
-          <Typography
-            variant="body2"
-            color="text.secondary"
-            sx={{
-              overflow: 'hidden',
-              textOverflow: 'ellipsis',
-              display: '-webkit-box',
-              '-webkit-line-clamp': '2',
-              '-webkit-box-orient': 'vertical',
-              maxHeight: '44px',
-              height: '44px',
-            }}
-          >
-            {joinAddressObj(warehouse.address)}
-          </Typography>
 
           {/* if there is a discount then show badge */}
           {!!warehouse.discountRate && (
@@ -194,19 +198,7 @@ const WarehouseCard = (props) => {
     </Card>
   );
 
-  return warehouse?.isFeatured ? (
-    <Box
-      sx={{
-        p: 0.5,
-        borderRadius: 2,
-      }}
-      className="glow"
-    >
-      {content}
-    </Box>
-  ) : (
-    content
-  );
+  return content;
 };
 
 WarehouseCard.propTypes = Props;

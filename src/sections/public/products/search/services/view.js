@@ -2,14 +2,12 @@
 
 import { Container, Grid, Pagination, Stack } from '@mui/material';
 import { useSearchParams } from 'next/navigation';
-import { useCallback, useEffect } from 'react';
+import { useCallback, useEffect, useMemo } from 'react';
 import CustomBreadcrumbs from 'src/components/common/custom-breadcrumbs/custom-breadcrumbs';
 import { EmptyState, ErrorState } from 'src/components/common/custom-state';
 import { useSettingsContext } from 'src/components/common/settings';
 import { ServiceCard, ServiceCardSkeleton } from 'src/components/service/cards';
-import { selectAuth } from 'src/redux-toolkit/features/auth/authSlice';
-import { useAppSelector } from 'src/redux-toolkit/hooks';
-import { useLazyListServicesQuery } from 'src/redux-toolkit/services/serviceApi';
+import { useLazySearchServicesQuery } from 'src/redux-toolkit/services/searchApi';
 import { paths } from 'src/routes/paths';
 
 const Props = {};
@@ -22,34 +20,38 @@ const SearchServicesView = (props) => {
   const searchParam = useSearchParams();
   const query = searchParam.get('query');
   const settings = useSettingsContext();
-  const { user } = useAppSelector(selectAuth);
 
-  const [getServices, servicesResponse] = useLazyListServicesQuery();
+  // api state
+  const [searchServices, searchResponse] = useLazySearchServicesQuery();
+  const isLoading = useMemo(
+    () => searchResponse.isLoading || searchResponse.isFetching,
+    [searchResponse.isLoading, searchResponse.isFetching]
+  );
 
+  // make request on search
   useEffect(() => {
-    if (user !== null && user) {
-      getServices();
-    }
-  }, [getServices, user]);
+    if (query) searchServices(query);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [query]);
 
   // render services
   const renderServices = useCallback(
-    (services = [], notFoundText = 'No Services found', errorText = 'Something went to wrong') => {
+    (data = []) => {
       // error state
-      if (servicesResponse.isError) {
-        return <ErrorState text={servicesResponse?.error?.data?.message || errorText} />;
+      if (!isLoading && searchResponse.isError) {
+        return <ErrorState />;
       }
 
       // empty state
-      if (servicesResponse.isSuccess && services.length === 0) {
-        return <EmptyState text={notFoundText} />;
+      if (!isLoading && searchResponse.isSuccess && data.length === 0) {
+        return <EmptyState />;
       }
 
       // success state
-      if (servicesResponse.isSuccess && services.length) {
-        return services.map((serviceData) => (
-          <Grid item key={serviceData.id} xs={12} sm={6} md={4}>
-            <ServiceCard key={serviceData.id} service={serviceData} />
+      if (!isLoading && searchResponse.isSuccess && data.length) {
+        return data.map((service) => (
+          <Grid item key={service.id} xs={12} sm={6} md={4}>
+            <ServiceCard key={service.id} service={service} />
           </Grid>
         ));
       }
@@ -61,7 +63,7 @@ const SearchServicesView = (props) => {
         </Grid>
       ));
     },
-    [servicesResponse]
+    [isLoading, searchResponse.isError, searchResponse.isSuccess]
   );
 
   return (
@@ -77,7 +79,7 @@ const SearchServicesView = (props) => {
         />
 
         <Grid container spacing={2}>
-          {renderServices(servicesResponse.data?.results || [], 'No Services available')}
+          {renderServices(searchResponse.data?.results || [])}
         </Grid>
 
         <Stack direction="row" justifyContent="center" mt={3} mb={1}>

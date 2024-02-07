@@ -13,6 +13,7 @@ import {
   BillingAddressListDialog,
   PaymentCardListDialog,
 } from 'src/components/common/custom-dialog';
+import { LoadingState } from 'src/components/common/custom-state';
 import { useBoolean } from 'src/hooks/use-boolean';
 import { joinAddressObj } from 'src/utils/address';
 import { ICONS } from '../config-settings';
@@ -26,6 +27,7 @@ const Props = {
   primaryBillingInfo: PropTypes.object,
   /** @type {ACHType} */
   primaryACH: PropTypes.object,
+  isLoading: PropTypes.bool,
 };
 
 /**
@@ -33,15 +35,15 @@ const Props = {
  * @returns
  */
 const BillingInfo = (props) => {
-  const { primaryBillingInfo, primaryCard, primaryACH } = props;
+  const { primaryBillingInfo, primaryCard, primaryACH, isLoading } = props;
 
   const openAddress = useBoolean();
   const openCards = useBoolean();
   const openACH = useBoolean();
 
-  const [selectedBillingInfo, setSelectedBillingInfo] = useState(undefined);
-  const [selectedCard, setSelectedCard] = useState(undefined);
-  const [selectedACH, setSelectedACH] = useState(undefined);
+  const [selectedBillingInfo, setSelectedBillingInfo] = useState(null);
+  const [selectedCard, setSelectedCard] = useState(null);
+  const [selectedACH, setSelectedACH] = useState(null);
 
   const handleSelectAddress = useCallback((newValue) => {
     setSelectedBillingInfo(newValue);
@@ -75,85 +77,86 @@ const BillingInfo = (props) => {
       <Card>
         <CardHeader sx={{ mb: 3 }} title="Billing Info" />
 
-        <Stack spacing={1.5} sx={{ p: 3, pt: 0, typography: 'body2' }}>
-          <Grid container spacing={{ xs: 0.5, md: 2 }} alignItems="center">
-            <Grid xs={12} md={4} sx={{ color: 'text.secondary' }}>
-              Billing name
-            </Grid>
-            <Grid xs={12} md={8}>
-              <Button
-                onClick={openAddress.onTrue}
-                endIcon={ICONS.showMore(16)}
-                variant="outlined"
-                size="small"
-                sx={{ typography: 'subtitle2' }}
-                disabled={selectedBillingInfo === undefined}
-              >
-                {selectedBillingInfo === undefined && 'Loading'}
-                {selectedBillingInfo !== undefined && !selectedBillingInfo && 'Not Selected'}
-                {selectedBillingInfo && selectedBillingInfo?.fullName}
-              </Button>
-            </Grid>
-          </Grid>
+        {isLoading && <LoadingState />}
 
-          <Grid container spacing={{ xs: 0.5, md: 2 }}>
-            <Grid xs={12} md={4} sx={{ color: 'text.secondary' }}>
-              Billing address
+        {!isLoading && (
+          <Stack spacing={1.5} sx={{ p: 3, pt: 0, typography: 'body2' }}>
+            <Grid container spacing={{ xs: 0.5, md: 2 }} alignItems="center">
+              <Grid xs={12} md={4} sx={{ color: 'text.secondary' }}>
+                Billing name
+              </Grid>
+              <Grid xs={12} md={8}>
+                <Button
+                  onClick={openAddress.onTrue}
+                  endIcon={ICONS.showMore(16)}
+                  variant="outlined"
+                  size="small"
+                  sx={{ typography: 'subtitle2' }}
+                  disabled={selectedBillingInfo === undefined}
+                >
+                  {!selectedBillingInfo && 'Not Selected'}
+                  {selectedBillingInfo && selectedBillingInfo?.fullName}
+                </Button>
+              </Grid>
             </Grid>
-            <Grid xs={12} md={8} sx={{ color: 'text.secondary' }}>
-              {joinAddressObj(selectedBillingInfo?.address) || '-'}
-            </Grid>
-          </Grid>
 
-          <Grid container spacing={{ xs: 0.5, md: 2 }}>
-            <Grid xs={12} md={4} sx={{ color: 'text.secondary' }}>
-              Billing phone number
+            <Grid container spacing={{ xs: 0.5, md: 2 }}>
+              <Grid xs={12} md={4} sx={{ color: 'text.secondary' }}>
+                Billing address
+              </Grid>
+              <Grid xs={12} md={8} sx={{ color: 'text.secondary' }}>
+                {joinAddressObj(selectedBillingInfo?.address) || '-'}
+              </Grid>
             </Grid>
-            <Grid xs={12} md={8} sx={{ color: 'text.secondary' }}>
-              {selectedBillingInfo?.phoneNumber || '-'}
-            </Grid>
-          </Grid>
 
-          <Grid container spacing={{ xs: 0.5, md: 2 }} alignItems="center">
-            <Grid xs={12} md={4} sx={{ color: 'text.secondary' }}>
-              Payment method
+            <Grid container spacing={{ xs: 0.5, md: 2 }}>
+              <Grid xs={12} md={4} sx={{ color: 'text.secondary' }}>
+                Billing phone number
+              </Grid>
+              <Grid xs={12} md={8} sx={{ color: 'text.secondary' }}>
+                {selectedBillingInfo?.phoneNumber || '-'}
+              </Grid>
             </Grid>
-            <Grid xs={12} md={8}>
-              <Button
-                onClick={openCards.onTrue}
-                endIcon={ICONS.showMore(16)}
-                variant="outlined"
-                size="small"
-                sx={{ typography: 'subtitle2' }}
-                disabled={selectedCard === undefined}
-              >
-                {selectedCard === undefined && 'Loading'}
-                {selectedCard !== undefined && !selectedCard && 'Not Selected'}
-                {selectedCard && creditCards.format(selectedCard?.cardNumber)}
-              </Button>
-            </Grid>
-          </Grid>
 
-          <Grid container spacing={{ xs: 0.5, md: 2 }} alignItems="center">
-            <Grid xs={12} md={4} sx={{ color: 'text.secondary' }}>
-              ACH Info
+            <Grid container spacing={{ xs: 0.5, md: 2 }} alignItems="center">
+              <Grid xs={12} md={4} sx={{ color: 'text.secondary' }}>
+                Payment method
+              </Grid>
+              <Grid xs={12} md={8}>
+                <Button
+                  onClick={openCards.onTrue}
+                  endIcon={ICONS.showMore(16)}
+                  variant="outlined"
+                  size="small"
+                  sx={{ typography: 'subtitle2' }}
+                  disabled={selectedCard === undefined}
+                >
+                  {!selectedCard && 'Not Selected'}
+                  {selectedCard && creditCards.format(selectedCard?.cardNumber)}
+                </Button>
+              </Grid>
             </Grid>
-            <Grid xs={12} md={8}>
-              <Button
-                onClick={openACH.onTrue}
-                endIcon={ICONS.showMore(16)}
-                variant="outlined"
-                size="small"
-                sx={{ typography: 'subtitle2' }}
-                disabled={selectedCard === undefined}
-              >
-                {selectedACH === undefined && 'Loading'}
-                {selectedACH !== undefined && !selectedACH && 'Not Selected'}
-                {selectedACH && `${selectedACH?.accountNumber}`}
-              </Button>
+
+            <Grid container spacing={{ xs: 0.5, md: 2 }} alignItems="center">
+              <Grid xs={12} md={4} sx={{ color: 'text.secondary' }}>
+                ACH Info
+              </Grid>
+              <Grid xs={12} md={8}>
+                <Button
+                  onClick={openACH.onTrue}
+                  endIcon={ICONS.showMore(16)}
+                  variant="outlined"
+                  size="small"
+                  sx={{ typography: 'subtitle2' }}
+                  disabled={selectedCard === undefined}
+                >
+                  {!selectedACH && 'Not Selected'}
+                  {selectedACH && `${selectedACH?.accountNumber}`}
+                </Button>
+              </Grid>
             </Grid>
-          </Grid>
-        </Stack>
+          </Stack>
+        )}
       </Card>
 
       <PaymentCardListDialog
