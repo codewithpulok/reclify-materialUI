@@ -24,7 +24,10 @@ const PayemntCardCreateDialog = (props) => {
   const handleSubmit = async (values, reset) => {
     console.log('Create Payment Card:', values);
 
-    const response = await createCard(values);
+    const response = await createCard({
+      ...values,
+      expirationDate: new Date(values.expirationDate).toISOString(),
+    });
     const { data, error } = response;
 
     // error state
@@ -38,6 +41,7 @@ const PayemntCardCreateDialog = (props) => {
       enqueueSnackbar('Payment Card created!');
       console.log('Payment Card created:', response);
       reset(); // reset form after success create
+      onClose();
     }
   };
 

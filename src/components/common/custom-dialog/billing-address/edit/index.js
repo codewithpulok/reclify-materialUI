@@ -40,6 +40,7 @@ const BillingAddressEditDialog = (props) => {
       enqueueSnackbar('Billing info updated!');
       console.log('Billing info updated:', response);
       reset(); // reset form after success create
+      onClose();
     }
   };
 

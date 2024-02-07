@@ -5,7 +5,7 @@ import Button from '@mui/material/Button';
 import Dialog from '@mui/material/Dialog';
 import Stack from '@mui/material/Stack';
 
-import { DialogTitle } from '@mui/material';
+import { Box, DialogTitle } from '@mui/material';
 import {
   ICONS,
   PaymentCardCreateDialog,
@@ -58,11 +58,19 @@ const PaymentCardListDialog = (props) => {
   const renderList = useCallback(
     (data = []) => {
       if (!cardListResponse.isLoading && cardListResponse.isError) {
-        return <ErrorState />;
+        return (
+          <Box sx={{ px: 2, py: 2 }}>
+            <ErrorState />
+          </Box>
+        );
       }
 
       if (!cardListResponse.isLoading && cardListResponse.isSuccess && data?.length === 0) {
-        return <EmptyState />;
+        return (
+          <Box sx={{ px: 2, py: 2 }}>
+            <EmptyState />
+          </Box>
+        );
       }
 
       if (
@@ -75,9 +83,10 @@ const PaymentCardListDialog = (props) => {
           <Stack
             spacing={0.5}
             sx={{
-              p: 0.5,
+              p: 2,
               maxHeight: 80 * 8,
               overflowX: 'hidden',
+              mt: 1,
             }}
           >
             {data.map((card) => (
@@ -94,7 +103,11 @@ const PaymentCardListDialog = (props) => {
         );
       }
 
-      return <LoadingState />;
+      return (
+        <Box sx={{ px: 2, py: 2 }}>
+          <LoadingState />
+        </Box>
+      );
     },
     [
       cardListResponse.isError,

@@ -80,10 +80,10 @@ const PurchaseFormFields = (props) => {
       <FormProvider methods={methods} onSubmit={handleSubmit(onSubmit)} onReset={onReset}>
         <Stack component={wrapperElement} sx={{ py: 1 }} spacing={2}>
           <PurchaseFormDetails
-            due={purchaseData.due}
-            pricePerMonth={purchaseData.price}
-            totalPrice={purchaseData.total}
-            totalSpace={purchaseData.pallet}
+            due={purchaseData?.due}
+            pricePerMonth={purchaseData?.price}
+            totalPrice={purchaseData?.total}
+            totalSpace={purchaseData?.pallet}
           />
           <BillingDetails billingDetails={billingDetails} onClick={billingDetailsDialog.onTrue} />
           <PaymentCard card={card} onClick={cardsDialog.onTrue} />

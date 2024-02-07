@@ -47,6 +47,7 @@ const PurchasePaymentDialog = (props) => {
     } else if (!error || data?.success) {
       enqueueSnackbar('Purchase Created!');
       console.warn('Purchase Created!', response);
+      onClose();
     }
   };
 

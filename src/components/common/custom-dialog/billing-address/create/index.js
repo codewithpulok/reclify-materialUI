@@ -38,6 +38,7 @@ const BillingAddressCreateDialog = (props) => {
       enqueueSnackbar('Billing info created!');
       console.log('Billing info created:', response);
       reset(); // reset form after success create
+      onClose();
     }
   };
 
