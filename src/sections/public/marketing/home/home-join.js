@@ -5,8 +5,10 @@ import Container from '@mui/material/Container';
 import Stack from '@mui/material/Stack';
 import Typography from '@mui/material/Typography';
 // components
+import { alpha } from '@mui/material';
 import { MotionViewport, varFade } from 'src/components/common/animate';
 import Image from 'src/components/common/image';
+import { bgGradient } from 'src/theme/css';
 import ContactForm from '../contact/contact-form';
 
 // ----------------------------------------------------------------------
@@ -43,12 +45,15 @@ export default function HomeJoin() {
 
   return (
     <Box
-      sx={{
+      sx={(theme) => ({
         textAlign: 'center',
-        bgcolor: 'grey.900',
         pt: { xs: 10, md: 15 },
         pb: { xs: 10, md: 20 },
-      }}
+        ...bgGradient({
+          color: alpha(theme.palette.grey[900], 0.89),
+          imgUrl: '/assets/images/home/join_racklify.jpg',
+        }),
+      })}
     >
       <Container component={MotionViewport}>
         {renderDescription}

@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 import { WarehouseDetailsBox } from 'src/components/warehouse/box';
 
 const Props = {
-  description: PropTypes.string,
+  highlights: PropTypes.string,
   /** @type {SxProps} */
   sx: PropTypes.object,
 };
@@ -14,16 +14,16 @@ const Props = {
  * @param {Props} props
  * @returns
  */
-const WarehouseDescription = (props) => {
-  const { description, sx } = props;
+const WarehouseHighlights = (props) => {
+  const { highlights, sx } = props;
 
   return (
-    <WarehouseDetailsBox title="Description" sx={sx}>
-      <Typography variant="body2">{description}</Typography>
+    <WarehouseDetailsBox title="Highlights" sx={sx}>
+      <Typography variant="body2">{highlights}</Typography>
     </WarehouseDetailsBox>
   );
 };
 
-WarehouseDescription.propTypes = Props;
+WarehouseHighlights.propTypes = Props;
 
-export default WarehouseDescription;
+export default WarehouseHighlights;
