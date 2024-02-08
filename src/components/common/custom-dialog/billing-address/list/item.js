@@ -92,7 +92,6 @@ const Item = (props) => {
         </Stack>
 
         <Stack className="actions" direction="row" spacing={0.5}>
-          <Label color="primary">{billingAddress.addressType}</Label>
           {billingAddress.isPrimary && <Label color="info">Primary</Label>}
         </Stack>
 

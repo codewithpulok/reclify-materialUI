@@ -22,11 +22,8 @@ const Fields = () => {
       <Grid item xs={12} md={4}>
         <Stack spacing={1.5}>
           {user?.userType === 'seller' && <LogoField />}
-
           <SocialFields />
-
           <AppearanceField />
-
           <LoadingButton
             sx={{ mt: 3 }}
             type="submit"
@@ -37,7 +34,6 @@ const Fields = () => {
           >
             Save Changes
           </LoadingButton>
-
           <Button variant="soft" color="error" fullWidth>
             Delete Account
           </Button>

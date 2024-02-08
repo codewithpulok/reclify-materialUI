@@ -110,7 +110,6 @@ export const _userAddressBook = [...Array(4)].map((_, index) => ({
   name: _mock.fullName(index),
   phoneNumber: _mock.phoneNumber(index),
   fullAddress: _mock.fullAddress(index),
-  addressType: (index === 0 && 'Home') || 'Office',
 }));
 
 export const _userInvoices = [...Array(10)].map((_, index) => ({

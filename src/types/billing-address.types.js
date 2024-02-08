@@ -8,6 +8,5 @@
  * @property {string} fullName - The name associated with the address (e.g., "John Doe").
  * @property {string} phoneNumber - The phone number associated with the address.
  * @property {string} email - The email associated with the address.
- * @property {"home" | "office"} addressType - The type of address, either "home" or "office".
  * @property {Address} address - The complete address.
  */

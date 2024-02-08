@@ -182,16 +182,11 @@ export default function Upload(props) {
         }}
       >
         <input {...getInputProps()} />
-
         {hasFile ? renderSinglePreview : renderPlaceholder}
       </Box>
-
       {removeSinglePreview}
-
       {helperText && helperText}
-
       <RejectionFiles fileRejections={fileRejections} />
-
       {renderMultiPreview}
     </Box>
   );

@@ -76,7 +76,6 @@ const Image = forwardRef((props, ref) => {
   const content = (
     <Box
       component={LazyLoadImage}
-      //
       alt={alt}
       src={src}
       afterLoad={afterLoad}
@@ -92,11 +91,10 @@ const Image = forwardRef((props, ref) => {
       useIntersectionObserver={useIntersectionObserver}
       wrapperClassName={wrapperClassName || 'component-image-wrapper'}
       placeholderSrc={disabledEffect ? '/assets/transparent.png' : '/assets/placeholder.svg'}
-      //
       sx={{
         width: 1,
         height: 1,
-        objectFit: 'cover',
+        objectFit: 'contain',
         verticalAlign: 'bottom',
         ...(!!ratio && {
           top: 0,
