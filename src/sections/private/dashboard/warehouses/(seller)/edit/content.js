@@ -4,7 +4,7 @@ import { yupResolver } from '@hookform/resolvers/yup';
 import { Button, Container, Stack } from '@mui/material';
 import { useSnackbar } from 'notistack';
 import PropTypes from 'prop-types';
-import { useCallback, useEffect } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
 
 // local components
@@ -17,6 +17,7 @@ import { useWarehouseUpdateMutation } from 'src/redux-toolkit/services/warehouse
 import { paths } from 'src/routes/paths';
 import WarehouseFields from '../common/warehouse-fields';
 import warehouseSchema from '../common/warehouse-schema';
+import EditStepper from './stepper';
 
 const Props = {
   /** @type {Warehouse} */
@@ -32,6 +33,21 @@ const Content = (props) => {
   const router = useRouter();
   const settings = useSettingsContext();
   const { enqueueSnackbar } = useSnackbar();
+
+  // app states
+  const [activeStep, setActiveStep] = useState(0);
+
+  const handleNext = () => {
+    if (activeStep === 2) return;
+
+    setActiveStep((prev) => prev + 1);
+  };
+
+  const handleBack = () => {
+    if (activeStep === 0) return;
+
+    setActiveStep((prev) => prev - 1);
+  };
 
   const [updateWarehouse] = useWarehouseUpdateMutation();
 
@@ -85,7 +101,8 @@ const Content = (props) => {
 
       <FormProvider methods={methods} onSubmit={handleSubmit(onSubmit)} onReset={onReset}>
         <Stack>
-          <WarehouseFields />
+          <EditStepper activeStep={activeStep} />
+          <WarehouseFields activeStep={activeStep} />
           <Stack
             sx={{
               flexDirection: {
@@ -105,14 +122,20 @@ const Content = (props) => {
               loading={isSubmitting}
               variant="contained"
               size="large"
-              type="submit"
+              type={activeStep === 2 ? 'submit' : 'button'}
+              onClick={activeStep === 2 ? () => {} : handleNext}
               color="primary"
             >
-              Save Changes
+              {activeStep === 2 ? 'Save Changes' : 'Next'}
             </LoadingButton>
 
-            <Button variant="soft" size="large" color="error" type="reset">
-              Cancel
+            <Button
+              variant="soft"
+              size="large"
+              color="error"
+              onClick={activeStep === 0 ? onReset : handleBack}
+            >
+              {activeStep === 0 ? 'Cancel' : 'Back'}
             </Button>
           </Stack>
         </Stack>

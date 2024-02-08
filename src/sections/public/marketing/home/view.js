@@ -10,6 +10,7 @@ import HomeFeaturedNews from './home-featured-news';
 import HomeHero from './home-hero';
 import HomeJoin from './home-join';
 import HomeRacklify from './home-racklify';
+import HomeRoadmap from './home-roadmap';
 
 // ----------------------------------------------------------------------
 
@@ -30,6 +31,7 @@ export default function HomeView() {
         <HomeRacklify />
         <HomeFeaturedNews />
         <HomeJoin />
+        <HomeRoadmap />
       </Box>
     </MainLayout>
   );

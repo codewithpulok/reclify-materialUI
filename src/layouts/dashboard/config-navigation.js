@@ -30,7 +30,7 @@ const ICONS = {
   not_featured: getIconifyFunc('iconamoon:star-off-fill'),
   not_rated: getIconifyFunc('tabler:diamond-off'),
   hidden: getIconifyFunc('solar:eye-closed-bold-duotone'),
-  news: getIconifyFunc('bxs:news'),
+  news: getIconifyFunc('iconamoon:news-duotone'),
   admin: getIconifyFunc('eos-icons:admin-outlined'),
 };
 

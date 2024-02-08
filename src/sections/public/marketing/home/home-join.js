@@ -7,12 +7,13 @@ import Typography from '@mui/material/Typography';
 // components
 import { MotionViewport, varFade } from 'src/components/common/animate';
 import Image from 'src/components/common/image';
+import ContactForm from '../contact/contact-form';
 
 // ----------------------------------------------------------------------
 
 export default function HomeJoin() {
   const renderDescription = (
-    <Stack alignItems="center" spacing={3}>
+    <Stack alignItems="center" spacing={3} mb={8}>
       <Image
         src="/assets/images/home/3d-warehouse.png"
         sx={{ borderRadius: 1, maxWidth: 180, width: '100%', mx: 'auto' }}
@@ -49,7 +50,12 @@ export default function HomeJoin() {
         pb: { xs: 10, md: 20 },
       }}
     >
-      <Container component={MotionViewport}>{renderDescription}</Container>
+      <Container component={MotionViewport}>
+        {renderDescription}
+        <m.div variants={varFade().inUp}>
+          <ContactForm />
+        </m.div>
+      </Container>
     </Box>
   );
 }

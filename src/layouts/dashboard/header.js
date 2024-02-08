@@ -56,7 +56,7 @@ export default function Header({ onOpenNav }) {
         <NotificationsPopover />
         <ContactsPopover />
         <IconButton LinkComponent={RouterLink} href={paths.news.root}>
-          {getIconify('bxs:news', 24)}
+          {getIconify('iconamoon:news-duotone', 24)}
         </IconButton>
         <IconButton LinkComponent={RouterLink} href={paths.settings.root}>
           {getIconify('solar:settings-bold-duotone', 24)}

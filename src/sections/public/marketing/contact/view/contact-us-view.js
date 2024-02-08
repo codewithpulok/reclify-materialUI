@@ -3,7 +3,8 @@
 import Box from '@mui/material/Box';
 import Container from '@mui/material/Container';
 
-import ContactForm from '../contact-form';
+import { Stack } from '@mui/material';
+import ContactForm, { ContactFormDescription } from '../contact-form';
 import ContactHero from '../contact-hero';
 import ContactMap from '../contact-map';
 
@@ -23,7 +24,10 @@ export default function ContactUsView() {
             md: 'repeat(2, 1fr)',
           }}
         >
-          <ContactForm />
+          <Stack spacing={5}>
+            <ContactFormDescription />
+            <ContactForm />
+          </Stack>
           <ContactMap />
         </Box>
       </Container>
