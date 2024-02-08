@@ -53,7 +53,7 @@ export default function ContactForm() {
       </Stack>
 
       <m.div variants={varFade().inUp}>
-        <Button size="large" variant="contained">
+        <Button size="large" variant="contained" color="primary">
           Submit Now
         </Button>
       </m.div>

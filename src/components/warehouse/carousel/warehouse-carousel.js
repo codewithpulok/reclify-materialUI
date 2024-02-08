@@ -17,7 +17,7 @@ const WarehouseCarousel = (props) => {
   const { data = [] } = props;
 
   const carousel = useCarousel({
-    slidesToShow: 4,
+    slidesToShow: 5,
     infinite: false,
     initialSlide: 0,
     swipeToSlide: true,
@@ -60,7 +60,7 @@ const WarehouseCarousel = (props) => {
         <Carousel ref={carousel.carouselRef} {...carousel.carouselSettings}>
           {filteredData.map((item) => (
             <Box key={item.id} sx={{ px: 1, my: '8px' }}>
-              <WarehouseCard warehouse={item} />
+              <WarehouseCard warehouse={item} size="sm" />
             </Box>
           ))}
         </Carousel>

@@ -4,6 +4,8 @@ import PropTypes from 'prop-types';
 import { useResponsive } from 'src/hooks/use-responsive';
 import { selectAuth } from 'src/redux-toolkit/features/auth/authSlice';
 import { useAppSelector } from 'src/redux-toolkit/hooks';
+import WarehouseAmenities from 'src/sections/private/dashboard/warehouses/details/warehouse-amenities';
+import WarehouseHighlights from 'src/sections/private/dashboard/warehouses/details/warehouse-highlights';
 import ImageCarousel from './image-carousel';
 import WarehouseApprovedUses from './warehouse-approved-uses';
 import WarehouseDescription from './warehouse-description';
@@ -44,9 +46,11 @@ const WarehosueDetailsMain = (props) => {
         sx={{ display: { md: 'none' } }}
       />
 
-      <WarehouseDescription description={warehouse.description} />
+      <WarehouseDescription description={warehouse?.description} />
+      <WarehouseHighlights highlights={warehouse?.highlights} />
 
       <WarehouseFeatures features={warehouse.features} />
+      <WarehouseAmenities amenities={warehouse.amenities} />
       <WarehouseApprovedUses approvedUses={warehouse.approvedUses} />
 
       <WarehouseFacilities facilityDetails={warehouse.facilityDetails} />

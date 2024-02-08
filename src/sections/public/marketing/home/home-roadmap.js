@@ -13,9 +13,12 @@ import {
   TimelineItem,
   TimelineSeparator,
 } from '@mui/lab';
+import { timelineItemClasses } from '@mui/lab/TimelineItem';
 import { Paper, alpha } from '@mui/material';
 import { MotionViewport, varFade } from 'src/components/common/animate';
 import Iconify from 'src/components/common/iconify';
+import { useResponsive } from 'src/hooks/use-responsive';
+import { bgGradient } from 'src/theme/css';
 
 // ----------------------------------------------------------------------
 
@@ -36,11 +39,18 @@ export default function HomeRoadmap() {
 
   return (
     <Box
-      sx={{
+      sx={(theme) => ({
         textAlign: 'center',
         pt: { xs: 10, md: 15 },
         pb: { xs: 10, md: 20 },
-      }}
+        ...bgGradient({
+          color: alpha(
+            theme.palette.background.default,
+            theme.palette.mode === 'light' ? 0.85 : 0.94
+          ),
+          imgUrl: '/assets/images/home/roadmap.jpg',
+        }),
+      })}
     >
       <Container component={MotionViewport}>{renderDescription}</Container>
       <Roadmap />
@@ -53,55 +63,70 @@ const TIMELINES = [
     key: 1,
     title: '2024',
     des: '',
-    icon: <Iconify icon="eva:folder-add-fill" width={24} />,
+    color: 'primary',
+    icon: <Iconify icon="solar:calendar-bold-duotone" width={24} />,
   },
   {
     key: 2,
-    title: 'Title 1',
+    title: 'Q2',
     des: 'Closed Beta Launch - Invite Only - Warehouse and Service Provider Marketplace. List and sell extra capacity and meet new customers and providers.',
-    color: 'primary',
-    icon: <Iconify icon="eva:image-2-fill" width={24} />,
+    color: 'info',
+    icon: <Iconify icon="ph:rocket-launch-duotone" width={24} />,
   },
   {
     key: 3,
-    title: 'Title 2',
+    title: 'Q3',
     des: 'Public Launch & Racklify News',
-    color: 'secondary',
-    icon: <Iconify icon="eva:pantone-fill" width={24} />,
+    color: 'error',
+    icon: <Iconify icon="ic:twotone-public" width={24} />,
   },
   {
     key: 4,
-    title: 'Title 3',
+    title: 'Q4',
     des: 'Additional features for current providers & Launch of Commercial Real Estate features.',
-    color: 'info',
-    icon: <Iconify icon="eva:tv-fill" width={24} />,
+    color: 'warning',
+    icon: <Iconify icon="fa-solid:cogs" width={24} />,
   },
 ];
 
-const Roadmap = () => (
-  <Timeline position="alternate">
-    {TIMELINES.map((item) => (
-      <TimelineItem key={item.key}>
-        <TimelineSeparator>
-          <TimelineDot color={item.color}>{item.icon}</TimelineDot>
-          <TimelineConnector />
-        </TimelineSeparator>
-        <TimelineContent>
-          <Paper
-            sx={{
-              p: 3,
-              bgcolor: (theme) => alpha(theme.palette.grey[500], 0.12),
-            }}
-          >
-            <Typography variant="subtitle2">{item.title}</Typography>
-            {!!item?.des && (
-              <Typography variant="body2" sx={{ color: 'text.secondary', mt: 1 }}>
-                {item.des}
-              </Typography>
-            )}
-          </Paper>
-        </TimelineContent>
-      </TimelineItem>
-    ))}
-  </Timeline>
-);
+const Roadmap = () => {
+  const smUp = useResponsive('up', 'sm');
+
+  return (
+    <Timeline
+      position={smUp ? 'alternate' : 'right'}
+      sx={{
+        [`& .${timelineItemClasses.root}:before`]: smUp
+          ? {}
+          : {
+              flex: 0,
+              padding: 0,
+            },
+      }}
+    >
+      {TIMELINES.map((item) => (
+        <TimelineItem key={item.key}>
+          <TimelineSeparator>
+            <TimelineDot color={item.color}>{item.icon}</TimelineDot>
+            <TimelineConnector />
+          </TimelineSeparator>
+          <TimelineContent>
+            <Paper
+              sx={{
+                p: 3,
+                bgcolor: (theme) => alpha(theme.palette.grey[500], 0.12),
+              }}
+            >
+              <Typography variant="subtitle2">{item.title}</Typography>
+              {!!item?.des && (
+                <Typography variant="body2" sx={{ color: 'text.secondary', mt: 1 }}>
+                  {item.des}
+                </Typography>
+              )}
+            </Paper>
+          </TimelineContent>
+        </TimelineItem>
+      ))}
+    </Timeline>
+  );
+};

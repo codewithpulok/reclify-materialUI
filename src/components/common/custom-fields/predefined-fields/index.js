@@ -1,4 +1,4 @@
-import { Stack, Typography } from '@mui/material';
+import { MenuItem, Stack, Typography } from '@mui/material';
 import PropTypes from 'prop-types';
 import { getIconify } from 'src/components/common/iconify/utilities';
 import {
@@ -89,9 +89,9 @@ const PredefinedFields = (props) => {
             return (
               <RHFTextField name={fieldName} label={field.label} key={field.key} select>
                 {field.options?.map((i) => (
-                  <option key={i} value={i}>
+                  <MenuItem key={i} value={i}>
                     {i}
-                  </option>
+                  </MenuItem>
                 ))}
               </RHFTextField>
             );

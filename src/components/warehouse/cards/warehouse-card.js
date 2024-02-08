@@ -34,15 +34,19 @@ const Props = {
   hasControl: PropTypes.bool,
   /** @type {SxProps} */
   sx: PropTypes.object,
+  /** @type {'sm' | 'md'} */
+  size: PropTypes.string,
 };
+
 /**
  * Card for showing warehouse data
  * @param {Props} props
  */
 const WarehouseCard = (props) => {
+  const { warehouse, onDelete = () => {}, hasControl = false, sx = {}, size } = props;
+
   const router = useRouter();
   const { isAuthenticated } = useAppSelector(selectAuth);
-  const { warehouse, onDelete = () => {}, hasControl = false, sx = {} } = props;
   const thumbnail = getPrimaryPhoto(warehouse?.photos);
 
   const detailsPath = isAuthenticated
@@ -51,64 +55,68 @@ const WarehouseCard = (props) => {
 
   const { user } = useAppSelector(selectAuth);
 
-  const content = (
-    <Card
-      className={`card ${warehouse?.isFeatured ? 'glow' : ''}`}
-      sx={{
-        ...sx,
-      }}
-    >
+  const isSm = size === 'sm';
+
+  return (
+    <Card className={`card ${warehouse?.isFeatured ? 'glow' : ''}`} sx={sx}>
       <CardActionArea
         sx={{ bgcolor: 'background.neutral' }}
         onClick={() => router.push(detailsPath)}
       >
         <Box width="100%" sx={{ position: 'relative' }}>
           <Image src={thumbnail} ratio="16/9" />
-        </Box>
-
-        <CardContent sx={{ position: 'relative' }}>
-          <Stack direction="row" alignItems="flex-start" spacing={1}>
-            {warehouse?.seller?.logo && (
-              <Avatar src={warehouse?.seller?.logo} sx={{ width: '70px', height: '70px' }} />
-            )}
-            <Stack>
-              <Stack direction="row" alignItems="center">
-                <Typography variant="h5">{warehouse.name}</Typography>
-                {warehouse.isVerified ? (
-                  <Tooltip title="Verified" placement="top" arrow>
-                    {ICONS.verified(18, { color: 'primary.main', lineHeight: '1' })}
-                  </Tooltip>
-                ) : null}
-              </Stack>
-              <Typography
-                variant="body2"
-                color="text.secondary"
-                sx={{
-                  overflow: 'hidden',
-                  textOverflow: 'ellipsis',
-                  display: '-webkit-box',
-                  '-webkit-line-clamp': '2',
-                  '-webkit-box-orient': 'vertical',
-                  maxHeight: '44px',
-                  height: '44px',
-                }}
-              >
-                {joinAddressObj(warehouse.address)}
-              </Typography>
-            </Stack>
-          </Stack>
 
           {/* if there is a discount then show badge */}
           {!!warehouse.discountRate && (
             <Label
               color="secondary"
-              variant="outlined"
-              sx={{ position: 'absolute', top: 10, right: 10 }}
+              variant="filled"
               startIcon={ICONS.discount()}
+              sx={{ position: 'absolute', bottom: 7, right: 7 }}
             >
               {warehouse.discountRate}% OFF
             </Label>
           )}
+        </Box>
+
+        <CardContent sx={{ position: 'relative', p: isSm ? 1.5 : undefined }}>
+          <Stack>
+            <Stack direction="row" alignItems="center" spacing={1}>
+              {warehouse?.seller?.logo && (
+                <Avatar
+                  src={warehouse?.seller?.logo}
+                  sx={isSm ? { width: '48px', height: '48px' } : { width: '70px', height: '70px' }}
+                />
+              )}
+              <Stack>
+                <Stack direction="row" alignItems="center">
+                  <Typography variant={isSm ? 'subtitle2' : 'h5'}>{warehouse.name}</Typography>
+                  {warehouse.isVerified ? (
+                    <Tooltip title="Verified" placement="top" arrow>
+                      {ICONS.verified(isSm ? 16 : 18, { color: 'primary.main', lineHeight: '1' })}
+                    </Tooltip>
+                  ) : null}
+                </Stack>
+                <Typography
+                  variant={isSm ? 'inherit' : 'body2'}
+                  color="text.secondary"
+                  sx={{
+                    overflow: 'hidden',
+                    textOverflow: 'ellipsis',
+                    display: '-webkit-box',
+                    '-webkit-line-clamp': '2',
+                    '-webkit-box-orient': 'vertical',
+                    maxHeight: isSm ? '38px' : '44px',
+                    height: isSm ? '38px' : '44px',
+                    fontSize: isSm ? '12px' : undefined,
+                    lineHeight: isSm ? 1.4 : undefined,
+                  }}
+                >
+                  {joinAddressObj(warehouse.address)}
+                </Typography>
+              </Stack>
+            </Stack>
+          </Stack>
         </CardContent>
 
         {/* Featured Badge */}
@@ -160,7 +168,7 @@ const WarehouseCard = (props) => {
             <WarehouseDiamond
               id={warehouse.id}
               value={warehouse?.diamond || 0}
-              size={22}
+              size={isSm ? 18 : 22}
               action={user?.userType === 'admin'}
             />
           </Box>
@@ -190,15 +198,14 @@ const WarehouseCard = (props) => {
             <WarehouseAdminMenu
               warehouse={warehouse}
               id={warehouse?.id}
-              iconBtnProps={{ color: 'primary' }}
+              iconWidth={18}
+              iconBtnProps={{ color: 'primary', sx: { p: isSm ? 0.5 : undefined } }}
             />
           </Box>
         )}
       </Stack>
     </Card>
   );
-
-  return content;
 };
 
 WarehouseCard.propTypes = Props;

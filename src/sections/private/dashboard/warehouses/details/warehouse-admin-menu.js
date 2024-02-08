@@ -22,6 +22,7 @@ const Props = {
   menuProps: PropTypes.object,
   /** @type {import('@mui/material').IconButtonProps} */
   iconBtnProps: PropTypes.object,
+  iconWidth: PropTypes.number,
 };
 
 /**
@@ -29,7 +30,7 @@ const Props = {
  * @returns {JSX.Element}
  */
 const WarehouseAdminMenu = (props) => {
-  const { warehouse, menuProps = {}, iconBtnProps = {}, id } = props;
+  const { warehouse, menuProps = {}, iconBtnProps = {}, id, iconWidth } = props;
   const { isFeatured, isVerified, isVisible, seller } = warehouse || {};
 
   const [updateFeatured, featuredResults] = useUpdateWarehouseFeaturedMutation();
@@ -256,7 +257,7 @@ const WarehouseAdminMenu = (props) => {
   return (
     <div>
       <IconButton ref={anchorRef} onClick={menu.onToggle} {...iconBtnProps}>
-        {ICONS.adminSettings()}
+        {ICONS.adminSettings(iconWidth)}
       </IconButton>
       <Menu
         open={menu.value}
