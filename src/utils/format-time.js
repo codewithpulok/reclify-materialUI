@@ -1,4 +1,4 @@
-import { format, formatDistanceToNow, getTime, setDay } from 'date-fns';
+import { format, formatDistanceToNow, getTime, isMatch, setDay } from 'date-fns';
 
 // ----------------------------------------------------------------------
 
@@ -36,3 +36,8 @@ export function fToNow(date) {
       })
     : '';
 }
+
+// ----------------------------------------------------------------------
+
+export const fCreditExpire = (date) => fDate(date, 'MM/yy');
+export const isValidCreditExpire = (date) => isMatch(date, 'MM/yy');

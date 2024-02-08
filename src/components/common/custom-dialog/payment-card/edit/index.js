@@ -2,6 +2,7 @@ import { LoadingButton } from '@mui/lab';
 import { Button, Dialog, DialogActions, DialogContent, DialogTitle } from '@mui/material';
 import { enqueueSnackbar } from 'notistack';
 import PropTypes from 'prop-types';
+import { useCallback } from 'react';
 import { PaymentCardEditForm } from 'src/components/common/custom-form';
 import { useCardUpdateMutation } from 'src/redux-toolkit/services/cardApi';
 
@@ -23,25 +24,32 @@ const PayemntCardEditDialog = (props) => {
   const [updateCard, updateResponse] = useCardUpdateMutation();
 
   // handle update api call
-  const handleSubmit = async (values, reset) => {
-    console.log('Update Payment Card:', values);
+  const handleSubmit = useCallback(
+    async (values, reset) => {
+      console.log('Update Payment Card:', values);
 
-    const response = await updateCard(values);
-    const { data, error } = response;
+      const response = await updateCard({
+        id: card?.id,
+        data: values,
+      });
+      const { data, error } = response;
 
-    // error state
-    if (error || data?.isError) {
-      console.log('Error in updating Payment Card:', response);
-      enqueueSnackbar('Error in updating Payment Card!', { variant: 'error' });
-    }
+      // error state
+      if (error || data?.isError) {
+        console.log('Error in updating Payment Card:', response);
+        enqueueSnackbar('Error in updating Payment Card!', { variant: 'error' });
+      }
 
-    // success state
-    else if (data?.success) {
-      enqueueSnackbar('Payment Card updated!');
-      console.log('Payment Card updated:', response);
-      reset(); // reset form after update success
-    }
-  };
+      // success state
+      else if (data?.success) {
+        enqueueSnackbar('Payment Card updated!');
+        console.log('Payment Card updated:', response);
+        reset(); // reset form after update success
+        onClose();
+      }
+    },
+    [card?.id, onClose, updateCard]
+  );
 
   return (
     <Dialog fullWidth maxWidth="xs" open={open} onClose={onClose}>

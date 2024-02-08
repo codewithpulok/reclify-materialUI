@@ -2,7 +2,7 @@ import { LoadingButton } from '@mui/lab';
 import { Button, Dialog, DialogActions, DialogContent, DialogTitle } from '@mui/material';
 import { enqueueSnackbar } from 'notistack';
 import PropTypes from 'prop-types';
-import { BillingAddressCreateForm } from 'src/components/common/custom-form';
+import { BillingInfoCreateForm } from 'src/components/common/custom-form';
 import { useBillingInfoCreateMutation } from 'src/redux-toolkit/services/billingInfoApi';
 
 const Props = {
@@ -38,13 +38,14 @@ const BillingAddressCreateDialog = (props) => {
       enqueueSnackbar('Billing info created!');
       console.log('Billing info created:', response);
       reset(); // reset form after success create
+      onClose();
     }
   };
 
   return (
     <Dialog fullWidth maxWidth="xs" open={open} onClose={onClose}>
       <DialogTitle>New Billing Address</DialogTitle>
-      <BillingAddressCreateForm
+      <BillingInfoCreateForm
         wrapperElement={DialogContent}
         actions={
           <DialogActions>

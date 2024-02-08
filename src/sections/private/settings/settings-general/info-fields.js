@@ -9,6 +9,7 @@ import { RHFTextField } from 'src/components/common/hook-form';
 import { serviceTypes } from 'src/constant/service-types';
 import { selectAuth } from 'src/redux-toolkit/features/auth/authSlice';
 import { useAppSelector } from 'src/redux-toolkit/hooks';
+import formatPhone from 'src/utils/format-phone';
 
 // ----------------------------------------------------------------------
 
@@ -48,7 +49,13 @@ const InfoFields = () => {
           <RHFTextField name="email" label="Email Address" fullWidth />
           <RHFTextField name="firstName" label="First Name" fullWidth />
           <RHFTextField name="lastName" label="Last Name" fullWidth />
-          <RHFTextField name="phone" label="Phone Number" placeholder="000-000-0000" fullWidth />
+          <RHFTextField
+            name="phone"
+            label="Phone Number"
+            onChangeMiddleware={formatPhone}
+            placeholder="000-000-0000"
+            fullWidth
+          />
 
           {websiteField}
 

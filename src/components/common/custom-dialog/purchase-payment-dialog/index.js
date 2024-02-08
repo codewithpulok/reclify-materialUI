@@ -33,8 +33,7 @@ const PurchasePaymentDialog = (props) => {
       price: purchaseData?.price,
       total: purchaseData?.total,
       month: purchaseData?.month,
-      billingInfoId: values?.billing_details?.id,
-      cardId: values?.card?.id,
+      ...values,
     };
 
     console.log('Purchase Create: ', newValues);
@@ -47,6 +46,7 @@ const PurchasePaymentDialog = (props) => {
     } else if (!error || data?.success) {
       enqueueSnackbar('Purchase Created!');
       console.warn('Purchase Created!', response);
+      onClose();
     }
   };
 

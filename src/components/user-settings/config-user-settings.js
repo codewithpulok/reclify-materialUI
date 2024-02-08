@@ -1,27 +1,27 @@
-import { getIconify } from 'src/components/common/iconify/utilities';
+import { getIconifyFunc } from 'src/components/common/iconify/utilities';
 
 /**
  * All icons for the the user settings
  */
 export const ICONS = {
-  visacard: (width, sx) => getIconify('logos:visa', width, sx),
-  mastercard: (width, sx) => getIconify('logos:mastercard', width, sx),
-  more: (width, sx) => getIconify('eva:more-vertical-fill', width, sx),
-  primary: (width, sx) => getIconify('eva:star-fill', width, sx),
-  delete: (width, sx) => getIconify('solar:trash-bin-trash-bold', width, sx),
-  edit: (width, sx) => getIconify('solar:pen-bold', width, sx),
-  search: (width, sx) => getIconify('eva:search-fill', width, sx),
-  plus: (width, sx) => getIconify('mingcute:add-line', width, sx),
-  current: (width, sx) => getIconify('eva:star-fill', width, sx),
+  visacard: getIconifyFunc('logos:visa'),
+  mastercard: getIconifyFunc('logos:mastercard'),
+  more: getIconifyFunc('eva:more-vertical-fill'),
+  primary: getIconifyFunc('eva:star-fill'),
+  delete: getIconifyFunc('solar:trash-bin-trash-bold'),
+  edit: getIconifyFunc('solar:pen-bold'),
+  search: getIconifyFunc('eva:search-fill'),
+  plus: getIconifyFunc('mingcute:add-line'),
+  current: getIconifyFunc('eva:star-fill'),
 
-  verified: (width, sx) => getIconify('solar:verified-check-bold', width, sx),
-  featured: (width, sx) => getIconify('solar:medal-ribbons-star-bold-duotone', width, sx),
+  verified: getIconifyFunc('solar:verified-check-bold'),
+  featured: getIconifyFunc('solar:medal-ribbons-star-bold-duotone'),
 
-  close: (width, sx) => getIconify('solar:close-circle-bold', width, sx),
+  close: getIconifyFunc('solar:close-circle-bold'),
 
-  feature: (width, sx) => getIconify('tabler:check', width, sx),
+  feature: getIconifyFunc('tabler:check'),
 
-  send_message: (width, sx) => getIconify('tabler:send', width, sx),
-  email: (width, sx) => getIconify('tabler:mail', width, sx),
-  phone: (width, sx) => getIconify('solar:phone-bold-duotone', width, sx),
+  send_message: getIconifyFunc('tabler:send'),
+  email: getIconifyFunc('tabler:mail'),
+  phone: getIconifyFunc('solar:phone-bold-duotone'),
 };

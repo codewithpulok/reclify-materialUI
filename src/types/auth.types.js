@@ -12,8 +12,11 @@
  * @typedef {Object} AuthUser
  * @property {string} id
  * @property {string} email
+ * @property {avatar | null} email
  * @property {string} firstName
  * @property {string} lastName
  * @property {UserType} userType
  * @property {string} serviceType
+ * @property {string} serviceType
+ * @property {PlanId} planId
  */

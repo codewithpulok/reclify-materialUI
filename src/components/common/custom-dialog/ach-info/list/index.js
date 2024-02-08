@@ -6,7 +6,6 @@ import Dialog from '@mui/material/Dialog';
 import Stack from '@mui/material/Stack';
 
 import { DialogContent, DialogTitle } from '@mui/material';
-import { achInfos } from 'src/assets/dummy/ach';
 import {
   ACHInfoCreateDialog,
   ACHInfoDeleteDialog,
@@ -18,6 +17,7 @@ import { useBoolean } from 'src/hooks/use-boolean';
 import { useDialog } from 'src/hooks/use-dialog';
 import { selectAuth } from 'src/redux-toolkit/features/auth/authSlice';
 import { useAppSelector } from 'src/redux-toolkit/hooks';
+import { useAchListQuery } from 'src/redux-toolkit/services/achApi';
 import Item from './item';
 
 const Props = {
@@ -39,17 +39,7 @@ const ACHInfoListDialog = (props) => {
   const { user } = useAppSelector(selectAuth);
 
   // api state
-  const achInfoResponse = {
-    isLoading: false,
-    isError: false,
-    isSuccess: true,
-    data: {
-      /** @type {ACHType[]} */
-      results: achInfos,
-      success: true,
-    },
-    refetch: () => {},
-  };
+  const achInfoResponse = useAchListQuery();
 
   const createDialog = useBoolean();
   const editDialog = useDialog();

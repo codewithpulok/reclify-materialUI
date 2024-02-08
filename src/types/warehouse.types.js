@@ -24,6 +24,7 @@
  * @property {WarehouseServices} services - Object representing services available in the warehouse.
  * @property {string[]} rules - Array of rules associated with the warehouse.
  * @property {boolean} visible - indicate that warehouse visible or not. (only admin can change it)
+ * @property {number} averageRating
  */
 
 /**

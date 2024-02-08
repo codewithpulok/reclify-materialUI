@@ -4,14 +4,11 @@ import { useForm } from 'react-hook-form';
 import { useRouter } from 'src/routes/hooks';
 import { paths } from 'src/routes/paths';
 
-import { useBoolean } from 'src/hooks/use-boolean';
-
 import FormProvider from 'src/components/common/hook-form';
 import { enqueueSnackbar } from 'src/components/common/snackbar';
+import NewsPostFields from 'src/components/news/post-fields';
+import postSchema from 'src/components/news/post-fields/post-schema';
 import { useBlogCreateMutation } from 'src/redux-toolkit/services/blogApi';
-import PostDetailsPreview from '../common/post-details-preview';
-import PostFields from '../common/post-fields';
-import postSchema from '../common/post-fields/post-schema';
 
 const defaultValues = {
   title: '',
@@ -32,13 +29,11 @@ const CreateForm = (props) => {
   const [createBlog] = useBlogCreateMutation();
 
   // conditional state
-  const preview = useBoolean();
+  // const preview = useBoolean();
 
   // form state
   const methods = useForm({ resolver: yupResolver(postSchema), defaultValues });
-  const { reset, watch, handleSubmit, formState } = methods;
-  const { isSubmitting, isValid } = formState;
-  const values = watch();
+  const { reset, handleSubmit } = methods;
 
   // handle create post
   const onSubmit = async (formValues) => {
@@ -64,22 +59,7 @@ const CreateForm = (props) => {
 
   return (
     <FormProvider methods={methods} onSubmit={handleSubmit(onSubmit)}>
-      <PostFields formType="CREATE" />
-
-      <PostDetailsPreview
-        title={values.title}
-        content={values.content}
-        description={values.description}
-        coverUrl={
-          typeof values.coverUrl === 'string' ? values.coverUrl : `${values.coverUrl?.preview}`
-        }
-        //
-        open={preview.value}
-        isValid={isValid}
-        isSubmitting={isSubmitting}
-        onClose={preview.onFalse}
-        onSubmit={onSubmit}
-      />
+      <NewsPostFields formType="CREATE" />
     </FormProvider>
   );
 };

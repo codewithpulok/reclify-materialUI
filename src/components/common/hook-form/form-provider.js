@@ -17,7 +17,16 @@ export default function FormProvider(props) {
   const { children, methods, onSubmit = () => {}, onReset = () => {} } = props;
   return (
     <Form {...methods}>
-      <form onSubmit={onSubmit} onReset={onReset}>
+      <form
+        onSubmit={(e) => {
+          e.stopPropagation(); // prevent to parent form call
+          onSubmit(e);
+        }}
+        onReset={(e) => {
+          e.stopPropagation(); // prevent to parent form call
+          onReset(e);
+        }}
+      >
         {children}
       </form>
     </Form>

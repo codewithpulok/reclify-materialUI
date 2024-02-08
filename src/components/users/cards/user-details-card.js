@@ -1,4 +1,4 @@
-import { Avatar, Badge, Card, Chip, IconButton, Link, Stack, Typography } from '@mui/material';
+import { Avatar, Card, Chip, IconButton, Link, Stack, Typography } from '@mui/material';
 import PropTypes from 'prop-types';
 // local components
 import { socialsBrands } from 'src/assets/data';
@@ -15,7 +15,6 @@ const Props = {
   sx: PropTypes.object,
   /** @type {UserType} */
   userType: PropTypes.string.isRequired,
-  showLogo: PropTypes.bool,
 };
 
 /**
@@ -23,7 +22,7 @@ const Props = {
  * @returns {JSX.Element}
  */
 const UserDetailsCard = (props) => {
-  const { user, sx, userType, showLogo } = props;
+  const { user, sx, userType } = props;
 
   return (
     <Card
@@ -47,19 +46,8 @@ const UserDetailsCard = (props) => {
         ...sx,
       }}
     >
-      {showLogo && userType === 'seller' && user?.logo ? (
-        <Badge
-          overlap="circular"
-          anchorOrigin={{ vertical: 'bottom', horizontal: 'right' }}
-          badgeContent={
-            <Avatar sx={{ width: 36, height: 36 }} src={user.avatar} alt={user?.firstName} />
-          }
-        >
-          <Avatar src={user.logo} sx={{ width: 90, height: 90 }} />
-        </Badge>
-      ) : (
-        <Avatar src={user.avatar} alt={user?.firstName} sx={{ width: 90, height: 90 }} />
-      )}
+      <Avatar src={user.avatar} alt={user?.firstName} sx={{ width: 90, height: 90 }} />
+
       <Stack spacing={0.2} sx={{ width: '100%', flex: 1 }}>
         <Stack direction="row" alignItems="center" flexWrap="wrap" spacing={1} mb={0.8}>
           <Typography variant="h6">

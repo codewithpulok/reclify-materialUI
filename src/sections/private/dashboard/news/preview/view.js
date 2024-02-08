@@ -4,9 +4,9 @@ import { notFound } from 'next/navigation';
 import PropTypes from 'prop-types';
 // local component
 import { ErrorState } from 'src/components/common/custom-state';
+import NewsDetailsPreview from 'src/components/news/details/details-preview';
+import NewsDetailsSkeleton from 'src/components/news/details/details-skeleton';
 import { useBlogGetQuery } from 'src/redux-toolkit/services/blogApi';
-import { PostDetailsSkeleton } from '../common/post-skeleton';
-import PreviewContent from './content';
 
 const Props = {
   id: PropTypes.string.isRequired,
@@ -29,10 +29,10 @@ const NewsPreviewView = (props) => {
 
   // on request success
   if (blogResponse.isSuccess && blogResponse.data?.success) {
-    return <PreviewContent post={blogResponse.data?.results} />;
+    return <NewsDetailsPreview post={blogResponse.data?.results} />;
   }
 
-  return <PostDetailsSkeleton />;
+  return <NewsDetailsSkeleton />;
 };
 
 NewsPreviewView.propTypes = Props;

@@ -6,14 +6,11 @@ import { useForm } from 'react-hook-form';
 import { useRouter } from 'src/routes/hooks';
 import { paths } from 'src/routes/paths';
 
-import { useBoolean } from 'src/hooks/use-boolean';
-
 import FormProvider from 'src/components/common/hook-form';
 import { enqueueSnackbar } from 'src/components/common/snackbar';
+import NewsPostFields from 'src/components/news/post-fields';
+import postSchema from 'src/components/news/post-fields/post-schema';
 import { useBlogUpdateMutation } from 'src/redux-toolkit/services/blogApi';
-import PostDetailsPreview from '../common/post-details-preview';
-import PostFields from '../common/post-fields';
-import postSchema from '../common/post-fields/post-schema';
 
 // ----------------------------------------------------------------------
 
@@ -33,7 +30,7 @@ export default function EditForm(props) {
   const [updateBlog] = useBlogUpdateMutation();
 
   // conditional state
-  const preview = useBoolean();
+  // const preview = useBoolean();
 
   // form state
   const defaultValues = useMemo(
@@ -49,9 +46,9 @@ export default function EditForm(props) {
     [currentPost]
   );
   const methods = useForm({ resolver: yupResolver(postSchema), defaultValues });
-  const { reset, watch, handleSubmit, formState } = methods;
-  const { isSubmitting, isValid } = formState;
-  const values = watch();
+  const { reset, handleSubmit } = methods;
+  // const { isSubmitting, isValid } = formState;
+  // const values = watch();
 
   // handle create post
   const onSubmit = useCallback(
@@ -86,22 +83,7 @@ export default function EditForm(props) {
 
   return (
     <FormProvider methods={methods} onSubmit={handleSubmit(onSubmit)}>
-      <PostFields formType="EDIT" />
-
-      <PostDetailsPreview
-        title={values.title}
-        content={values.content}
-        description={values.description}
-        coverUrl={
-          typeof values.coverUrl === 'string' ? values.coverUrl : `${values.coverUrl?.preview}`
-        }
-        //
-        open={preview.value}
-        isValid={isValid}
-        isSubmitting={isSubmitting}
-        onClose={preview.onFalse}
-        onSubmit={onSubmit}
-      />
+      <NewsPostFields formType="EDIT" />
     </FormProvider>
   );
 }

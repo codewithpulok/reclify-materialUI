@@ -97,6 +97,15 @@ export const endpoints = {
     update: (id) => `/${id}`,
     delete: (id) => `/${id}`,
   },
+  ach: {
+    root: '/user/ach',
+    list: '/',
+    create: '/',
+    primary: `/primary`,
+    get: (id) => `/${id}`,
+    update: (id) => `/${id}`,
+    delete: (id) => `/${id}`,
+  },
   plans: {
     root: '/plans',
     list: '/',

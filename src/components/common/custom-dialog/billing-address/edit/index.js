@@ -2,7 +2,8 @@ import { LoadingButton } from '@mui/lab';
 import { Button, Dialog, DialogActions, DialogContent, DialogTitle } from '@mui/material';
 import { enqueueSnackbar } from 'notistack';
 import PropTypes from 'prop-types';
-import { BillingAddressEditForm } from 'src/components/common/custom-form';
+import { useCallback } from 'react';
+import { BillingInfoEditForm } from 'src/components/common/custom-form';
 import { useBillingInfoUpdateMutation } from 'src/redux-toolkit/services/billingInfoApi';
 
 const Props = {
@@ -23,30 +24,34 @@ const BillingAddressEditDialog = (props) => {
   const [updateBillingInfo, updateResponse] = useBillingInfoUpdateMutation();
 
   // handle update api call
-  const handleSubmit = async (values, reset) => {
-    console.log('Update Billing Info:', values);
+  const handleSubmit = useCallback(
+    async (values, reset) => {
+      console.log('Update Billing Info:', values);
 
-    const response = await updateBillingInfo(values);
-    const { data, error } = response;
+      const response = await updateBillingInfo({ id: billingAddress?.id, data: values });
+      const { data, error } = response;
 
-    // error state
-    if (error || data?.isError) {
-      console.log('Error in updating billing info:', response);
-      enqueueSnackbar('Error in updating billing info!', { variant: 'error' });
-    }
+      // error state
+      if (error || data?.isError) {
+        console.log('Error in updating billing info:', response);
+        enqueueSnackbar('Error in updating billing info!', { variant: 'error' });
+      }
 
-    // success state
-    else if (data?.success) {
-      enqueueSnackbar('Billing info updated!');
-      console.log('Billing info updated:', response);
-      reset(); // reset form after success create
-    }
-  };
+      // success state
+      else if (data?.success) {
+        enqueueSnackbar('Billing info updated!');
+        console.log('Billing info updated:', response);
+        reset(); // reset form after success create
+        onClose();
+      }
+    },
+    [billingAddress?.id, onClose, updateBillingInfo]
+  );
 
   return (
     <Dialog fullWidth maxWidth="xs" open={open} onClose={onClose}>
       <DialogTitle>Edit Billing Address</DialogTitle>
-      <BillingAddressEditForm
+      <BillingInfoEditForm
         wrapperElement={DialogContent}
         actions={
           <DialogActions>

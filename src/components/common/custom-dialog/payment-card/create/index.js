@@ -38,6 +38,7 @@ const PayemntCardCreateDialog = (props) => {
       enqueueSnackbar('Payment Card created!');
       console.log('Payment Card created:', response);
       reset(); // reset form after success create
+      onClose();
     }
   };
 

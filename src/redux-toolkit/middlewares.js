@@ -1,3 +1,4 @@
+import { achApi } from './services/achApi';
 import { addressApi } from './services/addressApi';
 import { adminApi } from './services/adminApi';
 import { authApi } from './services/authApi';
@@ -32,6 +33,7 @@ const middlewares = [
   invoiceApi.middleware,
   blogApi.middleware,
   searchApi.middleware,
+  achApi.middleware,
 ];
 
 export default middlewares;

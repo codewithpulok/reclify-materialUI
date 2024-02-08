@@ -2,7 +2,9 @@ import { LoadingButton } from '@mui/lab';
 import { Button, Dialog, DialogActions, DialogContent, DialogTitle } from '@mui/material';
 import { enqueueSnackbar } from 'notistack';
 import PropTypes from 'prop-types';
+import { useCallback } from 'react';
 import { ACHInfoEditForm } from 'src/components/common/custom-form';
+import { useAchUpdateMutation } from 'src/redux-toolkit/services/achApi';
 
 const Props = {
   open: PropTypes.bool.isRequired,
@@ -19,32 +21,32 @@ const ACHInfoEditDialog = (props) => {
   const { open, onClose, ach } = props;
 
   // api state
-  // const [updateCard, updateResponse] = useCardUpdateMutation();
+  const [updateAch, updateResponse] = useAchUpdateMutation();
 
   // handle update api call
-  const handleSubmit = async (values, reset) => {
-    console.log('Update ACH Info:', values);
+  const handleSubmit = useCallback(
+    async (values, reset) => {
+      console.log('Update ACH Info:', values);
 
-    const response = await new Promise((resolve, reject) => {
-      setTimeout(() => {
-        resolve({ data: { success: true } });
-      }, 1000);
-    });
-    const { data, error } = response;
+      const response = await updateAch({ id: ach?.id, data: values });
+      const { data, error } = response;
 
-    // error state
-    if (error || data?.isError) {
-      console.log('Error in updating ACH Info:', response);
-      enqueueSnackbar('Error in updating ACH Info!', { variant: 'error' });
-    }
+      // error state
+      if (error || data?.isError) {
+        console.log('Error in updating ACH Info:', response);
+        enqueueSnackbar('Error in updating ACH Info!', { variant: 'error' });
+      }
 
-    // success state
-    else if (data?.success) {
-      enqueueSnackbar('ACH Info updated!');
-      console.log('ACH Info updated:', response);
-      reset(); // reset form after update success
-    }
-  };
+      // success state
+      else if (data?.success) {
+        enqueueSnackbar('ACH Info updated!');
+        console.log('ACH Info updated:', response);
+        reset(); // reset form after update success
+        onClose();
+      }
+    },
+    [ach?.id, onClose, updateAch]
+  );
 
   return (
     <Dialog fullWidth maxWidth="xs" open={open} onClose={onClose}>
@@ -57,7 +59,7 @@ const ACHInfoEditDialog = (props) => {
               Cancel
             </Button>
             <LoadingButton
-              // loading={updateResponse.isLoading}
+              loading={updateResponse.isLoading}
               type="submit"
               color="primary"
               variant="contained"
@@ -66,7 +68,7 @@ const ACHInfoEditDialog = (props) => {
             </LoadingButton>
           </DialogActions>
         }
-        card={ach}
+        ach={ach}
         submitCallback={handleSubmit}
       />
     </Dialog>

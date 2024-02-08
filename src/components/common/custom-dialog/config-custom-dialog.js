@@ -1,24 +1,24 @@
 import { card } from 'creditcards';
-import { getIconify } from 'src/components/common/iconify/utilities';
+import { getIconifyFunc } from 'src/components/common/iconify/utilities';
 
 /**
  * All icons for the the user settings
  */
 export const ICONS = {
-  visa: (width, sx) => getIconify('logos:visa', width, sx),
-  mastercard: (width, sx) => getIconify('logos:mastercard', width, sx),
-  creditcard: (width, sx) => getIconify('fontisto:credit-card', width, sx),
+  visa: getIconifyFunc('logos:visa'),
+  mastercard: getIconifyFunc('logos:mastercard'),
+  creditcard: getIconifyFunc('fontisto:credit-card'),
 
-  plus: (width, sx) => getIconify('mingcute:add-line', width, sx),
-  more: (width, sx) => getIconify('eva:more-vertical-fill', width, sx),
-  delete: (width, sx) => getIconify('solar:trash-bin-trash-bold', width, sx),
-  edit: (width, sx) => getIconify('solar:pen-bold', width, sx),
+  plus: getIconifyFunc('mingcute:add-line'),
+  more: getIconifyFunc('eva:more-vertical-fill'),
+  delete: getIconifyFunc('solar:trash-bin-trash-bold'),
+  edit: getIconifyFunc('solar:pen-bold'),
 };
 
 export const getCreditCardIcon = (number) => {
   const type = card.type(number);
 
-  const parsedType = type.toLowerCase().split(' ').join('_');
+  const parsedType = type?.toLowerCase().split(' ').join('_');
 
   const icon = ICONS?.[parsedType];
 

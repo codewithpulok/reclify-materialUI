@@ -3,9 +3,8 @@ import { useCallback, useEffect } from 'react';
 
 import Dialog from '@mui/material/Dialog';
 import Stack from '@mui/material/Stack';
-import Typography from '@mui/material/Typography';
 
-import { Button } from '@mui/material';
+import { Box, Button, DialogTitle } from '@mui/material';
 import { EmptyState, ErrorState, LoadingState } from 'src/components/common/custom-state';
 import { useBoolean } from 'src/hooks/use-boolean';
 import { useDialog } from 'src/hooks/use-dialog';
@@ -24,7 +23,6 @@ const Props = {
   onSelect: PropTypes.func,
   open: PropTypes.bool,
   selected: PropTypes.func,
-  title: PropTypes.string,
 };
 
 // ----------------------------------------------------------------------
@@ -35,7 +33,6 @@ const Props = {
  */
 const BillingAddressListDialog = (props) => {
   const {
-    title = 'Address Book',
     //
     open,
     onClose,
@@ -67,11 +64,19 @@ const BillingAddressListDialog = (props) => {
   const renderList = useCallback(
     (data = []) => {
       if (!billingInfoResponse.isLoading && billingInfoResponse.isError) {
-        return <ErrorState />;
+        return (
+          <Box sx={{ px: 2 }}>
+            <ErrorState />
+          </Box>
+        );
       }
 
       if (!billingInfoResponse.isLoading && billingInfoResponse.isSuccess && data?.length === 0) {
-        return <EmptyState />;
+        return (
+          <Box sx={{ px: 2 }}>
+            <EmptyState />
+          </Box>
+        );
       }
 
       if (
@@ -84,7 +89,7 @@ const BillingAddressListDialog = (props) => {
           <Stack
             spacing={0.5}
             sx={{
-              p: 0.5,
+              p: 2,
               maxHeight: 80 * 8,
               overflowX: 'hidden',
             }}
@@ -103,7 +108,11 @@ const BillingAddressListDialog = (props) => {
         );
       }
 
-      return <LoadingState />;
+      return (
+        <Box sx={{ px: 2 }}>
+          <LoadingState />
+        </Box>
+      );
     },
     [
       billingInfoResponse.isError,
@@ -128,14 +137,16 @@ const BillingAddressListDialog = (props) => {
   return (
     <>
       <Dialog fullWidth maxWidth="xs" open={open} onClose={onClose}>
-        <Stack
-          direction="row"
-          alignItems="center"
-          justifyContent="space-between"
-          sx={{ p: 3, pr: 1.5 }}
+        <DialogTitle
+          sx={{
+            p: 3,
+            pb: 0,
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'space-between',
+          }}
         >
-          <Typography variant="h6"> {title} </Typography>
-
+          Address Book
           <Button
             onClick={createDialog.onTrue}
             size="small"
@@ -145,7 +156,7 @@ const BillingAddressListDialog = (props) => {
           >
             New
           </Button>
-        </Stack>
+        </DialogTitle>
 
         {renderList(billingInfoResponse.data?.results || [])}
       </Dialog>

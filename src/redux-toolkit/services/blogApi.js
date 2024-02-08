@@ -54,6 +54,12 @@ export const blogApi = createApi({
               if (updateIndex !== -1) draft.results[updateIndex] = data?.results;
             })
           );
+          // update details cache
+          dispatch(
+            blogApi.util.updateQueryData('blogGet', arg.id, (draft) => {
+              draft.results = data?.results;
+            })
+          );
         } catch (error) {
           console.error('ERROR: Blog Cache update', error);
         }

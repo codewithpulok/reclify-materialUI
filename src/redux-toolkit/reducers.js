@@ -2,6 +2,7 @@ import { combineReducers } from '@reduxjs/toolkit';
 
 import { appearanceSlice } from './features/appearance/appearanceSlice';
 import { authSlice } from './features/auth/authSlice';
+import { achApi } from './services/achApi';
 import { addressApi } from './services/addressApi';
 import { adminApi } from './services/adminApi';
 import { authApi } from './services/authApi';
@@ -40,6 +41,7 @@ const reducers = combineReducers({
   [invoiceApi.reducerPath]: invoiceApi.reducer,
   [blogApi.reducerPath]: blogApi.reducer,
   [searchApi.reducerPath]: searchApi.reducer,
+  [achApi.reducerPath]: achApi.reducer,
 });
 
 export default reducers;

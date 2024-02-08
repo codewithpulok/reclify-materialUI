@@ -21,11 +21,11 @@ import Iconify from 'src/components/common/iconify';
 import Label from 'src/components/common/label';
 import { useSettingsContext } from 'src/components/common/settings';
 
+import NewsSearch from 'src/components/news/news-search';
+import NewsSort from 'src/components/news/news-sort';
 import { useBlogListQuery } from 'src/redux-toolkit/services/blogApi';
 import { paramCase } from 'src/utils/change-case';
-import PostListHorizontal from '../common/post-list-horizontal';
-import PostSearch from '../common/post-search';
-import PostSort from '../common/post-sort';
+import ViewList from './view-list';
 
 // ----------------------------------------------------------------------
 
@@ -113,7 +113,7 @@ export default function NewsListingView() {
           mb: { xs: 3, md: 5 },
         }}
       >
-        <PostSearch
+        <NewsSearch
           query={debouncedQuery}
           results={[]}
           onSearch={handleSearch}
@@ -121,7 +121,7 @@ export default function NewsListingView() {
           hrefItem={(title) => paths.dashboard.news.details(paramCase(title))}
         />
 
-        <PostSort sort={sortBy} onSort={handleSortBy} sortOptions={POST_SORT_OPTIONS} />
+        <NewsSort sort={sortBy} onSort={handleSortBy} sortOptions={POST_SORT_OPTIONS} />
       </Stack>
 
       <Tabs
@@ -156,7 +156,7 @@ export default function NewsListingView() {
         ))}
       </Tabs>
 
-      <PostListHorizontal posts={dataFiltered} loading={listResponse?.isLoading} />
+      <ViewList posts={dataFiltered} loading={listResponse?.isLoading} />
     </Container>
   );
 }

@@ -22,6 +22,7 @@ export const profileApi = createApi({
           // prepare changes
           const changes = {
             firstName: data?.results?.firstName,
+            avatar: data?.results?.avatar,
             lastName: data?.results?.lastName,
             serviceType: data?.results?.serviceType,
             email: data?.results?.email,
