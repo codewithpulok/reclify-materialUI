@@ -133,4 +133,8 @@ export const endpoints = {
     services: (q) => `?query=${q}`,
     users: (q) => `?query=${q}`,
   },
+  contact_us: {
+    root: '/contact-us',
+    create: '/',
+  },
 };

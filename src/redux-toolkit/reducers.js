@@ -9,6 +9,7 @@ import { authApi } from './services/authApi';
 import { billingInfoApi } from './services/billingInfoApi';
 import { blogApi } from './services/blogApi';
 import { cardApi } from './services/cardApi';
+import { contactApi } from './services/contactApi';
 import { invoiceApi } from './services/invoiceApi';
 import { planApi } from './services/planApi';
 import { profileApi } from './services/profileApi';
@@ -42,6 +43,7 @@ const reducers = combineReducers({
   [blogApi.reducerPath]: blogApi.reducer,
   [searchApi.reducerPath]: searchApi.reducer,
   [achApi.reducerPath]: achApi.reducer,
+  [contactApi.reducerPath]: contactApi.reducer,
 });
 
 export default reducers;

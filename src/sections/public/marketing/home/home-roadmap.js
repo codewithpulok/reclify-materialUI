@@ -90,18 +90,18 @@ const TIMELINES = [
 ];
 
 const Roadmap = () => {
-  const smUp = useResponsive('up', 'sm');
+  const smDown = useResponsive('down', 'md');
 
   return (
     <Timeline
-      position={smUp ? 'alternate' : 'right'}
+      position={smDown ? 'right' : 'alternate'}
       sx={{
-        [`& .${timelineItemClasses.root}:before`]: smUp
-          ? {}
-          : {
+        [`& .${timelineItemClasses.root}:before`]: smDown
+          ? {
               flex: 0,
               padding: 0,
-            },
+            }
+          : {},
       }}
     >
       {TIMELINES.map((item) => (

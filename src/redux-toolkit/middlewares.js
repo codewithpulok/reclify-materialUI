@@ -5,6 +5,7 @@ import { authApi } from './services/authApi';
 import { billingInfoApi } from './services/billingInfoApi';
 import { blogApi } from './services/blogApi';
 import { cardApi } from './services/cardApi';
+import { contactApi } from './services/contactApi';
 import { invoiceApi } from './services/invoiceApi';
 import { planApi } from './services/planApi';
 import { profileApi } from './services/profileApi';
@@ -34,6 +35,7 @@ const middlewares = [
   blogApi.middleware,
   searchApi.middleware,
   achApi.middleware,
+  contactApi.middleware,
 ];
 
 export default middlewares;
