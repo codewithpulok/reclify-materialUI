@@ -5,14 +5,15 @@ import { useCallback, useEffect, useMemo } from 'react';
 import { useForm } from 'react-hook-form';
 
 import FormProvider from 'src/components/common/hook-form/form-provider';
-import { CustomFormProps } from '../../config-custom-form';
-import Fields from './fields';
-import { paymentCardEditSchema } from './schema';
+import { fCreditExpire } from 'src/utils/format-time';
+import { CustomFormProps } from '../config-custom-form';
+import CardFields from './common/card-fields';
+import { cardSchema } from './common/card-schema';
 
 const Props = {
   ...CustomFormProps,
   /** @type {PaymentCard} */
-  card: PropTypes.object.isRequired,
+  card: PropTypes.object,
 };
 
 /**
@@ -27,14 +28,14 @@ const PaymentCardEditForm = (props) => {
     () => ({
       cardNumber: card?.cardNumber || '',
       cardHolder: card?.cardHolder || '',
-      cvv: card?.cvv || '',
-      expirationDate: new Date(card?.expirationDate || new Date()).getTime(),
+      cvv: card?.cvv || null,
+      expirationDate: card?.expirationDate || fCreditExpire(new Date()),
       isPrimary: card?.cardNumber || false,
     }),
     [card]
   );
 
-  const methods = useForm({ defaultValues, resolver: yupResolver(paymentCardEditSchema) });
+  const methods = useForm({ defaultValues, resolver: yupResolver(cardSchema) });
   const { handleSubmit, reset } = methods;
 
   // handle form reset
@@ -53,7 +54,7 @@ const PaymentCardEditForm = (props) => {
   return (
     <FormProvider methods={methods} onSubmit={handleSubmit(onSubmit)} onReset={onReset}>
       <Box component={wrapperElement} sx={sx}>
-        <Fields />
+        <CardFields />
       </Box>
 
       {actions}

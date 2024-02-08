@@ -4,20 +4,19 @@ import { useCallback } from 'react';
 import { useForm } from 'react-hook-form';
 
 import FormProvider from 'src/components/common/hook-form/form-provider';
-import { CustomFormProps } from '../../config-custom-form';
-import Fields from './fields';
-import { paymentCardCreateSchema } from './schema';
+import { CustomFormProps } from '../config-custom-form';
+import AchFields from './common/ach-fields';
+import { AchSchema } from './common/ach-schema';
 
 const Props = {
   ...CustomFormProps,
 };
 
-/** @type {PaymentCard} */
+/** @type {ACHType} */
 const defaultValues = {
-  cardNumber: '',
-  cardHolder: '',
-  cvv: '',
-  expirationDate: Date.now(),
+  accountName: '',
+  accountNumber: '',
+  routingNumber: '',
   isPrimary: false,
 };
 
@@ -25,10 +24,10 @@ const defaultValues = {
  * @param {Props} props
  * @returns {JSX.Element}
  */
-const PaymentCardCreateForm = (props) => {
+const ACHInfoCreateForm = (props) => {
   const { actions, submitCallback = () => {}, wrapperElement, sx = {} } = props;
 
-  const methods = useForm({ defaultValues, resolver: yupResolver(paymentCardCreateSchema) });
+  const methods = useForm({ defaultValues, resolver: yupResolver(AchSchema) });
   const { handleSubmit, reset } = methods;
 
   // handle form reset
@@ -45,7 +44,7 @@ const PaymentCardCreateForm = (props) => {
   return (
     <FormProvider methods={methods} onSubmit={handleSubmit(onSubmit)} onReset={onReset}>
       <Box component={wrapperElement} sx={sx}>
-        <Fields />
+        <AchFields />
       </Box>
 
       {actions}
@@ -53,6 +52,6 @@ const PaymentCardCreateForm = (props) => {
   );
 };
 
-PaymentCardCreateForm.propTypes = Props;
+ACHInfoCreateForm.propTypes = Props;
 
-export default PaymentCardCreateForm;
+export default ACHInfoCreateForm;

@@ -92,7 +92,6 @@ const BillingInfo = (props) => {
                   variant="outlined"
                   size="small"
                   sx={{ typography: 'subtitle2' }}
-                  disabled={selectedBillingInfo === undefined}
                 >
                   {!selectedBillingInfo && 'Not Selected'}
                   {selectedBillingInfo && selectedBillingInfo?.fullName}
@@ -129,7 +128,6 @@ const BillingInfo = (props) => {
                   variant="outlined"
                   size="small"
                   sx={{ typography: 'subtitle2' }}
-                  disabled={selectedCard === undefined}
                 >
                   {!selectedCard && 'Not Selected'}
                   {selectedCard && creditCards.format(selectedCard?.cardNumber)}
@@ -148,7 +146,6 @@ const BillingInfo = (props) => {
                   variant="outlined"
                   size="small"
                   sx={{ typography: 'subtitle2' }}
-                  disabled={selectedCard === undefined}
                 >
                   {!selectedACH && 'Not Selected'}
                   {selectedACH && `${selectedACH?.accountNumber}`}

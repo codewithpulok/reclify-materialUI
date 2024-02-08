@@ -1,26 +1,18 @@
 import { yupResolver } from '@hookform/resolvers/yup';
 import { Box } from '@mui/material';
 import PropTypes from 'prop-types';
-import { useCallback, useEffect } from 'react';
+import { useCallback, useEffect, useMemo } from 'react';
 import { useForm } from 'react-hook-form';
 
 import FormProvider from 'src/components/common/hook-form/form-provider';
-import { CustomFormProps } from '../../config-custom-form';
-import Fields from './fields';
-import { ACHInfoEditSchema } from './schema';
+import { CustomFormProps } from '../config-custom-form';
+import AchFields from './common/ach-fields';
+import { AchSchema } from './common/ach-schema';
 
 const Props = {
   ...CustomFormProps,
   /** @type {ACHType} */
   ach: PropTypes.object,
-};
-
-/** @type {ACHType} */
-const defaultValues = {
-  accountName: '',
-  accountNumber: null,
-  routingNumber: null,
-  isPrimary: false,
 };
 
 /**
@@ -30,7 +22,18 @@ const defaultValues = {
 const ACHInfoEditForm = (props) => {
   const { actions, submitCallback = () => {}, wrapperElement, sx = {}, ach } = props;
 
-  const methods = useForm({ defaultValues, resolver: yupResolver(ACHInfoEditSchema) });
+  /** @type {ACHType} */
+  const defaultValues = useMemo(
+    () => ({
+      accountName: ach?.accountName || '',
+      accountNumber: ach?.accountNumber || '',
+      routingNumber: ach?.routingNumber || '',
+      isPrimary: ach?.isPrimary || false,
+    }),
+    [ach?.accountName, ach?.accountNumber, ach?.isPrimary, ach?.routingNumber]
+  );
+
+  const methods = useForm({ defaultValues, resolver: yupResolver(AchSchema) });
   const { handleSubmit, reset } = methods;
 
   // handle form reset
@@ -38,7 +41,7 @@ const ACHInfoEditForm = (props) => {
     (values = defaultValues) => {
       reset(values);
     },
-    [reset]
+    [defaultValues, reset]
   );
 
   // handle edit payment card
@@ -46,17 +49,13 @@ const ACHInfoEditForm = (props) => {
 
   // update default values
   useEffect(() => {
-    if (ach) {
-      reset(ach);
-    } else {
-      reset(defaultValues);
-    }
-  }, [ach, reset]);
+    reset(defaultValues);
+  }, [defaultValues, reset]);
 
   return (
     <FormProvider methods={methods} onSubmit={handleSubmit(onSubmit)} onReset={onReset}>
       <Box component={wrapperElement} sx={sx}>
-        <Fields />
+        <AchFields />
       </Box>
 
       {actions}

@@ -1,4 +1,5 @@
 import { card, cvc } from 'creditcards';
+import { isValidCreditExpire } from 'src/utils/format-time';
 import * as Yup from 'yup';
 
 /** @type {PaymentCard} */
@@ -10,7 +11,9 @@ const validationSchema = {
     ),
   isPrimary: Yup.boolean().default(false),
   cardHolder: Yup.string().required('Credit card holder name is required'),
-  expirationDate: Yup.number().required('Credit card expire date is required'),
+  expirationDate: Yup.string()
+    .required('Credit card expire date is required')
+    .test('text-expire', 'Expire date is invalid', (value) => isValidCreditExpire(value)),
   cvv: Yup.number()
     .required('Credit card security number is required')
     .test('test-security-number', 'Credit security number is invalid', (value) =>
@@ -18,4 +21,4 @@ const validationSchema = {
     ),
 };
 
-export const paymentCardEditSchema = Yup.object().shape(validationSchema);
+export const cardSchema = Yup.object().shape(validationSchema);

@@ -7,7 +7,7 @@ import { useBillingInfoPrimaryQuery } from 'src/redux-toolkit/services/billingIn
 import { useCardPrimaryQuery } from 'src/redux-toolkit/services/cardApi';
 import { LoadingState } from '../../../custom-state';
 import { CustomFormProps } from '../../config-custom-form';
-import PurchaseFormFields from './purchase-form-fields';
+import PurchaseFormFields from './purchase-fields';
 
 export const Props = {
   wrapperElement: PropTypes.elementType,
@@ -35,6 +35,7 @@ const PurchaseForm = (props) => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [user]);
 
+  // success state
   if (!infoResponse.isLoading && !cardResponse.isLoading) {
     return (
       <PurchaseFormFields
@@ -46,6 +47,7 @@ const PurchaseForm = (props) => {
     );
   }
 
+  // loading state
   return (
     <Stack component={wrapperElement} sx={{ py: 1 }}>
       <LoadingState />

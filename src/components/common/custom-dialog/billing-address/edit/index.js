@@ -3,7 +3,7 @@ import { Button, Dialog, DialogActions, DialogContent, DialogTitle } from '@mui/
 import { enqueueSnackbar } from 'notistack';
 import PropTypes from 'prop-types';
 import { useCallback } from 'react';
-import { BillingAddressEditForm } from 'src/components/common/custom-form';
+import { BillingInfoEditForm } from 'src/components/common/custom-form';
 import { useBillingInfoUpdateMutation } from 'src/redux-toolkit/services/billingInfoApi';
 
 const Props = {
@@ -51,7 +51,7 @@ const BillingAddressEditDialog = (props) => {
   return (
     <Dialog fullWidth maxWidth="xs" open={open} onClose={onClose}>
       <DialogTitle>Edit Billing Address</DialogTitle>
-      <BillingAddressEditForm
+      <BillingInfoEditForm
         wrapperElement={DialogContent}
         actions={
           <DialogActions>

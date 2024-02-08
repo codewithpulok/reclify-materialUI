@@ -20,7 +20,7 @@ import { useAppSelector } from 'src/redux-toolkit/hooks';
 import { useCardListQuery } from 'src/redux-toolkit/services/cardApi';
 import Item from './item';
 
-const PaymentCardListDialogProps = {
+const Props = {
   onClose: PropTypes.func,
   onSelect: PropTypes.func,
   open: PropTypes.bool,
@@ -29,7 +29,7 @@ const PaymentCardListDialogProps = {
 // ----------------------------------------------------------------------
 
 /**
- * @param {PaymentCardListDialogProps} props
+ * @param {Props} props
  * @returns {JSX.Element}
  */
 const PaymentCardListDialog = (props) => {
@@ -170,6 +170,6 @@ const PaymentCardListDialog = (props) => {
   );
 };
 
-PaymentCardListDialog.propTypes = PaymentCardListDialogProps;
+PaymentCardListDialog.propTypes = Props;
 
 export default PaymentCardListDialog;

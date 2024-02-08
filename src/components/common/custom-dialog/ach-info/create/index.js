@@ -38,6 +38,7 @@ const ACHInfoCreateDialog = (props) => {
       enqueueSnackbar('ACH Info created!');
       console.log('ACH Info created:', response);
       reset(); // reset form after success create
+      onClose();
     }
   };
 

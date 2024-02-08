@@ -24,10 +24,7 @@ const PayemntCardCreateDialog = (props) => {
   const handleSubmit = async (values, reset) => {
     console.log('Create Payment Card:', values);
 
-    const response = await createCard({
-      ...values,
-      expirationDate: new Date(values.expirationDate).toISOString(),
-    });
+    const response = await createCard(values);
     const { data, error } = response;
 
     // error state

@@ -9,10 +9,10 @@ const Props = {};
  * @param {Props} props
  * @returns {JSX.Element}
  */
-const Fields = (props) => (
+const AchFields = (props) => (
   <Scrollbar sx={{ maxHeight: 400, pt: 0.7 }}>
     <Stack spacing={1}>
-      <RHFTextField name="routingNumber" type="number" label="Routing Number" />
+      <RHFTextField name="routingNumber" label="Routing Number" />
       <RHFTextField name="accountNumber" label="Account Number" />
       <RHFTextField name="accountName" label="Name on Account" />
       <RHFSwitch name="isPrimary" label="Primary" />
@@ -20,6 +20,6 @@ const Fields = (props) => (
   </Scrollbar>
 );
 
-Fields.propTypes = Props;
+AchFields.propTypes = Props;
 
-export default Fields;
+export default AchFields;

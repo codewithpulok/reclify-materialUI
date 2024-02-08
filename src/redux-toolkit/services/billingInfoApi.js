@@ -31,7 +31,7 @@ export const billingInfoApi = createApi({
             billingInfoApi.util.updateQueryData('billingInfoList', undefined, (draft) => {
               // if other primary exist the make it false
               if (data?.results?.isPrimary && draft.results?.length) {
-                const primaryIndex = draft.results.find((d) => d.isPrimary);
+                const primaryIndex = draft.results.findIndex((d) => d.isPrimary);
                 if (primaryIndex !== -1) draft.results[primaryIndex].isPrimary = false;
               }
 
@@ -63,7 +63,7 @@ export const billingInfoApi = createApi({
 
               // if other primary exist the make it false
               if (data?.results?.isPrimary && draft.results?.length) {
-                const primaryIndex = draft.results.find((d) => d.isPrimary);
+                const primaryIndex = draft.results.findIndex((d) => d.isPrimary);
                 if (primaryIndex !== -1) draft.results[primaryIndex].isPrimary = false;
               }
 

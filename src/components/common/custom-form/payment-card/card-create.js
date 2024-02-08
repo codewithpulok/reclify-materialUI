@@ -4,21 +4,21 @@ import { useCallback } from 'react';
 import { useForm } from 'react-hook-form';
 
 import FormProvider from 'src/components/common/hook-form/form-provider';
-import { CustomFormProps } from '../../config-custom-form';
-import Fields from './fields';
-import { billingAddressCreateSchema } from './schema';
+import { fCreditExpire } from 'src/utils/format-time';
+import { CustomFormProps } from '../config-custom-form';
+import CardFields from './common/card-fields';
+import { cardSchema } from './common/card-schema';
 
 const Props = {
   ...CustomFormProps,
 };
 
-/** @type {BillingAddress} */
+/** @type {PaymentCard} */
 const defaultValues = {
-  address: { city: '', country: '', state: '', street1: '', street2: '', zipCode: '' },
-  addressType: 'office',
-  fullName: '',
-  email: '',
-  phoneNumber: '',
+  cardNumber: '',
+  cardHolder: '',
+  cvv: null,
+  expirationDate: fCreditExpire(new Date()),
   isPrimary: false,
 };
 
@@ -26,10 +26,10 @@ const defaultValues = {
  * @param {Props} props
  * @returns {JSX.Element}
  */
-const BillingDetailsCreateForm = (props) => {
+const PaymentCardCreateForm = (props) => {
   const { actions, submitCallback = () => {}, wrapperElement, sx = {} } = props;
 
-  const methods = useForm({ defaultValues, resolver: yupResolver(billingAddressCreateSchema) });
+  const methods = useForm({ defaultValues, resolver: yupResolver(cardSchema) });
   const { handleSubmit, reset } = methods;
 
   // handle form reset
@@ -40,13 +40,13 @@ const BillingDetailsCreateForm = (props) => {
     [reset]
   );
 
-  // handle create billing address
+  // handle create payment card
   const onSubmit = (values) => submitCallback(values, onReset);
 
   return (
     <FormProvider methods={methods} onSubmit={handleSubmit(onSubmit)} onReset={onReset}>
       <Box component={wrapperElement} sx={sx}>
-        <Fields />
+        <CardFields />
       </Box>
 
       {actions}
@@ -54,6 +54,6 @@ const BillingDetailsCreateForm = (props) => {
   );
 };
 
-BillingDetailsCreateForm.propTypes = Props;
+PaymentCardCreateForm.propTypes = Props;
 
-export default BillingDetailsCreateForm;
+export default PaymentCardCreateForm;

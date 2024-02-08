@@ -14,7 +14,7 @@ import { ICONS, getCreditCardIcon } from '../../config-custom-dialog';
 
 const ItemProps = {
   /** @type {PaymentCard} */
-  card: PropTypes.object.isRequired,
+  card: PropTypes.object,
   onSelect: PropTypes.func.isRequired,
   isSelected: PropTypes.bool,
   sx: PropTypes.object,

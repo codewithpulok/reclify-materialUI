@@ -31,7 +31,7 @@ export const achApi = createApi({
             achApi.util.updateQueryData('achList', undefined, (draft) => {
               // if other primary exist the make it false
               if (data?.results?.isPrimary && draft.results?.length) {
-                const primaryIndex = draft.results.find((d) => d.isPrimary);
+                const primaryIndex = draft.results.findIndex((d) => d.isPrimary);
                 if (primaryIndex !== -1) draft.results[primaryIndex].isPrimary = false;
               }
 
@@ -63,7 +63,8 @@ export const achApi = createApi({
 
               // if other primary exist the make it false
               if (data?.results?.isPrimary && draft.results?.length) {
-                const primaryIndex = draft.results.find((d) => d.isPrimary);
+                const primaryIndex = draft.results.findIndex((d) => d.isPrimary);
+                console.log({ primaryIndex });
                 if (primaryIndex !== -1) draft.results[primaryIndex].isPrimary = false;
               }
 
