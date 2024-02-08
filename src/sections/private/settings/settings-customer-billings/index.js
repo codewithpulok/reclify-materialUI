@@ -2,9 +2,9 @@ import { Grid } from '@mui/material';
 
 import { useEffect } from 'react';
 import { getInvoicesByUserId } from 'src/assets/dummy';
-import { achInfos } from 'src/assets/dummy/ach';
 import { selectAuth } from 'src/redux-toolkit/features/auth/authSlice';
 import { useAppSelector } from 'src/redux-toolkit/hooks';
+import { useAchPrimaryQuery } from 'src/redux-toolkit/services/achApi';
 import { useBillingInfoPrimaryQuery } from 'src/redux-toolkit/services/billingInfoApi';
 import { useCardPrimaryQuery } from 'src/redux-toolkit/services/cardApi';
 import BillingHistory from './billing-history';
@@ -17,17 +17,7 @@ const SettingsCustomerBillings = (props) => {
   // api state
   const primaryBillingInfoResponse = useBillingInfoPrimaryQuery();
   const primaryCardResponse = useCardPrimaryQuery();
-  const primaryACHResponse = {
-    isLoading: false,
-    isError: false,
-    isSuccess: true,
-    data: {
-      /** @type {ACHType} */
-      results: achInfos[0],
-      success: true,
-    },
-    refetch: () => {},
-  };
+  const primaryACHResponse = useAchPrimaryQuery();
 
   const userInvoices = getInvoicesByUserId('2') || getInvoicesByUserId(user?.id);
 
@@ -45,9 +35,17 @@ const SettingsCustomerBillings = (props) => {
     <Grid container spacing={3} disableEqualOverflow>
       <Grid item xs={12} md={8}>
         <BillingInfo
+          primaryACH={primaryACHResponse?.data?.results}
           primaryCard={primaryCardResponse?.data?.results}
           primaryBillingInfo={primaryBillingInfoResponse?.data?.results}
-          primaryACH={primaryACHResponse?.data?.results}
+          isLoading={
+            primaryACHResponse.isLoading ||
+            primaryCardResponse.isLoading ||
+            primaryBillingInfoResponse.isLoading ||
+            primaryACHResponse.isFetching ||
+            primaryCardResponse.isFetching ||
+            primaryBillingInfoResponse.isFetching
+          }
         />
       </Grid>
 

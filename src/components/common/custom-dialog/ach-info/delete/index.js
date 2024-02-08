@@ -3,6 +3,7 @@ import { enqueueSnackbar } from 'notistack';
 import PropTypes from 'prop-types';
 import { useCallback } from 'react';
 import { ConfirmDialog } from 'src/components/common/custom-dialog';
+import { useAchDeleteMutation } from 'src/redux-toolkit/services/achApi';
 
 const Props = {
   /** @type {ACHType} */
@@ -28,17 +29,13 @@ const ACHInfoDeleteDialog = (props) => {
   } = props;
 
   // api state
-  // const [deleteCard, deleteResponse] = useCardDeleteMutation();
+  const [deleteAch, deleteResponse] = useAchDeleteMutation();
 
   // handle delete
   const onConfirm = useCallback(async () => {
     console.log('Delete ACH Info:', ach);
 
-    const response = await new Promise((resolve, reject) => {
-      setTimeout(() => {
-        resolve({ data: { success: true } });
-      }, 1000);
-    });
+    const response = await deleteAch(ach?.id);
     const { data, error } = response;
 
     // error state
@@ -53,7 +50,7 @@ const ACHInfoDeleteDialog = (props) => {
       console.log('ACH Info deleted:', response);
       onClose(); // close dialog after delete success
     }
-  }, [ach, onClose]);
+  }, [ach, deleteAch, onClose]);
 
   return (
     <ConfirmDialog
@@ -63,7 +60,7 @@ const ACHInfoDeleteDialog = (props) => {
       onClose={onClose}
       action={
         <LoadingButton
-          // loading={deleteResponse.isLoading}
+          loading={deleteResponse.isLoading}
           color="error"
           variant="contained"
           onClick={onConfirm}

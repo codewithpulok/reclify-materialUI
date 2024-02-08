@@ -3,6 +3,7 @@ import { Button, Dialog, DialogActions, DialogContent, DialogTitle } from '@mui/
 import { enqueueSnackbar } from 'notistack';
 import PropTypes from 'prop-types';
 import { ACHInfoCreateForm } from 'src/components/common/custom-form';
+import { useAchCreateMutation } from 'src/redux-toolkit/services/achApi';
 
 const Props = {
   open: PropTypes.bool.isRequired,
@@ -17,17 +18,13 @@ const ACHInfoCreateDialog = (props) => {
   const { open, onClose } = props;
 
   // api state
-  // const [createCard, createResponse] = useCardCreateMutation();
+  const [createAch, createResponse] = useAchCreateMutation();
 
   // handle create api call
   const handleSubmit = async (values, reset) => {
     console.log('Create ACH Info:', values);
 
-    const response = await new Promise((resolve, reject) => {
-      setTimeout(() => {
-        resolve({ data: { success: true } });
-      }, 1000);
-    });
+    const response = await createAch(values);
     const { data, error } = response;
 
     // error state
@@ -55,7 +52,7 @@ const ACHInfoCreateDialog = (props) => {
               Cancel
             </Button>
             <LoadingButton
-              // loading={createResponse.isLoading}
+              loading={createResponse.isLoading}
               type="submit"
               color="primary"
               variant="contained"

@@ -1,8 +1,9 @@
 /**
  * Structure for ACH info
  * @typedef {Object} ACHType
- * @property {number} routingNumber
- * @property {number} accountNumber
+ * @property {string} id
+ * @property {string} routingNumber
+ * @property {string} accountNumber
  * @property {string} accountName
- * @property {boolean} primary
+ * @property {boolean} isPrimary
  */

@@ -3,6 +3,7 @@ import { Button, Dialog, DialogActions, DialogContent, DialogTitle } from '@mui/
 import { enqueueSnackbar } from 'notistack';
 import PropTypes from 'prop-types';
 import { ACHInfoEditForm } from 'src/components/common/custom-form';
+import { useAchDeleteMutation } from 'src/redux-toolkit/services/achApi';
 
 const Props = {
   open: PropTypes.bool.isRequired,
@@ -19,17 +20,13 @@ const ACHInfoEditDialog = (props) => {
   const { open, onClose, ach } = props;
 
   // api state
-  // const [updateCard, updateResponse] = useCardUpdateMutation();
+  const [updateAch, updateResponse] = useAchDeleteMutation();
 
   // handle update api call
   const handleSubmit = async (values, reset) => {
     console.log('Update ACH Info:', values);
 
-    const response = await new Promise((resolve, reject) => {
-      setTimeout(() => {
-        resolve({ data: { success: true } });
-      }, 1000);
-    });
+    const response = await updateAch({ id: ach?.id, data: values });
     const { data, error } = response;
 
     // error state
@@ -57,7 +54,7 @@ const ACHInfoEditDialog = (props) => {
               Cancel
             </Button>
             <LoadingButton
-              // loading={updateResponse.isLoading}
+              loading={updateResponse.isLoading}
               type="submit"
               color="primary"
               variant="contained"
