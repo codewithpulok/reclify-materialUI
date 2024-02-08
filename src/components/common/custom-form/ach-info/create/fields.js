@@ -15,7 +15,7 @@ const Fields = (props) => (
       <RHFTextField name="routingNumber" type="number" label="Routing Number" />
       <RHFTextField name="accountNumber" label="Account Number" />
       <RHFTextField name="accountName" label="Name on Account" />
-      <RHFSwitch name="primary" label="Primary" />
+      <RHFSwitch name="isPrimary" label="Primary" />
     </Stack>
   </Scrollbar>
 );

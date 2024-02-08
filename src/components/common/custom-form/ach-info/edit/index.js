@@ -20,7 +20,7 @@ const defaultValues = {
   accountName: '',
   accountNumber: null,
   routingNumber: null,
-  primary: false,
+  isPrimary: false,
 };
 
 /**
