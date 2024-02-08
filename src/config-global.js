@@ -9,7 +9,7 @@ export const APPEARANCE_KEY = 'RACKLIFY_APPEARANCE';
 export const PLACEHOLDER_PROFILE_BANNER = '/assets/placeholder/PROFILE_COVER.jpg';
 export const PLACEHOLDER_PROFILE_AVATAR = '/assets/placeholder/PROFILE_AVATAR.png';
 export const PLACEHOLDER_NEWS_COVER = '/assets/placeholder/NEWS_COVER.jpg';
-export const PLACEHOLDER_WAREHOUSE_IMAGE = 'https://placehold.co/450x318?text=Not+Found';
+export const PLACEHOLDER_WAREHOUSE_IMAGE = '/assets/placeholder/WAREHOUSE.jpg';
 
 // API // ----------------------------------------------------------------------
 export const MAPBOX_API = process.env.NEXT_PUBLIC_MAPBOX_API; // mapbox api key

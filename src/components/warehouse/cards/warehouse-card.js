@@ -13,14 +13,17 @@ import {
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import PropTypes from 'prop-types';
+// redux
+import { selectAuth } from 'src/redux-toolkit/features/auth/authSlice';
+import { useAppSelector } from 'src/redux-toolkit/hooks';
+// routes
+import { paths } from 'src/routes/paths';
 // local components
 import Image from 'src/components/common/image';
 import Label from 'src/components/common/label';
-import { selectAuth } from 'src/redux-toolkit/features/auth/authSlice';
-import { useAppSelector } from 'src/redux-toolkit/hooks';
-import { paths } from 'src/routes/paths';
 import WarehouseAdminMenu from 'src/sections/private/dashboard/warehouses/details/warehouse-admin-menu';
 import WarehouseDiamond from 'src/sections/private/dashboard/warehouses/details/warehouse-diamond';
+// utils
 import { joinAddressObj } from 'src/utils/address';
 import { getPrimaryPhoto } from 'src/utils/photos';
 import { ICONS } from '../config-warehouse';
@@ -39,17 +42,16 @@ const Props = {
  * Card for showing warehouse data
  * @param {Props} props
  */
+
 const WarehouseCard = (props) => {
   const router = useRouter();
-  const { isAuthenticated } = useAppSelector(selectAuth);
+  const { isAuthenticated, user } = useAppSelector(selectAuth);
   const { warehouse, onDelete = () => {}, hasControl = false, sx = {} } = props;
   const thumbnail = getPrimaryPhoto(warehouse?.photos);
 
   const detailsPath = isAuthenticated
     ? paths.dashboard.warehouses.details(warehouse?.id)
     : paths.warehouses.details(warehouse?.id);
-
-  const { user } = useAppSelector(selectAuth);
 
   const content = (
     <Card
