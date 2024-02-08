@@ -84,6 +84,19 @@ const PredefinedFields = (props) => {
             );
           }
 
+          // dropdown field
+          if (field.fieldType === 'dropdown') {
+            return (
+              <RHFTextField name={fieldName} label={field.label} key={field.key} select>
+                {field.options?.map((i) => (
+                  <option key={i} value={i}>
+                    {i}
+                  </option>
+                ))}
+              </RHFTextField>
+            );
+          }
+
           // text field (default)
           return (
             <RHFTextField

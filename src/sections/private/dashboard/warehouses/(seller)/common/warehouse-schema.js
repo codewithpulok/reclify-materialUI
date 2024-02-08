@@ -90,6 +90,7 @@ const schema = {
       skipAbsent: true,
     }),
   description: Yup.string().required('Description is required'),
+  highlights: Yup.string().label('Highlight').required().max(200),
   photos: Yup.array(
     Yup.object().shape({
       id: Yup.string().required('Photo id is required'),
