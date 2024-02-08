@@ -65,7 +65,6 @@ const WarehouseCard = (props) => {
         <Box width="100%" sx={{ position: 'relative' }}>
           <Image src={thumbnail} ratio="16/9" />
         </Box>
-
         <CardContent sx={{ position: 'relative' }}>
           <Stack direction="row" alignItems="flex-start" spacing={1}>
             {warehouse?.seller?.logo && (
@@ -133,7 +132,6 @@ const WarehouseCard = (props) => {
           </Tooltip>
         ) : null}
       </CardActionArea>
-
       <Stack
         sx={{
           position: 'absolute',
