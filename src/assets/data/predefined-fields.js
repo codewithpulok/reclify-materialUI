@@ -258,13 +258,13 @@ export const predefinedFacility = [
   {
     key: 'yearFounded',
     label: 'Year Founded',
-    dataType: 'text',
+    dataType: 'number',
     fieldType: 'text-field',
   },
   {
     key: 'squareFootage',
     label: 'Square Footage',
-    dataType: 'text',
+    dataType: 'number',
     fieldType: 'text-field',
   },
   {
