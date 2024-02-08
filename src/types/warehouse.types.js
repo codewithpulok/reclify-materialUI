@@ -1,5 +1,5 @@
 /**
- * Represents information about Warehouse Info.
+ * Represents information about Warehouse Info. (Need update, 2024/02/07)
  * @typedef {Object} Warehouse
  * @property {string} id - The unique identifier for warehouse.
  * @property {string} name - The name of the warehouse, in this case, 'Ware House'.
@@ -41,7 +41,7 @@
 
 /**
  * Represents features available in the warehouse.
- * @typedef {Object} WarehouseFeatures
+ * @typedef {Object} WarehouseFeatures (Need update 2024/2/7)
  * @property {boolean} highDoors - Availability of high doors.
  * @property {boolean} internet - Availability of internet.
  * @property {boolean} groundDoors - Availability of ground doors.
@@ -58,16 +58,12 @@
 /**
  * Represents details about the warehouse facility.
  * @typedef {Object} WarehouseFacilityDetails
- * @property {number} totalSpace - The total space of the warehouse facility.
+ * @property {number} yearFounded - Year Founded.
+ * @property {number} squareFootage - Square Footage.
+ * @property {string} employees - # of Employees.
  * @property {WarehouseOperatingHours} operatingHours - Object representing operating hours of the warehouse.
- * @property {string} facilitySecurity - Description of facility security measures.
- * @property {string} industriesServed - Industries served by the warehouse.
- * @property {string} dockHighDoors - Number of dock high doors in the warehouse.
- * @property {string} atGradeDoors - Number of at-grade doors in the warehouse.
- * @property {string} storageLayout - Layout of storage in the warehouse.
- * @property {string} wmsVendor - Warehouse Management System vendor used in the warehouse.
- * @property {number} clearCeilingHeight - Clear ceiling height in the warehouse.
- * @property {number} maxForkliftCapacity - Maximum forklift capacity in the warehouse.
+ * @property {string} orderAccuracyRate - Order Accuracy Rate.
+ * @property {string} buildingSecurity - Building Security.
  */
 
 /**
