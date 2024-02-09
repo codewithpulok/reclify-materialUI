@@ -27,7 +27,7 @@ import { getTransactionStatusColor, transactionStatusOptions } from 'src/constan
 import { useDialog } from 'src/hooks/use-dialog';
 import { selectAuth } from 'src/redux-toolkit/features/auth/authSlice';
 import { useAppSelector } from 'src/redux-toolkit/hooks';
-import { useLazyListTransactionQuery } from 'src/redux-toolkit/services/transactionApi';
+import { useGetAdminTransactionsQuery } from 'src/redux-toolkit/services/adminApi';
 import TransactionDetailsDialog from '../common/transaction-details-dialog';
 import TransactionRow from '../common/transaction-row';
 
@@ -57,7 +57,7 @@ const TransactionsTable = () => {
   const { user } = useAppSelector(selectAuth);
 
   // data states
-  const [getTransactions, transactionsResponse] = useLazyListTransactionQuery();
+  const transactionsResponse = useGetAdminTransactionsQuery();
 
   // dialog states
   const transactionDialog = useDialog();
@@ -121,7 +121,7 @@ const TransactionsTable = () => {
   // fetch transactions
   useEffect(() => {
     if (user) {
-      getTransactions();
+      transactionsResponse.refetch();
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [user]);

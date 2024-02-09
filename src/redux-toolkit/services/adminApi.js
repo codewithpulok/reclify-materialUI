@@ -124,6 +124,9 @@ export const adminApi = createApi({
     getUser: builder.query({
       query: (id) => endpoints.admin.users.get(id),
     }),
+    getAdminTransactions: builder.query({
+      query: () => endpoints.admin.transaction.list,
+    }),
   }),
 });
 
@@ -138,4 +141,5 @@ export const {
   useListSellersQuery,
   useGetUserQuery,
   useLazyGetUserQuery,
+  useGetAdminTransactionsQuery,
 } = adminApi;
