@@ -2,15 +2,13 @@
 
 import { Grid, Pagination, Stack } from '@mui/material';
 import Container from '@mui/material/Container';
-import { useCallback, useEffect, useMemo } from 'react';
+import { useCallback, useMemo } from 'react';
 // local components
 import CustomBreadcrumbs from 'src/components/common/custom-breadcrumbs/custom-breadcrumbs';
 import { EmptyState, ErrorState } from 'src/components/common/custom-state';
 import { useSettingsContext } from 'src/components/common/settings';
 import { WarehouseCard, WarehouseCardSkeleton } from 'src/components/warehouse/cards';
-import { selectAuth } from 'src/redux-toolkit/features/auth/authSlice';
-import { useAppSelector } from 'src/redux-toolkit/hooks';
-import { useLazyWarehouseListQuery } from 'src/redux-toolkit/services/warehouseApi';
+import { useWarehouseListQuery } from 'src/redux-toolkit/services/warehouseApi';
 import { paths } from 'src/routes/paths';
 import { ICONS } from '../config-warehouse';
 
@@ -22,15 +20,8 @@ const Props = {};
  */
 const HotDealsView = (props) => {
   const settings = useSettingsContext();
-  const { user } = useAppSelector(selectAuth);
 
-  const [getWarehouses, results] = useLazyWarehouseListQuery();
-
-  useEffect(() => {
-    if (user !== null && user) {
-      getWarehouses();
-    }
-  }, [getWarehouses, user]);
+  const listResponse = useWarehouseListQuery();
 
   // render warehouses
   const renderWarehouses = useCallback(
@@ -40,17 +31,17 @@ const HotDealsView = (props) => {
       errorText = 'Something went to wrong'
     ) => {
       // error state
-      if (results.isError) {
-        return <ErrorState text={results?.error?.data?.message || errorText} />;
+      if (listResponse.isError) {
+        return <ErrorState text={listResponse?.error?.data?.message || errorText} />;
       }
 
       // empty state
-      if (results.isSuccess && warehouses.length === 0) {
+      if (listResponse.isSuccess && warehouses.length === 0) {
         return <EmptyState text={notFoundText} icon={ICONS.warehouse()} />;
       }
 
       // success state
-      if (results.isSuccess && warehouses.length) {
+      if (listResponse.isSuccess && warehouses.length) {
         return warehouses.map((warehouse) => (
           <Grid item key={warehouse.id} xs={12} sm={6} md={4}>
             <WarehouseCard key={warehouse.id} warehouse={warehouse} />
@@ -65,16 +56,16 @@ const HotDealsView = (props) => {
         </Grid>
       ));
     },
-    [results]
+    [listResponse]
   );
 
   // hot deals
   const hotdeals = useMemo(
     () =>
-      results?.data?.results instanceof Array
-        ? results?.data?.results.filter((w) => w.discountRate > 0 && w?.visible)
+      listResponse?.data?.results instanceof Array
+        ? listResponse?.data?.results.filter((w) => w.discountRate > 0 && w?.visible)
         : [],
-    [results]
+    [listResponse]
   );
 
   return (

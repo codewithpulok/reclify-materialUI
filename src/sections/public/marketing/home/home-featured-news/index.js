@@ -6,16 +6,22 @@ import Container from '@mui/material/Container';
 import Stack from '@mui/material/Stack';
 import Typography from '@mui/material/Typography';
 
-import { useGetPosts } from 'src/utils/blog';
-
 import { Box } from '@mui/material';
+import { useMemo } from 'react';
 import { MotionViewport, varFade } from 'src/components/common/animate';
+import { LoadingState } from 'src/components/common/custom-state';
+import { useBlogListQuery } from 'src/redux-toolkit/services/blogApi';
 import NewsCarousel from './news-carousel';
 
 // ----------------------------------------------------------------------
 
 export default function HomeFeaturedNews() {
-  const { posts } = useGetPosts();
+  const listResponse = useBlogListQuery();
+  const featuredNews = useMemo(
+    () =>
+      listResponse?.data?.results ? listResponse.data?.results?.filter((n) => n.isFeatured) : [],
+    [listResponse.data?.results]
+  );
 
   const renderDescription = (
     <Stack alignItems="center" spacing={3} mb={10}>
@@ -48,7 +54,8 @@ export default function HomeFeaturedNews() {
     >
       <Container component={MotionViewport}>
         {renderDescription}
-        <NewsCarousel data={posts || []} />
+        {listResponse.isLoading && <LoadingState />}
+        {listResponse.isSuccess && !listResponse?.isLoading && <NewsCarousel data={featuredNews} />}
       </Container>
     </Box>
   );

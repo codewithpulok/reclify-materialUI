@@ -9,6 +9,8 @@ import { alpha, useTheme } from '@mui/material/styles';
 import { MotionContainer, varFade } from 'src/components/common/animate';
 
 import Image from 'src/components/common/image';
+import { RouterLink } from 'src/routes/components';
+import { paths } from 'src/routes/paths';
 
 const Props = {
   active: PropTypes.bool,
@@ -63,7 +65,12 @@ const NewsFeaturedCard = (props) => {
         </m.div>
 
         <m.div variants={varFade().inRight}>
-          <Link color="inherit" underline="none">
+          <Link
+            color="inherit"
+            underline="none"
+            component={RouterLink}
+            href={paths.news.details(item?.id)}
+          >
             <Typography variant="h5" noWrap>
               {title}
             </Typography>
