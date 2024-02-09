@@ -40,6 +40,7 @@ const Image = forwardRef((props, ref) => {
     ratio,
     overlay,
     disabledEffect = false,
+    isLogo = false,
     //
     alt,
     src,
@@ -94,7 +95,7 @@ const Image = forwardRef((props, ref) => {
       sx={{
         width: 1,
         height: 1,
-        objectFit: 'contain',
+        objectFit: isLogo ? 'contain' : 'cover',
         verticalAlign: 'bottom',
         ...(!!ratio && {
           top: 0,

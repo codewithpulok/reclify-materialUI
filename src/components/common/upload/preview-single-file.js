@@ -19,6 +19,7 @@ export default function SingleFilePreview({ imgUrl = '' }) {
       }}
     >
       <Image
+        isLogo
         alt="file preview"
         src={imgUrl}
         sx={{
