@@ -15,6 +15,7 @@ const ImageProps = {
   beforeLoad: PropTypes.func,
   delayMethod: PropTypes.string,
   delayTime: PropTypes.number,
+  isLogo: PropTypes.bool,
   disabledEffect: PropTypes.bool,
   effect: PropTypes.string,
   overlay: PropTypes.string,
