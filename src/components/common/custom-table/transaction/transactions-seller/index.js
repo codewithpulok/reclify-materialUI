@@ -1,6 +1,6 @@
 'use client';
 
-import { useCallback, useEffect, useState } from 'react';
+import { useCallback, useEffect, useMemo, useState } from 'react';
 
 import Card from '@mui/material/Card';
 import { alpha } from '@mui/material/styles';
@@ -67,7 +67,7 @@ const TransactionsSellerTable = () => {
   const cancelDialog = useDialog();
 
   // table states
-  const table = useTable({ defaultOrderBy: 'createdAt' });
+  const table = useTable({ defaultOrderBy: 'createdAt', defaultOrder: 'desc' });
   const [tableData, setTableData] = useState([]);
   const [filters, setFilters] = useState(defaultFilters);
   const dataFiltered = applyFilter({
@@ -136,6 +136,11 @@ const TransactionsSellerTable = () => {
     }
   }, [transactionsResponse]);
 
+  const selectedTransaction = useMemo(
+    () => tableData.find((t) => t.id === transactionDialog?.value),
+    [tableData, transactionDialog?.value]
+  );
+
   return (
     <Card>
       <Tabs
@@ -173,7 +178,7 @@ const TransactionsSellerTable = () => {
                     row={row}
                     onCancelOrder={() => cancelDialog.onOpen(row)}
                     onConfirmOrder={() => confirmDialog.onOpen(row)}
-                    onViewTransaction={() => transactionDialog.onOpen(row)}
+                    onViewTransaction={() => transactionDialog.onOpen(row.id)}
                     show={TABLE_HEAD.map((t) => t.id)}
                   />
                 ))}
@@ -199,10 +204,10 @@ const TransactionsSellerTable = () => {
 
       <TransactionDetailsDialog
         open={transactionDialog.open}
-        transaction={transactionDialog.value}
+        transaction={selectedTransaction}
         onClose={transactionDialog.onClose}
-        onCancelOrder={() => cancelDialog.onOpen(transactionDialog.value)}
-        onConfirmOrder={() => confirmDialog.onOpen(transactionDialog.value)}
+        onCancelOrder={() => cancelDialog.onOpen(selectedTransaction)}
+        onConfirmOrder={() => confirmDialog.onOpen(selectedTransaction)}
       />
 
       <CancelTransactionDialog

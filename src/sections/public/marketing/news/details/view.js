@@ -4,7 +4,7 @@ import { notFound } from 'next/navigation';
 import PropTypes from 'prop-types';
 // local component
 import { ErrorState } from 'src/components/common/custom-state';
-import NewsDetailsPreview from 'src/components/news/details/details-preview';
+import NewsDetails from 'src/components/news/details';
 import NewsDetailsSkeleton from 'src/components/news/details/details-skeleton';
 import { useBlogGetQuery } from 'src/redux-toolkit/services/blogApi';
 
@@ -29,7 +29,7 @@ const NewsDetailsView = (props) => {
 
   // on request success
   if (blogResponse.isSuccess && blogResponse.data?.success) {
-    return <NewsDetailsPreview post={blogResponse.data?.results} />;
+    return <NewsDetails post={blogResponse.data?.results} />;
   }
 
   return <NewsDetailsSkeleton />;

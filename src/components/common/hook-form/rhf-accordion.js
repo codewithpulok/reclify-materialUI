@@ -6,7 +6,7 @@ import PropTypes from 'prop-types';
 import { useMemo } from 'react';
 import { useFormContext } from 'react-hook-form';
 // local imports
-import { alpha } from '@mui/material';
+import { Stack, alpha } from '@mui/material';
 import { useBoolean } from 'src/hooks/use-boolean';
 import { getIconify } from '../iconify/utilities';
 
@@ -52,6 +52,8 @@ const RHFAccordion = (props) => {
   }, [errors, name, names]);
   const expanded = useBoolean(defaultExpanded);
 
+  console.log({ errors });
+
   return (
     <Accordion
       sx={{
@@ -71,14 +73,16 @@ const RHFAccordion = (props) => {
           color: isError ? 'error.main' : 'text.default',
         })}
       >
-        <Typography variant="overline" color={isError ? 'error.main' : 'text.default'}>
-          {label}
-        </Typography>
-        {isError && name && (
-          <Typography variant="caption" color="error.main">
-            {errors?.[name]?.message}
+        <Stack>
+          <Typography variant="overline" color={isError ? 'error.main' : 'text.default'}>
+            {label}
           </Typography>
-        )}
+          {isError && name && (
+            <Typography variant="caption" color="error.main">
+              {errors?.[name].root?.message}
+            </Typography>
+          )}
+        </Stack>
       </AccordionSummary>
       <AccordionDetails>{children}</AccordionDetails>
     </Accordion>

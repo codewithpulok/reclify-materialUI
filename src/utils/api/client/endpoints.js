@@ -56,6 +56,9 @@ export const endpoints = {
       list: '/users',
       get: (id) => `/users/${id}`,
     },
+    transaction: {
+      list: '/transaction',
+    },
   },
   profile: {
     root: '/user/profile',

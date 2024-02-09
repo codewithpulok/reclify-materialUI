@@ -6,6 +6,7 @@ import { getIconify } from 'src/components/common/iconify/utilities';
 import Label from 'src/components/common/label';
 import { RouterLink } from 'src/routes/components';
 import { paths } from 'src/routes/paths';
+import formatPhone from 'src/utils/format-phone';
 import { ICONS } from '../config-users';
 
 const Props = {
@@ -100,7 +101,7 @@ const UserDetailsCard = (props) => {
               href={`tel:${user.phone}`}
               onClick={(e) => e.stopPropagation()}
             >
-              {user.phone}
+              {formatPhone(user?.phone)}
             </Typography>
           </Stack>
         )}

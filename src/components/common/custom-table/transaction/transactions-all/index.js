@@ -1,6 +1,6 @@
 'use client';
 
-import { useCallback, useEffect, useState } from 'react';
+import { useCallback, useEffect, useMemo, useState } from 'react';
 
 import Card from '@mui/material/Card';
 import { alpha } from '@mui/material/styles';
@@ -22,11 +22,12 @@ import {
   useTable,
 } from 'src/components/common/table';
 
+import { ApproveTransactionDialog } from 'src/components/common/custom-dialog';
 import { getTransactionStatusColor, transactionStatusOptions } from 'src/constant/transaction';
 import { useDialog } from 'src/hooks/use-dialog';
 import { selectAuth } from 'src/redux-toolkit/features/auth/authSlice';
 import { useAppSelector } from 'src/redux-toolkit/hooks';
-import { useLazyListTransactionQuery } from 'src/redux-toolkit/services/transactionApi';
+import { useGetAdminTransactionsQuery } from 'src/redux-toolkit/services/adminApi';
 import TransactionDetailsDialog from '../common/transaction-details-dialog';
 import TransactionRow from '../common/transaction-row';
 
@@ -56,13 +57,14 @@ const TransactionsTable = () => {
   const { user } = useAppSelector(selectAuth);
 
   // data states
-  const [getTransactions, transactionsResponse] = useLazyListTransactionQuery();
+  const transactionsResponse = useGetAdminTransactionsQuery();
 
   // dialog states
   const transactionDialog = useDialog();
+  const approveDialog = useDialog();
 
   // table states
-  const table = useTable({ defaultOrderBy: 'createdAt' });
+  const table = useTable({ defaultOrderBy: 'createdAt', defaultOrder: 'desc' });
   const [tableData, setTableData] = useState([]);
   const [filters, setFilters] = useState(defaultFilters);
   const dataFiltered = applyFilter({
@@ -119,7 +121,7 @@ const TransactionsTable = () => {
   // fetch transactions
   useEffect(() => {
     if (user) {
-      getTransactions();
+      transactionsResponse.refetch();
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [user]);
@@ -130,6 +132,11 @@ const TransactionsTable = () => {
       setTableData(transactionsResponse.data.results);
     }
   }, [transactionsResponse]);
+
+  const selectedTransaction = useMemo(
+    () => tableData.find((t) => t.id === transactionDialog?.value),
+    [tableData, transactionDialog?.value]
+  );
 
   return (
     <Card>
@@ -162,11 +169,12 @@ const TransactionsTable = () => {
                   table.page * table.rowsPerPage,
                   table.page * table.rowsPerPage + table.rowsPerPage
                 )
-                .map((row) => (
+                .map((row, index) => (
                   <TransactionRow
                     key={row.id}
                     row={row}
-                    onViewTransaction={() => transactionDialog.onOpen(row)}
+                    onViewTransaction={() => transactionDialog.onOpen(row.id)}
+                    onApproveOrder={() => approveDialog.onOpen(row)}
                     show={TABLE_HEAD.map((t) => t.id)}
                   />
                 ))}
@@ -192,8 +200,15 @@ const TransactionsTable = () => {
 
       <TransactionDetailsDialog
         open={transactionDialog.open}
-        transaction={transactionDialog.value}
+        transaction={selectedTransaction}
         onClose={transactionDialog.onClose}
+        onApproveOrder={() => approveDialog.onOpen(selectedTransaction)}
+      />
+
+      <ApproveTransactionDialog
+        onClose={approveDialog.onClose}
+        open={approveDialog.open}
+        transaction={approveDialog.value}
       />
     </Card>
   );

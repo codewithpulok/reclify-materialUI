@@ -106,13 +106,24 @@ const WarehouseBooking = (props) => {
   const openPaymentDialog = useCallback(() => {
     paymentDialog.onOpen({
       warehouse,
-      pallet: requiredSpace,
-      month: selectedMonth,
-      total: totalPrice,
-      price: currentPrice,
-      due: totalPrice,
+      selectedMonth,
+      totalPrice,
+      discount,
+      totalPricePerMonth,
+      discountPerMonth,
+      discountRate: warehouse.discountRate,
+      totalSpace: requiredSpace,
     });
-  }, [currentPrice, paymentDialog, requiredSpace, selectedMonth, totalPrice, warehouse]);
+  }, [
+    discount,
+    discountPerMonth,
+    paymentDialog,
+    requiredSpace,
+    selectedMonth,
+    totalPrice,
+    totalPricePerMonth,
+    warehouse,
+  ]);
 
   // update according to warehouse
   useEffect(() => {
@@ -143,7 +154,7 @@ const WarehouseBooking = (props) => {
               <Typography fontWeight="bold" color="primary" sx={bookingInfoStyle.title}>
                 Total Available Space
               </Typography>
-              <Stack direction="row" spacing={1} alignItems="baseline">
+              <Stack direction="row" columnGap={1} rowGap={0} alignItems="baseline" flexWrap="wrap">
                 <Typography component="span" sx={bookingInfoStyle.heading1}>
                   {fNumber(warehouse.totalSpace)}
                 </Typography>
@@ -167,7 +178,13 @@ const WarehouseBooking = (props) => {
               <Typography fontWeight="bold" color="primary" sx={bookingInfoStyle.title}>
                 Price per Pallet
               </Typography>
-              <Stack direction="row" spacing={0.5} alignItems="baseline">
+              <Stack
+                direction="row"
+                columnGap={0.5}
+                rowGap={0}
+                alignItems="baseline"
+                flexWrap="wrap"
+              >
                 <Typography sx={bookingInfoStyle.heading1}>{fCurrency(currentPrice)}</Typography>
                 <Typography sx={bookingInfoStyle.heading1}>/</Typography>
                 <Typography sx={bookingInfoStyle.heading2}>pallet</Typography>

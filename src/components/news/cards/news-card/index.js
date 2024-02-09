@@ -7,6 +7,7 @@ import Card from '@mui/material/Card';
 import { AvatarShape } from 'src/assets/illustrations';
 
 import Image from 'src/components/common/image';
+import { PLACEHOLDER_NEWS_COVER } from 'src/config-global';
 import NewsCardContent from './card-content';
 
 // ----------------------------------------------------------------------
@@ -47,7 +48,7 @@ const NewsCard = ({ post }) => {
           }}
         />
 
-        <Image alt={title} src={coverUrl} ratio="4/3" />
+        <Image alt={title} src={coverUrl || PLACEHOLDER_NEWS_COVER} ratio="4/3" />
       </Box>
 
       <NewsCardContent post={post} />

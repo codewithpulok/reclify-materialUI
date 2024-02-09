@@ -7,11 +7,13 @@ import IconButton from '@mui/material/IconButton';
 import Stack from '@mui/material/Stack';
 import PropTypes from 'prop-types';
 
+import { useMemo } from 'react';
 import { getTransactionStatusColor } from 'src/assets/dummy';
 import Label from 'src/components/common/label';
 import Scrollbar from 'src/components/common/scrollbar';
 import { AmountDetailsCard, WarehouseDetailsCard } from 'src/components/user-settings/cards';
 import { UserDetailsCard } from 'src/components/users/cards';
+import { getTransactionStatusLabel } from 'src/constant/transaction';
 import { ICONS } from '../../icons';
 
 const Props = {
@@ -21,6 +23,7 @@ const Props = {
   onClose: PropTypes.func.isRequired,
   onCancelOrder: PropTypes.func,
   onConfirmOrder: PropTypes.func,
+  onApproveOrder: PropTypes.func,
 };
 
 /**
@@ -28,14 +31,22 @@ const Props = {
  * @returns {JSX.Element}
  */
 const TransactionDetailsDialog = (props) => {
-  const { transaction, open, onClose, onCancelOrder, onConfirmOrder } = props;
+  const { transaction = {}, open, onClose, onCancelOrder, onConfirmOrder, onApproveOrder } = props;
+
+  const isAdminPending = useMemo(
+    () => transaction?.status === 'admin_pending',
+    [transaction?.status]
+  );
+  const isPending = useMemo(() => transaction?.status === 'pending', [transaction?.status]);
+  const showActions = isAdminPending || isPending;
+
   return (
     <Dialog open={open} onClose={onClose} fullWidth maxWidth="sm">
       <DialogTitle display="flex" flexDirection="row" alignItems="center" width="100%" gap={1}>
         Transaction Details
         {transaction?.status && (
           <Label variant="soft" color={getTransactionStatusColor(transaction.status)}>
-            {transaction.status}
+            {getTransactionStatusLabel(transaction.status)}
           </Label>
         )}
         <IconButton sx={{ ml: 'auto' }} onClick={onClose}>
@@ -50,19 +61,13 @@ const TransactionDetailsDialog = (props) => {
             {transaction?.customer && (
               <UserDetailsCard user={transaction.customer} userType="customer" />
             )}
-            {transaction && (
-              <AmountDetailsCard
-                pricePerSpace={transaction.purcase?.price} // TODO: FIX Typo
-                totalSpace={transaction.purcase?.pallet}
-                totalPrice={transaction.purcase?.total}
-              />
-            )}
+            {transaction?.purchase && <AmountDetailsCard purchase={transaction?.purchase} />}
           </Stack>
         </DialogContent>
       </Scrollbar>
 
       <DialogActions>
-        {transaction?.status === 'pending' && (
+        {showActions && (
           <>
             {onCancelOrder !== undefined && (
               <Button variant="soft" color="error" onClick={onCancelOrder}>
@@ -70,8 +75,18 @@ const TransactionDetailsDialog = (props) => {
               </Button>
             )}
             {onConfirmOrder !== undefined && (
-              <Button variant="soft" color="success" onClick={onConfirmOrder}>
+              <Button
+                variant="soft"
+                color="success"
+                onClick={onConfirmOrder}
+                disabled={isAdminPending}
+              >
                 Confirm order
+              </Button>
+            )}
+            {onApproveOrder !== undefined && (
+              <Button variant="soft" color="success" onClick={onApproveOrder}>
+                Approve order
               </Button>
             )}
           </>

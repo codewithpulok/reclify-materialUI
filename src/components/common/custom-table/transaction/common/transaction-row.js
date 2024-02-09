@@ -10,12 +10,11 @@ import TableCell from '@mui/material/TableCell';
 import TableRow from '@mui/material/TableRow';
 
 import { Chip, Link, Tooltip, Typography } from '@mui/material';
+import { useMemo } from 'react';
 import { usePopover } from 'src/components/common/custom-popover';
 import CustomPopover from 'src/components/common/custom-popover/custom-popover';
 import Label from 'src/components/common/label';
 import { getTransactionStatusColor, getTransactionStatusLabel } from 'src/constant/transaction';
-import { selectAuth } from 'src/redux-toolkit/features/auth/authSlice';
-import { useAppSelector } from 'src/redux-toolkit/hooks';
 import { RouterLink } from 'src/routes/components';
 import { paths } from 'src/routes/paths';
 import { joinAddressObj } from 'src/utils/address';
@@ -33,6 +32,7 @@ const Props = {
   show: PropTypes.array,
   onCancelOrder: PropTypes.func,
   onConfirmOrder: PropTypes.func,
+  onApproveOrder: PropTypes.func,
 };
 
 /**
@@ -40,11 +40,21 @@ const Props = {
  * @returns
  */
 const TransactionRow = (props) => {
-  const { row, onViewTransaction, show = [], onCancelOrder, onConfirmOrder } = props;
+  const {
+    row,
+    onViewTransaction,
+    show = [],
+    onCancelOrder,
+    onConfirmOrder,
+    onApproveOrder,
+  } = props;
   const popover = usePopover(false);
-  const { user } = useAppSelector(selectAuth);
 
-  const warehouseImage = getPrimaryPhoto(row?.photos);
+  const isAdminPending = useMemo(() => row?.status === 'admin_pending', [row?.status]);
+  const isPending = useMemo(() => row?.status === 'pending', [row?.status]);
+  const showActions = isAdminPending || isPending;
+
+  const warehouseImage = getPrimaryPhoto(row?.warehouse?.photos);
 
   const renderPrimary = (
     <TableRow hover>
@@ -146,7 +156,7 @@ const TransactionRow = (props) => {
         </TableCell>
       )}
 
-      {show.includes('price') && <TableCell> {fCurrency(row.purcase?.total)} </TableCell>}
+      {show.includes('price') && <TableCell> {fCurrency(row.purchase?.total)} </TableCell>}
 
       {show.includes('status') && (
         <TableCell>
@@ -182,35 +192,46 @@ const TransactionRow = (props) => {
         Transaction details
       </MenuItem>
 
-      {row?.status === 'pending' ||
-        (row?.status === 'admin_pending' && (
-          <>
-            {onConfirmOrder !== undefined && (
-              <MenuItem
-                color="success"
-                onClick={() => {
-                  onConfirmOrder();
-                  popover.onClose();
-                }}
-                disabled={row?.status === 'admin_pending' && user?.userType !== 'admin'}
-              >
-                Confirm Order
-              </MenuItem>
-            )}
+      {showActions && (
+        <>
+          {onApproveOrder !== undefined && (
+            <MenuItem
+              color="success"
+              onClick={() => {
+                onApproveOrder();
+                popover.onClose();
+              }}
+            >
+              Approve Order
+            </MenuItem>
+          )}
 
-            {onCancelOrder !== undefined && (
-              <MenuItem
-                color="error"
-                onClick={() => {
-                  onCancelOrder();
-                  popover.onClose();
-                }}
-              >
-                Cancel Order
-              </MenuItem>
-            )}
-          </>
-        ))}
+          {onConfirmOrder !== undefined && (
+            <MenuItem
+              color="success"
+              onClick={() => {
+                onConfirmOrder();
+                popover.onClose();
+              }}
+              disabled={isAdminPending}
+            >
+              Confirm Order
+            </MenuItem>
+          )}
+
+          {onCancelOrder !== undefined && (
+            <MenuItem
+              color="error"
+              onClick={() => {
+                onCancelOrder();
+                popover.onClose();
+              }}
+            >
+              Cancel Order
+            </MenuItem>
+          )}
+        </>
+      )}
     </CustomPopover>
   );
 
