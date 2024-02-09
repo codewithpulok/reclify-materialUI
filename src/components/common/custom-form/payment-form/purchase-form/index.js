@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import { useEffect } from 'react';
 import { selectAuth } from 'src/redux-toolkit/features/auth/authSlice';
 import { useAppSelector } from 'src/redux-toolkit/hooks';
+import { useAchPrimaryQuery } from 'src/redux-toolkit/services/achApi';
 import { useBillingInfoPrimaryQuery } from 'src/redux-toolkit/services/billingInfoApi';
 import { useCardPrimaryQuery } from 'src/redux-toolkit/services/cardApi';
 import { LoadingState } from '../../../custom-state';
@@ -25,22 +26,25 @@ const PurchaseForm = (props) => {
 
   const infoResponse = useBillingInfoPrimaryQuery();
   const cardResponse = useCardPrimaryQuery();
+  const achResponse = useAchPrimaryQuery();
 
   // refetch api on user update
   useEffect(() => {
     if (user?.id) {
       infoResponse.refetch();
       cardResponse.refetch();
+      achResponse.refetch();
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [user]);
 
   // success state
-  if (!infoResponse.isLoading && !cardResponse.isLoading) {
+  if (!infoResponse.isLoading && !cardResponse.isLoading && !achResponse.isLoading) {
     return (
       <PurchaseFormFields
-        priamryPaymentCard={cardResponse.data?.result}
-        primaryBillingAddress={infoResponse.data?.result}
+        primaryCard={cardResponse.data?.results}
+        primaryAddress={infoResponse.data?.results}
+        primaryAch={achResponse.data?.results}
         wrapperElement={wrapperElement}
         {...other}
       />

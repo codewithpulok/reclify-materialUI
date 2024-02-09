@@ -100,6 +100,15 @@ const Content = (props) => {
     handleNext();
   }, [activeStep, handleNext, trigger]);
 
+  const submitForm = async () => {
+    // Trigger validations before submitting
+    const isValid = await trigger();
+
+    if (isValid) {
+      handleSubmit(onSubmit)();
+    }
+  };
+
   return (
     <Container maxWidth={settings.themeStretch ? false : 'xl'}>
       <CustomBreadcrumbs
@@ -126,15 +135,15 @@ const Content = (props) => {
               },
             }}
             flexWrap="wrap"
-            spacing={0.5}
+            spacing={1}
             mt={5}
           >
             <LoadingButton
               loading={isSubmitting}
               variant="contained"
               size="large"
-              type={activeStep === 2 ? 'submit' : 'button'}
-              onClick={activeStep === 2 ? () => {} : validateStep}
+              type="button"
+              onClick={activeStep === 2 ? submitForm : validateStep}
               color="primary"
             >
               {activeStep === 2 ? 'Save Changes' : 'Next'}

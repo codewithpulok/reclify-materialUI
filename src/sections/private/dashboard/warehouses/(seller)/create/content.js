@@ -125,7 +125,7 @@ const Content = (props) => {
               },
             }}
             flexWrap="wrap"
-            spacing={0.5}
+            spacing={1}
             mt={5}
           >
             <LoadingButton
@@ -140,7 +140,6 @@ const Content = (props) => {
 
             <Button
               LinkComponent={RouterLink}
-              href={paths.dashboard.warehouses.root}
               variant="soft"
               size="large"
               color="error"

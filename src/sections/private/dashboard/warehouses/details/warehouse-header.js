@@ -136,13 +136,16 @@ const WarehouseHeader = (props) => {
       </IconButton>
 
       <Stack direction="row" alignItems="center" spacing={1}>
-        {warehouse?.seller?.logo && <Avatar src={warehouse?.seller?.logo} />}
-        <Typography variant="h2">{name}</Typography>
-      </Stack>
-
-      <Stack direction="row" spacing={1.5} alignItems="center" mb={2} flexWrap="wrap">
-        <Typography variant="body2">{joinAddressObj(address)}</Typography>
-        {region && <Label>{region}</Label>}
+        {warehouse?.seller?.logo && (
+          <Avatar src={warehouse?.seller?.logo} sx={{ width: '88px', height: '88px' }} />
+        )}
+        <Stack>
+          <Typography variant="h2">{name}</Typography>
+          <Stack direction="row" spacing={1.5} alignItems="center" mb={2} flexWrap="wrap">
+            <Typography variant="body2">{joinAddressObj(address)}</Typography>
+            {region && <Label>{region}</Label>}
+          </Stack>
+        </Stack>
       </Stack>
 
       {renderMetadata}

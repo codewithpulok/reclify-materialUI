@@ -1,6 +1,6 @@
 'use client';
 
-import { useCallback, useEffect, useState } from 'react';
+import { useCallback, useEffect, useMemo, useState } from 'react';
 
 import Card from '@mui/material/Card';
 import { alpha } from '@mui/material/styles';
@@ -62,7 +62,7 @@ const TransactionsCustomerTable = () => {
   const cancelDialog = useDialog();
 
   // table states
-  const table = useTable({ defaultOrderBy: 'createdAt' });
+  const table = useTable({ defaultOrderBy: 'createdAt', defaultOrder: 'desc' });
   const [tableData, setTableData] = useState([]);
   const [filters, setFilters] = useState(defaultFilters);
   const dataFiltered = applyFilter({
@@ -130,6 +130,11 @@ const TransactionsCustomerTable = () => {
     }
   }, [transactionsResponse]);
 
+  const selectedTransaction = useMemo(
+    () => tableData.find((t) => t.id === transactionDialog?.value),
+    [tableData, transactionDialog?.value]
+  );
+
   return (
     <Card>
       <Tabs
@@ -161,11 +166,11 @@ const TransactionsCustomerTable = () => {
                   table.page * table.rowsPerPage,
                   table.page * table.rowsPerPage + table.rowsPerPage
                 )
-                .map((row) => (
+                .map((row, index) => (
                   <TransactionRow
                     key={row.id}
                     row={row}
-                    onViewTransaction={() => transactionDialog.onOpen(row)}
+                    onViewTransaction={() => transactionDialog.onOpen(row.id)}
                     onCancelOrder={() => cancelDialog.onOpen(row)}
                     show={TABLE_HEAD.map((t) => t.id)}
                   />
@@ -192,9 +197,9 @@ const TransactionsCustomerTable = () => {
 
       <TransactionDetailsDialog
         open={transactionDialog.open}
-        transaction={transactionDialog.value}
+        transaction={selectedTransaction}
         onClose={transactionDialog.onClose}
-        onCancelOrder={() => cancelDialog.onOpen(transactionDialog.transaction)}
+        onCancelOrder={() => cancelDialog.onOpen(selectedTransaction)}
       />
 
       <CancelTransactionDialog

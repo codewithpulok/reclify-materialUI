@@ -4,17 +4,23 @@ import PropTypes from 'prop-types';
 import { useCreatePurchaseMutation } from 'src/redux-toolkit/services/purchaseApi';
 import { PurchaseForm } from '../../custom-form';
 
+/**
+ * @typedef {Object} PurchaseData
+ * @property {Warehouse} warehouse,
+ * @property {number} totalSpace,
+ * @property {number} selectedMonth,
+ * @property {number} totalPrice,
+ * @property {number} discount,
+ * @property {number} totalPricePerMonth,
+ * @property {number} discountPerMonth,
+ * @property {number} discountRate:
+ */
+
 const Props = {
   open: PropTypes.bool.isRequired,
   onClose: PropTypes.func.isRequired,
-  purchaseData: PropTypes.objectOf({
-    warehouse: PropTypes.object,
-    pallet: PropTypes.number,
-    price: PropTypes.number,
-    total: PropTypes.number,
-    month: PropTypes.number,
-    due: PropTypes.number,
-  }),
+  /** @type {PurchaseData} */
+  purchaseData: PropTypes.object,
 };
 
 /**
@@ -29,12 +35,21 @@ const PurchasePaymentDialog = (props) => {
   const handleCreatePurchase = async (values) => {
     const newValues = {
       warehouseId: purchaseData?.warehouse?.id,
-      pallet: purchaseData?.pallet,
-      price: purchaseData?.price,
-      total: purchaseData?.total,
-      month: purchaseData?.month,
+      pallet: purchaseData?.totalSpace,
+      price: undefined,
+      total: undefined,
+      discountRate: purchaseData.discountRate,
+      month: purchaseData?.selectedMonth,
       ...values,
     };
+
+    if (purchaseData.totalPricePerMonth !== undefined) {
+      newValues.price = purchaseData.totalPricePerMonth - (purchaseData?.discountPerMonth || 0);
+    }
+
+    if (purchaseData.totalPrice !== undefined) {
+      newValues.total = purchaseData.totalPrice - (purchaseData?.discount || 0);
+    }
 
     console.log('Purchase Create: ', newValues);
     const response = await createPurchase(newValues);

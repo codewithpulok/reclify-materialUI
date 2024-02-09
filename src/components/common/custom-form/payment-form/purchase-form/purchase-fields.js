@@ -13,8 +13,9 @@ import PurchaseFormDetails from './purchase-details';
 
 export const Props = {
   purchaseData: PropTypes.object,
-  primaryBillingAddress: PropTypes.object,
-  priamryPaymentCard: PropTypes.object,
+  primaryCard: PropTypes.object,
+  primaryAddress: PropTypes.object,
+  primaryAch: PropTypes.object,
   ...CustomFormProps,
 };
 
@@ -34,10 +35,13 @@ const PurchaseFormFields = (props) => {
   const {
     wrapperElement,
     purchaseData,
-    priamryPaymentCard,
-    primaryBillingAddress,
+
     submitCallback,
     cancelCallback,
+
+    primaryCard,
+    primaryAddress,
+    primaryAch,
   } = props;
 
   const methods = useForm({ defaultValues });
@@ -69,21 +73,17 @@ const PurchaseFormFields = (props) => {
   useEffect(() => {
     const changes = { ...defaultValues };
 
-    if (primaryBillingAddress) changes.billing_details = primaryBillingAddress;
-    if (priamryPaymentCard) changes.card = priamryPaymentCard;
+    if (primaryCard) changes.card = primaryCard;
+    if (primaryAddress) changes.billing_details = primaryAddress;
+    if (primaryAch) changes.ach = primaryAch;
 
     reset(changes);
-  }, [primaryBillingAddress, priamryPaymentCard, reset]);
+  }, [primaryCard, primaryAddress, primaryAch, reset]);
 
   return (
     <FormProvider methods={methods} onSubmit={handleSubmit(onSubmit)} onReset={onReset}>
       <Stack component={wrapperElement} sx={{ py: 1 }} spacing={2}>
-        <PurchaseFormDetails
-          due={purchaseData?.due}
-          pricePerMonth={purchaseData?.price}
-          totalPrice={purchaseData?.total}
-          totalSpace={purchaseData?.pallet}
-        />
+        <PurchaseFormDetails purchaseData={purchaseData} />
 
         <PaymentTypeTab />
 
