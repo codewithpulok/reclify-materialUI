@@ -74,6 +74,11 @@ const RHFAccordion = (props) => {
         <Typography variant="overline" color={isError ? 'error.main' : 'text.default'}>
           {label}
         </Typography>
+        {isError && name && (
+          <Typography variant="caption" color="error.main">
+            {errors?.[name]?.message}
+          </Typography>
+        )}
       </AccordionSummary>
       <AccordionDetails>{children}</AccordionDetails>
     </Accordion>

@@ -36,6 +36,31 @@ import { fFixedFloat } from 'src/utils/format-number';
 import { ICONS } from '../../config-warehouse';
 import WarehouseReviews from './warehouse-reviews';
 
+export const stepFields = {
+  0: [
+    'name',
+    'address',
+    'regionScope',
+    'region',
+    'description',
+    'highlights',
+    'photos',
+    'services',
+    'rules',
+  ],
+  1: ['features', 'amenities', 'approvedUses', 'facilityDetails', 'documents'],
+  2: [
+    'totalSpace',
+    'minSpaceOrder',
+    'maxSpaceOrder',
+    'price1',
+    'price3',
+    'price6',
+    'price12',
+    'discountRate',
+  ],
+};
+
 const Props = {
   activeStep: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
 };

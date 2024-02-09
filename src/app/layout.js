@@ -10,7 +10,6 @@ import { primaryFont } from 'src/theme/typography';
 import { MotionLazy } from 'src/components/common/animate/motion-lazy';
 import ProgressBar from 'src/components/common/progress-bar';
 import { SettingsDrawer, SettingsProvider } from 'src/components/common/settings';
-import InitAuth from 'src/redux-toolkit/features/auth/init-auth';
 import Provider from 'src/redux-toolkit/provider';
 
 // ----------------------------------------------------------------------
@@ -35,26 +34,24 @@ export default function RootLayout({ children }) {
     <html lang="en" className={primaryFont.className}>
       <body style={{ scrollBehavior: 'smooth' }}>
         <Provider>
-          <InitAuth>
-            <SettingsProvider
-              defaultSettings={{
-                themeMode: 'light', // 'light' | 'dark'
-                themeDirection: 'ltr', //  'rtl' | 'ltr'
-                themeContrast: 'default', // 'default' | 'bold'
-                themeLayout: 'vertical', // 'vertical' | 'horizontal' | 'mini'
-                themeColorPresets: 'default', // 'default' | 'cyan' | 'purple' | 'blue' | 'orange' | 'red'
-                themeStretch: false,
-              }}
-            >
-              <ThemeProvider>
-                <MotionLazy>
-                  <SettingsDrawer />
-                  <ProgressBar />
-                  {children}
-                </MotionLazy>
-              </ThemeProvider>
-            </SettingsProvider>
-          </InitAuth>
+          <SettingsProvider
+            defaultSettings={{
+              themeMode: 'light', // 'light' | 'dark'
+              themeDirection: 'ltr', //  'rtl' | 'ltr'
+              themeContrast: 'default', // 'default' | 'bold'
+              themeLayout: 'vertical', // 'vertical' | 'horizontal' | 'mini'
+              themeColorPresets: 'default', // 'default' | 'cyan' | 'purple' | 'blue' | 'orange' | 'red'
+              themeStretch: false,
+            }}
+          >
+            <ThemeProvider>
+              <MotionLazy>
+                <SettingsDrawer />
+                <ProgressBar />
+                {children}
+              </MotionLazy>
+            </ThemeProvider>
+          </SettingsProvider>
         </Provider>
       </body>
     </html>
