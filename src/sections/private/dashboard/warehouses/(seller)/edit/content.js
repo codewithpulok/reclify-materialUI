@@ -15,7 +15,7 @@ import FormProvider from 'src/components/common/hook-form/form-provider';
 import { useSettingsContext } from 'src/components/common/settings';
 import { useWarehouseUpdateMutation } from 'src/redux-toolkit/services/warehouseApi';
 import { paths } from 'src/routes/paths';
-import WarehouseFields from '../common/warehouse-fields';
+import WarehouseFields, { stepFields } from '../common/warehouse-fields';
 import warehouseSchema from '../common/warehouse-schema';
 import EditStepper from './stepper';
 
@@ -37,11 +37,11 @@ const Content = (props) => {
   // app states
   const [activeStep, setActiveStep] = useState(0);
 
-  const handleNext = () => {
+  const handleNext = useCallback(() => {
     if (activeStep === 2) return;
 
     setActiveStep((prev) => prev + 1);
-  };
+  }, [activeStep]);
 
   const handleBack = () => {
     if (activeStep === 0) return;
@@ -52,7 +52,7 @@ const Content = (props) => {
   const [updateWarehouse] = useWarehouseUpdateMutation();
 
   const methods = useForm({ defaultValues: warehouse, resolver: yupResolver(warehouseSchema) });
-  const { handleSubmit, reset, formState } = methods;
+  const { handleSubmit, reset, formState, trigger } = methods;
   const { isSubmitting } = formState;
 
   // reset form
@@ -89,6 +89,17 @@ const Content = (props) => {
     }
   }, [warehouse, reset]);
 
+  const validateStep = useCallback(async () => {
+    const fields = stepFields[activeStep];
+    if (!fields) return;
+
+    const response = await trigger(fields, { shouldFocus: true });
+
+    if (!response) return;
+
+    handleNext();
+  }, [activeStep, handleNext, trigger]);
+
   return (
     <Container maxWidth={settings.themeStretch ? false : 'xl'}>
       <CustomBreadcrumbs
@@ -123,7 +134,7 @@ const Content = (props) => {
               variant="contained"
               size="large"
               type={activeStep === 2 ? 'submit' : 'button'}
-              onClick={activeStep === 2 ? () => {} : handleNext}
+              onClick={activeStep === 2 ? () => {} : validateStep}
               color="primary"
             >
               {activeStep === 2 ? 'Save Changes' : 'Next'}

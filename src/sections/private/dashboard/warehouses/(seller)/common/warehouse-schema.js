@@ -100,7 +100,13 @@ const schema = {
   ),
   rules: Yup.array(Yup.string()),
   approvedUses: Yup.object().shape(getPredefinedFieldSchema(predefinedApprovedUses)),
-  features: Yup.object().shape(getPredefinedFieldSchema(predefinedFeatures)),
+  features: Yup.object()
+    .shape(getPredefinedFieldSchema(predefinedFeatures))
+    .test('al-least-one-feature', 'At least one feature should be checked', (obj) => {
+      const keys = Object.keys(obj);
+
+      return keys.some((k) => obj[k]);
+    }),
   facilityDetails: Yup.object().shape(getPredefinedFieldSchema(predefinedFacility)),
   services: Yup.object().shape(getPredefinedFieldSchema(predefinedServices)),
 };
