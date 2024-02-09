@@ -9,6 +9,7 @@ import { alpha, useTheme } from '@mui/material/styles';
 import { MotionContainer, varFade } from 'src/components/common/animate';
 
 import Image from 'src/components/common/image';
+import { PLACEHOLDER_NEWS_COVER } from 'src/config-global';
 import { RouterLink } from 'src/routes/components';
 import { paths } from 'src/routes/paths';
 
@@ -30,7 +31,7 @@ const NewsFeaturedCard = (props) => {
   const renderImg = (
     <Image
       alt={title}
-      src={coverUrl}
+      src={coverUrl || PLACEHOLDER_NEWS_COVER}
       overlay={`linear-gradient(to bottom, ${alpha(theme.palette.grey[900], 0)} 0%, ${
         theme.palette.grey[900]
       } 75%)`}

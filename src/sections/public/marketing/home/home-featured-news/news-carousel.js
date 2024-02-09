@@ -18,7 +18,6 @@ const NewsCarousel = (props) => {
   const carousel = useCarousel({
     slidesToShow: 4,
     infinite: true,
-    centerMode: true,
     autoplay: true,
     autoplaySpeed: 1500,
     initialSlide: 0,
@@ -54,8 +53,6 @@ const NewsCarousel = (props) => {
         icon="solar:alt-arrow-right-bold"
         onNext={carousel.onNext}
         onPrev={carousel.onPrev}
-        // leftButtonProps={{ disabled: !carousel?.hasPrev }}
-        // rightButtonProps={{ disabled: !carousel?.hasNext }}
       >
         <Carousel ref={carousel.carouselRef} {...carousel.carouselSettings}>
           {data.map((item, index) => (
