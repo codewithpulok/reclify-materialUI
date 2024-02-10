@@ -7,6 +7,7 @@ import { WarehouseCard } from 'src/components/warehouse/cards';
 const Props = {
   /** @type {Warehouse[]} */
   data: PropTypes.array,
+  itemProps: PropTypes.object,
 };
 
 /**
@@ -14,7 +15,7 @@ const Props = {
  * @returns {JSX.Element}
  */
 const WarehouseFeaturedCarousel = (props) => {
-  const { data = [] } = props;
+  const { data = [], itemProps = {} } = props;
 
   const carousel = useCarousel({
     slidesToShow: 3,
@@ -62,7 +63,7 @@ const WarehouseFeaturedCarousel = (props) => {
         <Carousel ref={carousel.carouselRef} {...carousel.carouselSettings}>
           {filteredData.map((item) => (
             <Box key={item.id} sx={{ px: 1, my: '8px' }}>
-              <WarehouseCard warehouse={item} />
+              <WarehouseCard warehouse={item} {...itemProps} />
             </Box>
           ))}
         </Carousel>

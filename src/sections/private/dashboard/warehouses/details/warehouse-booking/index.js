@@ -81,7 +81,7 @@ const WarehouseBooking = (props) => {
     return undefined;
   }, [requiredSpace, selectedMonth, currentPrice]);
 
-  const discount = useMemo(() => {
+  const totalDiscount = useMemo(() => {
     if (warehouse.discountRate && totalPrice) {
       return (warehouse.discountRate / 100) * totalPrice;
     }
@@ -104,18 +104,19 @@ const WarehouseBooking = (props) => {
 
   // open payment dialog
   const openPaymentDialog = useCallback(() => {
-    paymentDialog.onOpen({
-      warehouse,
-      selectedMonth,
-      totalPrice,
-      discount,
-      totalPricePerMonth,
-      discountPerMonth,
-      discountRate: warehouse.discountRate,
-      totalSpace: requiredSpace,
-    });
+    /** @type {import('src/components/common/custom-dialog/purchase-payment-dialog').PurchaseData} */
+    const struct = {
+      warehouseId: warehouse?.id,
+      discount: discountPerMonth,
+      price: totalPricePerMonth,
+      month: selectedMonth,
+      pallet: requiredSpace,
+      total: totalPrice,
+      amountDue: totalPricePerMonth - discountPerMonth,
+    };
+
+    paymentDialog.onOpen(struct);
   }, [
-    discount,
     discountPerMonth,
     paymentDialog,
     requiredSpace,
@@ -255,17 +256,23 @@ const WarehouseBooking = (props) => {
           flexWrap="wrap"
           mt={1}
         >
-          <Typography variant="h5">Total Price:</Typography>
-          <Typography variant="h5" ml={1} color={discount > 0 ? 'secondary.main' : 'default'}>
-            {totalPrice !== undefined ? fCurrency(totalPrice - discount) : '$0.00'}
+          <Typography variant="h5">Monthly Price:</Typography>
+          <Typography
+            variant="h5"
+            ml={1}
+            color={discountPerMonth > 0 ? 'secondary.main' : 'default'}
+          >
+            {totalPricePerMonth !== undefined
+              ? fCurrency(totalPricePerMonth - discountPerMonth)
+              : '$0.00'}
           </Typography>
-          {discount > 0 ? (
+          {discountPerMonth > 0 ? (
             <Typography
               variant="subtitle1"
               color="text.disabled"
               sx={{ textDecoration: 'line-through' }}
             >
-              {` ${fCurrency(totalPrice)} `}
+              {` ${fCurrency(totalPricePerMonth)} `}
             </Typography>
           ) : null}
         </Stack>
@@ -277,24 +284,22 @@ const WarehouseBooking = (props) => {
           flexWrap="wrap"
         >
           <Typography variant="overline" color="text.secondary">
-            Price Per Month:
+            Total Price:
           </Typography>
           <Typography
             variant="overline"
             ml={1}
-            color={discountPerMonth > 0 ? 'secondary.main' : 'text.secondary'}
+            color={totalDiscount > 0 ? 'secondary.main' : 'text.secondary'}
           >
-            {totalPricePerMonth !== undefined
-              ? fCurrency(totalPricePerMonth - discountPerMonth)
-              : '$0.00'}
+            {totalPrice !== undefined ? fCurrency(totalPrice - totalDiscount) : '$0.00'}
           </Typography>
-          {discountPerMonth > 0 ? (
+          {totalDiscount > 0 ? (
             <Typography
               variant="overline"
               color="text.disabled"
               sx={{ textDecoration: 'line-through' }}
             >
-              {` ${fCurrency(totalPricePerMonth)} `}
+              {` ${fCurrency(totalPrice)} `}
             </Typography>
           ) : null}
         </Stack>

@@ -10,11 +10,11 @@ import { useRouter } from 'next/navigation';
 import { useSnackbar } from 'notistack';
 import { useCallback } from 'react';
 import {
-  predefinedApprovedUses,
+  predefinedAmenities,
   predefinedFacility,
   predefinedFeatures,
   predefinedServices,
-} from 'src/assets/data';
+} from 'src/assets/data/predefined-fields/warehouse';
 import CustomBreadcrumbs from 'src/components/common/custom-breadcrumbs';
 import FormProvider from 'src/components/common/hook-form/form-provider';
 import { useSettingsContext } from 'src/components/common/settings';
@@ -41,11 +41,10 @@ const defaultValues = {
   minSpaceOrder: null,
   description: '',
   photos: [],
-  approvedUses: getPredefinedFieldsDefaultValue(predefinedApprovedUses),
   features: getPredefinedFieldsDefaultValue(predefinedFeatures),
   facilityDetails: getPredefinedFieldsDefaultValue(predefinedFacility),
   services: getPredefinedFieldsDefaultValue(predefinedServices),
-  rules: [],
+  amenities: getPredefinedFieldsDefaultValue(predefinedAmenities),
   regionScope: '',
   region: '',
   documents: [],

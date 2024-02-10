@@ -17,7 +17,7 @@ const NewsCarousel = (props) => {
 
   const carousel = useCarousel({
     slidesToShow: 4,
-    infinite: true,
+    infinite: data?.length >= 4,
     autoplay: true,
     autoplaySpeed: 1500,
     initialSlide: 0,
@@ -25,15 +25,15 @@ const NewsCarousel = (props) => {
     responsive: [
       {
         breakpoint: 1024,
-        settings: { slidesToShow: 3 },
+        settings: { slidesToShow: 3, infinite: data?.length >= 3 },
       },
       {
         breakpoint: 600,
-        settings: { slidesToShow: 2 },
+        settings: { slidesToShow: 2, infinite: data?.length >= 2 },
       },
       {
         breakpoint: 480,
-        settings: { slidesToShow: 1 },
+        settings: { slidesToShow: 1, infinite: data?.length >= 1 },
       },
     ],
   });

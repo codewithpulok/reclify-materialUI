@@ -1,7 +1,7 @@
 import { Grid, Typography } from '@mui/material';
 import PropTypes from 'prop-types';
+import { predefinedFeatures } from 'src/assets/data/predefined-fields/warehouse';
 
-import { predefinedFeatures } from 'src/assets/data';
 import { getIconify } from 'src/components/common/iconify/utilities';
 import { WarehouseDetailsBox } from 'src/components/warehouse/box';
 

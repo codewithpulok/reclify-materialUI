@@ -24,6 +24,7 @@ import Iconify from 'src/components/common/iconify';
 import Label from 'src/components/common/label';
 import Scrollbar from 'src/components/common/scrollbar';
 
+import { useGetNotificationsQuery } from 'src/redux-toolkit/services/notificationApi';
 import NotificationItem from './notification-item';
 
 // ----------------------------------------------------------------------
@@ -52,6 +53,9 @@ export default function NotificationsPopover() {
   const drawer = useBoolean();
 
   const smUp = useResponsive('up', 'sm');
+  const notificationResponse = useGetNotificationsQuery();
+
+  console.log('NOTIFICATION RESPONSE:', notificationResponse);
 
   const [currentTab, setCurrentTab] = useState('all');
 

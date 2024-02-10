@@ -2,11 +2,13 @@ import { achApi } from './services/achApi';
 import { addressApi } from './services/addressApi';
 import { adminApi } from './services/adminApi';
 import { authApi } from './services/authApi';
+import { billingApi } from './services/billingApi';
 import { billingInfoApi } from './services/billingInfoApi';
 import { blogApi } from './services/blogApi';
 import { cardApi } from './services/cardApi';
 import { contactApi } from './services/contactApi';
 import { invoiceApi } from './services/invoiceApi';
+import { notificationApi } from './services/notificationApi';
 import { planApi } from './services/planApi';
 import { profileApi } from './services/profileApi';
 import { purchaseApi } from './services/purchaseApi';
@@ -36,6 +38,8 @@ const middlewares = [
   searchApi.middleware,
   achApi.middleware,
   contactApi.middleware,
+  billingApi.middleware,
+  notificationApi.middleware,
 ];
 
 export default middlewares;

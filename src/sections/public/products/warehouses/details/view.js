@@ -6,7 +6,7 @@ import { notFound } from 'next/navigation';
 import { ErrorState } from 'src/components/common/custom-state';
 import { LoadingScreen } from 'src/components/common/loading-screen';
 import { useWarehouseQuery } from 'src/redux-toolkit/services/warehouseApi';
-import Content from './content';
+import Content from 'src/sections/private/dashboard/warehouses/details/content';
 
 const Props = {
   id: PropTypes.string.isRequired,

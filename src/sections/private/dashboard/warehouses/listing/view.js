@@ -27,7 +27,8 @@ export default function ListingView() {
     (
       warehouses = [],
       notFoundText = 'No warehouses found',
-      errorText = 'Something went to wrong'
+      errorText = 'Something went to wrong',
+      featuredProps = {}
     ) => {
       // error state
       if (warehousesResponse.isError) {
@@ -44,7 +45,7 @@ export default function ListingView() {
         return (
           <Grid item xs={12}>
             <Stack spacing={5}>
-              <WarehouseFeaturedCarousel data={warehouses} />
+              <WarehouseFeaturedCarousel data={warehouses} {...featuredProps} />
               <WarehouseCarousel data={warehouses} />
             </Stack>
           </Grid>
@@ -107,7 +108,9 @@ export default function ListingView() {
         </Stack>
 
         <Grid container spacing={2}>
-          {renderWarehouses(hotdeals, 'No hot deals available')}
+          {renderWarehouses(hotdeals, 'No hot deals available', undefined, {
+            itemProps: { glow: true },
+          })}
         </Grid>
       </Stack>
 

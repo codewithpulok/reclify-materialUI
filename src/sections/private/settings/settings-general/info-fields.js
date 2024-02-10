@@ -52,6 +52,7 @@ const InfoFields = () => {
           <RHFTextField
             name="phone"
             label="Phone Number"
+            inputMode="numeric"
             onChangeMiddleware={formatPhone}
             placeholder="000-000-0000"
             fullWidth

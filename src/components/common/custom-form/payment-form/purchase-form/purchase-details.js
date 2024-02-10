@@ -23,29 +23,33 @@ const PurchaseFormDetails = (props) => {
       <Stack direction="row" justifyContent="space-between" alignItems="baseline" spacing={1}>
         <Typography variant="subtitle2">Selected Month: </Typography>
         <Typography variant="subtitle2" color="text.secondary">
-          {purchaseData?.selectedMonth}
+          {purchaseData?.month}
         </Typography>
       </Stack>
       <Stack direction="row" justifyContent="space-between" alignItems="baseline" spacing={1}>
         <Typography variant="subtitle2">Total Price: </Typography>
         <Typography variant="subtitle2" color="text.secondary">
-          {fCurrency((purchaseData?.totalPrice || 0) - (purchaseData?.discount || 0))}
+          {fCurrency(purchaseData?.total)}
         </Typography>
       </Stack>
       <Stack direction="row" justifyContent="space-between" alignItems="baseline" spacing={1}>
         <Typography variant="subtitle2">Price Per Month: </Typography>
         <Typography variant="subtitle2" color="text.secondary">
-          {fCurrency(
-            (purchaseData?.totalPricePerMonth || 0) - (purchaseData?.discountPerMonth || 0)
-          )}
+          {fCurrency(purchaseData?.price)}
         </Typography>
       </Stack>
+      {!!purchaseData?.discount && !!purchaseData?.price && (
+        <Stack direction="row" justifyContent="space-between" alignItems="baseline" spacing={1}>
+          <Typography variant="subtitle2">Discounted Price: </Typography>
+          <Typography variant="subtitle2" color="text.secondary">
+            {fCurrency(purchaseData.price - purchaseData.discount)}
+          </Typography>
+        </Stack>
+      )}
       <Stack direction="row" justifyContent="space-between" alignItems="baseline" spacing={1}>
         <Typography variant="subtitle2">Amount Due: </Typography>
         <Typography variant="subtitle2" color="text.secondary">
-          {fCurrency(
-            (purchaseData?.totalPricePerMonth || 0) - (purchaseData?.discountPerMonth || 0)
-          )}
+          {fCurrency(purchaseData?.amountDue)}
         </Typography>
       </Stack>
     </Card>

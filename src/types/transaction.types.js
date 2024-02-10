@@ -14,8 +14,17 @@
  * @property {TransactionStatus} status - The status of the transaction, which can be 'completed', 'pending', 'admin_pending' or 'cancelled'.
  * @property {number} area - The area (space) associated with the transaction.
  * @property {number} pricePerSquare - The price per square unit of the transaction area.
+ * @property {TransactionPurchase} purchase
  */
 
 /**
  * @typedef {'completed' | 'pending' | 'cancelled' | 'admin_pending'} TransactionStatus
+ */
+
+/**
+ * @typedef {Object} TransactionPurchase
+ * @property {number} month
+ * @property {number} pallet
+ * @property {number} price
+ * @property {number} total
  */

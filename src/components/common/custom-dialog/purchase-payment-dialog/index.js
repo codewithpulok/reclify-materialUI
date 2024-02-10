@@ -4,17 +4,7 @@ import PropTypes from 'prop-types';
 import { useCreatePurchaseMutation } from 'src/redux-toolkit/services/purchaseApi';
 import { PurchaseForm } from '../../custom-form';
 
-/**
- * @typedef {Object} PurchaseData
- * @property {Warehouse} warehouse,
- * @property {number} totalSpace,
- * @property {number} selectedMonth,
- * @property {number} totalPrice,
- * @property {number} discount,
- * @property {number} totalPricePerMonth,
- * @property {number} discountPerMonth,
- * @property {number} discountRate:
- */
+/** @typedef {{warehouseId: string, amountDue: number, discount?: number} & TransactionPurchase} PurchaseData */
 
 const Props = {
   open: PropTypes.bool.isRequired,
@@ -33,13 +23,14 @@ const PurchasePaymentDialog = (props) => {
   const [createPurchase] = useCreatePurchaseMutation();
 
   const handleCreatePurchase = async (values) => {
+    if (!purchaseData) return;
+
+    /** @type {TransactionPurchase} */
     const newValues = {
-      warehouseId: purchaseData?.warehouse?.id,
-      pallet: purchaseData?.totalSpace,
-      price: undefined,
-      total: undefined,
-      discountRate: purchaseData.discountRate,
-      month: purchaseData?.selectedMonth,
+      ...purchaseData,
+      price: purchaseData?.discount
+        ? purchaseData.price - purchaseData.discount
+        : purchaseData.price,
       ...values,
     };
 

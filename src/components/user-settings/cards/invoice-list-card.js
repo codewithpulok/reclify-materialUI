@@ -36,7 +36,7 @@ const InvoiceListCard = (props) => {
         {fCurrency(invoice.price)}
       </Typography>
 
-      <Link color="inherit" underline="always" variant="body2" href={invoice.pdfUrl}>
+      <Link color="inherit" underline="always" variant="body2" href={invoice?.file || '#'}>
         PDF
       </Link>
     </Stack>
