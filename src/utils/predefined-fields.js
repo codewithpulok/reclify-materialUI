@@ -34,6 +34,9 @@ const getValueByFieldType = (field, value) => {
 
       return `${startTime} - ${endTime}`;
     }
+    case 'dropdown': {
+      return Array.isArray(value) ? value.join(', ') : '';
+    }
     default:
       break;
   }
@@ -196,6 +199,7 @@ export const getPredefinedFieldsDefaultValue = (fields) =>
             value = [false, false, false, false, false, false];
             break;
           default:
+            value = [];
             break;
         }
         break;
@@ -208,6 +212,7 @@ export const getPredefinedFieldsDefaultValue = (fields) =>
             };
             break;
           default:
+            value = {};
             break;
         }
         break;

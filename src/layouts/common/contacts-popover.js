@@ -47,7 +47,7 @@ export default function ContactsPopover() {
         </Typography>
 
         <Scrollbar sx={{ height: 320 }}>
-          {_contacts.map((contact) => (
+          {_contacts.slice(0, 4).map((contact) => (
             <MenuItem
               component={RouterLink}
               href={paths.dashboard.messages.thread(contact.id)}

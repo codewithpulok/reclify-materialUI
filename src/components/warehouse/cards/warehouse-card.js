@@ -39,6 +39,7 @@ const Props = {
   sx: PropTypes.object,
   /** @type {'sm' | 'md'} */
   size: PropTypes.string,
+  glow: PropTypes.bool,
 };
 
 /**
@@ -47,7 +48,7 @@ const Props = {
  */
 
 const WarehouseCard = (props) => {
-  const { warehouse, onDelete = () => {}, hasControl = false, sx = {}, size } = props;
+  const { warehouse, onDelete = () => {}, hasControl = false, sx = {}, size, glow = false } = props;
 
   const router = useRouter();
   const { isAuthenticated, user } = useAppSelector(selectAuth);
@@ -60,7 +61,7 @@ const WarehouseCard = (props) => {
   const isSm = size === 'sm';
 
   return (
-    <Card className={`card ${warehouse?.isFeatured ? 'glow' : ''}`} sx={sx}>
+    <Card className={`card ${glow ? 'glow' : ''}`} sx={sx}>
       <CardActionArea
         sx={{ bgcolor: 'background.neutral' }}
         onClick={() => router.push(detailsPath)}

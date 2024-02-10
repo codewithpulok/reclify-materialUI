@@ -5,14 +5,6 @@ import PropTypes from 'prop-types';
 
 import { fCurrency, fNumber } from 'src/utils/format-number';
 
-/**
- * @typedef {Object} TransactionPurchase
- * @property {number} month
- * @property {number} pallet
- * @property {number} price
- * @property {number} total
- */
-
 const Props = {
   /** @type {TransactionPurchase} */
   purchase: PropTypes.object,

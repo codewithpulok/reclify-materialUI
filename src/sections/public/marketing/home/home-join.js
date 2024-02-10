@@ -58,7 +58,12 @@ export default function HomeJoin() {
       <Container component={MotionViewport}>
         {renderDescription}
         <m.div variants={varFade().inUp}>
-          <ContactForm />
+          <ContactForm
+            textFieldProps={{
+              InputProps: { sx: { color: '#FFF' } },
+              InputLabelProps: { sx: { color: '#FFF!important' } },
+            }}
+          />
         </m.div>
       </Container>
     </Box>

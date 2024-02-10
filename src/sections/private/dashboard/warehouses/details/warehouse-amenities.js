@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { useMemo } from 'react';
 import { getPredefinedFieldsValue } from 'src/utils/predefined-fields';
 
-import { predefinedAmenities } from 'src/assets/data';
+import { predefinedAmenities } from 'src/assets/data/predefined-fields/warehouse';
 import { getIconify } from 'src/components/common/iconify/utilities';
 import { WarehouseDetailsBox } from 'src/components/warehouse/box';
 

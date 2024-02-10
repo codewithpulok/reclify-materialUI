@@ -1,11 +1,10 @@
+import { getRegionsByScope, regionScopes } from 'src/assets/data';
 import {
-  getRegionsByScope,
-  predefinedApprovedUses,
+  predefinedAmenities,
   predefinedFacility,
   predefinedFeatures,
   predefinedServices,
-  regionScopes,
-} from 'src/assets/data';
+} from 'src/assets/data/predefined-fields/warehouse';
 import { getPredefinedFieldSchema } from 'src/utils/predefined-fields';
 import * as Yup from 'yup';
 
@@ -98,8 +97,6 @@ const schema = {
       link: Yup.string().required('Photo url is required'),
     })
   ),
-  rules: Yup.array(Yup.string()),
-  approvedUses: Yup.object().shape(getPredefinedFieldSchema(predefinedApprovedUses)),
   features: Yup.object()
     .shape(getPredefinedFieldSchema(predefinedFeatures))
     .test('al-least-one-feature', 'At least one feature should be checked', (obj) => {
@@ -109,6 +106,7 @@ const schema = {
     }),
   facilityDetails: Yup.object().shape(getPredefinedFieldSchema(predefinedFacility)),
   services: Yup.object().shape(getPredefinedFieldSchema(predefinedServices)),
+  amenities: Yup.object().shape(getPredefinedFieldSchema(predefinedAmenities)),
 };
 const warehouseSchema = Yup.object().shape(schema);
 

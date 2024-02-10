@@ -57,7 +57,7 @@ export const endpoints = {
       get: (id) => `/users/${id}`,
     },
     transaction: {
-      list: '/transaction',
+      list: '/',
     },
   },
   profile: {
@@ -81,6 +81,10 @@ export const endpoints = {
     list: '/',
     cancel: (id) => `/cancel/${id}`,
     approve: (id) => `/approve/${id}`,
+  },
+  billing: {
+    root: '/user/billing',
+    get: '/',
   },
   billing_info: {
     root: '/user/billing-info',
@@ -139,5 +143,11 @@ export const endpoints = {
   contact_us: {
     root: '/contact-us',
     create: '/',
+  },
+  notification: {
+    root: '/notification',
+    list: '/',
+    read_all: '/all',
+    read: (id) => `/${id}`,
   },
 };

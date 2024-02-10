@@ -61,6 +61,7 @@ const Content = (props) => {
     router.back();
   }, [reset, router]);
 
+  // handle submit form request
   const onSubmit = useCallback(
     async (values) => {
       // updateing total space
@@ -83,12 +84,7 @@ const Content = (props) => {
     [enqueueSnackbar, reset, router, updateWarehouse, warehouse?.id]
   );
 
-  useEffect(() => {
-    if (warehouse) {
-      reset(warehouse);
-    }
-  }, [warehouse, reset]);
-
+  // validate steps before going to next step
   const validateStep = useCallback(async () => {
     const fields = stepFields[activeStep];
     if (!fields) return;
@@ -100,6 +96,7 @@ const Content = (props) => {
     handleNext();
   }, [activeStep, handleNext, trigger]);
 
+  // mannualy submit form
   const submitForm = async () => {
     // Trigger validations before submitting
     const isValid = await trigger();
@@ -108,6 +105,18 @@ const Content = (props) => {
       handleSubmit(onSubmit)();
     }
   };
+
+  // scroll to top after step change
+  useEffect(() => {
+    window?.scrollTo(0, 0);
+  }, [activeStep]);
+
+  // update form on warehous changes
+  useEffect(() => {
+    if (warehouse) {
+      reset(warehouse);
+    }
+  }, [warehouse, reset]);
 
   return (
     <Container maxWidth={settings.themeStretch ? false : 'xl'}>

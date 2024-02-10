@@ -9,7 +9,6 @@ import Typography from '@mui/material/Typography';
 import { Box } from '@mui/material';
 import { useMemo } from 'react';
 import { MotionViewport, varFade } from 'src/components/common/animate';
-import { LoadingState } from 'src/components/common/custom-state';
 import { useBlogListQuery } from 'src/redux-toolkit/services/blogApi';
 import NewsCarousel from './news-carousel';
 
@@ -54,7 +53,6 @@ export default function HomeFeaturedNews() {
     >
       <Container component={MotionViewport}>
         {renderDescription}
-        {listResponse.isLoading && <LoadingState />}
         {listResponse.isSuccess && !listResponse?.isLoading && <NewsCarousel data={featuredNews} />}
       </Container>
     </Box>

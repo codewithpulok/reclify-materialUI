@@ -23,7 +23,7 @@ const BillingHistoryProps = {
  * @returns
  */
 const BillingHistory = (props) => {
-  const { invoices } = props;
+  const { invoices = [] } = props;
   const showMore = useBoolean();
 
   return (

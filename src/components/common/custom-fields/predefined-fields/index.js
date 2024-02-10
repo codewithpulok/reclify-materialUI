@@ -1,8 +1,9 @@
-import { MenuItem, Stack, Typography } from '@mui/material';
+import { Stack, Typography } from '@mui/material';
 import PropTypes from 'prop-types';
 import { getIconify } from 'src/components/common/iconify/utilities';
 import {
   RHFAccordion,
+  RHFSelect,
   RHFSwitch,
   RHFTextField,
   RHFTextSwitch,
@@ -87,13 +88,12 @@ const PredefinedFields = (props) => {
           // dropdown field
           if (field.fieldType === 'dropdown') {
             return (
-              <RHFTextField name={fieldName} label={field.label} key={field.key} select>
-                {field.options?.map((i) => (
-                  <MenuItem key={i} value={i}>
-                    {i}
-                  </MenuItem>
-                ))}
-              </RHFTextField>
+              <RHFSelect
+                name={fieldName}
+                label={field.label}
+                options={field.options?.map((o) => ({ label: o, value: o })) || []}
+                multiple={field.dataType === 'array'}
+              />
             );
           }
 
