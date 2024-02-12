@@ -57,7 +57,7 @@ export const endpoints = {
       get: (id) => `/users/${id}`,
     },
     transaction: {
-      list: '/',
+      list: '/transaction',
     },
   },
   profile: {
@@ -80,6 +80,7 @@ export const endpoints = {
     root: '/user/transaction',
     list: '/',
     cancel: (id) => `/cancel/${id}`,
+    complete: (id) => `/approve/${id}`,
     approve: (id) => `/approve/${id}`,
   },
   billing: {

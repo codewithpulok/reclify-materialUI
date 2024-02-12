@@ -20,7 +20,10 @@ const CustomerListingView = () => {
   const listResponse = useListCustomerQuery();
 
   // logic state
-  const { currentData, currentPage, goTo, totalPages } = usePagination(listResponse?.data?.results);
+  const { currentData, currentPage, goTo, totalPages } = usePagination(
+    listResponse?.data?.results,
+    12
+  );
 
   // update list response
   useEffect(() => {

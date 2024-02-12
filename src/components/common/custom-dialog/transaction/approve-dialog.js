@@ -19,22 +19,22 @@ const Props = {
 const ApproveTransactionDialog = (props) => {
   const { onClose, open, transaction } = props;
 
-  const [confirmTransaction, confirmResponse] = useApproveTransactionMutation();
+  const [approveTransaction, approveResponse] = useApproveTransactionMutation();
 
-  const handleConfirm = useCallback(async () => {
-    console.log('Confirm Transaction: ', transaction);
-    const response = await confirmTransaction(transaction?.id);
+  const handleApprove = useCallback(async () => {
+    console.log('Approve Transaction: ', transaction);
+    const response = await approveTransaction(transaction?.id);
     const { data, error } = response;
 
     if (error || data?.isError) {
-      enqueueSnackbar('Error in confirming transaction', { variant: 'error' });
-      console.error('Error in confirming transaction', response);
+      enqueueSnackbar('Error in approving transaction', { variant: 'error' });
+      console.error('Error in approving transaction', response);
     } else if (!error || data?.success) {
-      enqueueSnackbar('Transaction Confirmed!');
-      console.warn('Transaction Confirmed!', response);
+      enqueueSnackbar('Transaction Approved!');
+      console.warn('Transaction Approved!', response);
       onClose();
     }
-  }, [confirmTransaction, onClose, transaction]);
+  }, [approveTransaction, onClose, transaction]);
 
   return (
     <ConfirmDialog
@@ -44,12 +44,12 @@ const ApproveTransactionDialog = (props) => {
       content="After approving order, this can not be undone!"
       action={
         <LoadingButton
-          loading={confirmResponse?.isLoading}
-          onClick={handleConfirm}
+          loading={approveResponse?.isLoading}
+          onClick={handleApprove}
           color="success"
           variant="contained"
         >
-          Confirm
+          Approve
         </LoadingButton>
       }
     />

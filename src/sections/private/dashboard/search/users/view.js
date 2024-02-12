@@ -26,7 +26,8 @@ const SearchUsersView = (props) => {
 
   // logic state
   const { currentData, currentPage, goTo, totalPages } = usePagination(
-    searchResponse?.data?.results
+    searchResponse?.data?.results,
+    12
   );
 
   // make request on search

@@ -52,8 +52,6 @@ export default function NotificationsPopover() {
   // app state
   const [notifications, setNotifications] = useState([]);
 
-  console.log('NOTIFICATION RESPONSE:', notificationResponse);
-
   const handleChangeTab = useCallback((event, newValue) => {
     setCurrentTab(newValue);
   }, []);

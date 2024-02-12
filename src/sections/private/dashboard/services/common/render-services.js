@@ -44,11 +44,15 @@ const RenderServices = (props) => {
   }
 
   // loading state
-  return Array.from(Array(3).keys()).map((i) => (
-    <Grid key={i} item xs={12} sm={6} md={4}>
-      <ServiceCardSkeleton />
+  return (
+    <Grid container spacing={2}>
+      {Array.from(Array(3).keys()).map((i) => (
+        <Grid key={i} item xs={12} sm={6} md={4}>
+          <ServiceCardSkeleton />
+        </Grid>
+      ))}
     </Grid>
-  ));
+  );
 };
 
 RenderServices.propTypes = Props;

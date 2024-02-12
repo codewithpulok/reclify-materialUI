@@ -31,7 +31,7 @@ const Props = {
   onViewTransaction: PropTypes.func.isRequired,
   show: PropTypes.array,
   onCancelOrder: PropTypes.func,
-  onConfirmOrder: PropTypes.func,
+  onCompleteOrder: PropTypes.func,
   onApproveOrder: PropTypes.func,
 };
 
@@ -45,7 +45,7 @@ const TransactionRow = (props) => {
     onViewTransaction,
     show = [],
     onCancelOrder,
-    onConfirmOrder,
+    onCompleteOrder,
     onApproveOrder,
   } = props;
   const popover = usePopover(false);
@@ -194,7 +194,7 @@ const TransactionRow = (props) => {
 
       {showActions && (
         <>
-          {onApproveOrder !== undefined && (
+          {onApproveOrder !== undefined && isAdminPending && (
             <MenuItem
               color="success"
               onClick={() => {
@@ -206,16 +206,16 @@ const TransactionRow = (props) => {
             </MenuItem>
           )}
 
-          {onConfirmOrder !== undefined && (
+          {onCompleteOrder !== undefined && (
             <MenuItem
               color="success"
               onClick={() => {
-                onConfirmOrder();
+                onCompleteOrder();
                 popover.onClose();
               }}
               disabled={isAdminPending}
             >
-              Confirm Order
+              Complete Order
             </MenuItem>
           )}
 

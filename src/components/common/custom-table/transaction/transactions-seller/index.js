@@ -24,7 +24,7 @@ import {
 
 import {
   CancelTransactionDialog,
-  ConfirmTransactionDialog,
+  CompleteTransactionDialog,
 } from 'src/components/common/custom-dialog';
 import { getTransactionStatusColor, transactionStatusOptions } from 'src/constant/transaction';
 import { useDialog } from 'src/hooks/use-dialog';
@@ -177,7 +177,7 @@ const TransactionsSellerTable = () => {
                     key={row.id}
                     row={row}
                     onCancelOrder={() => cancelDialog.onOpen(row)}
-                    onConfirmOrder={() => confirmDialog.onOpen(row)}
+                    onCompleteOrder={() => confirmDialog.onOpen(row)}
                     onViewTransaction={() => transactionDialog.onOpen(row.id)}
                     show={TABLE_HEAD.map((t) => t.id)}
                   />
@@ -207,7 +207,7 @@ const TransactionsSellerTable = () => {
         transaction={selectedTransaction}
         onClose={transactionDialog.onClose}
         onCancelOrder={() => cancelDialog.onOpen(selectedTransaction)}
-        onConfirmOrder={() => confirmDialog.onOpen(selectedTransaction)}
+        onCompleteOrder={() => confirmDialog.onOpen(selectedTransaction)}
       />
 
       <CancelTransactionDialog
@@ -216,7 +216,7 @@ const TransactionsSellerTable = () => {
         transaction={cancelDialog.value}
       />
 
-      <ConfirmTransactionDialog
+      <CompleteTransactionDialog
         open={confirmDialog.open}
         onClose={confirmDialog.onClose}
         transaction={confirmDialog.value}
