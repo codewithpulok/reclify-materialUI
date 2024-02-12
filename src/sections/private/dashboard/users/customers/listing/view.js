@@ -1,16 +1,16 @@
 'use client';
 
-import { Container, Grid, Pagination, Stack } from '@mui/material';
-import { useCallback, useEffect } from 'react';
+import { Container, Pagination, Stack } from '@mui/material';
+import { useEffect } from 'react';
 // local components
 import CustomBreadcrumbs from 'src/components/common/custom-breadcrumbs';
-import { EmptyState, ErrorState, LoadingState } from 'src/components/common/custom-state';
 import { useSettingsContext } from 'src/components/common/settings';
-import { CustomerCard } from 'src/components/users/cards';
+import usePagination from 'src/hooks/use-pagination';
 import { selectAuth } from 'src/redux-toolkit/features/auth/authSlice';
 import { useAppSelector } from 'src/redux-toolkit/hooks';
 import { useListCustomerQuery } from 'src/redux-toolkit/services/adminApi';
 import { paths } from 'src/routes/paths';
+import RenderUsers from '../../common/render-users';
 
 const CustomerListingView = () => {
   const settings = useSettingsContext();
@@ -19,6 +19,9 @@ const CustomerListingView = () => {
   // api state
   const listResponse = useListCustomerQuery();
 
+  // logic state
+  const { currentData, currentPage, goTo, totalPages } = usePagination(listResponse?.data?.results);
+
   // update list response
   useEffect(() => {
     if (user?.id) {
@@ -26,34 +29,6 @@ const CustomerListingView = () => {
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [user?.id]);
-
-  // render the list
-  const renderList = useCallback(
-    (data = []) => {
-      if (!listResponse.isLoading && listResponse.isError) {
-        return <ErrorState />;
-      }
-
-      if (listResponse?.data?.success && !data?.length) {
-        return <EmptyState />;
-      }
-
-      if (listResponse?.data?.success && data) {
-        return (
-          <Grid container spacing={1}>
-            {data.map((customer) => (
-              <Grid item xs={12} sm={6} md={4} lg={3} key={customer.id}>
-                <CustomerCard user={customer} totalWarehouses={10} />
-              </Grid>
-            ))}
-          </Grid>
-        );
-      }
-
-      return <LoadingState />;
-    },
-    [listResponse?.data?.success, listResponse.isError, listResponse.isLoading]
-  );
 
   return (
     <Container maxWidth={settings.themeStretch ? false : 'lg'}>
@@ -65,10 +40,23 @@ const CustomerListingView = () => {
         }}
       />
 
-      {renderList(listResponse?.data?.results || [])}
+      <RenderUsers
+        isError={listResponse.isError}
+        isFetching={listResponse.isFetching}
+        isLoading={listResponse.isLoading}
+        isSuccess={listResponse.isSuccess}
+        data={currentData}
+        totalPages={totalPages}
+      />
 
-      <Stack direction="row" justifyContent="center" mt={8} mb={1}>
-        <Pagination count={10} color="primary" size="small" />
+      <Stack direction="row" justifyContent="center" mt={3} mb={1}>
+        <Pagination
+          count={totalPages}
+          color="primary"
+          size="small"
+          page={currentPage}
+          onChange={(_e, page) => goTo(page)}
+        />
       </Stack>
     </Container>
   );
