@@ -1,4 +1,4 @@
-import { Card } from '@mui/material';
+import { Card, Divider } from '@mui/material';
 import Stack from '@mui/material/Stack';
 import Typography from '@mui/material/Typography';
 import PropTypes from 'prop-types';
@@ -46,6 +46,7 @@ const PurchaseFormDetails = (props) => {
           </Typography>
         </Stack>
       )}
+      <Divider />
       <Stack direction="row" justifyContent="space-between" alignItems="baseline" spacing={1}>
         <Typography variant="subtitle2">Amount Due: </Typography>
         <Typography variant="subtitle2" color="text.secondary">
