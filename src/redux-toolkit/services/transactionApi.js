@@ -31,6 +31,25 @@ export const transactionApi = createApi({
           if (!data?.success) throw new Error(response);
 
           // update the transaction list cache
+          updateStatus(dispatch, arg, 'pending');
+        } catch (error) {
+          console.error('Transction cache update error: ', error);
+        }
+      },
+    }),
+    completeTransaction: builder.mutation({
+      query: (id) => ({
+        url: endpoints.transaction.complete(id),
+        method: 'PUT',
+      }),
+      onQueryStarted: async (arg, { dispatch, queryFulfilled }) => {
+        try {
+          const response = await queryFulfilled;
+          const { data } = response;
+
+          if (!data?.success) throw new Error(response);
+
+          // update the transaction list cache
           updateStatus(dispatch, arg, 'completed');
         } catch (error) {
           console.error('Transction cache update error: ', error);
@@ -64,4 +83,5 @@ export const {
   useCancelTransactionMutation,
   useLazyListTransactionQuery,
   useListTransactionQuery,
+  useCompleteTransactionMutation,
 } = transactionApi;

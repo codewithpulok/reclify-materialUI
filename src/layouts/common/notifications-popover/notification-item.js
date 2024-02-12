@@ -2,25 +2,59 @@ import PropTypes from 'prop-types';
 
 import Avatar from '@mui/material/Avatar';
 import Box from '@mui/material/Box';
-import Button from '@mui/material/Button';
 import ListItemAvatar from '@mui/material/ListItemAvatar';
 import ListItemButton from '@mui/material/ListItemButton';
 import ListItemText from '@mui/material/ListItemText';
 import Stack from '@mui/material/Stack';
-import Typography from '@mui/material/Typography';
 
+import { Button } from '@mui/material';
+import { ICONS } from 'src/layouts/config-layout';
+import { selectAuth } from 'src/redux-toolkit/features/auth/authSlice';
+import { useAppSelector } from 'src/redux-toolkit/hooks';
+import { RouterLink } from 'src/routes/components';
+import { paths } from 'src/routes/paths';
 import { fToNow } from 'src/utils/format-time';
-
-import FileThumbnail from 'src/components/common/file-thumbnail';
-import Label from 'src/components/common/label';
 
 // ----------------------------------------------------------------------
 
-export default function NotificationItem({ notification }) {
-  const renderAvatar = (
+const TransactionAction = () => {
+  const { user } = useAppSelector(selectAuth);
+
+  const showApprove = user?.userType === 'seller';
+  const showCancel = user?.userType === 'seller' || user?.userType === 'customer';
+
+  return (
+    <Stack direction="row">
+      {showApprove && <Button variant="contained">Approve</Button>}
+      {showCancel && <Button variant="outlined">Cancel</Button>}
+    </Stack>
+  );
+};
+
+const VerifyAction = () => (
+  <Stack direction="row">
+    <Button variant="contained" LinkComponent={RouterLink} href={paths.auth.email_verify}>
+      Verify Email
+    </Button>
+  </Stack>
+);
+
+const Props = {
+  /** @type {NotificationType} */
+  notification: PropTypes.object,
+};
+
+/**
+ * @param {Props} props
+ * @returns {JSX.Element}
+ */
+const NotificationItem = (props) => {
+  const { notification } = props;
+
+  const renderThumbnail = (
     <ListItemAvatar>
-      {notification.avatarUrl ? (
-        <Avatar src={notification.avatarUrl} sx={{ bgcolor: 'background.neutral' }} />
+      {notification?.thumbnail ? (
+        <Avatar src={notification.thumbnail} sx={{ bgcolor: 'background.neutral' }} />
       ) : (
         <Stack
           alignItems="center"
@@ -32,16 +66,8 @@ export default function NotificationItem({ notification }) {
             bgcolor: 'background.neutral',
           }}
         >
-          <Box
-            component="img"
-            src={`/assets/icons/notification/${
-              (notification.type === 'order' && 'ic_order') ||
-              (notification.type === 'chat' && 'ic_chat') ||
-              (notification.type === 'mail' && 'ic_mail') ||
-              (notification.type === 'delivery' && 'ic_delivery')
-            }.svg`}
-            sx={{ width: 24, height: 24 }}
-          />
+          {notification?.type === 'transaction' && ICONS.transaction(24)}
+          {notification?.type === 'verify' && ICONS.verify(24)}
         </Stack>
       )}
     </ListItemAvatar>
@@ -50,7 +76,7 @@ export default function NotificationItem({ notification }) {
   const renderText = (
     <ListItemText
       disableTypography
-      primary={reader(notification.title)}
+      primary={reader(notification.message)}
       secondary={
         <Stack
           direction="row"
@@ -69,13 +95,12 @@ export default function NotificationItem({ notification }) {
           }
         >
           {fToNow(notification.createdAt)}
-          {notification.category}
         </Stack>
       }
     />
   );
 
-  const renderUnReadBadge = notification.isUnRead && (
+  const renderUnReadBadge = !notification.isRead && (
     <Box
       sx={{
         top: 26,
@@ -89,117 +114,6 @@ export default function NotificationItem({ notification }) {
     />
   );
 
-  const friendAction = (
-    <Stack spacing={1} direction="row" sx={{ mt: 1.5 }}>
-      <Button size="small" variant="contained">
-        Accept
-      </Button>
-      <Button size="small" variant="outlined">
-        Decline
-      </Button>
-    </Stack>
-  );
-
-  const projectAction = (
-    <Stack alignItems="flex-start">
-      <Box
-        sx={{
-          p: 1.5,
-          my: 1.5,
-          borderRadius: 1.5,
-          color: 'text.secondary',
-          bgcolor: 'background.neutral',
-        }}
-      >
-        {reader(
-          `<p><strong>@Jaydon Frankie</strong> feedback by asking questions or just leave a note of appreciation.</p>`
-        )}
-      </Box>
-
-      <Button size="small" variant="contained">
-        Reply
-      </Button>
-    </Stack>
-  );
-
-  const fileAction = (
-    <Stack
-      spacing={1}
-      direction="row"
-      sx={{
-        pl: 1,
-        p: 1.5,
-        mt: 1.5,
-        borderRadius: 1.5,
-        bgcolor: 'background.neutral',
-      }}
-    >
-      <FileThumbnail
-        file="http://localhost:8080/httpsdesign-suriname-2015.mp3"
-        sx={{ width: 40, height: 40 }}
-      />
-
-      <Stack spacing={1} direction={{ xs: 'column', sm: 'row' }} flexGrow={1} sx={{ minWidth: 0 }}>
-        <ListItemText
-          disableTypography
-          primary={
-            <Typography variant="subtitle2" component="div" sx={{ color: 'text.secondary' }} noWrap>
-              design-suriname-2015.mp3
-            </Typography>
-          }
-          secondary={
-            <Stack
-              direction="row"
-              alignItems="center"
-              sx={{ typography: 'caption', color: 'text.disabled' }}
-              divider={
-                <Box
-                  sx={{
-                    mx: 0.5,
-                    width: 2,
-                    height: 2,
-                    borderRadius: '50%',
-                    bgcolor: 'currentColor',
-                  }}
-                />
-              }
-            >
-              <span>2.3 GB</span>
-              <span>30 min ago</span>
-            </Stack>
-          }
-        />
-
-        <Button size="small" variant="outlined">
-          Download
-        </Button>
-      </Stack>
-    </Stack>
-  );
-
-  const tagsAction = (
-    <Stack direction="row" spacing={0.75} flexWrap="wrap" sx={{ mt: 1.5 }}>
-      <Label variant="outlined" color="info">
-        Design
-      </Label>
-      <Label variant="outlined" color="warning">
-        Dashboard
-      </Label>
-      <Label variant="outlined">Design system</Label>
-    </Stack>
-  );
-
-  const paymentAction = (
-    <Stack direction="row" spacing={1} sx={{ mt: 1.5 }}>
-      <Button size="small" variant="contained">
-        Pay
-      </Button>
-      <Button size="small" variant="outlined">
-        Decline
-      </Button>
-    </Stack>
-  );
-
   return (
     <ListItemButton
       disableRipple
@@ -211,23 +125,20 @@ export default function NotificationItem({ notification }) {
     >
       {renderUnReadBadge}
 
-      {renderAvatar}
+      {renderThumbnail}
 
       <Stack sx={{ flexGrow: 1 }}>
         {renderText}
-        {notification.type === 'friend' && friendAction}
-        {notification.type === 'project' && projectAction}
-        {notification.type === 'file' && fileAction}
-        {notification.type === 'tags' && tagsAction}
-        {notification.type === 'payment' && paymentAction}
+
+        {notification?.type === 'transaction' && <TransactionAction />}
+        {notification?.type === 'verify' && <VerifyAction />}
       </Stack>
     </ListItemButton>
   );
-}
-
-NotificationItem.propTypes = {
-  notification: PropTypes.object,
 };
+
+NotificationItem.propTypes = Props;
+export default NotificationItem;
 
 // ----------------------------------------------------------------------
 

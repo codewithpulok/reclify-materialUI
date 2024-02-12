@@ -10,7 +10,17 @@ export const warehouseApi = createApi({
       query: (id) => endpoints.warehouses.get(id),
     }),
     warehouseList: builder.query({
-      query: () => endpoints.warehouses.list,
+      /** @type {({region: string, hasDiscount: boolean, verified: boolean, featured: boolean, visible: boolean}) => {}} */
+      query: (params) => ({
+        url: endpoints.warehouses.list,
+        params: {
+          region: params?.region,
+          hasDiscount: params?.hasDiscount,
+          verified: params?.verified,
+          featured: params?.featured,
+          visible: params?.visible,
+        },
+      }),
     }),
     warehouseOwnList: builder.query({
       query: () => endpoints.warehouses.own,

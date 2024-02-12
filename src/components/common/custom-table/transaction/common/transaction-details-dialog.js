@@ -22,7 +22,7 @@ const Props = {
   open: PropTypes.bool.isRequired,
   onClose: PropTypes.func.isRequired,
   onCancelOrder: PropTypes.func,
-  onConfirmOrder: PropTypes.func,
+  onCompleteOrder: PropTypes.func,
   onApproveOrder: PropTypes.func,
 };
 
@@ -31,7 +31,7 @@ const Props = {
  * @returns {JSX.Element}
  */
 const TransactionDetailsDialog = (props) => {
-  const { transaction = {}, open, onClose, onCancelOrder, onConfirmOrder, onApproveOrder } = props;
+  const { transaction = {}, open, onClose, onCancelOrder, onCompleteOrder, onApproveOrder } = props;
 
   const isAdminPending = useMemo(
     () => transaction?.status === 'admin_pending',
@@ -74,17 +74,17 @@ const TransactionDetailsDialog = (props) => {
                 Cancel order
               </Button>
             )}
-            {onConfirmOrder !== undefined && (
+            {onCompleteOrder !== undefined && (
               <Button
                 variant="soft"
                 color="success"
-                onClick={onConfirmOrder}
+                onClick={onCompleteOrder}
                 disabled={isAdminPending}
               >
-                Confirm order
+                Complete order
               </Button>
             )}
-            {onApproveOrder !== undefined && (
+            {onApproveOrder !== undefined && isAdminPending && (
               <Button variant="soft" color="success" onClick={onApproveOrder}>
                 Approve order
               </Button>

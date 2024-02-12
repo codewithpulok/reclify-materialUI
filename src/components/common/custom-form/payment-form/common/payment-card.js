@@ -4,6 +4,7 @@ import Stack from '@mui/material/Stack';
 import Typography from '@mui/material/Typography';
 
 import { ListItemButton } from '@mui/material';
+import { card as creditCards } from 'creditcards';
 import { getCreditCardIcon } from '../../../custom-dialog';
 import { ICONS } from '../../config-custom-form';
 
@@ -54,7 +55,7 @@ const PaymentCard = (props) => {
       </Stack>
       {card && (
         <>
-          <Typography variant="subtitle1">{card.cardNumber}</Typography>
+          <Typography variant="subtitle1">{creditCards.format(card.cardNumber)}</Typography>
           <Typography variant="subtitle2" color="text.secondary">
             {card.cardHolder}
           </Typography>

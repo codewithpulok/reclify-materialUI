@@ -3,10 +3,11 @@ import { useMemo } from 'react';
 import { paths } from 'src/routes/paths';
 
 import { getRegionsByScope, regionScopes } from 'src/assets/data';
-import { getIconify, getIconifyFunc } from 'src/components/common/iconify/utilities';
+import { getIconify } from 'src/components/common/iconify/utilities';
 import { getAvailableServiceTypes } from 'src/constant/service-types';
 import { selectAuth } from 'src/redux-toolkit/features/auth/authSlice';
 import { useAppSelector } from 'src/redux-toolkit/hooks';
+import { ICONS } from '../config-layout';
 
 // ----------------------------------------------------------------------
 
@@ -17,22 +18,6 @@ import { useAppSelector } from 'src/redux-toolkit/hooks';
  * @property {JSX.Element} icon
  * @property {Route[]} children
  */
-
-const ICONS = {
-  warehouse: getIconifyFunc('solar:box-bold-duotone'),
-  service: getIconifyFunc('ic:twotone-home-repair-service'),
-  users: getIconifyFunc('solar:users-group-two-rounded-bold'),
-  hot_deals: getIconifyFunc('solar:fire-bold-duotone'),
-  messages: getIconifyFunc('solar:chat-round-line-bold-duotone'),
-  region: getIconifyFunc('solar:earth-bold-duotone'),
-
-  not_verified: getIconifyFunc('lucide:badge-minus'),
-  not_featured: getIconifyFunc('iconamoon:star-off-fill'),
-  not_rated: getIconifyFunc('tabler:diamond-off'),
-  hidden: getIconifyFunc('solar:eye-closed-bold-duotone'),
-  news: getIconifyFunc('iconamoon:news-duotone'),
-  admin: getIconifyFunc('eos-icons:admin-outlined'),
-};
 
 // ----------------------------------------------------------------------
 

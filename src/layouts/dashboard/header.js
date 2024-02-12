@@ -19,7 +19,6 @@ import { getIconify } from 'src/components/common/iconify/utilities';
 import { RouterLink } from 'src/routes/components';
 import { paths } from 'src/routes/paths';
 import AccountPopover from '../common/account-popover';
-import ContactsPopover from '../common/contacts-popover';
 import NotificationsPopover from '../common/notifications-popover';
 import Searchbar from '../common/searchbar';
 import { HEADER, NAV } from '../config-layout';
@@ -54,7 +53,6 @@ export default function Header({ onOpenNav }) {
         spacing={{ xs: 0.5, sm: 1 }}
       >
         <NotificationsPopover />
-        <ContactsPopover />
         <IconButton LinkComponent={RouterLink} href={paths.news.root}>
           {getIconify('iconamoon:news-duotone', 24)}
         </IconButton>
