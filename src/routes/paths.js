@@ -40,6 +40,8 @@ export const paths = {
       root: `${ROOTS.DASHBOARD}/users`,
       sellers: `${ROOTS.DASHBOARD}/users/sellers`,
       customers: `${ROOTS.DASHBOARD}/users/customers`,
+      seller: (id) => `${ROOTS.DASHBOARD}/users/sellers/${id}`,
+      customer: (id) => `${ROOTS.DASHBOARD}/users/customers/${id}`,
     },
 
     // warehouses section
@@ -132,5 +134,11 @@ export const paths = {
     warehouses: (query) => `${ROOTS.SEARCH}/warehouses?query=${query}`,
     users: (query) => `${ROOTS.SEARCH}/users?query=${query}`,
     services: (query) => `${ROOTS.SEARCH}/services?query=${query}`,
+  },
+
+  // users sections
+  users: {
+    seller: (id) => `/users/seller/${id}`,
+    customer: (id) => `/users/customer/${id}`,
   },
 };
