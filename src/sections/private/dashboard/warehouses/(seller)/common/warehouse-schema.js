@@ -35,7 +35,7 @@ const schema = {
   price3: Yup.number().label('Price for 3 month').min(0).required(),
   price6: Yup.number().label('Price for 6 month').min(0).required(),
   price12: Yup.number().label('Price for 12 month').min(0).required(),
-  discountRate: Yup.number().label('Discount Rate').min(0).max(100).notRequired(),
+  discountRate: Yup.number().label('Hot Racks').min(0).max(100).notRequired(),
   maxSpaceOrder: Yup.number()
     .label('Max orderable space')
     .optional()

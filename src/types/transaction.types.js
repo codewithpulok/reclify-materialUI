@@ -27,4 +27,8 @@
  * @property {number} pallet
  * @property {number} price
  * @property {number} total
+ * @property {number} discount
+ * @property {number} amountDue
+ * @property {number} selectedPrice
+ * @property {'CARD' | 'ACH'} paymentType
  */

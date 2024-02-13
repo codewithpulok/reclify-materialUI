@@ -6,21 +6,22 @@ import ListItemText from '@mui/material/ListItemText';
 import Stack from '@mui/material/Stack';
 import { alpha, useTheme } from '@mui/material/styles';
 // local components
+import { PLACEHOLDER_PROFILE_AVATAR, PLACEHOLDER_PROFILE_BANNER } from 'src/config-global';
 import { bgGradient } from 'src/theme/css';
 
 // ----------------------------------------------------------------------
 
-const DetailsCoverProps = {
+const Props = {
   avatarUrl: PropTypes.string,
   coverUrl: PropTypes.string,
   name: PropTypes.string,
   joined: PropTypes.string,
 };
 /**
- * @param {DetailsCoverProps} param0
+ * @param {Props} props
  * @returns {JSX.Element}
  */
-const DetailsCover = (props) => {
+const UserCover = (props) => {
   const { name, avatarUrl, joined, coverUrl } = props;
   const theme = useTheme();
 
@@ -29,7 +30,7 @@ const DetailsCover = (props) => {
       sx={{
         ...bgGradient({
           color: alpha(theme.palette.primary.darker, 0.8),
-          imgUrl: coverUrl,
+          imgUrl: coverUrl || PLACEHOLDER_PROFILE_BANNER,
         }),
         height: 1,
         color: 'common.white',
@@ -46,7 +47,7 @@ const DetailsCover = (props) => {
         }}
       >
         <Avatar
-          src={avatarUrl}
+          src={avatarUrl || PLACEHOLDER_PROFILE_AVATAR}
           alt={name}
           sx={{
             mx: 'auto',
@@ -80,5 +81,5 @@ const DetailsCover = (props) => {
   );
 };
 
-DetailsCover.propTypes = DetailsCoverProps;
-export default DetailsCover;
+UserCover.propTypes = Props;
+export default UserCover;

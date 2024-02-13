@@ -17,6 +17,7 @@ import { searchApi } from './services/searchApi';
 import { serviceApi } from './services/serviceApi';
 import { transactionApi } from './services/transactionApi';
 import { uploadFilesApi } from './services/uploadFilesApi';
+import { usersApi } from './services/usersApi';
 import { warehouseApi } from './services/warehouseApi';
 
 const middlewares = [
@@ -40,6 +41,7 @@ const middlewares = [
   contactApi.middleware,
   billingApi.middleware,
   notificationApi.middleware,
+  usersApi.middleware,
 ];
 
 export default middlewares;

@@ -11,30 +11,12 @@ export const searchApi = createApi({
     }),
     searchWarehouses: builder.query({
       query: (q) => endpoints.search.warehouses(q),
-      transformResponse: (values, meta, arg) => {
-        const results = values.results?.warehouses || [];
-
-        values.results = results;
-        return values;
-      },
     }),
     searchUsers: builder.query({
       query: (q) => endpoints.search.users(q),
-      transformResponse: (values, meta, arg) => {
-        const results = values.results?.users || [];
-
-        values.results = results;
-        return values;
-      },
     }),
     searchServices: builder.query({
       query: (q) => endpoints.search.services(q),
-      transformResponse: (values, meta, arg) => {
-        const results = values.results?.services || [];
-
-        values.results = results;
-        return values;
-      },
     }),
   }),
 });

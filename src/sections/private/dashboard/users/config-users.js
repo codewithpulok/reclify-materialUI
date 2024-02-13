@@ -1,3 +1,4 @@
+import { tabsClasses } from '@mui/material';
 import { getIconifyFunc } from 'src/components/common/iconify/utilities';
 
 /**
@@ -19,4 +20,24 @@ export const ICONS = {
   close: getIconifyFunc('solar:close-circle-bold'),
 
   invoice: getIconifyFunc('solar:document-text-bold-duotone'),
+};
+
+/** @type {SxProps} */
+export const TabsSx = {
+  width: 1,
+  bottom: 0,
+  zIndex: 9,
+  position: 'absolute',
+  bgcolor: 'background.paper',
+  [`& .${tabsClasses.flexContainer}`]: {
+    pr: { md: 3 },
+    justifyContent: {
+      sm: 'center',
+      md: 'flex-end',
+    },
+  },
+  pl: {
+    xs: 1.5,
+    sm: 0,
+  },
 };

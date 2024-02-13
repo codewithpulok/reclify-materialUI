@@ -14,8 +14,6 @@ import { paths } from 'src/routes/paths';
 
 import { useDebounce } from 'src/hooks/use-debounce';
 
-import { POST_SORT_OPTIONS } from 'src/_mock';
-
 import CustomBreadcrumbs from 'src/components/common/custom-breadcrumbs';
 import Iconify from 'src/components/common/iconify';
 import Label from 'src/components/common/label';
@@ -32,6 +30,17 @@ import ViewList from './view-list';
 const defaultFilters = {
   publish: 'all',
 };
+
+const TAB_OPTIONS = [
+  { label: 'All', value: 'all', color: 'default', check: (v) => true },
+  { label: 'Published', value: 'published', color: 'primary', check: (v) => !v?.isPublished },
+  { label: 'Draft', value: 'draft', color: 'secondary', check: (v) => v?.isPublished },
+];
+
+export const POST_SORT_OPTIONS = [
+  { value: 'latest', label: 'Latest' },
+  { value: 'oldest', label: 'Oldest' },
+];
 
 // ----------------------------------------------------------------------
 
@@ -131,24 +140,15 @@ export default function NewsListingView() {
           mb: { xs: 3, md: 5 },
         }}
       >
-        {['all', 'published', 'draft'].map((tab) => (
+        {TAB_OPTIONS.map((tab) => (
           <Tab
-            key={tab}
+            key={tab.value}
             iconPosition="end"
-            value={tab}
-            label={tab}
+            value={tab.value}
+            label={tab.label}
             icon={
-              <Label
-                variant={((tab === 'all' || tab === filters.publish) && 'filled') || 'soft'}
-                color={(tab === 'published' && 'info') || 'default'}
-              >
-                {tab === 'all' && listResponse?.data?.results?.length}
-
-                {tab === 'published' &&
-                  listResponse?.data?.results?.filter((post) => post.isPublished)?.length}
-
-                {tab === 'draft' &&
-                  listResponse?.data?.results?.filter((post) => !post?.isPublished).length}
+              <Label variant={tab.value === filters.publish ? 'filled' : 'soft'} color={tab.color}>
+                {listResponse?.data?.results?.filter(tab.check)?.length}
               </Label>
             }
             sx={{ textTransform: 'capitalize' }}
@@ -172,10 +172,6 @@ const applyFilter = ({ inputData, filters, sortBy }) => {
 
   if (sortBy === 'oldest') {
     inputData = orderBy(inputData, ['createdAt'], ['asc']);
-  }
-
-  if (sortBy === 'popular') {
-    inputData = orderBy(inputData, ['totalViews'], ['desc']);
   }
 
   if (publish === 'published') {

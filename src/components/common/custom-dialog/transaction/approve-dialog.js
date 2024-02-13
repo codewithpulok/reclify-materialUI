@@ -2,7 +2,8 @@ import { LoadingButton } from '@mui/lab';
 import { enqueueSnackbar } from 'notistack';
 import PropTypes from 'prop-types';
 import { useCallback } from 'react';
-import { useApproveTransactionMutation } from 'src/redux-toolkit/services/transactionApi';
+
+import { useApproveTransactionMutation } from 'src/redux-toolkit/services/adminApi';
 import ConfirmDialog from '../confirm-dialog';
 
 const Props = {

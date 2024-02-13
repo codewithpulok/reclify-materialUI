@@ -22,46 +22,39 @@ import {
   useTable,
 } from 'src/components/common/table';
 
-import { ApproveTransactionDialog } from 'src/components/common/custom-dialog';
+import PropTypes from 'prop-types';
 import { getTransactionStatusColor, transactionStatusOptions } from 'src/constant/transaction';
 import { useDialog } from 'src/hooks/use-dialog';
-import { selectAuth } from 'src/redux-toolkit/features/auth/authSlice';
-import { useAppSelector } from 'src/redux-toolkit/hooks';
-import { useGetAdminTransactionsQuery } from 'src/redux-toolkit/services/adminApi';
-import TransactionDetailsDialog from '../common/transaction-details-dialog';
-import TransactionRow from '../common/transaction-row';
-
+import TransactionDetailsDialog from './transaction-details-dialog';
+import TransactionRow from './transaction-row';
 // ----------------------------------------------------------------------
 
 const STATUS_OPTIONS = [{ value: 'all', label: 'All' }, ...transactionStatusOptions];
-
-const TABLE_HEAD = [
-  { id: 'warehouse', label: 'Warehouse' },
-  { id: 'invoice', label: 'Invoice' },
-  { id: 'seller', label: 'Seller' },
-  { id: 'customer', label: 'Customer' },
-  { id: 'createdAt', label: 'Date', width: 140 },
-  { id: 'price', label: 'Price', width: 140 },
-  { id: 'status', label: 'Status', width: 110 },
-  { id: 'actions', width: 30 },
-];
 
 const defaultFilters = {
   name: '',
   status: 'all',
 };
 
+const Props = {
+  tableHead: PropTypes.arrayOf(PropTypes.object),
+  data: PropTypes.array,
+  onApproveOrder: PropTypes.func,
+  onCancelOrder: PropTypes.func,
+  onCompleteOrder: PropTypes.func,
+};
+
 // ----------------------------------------------------------------------
 
-const TransactionsTable = () => {
-  const { user } = useAppSelector(selectAuth);
-
-  // data states
-  const transactionsResponse = useGetAdminTransactionsQuery();
+/**
+ * @param {Props} props
+ * @returns {JSX.Element}
+ */
+const TransactionTable = (props) => {
+  const { tableHead, data, onApproveOrder, onCancelOrder, onCompleteOrder } = props;
 
   // dialog states
   const transactionDialog = useDialog();
-  const approveDialog = useDialog();
 
   // table states
   const table = useTable({ defaultOrderBy: 'createdAt', defaultOrder: 'desc' });
@@ -118,20 +111,12 @@ const TransactionsTable = () => {
     [filters.status, tableData]
   );
 
-  // fetch transactions
-  useEffect(() => {
-    if (user) {
-      transactionsResponse.refetch();
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [user]);
-
   // update table data
   useEffect(() => {
-    if (transactionsResponse.isSuccess && transactionsResponse.data?.success) {
-      setTableData(transactionsResponse.data.results);
+    if (Array.isArray(data)) {
+      setTableData(data);
     }
-  }, [transactionsResponse]);
+  }, [data]);
 
   const selectedTransaction = useMemo(
     () => tableData.find((t) => t.id === transactionDialog?.value),
@@ -139,78 +124,77 @@ const TransactionsTable = () => {
   );
 
   return (
-    <Card>
-      <Tabs
-        value={filters.status}
-        onChange={handleFilterStatus}
-        sx={{
-          px: { xs: 1, sm: 1.5, md: 2.5 },
-          boxShadow: (theme) => `inset 0 -2px 0 0 ${alpha(theme.palette.grey[500], 0.08)}`,
-        }}
-      >
-        {renderTabs()}
-      </Tabs>
+    <>
+      <Card>
+        <Tabs
+          value={filters.status}
+          onChange={handleFilterStatus}
+          sx={{
+            px: { xs: 1, sm: 1.5, md: 2.5 },
+            boxShadow: (theme) => `inset 0 -2px 0 0 ${alpha(theme.palette.grey[500], 0.08)}`,
+          }}
+        >
+          {renderTabs()}
+        </Tabs>
 
-      <TableContainer sx={{ position: 'relative', overflow: 'unset' }}>
-        <Scrollbar>
-          <Table size={table.dense ? 'small' : 'medium'} sx={{ minWidth: 960 }}>
-            <TableHeadCustom
-              order={table.order}
-              orderBy={table.orderBy}
-              headLabel={TABLE_HEAD}
-              rowCount={tableData.length}
-              numSelected={table.selected.length}
-              onSort={table.onSort}
-            />
-
-            <TableBody>
-              {dataFiltered
-                .slice(
-                  table.page * table.rowsPerPage,
-                  table.page * table.rowsPerPage + table.rowsPerPage
-                )
-                .map((row, index) => (
-                  <TransactionRow
-                    key={row.id}
-                    row={row}
-                    onViewTransaction={() => transactionDialog.onOpen(row.id)}
-                    onApproveOrder={() => approveDialog.onOpen(row)}
-                    show={TABLE_HEAD.map((t) => t.id)}
-                  />
-                ))}
-
-              <TableEmptyRows
-                height={72}
-                emptyRows={emptyRows(table.page, table.rowsPerPage, tableData.length)}
+        <TableContainer sx={{ position: 'relative', overflow: 'unset' }}>
+          <Scrollbar>
+            <Table size={table.dense ? 'small' : 'medium'} sx={{ minWidth: 960 }}>
+              <TableHeadCustom
+                order={table.order}
+                orderBy={table.orderBy}
+                headLabel={tableHead}
+                rowCount={tableData.length}
+                numSelected={table.selected.length}
+                onSort={table.onSort}
               />
 
-              <TableNoData notFound={notFound} />
-            </TableBody>
-          </Table>
-        </Scrollbar>
-      </TableContainer>
+              <TableBody>
+                {dataFiltered
+                  .slice(
+                    table.page * table.rowsPerPage,
+                    table.page * table.rowsPerPage + table.rowsPerPage
+                  )
+                  .map((row, index) => (
+                    <TransactionRow
+                      key={row.id}
+                      row={row}
+                      onViewTransaction={() => transactionDialog.onOpen(row.id)}
+                      onCancelOrder={onCancelOrder}
+                      onApproveOrder={onApproveOrder}
+                      onCompleteOrder={onCompleteOrder}
+                      show={tableHead.map((t) => t.id)}
+                    />
+                  ))}
 
-      <TablePaginationCustom
-        count={dataFiltered.length}
-        page={table.page}
-        rowsPerPage={table.rowsPerPage}
-        onPageChange={table.onChangePage}
-        onRowsPerPageChange={table.onChangeRowsPerPage}
-      />
+                <TableEmptyRows
+                  height={72}
+                  emptyRows={emptyRows(table.page, table.rowsPerPage, tableData.length)}
+                />
 
+                <TableNoData notFound={notFound} />
+              </TableBody>
+            </Table>
+          </Scrollbar>
+        </TableContainer>
+
+        <TablePaginationCustom
+          count={dataFiltered.length}
+          page={table.page}
+          rowsPerPage={table.rowsPerPage}
+          onPageChange={table.onChangePage}
+          onRowsPerPageChange={table.onChangeRowsPerPage}
+        />
+      </Card>
       <TransactionDetailsDialog
         open={transactionDialog.open}
         transaction={selectedTransaction}
         onClose={transactionDialog.onClose}
-        onApproveOrder={() => approveDialog.onOpen(selectedTransaction)}
+        onApproveOrder={onApproveOrder}
+        onCancelOrder={onCancelOrder}
+        onCompleteOrder={onCompleteOrder}
       />
-
-      <ApproveTransactionDialog
-        onClose={approveDialog.onClose}
-        open={approveDialog.open}
-        transaction={approveDialog.value}
-      />
-    </Card>
+    </>
   );
 };
 
@@ -245,4 +229,6 @@ function applyFilter({ inputData, comparator, filters }) {
   return inputData;
 }
 
-export default TransactionsTable;
+TransactionTable.propTypes = Props;
+
+export default TransactionTable;

@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 import { PlanCard } from 'src/components/user-settings/cards';
 import DetailsMembershipHistory from './details-membership-history';
 
-const DetailsMembershipProps = {
+const Props = {
   /** @type {Plan} */
   currentPlan: PropTypes.object.isRequired,
   /** @type {Membership[]} */
@@ -12,7 +12,7 @@ const DetailsMembershipProps = {
 };
 
 /**
- * @param {DetailsMembershipProps} props
+ * @param {Props} props
  * @returns {JSX.Element}
  */
 const DetailsMembership = (props) => {
@@ -39,6 +39,6 @@ const DetailsMembership = (props) => {
   );
 };
 
-DetailsMembership.propTypes = DetailsMembershipProps;
+DetailsMembership.propTypes = Props;
 
 export default DetailsMembership;

@@ -15,13 +15,13 @@ import { fCurrency } from 'src/utils/format-number';
 import { fDate } from 'src/utils/format-time';
 import { ICONS } from '../../config-users';
 
-const DetailsMembershipHistoryProps = {
+const Props = {
   /** @type {Membership[]} */
   membershipHistory: PropTypes.arrayOf(PropTypes.object),
 };
 
 /**
- * @param {DetailsMembershipHistoryProps} props
+ * @param {Props} props
  * @returns {JSX.Element}
  */
 const DetailsMembershipHistory = (props) => {
@@ -66,6 +66,6 @@ const DetailsMembershipHistory = (props) => {
   );
 };
 
-DetailsMembershipHistory.propTypes = DetailsMembershipHistoryProps;
+DetailsMembershipHistory.propTypes = Props;
 
 export default DetailsMembershipHistory;

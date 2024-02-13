@@ -330,7 +330,7 @@ const WarehouseFields = (props) => {
         <RHFTextField
           type="number"
           name="discountRate"
-          label="Discount Rate"
+          label="Hot Racks"
           InputProps={{
             startAdornment: <InputAdornment position="start">%</InputAdornment>,
           }}

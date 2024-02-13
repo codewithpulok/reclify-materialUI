@@ -109,38 +109,37 @@ const DetailsHome = (props) => {
     </Card>
   );
 
-  const renderSocials = (
+  const renderSocials = user?.socials && !!Object.keys(user?.socials).length && (
     <Card>
       <CardHeader title="Social" />
 
       <Stack spacing={2} sx={{ p: 3 }}>
-        {user.socials &&
-          Object.keys(user.socials).map((social) => {
-            const link = user.socials[social];
-            const socialBrand = getSocialBrand(social);
+        {Object.keys(user.socials).map((social) => {
+          const link = user.socials[social];
+          const socialBrand = getSocialBrand(social);
 
-            if (!socialBrand) return null;
+          if (!socialBrand) return null;
 
-            const linkArray = link.split('/');
-            const username = linkArray[linkArray.length - 1];
-            return (
-              <Stack
-                key={social}
-                spacing={2}
-                direction="row"
-                sx={{ wordBreak: 'break-all', typography: 'body2' }}
-              >
-                {getIconify(socialBrand.icon, socialBrand.iconSize, {
-                  flexShrink: 0,
-                  color: socialBrand.color,
-                })}
+          const linkArray = link.split('/');
+          const username = linkArray[linkArray.length - 1];
+          return (
+            <Stack
+              key={social}
+              spacing={2}
+              direction="row"
+              sx={{ wordBreak: 'break-all', typography: 'body2' }}
+            >
+              {getIconify(socialBrand.icon, socialBrand.iconSize, {
+                flexShrink: 0,
+                color: socialBrand.color,
+              })}
 
-                <Link component={NextLink} href={link} color="inherit">
-                  {username}
-                </Link>
-              </Stack>
-            );
-          })}
+              <Link component={NextLink} href={link} color="inherit">
+                {username}
+              </Link>
+            </Stack>
+          );
+        })}
       </Stack>
     </Card>
   );

@@ -8,7 +8,7 @@ import { useSettingsContext } from 'src/components/common/settings';
 import usePagination from 'src/hooks/use-pagination';
 import { selectAuth } from 'src/redux-toolkit/features/auth/authSlice';
 import { useAppSelector } from 'src/redux-toolkit/hooks';
-import { useListCustomerQuery } from 'src/redux-toolkit/services/adminApi';
+import { useListCustomersQuery } from 'src/redux-toolkit/services/adminApi';
 import { paths } from 'src/routes/paths';
 import RenderUsers from '../../common/render-users';
 
@@ -17,7 +17,7 @@ const CustomerListingView = () => {
   const { user } = useAppSelector(selectAuth);
 
   // api state
-  const listResponse = useListCustomerQuery();
+  const listResponse = useListCustomersQuery();
 
   // logic state
   const { currentData, currentPage, goTo, totalPages } = usePagination(
@@ -52,7 +52,7 @@ const CustomerListingView = () => {
         totalPages={totalPages}
       />
 
-      <Stack direction="row" justifyContent="center" mt={3} mb={1}>
+      <Stack direction="row" justifyContent="center" mt={8}>
         <Pagination
           count={totalPages}
           color="primary"

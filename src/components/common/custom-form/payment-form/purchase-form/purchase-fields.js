@@ -54,14 +54,12 @@ const PurchaseFormFields = (props) => {
   const onSubmit = (values) => {
     if (values.paymentType === 'ACH') {
       return submitCallback({
-        agree: values.agree,
         paymentType: values.paymentType,
         achId: values.ach?.id,
       });
     }
 
     return submitCallback({
-      agree: values.agree,
       paymentType: values.paymentType,
       billingInfoId: values.billing_details?.id,
       cardId: values.card?.id,

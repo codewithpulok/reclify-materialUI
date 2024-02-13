@@ -17,13 +17,19 @@ const Props = {
  * @returns {JSX.Element}
  */
 const PurchaseFormDetails = (props) => {
-  const { purchaseData = {}, sx = {} } = props;
+  const { purchaseData, sx = {} } = props;
   return (
     <Card component={Stack} sx={{ p: 1.5, borderRadius: 1, ...sx }} spacing={0.5}>
       <Stack direction="row" justifyContent="space-between" alignItems="baseline" spacing={1}>
         <Typography variant="subtitle2">Selected Month: </Typography>
         <Typography variant="subtitle2" color="text.secondary">
           {purchaseData?.month}
+        </Typography>
+      </Stack>
+      <Stack direction="row" justifyContent="space-between" alignItems="baseline" spacing={1}>
+        <Typography variant="subtitle2">Price Per Pallet: </Typography>
+        <Typography variant="subtitle2" color="text.secondary">
+          {fCurrency(purchaseData?.selectedPrice)}
         </Typography>
       </Stack>
       <Stack direction="row" justifyContent="space-between" alignItems="baseline" spacing={1}>

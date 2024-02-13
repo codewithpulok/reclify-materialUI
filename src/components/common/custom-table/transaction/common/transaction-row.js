@@ -198,7 +198,7 @@ const TransactionRow = (props) => {
             <MenuItem
               color="success"
               onClick={() => {
-                onApproveOrder();
+                onApproveOrder(row);
                 popover.onClose();
               }}
             >
@@ -206,11 +206,11 @@ const TransactionRow = (props) => {
             </MenuItem>
           )}
 
-          {onCompleteOrder !== undefined && (
+          {onCompleteOrder !== undefined && isAdminPending && (
             <MenuItem
               color="success"
               onClick={() => {
-                onCompleteOrder();
+                onCompleteOrder(row);
                 popover.onClose();
               }}
               disabled={isAdminPending}
@@ -223,7 +223,7 @@ const TransactionRow = (props) => {
             <MenuItem
               color="error"
               onClick={() => {
-                onCancelOrder();
+                onCancelOrder(row);
                 popover.onClose();
               }}
             >

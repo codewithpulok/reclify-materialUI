@@ -27,6 +27,12 @@ const AmountDetailsCard = (props) => {
         </Typography>
       </Stack>
       <Stack direction="row" justifyContent="space-between" alignItems="baseline" spacing={1}>
+        <Typography variant="subtitle2">Price Per Pallet: </Typography>
+        <Typography variant="subtitle2" color="text.secondary">
+          {fCurrency(purchase?.selectedPrice) || '-'}
+        </Typography>
+      </Stack>
+      <Stack direction="row" justifyContent="space-between" alignItems="baseline" spacing={1}>
         <Typography variant="subtitle2">Selected Month: </Typography>
         <Typography variant="subtitle2" color="text.secondary">
           {fNumber(purchase?.month)}
@@ -35,19 +41,23 @@ const AmountDetailsCard = (props) => {
       <Stack direction="row" justifyContent="space-between" alignItems="baseline" spacing={1}>
         <Typography variant="subtitle2">Total Price:</Typography>
         <Typography variant="subtitle2" color="text.secondary">
-          {fCurrency(purchase.total)}
+          {fCurrency(purchase?.total)}
         </Typography>
       </Stack>
       <Stack direction="row" justifyContent="space-between" alignItems="baseline" spacing={1}>
         <Typography variant="subtitle2">Price Per Month: </Typography>
         <Typography variant="subtitle2" color="text.secondary">
-          {fCurrency(purchase.price)}
+          {fCurrency(
+            purchase?.discount && purchase?.price
+              ? purchase.price - purchase.discount
+              : purchase?.price
+          )}
         </Typography>
       </Stack>
       <Stack direction="row" justifyContent="space-between" alignItems="baseline" spacing={1}>
         <Typography variant="subtitle2">Amount Due: </Typography>
         <Typography variant="subtitle2" color="text.secondary">
-          {fCurrency(purchase.price)}
+          {fCurrency(purchase?.amountDue)}
         </Typography>
       </Stack>
     </Card>
