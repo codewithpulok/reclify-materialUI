@@ -96,31 +96,18 @@ export const adminApi = createApi({
         }
       },
     }),
+    // users actions
     listSellers: builder.query({
-      query: () => endpoints.admin.users.list,
-      transformResponse: (values, meta, arg) => {
-        let sellers = values.results;
-
-        if (sellers?.length) {
-          sellers = [...sellers].filter((s) => s.userType === 'seller');
-        }
-
-        values.results = sellers;
-        return values;
-      },
+      query: () => ({
+        url: endpoints.admin.users.list,
+        params: { userType: 'seller' },
+      }),
     }),
-    listCustomer: builder.query({
-      query: () => endpoints.admin.users.list,
-      transformResponse: (values, meta, arg) => {
-        let sellers = values.results;
-
-        if (sellers?.length) {
-          sellers = [...sellers].filter((s) => s.userType === 'customer');
-        }
-
-        values.results = sellers;
-        return values;
-      },
+    listCustomers: builder.query({
+      query: () => ({
+        url: endpoints.admin.users.list,
+        params: { userType: 'customer' },
+      }),
     }),
     getUser: builder.query({
       query: (id) => endpoints.admin.users.get(id),
@@ -175,9 +162,9 @@ export const {
   useUpdateWarehouseFeaturedMutation,
   useUpdateWarehouseVerifiedMutation,
   useUpdateWarehouseVisibleMutation,
-  useLazyListCustomerQuery,
+  useLazyListCustomersQuery,
   useLazyListSellersQuery,
-  useListCustomerQuery,
+  useListCustomersQuery,
   useListSellersQuery,
   useGetUserQuery,
   useLazyGetUserQuery,
