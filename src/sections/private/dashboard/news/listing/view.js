@@ -14,8 +14,6 @@ import { paths } from 'src/routes/paths';
 
 import { useDebounce } from 'src/hooks/use-debounce';
 
-import { POST_SORT_OPTIONS } from 'src/_mock';
-
 import CustomBreadcrumbs from 'src/components/common/custom-breadcrumbs';
 import Iconify from 'src/components/common/iconify';
 import Label from 'src/components/common/label';
@@ -34,9 +32,14 @@ const defaultFilters = {
 };
 
 const TAB_OPTIONS = [
-  { label: 'All', value: 'all', color: 'info', check: (v) => true },
-  { label: 'Published', value: 'published', color: 'default', check: (v) => !v?.isPublished },
-  { label: 'Draft', value: 'draft', color: 'default', check: (v) => v?.isPublished },
+  { label: 'All', value: 'all', color: 'default', check: (v) => true },
+  { label: 'Published', value: 'published', color: 'primary', check: (v) => !v?.isPublished },
+  { label: 'Draft', value: 'draft', color: 'secondary', check: (v) => v?.isPublished },
+];
+
+export const POST_SORT_OPTIONS = [
+  { value: 'latest', label: 'Latest' },
+  { value: 'oldest', label: 'Oldest' },
 ];
 
 // ----------------------------------------------------------------------
@@ -169,10 +172,6 @@ const applyFilter = ({ inputData, filters, sortBy }) => {
 
   if (sortBy === 'oldest') {
     inputData = orderBy(inputData, ['createdAt'], ['asc']);
-  }
-
-  if (sortBy === 'popular') {
-    inputData = orderBy(inputData, ['totalViews'], ['desc']);
   }
 
   if (publish === 'published') {

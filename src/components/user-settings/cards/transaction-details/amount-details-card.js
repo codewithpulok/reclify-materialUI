@@ -27,6 +27,12 @@ const AmountDetailsCard = (props) => {
         </Typography>
       </Stack>
       <Stack direction="row" justifyContent="space-between" alignItems="baseline" spacing={1}>
+        <Typography variant="subtitle2">Price Per Pallet: </Typography>
+        <Typography variant="subtitle2" color="text.secondary">
+          {fNumber(purchase?.selectedPrice) || '-'}
+        </Typography>
+      </Stack>
+      <Stack direction="row" justifyContent="space-between" alignItems="baseline" spacing={1}>
         <Typography variant="subtitle2">Selected Month: </Typography>
         <Typography variant="subtitle2" color="text.secondary">
           {fNumber(purchase?.month)}

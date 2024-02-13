@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 import { useCreatePurchaseMutation } from 'src/redux-toolkit/services/purchaseApi';
 import { PurchaseForm } from '../../custom-form';
 
-/** @typedef {{warehouseId: string, amountDue: number, discount?: number} & TransactionPurchase} PurchaseData */
+/** @typedef {{warehouseId: string} & TransactionPurchase} PurchaseData */
 
 const Props = {
   open: PropTypes.bool.isRequired,

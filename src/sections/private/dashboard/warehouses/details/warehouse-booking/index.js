@@ -113,17 +113,19 @@ const WarehouseBooking = (props) => {
       pallet: requiredSpace,
       total: totalPrice,
       amountDue: totalPricePerMonth - discountPerMonth,
+      selectedPrice: currentPrice,
     };
 
     paymentDialog.onOpen(struct);
   }, [
+    currentPrice,
     discountPerMonth,
     paymentDialog,
     requiredSpace,
     selectedMonth,
     totalPrice,
     totalPricePerMonth,
-    warehouse,
+    warehouse?.id,
   ]);
 
   // update according to warehouse

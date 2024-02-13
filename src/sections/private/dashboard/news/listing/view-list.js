@@ -62,9 +62,8 @@ const ViewList = (props) => {
       >
         {loading ? renderSkeleton : renderList}
       </Box>
-
       {!!totalPages && (
-        <Stack direction="row" justifyContent="center" my={3}>
+        <Stack direction="row" justifyContent="center" mt={7} mb={2}>
           <Pagination
             count={totalPages}
             color="primary"

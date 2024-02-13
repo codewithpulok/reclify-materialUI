@@ -51,7 +51,7 @@ const NewsPostList = (props) => {
       </Grid>
 
       {!!totalPages && (
-        <Stack direction="row" justifyContent="center" my={3}>
+        <Stack direction="row" justifyContent="center" my={7}>
           <Pagination
             count={totalPages}
             color="primary"

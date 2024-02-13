@@ -206,7 +206,7 @@ const TransactionRow = (props) => {
             </MenuItem>
           )}
 
-          {onCompleteOrder !== undefined && (
+          {onCompleteOrder !== undefined && isAdminPending && (
             <MenuItem
               color="success"
               onClick={() => {
