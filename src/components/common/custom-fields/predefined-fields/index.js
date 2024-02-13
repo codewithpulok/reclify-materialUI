@@ -53,10 +53,10 @@ const PredefinedFields = (props) => {
                   )
                 }
                 key={field.key}
-                labelProps={{
-                  labelPlacement: 'start',
-                  sx: { justifyContent: 'space-between', width: '100%', mx: 0 },
-                }}
+                // labelProps={{
+                //   labelPlacement: 'start',
+                //   sx: { justifyContent: 'space-between', width: '100%', mx: 0 },
+                // }}
               />
             );
           }

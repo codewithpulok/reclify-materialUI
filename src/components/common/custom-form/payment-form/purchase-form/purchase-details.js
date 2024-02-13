@@ -29,7 +29,7 @@ const PurchaseFormDetails = (props) => {
       <Stack direction="row" justifyContent="space-between" alignItems="baseline" spacing={1}>
         <Typography variant="subtitle2">Price Per Pallet: </Typography>
         <Typography variant="subtitle2" color="text.secondary">
-          {purchaseData?.selectedPrice}
+          {fCurrency(purchaseData?.selectedPrice)}
         </Typography>
       </Stack>
       <Stack direction="row" justifyContent="space-between" alignItems="baseline" spacing={1}>
