@@ -2,7 +2,7 @@ import { createApi } from '@reduxjs/toolkit/query/react';
 import { endpoints } from 'src/utils/api/client';
 import { publicBaseQuery } from '../utills';
 
-const updateStatus = (dispatch, arg, value) => {
+export const updateStatus = (dispatch, arg, value) => {
   dispatch(
     transactionApi.util.updateQueryData('listTransaction', undefined, (draft) => {
       const updateIndex = draft.results.findIndex((w) => w.id === arg);
@@ -17,25 +17,6 @@ export const transactionApi = createApi({
   endpoints: (builder) => ({
     listTransaction: builder.query({
       query: () => endpoints.transaction.list,
-    }),
-    approveTransaction: builder.mutation({
-      query: (id) => ({
-        url: endpoints.transaction.approve(id),
-        method: 'PUT',
-      }),
-      onQueryStarted: async (arg, { dispatch, queryFulfilled }) => {
-        try {
-          const response = await queryFulfilled;
-          const { data } = response;
-
-          if (!data?.success) throw new Error(response);
-
-          // update the transaction list cache
-          updateStatus(dispatch, arg, 'pending');
-        } catch (error) {
-          console.error('Transction cache update error: ', error);
-        }
-      },
     }),
     completeTransaction: builder.mutation({
       query: (id) => ({
@@ -79,7 +60,6 @@ export const transactionApi = createApi({
 });
 
 export const {
-  useApproveTransactionMutation,
   useCancelTransactionMutation,
   useLazyListTransactionQuery,
   useListTransactionQuery,

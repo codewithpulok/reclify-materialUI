@@ -1,6 +1,7 @@
 import { createApi } from '@reduxjs/toolkit/query/react';
 import { endpoints } from 'src/utils/api/client';
 import { publicBaseQuery } from '../utills';
+import { updateStatus } from './transactionApi';
 import { warehouseApi } from './warehouseApi';
 
 const updateWarehoueCache = (dispatch, arg = {}, updates = {}) => {
@@ -124,8 +125,47 @@ export const adminApi = createApi({
     getUser: builder.query({
       query: (id) => endpoints.admin.users.get(id),
     }),
-    getAdminTransactions: builder.query({
+    // transaction actions
+    getTransactions: builder.query({
       query: () => endpoints.admin.transaction.list,
+    }),
+    cancelTransaction: builder.mutation({
+      query: (id) => ({
+        url: endpoints.admin.transaction.cancel(id),
+        method: 'PUT',
+      }),
+      onQueryStarted: async (arg, { dispatch, queryFulfilled }) => {
+        try {
+          const response = await queryFulfilled;
+          const { data } = response;
+
+          if (!data?.success) throw new Error(response);
+
+          // update the transaction list cache
+          updateStatus(dispatch, arg, 'cancelled');
+        } catch (error) {
+          console.error('Transction cache update error: ', error);
+        }
+      },
+    }),
+    approveTransaction: builder.mutation({
+      query: (id) => ({
+        url: endpoints.admin.transaction.approve(id),
+        method: 'PUT',
+      }),
+      onQueryStarted: async (arg, { dispatch, queryFulfilled }) => {
+        try {
+          const response = await queryFulfilled;
+          const { data } = response;
+
+          if (!data?.success) throw new Error(response);
+
+          // update the transaction list cache
+          updateStatus(dispatch, arg, 'pending');
+        } catch (error) {
+          console.error('Transction cache update error: ', error);
+        }
+      },
     }),
   }),
 });
@@ -141,5 +181,8 @@ export const {
   useListSellersQuery,
   useGetUserQuery,
   useLazyGetUserQuery,
-  useGetAdminTransactionsQuery,
+  useApproveTransactionMutation,
+  useCancelTransactionMutation,
+  useGetTransactionsQuery,
+  useLazyGetTransactionsQuery,
 } = adminApi;

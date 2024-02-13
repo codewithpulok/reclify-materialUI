@@ -33,6 +33,12 @@ const defaultFilters = {
   publish: 'all',
 };
 
+const TAB_OPTIONS = [
+  { label: 'All', value: 'all', color: 'info', check: (v) => true },
+  { label: 'Published', value: 'published', color: 'default', check: (v) => !v?.isPublished },
+  { label: 'Draft', value: 'draft', color: 'default', check: (v) => v?.isPublished },
+];
+
 // ----------------------------------------------------------------------
 
 export default function NewsListingView() {
@@ -131,24 +137,15 @@ export default function NewsListingView() {
           mb: { xs: 3, md: 5 },
         }}
       >
-        {['all', 'published', 'draft'].map((tab) => (
+        {TAB_OPTIONS.map((tab) => (
           <Tab
-            key={tab}
+            key={tab.value}
             iconPosition="end"
-            value={tab}
-            label={tab}
+            value={tab.value}
+            label={tab.label}
             icon={
-              <Label
-                variant={((tab === 'all' || tab === filters.publish) && 'filled') || 'soft'}
-                color={(tab === 'published' && 'info') || 'default'}
-              >
-                {tab === 'all' && listResponse?.data?.results?.length}
-
-                {tab === 'published' &&
-                  listResponse?.data?.results?.filter((post) => post.isPublished)?.length}
-
-                {tab === 'draft' &&
-                  listResponse?.data?.results?.filter((post) => !post?.isPublished).length}
+              <Label variant={tab.value === filters.publish ? 'filled' : 'soft'} color={tab.color}>
+                {listResponse?.data?.results?.filter(tab.check)?.length}
               </Label>
             }
             sx={{ textTransform: 'capitalize' }}

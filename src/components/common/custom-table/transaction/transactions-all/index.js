@@ -22,12 +22,15 @@ import {
   useTable,
 } from 'src/components/common/table';
 
-import { ApproveTransactionDialog } from 'src/components/common/custom-dialog';
+import {
+  ApproveTransactionDialog,
+  CancelTransactionAdminDialog,
+} from 'src/components/common/custom-dialog';
 import { getTransactionStatusColor, transactionStatusOptions } from 'src/constant/transaction';
 import { useDialog } from 'src/hooks/use-dialog';
 import { selectAuth } from 'src/redux-toolkit/features/auth/authSlice';
 import { useAppSelector } from 'src/redux-toolkit/hooks';
-import { useGetAdminTransactionsQuery } from 'src/redux-toolkit/services/adminApi';
+import { useGetTransactionsQuery } from 'src/redux-toolkit/services/adminApi';
 import TransactionDetailsDialog from '../common/transaction-details-dialog';
 import TransactionRow from '../common/transaction-row';
 
@@ -57,11 +60,12 @@ const TransactionsTable = () => {
   const { user } = useAppSelector(selectAuth);
 
   // data states
-  const transactionsResponse = useGetAdminTransactionsQuery();
+  const transactionsResponse = useGetTransactionsQuery();
 
   // dialog states
   const transactionDialog = useDialog();
   const approveDialog = useDialog();
+  const cancelDialog = useDialog();
 
   // table states
   const table = useTable({ defaultOrderBy: 'createdAt', defaultOrder: 'desc' });
@@ -120,11 +124,11 @@ const TransactionsTable = () => {
 
   // fetch transactions
   useEffect(() => {
-    if (user) {
+    if (user?.id) {
       transactionsResponse.refetch();
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [user]);
+  }, [user?.id]);
 
   // update table data
   useEffect(() => {
@@ -174,6 +178,7 @@ const TransactionsTable = () => {
                     key={row.id}
                     row={row}
                     onViewTransaction={() => transactionDialog.onOpen(row.id)}
+                    onCancelOrder={() => cancelDialog.onOpen(row)}
                     onApproveOrder={() => approveDialog.onOpen(row)}
                     show={TABLE_HEAD.map((t) => t.id)}
                   />
@@ -209,6 +214,12 @@ const TransactionsTable = () => {
         onClose={approveDialog.onClose}
         open={approveDialog.open}
         transaction={approveDialog.value}
+      />
+
+      <CancelTransactionAdminDialog
+        onClose={cancelDialog.onClose}
+        open={cancelDialog.open}
+        transaction={cancelDialog.value}
       />
     </Card>
   );

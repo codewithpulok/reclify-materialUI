@@ -58,6 +58,8 @@ export const endpoints = {
     },
     transaction: {
       list: '/transaction',
+      approve: (id) => `/transaction/approve/${id}`,
+      cancel: (id) => `/transaction/cancel/${id}`,
     },
   },
   profile: {
@@ -81,7 +83,6 @@ export const endpoints = {
     list: '/',
     cancel: (id) => `/cancel/${id}`,
     complete: (id) => `/approve/${id}`,
-    approve: (id) => `/approve/${id}`,
   },
   billing: {
     root: '/user/billing',
