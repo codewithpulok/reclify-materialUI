@@ -152,4 +152,8 @@ export const endpoints = {
     read_all: '/all',
     read: (id) => `/${id}`,
   },
+  users: {
+    root: '/users',
+    get: (id) => `/${id}`,
+  },
 };

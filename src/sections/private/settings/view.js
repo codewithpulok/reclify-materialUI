@@ -12,9 +12,9 @@ import { useRouter } from 'next/navigation';
 import CustomBreadcrumbs from 'src/components/common/custom-breadcrumbs';
 import { EmptyState, LoadingState } from 'src/components/common/custom-state';
 import {
+  TransactionsAdminTable,
   TransactionsCustomerTable,
   TransactionsSellerTable,
-  TransactionsTable,
 } from 'src/components/common/custom-table';
 import useHash from 'src/hooks/use-hash';
 import { selectAuth } from 'src/redux-toolkit/features/auth/authSlice';
@@ -191,7 +191,7 @@ const UserSettingsView = () => {
             return <TransactionsCustomerTable />;
           }
           case 'admin': {
-            return <TransactionsTable />;
+            return <TransactionsAdminTable />;
           }
           default:
             return <EmptyState />;

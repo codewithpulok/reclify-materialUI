@@ -21,6 +21,7 @@ import { searchApi } from './services/searchApi';
 import { serviceApi } from './services/serviceApi';
 import { transactionApi } from './services/transactionApi';
 import { uploadFilesApi } from './services/uploadFilesApi';
+import { usersApi } from './services/usersApi';
 import { warehouseApi } from './services/warehouseApi';
 
 const reducers = combineReducers({
@@ -48,6 +49,7 @@ const reducers = combineReducers({
   [contactApi.reducerPath]: contactApi.reducer,
   [billingApi.reducerPath]: billingApi.reducer,
   [notificationApi.reducerPath]: notificationApi.reducer,
+  [usersApi.reducerPath]: usersApi.reducer,
 });
 
 export default reducers;

@@ -52,7 +52,7 @@ const CustomerListingView = () => {
         totalPages={totalPages}
       />
 
-      <Stack direction="row" justifyContent="center" mt={3} mb={1}>
+      <Stack direction="row" justifyContent="center" mt={8}>
         <Pagination
           count={totalPages}
           color="primary"

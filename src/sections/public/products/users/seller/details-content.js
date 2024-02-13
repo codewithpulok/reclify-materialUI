@@ -3,21 +3,17 @@
 import { Card, Container, Tab, Tabs } from '@mui/material';
 import PropTypes from 'prop-types';
 import { useCallback, useState } from 'react';
-import { membershipHistory } from 'src/assets/dummy/membership';
-import { plans } from 'src/assets/dummy/plans';
 import CustomBreadcrumbs from 'src/components/common/custom-breadcrumbs/custom-breadcrumbs';
-import { TransactionsUserTable } from 'src/components/common/custom-table';
 import { useSettingsContext } from 'src/components/common/settings';
 import { PLACEHOLDER_PROFILE_AVATAR, PLACEHOLDER_PROFILE_BANNER } from 'src/config-global';
 import { selectAuth } from 'src/redux-toolkit/features/auth/authSlice';
 import { useAppSelector } from 'src/redux-toolkit/hooks';
 import { paths } from 'src/routes/paths';
+import UserCover from 'src/sections/private/dashboard/users/common/user-cover';
+import { ICONS, TabsSx } from 'src/sections/private/dashboard/users/config-users';
+import DetailsHome from 'src/sections/private/dashboard/users/sellers/details/details-home';
+import DetailsWarehouses from 'src/sections/private/dashboard/users/sellers/details/details-warehouses';
 import { fDate } from 'src/utils/format-time';
-import UserCover from '../../common/user-cover';
-import { ICONS, TabsSx } from '../../config-users';
-import DetailsHome from './details-home';
-import DetailsMembership from './details-membership';
-import DetailsWarehouses from './details-warehouses';
 
 const TABS = [
   {
@@ -29,18 +25,6 @@ const TABS = [
     value: 'warehouses',
     label: 'Warehouses',
     icon: ICONS.warehouse(),
-  },
-  {
-    value: 'membership',
-    label: 'Membership',
-    icon: ICONS.membership(),
-    role: ['admin'],
-  },
-  {
-    value: 'transactions',
-    label: 'Transactions',
-    icon: ICONS.transactions(),
-    role: ['admin'],
   },
 ];
 
@@ -87,11 +71,9 @@ const DetailsContent = (props) => {
         />
 
         <Tabs value={currentTab} onChange={handleChangeTab} sx={TabsSx}>
-          {TABS.map((tab) => {
-            if (!!tab?.role && !tab.role.includes(authUser?.userType)) return null;
-
-            return <Tab key={tab.value} value={tab.value} icon={tab.icon} label={tab.label} />;
-          })}
+          {TABS.map((tab) => (
+            <Tab key={tab.value} value={tab.value} icon={tab.icon} label={tab.label} />
+          ))}
         </Tabs>
       </Card>
 
@@ -105,10 +87,6 @@ const DetailsContent = (props) => {
         />
       )}
       {currentTab === 'warehouses' && <DetailsWarehouses warehouses={user?.warehouses || []} />}
-      {currentTab === 'membership' && (
-        <DetailsMembership currentPlan={plans[0]} membershipHistory={membershipHistory} />
-      )}
-      {currentTab === 'transactions' && <TransactionsUserTable data={user?.transactions} />}
     </Container>
   );
 };
