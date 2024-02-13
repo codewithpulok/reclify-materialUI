@@ -21,7 +21,7 @@ export default function MapControl({
 
       {!hideFullscreenControl && <FullscreenControl position="top-left" />}
 
-      {!hideScaleControl && <ScaleControl position="bottom-left" />}
+      {!hideScaleControl && <ScaleControl position="bottom-left" unit="imperial" />}
 
       {!hideNavigationnControl && <NavigationControl position="bottom-left" />}
     </>
