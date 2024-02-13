@@ -8,9 +8,9 @@ export const endpoints = {
     login: `/login`,
     register: `/register`,
     password: {
-      change: '/reset-password',
-      reset: '/reset-password',
+      change: '/update-password',
       forgot: '/forgot-password',
+      reset: '/reset-password',
     },
     email: {
       verify: '/verify-email',
@@ -58,8 +58,8 @@ export const endpoints = {
     },
     transaction: {
       list: '/transaction',
-      approve: (id) => `/transaction/approve/${id}`,
-      cancel: (id) => `/transaction/cancel/${id}`,
+      approve: (id) => `/transactions/approve/${id}`,
+      cancel: (id) => `/transactions/cancel/${id}`,
     },
   },
   profile: {
@@ -82,7 +82,7 @@ export const endpoints = {
     root: '/user/transaction',
     list: '/',
     cancel: (id) => `/cancel/${id}`,
-    complete: (id) => `/approve/${id}`,
+    complete: (id) => `/complete/${id}`,
   },
   billing: {
     root: '/user/billing',
@@ -138,9 +138,9 @@ export const endpoints = {
   search: {
     root: '/search',
     query: (q) => `?query=${q}`,
-    warehouses: (q) => `?query=${q}`,
-    services: (q) => `?query=${q}`,
-    users: (q) => `?query=${q}`,
+    warehouses: (q) => `/warehouses?query=${q}`,
+    services: (q) => `/services?query=${q}`,
+    users: (q) => `/users?query=${q}`,
   },
   contact_us: {
     root: '/contact-us',
