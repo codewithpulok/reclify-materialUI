@@ -7,6 +7,9 @@ module.exports = {
     '@mui/lab': {
       transform: '@mui/lab/{{member}}',
     },
+    '@mui/base': {
+      transform: '@mui/base/{{member}}',
+    },
   },
   webpack(config) {
     config.module.rules.push({
