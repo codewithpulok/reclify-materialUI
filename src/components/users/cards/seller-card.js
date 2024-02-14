@@ -54,7 +54,8 @@ const SellerCard = (props) => {
           <Stack direction="row" spacing={0.5} alignItems="center">
             {ICONS.warehouse(16, { color: 'primary.main' })}
             <Typography variant="body2">
-              {fShortenNumber(totalWarehouses)} {totalWarehouses > 1 ? 'warehouses' : 'warehouse'}
+              {fShortenNumber(totalWarehouses) || 0}{' '}
+              {totalWarehouses > 1 ? 'warehouses' : 'warehouse'}
             </Typography>
           </Stack>
         </Stack>

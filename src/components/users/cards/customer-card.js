@@ -54,7 +54,7 @@ const CustomerCard = (props) => {
           <Stack direction="row" spacing={0.5} alignItems="center">
             {ICONS.transactions(16, { color: 'primary.main' })}
             <Typography variant="body2">
-              {fShortenNumber(totalTransactions)} Transactions
+              {fShortenNumber(totalTransactions) || 0} Transactions
             </Typography>
           </Stack>
         </Stack>

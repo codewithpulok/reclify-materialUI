@@ -37,10 +37,10 @@ const RenderUsers = (props) => {
         {data.map((user) => (
           <Grid item xs={12} sm={6} md={4} lg={3} key={user.id}>
             {user?.userType === 'seller' && (
-              <SellerCard user={user} totalWarehouses={user?.serviceCount || 0} />
+              <SellerCard user={user} totalWarehouses={user?.serviceCount} />
             )}
             {user?.userType === 'customer' && (
-              <CustomerCard user={user} totalTransactions={user?.customerCount || 0} />
+              <CustomerCard user={user} totalTransactions={user?.transaction} />
             )}
           </Grid>
         ))}
