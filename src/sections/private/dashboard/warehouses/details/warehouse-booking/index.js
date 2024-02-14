@@ -1,4 +1,4 @@
-import { Box, Button, Card, Chip, Grid, Stack, Typography, useTheme } from '@mui/material';
+import { Button, Card, Chip, Grid, Stack, Typography, useTheme } from '@mui/material';
 import PropTypes from 'prop-types';
 import { useCallback, useEffect, useMemo, useState } from 'react';
 import { PurchasePaymentDialog } from 'src/components/common/custom-dialog';
@@ -52,6 +52,29 @@ const WarehouseBooking = (props) => {
   const { palette } = useTheme();
   const paymentDialog = useDialog();
 
+  const discountAll = useMemo(() => warehouse?.discountAll || 0, [warehouse?.discountAll]);
+  const discountRate = useMemo(() => warehouse?.discountRate || 0, [warehouse?.discountRate]);
+  const discountMonth = useMemo(() => {
+    let discount;
+    switch (selectedMonth) {
+      case 1:
+        discount = warehouse?.discount1 || 0;
+        break;
+      case 3:
+        discount = warehouse?.discount3 || 0;
+        break;
+      case 6:
+        discount = warehouse?.discount6 || 0;
+        break;
+      case 12:
+        discount = warehouse?.discount12 || 0;
+        break;
+      default:
+        break;
+    }
+    return discount || 0;
+  }, [selectedMonth, warehouse]);
+
   // current price maybe differ based on selected month
   const currentPrice = useMemo(() => {
     let price;
@@ -73,59 +96,45 @@ const WarehouseBooking = (props) => {
     }
     return price || 0;
   }, [selectedMonth, warehouse]);
-
-  const totalPrice = useMemo(() => {
-    if (requiredSpace && currentPrice && selectedMonth) {
-      return requiredSpace * currentPrice * selectedMonth;
-    }
-    return undefined;
-  }, [requiredSpace, selectedMonth, currentPrice]);
-
-  const totalDiscount = useMemo(() => {
-    if (warehouse.discountRate && totalPrice) {
-      return (warehouse.discountRate / 100) * totalPrice;
+  // discount in current price
+  const currentDiscountRate = useMemo(() => {
+    if (discountRate && currentPrice) {
+      return (discountRate / 100) * currentPrice;
     }
     return 0;
-  }, [totalPrice, warehouse.discountRate]);
+  }, [currentPrice, discountRate]);
 
-  const totalPricePerMonth = useMemo(() => {
-    if (requiredSpace && currentPrice) {
-      return requiredSpace * currentPrice;
-    }
-    return undefined;
-  }, [requiredSpace, currentPrice]);
+  const annualPrice = currentPrice * selectedMonth;
+  const annualDiscount = currentDiscountRate * selectedMonth;
 
-  const discountPerMonth = useMemo(() => {
-    if (warehouse.discountRate && totalPricePerMonth) {
-      return (warehouse.discountRate / 100) * totalPricePerMonth;
-    }
-    return 0;
-  }, [totalPricePerMonth, warehouse.discountRate]);
+  const monthlyPrice = currentPrice * 1;
+  const monthlyDiscount = currentDiscountRate * 1;
+
+  const totalDiscountPerMonth = monthlyDiscount + discountMonth + discountAll;
+  const totalDiscountPerAnnual = annualDiscount + discountMonth + discountAll;
 
   // open payment dialog
   const openPaymentDialog = useCallback(() => {
     /** @type {import('src/components/common/custom-dialog/purchase-payment-dialog').PurchaseData} */
     const struct = {
       warehouseId: warehouse?.id,
-      discount: discountPerMonth,
-      price: totalPricePerMonth,
-      month: selectedMonth,
-      pallet: requiredSpace,
-      total: totalPrice,
-      amountDue: totalPricePerMonth - discountPerMonth,
-      selectedPrice: currentPrice,
+      amountDue: monthlyPrice - totalDiscountPerMonth,
+      discountedPricePerPallet: currentPrice - totalDiscountPerMonth,
+      monthlyTotal: monthlyPrice - totalDiscountPerMonth,
+      selectedTerm: selectedMonth,
+      quantityOfPallet: requiredSpace,
+      pricePerPallet: currentPrice,
     };
 
     paymentDialog.onOpen(struct);
   }, [
-    currentPrice,
-    discountPerMonth,
-    paymentDialog,
-    requiredSpace,
-    selectedMonth,
-    totalPrice,
-    totalPricePerMonth,
     warehouse?.id,
+    monthlyPrice,
+    totalDiscountPerMonth,
+    currentPrice,
+    selectedMonth,
+    requiredSpace,
+    paymentDialog,
   ]);
 
   // update according to warehouse
@@ -136,50 +145,54 @@ const WarehouseBooking = (props) => {
   return (
     <>
       <Card sx={{ bgcolor: 'background.paper', borderRadius: 1, py: 2.5, px: 2.5 }}>
-        <Typography variant="h5" sx={{ mb: 1 }}>
-          Check Availability and Your Monthly Cost
-        </Typography>
-
-        <Stack direction="row" spacing={0.5} flexWrap="wrap" alignItems="start" sx={{ mb: 3 }}>
-          {warehouse.discountRate > 0 && (
+        {!!warehouse.discountRate && (
+          <Stack direction="row" spacing={0.5} flexWrap="wrap" alignItems="start" sx={{ mb: 1 }}>
+            <Chip label="Hot Rack" color="secondary" variant="filled" icon={ICONS.hot()} />
             <Chip
               label={`${warehouse.discountRate}% OFF`}
               color="secondary"
               variant="outlined"
               icon={ICONS.discount()}
             />
-          )}
-        </Stack>
+          </Stack>
+        )}
+        <Typography variant="h5" sx={{ mb: 4 }}>
+          Check Availability and Your Monthly Cost
+        </Typography>
 
         <Grid container sx={{ mb: 5 }} spacing={2}>
           <Grid item xs={12} sm={6}>
-            <Box>
+            <Stack>
               <Typography fontWeight="bold" color="primary" sx={bookingInfoStyle.title}>
-                Total Available Space
+                Reserve Now:
               </Typography>
               <Stack direction="row" columnGap={1} rowGap={0} alignItems="baseline" flexWrap="wrap">
                 <Typography component="span" sx={bookingInfoStyle.heading1}>
-                  {fNumber(warehouse.totalSpace)}
+                  {fNumber(warehouse.maxSpaceOrder)}
                 </Typography>
                 <Typography component="span" sx={bookingInfoStyle.heading2}>
                   pallets
                 </Typography>
               </Stack>
-              <Typography sx={bookingInfoStyle.description}>
-                {warehouse.totalSpace >= 0 && (
-                  <>
-                    {fNumber(warehouse.totalSpace * SQUARE_FEET_PER_PALLET)} square feet
-                    <br />
-                    {fNumber(warehouse.totalSpace * CUBIC_FEET_PER_PALLET)} cubic feet
-                  </>
-                )}
+              <Typography variant="subtitle2">
+                {fNumber(warehouse.minSpaceOrder)} pallets (minimum)
               </Typography>
-            </Box>
+              <Typography sx={bookingInfoStyle.description}>
+                Total available space
+                <br />
+                {fNumber(warehouse.totalSpace)} pallets
+              </Typography>
+              <Typography sx={bookingInfoStyle.description}>
+                {fNumber(warehouse.totalSpace * SQUARE_FEET_PER_PALLET)} square feet
+                <br />
+                {fNumber(warehouse.totalSpace * CUBIC_FEET_PER_PALLET)} cubic feet
+              </Typography>
+            </Stack>
           </Grid>
           <Grid item xs={12} sm={6}>
-            <Box>
+            <Stack>
               <Typography fontWeight="bold" color="primary" sx={bookingInfoStyle.title}>
-                Price per Pallet
+                Price
               </Typography>
               <Stack
                 direction="row"
@@ -187,33 +200,46 @@ const WarehouseBooking = (props) => {
                 rowGap={0}
                 alignItems="baseline"
                 flexWrap="wrap"
+                sx={discountMonth > 0 ? { color: 'text.disabled' } : { color: 'text.primary' }}
               >
-                <Typography sx={bookingInfoStyle.heading1}>{fCurrency(currentPrice)}</Typography>
-                <Typography sx={bookingInfoStyle.heading1}>/</Typography>
-                <Typography sx={bookingInfoStyle.heading2}>pallet</Typography>
+                <Typography sx={bookingInfoStyle.heading1} color="inherit">
+                  {fCurrency(currentPrice)}
+                </Typography>
+                <Typography sx={bookingInfoStyle.heading1} color="inherit">
+                  /
+                </Typography>
+                <Typography sx={bookingInfoStyle.heading2} color="inherit">
+                  pallet
+                </Typography>
               </Stack>
-              <Typography sx={bookingInfoStyle.description}>
-                {warehouse?.minSpaceOrder && warehouse?.maxSpaceOrder
-                  ? '* Order Quantity Limit:'
-                  : null}
-
-                {warehouse?.minSpaceOrder && warehouse?.minSpaceOrder > 0 ? (
-                  <>
-                    <br />
-                    Minimum: {fNumber(warehouse.minSpaceOrder)} pallets
-                  </>
-                ) : null}
-                {warehouse?.maxSpaceOrder && warehouse?.maxSpaceOrder > 0 ? (
-                  <>
-                    <br />
-                    Maximum: {fNumber(warehouse.maxSpaceOrder)} pallets
-                  </>
-                ) : null}
-              </Typography>
-            </Box>
+              {!!discountMonth && (
+                <Stack
+                  direction="row"
+                  columnGap={0.5}
+                  rowGap={0}
+                  alignItems="baseline"
+                  flexWrap="wrap"
+                  sx={{ color: 'secondary.main' }}
+                >
+                  {ICONS.hot(32, { color: 'secondary.main' })}
+                  <Typography sx={bookingInfoStyle.heading1} color="inherit">
+                    {fCurrency(currentPrice - discountMonth)}
+                  </Typography>
+                  <Typography sx={bookingInfoStyle.heading1} color="inherit">
+                    /
+                  </Typography>
+                  <Typography sx={bookingInfoStyle.heading2} color="inherit">
+                    pallet
+                  </Typography>
+                </Stack>
+              )}
+            </Stack>
           </Grid>
         </Grid>
 
+        <Typography fontWeight="bold" color="primary" sx={bookingInfoStyle.title} mb={1}>
+          Select a Term:
+        </Typography>
         <Grid container spacing={1} sx={{ mb: 3 }}>
           {[1, 3, 6, 12].map((month) => (
             <Grid key={month} item xs={6} md={3}>
@@ -258,25 +284,10 @@ const WarehouseBooking = (props) => {
           flexWrap="wrap"
           mt={1}
         >
-          <Typography variant="h5">Monthly Price:</Typography>
-          <Typography
-            variant="h5"
-            ml={1}
-            color={discountPerMonth > 0 ? 'secondary.main' : 'default'}
-          >
-            {totalPricePerMonth !== undefined
-              ? fCurrency(totalPricePerMonth - discountPerMonth)
-              : '$0.00'}
+          <Typography variant="h5">Deposit:</Typography>
+          <Typography variant="h5" ml={1}>
+            {fCurrency(monthlyPrice - totalDiscountPerMonth) || '$0.00'}
           </Typography>
-          {discountPerMonth > 0 ? (
-            <Typography
-              variant="subtitle1"
-              color="text.disabled"
-              sx={{ textDecoration: 'line-through' }}
-            >
-              {` ${fCurrency(totalPricePerMonth)} `}
-            </Typography>
-          ) : null}
         </Stack>
         <Stack
           direction="row"
@@ -285,25 +296,12 @@ const WarehouseBooking = (props) => {
           spacing={0.5}
           flexWrap="wrap"
         >
-          <Typography variant="overline" color="text.secondary">
-            Total Price:
+          <Typography variant="overline" color="secondary.main">
+            You Save:
           </Typography>
-          <Typography
-            variant="overline"
-            ml={1}
-            color={totalDiscount > 0 ? 'secondary.main' : 'text.secondary'}
-          >
-            {totalPrice !== undefined ? fCurrency(totalPrice - totalDiscount) : '$0.00'}
+          <Typography variant="overline" ml={1} color="secondary.main">
+            {fCurrency(totalDiscountPerAnnual) || '$0.00'}
           </Typography>
-          {totalDiscount > 0 ? (
-            <Typography
-              variant="overline"
-              color="text.disabled"
-              sx={{ textDecoration: 'line-through' }}
-            >
-              {` ${fCurrency(totalPrice)} `}
-            </Typography>
-          ) : null}
         </Stack>
 
         {showPurchase ? (
@@ -313,7 +311,7 @@ const WarehouseBooking = (props) => {
             size="large"
             endIcon={ICONS.purchase()}
             onClick={openPaymentDialog}
-            disabled={!!error || totalPrice === undefined}
+            disabled={!!error || annualPrice === undefined}
             sx={{ mt: 1.5 }}
             fullWidth
           >

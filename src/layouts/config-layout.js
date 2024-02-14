@@ -29,5 +29,13 @@ export const ICONS = {
   admin: getIconifyFunc('eos-icons:admin-outlined'),
 
   transaction: getIconifyFunc('solar:card-transfer-line-duotone'),
-  verify: getIconifyFunc('solar:verified-check-bold-duotone'),
+  notification: getIconifyFunc('solar:bell-bing-bold-duotone'),
+
+  verify_email: getIconifyFunc('solar:diploma-verified-bold-duotone'),
+  seller_complete: getIconifyFunc('solar:bag-check-bold-duotone'),
+  admin_approve: getIconifyFunc('solar:cart-check-bold-duotone'),
+  customer_cancel: getIconifyFunc('solar:cart-cross-bold-duotone'),
+  admin_cancel: getIconifyFunc('solar:cart-cross-bold-duotone'),
+  seller_cancel: getIconifyFunc('solar:cart-cross-bold-duotone'),
+  customer_purchase: getIconifyFunc('solar:cart-plus-bold-duotone'),
 };

@@ -13,7 +13,8 @@ import { getIconify } from '../iconify/utilities';
 const Props = {
   name: PropTypes.string,
   names: PropTypes.arrayOf(PropTypes.string),
-  label: PropTypes.string.isRequired,
+  label: PropTypes.string,
+  description: PropTypes.string,
   children: PropTypes.node.isRequired,
   /** @type {SxProps} */
   sx: PropTypes.object,
@@ -33,6 +34,7 @@ const RHFAccordion = (props) => {
     sx = {},
     defaultExpanded = false,
     names = undefined,
+    description,
   } = props;
   const { formState } = useFormContext();
   const { errors } = formState;
@@ -75,6 +77,11 @@ const RHFAccordion = (props) => {
           <Typography variant="overline" color={isError ? 'error.main' : 'text.default'}>
             {label}
           </Typography>
+          {!!description && (
+            <Typography variant="caption" color="text.secondary">
+              {description}
+            </Typography>
+          )}
           {isError && name && (
             <Typography variant="caption" color="error.main">
               {errors?.[name].root?.message}

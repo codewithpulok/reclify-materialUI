@@ -20,6 +20,26 @@ export const notificationApi = createApi({
         url: endpoints.notification.read_all,
         method: 'PUT',
       }),
+      onQueryStarted: async (arg, { dispatch, queryFulfilled }) => {
+        try {
+          const response = await queryFulfilled;
+          const { data } = response;
+
+          if (!data?.success) throw response;
+
+          dispatch(
+            notificationApi.util.updateQueryData('getNotifications', undefined, (draft) => {
+              if (Array.isArray(draft?.results)) {
+                draft.results.forEach((n, i) => {
+                  draft.results[i].isRead = true;
+                });
+              }
+            })
+          );
+        } catch (error) {
+          console.error('ERROR:Notification cache update error', error);
+        }
+      },
     }),
   }),
 });

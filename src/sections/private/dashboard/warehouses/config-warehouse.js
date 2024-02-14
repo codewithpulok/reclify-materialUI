@@ -26,6 +26,7 @@ export const ICONS = {
 
   warehouse: getIconifyFunc('solar:box-bold-duotone'),
 
+  hot: getIconifyFunc('solar:fire-bold-duotone'),
   hot_deals: getIconifyFunc('solar:fire-bold-duotone'),
 
   diamond_fill: getIconifyFunc('ic:twotone-diamond'),

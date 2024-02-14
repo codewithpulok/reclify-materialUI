@@ -88,9 +88,10 @@ const PurchaseFormFields = (props) => {
         <Alert severity="info" variant="outlined" sx={{ typography: 'body2' }}>
           By clicking confirm payment, you are authorizing a hold on your payment method for the
           total amount specified. Your purchase is pending approval by the warehouse. If approved
-          your payment method will be charged. If denied, the hold will be removed.
+          your payment method will be charged. If denied, the hold will be removed and funds
+          refunded.
         </Alert>
-        <RHFCheckbox name="agree" label="Agree to terms of privacy & policy" />
+        <RHFCheckbox name="agree" label="Agree to terms of Service & Privacy Policy" />
         <Stack direction="row" alignItems="center" justifyContent="flex-end" spacing={1} pb={2}>
           <Button type="reset">Cancel</Button>
           <LoadingButton

@@ -48,6 +48,16 @@ const defaultValues = {
   regionScope: '',
   region: '',
   documents: [],
+  discount1: null,
+  discount3: null,
+  discount6: null,
+  discount12: null,
+  hasPromo: false,
+  price1: null,
+  price12: null,
+  price3: null,
+  price6: null,
+  promoCode: '',
 };
 
 /**

@@ -41,14 +41,14 @@ const DetailsHome = (props) => {
         divider={<Divider orientation="horizontal" flexItem sx={{ borderStyle: 'dashed' }} />}
       >
         <Stack width={1}>
-          {fNumber(totalPurchase)}
+          {fNumber(totalPurchase) || '$00'}
           <Box component="span" sx={{ color: 'text.secondary', typography: 'body2' }}>
             Total Purchase
           </Box>
         </Stack>
 
         <Stack width={1}>
-          {fCurrency(spentMoney)}
+          {fCurrency(spentMoney) || '$00'}
           <Box component="span" sx={{ color: 'text.secondary', typography: 'body2' }}>
             Spent Money
           </Box>

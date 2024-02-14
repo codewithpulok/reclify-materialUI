@@ -1,7 +1,6 @@
 import { createApi } from '@reduxjs/toolkit/query/react';
 import { endpoints } from 'src/utils/api/client';
 import { publicBaseQuery } from '../utills';
-import { updateStatus } from './transactionApi';
 import { warehouseApi } from './warehouseApi';
 
 const updateWarehoueCache = (dispatch, arg = {}, updates = {}) => {
@@ -24,6 +23,15 @@ const updateWarehoueCache = (dispatch, arg = {}, updates = {}) => {
     warehouseApi.util.updateQueryData('warehouse', arg.id, (draft) => {
       const warehouse = { ...draft.results, ...updates };
       draft.results = warehouse;
+    })
+  );
+};
+
+const updateTransactionStatus = (dispatch, arg, value) => {
+  dispatch(
+    adminApi.util.updateQueryData('listTransaction', undefined, (draft) => {
+      const updateIndex = draft.results.findIndex((w) => w.id === arg);
+      if (updateIndex !== -1) draft.results[updateIndex].status = value;
     })
   );
 };
@@ -113,7 +121,7 @@ export const adminApi = createApi({
       query: (id) => endpoints.admin.users.get(id),
     }),
     // transaction actions
-    getTransactions: builder.query({
+    listTransaction: builder.query({
       query: () => endpoints.admin.transaction.list,
     }),
     cancelTransaction: builder.mutation({
@@ -129,7 +137,7 @@ export const adminApi = createApi({
           if (!data?.success) throw new Error(response);
 
           // update the transaction list cache
-          updateStatus(dispatch, arg, 'cancelled');
+          updateTransactionStatus(dispatch, arg, 'cancelled');
         } catch (error) {
           console.error('Transction cache update error: ', error);
         }
@@ -148,7 +156,7 @@ export const adminApi = createApi({
           if (!data?.success) throw new Error(response);
 
           // update the transaction list cache
-          updateStatus(dispatch, arg, 'pending');
+          updateTransactionStatus(dispatch, arg, 'pending');
         } catch (error) {
           console.error('Transction cache update error: ', error);
         }
@@ -170,6 +178,6 @@ export const {
   useLazyGetUserQuery,
   useApproveTransactionMutation,
   useCancelTransactionMutation,
-  useGetTransactionsQuery,
-  useLazyGetTransactionsQuery,
+  useListTransactionQuery,
+  useLazyListTransactionQuery,
 } = adminApi;
