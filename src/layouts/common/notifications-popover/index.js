@@ -20,7 +20,10 @@ import Iconify from 'src/components/common/iconify';
 import Label from 'src/components/common/label';
 import Scrollbar from 'src/components/common/scrollbar';
 
+import { CircularProgress } from '@mui/material';
 import { LoadingState } from 'src/components/common/custom-state';
+import { selectAuth } from 'src/redux-toolkit/features/auth/authSlice';
+import { useAppSelector } from 'src/redux-toolkit/hooks';
 import {
   useGetNotificationsQuery,
   useReadAllNotificationMutation,
@@ -29,7 +32,33 @@ import NotificationItem from './notification-item';
 
 // ----------------------------------------------------------------------
 
+const TABS = [
+  {
+    value: 'all',
+    label: 'All',
+    count: (data = []) => data?.length,
+  },
+  {
+    value: 'unread',
+    label: 'Unread',
+    color: 'info',
+    count: (data = []) => data.filter((d) => !d?.isRead).length,
+  },
+  {
+    value: 'archived',
+    label: 'Archived',
+    color: 'success',
+    count: (data = []) => data.filter((d) => d?.isRead).length,
+  },
+];
+
+// ----------------------------------------------------------------------
+
 export default function NotificationsPopover() {
+  // app state
+  const [notifications, setNotifications] = useState([]);
+  const { user } = useAppSelector(selectAuth);
+
   // theme state
   const smUp = useResponsive('up', 'sm');
 
@@ -43,18 +72,37 @@ export default function NotificationsPopover() {
     () => (notificationResponse?.data?.results || []).filter((n) => n?.isRead === false).length,
     [notificationResponse?.data?.results]
   );
-  const totalRead = useMemo(
-    () => (notificationResponse?.data?.results || []).filter((n) => n?.isRead).length,
-    [notificationResponse?.data?.results]
-  );
   const [readAllNotification, readAllResponse] = useReadAllNotificationMutation();
 
-  // app state
-  const [notifications, setNotifications] = useState([]);
-
+  // handle tab change actions
   const handleChangeTab = useCallback((event, newValue) => {
     setCurrentTab(newValue);
   }, []);
+
+  // update notificaitons based on tab, api response
+  useEffect(() => {
+    if (notificationResponse?.isSuccess && Array.isArray(notificationResponse?.data?.results)) {
+      switch (currentTab) {
+        case 'unread':
+          setNotifications(notificationResponse.data.results.filter((n) => n?.isRead === false));
+          break;
+        case 'archived':
+          setNotifications(notificationResponse.data.results.filter((n) => n?.isRead));
+          break;
+        default:
+          setNotifications(notificationResponse.data.results);
+          break;
+      }
+    }
+  }, [currentTab, notificationResponse?.data?.results, notificationResponse?.isSuccess]);
+
+  // refetch notifications based on user
+  useEffect(() => {
+    if (user?.id) {
+      notificationResponse?.refetch();
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [user?.id]);
 
   const renderHead = (
     <Stack direction="row" alignItems="center" sx={{ py: 2, pl: 2.5, pr: 1, minHeight: 68 }}>
@@ -69,7 +117,9 @@ export default function NotificationsPopover() {
             onClick={readAllNotification}
             disabled={readAllResponse.isLoading}
           >
-            <Iconify icon="eva:done-all-fill" />
+            {!readAllResponse?.isLoading && <Iconify icon="eva:done-all-fill" />}
+
+            {readAllResponse?.isLoading && <CircularProgress color="primary" size={18} />}
           </IconButton>
         </Tooltip>
       )}
@@ -82,30 +132,6 @@ export default function NotificationsPopover() {
     </Stack>
   );
 
-  // tabs config
-  const TABS = useMemo(
-    () => [
-      {
-        value: 'all',
-        label: 'All',
-        count: notificationResponse?.data?.results?.length || 0,
-      },
-      {
-        value: 'unread',
-        label: 'Unread',
-        color: 'info',
-        count: totalUnRead || 0,
-      },
-      {
-        value: 'archived',
-        label: 'Archived',
-        color: 'success',
-        count: totalRead || 0,
-      },
-    ],
-    [notificationResponse?.data?.results?.length, totalRead, totalUnRead]
-  );
-
   const renderTabs = (
     <Tabs value={currentTab} onChange={handleChangeTab}>
       {TABS.map((tab) => (
@@ -116,7 +142,7 @@ export default function NotificationsPopover() {
           label={tab.label}
           icon={
             <Label variant={tab.value === currentTab ? 'filled' : 'soft'} color={tab?.color}>
-              {tab.count}
+              {tab.count(notificationResponse?.data?.results)}
             </Label>
           }
           sx={{
@@ -138,23 +164,6 @@ export default function NotificationsPopover() {
       </List>
     </Scrollbar>
   );
-
-  // update notificaitons based on tab, api response
-  useEffect(() => {
-    if (notificationResponse?.isSuccess && Array.isArray(notificationResponse?.data?.results)) {
-      switch (currentTab) {
-        case 'unread':
-          setNotifications(notificationResponse.data.results.filter((n) => n?.isRead === false));
-          break;
-        case 'archived':
-          setNotifications(notificationResponse.data.results.filter((n) => n?.isRead));
-          break;
-        default:
-          setNotifications(notificationResponse.data.results);
-          break;
-      }
-    }
-  }, [currentTab, notificationResponse?.data?.results, notificationResponse?.isSuccess]);
 
   return (
     <>

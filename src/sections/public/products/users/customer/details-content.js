@@ -51,7 +51,7 @@ const DetailsContent = (props) => {
         allowSendMessage={authUser && authUser?.id !== user.id}
         user={user}
         totalPurchase={10}
-        spentMoney={user?.spent || 0}
+        spentMoney={user?.spent}
       />
     </Container>
   );

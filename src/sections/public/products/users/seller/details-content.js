@@ -81,9 +81,9 @@ const DetailsContent = (props) => {
         <DetailsHome
           allowSendMessage={authUser && authUser?.id !== user.id}
           user={user}
-          customerNumber={user?.customers}
+          customerNumber={user?.customerCount || 0}
           totalWarehouses={user?.warehouses?.length}
-          totalSales={1500}
+          totalSales={user?.totalSales || 0}
         />
       )}
       {currentTab === 'warehouses' && <DetailsWarehouses warehouses={user?.warehouses || []} />}

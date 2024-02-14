@@ -7,37 +7,35 @@ import ListItemButton from '@mui/material/ListItemButton';
 import ListItemText from '@mui/material/ListItemText';
 import Stack from '@mui/material/Stack';
 
-import { Button } from '@mui/material';
+import NotificationActions from 'src/components/notification/actions';
 import { ICONS } from 'src/layouts/config-layout';
-import { selectAuth } from 'src/redux-toolkit/features/auth/authSlice';
-import { useAppSelector } from 'src/redux-toolkit/hooks';
-import { RouterLink } from 'src/routes/components';
-import { paths } from 'src/routes/paths';
 import { fToNow } from 'src/utils/format-time';
 
 // ----------------------------------------------------------------------
 
-const TransactionAction = () => {
-  const { user } = useAppSelector(selectAuth);
-
-  const showApprove = user?.userType === 'seller';
-  const showCancel = user?.userType === 'seller' || user?.userType === 'customer';
-
-  return (
-    <Stack direction="row">
-      {showApprove && <Button variant="contained">Approve</Button>}
-      {showCancel && <Button variant="outlined">Cancel</Button>}
-    </Stack>
-  );
+/**
+ * @param {NotificationTypeOptions} type
+ */
+const getNotificationIcon = (type) => {
+  switch (type) {
+    case 'ADMIN_APPROVE':
+      return ICONS.admin_approve;
+    case 'VERIFY_EMAIL':
+      return ICONS.verify_email;
+    case 'CUSTOMER_PURCHASE':
+      return ICONS.customer_purchase;
+    case 'CUSTOMER_TRANSACTION_CANCEL':
+      return ICONS.customer_cancel;
+    case 'ADMIN_TRANSACTION_CANCEL':
+      return ICONS.admin_cancel;
+    case 'SELLER_TRANSACTION_CANCEL':
+      return ICONS.seller_cancel;
+    default:
+      return ICONS.notification;
+  }
 };
 
-const VerifyAction = () => (
-  <Stack direction="row">
-    <Button variant="contained" LinkComponent={RouterLink} href={paths.auth.email_verify}>
-      Verify Email
-    </Button>
-  </Stack>
-);
+// ----------------------------------------------------------------------
 
 const Props = {
   /** @type {NotificationType} */
@@ -66,8 +64,7 @@ const NotificationItem = (props) => {
             bgcolor: 'background.neutral',
           }}
         >
-          {notification?.type === 'transaction' && ICONS.transaction(24)}
-          {notification?.type === 'verify' && ICONS.verify(24)}
+          {getNotificationIcon(notification.type)(24)}
         </Stack>
       )}
     </ListItemAvatar>
@@ -127,11 +124,12 @@ const NotificationItem = (props) => {
 
       {renderThumbnail}
 
-      <Stack sx={{ flexGrow: 1 }}>
+      <Stack sx={{ flexGrow: 1 }} spacing={1.5}>
         {renderText}
 
-        {notification?.type === 'transaction' && <TransactionAction />}
-        {notification?.type === 'verify' && <VerifyAction />}
+        <Stack direction="row" spacing={0.5}>
+          <NotificationActions notification={notification} />
+        </Stack>
       </Stack>
     </ListItemButton>
   );

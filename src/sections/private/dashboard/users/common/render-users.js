@@ -36,8 +36,12 @@ const RenderUsers = (props) => {
       <Grid container spacing={1}>
         {data.map((user) => (
           <Grid item xs={12} sm={6} md={4} lg={3} key={user.id}>
-            {user?.userType === 'seller' && <SellerCard user={user} totalWarehouses={10} />}
-            {user?.userType === 'customer' && <CustomerCard user={user} totalTransactions={10} />}
+            {user?.userType === 'seller' && (
+              <SellerCard user={user} totalWarehouses={user?.serviceCount || 0} />
+            )}
+            {user?.userType === 'customer' && (
+              <CustomerCard user={user} totalTransactions={user?.customerCount || 0} />
+            )}
           </Grid>
         ))}
       </Grid>
