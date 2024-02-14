@@ -129,8 +129,6 @@ const WarehouseBooking = (props) => {
 
   const totalPrice = currentPrice * selectedMonth * requiredSpace;
   const totalDiscount = discount * selectedMonth * requiredSpace;
-
-  const monthlyDiscount = discount * requiredSpace;
   const monthlyTotal = discountedPricePerPallet * requiredSpace;
 
   // open payment dialog
@@ -147,7 +145,15 @@ const WarehouseBooking = (props) => {
     };
 
     paymentDialog.onOpen(struct);
-  }, [warehouse?.id, monthlyDiscount, currentPrice, selectedMonth, requiredSpace, paymentDialog]);
+  }, [
+    warehouse?.id,
+    currentPrice,
+    selectedMonth,
+    requiredSpace,
+    discountedPricePerPallet,
+    monthlyTotal,
+    paymentDialog,
+  ]);
 
   // update according to warehouse
   useEffect(() => {
@@ -213,31 +219,25 @@ const WarehouseBooking = (props) => {
                 alignItems="baseline"
                 flexWrap="wrap"
                 sx={
-                  !!discountRate
+                  discountRate
                     ? { position: 'relative', color: 'text.disabled' }
                     : { position: 'relative', color: 'text.primary' }
                 }
               >
                 <Typography
-                  sx={
-                    !!discountRate ? bookingInfoStyle.disabledHeading1 : bookingInfoStyle.heading1
-                  }
+                  sx={discountRate ? bookingInfoStyle.disabledHeading1 : bookingInfoStyle.heading1}
                   color="inherit"
                 >
                   {fCurrency(currentPrice)}
                 </Typography>
                 <Typography
-                  sx={
-                    !!discountRate ? bookingInfoStyle.disabledHeading1 : bookingInfoStyle.heading1
-                  }
+                  sx={discountRate ? bookingInfoStyle.disabledHeading1 : bookingInfoStyle.heading1}
                   color="inherit"
                 >
                   /
                 </Typography>
                 <Typography
-                  sx={
-                    !!discountRate ? bookingInfoStyle.disabledHeading2 : bookingInfoStyle.heading2
-                  }
+                  sx={discountRate ? bookingInfoStyle.disabledHeading2 : bookingInfoStyle.heading2}
                   color="inherit"
                 >
                   pallet
