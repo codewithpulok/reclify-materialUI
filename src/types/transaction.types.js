@@ -23,12 +23,11 @@
 
 /**
  * @typedef {Object} TransactionPurchase
- * @property {number} month
- * @property {number} pallet
- * @property {number} price
- * @property {number} total
- * @property {number} discount
+ * @property {number} selectedTerm
+ * @property {number} quantityOfPallet
+ * @property {number} pricePerPallet
+ * @property {number} discountedPricePerPallet
+ * @property {number} monthlyTotal
  * @property {number} amountDue
- * @property {number} selectedPrice
  * @property {'CARD' | 'ACH'} paymentType
  */

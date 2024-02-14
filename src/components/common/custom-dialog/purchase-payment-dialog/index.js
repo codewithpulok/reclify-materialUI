@@ -28,9 +28,6 @@ const PurchasePaymentDialog = (props) => {
     /** @type {TransactionPurchase} */
     const newValues = {
       ...purchaseData,
-      price: purchaseData?.discount
-        ? purchaseData.price - purchaseData.discount
-        : purchaseData.price,
       ...values,
     };
 

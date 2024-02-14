@@ -52,7 +52,28 @@ const WarehouseBooking = (props) => {
   const { palette } = useTheme();
   const paymentDialog = useDialog();
 
-  const discountInAllMonth = useMemo(() => warehouse?.discountAll || 0, [warehouse?.discountAll]);
+  const discountAll = useMemo(() => warehouse?.discountAll || 0, [warehouse?.discountAll]);
+  const discountRate = useMemo(() => warehouse?.discountRate || 0, [warehouse?.discountRate]);
+  const discountMonth = useMemo(() => {
+    let discount;
+    switch (selectedMonth) {
+      case 1:
+        discount = warehouse?.discount1 || 0;
+        break;
+      case 3:
+        discount = warehouse?.discount3 || 0;
+        break;
+      case 6:
+        discount = warehouse?.discount6 || 0;
+        break;
+      case 12:
+        discount = warehouse?.discount12 || 0;
+        break;
+      default:
+        break;
+    }
+    return discount || 0;
+  }, [selectedMonth, warehouse]);
 
   // current price maybe differ based on selected month
   const currentPrice = useMemo(() => {
@@ -75,93 +96,46 @@ const WarehouseBooking = (props) => {
     }
     return price || 0;
   }, [selectedMonth, warehouse]);
-
-  const currentMonthDiscount = useMemo(() => {
-    let discount;
-    switch (selectedMonth) {
-      case 1:
-        discount = warehouse.discount1 || 0;
-        break;
-      case 3:
-        discount = warehouse.discount3 || 0;
-        break;
-      case 6:
-        discount = warehouse.discount6 || 0;
-        break;
-      case 12:
-        discount = warehouse.discount12 || 0;
-        break;
-      default:
-        break;
-    }
-    return discount || 0;
-  }, [selectedMonth, warehouse]);
-
-  const totalSubscriptionPrice = useMemo(() => {
-    if (requiredSpace && currentPrice && selectedMonth) {
-      return requiredSpace * currentPrice * selectedMonth;
-    }
-    return undefined;
-  }, [requiredSpace, selectedMonth, currentPrice]);
-
-  const totalSubscriptionDiscount = useMemo(() => {
-    if (warehouse.discountRate && totalSubscriptionPrice) {
-      return (warehouse.discountRate / 100) * totalSubscriptionPrice;
+  // discount in current price
+  const currentDiscountRate = useMemo(() => {
+    if (discountRate && currentPrice) {
+      return (discountRate / 100) * currentPrice;
     }
     return 0;
-  }, [totalSubscriptionPrice, warehouse.discountRate]);
+  }, [currentPrice, discountRate]);
 
-  const totalMonthPrice = useMemo(() => {
-    if (requiredSpace && currentPrice) {
-      return requiredSpace * currentPrice;
-    }
-    return 0;
-  }, [requiredSpace, currentPrice]);
+  const annualPrice = currentPrice * selectedMonth;
+  const annualDiscount = currentDiscountRate * selectedMonth;
 
-  const totalMonthDiscount = useMemo(() => {
-    if (warehouse.discountRate && totalMonthPrice) {
-      return (warehouse.discountRate / 100) * totalMonthPrice;
-    }
-    return 0;
-  }, [totalMonthPrice, warehouse.discountRate]);
+  const monthlyPrice = currentPrice * 1;
+  const monthlyDiscount = currentDiscountRate * 1;
+
+  const totalDiscountPerMonth = monthlyDiscount + discountMonth + discountAll;
+  const totalDiscountPerAnnual = annualDiscount + discountMonth + discountAll;
 
   // open payment dialog
   const openPaymentDialog = useCallback(() => {
     /** @type {import('src/components/common/custom-dialog/purchase-payment-dialog').PurchaseData} */
     const struct = {
       warehouseId: warehouse?.id,
-      discount: totalMonthDiscount,
-      price: totalMonthPrice,
-      month: selectedMonth,
-      pallet: requiredSpace,
-      total: totalSubscriptionPrice,
-      amountDue: totalMonthPrice - totalMonthDiscount,
-      selectedPrice: currentPrice,
+      amountDue: monthlyPrice - totalDiscountPerMonth,
+      discountedPricePerPallet: currentPrice - totalDiscountPerMonth,
+      monthlyTotal: monthlyPrice - totalDiscountPerMonth,
+      selectedTerm: selectedMonth,
+      quantityOfPallet: requiredSpace,
+      pricePerPallet: currentPrice,
     };
 
     paymentDialog.onOpen(struct);
   }, [
-    currentPrice,
-    totalMonthDiscount,
-    paymentDialog,
-    requiredSpace,
-    selectedMonth,
-    totalSubscriptionPrice,
-    totalMonthPrice,
     warehouse?.id,
+    monthlyPrice,
+    totalDiscountPerMonth,
+    currentPrice,
+    selectedMonth,
+    requiredSpace,
+    paymentDialog,
   ]);
-
-  const discountInMonth = useMemo(
-    () => totalMonthDiscount + discountInAllMonth + currentMonthDiscount,
-    [currentMonthDiscount, discountInAllMonth, totalMonthDiscount]
-  );
-  const discountInAnnual = useMemo(
-    () =>
-      totalSubscriptionDiscount +
-      discountInAllMonth * selectedMonth +
-      currentMonthDiscount * selectedMonth,
-    [currentMonthDiscount, discountInAllMonth, selectedMonth, totalSubscriptionDiscount]
-  );
 
   // update according to warehouse
   useEffect(() => {
@@ -226,9 +200,7 @@ const WarehouseBooking = (props) => {
                 rowGap={0}
                 alignItems="baseline"
                 flexWrap="wrap"
-                sx={
-                  currentMonthDiscount > 0 ? { color: 'text.disabled' } : { color: 'text.primary' }
-                }
+                sx={discountMonth > 0 ? { color: 'text.disabled' } : { color: 'text.primary' }}
               >
                 <Typography sx={bookingInfoStyle.heading1} color="inherit">
                   {fCurrency(currentPrice)}
@@ -240,7 +212,7 @@ const WarehouseBooking = (props) => {
                   pallet
                 </Typography>
               </Stack>
-              {!!currentMonthDiscount && (
+              {!!discountMonth && (
                 <Stack
                   direction="row"
                   columnGap={0.5}
@@ -251,7 +223,7 @@ const WarehouseBooking = (props) => {
                 >
                   {ICONS.hot(32, { color: 'secondary.main' })}
                   <Typography sx={bookingInfoStyle.heading1} color="inherit">
-                    {fCurrency(currentPrice - currentMonthDiscount)}
+                    {fCurrency(currentPrice - discountMonth)}
                   </Typography>
                   <Typography sx={bookingInfoStyle.heading1} color="inherit">
                     /
@@ -312,9 +284,9 @@ const WarehouseBooking = (props) => {
           flexWrap="wrap"
           mt={1}
         >
-          <Typography variant="h5">Diposit:</Typography>
+          <Typography variant="h5">Deposit:</Typography>
           <Typography variant="h5" ml={1}>
-            {fCurrency(totalMonthPrice - discountInMonth) || '$0.00'}
+            {fCurrency(monthlyPrice - totalDiscountPerMonth) || '$0.00'}
           </Typography>
         </Stack>
         <Stack
@@ -324,11 +296,11 @@ const WarehouseBooking = (props) => {
           spacing={0.5}
           flexWrap="wrap"
         >
-          <Typography variant="overline" color="text.secondary">
+          <Typography variant="overline" color="secondary.main">
             You Save:
           </Typography>
-          <Typography variant="overline" ml={1} color="text.secondary">
-            {fCurrency(discountInAnnual) || '$0.00'}
+          <Typography variant="overline" ml={1} color="secondary.main">
+            {fCurrency(totalDiscountPerAnnual) || '$0.00'}
           </Typography>
         </Stack>
 
@@ -339,7 +311,7 @@ const WarehouseBooking = (props) => {
             size="large"
             endIcon={ICONS.purchase()}
             onClick={openPaymentDialog}
-            disabled={!!error || totalSubscriptionPrice === undefined}
+            disabled={!!error || annualPrice === undefined}
             sx={{ mt: 1.5 }}
             fullWidth
           >
