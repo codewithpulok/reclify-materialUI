@@ -18,25 +18,17 @@
  * @property {boolean} isVerified - Warehouse is verified by admin or not.
  * @property {boolean} isFeatured - Warehouse is featured or not.
  * @property {string} sellerId - The unique identifier of the seller associated with the warehouse.
- * @property {WarehouseApprovedUses} approvedUses - Object representing approved uses for the warehouse.
  * @property {WarehouseFeatures} features - Object representing features available in the warehouse.
  * @property {WarehouseFacilityDetails} facilityDetails - Object representing details about the warehouse facility.
  * @property {WarehouseServices} services - Object representing services available in the warehouse.
- * @property {string[]} rules - Array of rules associated with the warehouse.
  * @property {boolean} visible - indicate that warehouse visible or not. (only admin can change it)
  * @property {number} averageRating
- */
-
-/**
- * Represents approved uses for the warehouse.
- * @typedef {Object} WarehouseApprovedUses
- * @property {boolean} apparel - Approved use for apparel.
- * @property {boolean} automotive - Approved use for automotive.
- * @property {boolean} baseMetals - Approved use for base metals.
- * @property {boolean} consumerProducts - Approved use for consumer products.
- * @property {boolean} electronics - Approved use for electronics.
- * @property {boolean} industrialMaterials - Approved use for industrial materials.
- * @property {boolean} machinery - Approved use for machinery.
+ * @property {number} discount1
+ * @property {number} discount3
+ * @property {number} discount6
+ * @property {number} discount12
+ * @property {boolean} hasPromo
+ * @property {string} promoCode
  */
 
 /**

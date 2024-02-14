@@ -1,4 +1,4 @@
-import { IconButton, InputAdornment, MenuItem, Stack, Tooltip } from '@mui/material';
+import { IconButton, InputAdornment, MenuItem, Tooltip } from '@mui/material';
 import Grid from '@mui/material/Grid';
 import { useEffect } from 'react';
 import { useFormContext } from 'react-hook-form';
@@ -25,7 +25,7 @@ import {
   ReferenceTextField,
 } from 'src/components/common/custom-fields';
 import { EmptyState } from 'src/components/common/custom-state';
-import { RHFAccordion, RHFTextField } from 'src/components/common/hook-form';
+import { RHFAccordion, RHFSwitch, RHFTextField } from 'src/components/common/hook-form';
 import Label from 'src/components/common/label';
 import { SQUARE_FEET_PER_PALLET } from 'src/constant/pallet';
 import { selectAuth } from 'src/redux-toolkit/features/auth/authSlice';
@@ -76,6 +76,7 @@ const WarehouseFields = (props) => {
   const addressState = watch('address.state', undefined);
   const reviews = watch('reviews', []);
   const highlights = watch('highlights', '');
+  const hasPromo = watch('hasPromo', false);
 
   // conditional state
   const isImportable = checkValidAddress(address);
@@ -108,6 +109,14 @@ const WarehouseFields = (props) => {
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [addressState]);
+
+  // reset promo code on hasPromo change
+  useEffect(() => {
+    if (hasPromo === false) {
+      setValue('promoCode', '');
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [hasPromo]);
 
   const step0_1 = (
     <>
@@ -275,74 +284,175 @@ const WarehouseFields = (props) => {
       <Grid item xs={12}>
         <RHFAccordion
           label="Warehouse Prices (Per Pallet)"
-          names={['price1', 'price3', 'price6', 'price12']}
+          names={[
+            'price1',
+            'price3',
+            'price6',
+            'price12',
+            'discount1',
+            'discount3',
+            'discount6',
+            'discount12',
+            'discountAll',
+          ]}
           defaultExpanded
         >
-          <Stack spacing={1.2}>
-            <RHFTextField
-              type="number"
-              name="price1"
-              label="1 Month"
-              InputProps={{
-                startAdornment: <InputAdornment position="start">$</InputAdornment>,
-              }}
-              onChangeMiddleware={restrictNegetiveValue}
-              fullWidth
-            />
+          <Grid container spacing={1.2}>
+            <Grid item xs={12} sm={6}>
+              <RHFTextField
+                type="number"
+                name="price1"
+                label="1 Month"
+                InputProps={{
+                  startAdornment: <InputAdornment position="start">$</InputAdornment>,
+                }}
+                onChangeMiddleware={restrictNegetiveValue}
+                fullWidth
+              />
+            </Grid>
+            <Grid item xs={12} sm={6}>
+              <RHFTextField
+                type="number"
+                name="discount1"
+                label="Discount for 1 Month"
+                InputProps={{
+                  startAdornment: <InputAdornment position="start">$</InputAdornment>,
+                }}
+                onChangeMiddleware={restrictNegetiveValue}
+                fullWidth
+              />
+            </Grid>
 
-            <RHFTextField
-              type="number"
-              name="price3"
-              label="3 Month"
-              InputProps={{
-                startAdornment: <InputAdornment position="start">$</InputAdornment>,
-              }}
-              onChangeMiddleware={restrictNegetiveValue}
-              fullWidth
-            />
+            <Grid item xs={12} sm={6}>
+              <RHFTextField
+                type="number"
+                name="price3"
+                label="3 Month"
+                InputProps={{
+                  startAdornment: <InputAdornment position="start">$</InputAdornment>,
+                }}
+                onChangeMiddleware={restrictNegetiveValue}
+                fullWidth
+              />
+            </Grid>
+            <Grid item xs={12} sm={6}>
+              <RHFTextField
+                type="number"
+                name="discount3"
+                label="Discount for 3 Month"
+                InputProps={{
+                  startAdornment: <InputAdornment position="start">$</InputAdornment>,
+                }}
+                onChangeMiddleware={restrictNegetiveValue}
+                fullWidth
+              />
+            </Grid>
 
-            <RHFTextField
-              type="number"
-              name="price6"
-              label="6 Month"
-              InputProps={{
-                startAdornment: <InputAdornment position="start">$</InputAdornment>,
-              }}
-              onChangeMiddleware={restrictNegetiveValue}
-              fullWidth
-            />
+            <Grid item xs={12} sm={6}>
+              <RHFTextField
+                type="number"
+                name="price6"
+                label="6 Month"
+                InputProps={{
+                  startAdornment: <InputAdornment position="start">$</InputAdornment>,
+                }}
+                onChangeMiddleware={restrictNegetiveValue}
+                fullWidth
+              />
+            </Grid>
+            <Grid item xs={12} sm={6}>
+              <RHFTextField
+                type="number"
+                name="discount6"
+                label="Discount for 6 Month"
+                InputProps={{
+                  startAdornment: <InputAdornment position="start">$</InputAdornment>,
+                }}
+                onChangeMiddleware={restrictNegetiveValue}
+                fullWidth
+              />
+            </Grid>
 
-            <RHFTextField
-              type="number"
-              name="price12"
-              label="12 Month"
-              InputProps={{
-                startAdornment: <InputAdornment position="start">$</InputAdornment>,
-              }}
-              onChangeMiddleware={restrictNegetiveValue}
-              fullWidth
-            />
-          </Stack>
+            <Grid item xs={12} sm={6}>
+              <RHFTextField
+                type="number"
+                name="price12"
+                label="12 Month"
+                InputProps={{
+                  startAdornment: <InputAdornment position="start">$</InputAdornment>,
+                }}
+                onChangeMiddleware={restrictNegetiveValue}
+                fullWidth
+              />
+            </Grid>
+            <Grid item xs={12} sm={6}>
+              <RHFTextField
+                type="number"
+                name="discount12"
+                label="Discount for 12 Month"
+                InputProps={{
+                  startAdornment: <InputAdornment position="start">$</InputAdornment>,
+                }}
+                onChangeMiddleware={restrictNegetiveValue}
+                fullWidth
+              />
+            </Grid>
+
+            <Grid item xs={12}>
+              <RHFTextField
+                type="number"
+                name="discountAll"
+                label="Discount for all month"
+                InputProps={{
+                  startAdornment: <InputAdornment position="start">$</InputAdornment>,
+                }}
+                onChangeMiddleware={restrictNegetiveValue}
+                fullWidth
+              />
+            </Grid>
+          </Grid>
         </RHFAccordion>
       </Grid>
 
       <Grid item xs={12}>
-        <RHFTextField
-          type="number"
-          name="discountRate"
-          label="Hot Racks"
-          InputProps={{
-            startAdornment: <InputAdornment position="start">%</InputAdornment>,
+        <RHFAccordion
+          names={['promoCode', 'discountRate', 'hasPromo']}
+          label="Hot Rack"
+          description={`A "Hot Rack" refers to a time-limited discounted offer on palletized storage space. When our partners find themselves with surplus available space, they have the opportunity to list this space at a discounted rate and be prominently featured on Racklify. This dynamic approach creates a mutually beneficial scenario for both the warehouse and the customer. Warehouses gain the advantage of filling up available space quickly, while customers benefit from exclusive discounts on palletized storage, resulting in a win-win situation for all parties involved. Keep an eye out for these Hot Rack offers as they present an excellent opportunity to secure storage space at a compelling rate.`}
+          defaultExpanded
+          sx={{
+            borderWidth: '1px',
+            borderStyle: 'solid',
+            borderColor: 'secondary.main',
           }}
-          onChangeMiddleware={restrictNegetiveValue}
-          disabled={user?.planId === 'free'}
-          helperText={
-            user?.planId === 'free'
-              ? 'You need to upgrade to a paid membership to add discount'
-              : undefined
-          }
-          fullWidth
-        />
+        >
+          <Grid container spacing={1.2}>
+            <Grid item xs={12}>
+              <RHFTextField
+                type="number"
+                name="discountRate"
+                label="Discount Rate"
+                InputProps={{
+                  startAdornment: <InputAdornment position="start">%</InputAdornment>,
+                }}
+                onChangeMiddleware={restrictNegetiveValue}
+                disabled={user?.planId === 'free'}
+                helperText={
+                  user?.planId === 'free'
+                    ? 'You need to upgrade to a paid membership to add discount'
+                    : undefined
+                }
+                fullWidth
+              />
+            </Grid>
+            <Grid item xs={8}>
+              <RHFTextField label="Promo Code" name="promoCode" fullWidth disabled={!hasPromo} />
+            </Grid>
+            <Grid item xs={4}>
+              <RHFSwitch label="Enable Promo Code" name="hasPromo" />
+            </Grid>
+          </Grid>
+        </RHFAccordion>
       </Grid>
     </>
   );
