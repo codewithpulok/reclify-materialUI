@@ -1,4 +1,4 @@
-import { IconButton, InputAdornment, MenuItem, Tooltip } from '@mui/material';
+import { Alert, IconButton, InputAdornment, MenuItem, Tooltip } from '@mui/material';
 import Grid from '@mui/material/Grid';
 import { useEffect } from 'react';
 import { useFormContext } from 'react-hook-form';
@@ -69,7 +69,7 @@ const WarehouseFields = (props) => {
   const { user } = useAppSelector(selectAuth);
 
   // form state
-  const { watch, getValues, resetField, setValue } = useFormContext();
+  const { watch, getValues, resetField, setValue, setFocus } = useFormContext();
   const regionScope = watch('regionScope');
   const address = watch('address');
   const addressCountry = watch('address.country', undefined);
@@ -114,6 +114,10 @@ const WarehouseFields = (props) => {
   useEffect(() => {
     if (hasPromo === false) {
       setValue('promoCode', '');
+    }
+
+    if (hasPromo === true) {
+      setFocus('promoCode');
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [hasPromo]);
@@ -418,14 +422,16 @@ const WarehouseFields = (props) => {
         <RHFAccordion
           names={['promoCode', 'discountRate', 'hasPromo']}
           label="Hot Rack"
-          description={`A "Hot Rack" refers to a time-limited discounted offer on palletized storage space. When our partners find themselves with surplus available space, they have the opportunity to list this space at a discounted rate and be prominently featured on Racklify. This dynamic approach creates a mutually beneficial scenario for both the warehouse and the customer. Warehouses gain the advantage of filling up available space quickly, while customers benefit from exclusive discounts on palletized storage, resulting in a win-win situation for all parties involved. Keep an eye out for these Hot Rack offers as they present an excellent opportunity to secure storage space at a compelling rate.`}
           defaultExpanded
           sx={{
-            borderWidth: '1px',
+            borderWidth: '2px',
             borderStyle: 'solid',
             borderColor: 'secondary.main',
           }}
         >
+          <Alert sx={{ mb: 2 }} icon={false} severity="secondary">
+            {`A "Hot Rack" refers to a time-limited discounted offer on palletized storage space. When our partners find themselves with surplus available space, they have the opportunity to list this space at a discounted rate and be prominently featured on Racklify. This dynamic approach creates a mutually beneficial scenario for both the warehouse and the customer. Warehouses gain the advantage of filling up available space quickly, while customers benefit from exclusive discounts on palletized storage, resulting in a win-win situation for all parties involved. Keep an eye out for these Hot Rack offers as they present an excellent opportunity to secure storage space at a compelling rate.`}
+          </Alert>
           <Grid container spacing={1.2}>
             <Grid item xs={12}>
               <RHFTextField
@@ -445,10 +451,12 @@ const WarehouseFields = (props) => {
                 fullWidth
               />
             </Grid>
-            <Grid item xs={8}>
+
+            <Grid item xs={12} sm={6}>
               <RHFTextField label="Promo Code" name="promoCode" fullWidth disabled={!hasPromo} />
             </Grid>
-            <Grid item xs={4}>
+
+            <Grid item xs={12} sm={6}>
               <RHFSwitch label="Enable Promo Code" name="hasPromo" />
             </Grid>
           </Grid>

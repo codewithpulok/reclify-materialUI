@@ -54,7 +54,7 @@ const PredefinedFields = (props) => {
                 }
                 key={field.key}
                 labelProps={{
-                  sx: { ml: 3 },
+                  sx: { gap: 1 },
                 }}
               />
             );
