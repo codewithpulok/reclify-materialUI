@@ -1,13 +1,19 @@
-import { Button, Card, Chip, Grid, Stack, Typography, useTheme } from '@mui/material';
 import PropTypes from 'prop-types';
 import { useCallback, useEffect, useMemo, useState } from 'react';
+// mui
+import { Box, Button, Card, Chip, Divider, Grid, Stack, Typography, useTheme } from '@mui/material';
+// hooks
+import { useDialog } from 'src/hooks/use-dialog';
+// utils
+import { fCurrency, fNumber } from 'src/utils/format-number';
+// components
 import { PurchasePaymentDialog } from 'src/components/common/custom-dialog';
 import { WarehouseMonthCard } from 'src/components/warehouse/cards';
+// constants
 import { CUBIC_FEET_PER_PALLET, SQUARE_FEET_PER_PALLET } from 'src/constant/pallet';
-import { useDialog } from 'src/hooks/use-dialog';
-import { fCurrency, fNumber } from 'src/utils/format-number';
 import { ICONS } from '../../config-warehouse';
 import SpaceField from './space-field';
+// ----------------------------------------------------------------------
 
 /** @type {{title: SxProps, heading1: SxProps, heading2: SxProps, description: SxProps}} */
 const bookingInfoStyle = {
@@ -21,11 +27,25 @@ const bookingInfoStyle = {
       sm: '28px',
     },
   },
+  disabledHeading1: {
+    fontWeight: 'bold',
+    fontSize: {
+      xs: '16px',
+      sm: '20px',
+    },
+  },
   heading2: {
     fontWeight: 'bold',
     fontSize: {
       xs: '20px',
       sm: '22px',
+    },
+  },
+  disabledHeading2: {
+    fontWeight: 'bold',
+    fontSize: {
+      xs: '14px',
+      sm: '16px',
     },
   },
   description: {
@@ -97,45 +117,37 @@ const WarehouseBooking = (props) => {
     return price || 0;
   }, [selectedMonth, warehouse]);
   // discount in current price
-  const currentDiscountRate = useMemo(() => {
+  const percentDiscount = useMemo(() => {
     if (discountRate && currentPrice) {
       return (discountRate / 100) * currentPrice;
     }
     return 0;
   }, [currentPrice, discountRate]);
 
-  const annualPrice = currentPrice * selectedMonth;
-  const annualDiscount = currentDiscountRate * selectedMonth;
+  const discount = percentDiscount + discountMonth + discountAll;
+  const discountedPricePerPallet = currentPrice - discount;
 
-  const monthlyPrice = currentPrice * 1;
-  const monthlyDiscount = currentDiscountRate * 1;
+  const totalPrice = currentPrice * selectedMonth * requiredSpace;
+  const totalDiscount = discount * selectedMonth * requiredSpace;
 
-  const totalDiscountPerMonth = monthlyDiscount + discountMonth + discountAll;
-  const totalDiscountPerAnnual = annualDiscount + discountMonth + discountAll;
+  const monthlyDiscount = discount * requiredSpace;
+  const monthlyTotal = discountedPricePerPallet * requiredSpace;
 
   // open payment dialog
   const openPaymentDialog = useCallback(() => {
     /** @type {import('src/components/common/custom-dialog/purchase-payment-dialog').PurchaseData} */
     const struct = {
       warehouseId: warehouse?.id,
-      amountDue: monthlyPrice - totalDiscountPerMonth,
-      discountedPricePerPallet: currentPrice - totalDiscountPerMonth,
-      monthlyTotal: monthlyPrice - totalDiscountPerMonth,
       selectedTerm: selectedMonth,
       quantityOfPallet: requiredSpace,
       pricePerPallet: currentPrice,
+      discountedPricePerPallet,
+      monthlyTotal,
+      amountDue: monthlyTotal,
     };
 
     paymentDialog.onOpen(struct);
-  }, [
-    warehouse?.id,
-    monthlyPrice,
-    totalDiscountPerMonth,
-    currentPrice,
-    selectedMonth,
-    requiredSpace,
-    paymentDialog,
-  ]);
+  }, [warehouse?.id, monthlyDiscount, currentPrice, selectedMonth, requiredSpace, paymentDialog]);
 
   // update according to warehouse
   useEffect(() => {
@@ -145,11 +157,11 @@ const WarehouseBooking = (props) => {
   return (
     <>
       <Card sx={{ bgcolor: 'background.paper', borderRadius: 1, py: 2.5, px: 2.5 }}>
-        {!!warehouse.discountRate && (
+        {!!discountRate && (
           <Stack direction="row" spacing={0.5} flexWrap="wrap" alignItems="start" sx={{ mb: 1 }}>
             <Chip label="Hot Rack" color="secondary" variant="filled" icon={ICONS.hot()} />
             <Chip
-              label={`${warehouse.discountRate}% OFF`}
+              label={`${discountRate}% OFF`}
               color="secondary"
               variant="outlined"
               icon={ICONS.discount()}
@@ -168,7 +180,7 @@ const WarehouseBooking = (props) => {
               </Typography>
               <Stack direction="row" columnGap={1} rowGap={0} alignItems="baseline" flexWrap="wrap">
                 <Typography component="span" sx={bookingInfoStyle.heading1}>
-                  {fNumber(warehouse.maxSpaceOrder)}
+                  {fNumber(warehouse.maxSpaceOrder || warehouse.totalSpace)}
                 </Typography>
                 <Typography component="span" sx={bookingInfoStyle.heading2}>
                   pallets
@@ -200,30 +212,62 @@ const WarehouseBooking = (props) => {
                 rowGap={0}
                 alignItems="baseline"
                 flexWrap="wrap"
-                sx={discountMonth > 0 ? { color: 'text.disabled' } : { color: 'text.primary' }}
+                sx={
+                  !!discountRate
+                    ? { position: 'relative', color: 'text.disabled' }
+                    : { position: 'relative', color: 'text.primary' }
+                }
               >
-                <Typography sx={bookingInfoStyle.heading1} color="inherit">
+                <Typography
+                  sx={
+                    !!discountRate ? bookingInfoStyle.disabledHeading1 : bookingInfoStyle.heading1
+                  }
+                  color="inherit"
+                >
                   {fCurrency(currentPrice)}
                 </Typography>
-                <Typography sx={bookingInfoStyle.heading1} color="inherit">
+                <Typography
+                  sx={
+                    !!discountRate ? bookingInfoStyle.disabledHeading1 : bookingInfoStyle.heading1
+                  }
+                  color="inherit"
+                >
                   /
                 </Typography>
-                <Typography sx={bookingInfoStyle.heading2} color="inherit">
+                <Typography
+                  sx={
+                    !!discountRate ? bookingInfoStyle.disabledHeading2 : bookingInfoStyle.heading2
+                  }
+                  color="inherit"
+                >
                   pallet
                 </Typography>
+                {!!discountRate && (
+                  <Divider
+                    sx={{
+                      position: 'absolute',
+                      top: '50%',
+                      width: '100px',
+                      borderWidth: '1.5px',
+                      borderColor: '#F08F4A',
+                    }}
+                  />
+                )}
               </Stack>
-              {!!discountMonth && (
+              {!!discountRate && (
                 <Stack
                   direction="row"
                   columnGap={0.5}
                   rowGap={0}
                   alignItems="baseline"
                   flexWrap="wrap"
-                  sx={{ color: 'secondary.main' }}
+                  sx={{ color: 'secondary.main', position: 'relative' }}
                 >
-                  {ICONS.hot(32, { color: 'secondary.main' })}
+                  <Box sx={{ position: 'absolute', top: 4, left: '-32px' }}>
+                    {ICONS.hot(32, { color: 'secondary.main' })}
+                  </Box>
                   <Typography sx={bookingInfoStyle.heading1} color="inherit">
-                    {fCurrency(currentPrice - discountMonth)}
+                    {fCurrency(discountedPricePerPallet)}
                   </Typography>
                   <Typography sx={bookingInfoStyle.heading1} color="inherit">
                     /
@@ -286,23 +330,25 @@ const WarehouseBooking = (props) => {
         >
           <Typography variant="h5">Deposit:</Typography>
           <Typography variant="h5" ml={1}>
-            {fCurrency(monthlyPrice - totalDiscountPerMonth) || '$0.00'}
+            {fCurrency(totalPrice - totalDiscount) || '$0.00'}
           </Typography>
         </Stack>
-        <Stack
-          direction="row"
-          alignItems="baseline"
-          justifyContent="center"
-          spacing={0.5}
-          flexWrap="wrap"
-        >
-          <Typography variant="overline" color="secondary.main">
-            You Save:
-          </Typography>
-          <Typography variant="overline" ml={1} color="secondary.main">
-            {fCurrency(totalDiscountPerAnnual) || '$0.00'}
-          </Typography>
-        </Stack>
+        {!!totalDiscount && (
+          <Stack
+            direction="row"
+            alignItems="baseline"
+            justifyContent="center"
+            spacing={0.5}
+            flexWrap="wrap"
+          >
+            <Typography variant="overline" color="secondary.main">
+              You Save:
+            </Typography>
+            <Typography variant="overline" ml={1} color="secondary.main">
+              {fCurrency(totalDiscount) || '$0.00'}
+            </Typography>
+          </Stack>
+        )}
 
         {showPurchase ? (
           <Button
@@ -311,7 +357,7 @@ const WarehouseBooking = (props) => {
             size="large"
             endIcon={ICONS.purchase()}
             onClick={openPaymentDialog}
-            disabled={!!error || annualPrice === undefined}
+            disabled={!!error || totalPrice === undefined}
             sx={{ mt: 1.5 }}
             fullWidth
           >
