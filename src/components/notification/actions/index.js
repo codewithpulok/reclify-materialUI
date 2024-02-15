@@ -19,7 +19,7 @@ const NotificationActions = (props) => {
     case 'VERIFY_EMAIL':
       return <VerifyEmailActions />;
     case 'CUSTOMER_PURCHASE':
-      return <CustomerPurchaseActions transaction={notification?.meta?.savePurchaseInfo} />;
+      return <CustomerPurchaseActions transaction={notification?.meta?.transaction} />;
     case 'ADMIN_APPROVE':
       return <AdminApproveActions transaction={notification?.meta} />;
     case 'CUSTOMER_TRANSACTION_CANCEL':

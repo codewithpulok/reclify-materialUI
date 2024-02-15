@@ -12,6 +12,7 @@ import { WarehouseMonthCard } from 'src/components/warehouse/cards';
 // constants
 import { CUBIC_FEET_PER_PALLET, SQUARE_FEET_PER_PALLET } from 'src/constant/pallet';
 import { ICONS } from '../../../../../sections/private/dashboard/warehouses/config-warehouse';
+import PromoField from './promo-field';
 import SpaceField from './space-field';
 // ----------------------------------------------------------------------
 
@@ -316,7 +317,7 @@ const DetailsBooking = (props) => {
           max={warehouse.maxSpaceOrder || warehouse.totalSpace}
         />
 
-        <Grid mb={3} container spacing={0}>
+        <Grid mb={1} container spacing={0}>
           <Grid item xs={12} sm={6}>
             <Typography color="text.secondary" variant="overline" width="100%">
               Square feet: {fNumber(SQUARE_FEET_PER_PALLET * requiredSpace)}
@@ -328,6 +329,8 @@ const DetailsBooking = (props) => {
             </Typography>
           </Grid>
         </Grid>
+
+        {warehouse?.hasPromo && <PromoField value="" onChange={() => {}} sx={{ mb: 3 }} />}
 
         <Stack
           direction="row"
