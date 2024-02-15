@@ -18,13 +18,15 @@ import {
 import CustomBreadcrumbs from 'src/components/common/custom-breadcrumbs';
 import FormProvider from 'src/components/common/hook-form/form-provider';
 import { useSettingsContext } from 'src/components/common/settings';
+import useStepper from 'src/hooks/use-stepper';
 import { useWarehouseCreateMutation } from 'src/redux-toolkit/services/warehouseApi';
-import { RouterLink } from 'src/routes/components';
 import { paths } from 'src/routes/paths';
 import { getPredefinedFieldsDefaultValue } from 'src/utils/predefined-fields';
-import WarehouseFields from '../common/warehouse-fields';
+import WarehouseFields, { stepFields } from '../common/warehouse-fields';
 import warehouseSchema from '../common/warehouse-schema';
+import WarehouseStepper from '../common/warehouse-stepper';
 
+// ----------------------------------------------------------------------
 const Props = {
   /** @type {Warehouse | undefined} */
   sourceWarehouse: PropTypes.object,
@@ -59,6 +61,7 @@ const defaultValues = {
   price6: null,
   promoCode: '',
 };
+// ----------------------------------------------------------------------
 
 /**
  * @param {Props} props
@@ -71,13 +74,18 @@ const Content = (props) => {
   const { enqueueSnackbar } = useSnackbar();
   const settings = useSettingsContext();
 
+  // app states
+  const { activeStep, goBack, goNext } = useStepper(0, 2);
+
+  // api state
   const [createWarehouse] = useWarehouseCreateMutation();
 
+  // form state
   const methods = useForm({
     resolver: yupResolver(warehouseSchema),
     defaultValues: sourceWarehouse || defaultValues,
   });
-  const { handleSubmit, formState, reset } = methods;
+  const { handleSubmit, formState, reset, trigger } = methods;
   const { isSubmitting } = formState;
 
   // reset form
@@ -87,7 +95,7 @@ const Content = (props) => {
   }, [reset, router]);
 
   // handle form submit
-  const onSubmit = useCallback(
+  const handleCreate = useCallback(
     async (values) => {
       // updateing total space
       values.totalSpace = Math.round(values.totalSpace);
@@ -107,6 +115,28 @@ const Content = (props) => {
     [createWarehouse, enqueueSnackbar, reset, router]
   );
 
+  // validate steps before going to next step
+  const validateStep = useCallback(async () => {
+    const fields = stepFields[activeStep];
+    if (!fields) return;
+
+    const response = await trigger(fields, { shouldFocus: true });
+
+    if (!response) return;
+
+    goNext();
+  }, [activeStep, goNext, trigger]);
+
+  // mannualy submit form
+  const submitForm = async () => {
+    // Trigger validations before submitting
+    const isValid = await trigger();
+
+    if (isValid) {
+      handleSubmit(handleCreate)();
+    }
+  };
+
   return (
     <Container maxWidth={settings.themeStretch ? false : 'lg'}>
       <CustomBreadcrumbs
@@ -119,9 +149,11 @@ const Content = (props) => {
           mb: { xs: 3, md: 5 },
         }}
       />
-      <FormProvider methods={methods} onSubmit={handleSubmit(onSubmit)} onReset={onReset}>
+      <FormProvider methods={methods} onSubmit={handleSubmit(handleCreate)} onReset={onReset}>
         <Stack spacing={1.5}>
-          <WarehouseFields />
+          <WarehouseStepper activeStep={activeStep} handleBack={goBack} handleNext={validateStep} />
+
+          <WarehouseFields activeStep={activeStep} />
           <Stack
             sx={{
               flexDirection: {
@@ -141,20 +173,20 @@ const Content = (props) => {
               loading={isSubmitting}
               variant="contained"
               size="large"
-              type="submit"
+              type="button"
+              onClick={activeStep === 2 ? submitForm : validateStep}
               color="primary"
             >
-              Create Warehouse
+              {activeStep === 2 ? 'Create' : 'Next'}
             </LoadingButton>
 
             <Button
-              LinkComponent={RouterLink}
               variant="soft"
               size="large"
               color="error"
-              type="reset"
+              onClick={activeStep === 0 ? onReset : goBack}
             >
-              Cancel
+              {activeStep === 0 ? 'Cancel' : 'Back'}
             </Button>
           </Stack>
         </Stack>

@@ -4,7 +4,7 @@ import { yupResolver } from '@hookform/resolvers/yup';
 import { Button, Container, Stack } from '@mui/material';
 import { useSnackbar } from 'notistack';
 import PropTypes from 'prop-types';
-import { useCallback, useEffect, useState } from 'react';
+import { useCallback, useEffect } from 'react';
 import { useForm } from 'react-hook-form';
 
 // local components
@@ -13,11 +13,12 @@ import { useRouter } from 'next/navigation';
 import CustomBreadcrumbs from 'src/components/common/custom-breadcrumbs';
 import FormProvider from 'src/components/common/hook-form/form-provider';
 import { useSettingsContext } from 'src/components/common/settings';
+import useStepper from 'src/hooks/use-stepper';
 import { useWarehouseUpdateMutation } from 'src/redux-toolkit/services/warehouseApi';
 import { paths } from 'src/routes/paths';
 import WarehouseFields, { stepFields } from '../common/warehouse-fields';
 import warehouseSchema from '../common/warehouse-schema';
-import EditStepper from './stepper';
+import WarehouseStepper from '../common/warehouse-stepper';
 
 const Props = {
   /** @type {Warehouse} */
@@ -35,22 +36,12 @@ const Content = (props) => {
   const { enqueueSnackbar } = useSnackbar();
 
   // app states
-  const [activeStep, setActiveStep] = useState(0);
+  const { activeStep, goBack, goNext } = useStepper(0, 2);
 
-  const handleNext = useCallback(() => {
-    if (activeStep === 2) return;
-
-    setActiveStep((prev) => prev + 1);
-  }, [activeStep]);
-
-  const handleBack = () => {
-    if (activeStep === 0) return;
-
-    setActiveStep((prev) => prev - 1);
-  };
-
+  // api states
   const [updateWarehouse] = useWarehouseUpdateMutation();
 
+  // form states
   const methods = useForm({ defaultValues: warehouse, resolver: yupResolver(warehouseSchema) });
   const { handleSubmit, reset, formState, trigger } = methods;
   const { isSubmitting } = formState;
@@ -93,8 +84,8 @@ const Content = (props) => {
 
     if (!response) return;
 
-    handleNext();
-  }, [activeStep, handleNext, trigger]);
+    goNext();
+  }, [activeStep, goNext, trigger]);
 
   // mannualy submit form
   const submitForm = async () => {
@@ -130,7 +121,7 @@ const Content = (props) => {
 
       <FormProvider methods={methods} onSubmit={handleSubmit(onSubmit)} onReset={onReset}>
         <Stack>
-          <EditStepper activeStep={activeStep} handleBack={handleBack} handleNext={validateStep} />
+          <WarehouseStepper activeStep={activeStep} handleBack={goBack} handleNext={validateStep} />
           <WarehouseFields activeStep={activeStep} />
           <Stack
             sx={{
@@ -162,7 +153,7 @@ const Content = (props) => {
               variant="soft"
               size="large"
               color="error"
-              onClick={activeStep === 0 ? onReset : handleBack}
+              onClick={activeStep === 0 ? onReset : goBack}
             >
               {activeStep === 0 ? 'Cancel' : 'Back'}
             </Button>

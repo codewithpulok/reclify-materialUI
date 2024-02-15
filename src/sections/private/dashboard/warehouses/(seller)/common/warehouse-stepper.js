@@ -6,6 +6,7 @@ import Stepper from '@mui/material/Stepper';
 import PropTypes from 'prop-types';
 import { getIconify } from 'src/components/common/iconify/utilities';
 
+// ----------------------------------------------------------------------
 const steps = ['Basic Information', 'Features', 'Offering'];
 const estimation = {
   0: '1~2 Minutes',
@@ -18,8 +19,11 @@ const Props = {
   handleBack: PropTypes.func.isRequired,
   handleNext: PropTypes.func.isRequired,
 };
+// ----------------------------------------------------------------------
+const WarehouseStepper = (props) => {
+  const { activeStep, handleBack, handleNext } = props;
 
-export default function EditStepper({ activeStep, handleBack, handleNext }) {
+  // event handler
   const handleClick = (step) => {
     if (step === activeStep - 1) {
       handleBack();
@@ -52,6 +56,7 @@ export default function EditStepper({ activeStep, handleBack, handleNext }) {
       </Stack>
     </Box>
   );
-}
+};
 
-EditStepper.propTypes = Props;
+WarehouseStepper.propTypes = Props;
+export default WarehouseStepper;
