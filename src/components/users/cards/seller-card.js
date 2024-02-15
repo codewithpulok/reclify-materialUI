@@ -2,6 +2,7 @@ import { Avatar, Box, Card, CardActionArea, Stack, Typography } from '@mui/mater
 import { useRouter } from 'next/navigation';
 import PropTypes from 'prop-types';
 import { PLACEHOLDER_PROFILE_AVATAR } from 'src/config-global';
+import { getServiceType } from 'src/constant/service-types';
 import { paths } from 'src/routes/paths';
 import { fShortenNumber } from 'src/utils/format-number';
 import { ICONS } from '../config-users';
@@ -9,7 +10,7 @@ import { ICONS } from '../config-users';
 const Props = {
   /** @type {User} */
   user: PropTypes.object.isRequired,
-  totalWarehouses: PropTypes.number.isRequired,
+  serviceCount: PropTypes.number.isRequired,
 };
 
 /**
@@ -17,10 +18,14 @@ const Props = {
  * @returns {JSX.Element}
  */
 const SellerCard = (props) => {
-  const { user, totalWarehouses } = props;
+  const { user, serviceCount } = props;
   const router = useRouter();
 
   const avatar = user?.avatar || PLACEHOLDER_PROFILE_AVATAR;
+
+  const isServiceSeller = !!getServiceType(user?.serviceType);
+
+  console.log({ isServiceSeller });
 
   return (
     <Card sx={{ borderRadius: 1 }}>
@@ -54,8 +59,12 @@ const SellerCard = (props) => {
           <Stack direction="row" spacing={0.5} alignItems="center">
             {ICONS.warehouse(16, { color: 'primary.main' })}
             <Typography variant="body2">
-              {fShortenNumber(totalWarehouses) || 0}{' '}
-              {totalWarehouses > 1 ? 'warehouses' : 'warehouse'}
+              {fShortenNumber(serviceCount) || 0}{' '}
+              {serviceCount > 1 ? (
+                <>{isServiceSeller ? 'services' : 'warehouses'}</>
+              ) : (
+                <>{isServiceSeller ? 'service' : 'warehouse'}</>
+              )}
             </Typography>
           </Stack>
         </Stack>

@@ -53,7 +53,7 @@ const SearchListView = (props) => {
           <Grid container spacing={1}>
             {data.slice(0, 4).map((user) => (
               <Grid item xs={12} sm={6} md={4} lg={3} key={user.id}>
-                {user.userType === 'seller' && <SellerCard user={user} totalWarehouses={10} />}
+                {user.userType === 'seller' && <SellerCard user={user} serviceCount={10} />}
                 {user.userType === 'customer' && (
                   <CustomerCard user={user} totalTransactions={100} />
                 )}

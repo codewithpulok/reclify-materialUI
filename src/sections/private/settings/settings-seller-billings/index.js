@@ -29,11 +29,16 @@ const SettingsSellerBillings = (props) => {
     <Grid container spacing={3} disableEqualOverflow>
       <Grid xs={12} md={8}>
         <Stack spacing={3}>
-          <BillingPlan />
+          <BillingPlan
+            plans={billingResponse?.data?.results?.plans}
+            isError={billingResponse?.isError}
+            isLoading={billingResponse?.isLoading || billingResponse?.isFetching}
+            isSuccess={billingResponse?.isSuccess}
+          />
           <BillingInfo
-            primaryACH={billingResponse?.data?.results?.ach}
-            primaryCard={billingResponse?.data?.results?.card}
-            primaryBillingInfo={billingResponse?.data?.results?.billingInfo}
+            primaryACH={billingResponse?.data?.results?.primaryACH}
+            primaryCard={billingResponse?.data?.results?.primaryCard}
+            primaryBillingInfo={billingResponse?.data?.results?.primaryBillingInfo}
             isLoading={billingResponse.isLoading || billingResponse.isFetching}
           />
         </Stack>
