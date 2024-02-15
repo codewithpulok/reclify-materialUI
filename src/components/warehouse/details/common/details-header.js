@@ -7,9 +7,9 @@ import { selectAuth } from 'src/redux-toolkit/features/auth/authSlice';
 import { useAppSelector } from 'src/redux-toolkit/hooks';
 import { joinAddressObj } from 'src/utils/address';
 import { fShortenNumber } from 'src/utils/format-number';
-import { ICONS } from '../config-warehouse';
-import WarehouseAdminMenu from './warehouse-admin-menu';
-import WarehouseDiamond from './warehouse-diamond';
+import { ICONS } from '../../../../sections/private/dashboard/warehouses/config-warehouse';
+import WarehouseAdminMenu from '../../common/warehouse-admin-menu';
+import WarehouseDiamond from '../../common/warehouse-diamond';
 
 /** @type {SxProps} */
 const metadataWrapperStyle = {

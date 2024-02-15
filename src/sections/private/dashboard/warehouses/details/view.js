@@ -3,11 +3,10 @@
 import PropTypes from 'prop-types';
 // local components
 import { notFound } from 'next/navigation';
-import { getWarehouseReviews, warehouses } from 'src/assets/dummy';
 import { ErrorState } from 'src/components/common/custom-state';
 import { LoadingScreen } from 'src/components/common/loading-screen';
+import { WarehouseDetails } from 'src/components/warehouse/details';
 import { useWarehouseQuery } from 'src/redux-toolkit/services/warehouseApi';
-import Content from './content';
 
 const Props = {
   id: PropTypes.string.isRequired,
@@ -21,12 +20,6 @@ const Props = {
 function DetailsView(props) {
   const { id } = props;
   const warehouseResult = useWarehouseQuery(id);
-  const warehouseReviews = getWarehouseReviews('def456'); // dummy for now // TODO: Remove this
-
-  // ******** THIS IS FOR TEST PERPOSE ************* // TODO: Remove this
-  if (!warehouseResult.isLoading && id === 'test') {
-    return <Content warehouse={warehouses[0]} reviews={warehouseReviews} />;
-  }
 
   // if error occured
   if ((warehouseResult.isError || warehouseResult.data?.isError) && !warehouseResult.isLoading)
@@ -38,7 +31,7 @@ function DetailsView(props) {
   // on request success
   if (warehouseResult.isSuccess && warehouseResult.data?.success) {
     return (
-      <Content
+      <WarehouseDetails
         warehouse={warehouseResult.data?.results}
         reviews={warehouseResult.data?.results?.reviews || []}
       />

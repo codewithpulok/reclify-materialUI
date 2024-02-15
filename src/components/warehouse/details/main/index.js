@@ -4,15 +4,14 @@ import { Grid } from '@mui/material';
 import Container from '@mui/material/Container';
 import PropTypes from 'prop-types';
 // local components
-import { getSellers } from 'src/assets/dummy/users';
 import { useSettingsContext } from 'src/components/common/settings';
 import { useResponsive } from 'src/hooks/use-responsive';
 import { selectAuth } from 'src/redux-toolkit/features/auth/authSlice';
 import { useAppSelector } from 'src/redux-toolkit/hooks';
-import WarehouseHeader from './warehouse-header';
-import WarehosueDetailsMain from './warehouse-main';
-import WarehouseReviews from './warehouse-reviews';
-import WarehouseDetailsSidebar from './warehouse-sidebar';
+import WarehouseHeader from '../common/details-header';
+import WarehosueDetailsMain from '../common/details-main';
+import WarehouseReviews from '../common/details-reviews';
+import WarehouseDetailsSidebar from '../common/details-sidebar';
 
 const Props = {
   /** @type {Warehouse} */
@@ -26,10 +25,9 @@ const Props = {
  * @param {Props} props
  * @returns {JSX.Element}
  */
-function Content(props) {
+function WarehouseDetailsMain(props) {
   const { warehouse, reviews } = props;
   const settings = useSettingsContext();
-  const seller = getSellers()[0]; // TODO: replace this with actual user
   const { user } = useAppSelector(selectAuth);
 
   const mdUp = useResponsive('up', 'md');
@@ -40,7 +38,7 @@ function Content(props) {
       <Grid container spacing={2}>
         <Grid item xs={12} md={7}>
           <WarehosueDetailsMain
-            seller={warehouse?.seller || seller}
+            seller={warehouse?.seller}
             warehouse={warehouse}
             reviews={reviews}
           />
@@ -48,7 +46,7 @@ function Content(props) {
         <Grid item xs={12} md={5}>
           {/* show sidebar content in tab mode & hide in mobile mode */}
           {mdUp && (
-            <WarehouseDetailsSidebar seller={warehouse?.seller || seller} warehouse={warehouse}>
+            <WarehouseDetailsSidebar seller={warehouse?.seller} warehouse={warehouse}>
               <WarehouseReviews
                 reviews={reviews}
                 canAddNewReview={user && user.userType === 'customer'}
@@ -62,6 +60,6 @@ function Content(props) {
   );
 }
 
-Content.propTypes = Props;
+WarehouseDetailsMain.propTypes = Props;
 
-export default Content;
+export default WarehouseDetailsMain;

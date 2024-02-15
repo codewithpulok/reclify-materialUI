@@ -11,7 +11,7 @@ import { PurchasePaymentDialog } from 'src/components/common/custom-dialog';
 import { WarehouseMonthCard } from 'src/components/warehouse/cards';
 // constants
 import { CUBIC_FEET_PER_PALLET, SQUARE_FEET_PER_PALLET } from 'src/constant/pallet';
-import { ICONS } from '../../config-warehouse';
+import { ICONS } from '../../../../../sections/private/dashboard/warehouses/config-warehouse';
 import SpaceField from './space-field';
 // ----------------------------------------------------------------------
 
@@ -59,6 +59,8 @@ const Props = {
   warehouse: PropTypes.object.isRequired,
   showPurchase: PropTypes.bool.isRequired,
 };
+
+// ----------------------------------------------------------------------
 
 /**
  * @param {Props} props

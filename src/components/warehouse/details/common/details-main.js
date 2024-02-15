@@ -4,15 +4,15 @@ import PropTypes from 'prop-types';
 import { useResponsive } from 'src/hooks/use-responsive';
 import { selectAuth } from 'src/redux-toolkit/features/auth/authSlice';
 import { useAppSelector } from 'src/redux-toolkit/hooks';
+import DetailsAmenities from './details-amenities';
+import WarehouseDescription from './details-description';
+import WarehouseFacilities from './details-facilities';
+import WarehouseFeatures from './details-features';
+import WarehouseReviews from './details-reviews';
 import ImageCarousel from './image-carousel';
-import WarehouseAmenities from './warehouse-amenities';
-import WarehouseDescription from './warehouse-description';
-import WarehouseFacilities from './warehouse-facilities';
-import WarehouseFeatures from './warehouse-features';
-import WarehouseHighlights from './warehouse-highlights';
-import WarehouseReviews from './warehouse-reviews';
-import WarehouseServices from './warehouse-services';
-import WarehouseDetailsSidebar from './warehouse-sidebar';
+import WarehouseHighlights from './details-highlights';
+import WarehouseServices from './details-services';
+import WarehouseDetailsSidebar from './details-sidebar';
 
 const Props = {
   /** @type {Warehouse} */
@@ -48,7 +48,7 @@ const WarehosueDetailsMain = (props) => {
       <WarehouseHighlights highlights={warehouse?.highlights} />
 
       <WarehouseFeatures features={warehouse.features} />
-      <WarehouseAmenities amenities={warehouse.amenities} />
+      <DetailsAmenities amenities={warehouse.amenities} />
 
       <WarehouseFacilities facilityDetails={warehouse.facilityDetails} />
       <WarehouseServices services={warehouse.services} />

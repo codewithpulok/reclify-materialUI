@@ -15,11 +15,10 @@ const Props = {
 };
 
 /**
- *  Warehouse description
  * @param {Props} props
  * @returns
  */
-const WarehouseAmenities = (props) => {
+const DetailsAmenities = (props) => {
   const { amenities, sx } = props;
 
   const values = useMemo(
@@ -56,6 +55,6 @@ const WarehouseAmenities = (props) => {
   );
 };
 
-WarehouseAmenities.propTypes = Props;
+DetailsAmenities.propTypes = Props;
 
-export default WarehouseAmenities;
+export default DetailsAmenities;

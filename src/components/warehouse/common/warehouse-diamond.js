@@ -7,14 +7,16 @@ import { ConfirmDialog } from 'src/components/common/custom-dialog';
 import { diamondDetails } from 'src/constant/diamond';
 import { useDialog } from 'src/hooks/use-dialog';
 import { useUpdateWarehouseDiamondMutation } from 'src/redux-toolkit/services/adminApi';
-import { ICONS } from '../config-warehouse';
+import { ICONS } from '../../../sections/private/dashboard/warehouses/config-warehouse';
 
+// ----------------------------------------------------------------------
 const Props = {
   id: PropTypes.string.isRequired,
   value: PropTypes.number.isRequired,
   size: PropTypes.number,
   action: PropTypes.bool,
 };
+// ----------------------------------------------------------------------
 
 /**
  * @param {Props} props

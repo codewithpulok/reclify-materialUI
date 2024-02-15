@@ -5,8 +5,8 @@ import PropTypes from 'prop-types';
 import { notFound } from 'next/navigation';
 import { ErrorState } from 'src/components/common/custom-state';
 import { LoadingScreen } from 'src/components/common/loading-screen';
+import { WarehouseDetails } from 'src/components/warehouse/details';
 import { useWarehouseQuery } from 'src/redux-toolkit/services/warehouseApi';
-import Content from 'src/sections/private/dashboard/warehouses/details/content';
 
 const Props = {
   id: PropTypes.string.isRequired,
@@ -31,7 +31,7 @@ function DetailsView(props) {
   // on request success
   if (warehouseResult.isSuccess && warehouseResult.data?.success) {
     return (
-      <Content
+      <WarehouseDetails
         warehouse={warehouseResult.data?.results}
         reviews={warehouseResult.data?.results?.reviews || []}
       />

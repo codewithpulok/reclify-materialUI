@@ -12,7 +12,9 @@ import {
   useUpdateWarehouseVerifiedMutation,
   useUpdateWarehouseVisibleMutation,
 } from 'src/redux-toolkit/services/adminApi';
-import { ICONS } from '../config-warehouse';
+import { ICONS } from '../../../sections/private/dashboard/warehouses/config-warehouse';
+
+// ----------------------------------------------------------------------
 
 const Props = {
   /** @type {Warehouse} */
@@ -24,6 +26,8 @@ const Props = {
   iconBtnProps: PropTypes.object,
   iconWidth: PropTypes.number,
 };
+
+// ----------------------------------------------------------------------
 
 /**
  * @param {Props} props

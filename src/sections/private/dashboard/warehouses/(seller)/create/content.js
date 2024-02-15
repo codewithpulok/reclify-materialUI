@@ -148,6 +148,7 @@ const Content = (props) => {
         sx={{
           mb: { xs: 3, md: 5 },
         }}
+        action={<Button>Preview</Button>}
       />
       <FormProvider methods={methods} onSubmit={handleSubmit(handleCreate)} onReset={onReset}>
         <Stack spacing={1.5}>

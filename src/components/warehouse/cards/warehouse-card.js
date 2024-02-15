@@ -21,11 +21,11 @@ import { paths } from 'src/routes/paths';
 // local components
 import Image from 'src/components/common/image';
 import Label from 'src/components/common/label';
-import WarehouseAdminMenu from 'src/sections/private/dashboard/warehouses/details/warehouse-admin-menu';
-import WarehouseDiamond from 'src/sections/private/dashboard/warehouses/details/warehouse-diamond';
 // utils
 import { joinAddressObj } from 'src/utils/address';
 import { getPrimaryPhoto } from 'src/utils/photos';
+import WarehouseAdminMenu from '../common/warehouse-admin-menu';
+import WarehouseDiamond from '../common/warehouse-diamond';
 import { ICONS } from '../config-warehouse';
 
 const Props = {
