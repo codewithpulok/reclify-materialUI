@@ -40,24 +40,27 @@ const DetailsMembershipHistory = (props) => {
         </TableHead>
         <TableBody>
           {membershipHistory.map((row) => (
-            <TableRow key={row.id} sx={{ '&:last-child td, &:last-child th': { border: 0 } }}>
+            <TableRow
+              key={row?.createdAt}
+              sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
+            >
               <TableCell component="th" scope="row" sx={{ textTransform: 'capitalize' }}>
-                {row.plan?.subscription}
+                {row?.planId}
               </TableCell>
-              <TableCell align="right">{fCurrency(row.plan?.price)}</TableCell>
+              <TableCell align="right">{fCurrency(row?.invoiceData?.price) || '$0.00'}</TableCell>
               <TableCell align="right">
                 <Tooltip title="Click to visit invoice PDF" arrow>
                   <Chip
-                    label={row.invoice?.name}
+                    label={row?.invoiceData?.invoiceNumber || 'INVOICE'}
                     icon={ICONS.invoice()}
                     clickable
                     variant="outlined"
                     component={RouterLink}
-                    href="#"
+                    href={row?.invoiceData?.file || '#'}
                   />
                 </Tooltip>
               </TableCell>
-              <TableCell align="right">{fDate(row.createdAt)}</TableCell>
+              <TableCell align="right">{fDate(row?.createdAt) || 'Date not available'}</TableCell>
             </TableRow>
           ))}
         </TableBody>
