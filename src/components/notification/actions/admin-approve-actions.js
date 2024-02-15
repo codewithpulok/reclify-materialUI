@@ -6,6 +6,8 @@ import { useAppSelector } from 'src/redux-toolkit/hooks';
 const Props = {
   /** @type {Transaction} */
   transaction: PropTypes.object,
+  transactionCancel: PropTypes.func,
+  transactionComplete: PropTypes.func,
 };
 
 /**
@@ -14,12 +16,17 @@ const Props = {
  */
 const AdminApproveActions = (props) => {
   const { user } = useAppSelector(selectAuth);
-  const { transaction } = props;
+  const { transaction, transactionCancel, transactionComplete } = props;
 
   if (user?.userType === 'customer') {
     if (transaction?.status === 'pending') {
       return (
-        <Button color="error" variant="outlined" size="small">
+        <Button
+          color="error"
+          variant="outlined"
+          size="small"
+          onClick={() => transactionCancel(transaction)}
+        >
           Cancel
         </Button>
       );
@@ -30,10 +37,20 @@ const AdminApproveActions = (props) => {
     if (transaction?.status === 'pending') {
       return (
         <>
-          <Button color="primary" variant="outlined" size="small">
+          <Button
+            color="primary"
+            variant="outlined"
+            size="small"
+            onClick={() => transactionComplete(transaction)}
+          >
             Complete
           </Button>
-          <Button color="error" variant="outlined" size="small">
+          <Button
+            color="error"
+            variant="outlined"
+            size="small"
+            onClick={() => transactionCancel(transaction)}
+          >
             Cancel
           </Button>
         </>

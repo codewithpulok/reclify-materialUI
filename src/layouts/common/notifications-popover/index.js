@@ -5,7 +5,6 @@ import Badge from '@mui/material/Badge';
 import Divider from '@mui/material/Divider';
 import Drawer from '@mui/material/Drawer';
 import IconButton from '@mui/material/IconButton';
-import List from '@mui/material/List';
 import Stack from '@mui/material/Stack';
 import Tab from '@mui/material/Tab';
 import Tabs from '@mui/material/Tabs';
@@ -18,17 +17,16 @@ import { useResponsive } from 'src/hooks/use-responsive';
 import { varHover } from 'src/components/common/animate';
 import Iconify from 'src/components/common/iconify';
 import Label from 'src/components/common/label';
-import Scrollbar from 'src/components/common/scrollbar';
 
 import { CircularProgress } from '@mui/material';
 import { LoadingState } from 'src/components/common/custom-state';
+import NotificationList from 'src/components/notification/list';
 import { selectAuth } from 'src/redux-toolkit/features/auth/authSlice';
 import { useAppSelector } from 'src/redux-toolkit/hooks';
 import {
   useGetNotificationsQuery,
   useReadAllNotificationMutation,
 } from 'src/redux-toolkit/services/notificationApi';
-import NotificationItem from './notification-item';
 
 // ----------------------------------------------------------------------
 
@@ -155,16 +153,6 @@ export default function NotificationsPopover() {
     </Tabs>
   );
 
-  const renderList = (
-    <Scrollbar>
-      <List disablePadding>
-        {notifications.map((notification) => (
-          <NotificationItem key={notification.id} notification={notification} />
-        ))}
-      </List>
-    </Scrollbar>
-  );
-
   return (
     <>
       <IconButton
@@ -207,7 +195,9 @@ export default function NotificationsPopover() {
         <Divider />
 
         {notificationResponse.isLoading && <LoadingState />}
-        {notificationResponse?.isSuccess && renderList}
+        {notificationResponse?.isSuccess && (
+          <NotificationList notifications={notifications || []} />
+        )}
       </Drawer>
     </>
   );
