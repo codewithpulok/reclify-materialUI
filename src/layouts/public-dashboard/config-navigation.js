@@ -1,11 +1,13 @@
 import { useMemo } from 'react';
-
+// routes
 import { paths } from 'src/routes/paths';
-
+// assets
 import { getRegionsByScope, regionScopes } from 'src/assets/data';
+// components
 import { getIconify, getIconifyFunc } from 'src/components/common/iconify/utilities';
+import SvgColor from 'src/components/common/svg-color';
+// constants
 import { getAvailableServiceTypes } from 'src/constant/service-types';
-
 // ----------------------------------------------------------------------
 
 /**
@@ -28,7 +30,7 @@ const ICONS = {
   not_featured: getIconifyFunc('iconamoon:star-off-fill'),
   not_rated: getIconifyFunc('tabler:diamond-off'),
   hidden: getIconifyFunc('solar:eye-closed-bold-duotone'),
-  news: getIconifyFunc('bxs:news'),
+  news: () => <SvgColor src="/assets/icons/navbar/ic_blog.svg" />,
   admin: getIconifyFunc('eos-icons:admin-outlined'),
 };
 

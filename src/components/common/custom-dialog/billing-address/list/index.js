@@ -65,7 +65,7 @@ const BillingAddressListDialog = (props) => {
     (data = []) => {
       if (!billingInfoResponse.isLoading && billingInfoResponse.isError) {
         return (
-          <Box sx={{ px: 2 }}>
+          <Box sx={{ px: 2, py: 2 }}>
             <ErrorState />
           </Box>
         );
@@ -73,7 +73,7 @@ const BillingAddressListDialog = (props) => {
 
       if (!billingInfoResponse.isLoading && billingInfoResponse.isSuccess && data?.length === 0) {
         return (
-          <Box sx={{ px: 2 }}>
+          <Box sx={{ px: 2, py: 2 }}>
             <EmptyState />
           </Box>
         );
