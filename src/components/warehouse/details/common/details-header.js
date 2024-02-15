@@ -7,9 +7,9 @@ import { selectAuth } from 'src/redux-toolkit/features/auth/authSlice';
 import { useAppSelector } from 'src/redux-toolkit/hooks';
 import { joinAddressObj } from 'src/utils/address';
 import { fShortenNumber } from 'src/utils/format-number';
-import { ICONS } from '../../../../sections/private/dashboard/warehouses/config-warehouse';
 import WarehouseAdminMenu from '../../common/warehouse-admin-menu';
 import WarehouseDiamond from '../../common/warehouse-diamond';
+import { ICONS } from '../../config-warehouse';
 
 /** @type {SxProps} */
 const metadataWrapperStyle = {
@@ -31,6 +31,7 @@ const metadataWrapperStyle = {
 const Props = {
   /** @type {Warehouse} */
   warehouse: PropTypes.object.isRequired,
+  hideBack: PropTypes.bool,
 };
 
 /**
@@ -38,8 +39,8 @@ const Props = {
  * @returns {JSX.Element}
  */
 const WarehouseHeader = (props) => {
+  const { warehouse, hideBack } = props;
   const { user } = useAppSelector(selectAuth);
-  const { warehouse } = props;
   const { name, address, isVerified, isFeatured, visible, reviews, region } = warehouse;
   const router = useRouter();
 
@@ -137,9 +138,11 @@ const WarehouseHeader = (props) => {
 
   return (
     <Box sx={{ mb: 8 }}>
-      <IconButton title="go back" onClick={goToBack} sx={{ p: 0, mb: 0.5 }}>
-        {ICONS.back(32)}
-      </IconButton>
+      {!hideBack && (
+        <IconButton title="go back" onClick={goToBack} sx={{ p: 0, mb: 0.5 }}>
+          {ICONS.back(32)}
+        </IconButton>
+      )}
 
       <Stack direction="row" alignItems="center" spacing={1}>
         {warehouse?.seller?.logo && (

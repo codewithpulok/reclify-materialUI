@@ -21,7 +21,7 @@ const Props = {
  * @param {Props} props
  * @returns {JSX.Element}
  */
-const WarehouseDetailsSidebar = (props) => {
+const DetailsSidebar = (props) => {
   const { warehouse, seller, sx = {}, children } = props;
   const { user } = useAppSelector(selectAuth);
   return (
@@ -43,6 +43,6 @@ const WarehouseDetailsSidebar = (props) => {
   );
 };
 
-WarehouseDetailsSidebar.propTypes = Props;
+DetailsSidebar.propTypes = Props;
 
-export default WarehouseDetailsSidebar;
+export default DetailsSidebar;

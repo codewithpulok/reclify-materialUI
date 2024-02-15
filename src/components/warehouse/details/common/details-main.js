@@ -8,11 +8,11 @@ import DetailsAmenities from './details-amenities';
 import WarehouseDescription from './details-description';
 import WarehouseFacilities from './details-facilities';
 import WarehouseFeatures from './details-features';
-import WarehouseReviews from './details-reviews';
-import ImageCarousel from './image-carousel';
 import WarehouseHighlights from './details-highlights';
+import WarehouseReviews from './details-reviews';
 import WarehouseServices from './details-services';
 import WarehouseDetailsSidebar from './details-sidebar';
+import ImageCarousel from './image-carousel';
 
 const Props = {
   /** @type {Warehouse} */
@@ -27,7 +27,7 @@ const Props = {
  * @param {Props} props
  * @returns {JSX.Element}
  */
-const WarehosueDetailsMain = (props) => {
+const DetailsMain = (props) => {
   const { warehouse, reviews, seller } = props;
   const { user } = useAppSelector(selectAuth);
 
@@ -64,6 +64,6 @@ const WarehosueDetailsMain = (props) => {
   );
 };
 
-WarehosueDetailsMain.propTypes = Props;
+DetailsMain.propTypes = Props;
 
-export default WarehosueDetailsMain;
+export default DetailsMain;

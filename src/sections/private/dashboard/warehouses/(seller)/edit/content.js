@@ -13,6 +13,8 @@ import { useRouter } from 'next/navigation';
 import CustomBreadcrumbs from 'src/components/common/custom-breadcrumbs';
 import FormProvider from 'src/components/common/hook-form/form-provider';
 import { useSettingsContext } from 'src/components/common/settings';
+import { WarehouseDetailsPreview } from 'src/components/warehouse/details';
+import { useBoolean } from 'src/hooks/use-boolean';
 import useStepper from 'src/hooks/use-stepper';
 import { useWarehouseUpdateMutation } from 'src/redux-toolkit/services/warehouseApi';
 import { paths } from 'src/routes/paths';
@@ -37,14 +39,16 @@ const Content = (props) => {
 
   // app states
   const { activeStep, goBack, goNext } = useStepper(0, 2);
+  const isPreview = useBoolean();
 
   // api states
   const [updateWarehouse] = useWarehouseUpdateMutation();
 
   // form states
   const methods = useForm({ defaultValues: warehouse, resolver: yupResolver(warehouseSchema) });
-  const { handleSubmit, reset, formState, trigger } = methods;
+  const { handleSubmit, reset, formState, trigger, watch } = methods;
   const { isSubmitting } = formState;
+  const values = watch();
 
   // reset form
   const onReset = useCallback(() => {
@@ -53,14 +57,14 @@ const Content = (props) => {
   }, [reset, router]);
 
   // handle submit form request
-  const onSubmit = useCallback(
-    async (values) => {
+  const handleUpdate = useCallback(
+    async (formValues) => {
       // updateing total space
-      values.totalSpace = Math.round(values.totalSpace);
+      formValues.totalSpace = Math.round(formValues.totalSpace);
 
-      console.log('Warehouse Update: ', values);
+      console.log('Warehouse Update: ', formValues);
 
-      const response = await updateWarehouse({ data: values, id: warehouse?.id });
+      const response = await updateWarehouse({ data: formValues, id: warehouse?.id });
       const { data, error } = response;
 
       if (error || data?.isError) {
@@ -93,7 +97,7 @@ const Content = (props) => {
     const isValid = await trigger();
 
     if (isValid) {
-      handleSubmit(onSubmit)();
+      handleSubmit(handleUpdate)();
     }
   };
 
@@ -117,49 +121,64 @@ const Content = (props) => {
         sx={{
           mb: { xs: 3, md: 5 },
         }}
+        action={
+          <Button variant="soft" color="primary" onClick={isPreview.onToggle}>
+            {isPreview.value ? 'Edit Mode' : 'Preview Mode'}
+          </Button>
+        }
       />
 
-      <FormProvider methods={methods} onSubmit={handleSubmit(onSubmit)} onReset={onReset}>
-        <Stack>
-          <WarehouseStepper activeStep={activeStep} handleBack={goBack} handleNext={validateStep} />
-          <WarehouseFields activeStep={activeStep} />
-          <Stack
-            sx={{
-              flexDirection: {
-                xs: 'row',
-                sm: 'row-reverse',
-              },
-              justifyContent: {
-                xs: 'start',
-                sm: 'end',
-              },
-            }}
-            flexWrap="wrap"
-            spacing={1}
-            mt={5}
-          >
-            <LoadingButton
-              loading={isSubmitting}
-              variant="contained"
-              size="large"
-              type="button"
-              onClick={activeStep === 2 ? submitForm : validateStep}
-              color="primary"
+      {!isPreview.value && (
+        <FormProvider methods={methods} onSubmit={handleSubmit(handleUpdate)} onReset={onReset}>
+          <Stack>
+            <WarehouseStepper
+              activeStep={activeStep}
+              handleBack={goBack}
+              handleNext={validateStep}
+            />
+            <WarehouseFields activeStep={activeStep} />
+            <Stack
+              sx={{
+                flexDirection: {
+                  xs: 'row',
+                  sm: 'row-reverse',
+                },
+                justifyContent: {
+                  xs: 'start',
+                  sm: 'end',
+                },
+              }}
+              flexWrap="wrap"
+              spacing={1}
+              mt={5}
             >
-              {activeStep === 2 ? 'Save Changes' : 'Next'}
-            </LoadingButton>
+              <LoadingButton
+                loading={isSubmitting}
+                variant="contained"
+                size="large"
+                type="button"
+                onClick={activeStep === 2 ? submitForm : validateStep}
+                color="primary"
+              >
+                {activeStep === 2 ? 'Save Changes' : 'Next'}
+              </LoadingButton>
 
-            <Button
-              variant="soft"
-              size="large"
-              color="error"
-              onClick={activeStep === 0 ? onReset : goBack}
-            >
-              {activeStep === 0 ? 'Cancel' : 'Back'}
-            </Button>
+              <Button
+                variant="soft"
+                size="large"
+                color="error"
+                onClick={activeStep === 0 ? onReset : goBack}
+              >
+                {activeStep === 0 ? 'Cancel' : 'Back'}
+              </Button>
+            </Stack>
           </Stack>
-        </Stack>
-      </FormProvider>
+        </FormProvider>
+      )}
+
+      {isPreview.value && (
+        <WarehouseDetailsPreview warehouse={values || {}} reviews={values?.reviews || []} />
+      )}
     </Container>
   );
 };

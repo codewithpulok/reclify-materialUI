@@ -30,7 +30,7 @@ const Props = {
  * @param {Props} props
  * @returns {React.JSX.Element}
  */
-const WarehouseReviews = (props) => {
+const DetailsReviews = (props) => {
   const { reviews, sx, canAddNewReview, warehouseId } = props;
   const [sortType, setSortType] = useState('DEFAULT'); // NEW_FIRST, OLD_FIRST, DEFAULT
   const auth = useAppSelector(selectAuth);
@@ -148,6 +148,6 @@ const WarehouseReviews = (props) => {
   );
 };
 
-WarehouseReviews.propTypes = Props;
+DetailsReviews.propTypes = Props;
 
-export default WarehouseReviews;
+export default DetailsReviews;

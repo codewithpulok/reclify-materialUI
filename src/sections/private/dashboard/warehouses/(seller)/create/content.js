@@ -18,6 +18,8 @@ import {
 import CustomBreadcrumbs from 'src/components/common/custom-breadcrumbs';
 import FormProvider from 'src/components/common/hook-form/form-provider';
 import { useSettingsContext } from 'src/components/common/settings';
+import { WarehouseDetailsPreview } from 'src/components/warehouse/details';
+import { useBoolean } from 'src/hooks/use-boolean';
 import useStepper from 'src/hooks/use-stepper';
 import { useWarehouseCreateMutation } from 'src/redux-toolkit/services/warehouseApi';
 import { paths } from 'src/routes/paths';
@@ -76,6 +78,7 @@ const Content = (props) => {
 
   // app states
   const { activeStep, goBack, goNext } = useStepper(0, 2);
+  const isPreview = useBoolean();
 
   // api state
   const [createWarehouse] = useWarehouseCreateMutation();
@@ -85,8 +88,9 @@ const Content = (props) => {
     resolver: yupResolver(warehouseSchema),
     defaultValues: sourceWarehouse || defaultValues,
   });
-  const { handleSubmit, formState, reset, trigger } = methods;
+  const { handleSubmit, formState, reset, trigger, watch } = methods;
   const { isSubmitting } = formState;
+  const values = watch();
 
   // reset form
   const onReset = useCallback(() => {
@@ -96,12 +100,12 @@ const Content = (props) => {
 
   // handle form submit
   const handleCreate = useCallback(
-    async (values) => {
+    async (formValues) => {
       // updateing total space
-      values.totalSpace = Math.round(values.totalSpace);
+      formValues.totalSpace = Math.round(formValues.totalSpace);
 
-      console.log('Warehouse Create: ', values);
-      const response = await createWarehouse(values);
+      console.log('Warehouse Create: ', formValues);
+      const response = await createWarehouse(formValues);
       const { data, error } = response;
 
       if (error || data?.isError) {
@@ -148,50 +152,65 @@ const Content = (props) => {
         sx={{
           mb: { xs: 3, md: 5 },
         }}
-        action={<Button>Preview</Button>}
+        action={
+          <Button variant="soft" color="primary" onClick={isPreview.onToggle}>
+            {isPreview.value ? 'Create Mode' : 'Preview Mode'}
+          </Button>
+        }
       />
-      <FormProvider methods={methods} onSubmit={handleSubmit(handleCreate)} onReset={onReset}>
-        <Stack spacing={1.5}>
-          <WarehouseStepper activeStep={activeStep} handleBack={goBack} handleNext={validateStep} />
 
-          <WarehouseFields activeStep={activeStep} />
-          <Stack
-            sx={{
-              flexDirection: {
-                xs: 'row',
-                sm: 'row-reverse',
-              },
-              justifyContent: {
-                xs: 'start',
-                sm: 'end',
-              },
-            }}
-            flexWrap="wrap"
-            spacing={1}
-            mt={5}
-          >
-            <LoadingButton
-              loading={isSubmitting}
-              variant="contained"
-              size="large"
-              type="button"
-              onClick={activeStep === 2 ? submitForm : validateStep}
-              color="primary"
-            >
-              {activeStep === 2 ? 'Create' : 'Next'}
-            </LoadingButton>
+      {!isPreview.value && (
+        <FormProvider methods={methods} onSubmit={handleSubmit(handleCreate)} onReset={onReset}>
+          <Stack spacing={1.5}>
+            <WarehouseStepper
+              activeStep={activeStep}
+              handleBack={goBack}
+              handleNext={validateStep}
+            />
 
-            <Button
-              variant="soft"
-              size="large"
-              color="error"
-              onClick={activeStep === 0 ? onReset : goBack}
+            <WarehouseFields activeStep={activeStep} />
+            <Stack
+              sx={{
+                flexDirection: {
+                  xs: 'row',
+                  sm: 'row-reverse',
+                },
+                justifyContent: {
+                  xs: 'start',
+                  sm: 'end',
+                },
+              }}
+              flexWrap="wrap"
+              spacing={1}
+              mt={5}
             >
-              {activeStep === 0 ? 'Cancel' : 'Back'}
-            </Button>
+              <LoadingButton
+                loading={isSubmitting}
+                variant="contained"
+                size="large"
+                type="button"
+                onClick={activeStep === 2 ? submitForm : validateStep}
+                color="primary"
+              >
+                {activeStep === 2 ? 'Create' : 'Next'}
+              </LoadingButton>
+
+              <Button
+                variant="soft"
+                size="large"
+                color="error"
+                onClick={activeStep === 0 ? onReset : goBack}
+              >
+                {activeStep === 0 ? 'Cancel' : 'Back'}
+              </Button>
+            </Stack>
           </Stack>
-        </Stack>
-      </FormProvider>
+        </FormProvider>
+      )}
+
+      {isPreview.value && (
+        <WarehouseDetailsPreview warehouse={values || {}} reviews={values?.reviews || []} />
+      )}
     </Container>
   );
 };

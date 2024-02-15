@@ -14,7 +14,7 @@ const Props = {
  * @param {Props} props
  * @returns
  */
-const WarehouseHighlights = (props) => {
+const DetailsHighlights = (props) => {
   const { highlights, sx } = props;
 
   return (
@@ -24,6 +24,6 @@ const WarehouseHighlights = (props) => {
   );
 };
 
-WarehouseHighlights.propTypes = Props;
+DetailsHighlights.propTypes = Props;
 
-export default WarehouseHighlights;
+export default DetailsHighlights;

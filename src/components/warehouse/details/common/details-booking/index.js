@@ -66,7 +66,7 @@ const Props = {
  * @param {Props} props
  * @returns {JSX.Element}
  */
-const WarehouseBooking = (props) => {
+const DetailsBooking = (props) => {
   const { warehouse, showPurchase } = props;
   const [selectedMonth, setSelectedMonth] = useState(1);
   const [requiredSpace, setRequiredSpace] = useState(1);
@@ -384,6 +384,6 @@ const WarehouseBooking = (props) => {
   );
 };
 
-WarehouseBooking.propTypes = Props;
+DetailsBooking.propTypes = Props;
 
-export default WarehouseBooking;
+export default DetailsBooking;
