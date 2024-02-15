@@ -52,29 +52,23 @@ export const usRegions = [
     ],
   },
   {
-    name: 'Alaska/Hawaii',
+    name: 'Alaska/Hawaii/Territories',
     code: 'alaska-hawai',
-    icon: 'simple-icons:paramountplus',
-    rotate: 0,
-    states: ['AK', 'HI'],
-  },
-  {
-    name: 'Territories',
-    code: 'territories',
     icon: 'emojione-monotone:flag-for-us-virgin-islands',
     rotate: 0,
-    states: ['AS', 'MP', 'GU', 'PR', 'VI'],
+    states: ['AK', 'HI', 'AS', 'MP', 'GU', 'PR', 'VI'],
   },
 ];
 
 /** @type {RegionType[]} - Global Regions */
 export const globalRegions = [
-  { name: 'Canada', code: 'canada' },
-  { name: 'Latin America', code: 'latin-america' },
-  { name: 'Europe', code: 'europe' },
-  { name: 'Africa', code: 'africa' },
-  { name: 'Middle East', code: 'middle-east' },
-  { name: 'Asia', code: 'asia' },
+  // NOTE: hide for now (2024/2/15)
+  // { name: 'Canada', code: 'canada' },
+  // { name: 'Latin America', code: 'latin-america' },
+  // { name: 'Europe', code: 'europe' },
+  // { name: 'Africa', code: 'africa' },
+  // { name: 'Middle East', code: 'middle-east' },
+  // { name: 'Asia', code: 'asia' },
 ];
 
 export const getRegionsByScope = (code) => {

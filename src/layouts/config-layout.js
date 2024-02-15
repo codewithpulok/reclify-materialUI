@@ -1,6 +1,7 @@
-// ----------------------------------------------------------------------
-
+// components
 import { getIconifyFunc } from 'src/components/common/iconify/utilities';
+import SvgColor from 'src/components/common/svg-color';
+// ----------------------------------------------------------------------
 
 export const HEADER = {
   H_MOBILE: 64,
@@ -25,7 +26,7 @@ export const ICONS = {
   not_featured: getIconifyFunc('iconamoon:star-off-fill'),
   not_rated: getIconifyFunc('tabler:diamond-off'),
   hidden: getIconifyFunc('solar:eye-closed-bold-duotone'),
-  news: getIconifyFunc('iconamoon:news-duotone'),
+  news: () => <SvgColor src="/assets/icons/navbar/ic_blog.svg" />,
   admin: getIconifyFunc('eos-icons:admin-outlined'),
 
   transaction: getIconifyFunc('solar:card-transfer-line-duotone'),

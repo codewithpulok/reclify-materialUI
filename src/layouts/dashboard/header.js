@@ -1,23 +1,23 @@
 import PropTypes from 'prop-types';
-
+// mui
 import AppBar from '@mui/material/AppBar';
 import IconButton from '@mui/material/IconButton';
 import Stack from '@mui/material/Stack';
 import Toolbar from '@mui/material/Toolbar';
 import { useTheme } from '@mui/material/styles';
-
+// hooks
 import { useOffSetTop } from 'src/hooks/use-off-set-top';
 import { useResponsive } from 'src/hooks/use-responsive';
-
+// theme
 import { bgBlur } from 'src/theme/css';
-
+// routes
+import { paths } from 'src/routes/paths';
+import { RouterLink } from 'src/routes/components';
+// components
 import Logo from 'src/components/common/logo';
 import { useSettingsContext } from 'src/components/common/settings';
 import SvgColor from 'src/components/common/svg-color';
-
 import { getIconify } from 'src/components/common/iconify/utilities';
-import { RouterLink } from 'src/routes/components';
-import { paths } from 'src/routes/paths';
 import AccountPopover from '../common/account-popover';
 import NotificationsPopover from '../common/notifications-popover';
 import Searchbar from '../common/searchbar';
@@ -52,10 +52,10 @@ export default function Header({ onOpenNav }) {
         justifyContent="flex-end"
         spacing={{ xs: 0.5, sm: 1 }}
       >
-        <NotificationsPopover />
         <IconButton LinkComponent={RouterLink} href={paths.news.root}>
-          {getIconify('iconamoon:news-duotone', 24)}
+          <SvgColor src="/assets/icons/navbar/ic_blog.svg" />
         </IconButton>
+        <NotificationsPopover />
         <IconButton LinkComponent={RouterLink} href={paths.settings.root}>
           {getIconify('solar:settings-bold-duotone', 24)}
         </IconButton>

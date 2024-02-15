@@ -81,7 +81,7 @@ export const action = {
   selected: alpha(grey[500], 0.16),
   disabled: alpha(grey[500], 0.8),
   disabledBackground: alpha(grey[500], 0.24),
-  diamond: alpha(grey[900], 0.4),
+  diamond: alpha(common.white, 0.1),
   focus: alpha(grey[500], 0.24),
   hoverOpacity: 0.08,
   disabledOpacity: 0.48,
@@ -96,7 +96,7 @@ const base = {
   error,
   grey,
   common,
-  divider: alpha(grey[500], 0.2),
+  divider: alpha(grey[900], 0.1),
   action,
 };
 

@@ -110,7 +110,7 @@ const SettingsService = (props) => {
       <Stack direction="row" justifyContent="end" mb={5}>
         <Button
           sx={{ width: { xs: '100%', sm: 'auto' } }}
-          color={!previewMode.value ? 'primary' : 'secondary'}
+          color="primary"
           variant="contained"
           onClick={previewMode.onToggle}
           fullWidth

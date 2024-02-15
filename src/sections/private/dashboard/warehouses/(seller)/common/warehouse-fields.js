@@ -193,15 +193,6 @@ const WarehouseFields = (props) => {
         <Label sx={{ mb: 1 }}>Photos</Label>
         <PhotosUploadField name="photos" />
       </Grid>
-
-      <Grid item xs={12}>
-        <PredefinedFields
-          name="services"
-          fields={predefinedServices}
-          label="Available Services and Rates"
-          defaultExpanded
-        />
-      </Grid>
     </>
   );
 
@@ -284,7 +275,6 @@ const WarehouseFields = (props) => {
           fullWidth
         />
       </Grid>
-
       <Grid item xs={12}>
         <RHFAccordion
           label="Warehouse Prices (Per Pallet)"
@@ -417,7 +407,6 @@ const WarehouseFields = (props) => {
           </Grid>
         </RHFAccordion>
       </Grid>
-
       <Grid item xs={12}>
         <RHFAccordion
           names={['promoCode', 'discountRate', 'hasPromo']}
@@ -451,16 +440,27 @@ const WarehouseFields = (props) => {
                 fullWidth
               />
             </Grid>
-
             <Grid item xs={12} sm={6}>
               <RHFTextField label="Promo Code" name="promoCode" fullWidth disabled={!hasPromo} />
             </Grid>
-
-            <Grid item xs={12} sm={6}>
+            <Grid
+              item
+              xs={12}
+              sm={6}
+              sx={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}
+            >
               <RHFSwitch label="Enable Promo Code" name="hasPromo" />
             </Grid>
           </Grid>
         </RHFAccordion>
+      </Grid>
+      <Grid item xs={12}>
+        <PredefinedFields
+          name="services"
+          fields={predefinedServices}
+          label="Available Services and Rates"
+          defaultExpanded
+        />
       </Grid>
     </>
   );

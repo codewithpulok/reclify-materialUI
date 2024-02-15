@@ -130,7 +130,7 @@ const Content = (props) => {
 
       <FormProvider methods={methods} onSubmit={handleSubmit(onSubmit)} onReset={onReset}>
         <Stack>
-          <EditStepper activeStep={activeStep} />
+          <EditStepper activeStep={activeStep} handleBack={handleBack} handleNext={validateStep} />
           <WarehouseFields activeStep={activeStep} />
           <Stack
             sx={{

@@ -165,12 +165,19 @@ const WarehouseBooking = (props) => {
       <Card sx={{ bgcolor: 'background.paper', borderRadius: 1, py: 2.5, px: 2.5 }}>
         {!!discountRate && (
           <Stack direction="row" spacing={0.5} flexWrap="wrap" alignItems="start" sx={{ mb: 1 }}>
-            <Chip label="Hot Rack" color="secondary" variant="filled" icon={ICONS.hot()} />
+            <Chip
+              label="Hot Rack"
+              color="secondary"
+              variant="filled"
+              icon={ICONS.hot()}
+              sx={{ color: 'white' }}
+            />
             <Chip
               label={`${discountRate}% OFF`}
               color="secondary"
-              variant="outlined"
+              variant="filled"
               icon={ICONS.discount()}
+              sx={{ color: 'white' }}
             />
           </Stack>
         )}
@@ -249,7 +256,7 @@ const WarehouseBooking = (props) => {
                       top: '50%',
                       width: '100px',
                       borderWidth: '1.5px',
-                      borderColor: '#F08F4A',
+                      borderColor: 'secondary.main',
                     }}
                   />
                 )}
@@ -330,7 +337,7 @@ const WarehouseBooking = (props) => {
         >
           <Typography variant="h5">Deposit:</Typography>
           <Typography variant="h5" ml={1}>
-            {fCurrency(totalPrice - totalDiscount) || '$0.00'}
+            {fCurrency(monthlyTotal) || '$0.00'}
           </Typography>
         </Stack>
         {!!totalDiscount && (

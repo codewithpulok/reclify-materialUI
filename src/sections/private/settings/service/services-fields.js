@@ -11,7 +11,7 @@ import {
 import { RHFDatePicker, RHFTextField } from 'src/components/common/hook-form';
 import Label from 'src/components/common/label';
 
-const ServiceFields = (props) => {
+const ServiceFields = () => {
   const { watch, setValue } = useFormContext();
   const type = watch('type', undefined);
   const foundedYear = watch('foundedYear');
@@ -77,7 +77,7 @@ const ServiceFields = (props) => {
             <PredefinedFields
               name="features"
               fields={subServices}
-              label="Features"
+              label="Services"
               defaultExpanded
             />
           </Grid>

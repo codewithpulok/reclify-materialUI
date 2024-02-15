@@ -41,7 +41,7 @@ const WarehouseDetailsCard = (props) => {
             <Chip icon={ICONS.verified()} label="Verified" size="small" color="primary" />
           )}
           {warehouse.isFeatured && (
-            <Chip icon={ICONS.featured()} label="Featured" size="small" color="warning" />
+            <Chip icon={ICONS.featured()} label="Featured" size="small" color="secondary.main" />
           )}
         </Stack>
         <Typography variant="body1">{warehouse.description}</Typography>

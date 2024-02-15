@@ -17,7 +17,15 @@ const Props = {
   activeStep: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
 };
 
-export default function EditStepper({ activeStep }) {
+export default function EditStepper({ activeStep, handleBack, handleNext }) {
+  const handleClick = (step) => {
+    if (step === activeStep - 1) {
+      handleBack();
+    } else if (step === activeStep + 1) {
+      handleNext();
+    }
+  };
+
   return (
     <Box sx={{ width: '100%', mb: 8 }}>
       <Stepper sx={{ mb: 3 }} activeStep={activeStep}>
@@ -25,7 +33,12 @@ export default function EditStepper({ activeStep }) {
           const stepProps = {};
           const labelProps = {};
           return (
-            <Step key={label} {...stepProps}>
+            <Step
+              key={label}
+              {...stepProps}
+              onClick={() => handleClick(index)}
+              sx={{ cursor: 'pointer' }}
+            >
               <StepLabel {...labelProps}>{label}</StepLabel>
             </Step>
           );

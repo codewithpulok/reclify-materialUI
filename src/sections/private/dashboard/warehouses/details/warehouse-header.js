@@ -64,7 +64,13 @@ const WarehouseHeader = (props) => {
         )}
 
         {isFeatured && (
-          <Chip label="Featured" icon={ICONS.featured()} color="warning" size="small" />
+          <Chip
+            label="Featured"
+            icon={ICONS.featured()}
+            color="secondary"
+            size="small"
+            sx={{ color: 'white' }}
+          />
         )}
         {/* if user is admin then show disabled state also */}
         {!isFeatured && user?.userType === 'admin' && (

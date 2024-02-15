@@ -1,7 +1,10 @@
 import PropTypes from 'prop-types';
 import { Controller, useFormContext } from 'react-hook-form';
-
+// mui
 import {
+  Box,
+  Checkbox,
+  Chip,
   FormControl,
   FormHelperText,
   InputLabel,
@@ -38,13 +41,22 @@ export default function RHFSelect(props) {
           <InputLabel>{label}</InputLabel>
           <Select
             {...field}
+            multiple
             value={Array.isArray(field.value) ? field.value : []}
             onChange={(e) => field.onChange(e.target.value)}
+            renderValue={(selected) => (
+              <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 0.5 }}>
+                {selected.map((value) => (
+                  <Chip key={value} label={value} variant="outlined" />
+                ))}
+              </Box>
+            )}
             input={<OutlinedInput label={label} />}
             {...other}
           >
             {options.map((option) => (
               <MenuItem key={option.value} value={option.value}>
+                <Checkbox checked={field.value.indexOf(option.value) > -1} />
                 {option.label}
               </MenuItem>
             ))}
