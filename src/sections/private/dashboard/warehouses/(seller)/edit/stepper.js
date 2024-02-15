@@ -15,6 +15,8 @@ const estimation = {
 
 const Props = {
   activeStep: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
+  handleBack: PropTypes.func.isRequired,
+  handleNext: PropTypes.func.isRequired,
 };
 
 export default function EditStepper({ activeStep, handleBack, handleNext }) {
