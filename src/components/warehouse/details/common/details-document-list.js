@@ -14,7 +14,7 @@ const Props = {
  * @param {Props} props
  * @returns {JSX.Element}
  */
-const WarehouseDocumentList = (props) => {
+const DetailsDocumentList = (props) => {
   const { sx, documents } = props;
   return (
     <WarehouseDetailsBox sx={sx} title="Documents">
@@ -24,6 +24,6 @@ const WarehouseDocumentList = (props) => {
   );
 };
 
-WarehouseDocumentList.propTypes = Props;
+DetailsDocumentList.propTypes = Props;
 
-export default WarehouseDocumentList;
+export default DetailsDocumentList;

@@ -11,7 +11,7 @@ import { useBoolean } from 'src/hooks/use-boolean';
 import { useDialog } from 'src/hooks/use-dialog';
 import { selectAuth } from 'src/redux-toolkit/features/auth/authSlice';
 import { useAppSelector } from 'src/redux-toolkit/hooks';
-import { ICONS } from '../../config-warehouse';
+import { ICONS } from '../../../../../sections/private/dashboard/warehouses/config-warehouse';
 import ReviewCreate from './review-create';
 import ReviewDelete from './review-delete';
 import ReviewEdit from './review-edit';
@@ -30,7 +30,7 @@ const Props = {
  * @param {Props} props
  * @returns {React.JSX.Element}
  */
-const WarehouseReviews = (props) => {
+const DetailsReviews = (props) => {
   const { reviews, sx, canAddNewReview, warehouseId } = props;
   const [sortType, setSortType] = useState('DEFAULT'); // NEW_FIRST, OLD_FIRST, DEFAULT
   const auth = useAppSelector(selectAuth);
@@ -148,6 +148,6 @@ const WarehouseReviews = (props) => {
   );
 };
 
-WarehouseReviews.propTypes = Props;
+DetailsReviews.propTypes = Props;
 
-export default WarehouseReviews;
+export default DetailsReviews;

@@ -17,7 +17,7 @@ const Props = {
  * @param {Props} props
  * @returns {JSX.Element}
  */
-const WarehouseServices = (props) => {
+const DetailsServices = (props) => {
   const { services, sx } = props;
   const values = useMemo(() => getPredefinedFieldsValue(services, predefinedServices), [services]);
   return (
@@ -51,6 +51,6 @@ const WarehouseServices = (props) => {
   );
 };
 
-WarehouseServices.propTypes = Props;
+DetailsServices.propTypes = Props;
 
-export default WarehouseServices;
+export default DetailsServices;

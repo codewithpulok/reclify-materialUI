@@ -9,16 +9,21 @@ import Grid from '@mui/material/Unstable_Grid2';
 
 import PlanCard from 'src/components/user-settings/cards/plan-card';
 
+import PropTypes from 'prop-types';
 import { PlanCancelDialog, PlanUpgradeDialog } from 'src/components/common/custom-dialog';
 import { ErrorState, LoadingState } from 'src/components/common/custom-state';
 import { useDialog } from 'src/hooks/use-dialog';
 import { selectAuth } from 'src/redux-toolkit/features/auth/authSlice';
 import { useAppSelector } from 'src/redux-toolkit/hooks';
-import { usePlanListQuery } from 'src/redux-toolkit/services/planApi';
 
 // ----------------------------------------------------------------------
 
-const Props = {};
+const Props = {
+  plans: PropTypes.array,
+  isSuccess: PropTypes.bool,
+  isError: PropTypes.bool,
+  isLoading: PropTypes.bool,
+};
 
 /**
  * Billing plans
@@ -26,10 +31,9 @@ const Props = {};
  * @returns
  */
 const BillingPlan = (props) => {
-  const { user } = useAppSelector(selectAuth);
+  const { plans = [], isError, isSuccess, isLoading } = props;
 
-  // api state
-  const listResponse = usePlanListQuery();
+  const { user } = useAppSelector(selectAuth);
 
   // dialog state
   const upgradeDialog = useDialog();
@@ -44,13 +48,13 @@ const BillingPlan = (props) => {
 
   const renderPlans = useMemo(() => {
     // error state
-    if (listResponse.isError || listResponse?.data?.isError) {
+    if (!isLoading && isError) {
       return <ErrorState />;
     }
 
     // success state
-    if (listResponse.isSuccess && listResponse?.data?.success) {
-      return listResponse?.data?.results?.map((plan) => (
+    if (!isLoading && isSuccess && Array.isArray(plans)) {
+      return plans?.map((plan) => (
         <Grid xs={12} md={4} key={plan.id}>
           <PlanCard
             isSelected={plan.id === selectedPlan}
@@ -64,16 +68,7 @@ const BillingPlan = (props) => {
 
     // loading state
     return <LoadingState />;
-  }, [
-    currentPlan,
-    handleSelectPlan,
-    listResponse?.data?.isError,
-    listResponse?.data?.results,
-    listResponse?.data?.success,
-    listResponse.isError,
-    listResponse.isSuccess,
-    selectedPlan,
-  ]);
+  }, [currentPlan, handleSelectPlan, isError, isSuccess, plans, selectedPlan, isLoading]);
 
   // update selected plan
   useEffect(() => {

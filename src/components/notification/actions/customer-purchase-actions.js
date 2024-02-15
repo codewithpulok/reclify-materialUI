@@ -6,6 +6,10 @@ import { useAppSelector } from 'src/redux-toolkit/hooks';
 const Props = {
   /** @type {Transaction} */
   transaction: PropTypes.object,
+  transactionCancel: PropTypes.func,
+  transactionComplete: PropTypes.func,
+  adminTransactionCancel: PropTypes.func,
+  transactionApprove: PropTypes.func,
 };
 
 /**
@@ -14,16 +18,32 @@ const Props = {
  */
 const CustomerPurchaseActions = (props) => {
   const { user } = useAppSelector(selectAuth);
-  const { transaction } = props;
+  const {
+    transaction,
+    transactionCancel,
+    transactionComplete,
+    adminTransactionCancel,
+    transactionApprove,
+  } = props;
 
   if (user?.userType === 'seller') {
     if (transaction?.status === 'pending') {
       return (
         <>
-          <Button color="primary" variant="outlined" size="small">
+          <Button
+            color="primary"
+            variant="outlined"
+            size="small"
+            onClick={() => transactionComplete(transaction)}
+          >
             Complete
           </Button>
-          <Button color="error" variant="outlined" size="small">
+          <Button
+            color="error"
+            variant="outlined"
+            size="small"
+            onClick={() => transactionCancel(transaction)}
+          >
             Cancel
           </Button>
         </>
@@ -32,10 +52,21 @@ const CustomerPurchaseActions = (props) => {
     if (transaction?.status === 'admin_pending') {
       return (
         <>
-          <Button color="primary" variant="outlined" size="small" disabled>
+          <Button
+            color="primary"
+            variant="outlined"
+            size="small"
+            onClick={() => transactionComplete(transaction)}
+            disabled
+          >
             Complete
           </Button>
-          <Button color="error" variant="outlined" size="small">
+          <Button
+            color="error"
+            variant="outlined"
+            size="small"
+            onClick={() => transactionCancel(transaction)}
+          >
             Cancel
           </Button>
         </>
@@ -46,7 +77,12 @@ const CustomerPurchaseActions = (props) => {
   if (user?.userType === 'customer') {
     if (transaction?.status === 'pending' || transaction?.status === 'admin_pending') {
       return (
-        <Button color="error" variant="outlined" size="small">
+        <Button
+          color="error"
+          variant="outlined"
+          size="small"
+          onClick={() => transactionCancel(transaction)}
+        >
           Cancel
         </Button>
       );
@@ -57,10 +93,20 @@ const CustomerPurchaseActions = (props) => {
     if (transaction?.status === 'admin_pending') {
       return (
         <>
-          <Button color="primary" variant="outlined" size="small">
+          <Button
+            color="primary"
+            variant="outlined"
+            size="small"
+            onClick={() => transactionApprove(transaction)}
+          >
             Approve
           </Button>
-          <Button color="error" variant="outlined" size="small">
+          <Button
+            color="error"
+            variant="outlined"
+            size="small"
+            onClick={() => adminTransactionCancel(transaction)}
+          >
             Cancel
           </Button>
         </>

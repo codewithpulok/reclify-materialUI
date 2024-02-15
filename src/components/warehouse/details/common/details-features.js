@@ -5,7 +5,7 @@ import { predefinedFeatures } from 'src/assets/data/predefined-fields/warehouse'
 import { getIconify } from 'src/components/common/iconify/utilities';
 import { WarehouseDetailsBox } from 'src/components/warehouse/box';
 
-const WarehouseFeaturesProps = {
+const Props = {
   /** @type {WarehouseFeatures} */
   features: PropTypes.object.isRequired,
   /** @type {SxProps} */
@@ -14,10 +14,10 @@ const WarehouseFeaturesProps = {
 
 /**
  *  Warehouse description
- * @param {WarehouseFeaturesProps} props
+ * @param {Props} props
  * @returns
  */
-const WarehouseFeatures = (props) => {
+const DetailsFeatures = (props) => {
   const { features, sx } = props;
 
   return (
@@ -45,6 +45,6 @@ const WarehouseFeatures = (props) => {
   );
 };
 
-WarehouseFeatures.propTypes = WarehouseFeaturesProps;
+DetailsFeatures.propTypes = Props;
 
-export default WarehouseFeatures;
+export default DetailsFeatures;

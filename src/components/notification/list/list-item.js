@@ -8,8 +8,9 @@ import ListItemText from '@mui/material/ListItemText';
 import Stack from '@mui/material/Stack';
 
 import NotificationActions from 'src/components/notification/actions';
-import { ICONS } from 'src/layouts/config-layout';
+
 import { fToNow } from 'src/utils/format-time';
+import ICONS from '../icons';
 
 // ----------------------------------------------------------------------
 
@@ -46,8 +47,8 @@ const Props = {
  * @param {Props} props
  * @returns {JSX.Element}
  */
-const NotificationItem = (props) => {
-  const { notification } = props;
+const NotificationListItem = (props) => {
+  const { notification, ...other } = props;
 
   const renderThumbnail = (
     <ListItemAvatar>
@@ -128,15 +129,15 @@ const NotificationItem = (props) => {
         {renderText}
 
         <Stack direction="row" spacing={0.5}>
-          <NotificationActions notification={notification} />
+          <NotificationActions notification={notification} {...other} />
         </Stack>
       </Stack>
     </ListItemButton>
   );
 };
 
-NotificationItem.propTypes = Props;
-export default NotificationItem;
+NotificationListItem.propTypes = Props;
+export default NotificationListItem;
 
 // ----------------------------------------------------------------------
 

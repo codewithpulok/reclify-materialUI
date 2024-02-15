@@ -5,8 +5,9 @@ import IconButton from '@mui/material/IconButton';
 import { Dialog, FilledInput, InputAdornment } from '@mui/material';
 import { useRouter, useSearchParams } from 'next/navigation';
 import PropTypes from 'prop-types';
+import { SearchFilterDialog } from 'src/components/common/custom-dialog';
 import Iconify from 'src/components/common/iconify';
-import { useBoolean } from 'src/hooks/use-boolean';
+import { useDialog } from 'src/hooks/use-dialog';
 import { createQueryString } from 'src/utils/query';
 
 const Props = {
@@ -24,29 +25,26 @@ function Searchbar(props) {
   const router = useRouter();
   const searchParams = useSearchParams();
 
+  // app state
   const [searchQuery, setSearchQuery] = useState('');
-  const searchDialog = useBoolean();
+  // dialog state
+  const searchDialog = useDialog();
+  const filterDialog = useDialog();
 
-  const openSearchDialog = useCallback(() => {
-    searchDialog.onTrue();
-  }, [searchDialog]);
-
-  const closeSearchDialog = useCallback(() => {
-    searchDialog.onFalse();
-  }, [searchDialog]);
-
-  const handleSearchQuery = useCallback((event) => {
+  // handle query field change
+  const handleQueryChange = useCallback((event) => {
     setSearchQuery(event.target.value);
   }, []);
 
-  const handleSearch = useCallback(
+  // handle search submit
+  const handleSearchSubmit = useCallback(
     (e) => {
       e.preventDefault();
       console.log('Searched For: ', searchQuery);
       router.push(`${basePath}/?${createQueryString('query', searchQuery, searchParams)}`);
-      closeSearchDialog();
+      searchDialog.onClose();
     },
-    [basePath, closeSearchDialog, router, searchParams, searchQuery]
+    [basePath, searchDialog, router, searchParams, searchQuery]
   );
 
   // update states after refresh
@@ -58,13 +56,20 @@ function Searchbar(props) {
 
   return (
     <>
-      <form style={{ width: '60%' }} onSubmit={handleSearch}>
+      <form style={{ width: '60%' }} onSubmit={handleSearchSubmit}>
         <FilledInput
           value={searchQuery}
-          onChange={handleSearchQuery}
+          onChange={handleQueryChange}
           startAdornment={
             <InputAdornment position="start">
               <Iconify icon="eva:search-fill" />
+            </InputAdornment>
+          }
+          endAdornment={
+            <InputAdornment position="end">
+              <IconButton onClick={filterDialog.onOpen}>
+                <Iconify icon="lets-icons:filter" />
+              </IconButton>
             </InputAdornment>
           }
           placeholder="Search here"
@@ -74,20 +79,20 @@ function Searchbar(props) {
         />
       </form>
 
-      <IconButton onClick={openSearchDialog} sx={{ display: { sm: 'none', xs: 'inherit' } }}>
+      <IconButton onClick={searchDialog.onOpen} sx={{ display: { sm: 'none', xs: 'inherit' } }}>
         <Iconify icon="eva:search-fill" />
       </IconButton>
 
       <Dialog
         fullWidth
         sx={{ '& .MuiDialog-container': { alignItems: 'flex-start' } }}
-        open={searchDialog.value}
-        onClose={closeSearchDialog}
+        open={searchDialog.open}
+        onClose={searchDialog.onClose}
       >
-        <form style={{ width: '100%' }} onSubmit={handleSearch}>
+        <form style={{ width: '100%' }} onSubmit={handleSearchSubmit}>
           <FilledInput
             value={searchQuery}
-            onChange={handleSearchQuery}
+            onChange={handleQueryChange}
             startAdornment={
               <InputAdornment position="start">
                 <Iconify icon="eva:search-fill" />
@@ -99,6 +104,8 @@ function Searchbar(props) {
           />
         </form>
       </Dialog>
+
+      <SearchFilterDialog open={filterDialog.open} onClose={filterDialog.onClose} />
     </>
   );
 }

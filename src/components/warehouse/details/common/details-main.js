@@ -4,15 +4,15 @@ import PropTypes from 'prop-types';
 import { useResponsive } from 'src/hooks/use-responsive';
 import { selectAuth } from 'src/redux-toolkit/features/auth/authSlice';
 import { useAppSelector } from 'src/redux-toolkit/hooks';
+import DetailsAmenities from './details-amenities';
+import WarehouseDescription from './details-description';
+import WarehouseFacilities from './details-facilities';
+import WarehouseFeatures from './details-features';
+import WarehouseHighlights from './details-highlights';
+import WarehouseReviews from './details-reviews';
+import WarehouseServices from './details-services';
+import WarehouseDetailsSidebar from './details-sidebar';
 import ImageCarousel from './image-carousel';
-import WarehouseAmenities from './warehouse-amenities';
-import WarehouseDescription from './warehouse-description';
-import WarehouseFacilities from './warehouse-facilities';
-import WarehouseFeatures from './warehouse-features';
-import WarehouseHighlights from './warehouse-highlights';
-import WarehouseReviews from './warehouse-reviews';
-import WarehouseServices from './warehouse-services';
-import WarehouseDetailsSidebar from './warehouse-sidebar';
 
 const Props = {
   /** @type {Warehouse} */
@@ -27,7 +27,7 @@ const Props = {
  * @param {Props} props
  * @returns {JSX.Element}
  */
-const WarehosueDetailsMain = (props) => {
+const DetailsMain = (props) => {
   const { warehouse, reviews, seller } = props;
   const { user } = useAppSelector(selectAuth);
 
@@ -48,7 +48,7 @@ const WarehosueDetailsMain = (props) => {
       <WarehouseHighlights highlights={warehouse?.highlights} />
 
       <WarehouseFeatures features={warehouse.features} />
-      <WarehouseAmenities amenities={warehouse.amenities} />
+      <DetailsAmenities amenities={warehouse.amenities} />
 
       <WarehouseFacilities facilityDetails={warehouse.facilityDetails} />
       <WarehouseServices services={warehouse.services} />
@@ -64,6 +64,6 @@ const WarehosueDetailsMain = (props) => {
   );
 };
 
-WarehosueDetailsMain.propTypes = Props;
+DetailsMain.propTypes = Props;
 
-export default WarehosueDetailsMain;
+export default DetailsMain;

@@ -6,10 +6,11 @@ import Container from '@mui/material/Container';
 import Stack from '@mui/material/Stack';
 import Typography from '@mui/material/Typography';
 
-import { Box } from '@mui/material';
+import { Box, alpha } from '@mui/material';
 import { useMemo } from 'react';
 import { MotionViewport, varFade } from 'src/components/common/animate';
 import { useBlogListQuery } from 'src/redux-toolkit/services/blogApi';
+import { bgGradient } from 'src/theme/css';
 import NewsCarousel from './news-carousel';
 
 // ----------------------------------------------------------------------
@@ -45,11 +46,18 @@ export default function HomeFeaturedNews() {
 
   return (
     <Box
-      sx={{
+      sx={(theme) => ({
         textAlign: 'center',
         pt: { xs: 10, md: 15 },
         pb: { xs: 10, md: 20 },
-      }}
+        ...bgGradient({
+          color: alpha(
+            theme.palette.background.default,
+            theme.palette.mode === 'light' ? 0.8 : 0.94
+          ),
+          imgUrl: '/assets/images/home/featured-news.jpg',
+        }),
+      })}
     >
       <Container component={MotionViewport}>
         {renderDescription}

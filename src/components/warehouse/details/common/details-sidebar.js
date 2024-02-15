@@ -3,9 +3,9 @@ import PropTypes from 'prop-types';
 import { UserDetailsCard } from 'src/components/users/cards';
 import { selectAuth } from 'src/redux-toolkit/features/auth/authSlice';
 import { useAppSelector } from 'src/redux-toolkit/hooks';
-import WarehouseAddressMap from './warehouse-address-map';
-import WarehouseBooking from './warehouse-booking';
-import WarehouseDocumentList from './warehouse-document-list';
+import WarehouseBooking from './details-booking';
+import WarehouseDocumentList from './details-document-list';
+import DetailsMap from './details-map';
 
 const Props = {
   /** @type {Warehouse} */
@@ -21,7 +21,7 @@ const Props = {
  * @param {Props} props
  * @returns {JSX.Element}
  */
-const WarehouseDetailsSidebar = (props) => {
+const DetailsSidebar = (props) => {
   const { warehouse, seller, sx = {}, children } = props;
   const { user } = useAppSelector(selectAuth);
   return (
@@ -34,7 +34,7 @@ const WarehouseDetailsSidebar = (props) => {
         warehouse={warehouse}
         showPurchase={user?.userType === 'customer' && warehouse?.regionScope !== 'global'}
       />
-      <WarehouseAddressMap warehouse={warehouse} />
+      <DetailsMap warehouse={warehouse} />
 
       <WarehouseDocumentList documents={warehouse?.documents || []} />
 
@@ -43,6 +43,6 @@ const WarehouseDetailsSidebar = (props) => {
   );
 };
 
-WarehouseDetailsSidebar.propTypes = Props;
+DetailsSidebar.propTypes = Props;
 
-export default WarehouseDetailsSidebar;
+export default DetailsSidebar;

@@ -7,9 +7,10 @@ import Container from '@mui/material/Container';
 import Stack from '@mui/material/Stack';
 import Typography from '@mui/material/Typography';
 
-import { Grid } from '@mui/material';
+import { Box, Grid, alpha } from '@mui/material';
 import { MotionViewport, varFade } from 'src/components/common/animate';
 import Image from 'src/components/common/image';
+import { bgGradient } from 'src/theme/css';
 
 // ----------------------------------------------------------------------
 
@@ -56,56 +57,64 @@ const CARDS = [
 
 export default function HomeRacklify() {
   return (
-    <Container
-      component={MotionViewport}
-      sx={{
+    <Box
+      sx={(theme) => ({
         py: { xs: 10, md: 15 },
-      }}
+        ...bgGradient({
+          color: alpha(
+            theme.palette.background.default,
+            theme.palette.mode === 'light' ? 0.8 : 0.94
+          ),
+          imgUrl: '/assets/images/home/how-racklify-helps-you.jpg',
+        }),
+      })}
     >
-      <Stack
-        spacing={3}
-        sx={{
-          textAlign: 'center',
-          mb: { xs: 5, md: 10 },
-        }}
-      >
-        <m.div variants={varFade().inUp}>
-          <Typography component="div" variant="overline" sx={{ color: 'text.disabled' }}>
-            Racklify
-          </Typography>
-        </m.div>
+      <Container component={MotionViewport}>
+        <Stack
+          spacing={3}
+          sx={{
+            textAlign: 'center',
+            mb: { xs: 5, md: 10 },
+          }}
+        >
+          <m.div variants={varFade().inUp}>
+            <Typography component="div" variant="overline" sx={{ color: 'text.disabled' }}>
+              Racklify
+            </Typography>
+          </m.div>
 
-        <m.div variants={varFade().inDown}>
-          <Typography variant="h2">How Racklify helps you</Typography>
-        </m.div>
-      </Stack>
+          <m.div variants={varFade().inDown}>
+            <Typography variant="h2">How Racklify helps you</Typography>
+          </m.div>
+        </Stack>
 
-      <Grid container justifyContent="center" spacing={{ xs: 3 }}>
-        {CARDS.map((card) => (
-          <Grid item sm={12} md={4} key={card.id}>
-            <Card
-              component={Stack}
-              sx={{
-                textAlign: 'center',
-                alignItems: 'center',
-                width: '100%',
-                height: '100%',
-                p: (theme) => theme.spacing(10, 5),
-              }}
-            >
-              <Image src={`/assets/images/home/${card.image}`} sx={{ width: '100px' }} />
+        <Grid container justifyContent="center" spacing={{ xs: 3 }}>
+          {CARDS.map((card) => (
+            <Grid item sm={12} md={4} key={card.id}>
+              <Card
+                component={Stack}
+                sx={{
+                  textAlign: 'center',
+                  alignItems: 'center',
+                  width: '100%',
+                  height: '100%',
+                  p: (theme) => theme.spacing(10, 5),
+                }}
+              >
+                <Image src={`/assets/images/home/${card.image}`} sx={{ width: '100px' }} />
 
-              <Typography variant="h5" sx={{ mt: 7, mb: 2 }}>
-                {card.title}
-              </Typography>
+                <Typography variant="h5" sx={{ mt: 7, mb: 2 }}>
+                  {card.title}
+                </Typography>
 
-              <Typography variant="body2" sx={{ color: 'text.secondary' }}>
-                {card.description}
-              </Typography>
-            </Card>
-          </Grid>
-        ))}
-      </Grid>
-    </Container>
+                <Typography variant="body2" sx={{ color: 'text.secondary' }}>
+                  {card.description}
+                </Typography>
+              </Card>
+            </Grid>
+          ))}
+        </Grid>
+      </Container>
+    </Box>
   );
 }

@@ -37,7 +37,7 @@ const RenderUsers = (props) => {
         {data.map((user) => (
           <Grid item xs={12} sm={6} md={4} lg={3} key={user.id}>
             {user?.userType === 'seller' && (
-              <SellerCard user={user} totalWarehouses={user?.serviceCount} />
+              <SellerCard user={user} serviceCount={user?.serviceCount} />
             )}
             {user?.userType === 'customer' && (
               <CustomerCard user={user} totalTransactions={user?.transaction} />

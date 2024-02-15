@@ -3,8 +3,6 @@
 import { Card, Container, Tab, Tabs } from '@mui/material';
 import PropTypes from 'prop-types';
 import { useCallback, useState } from 'react';
-import { membershipHistory } from 'src/assets/dummy/membership';
-import { plans } from 'src/assets/dummy/plans';
 import CustomBreadcrumbs from 'src/components/common/custom-breadcrumbs/custom-breadcrumbs';
 import { TransactionsUserTable } from 'src/components/common/custom-table';
 import { useSettingsContext } from 'src/components/common/settings';
@@ -106,7 +104,10 @@ const DetailsContent = (props) => {
       )}
       {currentTab === 'warehouses' && <DetailsWarehouses warehouses={user?.warehouses || []} />}
       {currentTab === 'membership' && (
-        <DetailsMembership currentPlan={plans[0]} membershipHistory={membershipHistory} />
+        <DetailsMembership
+          currentPlanId={user?.membership?.[0]?.planId}
+          membershipHistory={user?.membership || []}
+        />
       )}
       {currentTab === 'transactions' && <TransactionsUserTable data={user?.transactions} />}
     </Container>

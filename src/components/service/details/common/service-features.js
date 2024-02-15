@@ -1,7 +1,8 @@
-import { ListItem, ListItemText, Stack } from '@mui/material';
+import { ListItem, ListItemIcon, ListItemText, Stack } from '@mui/material';
 import PropTypes from 'prop-types';
 import { useMemo } from 'react';
 import { predefinedServiceFeatures } from 'src/assets/data/predefined-fields/service';
+import { getIconify } from 'src/components/common/iconify/utilities';
 import { getPredefinedFieldsValue } from 'src/utils/predefined-fields';
 import { ServiceDetailsBox } from '../../box';
 
@@ -31,6 +32,11 @@ const ServiceFeatures = (props) => {
           if (!field?.value) return null;
           return (
             <ListItem key={field.key} disableGutters>
+              {field?.icon && (
+                <ListItemIcon>
+                  {getIconify(field.icon, 16, { color: 'text.secondary' })}
+                </ListItemIcon>
+              )}
               <ListItemText primary={field.label} />
             </ListItem>
           );

@@ -11,7 +11,8 @@ import { PurchasePaymentDialog } from 'src/components/common/custom-dialog';
 import { WarehouseMonthCard } from 'src/components/warehouse/cards';
 // constants
 import { CUBIC_FEET_PER_PALLET, SQUARE_FEET_PER_PALLET } from 'src/constant/pallet';
-import { ICONS } from '../../config-warehouse';
+import { ICONS } from '../../../../../sections/private/dashboard/warehouses/config-warehouse';
+import PromoField from './promo-field';
 import SpaceField from './space-field';
 // ----------------------------------------------------------------------
 
@@ -60,11 +61,13 @@ const Props = {
   showPurchase: PropTypes.bool.isRequired,
 };
 
+// ----------------------------------------------------------------------
+
 /**
  * @param {Props} props
  * @returns {JSX.Element}
  */
-const WarehouseBooking = (props) => {
+const DetailsBooking = (props) => {
   const { warehouse, showPurchase } = props;
   const [selectedMonth, setSelectedMonth] = useState(1);
   const [requiredSpace, setRequiredSpace] = useState(1);
@@ -314,7 +317,7 @@ const WarehouseBooking = (props) => {
           max={warehouse.maxSpaceOrder || warehouse.totalSpace}
         />
 
-        <Grid mb={3} container spacing={0}>
+        <Grid mb={1} container spacing={0}>
           <Grid item xs={12} sm={6}>
             <Typography color="text.secondary" variant="overline" width="100%">
               Square feet: {fNumber(SQUARE_FEET_PER_PALLET * requiredSpace)}
@@ -326,6 +329,8 @@ const WarehouseBooking = (props) => {
             </Typography>
           </Grid>
         </Grid>
+
+        {warehouse?.hasPromo && <PromoField value="" onChange={() => {}} sx={{ mb: 3 }} />}
 
         <Stack
           direction="row"
@@ -382,6 +387,6 @@ const WarehouseBooking = (props) => {
   );
 };
 
-WarehouseBooking.propTypes = Props;
+DetailsBooking.propTypes = Props;
 
-export default WarehouseBooking;
+export default DetailsBooking;

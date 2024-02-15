@@ -4,18 +4,19 @@ import { THEMES, baseSettings } from 'src/components/common/map';
 import { MapMarked } from 'src/components/common/map/presets';
 import { WarehouseDetailsBox } from 'src/components/warehouse/box';
 
-const WarehouseAddressMapProps = {
+// ----------------------------------------------------------------------
+const Props = {
   /** @type {SxProps} */
   sx: PropTypes.object,
   /** @type {Warehouse} */
   warehouse: PropTypes.object.isRequired,
 };
-
+// ----------------------------------------------------------------------
 /**
- * @param {WarehouseAddressMapProps} props
+ * @param {Props} props
  * @returns {JSX.Element}
  */
-const WarehouseAddressMap = (props) => {
+const DetailsMap = (props) => {
   const { sx, warehouse } = props;
   const theme = useTheme();
 
@@ -48,6 +49,6 @@ const WarehouseAddressMap = (props) => {
   );
 };
 
-WarehouseAddressMap.propTypes = WarehouseAddressMapProps;
+DetailsMap.propTypes = Props;
 
-export default WarehouseAddressMap;
+export default DetailsMap;

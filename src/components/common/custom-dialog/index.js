@@ -39,3 +39,6 @@ export { default as PlanUpgradeDialog } from './plan/plan-upgrade-dialog';
 
 // news dialog
 export { default as NewsDeleteDialog } from './news/news-delete-dialog';
+
+// search dialog
+export { default as SearchFilterDialog } from './search/filter-dialog';
