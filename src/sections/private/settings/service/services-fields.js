@@ -79,6 +79,7 @@ const ServiceFields = () => {
               fields={subServices}
               label="Services"
               defaultExpanded
+              showIcon
             />
           </Grid>
 
