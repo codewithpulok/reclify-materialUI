@@ -3,7 +3,6 @@ import PropTypes from 'prop-types';
 import { useResponsive } from 'src/hooks/use-responsive';
 import ImageCarousel from '../common/image-carousel';
 import ServiceDescription from '../common/service-description';
-import ServiceFeatures from '../common/service-features';
 import SidebarContent from './sidebar-content';
 
 const Props = {
@@ -27,7 +26,6 @@ const MainContent = (props) => {
       <ImageCarousel list={service?.photos || []} />
       {mdDown && <SidebarContent service={service} seller={seller} />}
       <ServiceDescription description={service.description} />
-      <ServiceFeatures features={service.features} type={service.type} />
     </Stack>
   );
 };
