@@ -36,7 +36,7 @@ export function useNavData() {
         icon: ICONS.users(),
         children: [
           { title: 'Sellers', path: paths.dashboard.users.sellers },
-          { title: 'Customers', path: paths.dashboard.users.customers },
+          { title: 'Merchants', path: paths.dashboard.users.customers },
         ],
         defaultOpen: true,
       },

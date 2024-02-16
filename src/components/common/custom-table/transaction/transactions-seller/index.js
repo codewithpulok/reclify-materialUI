@@ -41,7 +41,7 @@ const STATUS_OPTIONS = [{ value: 'all', label: 'All' }, ...transactionStatusOpti
 const TABLE_HEAD = [
   { id: 'warehouse', label: 'Warehouse' },
   { id: 'invoice', label: 'Invoice' },
-  { id: 'customer', label: 'Customer' },
+  { id: 'customer', label: 'Merchant' },
   { id: 'createdAt', label: 'Date', width: 140 },
   { id: 'price', label: 'Price', width: 140 },
   { id: 'status', label: 'Status', width: 110 },

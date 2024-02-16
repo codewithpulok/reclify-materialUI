@@ -36,8 +36,8 @@ const CustomerListingView = () => {
   return (
     <Container maxWidth={settings.themeStretch ? false : 'lg'}>
       <CustomBreadcrumbs
-        heading="Customers"
-        links={[{ name: 'Dashboard', href: paths.dashboard.root }, { name: 'customers' }]}
+        heading="Merchants"
+        links={[{ name: 'Dashboard', href: paths.dashboard.root }, { name: 'Merchants' }]}
         sx={{
           mb: { xs: 3, md: 5 },
         }}

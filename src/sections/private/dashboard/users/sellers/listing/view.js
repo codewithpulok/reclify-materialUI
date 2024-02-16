@@ -38,7 +38,7 @@ const SellersListingView = () => {
     <Container maxWidth={settings.themeStretch ? false : 'lg'}>
       <CustomBreadcrumbs
         heading="Sellers"
-        links={[{ name: 'Dashboard', href: paths.dashboard.root }, { name: 'sellers' }]}
+        links={[{ name: 'Dashboard', href: paths.dashboard.root }, { name: 'Sellers' }]}
         sx={{
           mb: { xs: 3, md: 5 },
         }}

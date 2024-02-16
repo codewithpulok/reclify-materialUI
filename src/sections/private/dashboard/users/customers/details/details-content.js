@@ -53,7 +53,7 @@ const DetailsContent = (props) => {
         heading="Customer Details"
         links={[
           { name: 'Dasboard', href: paths.dashboard.root },
-          { name: 'Customers', href: paths.dashboard.users.customers },
+          { name: 'Merchants', href: paths.dashboard.users.customers },
           { name: `${user?.firstName} ${user?.lastName}` },
         ]}
         sx={{

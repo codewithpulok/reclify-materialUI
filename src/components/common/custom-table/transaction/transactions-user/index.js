@@ -8,7 +8,7 @@ const TABLE_HEAD = [
   { id: 'warehouse', label: 'Warehouse' },
   { id: 'invoice', label: 'Invoice' },
   { id: 'seller', label: 'Seller' },
-  { id: 'customer', label: 'Customer' },
+  { id: 'customer', label: 'Merchant' },
   { id: 'createdAt', label: 'Date', width: 140 },
   { id: 'price', label: 'Price', width: 140 },
   { id: 'status', label: 'Status', width: 110 },

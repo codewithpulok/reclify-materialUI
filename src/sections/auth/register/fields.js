@@ -54,7 +54,7 @@ const Fields = (props) => {
         <Stack spacing={1}>
           <FormRadioCard
             text="Find warehouse & other services"
-            title="CUSTOMER"
+            title="MERCHANT"
             name="userType"
             value="customer"
             icon="lets-icons:user-box-duotone"
