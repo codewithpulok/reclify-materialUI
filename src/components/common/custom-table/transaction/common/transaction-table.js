@@ -98,9 +98,8 @@ const TransactionTable = (props) => {
     comparator: getComparator(table.order, table.orderBy),
     filters,
   });
-  const canReset = !!filters.name || filters.status !== 'all';
-  const notFound =
-    !isLoading && isSuccess && ((!dataFiltered.length && canReset) || !dataFiltered.length);
+
+  const notFound = !!tableData?.length && !dataFiltered?.length;
 
   // filter functions
   const handleFilters = useCallback(
@@ -188,7 +187,7 @@ const TransactionTable = (props) => {
 
                 {!isLoading && isError && <TableError />}
 
-                {!isLoading && !isError && isSuccess && (
+                {!isLoading && !isError && isSuccess && !!tableData?.length && (
                   <>
                     {dataFiltered
                       .slice(
