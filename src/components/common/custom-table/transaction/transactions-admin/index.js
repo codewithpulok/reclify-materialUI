@@ -27,7 +27,7 @@ const TABLE_HEAD = [
 
 // ----------------------------------------------------------------------
 
-const TransactionsTable = () => {
+const TransactionsAdminTable = () => {
   const { user } = useAppSelector(selectAuth);
 
   // data states
@@ -52,6 +52,9 @@ const TransactionsTable = () => {
         tableHead={TABLE_HEAD}
         onCancelOrder={cancelDialog.onOpen}
         onApproveOrder={approveDialog.onOpen}
+        isError={listResponse.isError}
+        isLoading={listResponse.isLoading || listResponse.isFetching}
+        isSuccess={listResponse.isSuccess}
       />
 
       <ApproveTransactionDialog
@@ -71,4 +74,4 @@ const TransactionsTable = () => {
 
 // ----------------------------------------------------------------------
 
-export default TransactionsTable;
+export default TransactionsAdminTable;
