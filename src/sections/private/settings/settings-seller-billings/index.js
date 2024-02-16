@@ -5,8 +5,8 @@ import { useEffect } from 'react';
 import { selectAuth } from 'src/redux-toolkit/features/auth/authSlice';
 import { useAppSelector } from 'src/redux-toolkit/hooks';
 import { useGetBillingQuery } from 'src/redux-toolkit/services/billingApi';
+import BillingSection from '../common/billing-section';
 import BillingHistory from './billing-history';
-import BillingInfo from './billing-info';
 import BillingPlan from './billing-plan';
 
 // ----------------------------------------------------------------------
@@ -35,7 +35,7 @@ const SettingsSellerBillings = (props) => {
             isLoading={billingResponse?.isLoading || billingResponse?.isFetching}
             isSuccess={billingResponse?.isSuccess}
           />
-          <BillingInfo
+          <BillingSection
             primaryACH={billingResponse?.data?.results?.primaryACH}
             primaryCard={billingResponse?.data?.results?.primaryCard}
             primaryBillingInfo={billingResponse?.data?.results?.primaryBillingInfo}
