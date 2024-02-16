@@ -13,7 +13,7 @@ import { RouterLink } from 'src/routes/components';
 // local components
 import { fCurrency } from 'src/utils/format-number';
 import { fDate } from 'src/utils/format-time';
-import { ICONS } from '../../config-users';
+import { ICONS } from '../../../config-users';
 
 const Props = {
   /** @type {Membership[]} */
@@ -24,7 +24,7 @@ const Props = {
  * @param {Props} props
  * @returns {JSX.Element}
  */
-const DetailsMembershipHistory = (props) => {
+const MembershipHistory = (props) => {
   const { membershipHistory = [] } = props;
 
   return (
@@ -69,6 +69,6 @@ const DetailsMembershipHistory = (props) => {
   );
 };
 
-DetailsMembershipHistory.propTypes = Props;
+MembershipHistory.propTypes = Props;
 
-export default DetailsMembershipHistory;
+export default MembershipHistory;

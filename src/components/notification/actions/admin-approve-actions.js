@@ -27,7 +27,7 @@ const AdminApproveActions = (props) => {
           size="small"
           onClick={() => transactionCancel(transaction)}
         >
-          Cancel
+          Decline
         </Button>
       );
     }
@@ -43,7 +43,7 @@ const AdminApproveActions = (props) => {
             size="small"
             onClick={() => transactionComplete(transaction)}
           >
-            Complete
+            Approve
           </Button>
           <Button
             color="error"
@@ -51,7 +51,7 @@ const AdminApproveActions = (props) => {
             size="small"
             onClick={() => transactionCancel(transaction)}
           >
-            Cancel
+            Decline
           </Button>
         </>
       );

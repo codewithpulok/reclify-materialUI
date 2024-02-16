@@ -30,7 +30,7 @@ const PaymentCardEditForm = (props) => {
       cardHolder: card?.cardHolder || '',
       cvv: card?.cvv || null,
       expirationDate: card?.expirationDate || fCreditExpire(new Date()),
-      isPrimary: card?.cardNumber || false,
+      isPrimary: card?.isPrimary || false,
     }),
     [card]
   );

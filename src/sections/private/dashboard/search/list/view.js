@@ -22,7 +22,12 @@ const Props = {};
 const SearchListView = (props) => {
   const searchParam = useSearchParams();
   const query = searchParam.get('query');
+  const type = searchParam.get('type');
+  // const region = searchParam.get('region');
+  // const serviceType = searchParam.get('serviceType');
   const settings = useSettingsContext();
+
+  const hasTypeFilter = useMemo(() => type === 'warehouse' || type === 'service', [type]);
 
   // api state
   const [searchAll, searchResponse] = useLazySearchAllQuery();
@@ -39,7 +44,7 @@ const SearchListView = (props) => {
 
   // render users
   const renderUsers = useCallback(
-    (data = []) => {
+    (data = [], showLess) => {
       if (!isLoading && searchResponse.isError) {
         return <ErrorState />;
       }
@@ -51,7 +56,7 @@ const SearchListView = (props) => {
       if (!isLoading && searchResponse.data?.success && data) {
         return (
           <Grid container spacing={1}>
-            {data.slice(0, 4).map((user) => (
+            {data.slice(0, showLess ? 4 : undefined).map((user) => (
               <Grid item xs={12} sm={6} md={4} lg={3} key={user.id}>
                 {user.userType === 'seller' && <SellerCard user={user} serviceCount={10} />}
                 {user.userType === 'customer' && (
@@ -71,7 +76,7 @@ const SearchListView = (props) => {
 
   // render warehouses
   const renderWarehouses = useCallback(
-    (data = []) => {
+    (data = [], showLess) => {
       if (!isLoading && searchResponse.isError) {
         return <ErrorState />;
       }
@@ -83,7 +88,7 @@ const SearchListView = (props) => {
       if (!isLoading && searchResponse.data?.success && data) {
         return (
           <Grid container spacing={1.5}>
-            {data.slice(0, 3).map((warehouse) => (
+            {data.slice(0, showLess ? 3 : undefined).map((warehouse) => (
               <Grid item key={warehouse.id} xs={12} sm={6} md={4}>
                 <WarehouseCard key={warehouse.id} warehouse={warehouse} />
               </Grid>
@@ -99,7 +104,7 @@ const SearchListView = (props) => {
 
   // render services
   const renderServices = useCallback(
-    (data = []) => {
+    (data = [], showLess) => {
       if (!isLoading && searchResponse.isError) {
         return <ErrorState />;
       }
@@ -111,7 +116,7 @@ const SearchListView = (props) => {
       if (!isLoading && searchResponse.data?.success && data) {
         return (
           <Grid container spacing={1.5}>
-            {data.slice(0, 3).map((service) => (
+            {data.slice(0, showLess ? 3 : undefined).map((service) => (
               <Grid item key={service.id} xs={12} sm={6} md={4}>
                 <ServiceCard key={service.id} service={service} />
               </Grid>
@@ -132,56 +137,79 @@ const SearchListView = (props) => {
           heading={`You've searched for - ${query}`}
           links={[{ name: 'Dashboard', href: paths.dashboard.root }, { name: 'Search' }]}
         />
-        <Stack spacing={3}>
-          <Typography variant="h4">Users</Typography>
 
-          {renderUsers(searchResponse.data?.results?.users || [])}
+        {hasTypeFilter ? (
+          <>
+            {type === 'warehouse' && (
+              <Stack spacing={3}>
+                <Typography variant="h4">Warehouses</Typography>
 
-          <Stack direction="row" justifyContent="end">
-            <Button
-              variant="contained"
-              color="primary"
-              LinkComponent={RouterLink}
-              href={paths.dashboard.search.users(query)}
-            >
-              Show More
-            </Button>
-          </Stack>
-        </Stack>
+                {renderWarehouses(searchResponse.data?.results?.warehouses || [])}
+              </Stack>
+            )}
 
-        <Stack spacing={3}>
-          <Typography variant="h4">Warehouses</Typography>
+            {type === 'service' && (
+              <Stack spacing={3}>
+                <Typography variant="h4">Services</Typography>
 
-          {renderWarehouses(searchResponse.data?.results?.warehouses || [])}
+                {renderServices(searchResponse.data?.results?.services || [])}
+              </Stack>
+            )}
+          </>
+        ) : (
+          <>
+            <Stack spacing={3}>
+              <Typography variant="h4">Users</Typography>
 
-          <Stack direction="row" justifyContent="end">
-            <Button
-              variant="contained"
-              color="primary"
-              LinkComponent={RouterLink}
-              href={paths.dashboard.search.warehouses(query)}
-            >
-              Show More
-            </Button>
-          </Stack>
-        </Stack>
+              {renderUsers(searchResponse.data?.results?.users || [], true)}
 
-        <Stack spacing={3}>
-          <Typography variant="h4">Services</Typography>
+              <Stack direction="row" justifyContent="end">
+                <Button
+                  variant="contained"
+                  color="primary"
+                  LinkComponent={RouterLink}
+                  href={paths.dashboard.search.users(query)}
+                >
+                  Show More
+                </Button>
+              </Stack>
+            </Stack>
 
-          {renderServices(searchResponse.data?.results?.services || [])}
+            <Stack spacing={3}>
+              <Typography variant="h4">Warehouses</Typography>
 
-          <Stack direction="row" justifyContent="end">
-            <Button
-              variant="contained"
-              color="primary"
-              LinkComponent={RouterLink}
-              href={paths.dashboard.search.services(query)}
-            >
-              Show More
-            </Button>
-          </Stack>
-        </Stack>
+              {renderWarehouses(searchResponse.data?.results?.warehouses || [], true)}
+
+              <Stack direction="row" justifyContent="end">
+                <Button
+                  variant="contained"
+                  color="primary"
+                  LinkComponent={RouterLink}
+                  href={paths.dashboard.search.warehouses(query)}
+                >
+                  Show More
+                </Button>
+              </Stack>
+            </Stack>
+
+            <Stack spacing={3}>
+              <Typography variant="h4">Services</Typography>
+
+              {renderServices(searchResponse.data?.results?.services || [], true)}
+
+              <Stack direction="row" justifyContent="end">
+                <Button
+                  variant="contained"
+                  color="primary"
+                  LinkComponent={RouterLink}
+                  href={paths.dashboard.search.services(query)}
+                >
+                  Show More
+                </Button>
+              </Stack>
+            </Stack>
+          </>
+        )}
       </Stack>
     </Container>
   );

@@ -119,7 +119,7 @@ export const serviceTypes = [
       {
         value: 'demand',
         label: 'Demand Planning Software',
-        icon: ';ic:twotone-ondemand-video',
+        icon: 'ic:twotone-ondemand-video',
       },
       {
         value: 'supplier',

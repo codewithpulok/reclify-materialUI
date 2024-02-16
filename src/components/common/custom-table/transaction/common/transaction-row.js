@@ -156,7 +156,7 @@ const TransactionRow = (props) => {
         </TableCell>
       )}
 
-      {show.includes('price') && <TableCell> {fCurrency(row.purchase?.total)} </TableCell>}
+      {show.includes('price') && <TableCell> {fCurrency(row.purchase?.monthlyTotal)} </TableCell>}
 
       {show.includes('status') && (
         <TableCell>

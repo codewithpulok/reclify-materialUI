@@ -1,5 +1,6 @@
 import { List } from '@mui/material';
 import PropTypes from 'prop-types';
+import { useState } from 'react';
 import {
   ApproveTransactionDialog,
   CancelTransactionAdminDialog,
@@ -8,6 +9,7 @@ import {
 } from 'src/components/common/custom-dialog';
 import Scrollbar from 'src/components/common/scrollbar';
 import { useDialog } from 'src/hooks/use-dialog';
+import { useReadNotificationMutation } from 'src/redux-toolkit/services/notificationApi';
 import NotificationListItem from './list-item';
 
 const Props = {
@@ -22,24 +24,40 @@ const Props = {
 const NotificationList = (props) => {
   const { notifications = [] } = props;
 
+  // app state
+  const [selectedNotification, setSelectedNotification] = useState(null);
+
+  // api state
+  const [readNotification, readResponse] = useReadNotificationMutation();
+
   // dialog state
   const completeDialog = useDialog();
   const approveDialog = useDialog();
   const cancelDialog = useDialog();
   const cancelAdminDialog = useDialog();
 
+  // handle notification read
+  const HandleNotificationRead = async (notification) => {
+    if (notification?.isRead) return;
+    setSelectedNotification(notification?.id);
+    await readNotification(notification?.id);
+    setSelectedNotification(null);
+  };
+
   return (
     <>
       <Scrollbar>
         <List disablePadding>
-          {notifications.map((notification) => (
+          {notifications.map((n) => (
             <NotificationListItem
-              key={notification.id}
-              notification={notification}
+              key={n.id}
+              notification={n}
               adminTransactionCancel={cancelAdminDialog.onOpen}
               transactionCancel={cancelDialog.onOpen}
               transactionComplete={completeDialog.onOpen}
               transactionApprove={approveDialog.onOpen}
+              onClick={() => HandleNotificationRead(n)}
+              isLoading={selectedNotification === n.id && readResponse.isLoading}
             />
           ))}
         </List>

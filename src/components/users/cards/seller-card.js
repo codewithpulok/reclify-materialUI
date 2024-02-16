@@ -2,7 +2,6 @@ import { Avatar, Box, Card, CardActionArea, Stack, Typography } from '@mui/mater
 import { useRouter } from 'next/navigation';
 import PropTypes from 'prop-types';
 import { PLACEHOLDER_PROFILE_AVATAR } from 'src/config-global';
-import { getServiceType } from 'src/constant/service-types';
 import { paths } from 'src/routes/paths';
 import { fShortenNumber } from 'src/utils/format-number';
 import { ICONS } from '../config-users';
@@ -23,7 +22,7 @@ const SellerCard = (props) => {
 
   const avatar = user?.avatar || PLACEHOLDER_PROFILE_AVATAR;
 
-  const isServiceSeller = !!getServiceType(user?.serviceType);
+  const isServiceSeller = user?.serviceType !== 'warehouse';
 
   console.log({ isServiceSeller });
 

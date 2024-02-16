@@ -19,10 +19,13 @@ import {
   TableHeadCustom,
   TableNoData,
   TablePaginationCustom,
+  TableSkeleton,
   useTable,
 } from 'src/components/common/table';
 
+import { TableCell, TableRow } from '@mui/material';
 import PropTypes from 'prop-types';
+import { ErrorState } from 'src/components/common/custom-state';
 import { getTransactionStatusColor, transactionStatusOptions } from 'src/constant/transaction';
 import { useDialog } from 'src/hooks/use-dialog';
 import TransactionDetailsDialog from './transaction-details-dialog';
@@ -37,6 +40,9 @@ const defaultFilters = {
 };
 
 const Props = {
+  isLoading: PropTypes.bool,
+  isError: PropTypes.bool,
+  isSuccess: PropTypes.bool,
   tableHead: PropTypes.arrayOf(PropTypes.object),
   data: PropTypes.array,
   onApproveOrder: PropTypes.func,
@@ -46,12 +52,39 @@ const Props = {
 
 // ----------------------------------------------------------------------
 
+const TableLoading = () => (
+  <>
+    {[...Array(5).keys()].map((_e, i) => (
+      <TableSkeleton key={i} />
+    ))}
+  </>
+);
+
+const TableError = () => (
+  <TableRow>
+    <TableCell colSpan={12}>
+      <ErrorState />
+    </TableCell>
+  </TableRow>
+);
+
+// ----------------------------------------------------------------------
+
 /**
  * @param {Props} props
  * @returns {JSX.Element}
  */
 const TransactionTable = (props) => {
-  const { tableHead, data, onApproveOrder, onCancelOrder, onCompleteOrder } = props;
+  const {
+    tableHead,
+    data,
+    onApproveOrder,
+    onCancelOrder,
+    onCompleteOrder,
+    isError,
+    isLoading = true,
+    isSuccess,
+  } = props;
 
   // dialog states
   const transactionDialog = useDialog();
@@ -65,8 +98,8 @@ const TransactionTable = (props) => {
     comparator: getComparator(table.order, table.orderBy),
     filters,
   });
-  const canReset = !!filters.name || filters.status !== 'all';
-  const notFound = (!dataFiltered.length && canReset) || !dataFiltered.length;
+
+  const notFound = !!tableData?.length && !dataFiltered?.length;
 
   // filter functions
   const handleFilters = useCallback(
@@ -150,29 +183,37 @@ const TransactionTable = (props) => {
               />
 
               <TableBody>
-                {dataFiltered
-                  .slice(
-                    table.page * table.rowsPerPage,
-                    table.page * table.rowsPerPage + table.rowsPerPage
-                  )
-                  .map((row, index) => (
-                    <TransactionRow
-                      key={row.id}
-                      row={row}
-                      onViewTransaction={() => transactionDialog.onOpen(row.id)}
-                      onCancelOrder={onCancelOrder}
-                      onApproveOrder={onApproveOrder}
-                      onCompleteOrder={onCompleteOrder}
-                      show={tableHead.map((t) => t.id)}
+                {isLoading && <TableLoading />}
+
+                {!isLoading && isError && <TableError />}
+
+                {!isLoading && !isError && isSuccess && !!tableData?.length && (
+                  <>
+                    {dataFiltered
+                      .slice(
+                        table.page * table.rowsPerPage,
+                        table.page * table.rowsPerPage + table.rowsPerPage
+                      )
+                      .map((row, index) => (
+                        <TransactionRow
+                          key={row.id}
+                          row={row}
+                          onViewTransaction={() => transactionDialog.onOpen(row.id)}
+                          onCancelOrder={onCancelOrder}
+                          onApproveOrder={onApproveOrder}
+                          onCompleteOrder={onCompleteOrder}
+                          show={tableHead.map((t) => t.id)}
+                        />
+                      ))}
+
+                    <TableEmptyRows
+                      height={72}
+                      emptyRows={emptyRows(table.page, table.rowsPerPage, tableData.length)}
                     />
-                  ))}
 
-                <TableEmptyRows
-                  height={72}
-                  emptyRows={emptyRows(table.page, table.rowsPerPage, tableData.length)}
-                />
-
-                <TableNoData notFound={notFound} />
+                    <TableNoData notFound={notFound} />
+                  </>
+                )}
               </TableBody>
             </Table>
           </Scrollbar>

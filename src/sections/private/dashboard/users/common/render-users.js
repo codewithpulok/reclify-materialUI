@@ -40,7 +40,7 @@ const RenderUsers = (props) => {
               <SellerCard user={user} serviceCount={user?.serviceCount} />
             )}
             {user?.userType === 'customer' && (
-              <CustomerCard user={user} totalTransactions={user?.transaction} />
+              <CustomerCard user={user} totalTransactions={user?.transactionCount} />
             )}
           </Grid>
         ))}
