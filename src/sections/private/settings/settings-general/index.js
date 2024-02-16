@@ -43,8 +43,8 @@ const UpdateUserSchema = Yup.object().shape({
   avatar: Yup.string().label('Avatar').notRequired(),
   banner: Yup.string().label('Banner').notRequired(),
   logo: Yup.string().label('Logo').notRequired(),
-  phone: Yup.string().label('Phone number').required(),
-  address: addressFieldSchema,
+  phone: Yup.string().label('Phone number').optional(),
+  address: addressFieldSchema.optional(),
   about: Yup.string().label('About').optional(),
 });
 
