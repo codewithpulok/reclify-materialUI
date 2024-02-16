@@ -105,7 +105,11 @@ function Searchbar(props) {
         </form>
       </Dialog>
 
-      <SearchFilterDialog open={filterDialog.open} onClose={filterDialog.onClose} />
+      <SearchFilterDialog
+        open={filterDialog.open}
+        onClose={filterDialog.onClose}
+        basePath={basePath}
+      />
     </>
   );
 }
