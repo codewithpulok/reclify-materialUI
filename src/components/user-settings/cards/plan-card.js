@@ -93,7 +93,7 @@ const PlanCard = (props) => {
 
             {!!currentPrice && (
               <Box component="span" sx={{ typography: 'body2', color: 'text.disabled', ml: 0.5 }}>
-                {showAnnual ? '/yr' : '/mo'}
+                /mo
               </Box>
             )}
           </>

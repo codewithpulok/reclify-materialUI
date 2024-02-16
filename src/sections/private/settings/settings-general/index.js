@@ -6,7 +6,7 @@ import * as Yup from 'yup';
 // components
 import { Card, Stack } from '@mui/material';
 import { useCallback, useEffect } from 'react';
-import { addressFieldSchema } from 'src/components/common/custom-fields';
+import { optionalAddressFieldSchema } from 'src/components/common/custom-fields/address-field/schema';
 import { EmptyState } from 'src/components/common/custom-state';
 import FormProvider from 'src/components/common/hook-form';
 import { PLACEHOLDER_PROFILE_BANNER } from 'src/config-global';
@@ -44,7 +44,7 @@ const UpdateUserSchema = Yup.object().shape({
   banner: Yup.string().label('Banner').notRequired(),
   logo: Yup.string().label('Logo').notRequired(),
   phone: Yup.string().label('Phone number').optional(),
-  address: addressFieldSchema.optional(),
+  address: optionalAddressFieldSchema,
   about: Yup.string().label('About').optional(),
 });
 
