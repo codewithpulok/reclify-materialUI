@@ -14,6 +14,25 @@ export const notificationApi = createApi({
         url: endpoints.notification.read(id),
         method: 'PUT',
       }),
+      onQueryStarted: async (arg, { dispatch, queryFulfilled }) => {
+        try {
+          const response = await queryFulfilled;
+          const { data } = response;
+
+          if (!data?.success) throw response;
+
+          dispatch(
+            notificationApi.util.updateQueryData('getNotifications', undefined, (draft) => {
+              if (Array.isArray(draft?.results)) {
+                const itemIndex = draft.results.findIndex((n) => n?.id === arg);
+                if (itemIndex !== -1) draft.results[itemIndex].isRead = true;
+              }
+            })
+          );
+        } catch (error) {
+          console.error('ERROR:Notification cache update error', error);
+        }
+      },
     }),
     readAllNotification: builder.mutation({
       query: () => ({
