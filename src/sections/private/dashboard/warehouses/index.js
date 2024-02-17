@@ -1,4 +1,6 @@
 export { default as WarehousesDetailsView } from './details/view';
+export { default as WarehousesGlobalListingView } from './listing/global-listing-view';
+export { default as WarehousesUSListingView } from './listing/us-listing-view';
 export { default as WarehousesListingView } from './listing/view';
 
 export { default as WarehousesHotDealsView } from './hot-deals/view';

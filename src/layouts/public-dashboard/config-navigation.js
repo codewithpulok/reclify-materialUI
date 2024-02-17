@@ -58,7 +58,7 @@ export function useNavData() {
           // sub region warehouse routes (hiding global)
           ...regionScopes.map((s) => ({
             title: s.name,
-            path: '#',
+            path: paths.warehouses.regionScope(s.code),
             icon: s.icon ? getIconify(s.icon) : undefined,
             defaultOpen: true,
             children: getRegionsByScope(s.code).map((r) => ({
