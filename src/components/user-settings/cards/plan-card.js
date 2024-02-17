@@ -80,7 +80,7 @@ const PlanCard = (props) => {
         {plan?.id === 'enterprise' ? (
           <Button
             LinkComponent={RouterLink}
-            href={paths.contact_us}
+            href={`${paths.contact_us}?scrollTo=FORM`}
             color="primary"
             variant="contained"
             size="small"
