@@ -20,7 +20,6 @@ import useHash from 'src/hooks/use-hash';
 import { selectAuth } from 'src/redux-toolkit/features/auth/authSlice';
 import { useAppSelector } from 'src/redux-toolkit/hooks';
 import { ICONS } from './config-settings';
-import Memberships from './memberships';
 import SettingsService from './service';
 import SettingsCustomerBillings from './settings-customer-billings';
 import SettingsGeneral from './settings-general';
@@ -55,12 +54,12 @@ export const TABS = [
     icon: ICONS.bills(),
     roles: ['seller', 'customer'],
   },
-  {
-    value: '#memberships',
-    label: 'Memberships',
-    icon: ICONS.membership(),
-    roles: ['admin'],
-  },
+  // {
+  //   value: '#memberships',
+  //   label: 'Memberships',
+  //   icon: ICONS.membership(),
+  //   roles: ['admin'],
+  // },
   {
     value: '#transactions',
     label: 'Transactions',
@@ -149,15 +148,15 @@ const UserSettingsView = () => {
             return <EmptyState />;
         }
       }
-      case '#memberships': {
-        switch (user?.userType) {
-          case 'admin': {
-            return <Memberships />; // memberships for admin
-          }
-          default:
-            return <EmptyState />;
-        }
-      }
+      // case '#memberships': {
+      //   switch (user?.userType) {
+      //     case 'admin': {
+      //       return <Memberships />; // memberships for admin
+      //     }
+      //     default:
+      //       return <EmptyState />;
+      //   }
+      // }
       case '#billing': {
         switch (user?.userType) {
           case 'seller': {
