@@ -4,7 +4,7 @@ import { Button, Grid, Stack, Typography } from '@mui/material';
 import Container from '@mui/material/Container';
 import { useCallback, useMemo } from 'react';
 // local components
-import { usRegions } from 'src/assets/data';
+import { regionScopes } from 'src/assets/data';
 import { EmptyState, ErrorState } from 'src/components/common/custom-state';
 import { getIconify } from 'src/components/common/iconify/utilities';
 import { useSettingsContext } from 'src/components/common/settings';
@@ -70,13 +70,14 @@ export default function ListingView() {
         : [],
     [warehousesResponse]
   );
-  // warehouse based on region
-  const regionWarehouses = useMemo(
+
+  // data based on scope
+  const scopeData = useMemo(
     () =>
-      usRegions.reduce((prev, next) => {
+      regionScopes.reduce((prev, next) => {
         prev[next.code] =
           warehousesResponse?.data?.results instanceof Array
-            ? warehousesResponse.data?.results.filter((w) => w.region === next.code && w.visible)
+            ? warehousesResponse.data?.results.filter((w) => w?.regionScope === next.code)
             : [];
         return prev;
       }, {}),
@@ -114,8 +115,8 @@ export default function ListingView() {
         </Grid>
       </Stack>
 
-      {usRegions.map((region) => (
-        <Stack mb={5} spacing={5} key={region.code}>
+      {regionScopes.map((scope) => (
+        <Stack mb={5} spacing={5} key={scope.code}>
           <Stack
             sx={{
               flexDirection: 'row',
@@ -123,15 +124,12 @@ export default function ListingView() {
               gap: 0.5,
             }}
           >
-            {getIconify(region.icon, 28, {
-              color: 'secondary.main',
-              rotate: `${region.rotate ? 90 * region.rotate : 0}deg`,
-            })}
-            <Typography variant="h4">In {region.name}</Typography>
+            {getIconify(scope.icon, 28, { color: 'secondary.main' })}
+            <Typography variant="h4">In {scope.name}</Typography>
 
             <Button
               LinkComponent={RouterLink}
-              href={paths.warehouses.region(region.code)}
+              href={paths.warehouses.regionScope(scope.code)}
               variant="soft"
               color="primary"
               sx={{ ml: 'auto' }}
@@ -141,7 +139,7 @@ export default function ListingView() {
           </Stack>
 
           <Grid container spacing={2}>
-            {renderWarehouses(regionWarehouses[region.code])}
+            {renderWarehouses(scopeData[scope.code])}
           </Grid>
         </Stack>
       ))}

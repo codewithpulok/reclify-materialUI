@@ -4,7 +4,8 @@ import { Button, Grid, Stack, Typography } from '@mui/material';
 import Container from '@mui/material/Container';
 import { useCallback, useMemo } from 'react';
 // local components
-import { regionScopes } from 'src/assets/data';
+import { usRegions } from 'src/assets/data';
+import CustomBreadcrumbs from 'src/components/common/custom-breadcrumbs';
 import { EmptyState, ErrorState } from 'src/components/common/custom-state';
 import { getIconify } from 'src/components/common/iconify/utilities';
 import { useSettingsContext } from 'src/components/common/settings';
@@ -17,7 +18,7 @@ import { ICONS } from '../config-warehouse';
 
 // ----------------------------------------------------------------------
 
-export default function ListingView() {
+export default function USListingView() {
   const settings = useSettingsContext();
 
   const warehousesResponse = useWarehouseListQuery();
@@ -62,21 +63,13 @@ export default function ListingView() {
     [warehousesResponse]
   );
 
-  // hot deals
-  const hotdeals = useMemo(
+  // warehouse based on region
+  const regionWarehouses = useMemo(
     () =>
-      warehousesResponse?.data?.results instanceof Array
-        ? warehousesResponse?.data?.results.filter((w) => w.discountRate > 0 && w?.visible)
-        : [],
-    [warehousesResponse]
-  );
-  // data based on scope
-  const scopeData = useMemo(
-    () =>
-      regionScopes.reduce((prev, next) => {
+      usRegions.reduce((prev, next) => {
         prev[next.code] =
           warehousesResponse?.data?.results instanceof Array
-            ? warehousesResponse.data?.results.filter((w) => w?.regionScope === next.code)
+            ? warehousesResponse.data?.results.filter((w) => w.region === next.code && w.visible)
             : [];
         return prev;
       }, {}),
@@ -86,62 +79,43 @@ export default function ListingView() {
   return (
     <Container maxWidth={settings.themeStretch ? false : 'xl'}>
       <Stack mb={5} spacing={5}>
-        <Stack
-          sx={{
-            flexDirection: 'row',
-            alignItems: 'center',
-            gap: 0.5,
-          }}
-        >
-          {ICONS.hot_deals(28, { color: 'secondary.main' })}
-          <Typography variant="h4">Hot Racks</Typography>
+        <CustomBreadcrumbs
+          heading="United States Warehouses"
+          links={[{ name: 'Warehouses', href: paths.warehouses.root }, { name: 'us' }]}
+        />
 
-          <Button
-            LinkComponent={RouterLink}
-            href={paths.dashboard.warehouses.hot_deals}
-            variant="soft"
-            color="primary"
-            sx={{ ml: 'auto' }}
-          >
-            View more
-          </Button>
-        </Stack>
-
-        <Grid container spacing={2}>
-          {renderWarehouses(hotdeals, 'No hot deals available', undefined, {
-            itemProps: { glow: true },
-          })}
-        </Grid>
-      </Stack>
-
-      {regionScopes.map((scope) => (
-        <Stack mb={5} spacing={5} key={scope.code}>
-          <Stack
-            sx={{
-              flexDirection: 'row',
-              alignItems: 'center',
-              gap: 0.5,
-            }}
-          >
-            {getIconify(scope.icon, 28, { color: 'secondary.main' })}
-            <Typography variant="h4">In {scope.name}</Typography>
-
-            <Button
-              LinkComponent={RouterLink}
-              href={paths.dashboard.warehouses.regionScope(scope.code)}
-              variant="soft"
-              color="primary"
-              sx={{ ml: 'auto' }}
+        {usRegions.map((region) => (
+          <Stack mb={5} spacing={5} key={region.code}>
+            <Stack
+              sx={{
+                flexDirection: 'row',
+                alignItems: 'center',
+                gap: 0.5,
+              }}
             >
-              View more
-            </Button>
-          </Stack>
+              {getIconify(region.icon, 28, {
+                color: 'secondary.main',
+                rotate: `${region.rotate ? 90 * region.rotate : 0}deg`,
+              })}
+              <Typography variant="h4">In {region.name}</Typography>
 
-          <Grid container spacing={2}>
-            {renderWarehouses(scopeData[scope.code])}
-          </Grid>
-        </Stack>
-      ))}
+              <Button
+                LinkComponent={RouterLink}
+                href={paths.warehouses.region(region.code)}
+                variant="soft"
+                color="primary"
+                sx={{ ml: 'auto' }}
+              >
+                View more
+              </Button>
+            </Stack>
+
+            <Grid container spacing={2}>
+              {renderWarehouses(regionWarehouses[region.code])}
+            </Grid>
+          </Stack>
+        ))}
+      </Stack>
     </Container>
   );
 }

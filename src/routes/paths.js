@@ -59,6 +59,9 @@ export const paths = {
 
       // warehouses by region
       region: (region) => `${ROOTS.DASHBOARD}/warehouses/region/${region}`,
+
+      // warehouses by region scope
+      regionScope: (scope) => `${ROOTS.DASHBOARD}/warehouses/${scope}`,
     },
 
     // services section
@@ -117,6 +120,8 @@ export const paths = {
     hot_deals: `${ROOTS.WAREHOUSES}/hot-deals`,
     // warehouses by region
     region: (region) => `${ROOTS.WAREHOUSES}/region/${region}`,
+    // warehouses by region scope
+    regionScope: (scope) => `${ROOTS.WAREHOUSES}/${scope}`,
   },
 
   // SERVICES
