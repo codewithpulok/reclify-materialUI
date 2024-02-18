@@ -1,7 +1,7 @@
 /** @type {RegionType[]} */
 export const regionScopes = [
   { name: 'United States', code: 'us', icon: 'emojione-monotone:flag-for-united-states' },
-  { name: 'Global', code: 'global', icon: 'solar:global-bold-duotone' },
+  { name: 'Global', code: 'global', icon: 'gis:earth-america' },
 ];
 
 /** @type {RegionType[]} - United States Regions */
