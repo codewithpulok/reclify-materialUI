@@ -7,7 +7,7 @@ import Scrollbar from 'src/components/common/scrollbar';
 
 const Props = {
   /** @type {'CREATE' | 'EDIT'} */
-  mode: PropTypes.any(['CREATE', 'EDIT']),
+  mode: PropTypes.oneOf(['CREATE', 'EDIT']),
 };
 
 /**
