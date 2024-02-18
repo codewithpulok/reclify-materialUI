@@ -87,7 +87,18 @@ const DocumentsUploadField = (props) => {
 
   return (
     <>
-      <Upload multiple onDrop={handleDropMultiFile} disabled={isLoading} />
+      <Upload
+        multiple
+        onDrop={handleDropMultiFile}
+        disabled={isLoading}
+        accept={{
+          'application/msword': ['.doc'],
+          'application/vnd.openxmlformats-officedocument.wordprocessingml.document': ['.docx'],
+          'application/pdf': ['.pdf'],
+          'application/vnd.ms-excel': ['.xls'],
+          'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet': ['.xlsx'],
+        }}
+      />
 
       <Stack spacing={0.5} mt={2} mb={2}>
         <DocumentsPreviewList onDelete={removeDocument} documents={fields} isLoading={isLoading} />

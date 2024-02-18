@@ -66,6 +66,8 @@ export default function Upload(props) {
     ...other,
   });
 
+  console.log({ accept: other?.accept });
+
   const hasFile = !!file && !multiple;
 
   const hasFiles = !!files && multiple && !!files.length;
