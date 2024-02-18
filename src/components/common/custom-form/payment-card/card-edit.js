@@ -25,7 +25,8 @@ const PaymentCardEditForm = (props) => {
   /** @type {PaymentCard} */
   const defaultValues = useMemo(
     () => ({
-      name: card?.name || '',
+      cardNumber: card?.cardNumber || '',
+      cardHolder: card?.cardHolder || '',
       isPrimary: card?.isPrimary || false,
     }),
     [card]

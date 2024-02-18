@@ -1,5 +1,5 @@
 import { yupResolver } from '@hookform/resolvers/yup';
-import { Alert, Box } from '@mui/material';
+import { Box } from '@mui/material';
 import { useCallback } from 'react';
 import { useForm } from 'react-hook-form';
 
@@ -15,7 +15,7 @@ const Props = {
 
 /** @type {PaymentCard} */
 const defaultValues = {
-  name: '',
+  cardHolder: '',
   isPrimary: false,
 };
 
@@ -30,8 +30,7 @@ const PaymentCardCreateForm = (props) => {
   const elements = useElements();
 
   const methods = useForm({ defaultValues, resolver: yupResolver(cardSchema) });
-  const { handleSubmit, reset, setError, clearErrors, formState } = methods;
-  const { errors } = formState;
+  const { handleSubmit, reset, setError, clearErrors } = methods;
 
   // generate token from stripe
   const getToken = async (name) => {
@@ -59,16 +58,14 @@ const PaymentCardCreateForm = (props) => {
 
   // handle create payment card
   const onSubmit = async (values) => {
-    const token = await getToken(values?.name);
+    const token = await getToken(values?.cardHolder);
     if (!token) return null; // if token generation error then stop execution
-    return submitCallback({ token, values }, onReset);
+    return submitCallback({ token: token.id, ...values }, onReset);
   };
 
   return (
     <FormProvider methods={methods} onSubmit={handleSubmit(onSubmit)} onReset={onReset}>
       <Box component={wrapperElement} sx={sx}>
-        {errors?.root?.message && <Alert severity="error">{errors?.root?.message}</Alert>}
-
         <CardFields />
       </Box>
 
