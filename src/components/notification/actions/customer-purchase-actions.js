@@ -36,7 +36,7 @@ const CustomerPurchaseActions = (props) => {
             size="small"
             onClick={() => transactionComplete(transaction)}
           >
-            Complete
+            Approve
           </Button>
           <Button
             color="error"
@@ -44,7 +44,7 @@ const CustomerPurchaseActions = (props) => {
             size="small"
             onClick={() => transactionCancel(transaction)}
           >
-            Cancel
+            Decline
           </Button>
         </>
       );
@@ -59,7 +59,7 @@ const CustomerPurchaseActions = (props) => {
             onClick={() => transactionComplete(transaction)}
             disabled
           >
-            Complete
+            Approve
           </Button>
           <Button
             color="error"
@@ -67,7 +67,7 @@ const CustomerPurchaseActions = (props) => {
             size="small"
             onClick={() => transactionCancel(transaction)}
           >
-            Cancel
+            Decline
           </Button>
         </>
       );
@@ -83,7 +83,7 @@ const CustomerPurchaseActions = (props) => {
           size="small"
           onClick={() => transactionCancel(transaction)}
         >
-          Cancel
+          Decline
         </Button>
       );
     }
@@ -107,7 +107,7 @@ const CustomerPurchaseActions = (props) => {
             size="small"
             onClick={() => adminTransactionCancel(transaction)}
           >
-            Cancel
+            Decline
           </Button>
         </>
       );

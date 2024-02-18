@@ -9,6 +9,7 @@ import Stack from '@mui/material/Stack';
 
 import NotificationActions from 'src/components/notification/actions';
 
+import { CircularProgress } from '@mui/material';
 import { fToNow } from 'src/utils/format-time';
 import ICONS from '../icons';
 
@@ -41,6 +42,8 @@ const getNotificationIcon = (type) => {
 const Props = {
   /** @type {NotificationType} */
   notification: PropTypes.object,
+  onClick: PropTypes.func,
+  isLoading: PropTypes.bool,
 };
 
 /**
@@ -48,13 +51,11 @@ const Props = {
  * @returns {JSX.Element}
  */
 const NotificationListItem = (props) => {
-  const { notification, ...other } = props;
+  const { notification, onClick, isLoading, ...other } = props;
 
   const renderThumbnail = (
     <ListItemAvatar>
-      {notification?.thumbnail ? (
-        <Avatar src={notification.thumbnail} sx={{ bgcolor: 'background.neutral' }} />
-      ) : (
+      {isLoading ? (
         <Stack
           alignItems="center"
           justifyContent="center"
@@ -65,8 +66,27 @@ const NotificationListItem = (props) => {
             bgcolor: 'background.neutral',
           }}
         >
-          {getNotificationIcon(notification.type)(24)}
+          <CircularProgress color="primary" size={24} />
         </Stack>
+      ) : (
+        <>
+          {notification?.thumbnail ? (
+            <Avatar src={notification.thumbnail} sx={{ bgcolor: 'background.neutral' }} />
+          ) : (
+            <Stack
+              alignItems="center"
+              justifyContent="center"
+              sx={{
+                width: 40,
+                height: 40,
+                borderRadius: '50%',
+                bgcolor: 'background.neutral',
+              }}
+            >
+              {getNotificationIcon(notification.type)(24)}
+            </Stack>
+          )}
+        </>
       )}
     </ListItemAvatar>
   );
@@ -120,6 +140,8 @@ const NotificationListItem = (props) => {
         alignItems: 'flex-start',
         borderBottom: (theme) => `dashed 1px ${theme.palette.divider}`,
       }}
+      onClick={onClick}
+      disabled={isLoading}
     >
       {renderUnReadBadge}
 

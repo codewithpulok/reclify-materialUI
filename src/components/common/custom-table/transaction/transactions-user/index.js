@@ -28,7 +28,15 @@ const Props = {
 const TransactionsUser = (props) => {
   const { data } = props;
 
-  return <TransactionTable data={data} tableHead={TABLE_HEAD} />;
+  return (
+    <TransactionTable
+      data={data}
+      tableHead={TABLE_HEAD}
+      isError={false}
+      isLoading={!Array.isArray(data)}
+      isSuccess={!!data}
+    />
+  );
 };
 
 // ----------------------------------------------------------------------

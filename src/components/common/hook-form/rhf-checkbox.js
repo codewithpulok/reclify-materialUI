@@ -33,7 +33,7 @@ export default function RHFCheckbox(props) {
         <div>
           {label ? (
             <FormControlLabel
-              control={<Checkbox {...field} checked={field.value} {...other} />}
+              control={<Checkbox {...field} checked={!!field.value} {...other} />}
               label={label}
               {...labelProps}
             />

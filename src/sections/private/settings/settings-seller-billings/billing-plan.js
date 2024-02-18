@@ -9,9 +9,11 @@ import Grid from '@mui/material/Unstable_Grid2';
 
 import PlanCard from 'src/components/user-settings/cards/plan-card';
 
+import { FormControlLabel, Switch } from '@mui/material';
 import PropTypes from 'prop-types';
 import { PlanCancelDialog, PlanUpgradeDialog } from 'src/components/common/custom-dialog';
 import { ErrorState, LoadingState } from 'src/components/common/custom-state';
+import { useBoolean } from 'src/hooks/use-boolean';
 import { useDialog } from 'src/hooks/use-dialog';
 import { selectAuth } from 'src/redux-toolkit/features/auth/authSlice';
 import { useAppSelector } from 'src/redux-toolkit/hooks';
@@ -25,6 +27,55 @@ const Props = {
   isLoading: PropTypes.bool,
 };
 
+const RenderProps = {
+  ...Props,
+  showAnnual: PropTypes.bool,
+  selectedPlan: PropTypes.string,
+  handleSelectPlan: PropTypes.func,
+  currentPlan: PropTypes.string,
+};
+
+// ----------------------------------------------------------------------
+
+const RenderPlans = (props) => {
+  const {
+    plans,
+    isSuccess,
+    isError,
+    isLoading,
+    showAnnual,
+    selectedPlan,
+    handleSelectPlan,
+    currentPlan,
+  } = props;
+
+  // error state
+  if (!isLoading && isError) {
+    return <ErrorState />;
+  }
+
+  // success state
+  if (!isLoading && isSuccess && Array.isArray(plans)) {
+    return plans?.map((plan) => (
+      <Grid xs={12} md={4} key={plan.id}>
+        <PlanCard
+          isSelected={plan.id === selectedPlan}
+          onSelect={handleSelectPlan}
+          plan={plan}
+          isCurrent={currentPlan === plan.id}
+          showAnnual={showAnnual}
+        />
+      </Grid>
+    ));
+  }
+
+  // loading state
+  return <LoadingState />;
+};
+RenderPlans.propTypes = RenderProps;
+
+// ----------------------------------------------------------------------
+
 /**
  * Billing plans
  * @param {Props} props
@@ -32,8 +83,10 @@ const Props = {
  */
 const BillingPlan = (props) => {
   const { plans = [], isError, isSuccess, isLoading } = props;
-
   const { user } = useAppSelector(selectAuth);
+
+  // app state
+  const isAnnual = useBoolean();
 
   // dialog state
   const upgradeDialog = useDialog();
@@ -46,30 +99,6 @@ const BillingPlan = (props) => {
     setSelectedPlan(newValue);
   }, []);
 
-  const renderPlans = useMemo(() => {
-    // error state
-    if (!isLoading && isError) {
-      return <ErrorState />;
-    }
-
-    // success state
-    if (!isLoading && isSuccess && Array.isArray(plans)) {
-      return plans?.map((plan) => (
-        <Grid xs={12} md={4} key={plan.id}>
-          <PlanCard
-            isSelected={plan.id === selectedPlan}
-            onSelect={handleSelectPlan}
-            plan={plan}
-            isCurrent={currentPlan === plan.id}
-          />
-        </Grid>
-      ));
-    }
-
-    // loading state
-    return <LoadingState />;
-  }, [currentPlan, handleSelectPlan, isError, isSuccess, plans, selectedPlan, isLoading]);
-
   // update selected plan
   useEffect(() => {
     if (currentPlan) {
@@ -80,10 +109,28 @@ const BillingPlan = (props) => {
   return (
     <>
       <Card>
-        <CardHeader title="Plan" />
+        <CardHeader
+          title="Plan"
+          action={
+            <FormControlLabel
+              label="Anually"
+              labelPlacement="start"
+              control={<Switch onChange={(_e, c) => isAnnual.setValue(c)} value={isAnnual.value} />}
+            />
+          }
+        />
 
         <Grid container spacing={1.5} sx={{ p: 3 }}>
-          {renderPlans}
+          <RenderPlans
+            currentPlan={currentPlan}
+            handleSelectPlan={handleSelectPlan}
+            isError={isError}
+            isLoading={isLoading}
+            isSuccess={isSuccess}
+            plans={plans}
+            selectedPlan={selectedPlan}
+            showAnnual={isAnnual.value}
+          />
         </Grid>
 
         <Divider sx={{ borderStyle: 'dashed' }} />

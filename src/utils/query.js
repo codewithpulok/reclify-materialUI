@@ -7,7 +7,12 @@
  */
 export const createQueryString = (name, value, queryString) => {
   const params = new URLSearchParams(queryString);
-  params.set(name, value);
+
+  if (value === null) {
+    params.delete(name);
+  } else {
+    params.set(name, value);
+  }
 
   return params.toString();
 };

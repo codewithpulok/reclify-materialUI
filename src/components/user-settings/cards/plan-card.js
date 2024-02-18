@@ -1,7 +1,9 @@
-import { Box, Paper, Stack, Typography } from '@mui/material';
+import { Box, Button, Paper, Stack, Typography } from '@mui/material';
 import PropTypes from 'prop-types';
 import { PlanFreeIcon, PlanPremiumIcon, PlanStarterIcon } from 'src/assets/icons';
 import Label from 'src/components/common/label';
+import { RouterLink } from 'src/routes/components';
+import { paths } from 'src/routes/paths';
 import { fCurrency } from 'src/utils/format-number';
 import { ICONS } from '../config-user-settings';
 
@@ -21,6 +23,7 @@ const Props = {
   /** @type {SxProps} */
   sx: PropTypes.object,
   isCurrent: PropTypes.bool,
+  showAnnual: PropTypes.bool,
 };
 
 // ----------------------------------------------------------------------
@@ -31,17 +34,19 @@ const Props = {
  * @returns
  */
 const PlanCard = (props) => {
-  const { plan, isSelected, onSelect, sx = {}, isCurrent } = props;
+  const { plan, isSelected, onSelect, sx = {}, isCurrent, showAnnual } = props;
+
+  const currentPrice = showAnnual ? plan?.annualPrice : plan?.price;
 
   return (
     <Stack
       component={Paper}
       variant="outlined"
-      onClick={() => onSelect(plan.id)}
+      onClick={plan?.id === 'enterprise' ? undefined : () => onSelect(plan.id)}
       sx={{
         p: 2.5,
         position: 'relative',
-        cursor: onSelect ? 'pointer' : 'default',
+        cursor: onSelect && plan?.id !== 'enterprise' ? 'pointer' : 'default',
         ...(isSelected && {
           boxShadow: (theme) => `0 0 0 2px ${theme.palette.primary.main}`,
         }),
@@ -72,12 +77,26 @@ const PlanCard = (props) => {
       </Box>
 
       <Stack direction="row" alignItems="center" sx={{ typography: 'h4' }}>
-        {plan.price ? fCurrency(plan.price) : 'Free'}
+        {plan?.id === 'enterprise' ? (
+          <Button
+            LinkComponent={RouterLink}
+            href={`${paths.contact_us}?scrollTo=FORM`}
+            color="primary"
+            variant="contained"
+            size="small"
+          >
+            Contact Us. A la Carte
+          </Button>
+        ) : (
+          <>
+            {currentPrice ? fCurrency(currentPrice) : 'Free'}
 
-        {!!plan.price && (
-          <Box component="span" sx={{ typography: 'body2', color: 'text.disabled', ml: 0.5 }}>
-            /mo
-          </Box>
+            {!!currentPrice && (
+              <Box component="span" sx={{ typography: 'body2', color: 'text.disabled', ml: 0.5 }}>
+                /mo
+              </Box>
+            )}
+          </>
         )}
       </Stack>
 

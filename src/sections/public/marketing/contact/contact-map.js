@@ -6,9 +6,9 @@ import { styled, useTheme } from '@mui/material/styles';
 // constants
 import { ADDRESS } from 'src/constant/address';
 // components
-import { MAPBOX_API } from 'src/config-global';
 import Iconify from 'src/components/common/iconify';
 import { MapControl, MapMarker, MapPopup } from 'src/components/common/map';
+import { MAPBOX_API } from 'src/config-global';
 
 // ----------------------------------------------------------------------
 
@@ -29,7 +29,6 @@ export default function ContactMap() {
   const theme = useTheme();
   const lightMode = theme.palette.mode === 'light';
   const [popupInfo, setPopupInfo] = useState(null);
-  console.log({ popupInfo });
 
   return (
     <StyledRoot>

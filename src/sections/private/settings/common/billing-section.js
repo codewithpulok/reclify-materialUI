@@ -34,7 +34,7 @@ const Props = {
  * @param {Props} props
  * @returns
  */
-const BillingInfo = (props) => {
+const BillingSection = (props) => {
   const { primaryBillingInfo, primaryCard, primaryACH, isLoading } = props;
 
   const openAddress = useBoolean();
@@ -92,7 +92,6 @@ const BillingInfo = (props) => {
                   variant="outlined"
                   size="small"
                   sx={{ typography: 'subtitle2' }}
-                  disabled={selectedBillingInfo === undefined}
                 >
                   {!selectedBillingInfo && 'Not Selected'}
                   {selectedBillingInfo && selectedBillingInfo?.fullName}
@@ -129,7 +128,6 @@ const BillingInfo = (props) => {
                   variant="outlined"
                   size="small"
                   sx={{ typography: 'subtitle2' }}
-                  disabled={selectedCard === undefined}
                 >
                   {!selectedCard && 'Not Selected'}
                   {selectedCard && creditCards.format(selectedCard?.cardNumber)}
@@ -148,7 +146,6 @@ const BillingInfo = (props) => {
                   variant="outlined"
                   size="small"
                   sx={{ typography: 'subtitle2' }}
-                  disabled={selectedCard === undefined}
                 >
                   {!selectedACH && 'Not Selected'}
                   {selectedACH && `${selectedACH?.accountNumber}`}
@@ -183,6 +180,6 @@ const BillingInfo = (props) => {
   );
 };
 
-BillingInfo.propTypes = Props;
+BillingSection.propTypes = Props;
 
-export default BillingInfo;
+export default BillingSection;

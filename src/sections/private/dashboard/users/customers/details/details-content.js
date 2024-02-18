@@ -80,7 +80,7 @@ const DetailsContent = (props) => {
         <DetailsHome
           allowSendMessage={authUser && authUser?.id !== user.id}
           user={user}
-          totalPurchase={10}
+          totalPurchase={user?.transactionCount}
           spentMoney={user?.spent}
         />
       )}
