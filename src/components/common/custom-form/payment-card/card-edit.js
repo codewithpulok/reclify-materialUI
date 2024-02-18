@@ -6,8 +6,8 @@ import { useForm } from 'react-hook-form';
 
 import FormProvider from 'src/components/common/hook-form/form-provider';
 import { CustomFormProps } from '../config-custom-form';
-import CardFields from './common/card-fields';
-import { cardSchema } from './common/card-schema';
+import CardEditFields from './common/card-edit-fields';
+import { cardEditSchema } from './common/card-schema';
 
 const Props = {
   ...CustomFormProps,
@@ -28,11 +28,13 @@ const PaymentCardEditForm = (props) => {
       cardNumber: card?.cardNumber || '',
       cardHolder: card?.cardHolder || '',
       isPrimary: card?.isPrimary || false,
+      expirationYear: card?.expirationYear || '',
+      expirationMonth: card?.expirationMonth || '',
     }),
     [card]
   );
 
-  const methods = useForm({ defaultValues, resolver: yupResolver(cardSchema) });
+  const methods = useForm({ defaultValues, resolver: yupResolver(cardEditSchema) });
   const { handleSubmit, reset } = methods;
 
   // handle form reset
@@ -41,7 +43,15 @@ const PaymentCardEditForm = (props) => {
   }, [reset]);
 
   // handle edit payment card
-  const onSubmit = (values) => submitCallback(values, onReset);
+  const onSubmit = (values) =>
+    submitCallback(
+      {
+        ...values,
+        expirationMonth: values?.expirationMonth?.toString(),
+        expirationYear: values?.expirationYear?.toString(),
+      },
+      onReset
+    );
 
   // update default values
   useEffect(() => {
@@ -51,7 +61,7 @@ const PaymentCardEditForm = (props) => {
   return (
     <FormProvider methods={methods} onSubmit={handleSubmit(onSubmit)} onReset={onReset}>
       <Box component={wrapperElement} sx={sx}>
-        <CardFields />
+        <CardEditFields />
       </Box>
 
       {actions}

@@ -51,9 +51,9 @@ const AchCard = (props) => {
       </Stack>
       {ach && (
         <>
-          <Typography variant="subtitle1">{ach?.routingNumber}</Typography>
-          <Typography variant="subtitle2" color="text.secondary">
-            {ach?.accountNumber}
+          <Typography variant="subtitle1">*********{ach?.last4}</Typography>
+          <Typography variant="subtitle1" color="text.secondary">
+            {ach?.routingNumber}
           </Typography>
           <Typography variant="subtitle2" color="text.secondary">
             {ach?.accountName}

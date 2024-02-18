@@ -76,9 +76,9 @@ const Item = (props) => {
           {ach.isPrimary && <Label color="info">Primary</Label>}
         </Stack>
 
-        <Typography variant="subtitle1">{ach?.routingNumber}</Typography>
+        <Typography variant="subtitle1">***********{ach?.last4}</Typography>
         <Typography variant="subtitle2" color="text.secondary">
-          {ach?.accountNumber}
+          {ach?.routingNumber}
         </Typography>
         <Typography variant="subtitle2" color="text.secondary">
           {ach?.accountName}

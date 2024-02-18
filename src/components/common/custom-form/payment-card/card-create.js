@@ -60,7 +60,7 @@ const PaymentCardCreateForm = (props) => {
   const onSubmit = async (values) => {
     const token = await getToken(values?.cardHolder);
     if (!token) return null; // if token generation error then stop execution
-    return submitCallback({ token: token.id, ...values }, onReset);
+    return submitCallback({ cardToken: token.id, ...values }, onReset);
   };
 
   return (

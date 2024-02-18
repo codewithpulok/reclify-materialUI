@@ -6,6 +6,22 @@ const validationSchema = {
   accountNumber: Yup.string().label('Account Number').required(),
   accountName: Yup.string().label('Account Name').required(),
   isPrimary: Yup.bool().default(false).optional(),
+  accountHolderType: Yup.string()
+    .label('Account Holder Type')
+    .oneOf(['individual', 'company'])
+    .required(),
 };
 
 export const AchSchema = Yup.object().shape(validationSchema);
+
+/** @type {ACHType} */
+const validationEditSchema = {
+  accountName: Yup.string().label('Account Name').required(),
+  isPrimary: Yup.bool().default(false).optional(),
+  accountHolderType: Yup.string()
+    .label('Account Holder Type')
+    .oneOf(['individual', 'company'])
+    .required(),
+};
+
+export const AchEditSchema = Yup.object().shape(validationEditSchema);

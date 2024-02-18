@@ -19,6 +19,7 @@ const defaultValues = {
   accountNumber: '',
   routingNumber: '',
   isPrimary: false,
+  accountHolderType: 'company',
 };
 
 /**
@@ -44,6 +45,7 @@ const ACHInfoCreateForm = (props) => {
       account_holder_name: data.accountName,
       country: 'US',
       currency: 'usd',
+      account_holder_type: data.accountHolderType,
     });
 
     if (error) {
@@ -67,7 +69,7 @@ const ACHInfoCreateForm = (props) => {
   const onSubmit = async (values) => {
     const token = await getToken(values);
     if (!token) return null; // if token generation error then stop execution
-    return submitCallback({ token: token.id, ...values }, onReset);
+    return submitCallback({ achToken: token.id, ...values }, onReset);
   };
 
   return (
