@@ -53,7 +53,7 @@ const TransactionDetailsDialog = (props) => {
           {ICONS.close()}
         </IconButton>
       </DialogTitle>
-      <Scrollbar sx={{ height: 500, pb: 10 }}>
+      <Scrollbar sx={{ height: 500, pb: 2 }}>
         <DialogContent>
           <Stack spacing={1.5}>
             {transaction?.warehouse && <WarehouseDetailsCard warehouse={transaction.warehouse} />}
@@ -65,7 +65,6 @@ const TransactionDetailsDialog = (props) => {
           </Stack>
         </DialogContent>
       </Scrollbar>
-
       <DialogActions>
         {showActions && (
           <>

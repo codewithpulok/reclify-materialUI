@@ -2,21 +2,23 @@ import { yupResolver } from '@hookform/resolvers/yup';
 import { useSnackbar } from 'notistack';
 import { useForm } from 'react-hook-form';
 import * as Yup from 'yup';
-// mui
-// components
-import { Card, Stack } from '@mui/material';
 import { useCallback, useEffect } from 'react';
+// mui
+import { Card, Stack } from '@mui/material';
+// redux
+import { useAppSelector } from 'src/redux-toolkit/hooks';
+import { selectAuth } from 'src/redux-toolkit/features/auth/authSlice';
+// utils
+import { fDate } from 'src/utils/format-time';
+// components
 import { optionalAddressFieldSchema } from 'src/components/common/custom-fields/address-field/schema';
 import { EmptyState } from 'src/components/common/custom-state';
 import FormProvider from 'src/components/common/hook-form';
 import { PLACEHOLDER_PROFILE_BANNER } from 'src/config-global';
-import { selectAuth } from 'src/redux-toolkit/features/auth/authSlice';
-import { useAppSelector } from 'src/redux-toolkit/hooks';
 import {
   useLazyProfileGetQuery,
   useProfileUpdateMutation,
 } from 'src/redux-toolkit/services/profileApi';
-import { fDate } from 'src/utils/format-time';
 import BannerField from './banner-field';
 import Fields from './fields';
 
@@ -25,6 +27,8 @@ const defaultValues = {
   lastName: '',
   email: '',
   website: '',
+  company: '',
+  goods: '',
   serviceType: '',
   avatar: null,
   logo: null,

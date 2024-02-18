@@ -82,16 +82,14 @@ const PurchaseFormFields = (props) => {
     <FormProvider methods={methods} onSubmit={handleSubmit(onSubmit)} onReset={onReset}>
       <Stack component={wrapperElement} sx={{ py: 1 }} spacing={2}>
         <PurchaseFormDetails purchaseData={purchaseData} />
-
         <PaymentTypeTab />
-
         <Alert severity="info" variant="outlined" sx={{ typography: 'body2' }}>
           By clicking confirm payment, you are authorizing a hold on your payment method for the
           total amount specified. Your purchase is pending approval by the warehouse. If approved
           your payment method will be charged. If denied, the hold will be removed and funds
           refunded.
         </Alert>
-        <RHFCheckbox name="agree" label="Agree to terms of Service & Privacy Policy" />
+        <RHFCheckbox name="agree" label="Agree to Terms of Service & Privacy Policy" />
         <Stack direction="row" alignItems="center" justifyContent="flex-end" spacing={1} pb={2}>
           <Button type="reset">Cancel</Button>
           <LoadingButton

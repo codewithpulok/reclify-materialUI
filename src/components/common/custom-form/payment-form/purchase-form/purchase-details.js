@@ -29,17 +29,9 @@ const PurchaseFormDetails = (props) => {
       <Stack direction="row" justifyContent="space-between" alignItems="baseline" spacing={1}>
         <Typography variant="subtitle2">Price Per Pallet: </Typography>
         <Typography variant="subtitle2" color="text.secondary">
-          {fCurrency(purchaseData?.pricePerPallet)}
+          {fCurrency(purchaseData?.discountedPricePerPallet || purchaseData?.pricePerPallet)}
         </Typography>
       </Stack>
-      {!!purchaseData?.discountedPricePerPallet && (
-        <Stack direction="row" justifyContent="space-between" alignItems="baseline" spacing={1}>
-          <Typography variant="subtitle2">Discounted Price Per Pallet: </Typography>
-          <Typography variant="subtitle2" color="text.secondary">
-            {fCurrency(purchaseData?.discountedPricePerPallet)}
-          </Typography>
-        </Stack>
-      )}
       <Stack direction="row" justifyContent="space-between" alignItems="baseline" spacing={1}>
         <Typography variant="subtitle2">Quantity of Pallet: </Typography>
         <Typography variant="subtitle2" color="text.secondary">
@@ -61,7 +53,7 @@ const PurchaseFormDetails = (props) => {
             accordance with their contract terms
           </Typography>
         </Stack>
-        <Typography variant="subtitle2" color="text.secondary">
+        <Typography variant="subtitle2" color="text.primary">
           {fCurrency(purchaseData?.amountDue)}
         </Typography>
       </Stack>

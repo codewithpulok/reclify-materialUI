@@ -53,7 +53,7 @@ const PurchaseForm = (props) => {
 
   // loading state
   return (
-    <Stack component={wrapperElement} sx={{ py: 1 }}>
+    <Stack component={wrapperElement} sx={{ p: 3 }}>
       <LoadingState />
     </Stack>
   );

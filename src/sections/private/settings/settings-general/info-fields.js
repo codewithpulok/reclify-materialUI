@@ -16,10 +16,15 @@ import formatPhone from 'src/utils/format-phone';
 const InfoFields = () => {
   const { user } = useAppSelector(selectAuth);
 
-  const websiteField =
-    user?.userType === 'seller' ? (
-      <RHFTextField name="website" type="url" label="Website" placeholder="https://" fullWidth />
-    ) : null;
+  const companyField =
+    user?.userType === 'seller' ? null : (
+      <RHFTextField name="company" label="Company Name" fullWidth />
+    );
+
+  const goodsField =
+    user?.userType === 'seller' ? null : (
+      <RHFTextField name="goods" label="Type of Goods" fullWidth />
+    );
 
   const serviceField =
     user?.userType === 'seller' ? (
@@ -57,16 +62,29 @@ const InfoFields = () => {
             placeholder="000-000-0000"
             fullWidth
           />
-
-          {websiteField}
-
+          {companyField}
+          <RHFTextField
+            name="website"
+            type="url"
+            label="Website"
+            placeholder="https://"
+            fullWidth
+          />
+          {goodsField}
           <Grid item sx={{ gridColumn: { xs: 'span 1', sm: 'span 2' } }}>
             <AddressField name="address" />
           </Grid>
         </Box>
 
         <Stack spacing={3} alignItems="flex-end" sx={{ mt: 3 }}>
-          <RHFTextField name="about" multiline rows={4} label="About" fullWidth />
+          <RHFTextField
+            name="about"
+            multiline
+            rows={4}
+            label="Notes"
+            placeholder="Importor of toys and novelties based in Brooklyn, NY."
+            fullWidth
+          />
         </Stack>
       </CardContent>
     </Card>
