@@ -1,10 +1,10 @@
 import { yupResolver } from '@hookform/resolvers/yup';
-import { Box } from '@mui/material';
+import { Alert, Box } from '@mui/material';
 import { useCallback } from 'react';
 import { useForm } from 'react-hook-form';
 
+import { useElements, useStripe } from '@stripe/react-stripe-js';
 import FormProvider from 'src/components/common/hook-form/form-provider';
-import { fCreditExpire } from 'src/utils/format-time';
 import { CustomFormProps } from '../config-custom-form';
 import CardFields from './common/card-fields';
 import { cardSchema } from './common/card-schema';
@@ -15,10 +15,7 @@ const Props = {
 
 /** @type {PaymentCard} */
 const defaultValues = {
-  cardNumber: '',
-  cardHolder: '',
-  cvv: null,
-  expirationDate: fCreditExpire(new Date()),
+  name: '',
   isPrimary: false,
 };
 
@@ -29,8 +26,28 @@ const defaultValues = {
 const PaymentCardCreateForm = (props) => {
   const { actions, submitCallback = () => {}, wrapperElement, sx = {} } = props;
 
+  const stripe = useStripe();
+  const elements = useElements();
+
   const methods = useForm({ defaultValues, resolver: yupResolver(cardSchema) });
-  const { handleSubmit, reset } = methods;
+  const { handleSubmit, reset, setError, clearErrors, formState } = methods;
+  const { errors } = formState;
+
+  // generate token from stripe
+  const getToken = async (name) => {
+    clearErrors(); // reset errors
+    if (!stripe || !elements) return null;
+
+    const { error, token } = await stripe.createToken(elements.getElement('card'), { name });
+
+    if (error) {
+      console.error('ERROR: Create Token ->', error);
+      setError('root', { message: error?.message || 'Error in creating card' });
+      return null;
+    }
+
+    return token;
+  };
 
   // handle form reset
   const onReset = useCallback(
@@ -41,11 +58,17 @@ const PaymentCardCreateForm = (props) => {
   );
 
   // handle create payment card
-  const onSubmit = (values) => submitCallback(values, onReset);
+  const onSubmit = async (values) => {
+    const token = await getToken(values?.name);
+    if (!token) return null; // if token generation error then stop execution
+    return submitCallback({ token, values }, onReset);
+  };
 
   return (
     <FormProvider methods={methods} onSubmit={handleSubmit(onSubmit)} onReset={onReset}>
       <Box component={wrapperElement} sx={sx}>
+        {errors?.root?.message && <Alert severity="error">{errors?.root?.message}</Alert>}
+
         <CardFields />
       </Box>
 

@@ -1,10 +1,12 @@
 import { LoadingButton } from '@mui/lab';
 import { Button, Dialog, DialogActions, DialogContent, DialogTitle } from '@mui/material';
+import { Elements } from '@stripe/react-stripe-js';
 import { enqueueSnackbar } from 'notistack';
 import PropTypes from 'prop-types';
 import { useCallback } from 'react';
 import { PaymentCardEditForm } from 'src/components/common/custom-form';
 import { useCardUpdateMutation } from 'src/redux-toolkit/services/cardApi';
+import stripePromise from 'src/utils/stripe';
 
 const Props = {
   open: PropTypes.bool.isRequired,
@@ -54,26 +56,28 @@ const PayemntCardEditDialog = (props) => {
   return (
     <Dialog fullWidth maxWidth="xs" open={open} onClose={onClose}>
       <DialogTitle>Edit Card</DialogTitle>
-      <PaymentCardEditForm
-        wrapperElement={DialogContent}
-        actions={
-          <DialogActions>
-            <Button type="reset" onClick={onClose}>
-              Cancel
-            </Button>
-            <LoadingButton
-              loading={updateResponse.isLoading}
-              type="submit"
-              color="primary"
-              variant="contained"
-            >
-              Update
-            </LoadingButton>
-          </DialogActions>
-        }
-        card={card}
-        submitCallback={handleSubmit}
-      />
+      <Elements stripe={stripePromise}>
+        <PaymentCardEditForm
+          wrapperElement={DialogContent}
+          actions={
+            <DialogActions>
+              <Button type="reset" onClick={onClose}>
+                Cancel
+              </Button>
+              <LoadingButton
+                loading={updateResponse.isLoading}
+                type="submit"
+                color="primary"
+                variant="contained"
+              >
+                Update
+              </LoadingButton>
+            </DialogActions>
+          }
+          card={card}
+          submitCallback={handleSubmit}
+        />
+      </Elements>
     </Dialog>
   );
 };

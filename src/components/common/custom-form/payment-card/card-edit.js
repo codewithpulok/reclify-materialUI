@@ -5,7 +5,6 @@ import { useCallback, useEffect, useMemo } from 'react';
 import { useForm } from 'react-hook-form';
 
 import FormProvider from 'src/components/common/hook-form/form-provider';
-import { fCreditExpire } from 'src/utils/format-time';
 import { CustomFormProps } from '../config-custom-form';
 import CardFields from './common/card-fields';
 import { cardSchema } from './common/card-schema';
@@ -26,10 +25,7 @@ const PaymentCardEditForm = (props) => {
   /** @type {PaymentCard} */
   const defaultValues = useMemo(
     () => ({
-      cardNumber: card?.cardNumber || '',
-      cardHolder: card?.cardHolder || '',
-      cvv: card?.cvv || null,
-      expirationDate: card?.expirationDate || fCreditExpire(new Date()),
+      name: card?.name || '',
       isPrimary: card?.isPrimary || false,
     }),
     [card]
