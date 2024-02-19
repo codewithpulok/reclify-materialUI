@@ -20,6 +20,7 @@ const defaultValues = {
   routingNumber: '',
   isPrimary: false,
   accountHolderType: 'company',
+  email: '',
 };
 
 /**

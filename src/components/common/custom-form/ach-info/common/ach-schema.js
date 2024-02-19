@@ -10,6 +10,7 @@ const validationSchema = {
     .label('Account Holder Type')
     .oneOf(['individual', 'company'])
     .required(),
+  email: Yup.string().email().label('Account Email').required(),
 };
 
 export const AchSchema = Yup.object().shape(validationSchema);

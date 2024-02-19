@@ -30,6 +30,8 @@
  * @property {number} discountAll
  * @property {boolean} hasPromo
  * @property {string} promoCode
+ * @property {boolean} hotRackEnabled
+ * @property {'fixed' | 'percentage'} discountOption
  */
 
 /**

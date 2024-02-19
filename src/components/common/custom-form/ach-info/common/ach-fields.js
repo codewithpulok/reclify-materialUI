@@ -30,6 +30,7 @@ const AchFields = (props) => {
           <MenuItem value="individual">Individual</MenuItem>
         </RHFTextField>
         <RHFTextField name="accountName" label="Name on Account" />
+        <RHFTextField type="email" name="email" label="Email Address" />
         <RHFSwitch name="isPrimary" label="Primary" />
       </Stack>
     </Scrollbar>
