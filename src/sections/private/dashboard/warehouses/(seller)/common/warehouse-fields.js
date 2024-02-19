@@ -278,21 +278,11 @@ const WarehouseFields = (props) => {
       <Grid item xs={12}>
         <RHFAccordion
           label="Warehouse Prices (Per Pallet)"
-          names={[
-            'price1',
-            'price3',
-            'price6',
-            'price12',
-            'discount1',
-            'discount3',
-            'discount6',
-            'discount12',
-            'discountAll',
-          ]}
+          names={['price1', 'price3', 'price6', 'price12']}
           defaultExpanded
         >
           <Grid container spacing={1.2}>
-            <Grid item xs={12} sm={6}>
+            <Grid item xs={12}>
               <RHFTextField
                 type="number"
                 name="price1"
@@ -304,20 +294,8 @@ const WarehouseFields = (props) => {
                 fullWidth
               />
             </Grid>
-            <Grid item xs={12} sm={6}>
-              <RHFTextField
-                type="number"
-                name="discount1"
-                label="Discount for 1 Month"
-                InputProps={{
-                  startAdornment: <InputAdornment position="start">$</InputAdornment>,
-                }}
-                onChangeMiddleware={restrictNegetiveValue}
-                fullWidth
-              />
-            </Grid>
 
-            <Grid item xs={12} sm={6}>
+            <Grid item xs={12}>
               <RHFTextField
                 type="number"
                 name="price3"
@@ -329,20 +307,8 @@ const WarehouseFields = (props) => {
                 fullWidth
               />
             </Grid>
-            <Grid item xs={12} sm={6}>
-              <RHFTextField
-                type="number"
-                name="discount3"
-                label="Discount for 3 Month"
-                InputProps={{
-                  startAdornment: <InputAdornment position="start">$</InputAdornment>,
-                }}
-                onChangeMiddleware={restrictNegetiveValue}
-                fullWidth
-              />
-            </Grid>
 
-            <Grid item xs={12} sm={6}>
+            <Grid item xs={12}>
               <RHFTextField
                 type="number"
                 name="price6"
@@ -354,49 +320,12 @@ const WarehouseFields = (props) => {
                 fullWidth
               />
             </Grid>
-            <Grid item xs={12} sm={6}>
-              <RHFTextField
-                type="number"
-                name="discount6"
-                label="Discount for 6 Month"
-                InputProps={{
-                  startAdornment: <InputAdornment position="start">$</InputAdornment>,
-                }}
-                onChangeMiddleware={restrictNegetiveValue}
-                fullWidth
-              />
-            </Grid>
-
-            <Grid item xs={12} sm={6}>
-              <RHFTextField
-                type="number"
-                name="price12"
-                label="12 Month"
-                InputProps={{
-                  startAdornment: <InputAdornment position="start">$</InputAdornment>,
-                }}
-                onChangeMiddleware={restrictNegetiveValue}
-                fullWidth
-              />
-            </Grid>
-            <Grid item xs={12} sm={6}>
-              <RHFTextField
-                type="number"
-                name="discount12"
-                label="Discount for 12 Month"
-                InputProps={{
-                  startAdornment: <InputAdornment position="start">$</InputAdornment>,
-                }}
-                onChangeMiddleware={restrictNegetiveValue}
-                fullWidth
-              />
-            </Grid>
 
             <Grid item xs={12}>
               <RHFTextField
                 type="number"
-                name="discountAll"
-                label="Discount for all month"
+                name="price12"
+                label="12 Month"
                 InputProps={{
                   startAdornment: <InputAdornment position="start">$</InputAdornment>,
                 }}
@@ -409,7 +338,16 @@ const WarehouseFields = (props) => {
       </Grid>
       <Grid item xs={12}>
         <RHFAccordion
-          names={['promoCode', 'discountRate', 'hasPromo']}
+          names={[
+            'promoCode',
+            'discountRate',
+            'hasPromo',
+            'discount1',
+            'discount3',
+            'discount6',
+            'discount12',
+            'discountAll',
+          ]}
           label="Hot Rack"
           defaultExpanded
           sx={{
@@ -451,6 +389,68 @@ const WarehouseFields = (props) => {
             >
               <RHFSwitch label="Enable Promo Code" name="hasPromo" />
             </Grid>
+
+            <Grid item xs={12}>
+              <RHFTextField
+                type="number"
+                name="discount1"
+                label="Discount for 1 Month"
+                InputProps={{
+                  startAdornment: <InputAdornment position="start">$</InputAdornment>,
+                }}
+                onChangeMiddleware={restrictNegetiveValue}
+                fullWidth
+              />
+            </Grid>
+            <Grid item xs={12}>
+              <RHFTextField
+                type="number"
+                name="discount3"
+                label="Discount for 3 Month"
+                InputProps={{
+                  startAdornment: <InputAdornment position="start">$</InputAdornment>,
+                }}
+                onChangeMiddleware={restrictNegetiveValue}
+                fullWidth
+              />
+            </Grid>
+            <Grid item xs={12}>
+              <RHFTextField
+                type="number"
+                name="discount6"
+                label="Discount for 6 Month"
+                InputProps={{
+                  startAdornment: <InputAdornment position="start">$</InputAdornment>,
+                }}
+                onChangeMiddleware={restrictNegetiveValue}
+                fullWidth
+              />
+            </Grid>
+            <Grid item xs={12}>
+              <RHFTextField
+                type="number"
+                name="discount12"
+                label="Discount for 12 Month"
+                InputProps={{
+                  startAdornment: <InputAdornment position="start">$</InputAdornment>,
+                }}
+                onChangeMiddleware={restrictNegetiveValue}
+                fullWidth
+              />
+            </Grid>
+
+            <Grid item xs={12}>
+              <RHFTextField
+                type="number"
+                name="discountAll"
+                label="Discount for all month"
+                InputProps={{
+                  startAdornment: <InputAdornment position="start">$</InputAdornment>,
+                }}
+                onChangeMiddleware={restrictNegetiveValue}
+                fullWidth
+              />
+            </Grid>
           </Grid>
         </RHFAccordion>
       </Grid>
@@ -464,32 +464,6 @@ const WarehouseFields = (props) => {
       </Grid>
     </>
   );
-
-  if (activeStep === 'CREATE') {
-    return (
-      <Grid container spacing={1.5}>
-        <Grid item xs={12} md={6}>
-          <Grid container spacing={1.2}>
-            {step0_1}
-
-            {step2}
-
-            {step0_2}
-          </Grid>
-        </Grid>
-
-        <Grid item xs={12} md={6}>
-          <Grid container spacing={1.2}>
-            {step1}
-
-            <Grid item xs={12}>
-              <WarehouseReviews list={reviews || []} />
-            </Grid>
-          </Grid>
-        </Grid>
-      </Grid>
-    );
-  }
 
   if (activeStep === 0) {
     return (
