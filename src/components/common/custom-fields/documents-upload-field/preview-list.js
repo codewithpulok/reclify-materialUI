@@ -1,4 +1,4 @@
-import { Box, IconButton, Stack } from '@mui/material';
+import { Box, IconButton, Stack, Typography } from '@mui/material';
 import { saveAs } from 'file-saver';
 import PropTypes from 'prop-types';
 import FileThumbnail from '../../file-thumbnail';
@@ -25,36 +25,39 @@ const DocumentsPreviewList = (props) => {
   return (
     <Stack direction="row" alignItems="center" spacing={1} flexWrap="wrap">
       {documents.map((doc) => (
-        <Box
-          sx={{
-            position: 'relative',
-            width: 58,
-            height: 58,
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'center',
-            bgcolor: 'background.neutral',
-            borderRadius: 1,
-            overflow: 'hidden',
-          }}
-          key={doc.id}
-        >
-          <FileThumbnail
-            imageView
-            file={doc.link}
-            tooltip
-            onDownload={downloadAble ? () => downloadFile(doc.link) : undefined}
-          />
-          {onDelete && (
-            <IconButton
-              size="small"
-              onClick={() => onDelete(doc)}
-              sx={{ position: 'absolute', top: 0, right: 0 }}
-            >
-              <Iconify icon="mingcute:close-line" width={14} />
-            </IconButton>
-          )}
-        </Box>
+        <Stack alignItems="center">
+          <Box
+            sx={{
+              position: 'relative',
+              width: 58,
+              height: 58,
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              bgcolor: 'background.neutral',
+              borderRadius: 1,
+              overflow: 'hidden',
+            }}
+            key={doc.id}
+          >
+            <FileThumbnail
+              imageView
+              file={doc.link}
+              tooltip
+              onDownload={downloadAble ? () => downloadFile(doc.link) : undefined}
+            />
+            {onDelete && (
+              <IconButton
+                size="small"
+                onClick={() => onDelete(doc)}
+                sx={{ position: 'absolute', top: 0, right: 0 }}
+              >
+                <Iconify icon="mingcute:close-line" width={14} />
+              </IconButton>
+            )}
+          </Box>
+          {doc?.title && <Typography variant="caption">{doc?.title}</Typography>}
+        </Stack>
       ))}
       {isLoading && (
         <Box

@@ -61,6 +61,9 @@ export const endpoints = {
       approve: (id) => `/transactions/approve/${id}`,
       cancel: (id) => `/transactions/cancel/${id}`,
     },
+    plan: {
+      upgrade: (id) => `/plan/upgrade/${id}`,
+    },
   },
   profile: {
     root: '/user/profile',

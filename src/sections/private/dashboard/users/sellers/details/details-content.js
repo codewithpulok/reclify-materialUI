@@ -107,6 +107,7 @@ const DetailsContent = (props) => {
         <DetailsMembership
           currentPlanId={user?.membership?.[0]?.planId}
           membershipHistory={user?.membership || []}
+          userId={user?.id}
         />
       )}
       {currentTab === 'transactions' && <TransactionsUserTable data={user?.transactions} />}

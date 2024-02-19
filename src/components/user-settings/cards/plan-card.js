@@ -2,6 +2,8 @@ import { Box, Button, Paper, Stack, Typography } from '@mui/material';
 import PropTypes from 'prop-types';
 import { PlanFreeIcon, PlanPremiumIcon, PlanStarterIcon } from 'src/assets/icons';
 import Label from 'src/components/common/label';
+import { selectAuth } from 'src/redux-toolkit/features/auth/authSlice';
+import { useAppSelector } from 'src/redux-toolkit/hooks';
 import { RouterLink } from 'src/routes/components';
 import { paths } from 'src/routes/paths';
 import { fCurrency } from 'src/utils/format-number';
@@ -34,6 +36,8 @@ const Props = {
  * @returns
  */
 const PlanCard = (props) => {
+  const { user } = useAppSelector(selectAuth);
+
   const { plan, isSelected, onSelect, sx = {}, isCurrent, showAnnual } = props;
 
   const currentPrice = showAnnual ? plan?.annualPrice : plan?.price;
@@ -77,7 +81,7 @@ const PlanCard = (props) => {
       </Box>
 
       <Stack direction="row" alignItems="center" sx={{ typography: 'h4' }}>
-        {plan?.id === 'enterprise' ? (
+        {plan?.id === 'enterprise' && user?.planId !== 'enterprise' ? (
           <Button
             LinkComponent={RouterLink}
             href={`${paths.contact_us}?scrollTo=FORM`}

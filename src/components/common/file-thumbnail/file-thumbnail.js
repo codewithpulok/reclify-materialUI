@@ -75,6 +75,7 @@ export default function FileThumbnail(props) {
           }}
         >
           {renderContent}
+
           {renderDownload}
         </Stack>
       </Tooltip>

@@ -69,34 +69,70 @@ const Props = {
  */
 const DetailsBooking = (props) => {
   const { warehouse, showPurchase } = props;
-  const [selectedMonth, setSelectedMonth] = useState(1);
+
+  // select default month
+  const defaultMonth = useMemo(() => {
+    if (warehouse?.price1) return 1;
+    if (warehouse?.price3) return 3;
+    if (warehouse?.price6) return 6;
+    if (warehouse?.price12) return 12;
+    return 0;
+  }, [warehouse]);
+
+  const [selectedMonth, setSelectedMonth] = useState(defaultMonth);
   const [requiredSpace, setRequiredSpace] = useState(1);
   const [error, setError] = useState(undefined);
   const { palette } = useTheme();
   const paymentDialog = useDialog();
 
-  const discountAll = useMemo(() => warehouse?.discountAll || 0, [warehouse?.discountAll]);
-  const discountRate = useMemo(() => warehouse?.discountRate || 0, [warehouse?.discountRate]);
+  const discountEnabled = useMemo(
+    () => warehouse?.hotRackEnabled || false,
+    [warehouse?.hotRackEnabled]
+  );
+  const discountAll = useMemo(() => {
+    // if discount enabled & discount type is percentage then make it count
+    if (discountEnabled && warehouse?.discountOption === 'fixed')
+      return warehouse?.discountAll || 0;
+    return 0;
+  }, [discountEnabled, warehouse?.discountAll, warehouse?.discountOption]);
+  const discountRate = useMemo(() => {
+    // if discount enabled & discount type is percentage then make it count
+    if (discountEnabled && warehouse?.discountOption === 'percentage')
+      return warehouse?.discountRate || 0;
+    return 0;
+  }, [discountEnabled, warehouse?.discountOption, warehouse?.discountRate]);
   const discountMonth = useMemo(() => {
     let discount;
-    switch (selectedMonth) {
-      case 1:
-        discount = warehouse?.discount1 || 0;
-        break;
-      case 3:
-        discount = warehouse?.discount3 || 0;
-        break;
-      case 6:
-        discount = warehouse?.discount6 || 0;
-        break;
-      case 12:
-        discount = warehouse?.discount12 || 0;
-        break;
-      default:
-        break;
+
+    // if discount enabled & discount type is fixed then make it count
+    if (discountEnabled && warehouse?.discountOption === 'fixed') {
+      switch (selectedMonth) {
+        case 1:
+          discount = warehouse?.discount1 || 0;
+          break;
+        case 3:
+          discount = warehouse?.discount3 || 0;
+          break;
+        case 6:
+          discount = warehouse?.discount6 || 0;
+          break;
+        case 12:
+          discount = warehouse?.discount12 || 0;
+          break;
+        default:
+          break;
+      }
     }
     return discount || 0;
-  }, [selectedMonth, warehouse]);
+  }, [
+    discountEnabled,
+    selectedMonth,
+    warehouse?.discount1,
+    warehouse?.discount12,
+    warehouse?.discount3,
+    warehouse?.discount6,
+    warehouse?.discountOption,
+  ]);
 
   // current price maybe differ based on selected month
   const currentPrice = useMemo(() => {
@@ -127,8 +163,14 @@ const DetailsBooking = (props) => {
     return 0;
   }, [currentPrice, discountRate]);
 
-  const discount = percentDiscount + discountMonth + discountAll;
+  const discount = useMemo(() => {
+    if (!discountEnabled) return 0;
+
+    return percentDiscount || discountAll + discountMonth;
+  }, [discountAll, discountEnabled, discountMonth, percentDiscount]);
   const discountedPricePerPallet = currentPrice - discount;
+
+  console.log({ discount, discountedPricePerPallet, percentDiscount, discountMonth, discountAll });
 
   const totalPrice = currentPrice * selectedMonth * requiredSpace;
   const totalDiscount = discount * selectedMonth * requiredSpace;
@@ -166,7 +208,7 @@ const DetailsBooking = (props) => {
   return (
     <>
       <Card sx={{ bgcolor: 'background.paper', borderRadius: 1, py: 2.5, px: 2.5 }}>
-        {!!discountRate && (
+        {!!discount && (
           <Stack direction="row" spacing={0.5} flexWrap="wrap" alignItems="start" sx={{ mb: 1 }}>
             <Chip
               label="Hot Rack"
@@ -175,13 +217,15 @@ const DetailsBooking = (props) => {
               icon={ICONS.hot()}
               sx={{ color: 'white' }}
             />
-            <Chip
-              label={`${discountRate}% OFF`}
-              color="secondary"
-              variant="filled"
-              icon={ICONS.discount()}
-              sx={{ color: 'white' }}
-            />
+            {!!discountRate && (
+              <Chip
+                label={`${discountRate}% OFF`}
+                color="secondary"
+                variant="filled"
+                icon={ICONS.discount()}
+                sx={{ color: 'white' }}
+              />
+            )}
           </Stack>
         )}
         <Typography variant="h5" sx={{ mb: 4 }}>
@@ -252,7 +296,7 @@ const DetailsBooking = (props) => {
                 >
                   pallet
                 </Typography>
-                {!!discountRate && (
+                {!!discount && (
                   <Divider
                     sx={{
                       position: 'absolute',
@@ -264,7 +308,7 @@ const DetailsBooking = (props) => {
                   />
                 )}
               </Stack>
-              {!!discountRate && (
+              {!!discount && (
                 <Stack
                   direction="row"
                   columnGap={0.5}
@@ -302,6 +346,7 @@ const DetailsBooking = (props) => {
                 isSelected={month === selectedMonth}
                 setSelected={setSelectedMonth}
                 isDark={palette.mode === 'dark'}
+                disable={!warehouse?.[`price${month}`]}
               />
             </Grid>
           ))}
@@ -345,7 +390,7 @@ const DetailsBooking = (props) => {
             {fCurrency(monthlyTotal) || '$0.00'}
           </Typography>
         </Stack>
-        {!!totalDiscount && (
+        {!!totalDiscount && !!discount && (
           <Stack
             direction="row"
             alignItems="baseline"
@@ -369,7 +414,7 @@ const DetailsBooking = (props) => {
             size="large"
             endIcon={ICONS.purchase()}
             onClick={openPaymentDialog}
-            disabled={!!error || totalPrice === undefined}
+            disabled={!!error || totalPrice === undefined || !defaultMonth}
             sx={{ mt: 1.5 }}
             fullWidth
           >

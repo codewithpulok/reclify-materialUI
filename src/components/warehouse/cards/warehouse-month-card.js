@@ -8,6 +8,7 @@ const Props = {
   isSelected: PropTypes.bool.isRequired,
   setSelected: PropTypes.func.isRequired,
   isDark: PropTypes.bool.isRequired,
+  disable: PropTypes.bool,
 };
 
 /**
@@ -15,7 +16,7 @@ const Props = {
  * @returns {JSX.Element}
  */
 const WarehouseMonthCard = (props) => {
-  const { month, isSelected, setSelected, isDark } = props;
+  const { month, isSelected, setSelected, isDark, disable } = props;
 
   return (
     <Card
@@ -27,6 +28,7 @@ const WarehouseMonthCard = (props) => {
         borderColor: isSelected ? 'primary.main' : 'transparent',
         cursor: 'pointer',
         bgcolor: isDark ? 'background.neutral' : 'background.default',
+        ...(disable ? { opacity: 0.3, pointerEvents: 'none' } : {}),
       }}
     >
       <CardContent sx={{ textAlign: 'center' }}>

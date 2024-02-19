@@ -162,6 +162,14 @@ export const adminApi = createApi({
         }
       },
     }),
+    // plan
+    upgradePlan: builder.mutation({
+      query: ({ id, data }) => ({
+        url: endpoints.admin.plan.upgrade(id),
+        method: 'PUT',
+        body: data,
+      }),
+    }),
   }),
 });
 
@@ -180,4 +188,5 @@ export const {
   useCancelTransactionMutation,
   useListTransactionQuery,
   useLazyListTransactionQuery,
+  useUpgradePlanMutation,
 } = adminApi;
