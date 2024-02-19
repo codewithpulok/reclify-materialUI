@@ -3,4 +3,5 @@
  * @param {number | string} v
  * @returns {number | string}
  */
-export const restrictNegetiveValue = (v) => (v !== '' && Number(v) < 0 ? 0 : v);
+export const restrictNegetiveValue = (v) =>
+  v !== '' && Number(v) < 0 ? 0 : Number(Number(v).toFixed(2));

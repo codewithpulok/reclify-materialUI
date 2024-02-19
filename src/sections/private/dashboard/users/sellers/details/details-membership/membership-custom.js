@@ -4,19 +4,26 @@ import {
   Card,
   CardContent,
   CardHeader,
+  Checkbox,
+  FormControlLabel,
   InputAdornment,
   Stack,
   Typography,
 } from '@mui/material';
+import { enqueueSnackbar } from 'notistack';
+import PropTypes from 'prop-types';
 import { useForm } from 'react-hook-form';
 import { EmptyState, ErrorState, LoadingState } from 'src/components/common/custom-state';
-import { RHFCheckbox, RHFTextField } from 'src/components/common/hook-form';
+import { RHFTextField } from 'src/components/common/hook-form';
 import FormProvider from 'src/components/common/hook-form/form-provider';
+import { useUpgradePlanMutation } from 'src/redux-toolkit/services/adminApi';
 import { usePlanGetQuery } from 'src/redux-toolkit/services/planApi';
 import { restrictNegetiveValue } from 'src/utils/form';
 
 // ----------------------------------------------------------------------
-const Props = {};
+const Props = {
+  userId: PropTypes.string,
+};
 /** @type {PlanId} */
 const planId = 'enterprise';
 const defaultValues = {
@@ -26,17 +33,34 @@ const defaultValues = {
 
 // ----------------------------------------------------------------------
 const MembershipCustom = (props) => {
+  const { userId } = props;
+
   // api state
   const planResponse = usePlanGetQuery(planId);
+  const [upgradePlan] = useUpgradePlanMutation();
 
   // form state
   const methods = useForm({ defaultValues });
-  const { handleSubmit, formState } = methods;
+  const { handleSubmit, formState, watch, setValue } = methods;
   const { isSubmitting } = formState;
+  const features = watch('features', []);
 
   // handle submit
-  const onSubmit = (formValues) => {
-    console.log(formValues);
+  const onSubmit = async (formValues) => {
+    console.log('Plan Upgrade: ', formValues);
+    const response = await upgradePlan({ id: userId, data: formValues });
+    const { data, error } = response;
+
+    // error state
+    if (error || data?.isError) {
+      enqueueSnackbar('Error in upgrade plan', { variant: 'error' });
+      console.error('Plan Upgrade Error:', response);
+    }
+    // success state
+    else if (!error && data?.success) {
+      enqueueSnackbar('Plan Upgraded');
+      console.warn('Plan Upgraded:', response);
+    }
   };
 
   return (
@@ -68,7 +92,24 @@ const MembershipCustom = (props) => {
                 <Stack>
                   {planResponse.data?.results?.features?.length ? (
                     planResponse.data.results.features.map((f, index) => (
-                      <RHFCheckbox label={f} name={`features.${index}`} key={index} />
+                      <FormControlLabel
+                        control={
+                          <Checkbox
+                            checked={features.includes(f)}
+                            onChange={(_e, checked) => {
+                              if (checked) {
+                                const prev = [...features];
+                                prev.push(f);
+                                setValue(`features`, prev);
+                              } else {
+                                const filterd = [...features].filter((item) => item !== f);
+                                setValue('features', filterd);
+                              }
+                            }}
+                          />
+                        }
+                        label={f}
+                      />
                     ))
                   ) : (
                     <EmptyState />

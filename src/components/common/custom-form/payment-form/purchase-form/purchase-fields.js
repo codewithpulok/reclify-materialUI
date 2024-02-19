@@ -5,11 +5,13 @@ import { useForm } from 'react-hook-form';
 import { LoadingButton } from '@mui/lab';
 import { useEffect } from 'react';
 
+import { yupResolver } from '@hookform/resolvers/yup';
 import { RHFCheckbox } from 'src/components/common/hook-form';
 import FormProvider from 'src/components/common/hook-form/form-provider';
 import { CustomFormProps } from '../../config-custom-form';
 import PaymentTypeTab from './payment-type-tab';
 import PurchaseFormDetails from './purchase-details';
+import { PurchaseSchema } from './purchase-schema';
 
 export const Props = {
   purchaseData: PropTypes.object,
@@ -44,7 +46,7 @@ const PurchaseFormFields = (props) => {
     primaryAch,
   } = props;
 
-  const methods = useForm({ defaultValues });
+  const methods = useForm({ defaultValues, resolver: yupResolver(PurchaseSchema) });
   const { handleSubmit, reset, watch, formState } = methods;
   const { isSubmitting } = formState;
 

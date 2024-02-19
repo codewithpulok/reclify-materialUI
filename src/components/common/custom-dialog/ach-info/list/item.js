@@ -83,6 +83,9 @@ const Item = (props) => {
         <Typography variant="subtitle2" color="text.secondary">
           {ach?.accountName}
         </Typography>
+        <Typography variant="body2" color="text.secondary">
+          {ach?.email}
+        </Typography>
 
         <IconButton
           onClick={handleOpenPopover}

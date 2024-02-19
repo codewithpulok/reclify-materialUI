@@ -62,6 +62,9 @@ const defaultValues = {
   price3: null,
   price6: null,
   promoCode: '',
+  discountAll: null,
+  hotRackEnabled: false,
+  discountOption: 'percentage',
 };
 // ----------------------------------------------------------------------
 

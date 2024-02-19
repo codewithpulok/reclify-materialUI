@@ -19,6 +19,7 @@ const Props = {
   /** @type {SxProps} */
   sx: PropTypes.object,
   defaultExpanded: PropTypes.bool,
+  action: PropTypes.node,
 };
 
 /**
@@ -35,6 +36,7 @@ const RHFAccordion = (props) => {
     defaultExpanded = false,
     names = undefined,
     description,
+    action,
   } = props;
   const { formState } = useFormContext();
   const { errors } = formState;
@@ -74,9 +76,13 @@ const RHFAccordion = (props) => {
         })}
       >
         <Stack>
-          <Typography variant="overline" color={isError ? 'error.main' : 'text.default'}>
-            {label}
-          </Typography>
+          <Stack direction="row" spacing={1} alignItems="center">
+            <Typography variant="overline" color={isError ? 'error.main' : 'text.default'}>
+              {label}
+            </Typography>
+
+            {action}
+          </Stack>
           {!!description && (
             <Typography variant="caption" color="text.secondary">
               {description}

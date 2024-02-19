@@ -31,10 +31,12 @@ const schema = {
     .required(),
   // address: addressFieldSchema,
   totalSpace: Yup.number().label('Total space').min(1).required(),
-  price1: Yup.number().label('Price for 1 month').min(0).required(),
-  price3: Yup.number().label('Price for 3 month').min(0).required(),
-  price6: Yup.number().label('Price for 6 month').min(0).required(),
-  price12: Yup.number().label('Price for 12 month').min(0).required(),
+  hotRackEnabled: Yup.bool().label('Hot Rack Enabled').default(false),
+  discountOption: Yup.string().oneOf(['fixed', 'percentage']).default('percentage').optional(),
+  price1: Yup.number().label('Price for 1 month').min(0),
+  price3: Yup.number().label('Price for 3 month').min(0),
+  price6: Yup.number().label('Price for 6 month').min(0),
+  price12: Yup.number().label('Price for 12 month').min(0),
   discountRate: Yup.number().label('Hot Racks').min(0).max(100).notRequired(),
   maxSpaceOrder: Yup.number()
     .label('Max orderable space')

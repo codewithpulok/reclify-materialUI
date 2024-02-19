@@ -30,7 +30,9 @@ const GlobalListingView = (props) => {
   const listResponse = useWarehouseListQuery({ regionScope: 'global' });
 
   // logic state
-  const { currentData, currentPage, goTo, totalPages } = usePagination(listResponse?.data?.results);
+  const { currentData, currentPage, goTo, totalPages } = usePagination(
+    listResponse?.data?.results?.filter((w) => w?.regionScope === 'global') || []
+  );
 
   // refetch data on user id change
   useEffect(() => {
