@@ -19,3 +19,6 @@ export const PUBLIC_BACKEND_API = process.env.NEXT_PUBLIC_BACKEND_API; // api li
 
 // ROOT PATH AFTER LOGIN SUCCESSFUL
 export const PATH_AFTER_LOGIN = paths.dashboard.warehouses.root;
+
+// STRIPE KEYS // ----------------------------------------------------------------------
+export const STRIPE_PK = process.env.NEXT_PUBLIC_STRIPE_PUBLISH_KEY;

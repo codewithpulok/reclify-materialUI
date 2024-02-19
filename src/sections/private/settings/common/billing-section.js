@@ -7,7 +7,6 @@ import CardHeader from '@mui/material/CardHeader';
 import Stack from '@mui/material/Stack';
 import Grid from '@mui/material/Unstable_Grid2';
 
-import { card as creditCards } from 'creditcards';
 import {
   ACHInfoListDialog,
   BillingAddressListDialog,
@@ -130,7 +129,7 @@ const BillingSection = (props) => {
                   sx={{ typography: 'subtitle2' }}
                 >
                   {!selectedCard && 'Not Selected'}
-                  {selectedCard && creditCards.format(selectedCard?.cardNumber)}
+                  {selectedCard && `**** **** **** ${selectedCard?.last4}`}
                 </Button>
               </Grid>
             </Grid>
@@ -148,7 +147,7 @@ const BillingSection = (props) => {
                   sx={{ typography: 'subtitle2' }}
                 >
                   {!selectedACH && 'Not Selected'}
-                  {selectedACH && `${selectedACH?.accountNumber}`}
+                  {selectedACH && `*********${selectedACH?.last4}`}
                 </Button>
               </Grid>
             </Grid>

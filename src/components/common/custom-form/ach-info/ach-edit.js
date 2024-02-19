@@ -6,8 +6,8 @@ import { useForm } from 'react-hook-form';
 
 import FormProvider from 'src/components/common/hook-form/form-provider';
 import { CustomFormProps } from '../config-custom-form';
-import AchFields from './common/ach-fields';
-import { AchSchema } from './common/ach-schema';
+import AchEditFields from './common/ach-edit-fields';
+import { AchEditSchema } from './common/ach-schema';
 
 const Props = {
   ...CustomFormProps,
@@ -26,14 +26,13 @@ const ACHInfoEditForm = (props) => {
   const defaultValues = useMemo(
     () => ({
       accountName: ach?.accountName || '',
-      accountNumber: ach?.accountNumber || '',
-      routingNumber: ach?.routingNumber || '',
+      accountHolderType: ach?.accountHolderType || 'individual',
       isPrimary: ach?.isPrimary || false,
     }),
-    [ach?.accountName, ach?.accountNumber, ach?.isPrimary, ach?.routingNumber]
+    [ach?.accountHolderType, ach?.accountName, ach?.isPrimary]
   );
 
-  const methods = useForm({ defaultValues, resolver: yupResolver(AchSchema) });
+  const methods = useForm({ defaultValues, resolver: yupResolver(AchEditSchema) });
   const { handleSubmit, reset } = methods;
 
   // handle form reset
@@ -55,7 +54,7 @@ const ACHInfoEditForm = (props) => {
   return (
     <FormProvider methods={methods} onSubmit={handleSubmit(onSubmit)} onReset={onReset}>
       <Box component={wrapperElement} sx={sx}>
-        <AchFields />
+        <AchEditFields />
       </Box>
 
       {actions}

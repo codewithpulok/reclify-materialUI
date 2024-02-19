@@ -28,6 +28,8 @@
     "@mui/material-nextjs": "^5.15.3",
     "@mui/x-date-pickers": "^6.18.6",
     "@reduxjs/toolkit": "^2.0.1",
+    "@stripe/react-stripe-js": "^2.5.0",
+    "@stripe/stripe-js": "^3.0.3",
     "autosuggest-highlight": "^3.3.4",
     "axios": "^1.6.5",
     "creditcards": "^4.2.0",
