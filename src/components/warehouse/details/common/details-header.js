@@ -1,10 +1,13 @@
-import { Avatar, Box, Button, Chip, IconButton, Rating, Stack, Typography } from '@mui/material';
+import { Box, Button, Chip, IconButton, Rating, Stack, Typography, alpha } from '@mui/material';
 import { useRouter } from 'next/navigation';
 import PropTypes from 'prop-types';
 
+import Image from 'src/components/common/image';
 import Label from 'src/components/common/label';
+import { PLACEHOLDER_PROFILE_BANNER } from 'src/config-global';
 import { selectAuth } from 'src/redux-toolkit/features/auth/authSlice';
 import { useAppSelector } from 'src/redux-toolkit/hooks';
+import { bgGradient } from 'src/theme/css';
 import { joinAddressObj } from 'src/utils/address';
 import { fShortenNumber } from 'src/utils/format-number';
 import WarehouseAdminMenu from '../../common/warehouse-admin-menu';
@@ -26,6 +29,10 @@ const metadataWrapperStyle = {
   },
   columnGap: 0.8,
   rowGap: 1,
+  bgcolor: 'background.default',
+  px: 1,
+  py: 0.2,
+  borderRadius: 0.9,
 };
 
 const Props = {
@@ -61,6 +68,7 @@ const WarehouseHeader = (props) => {
             color="success"
             disabled
             size="small"
+            variant="filled"
           />
         )}
 
@@ -137,27 +145,54 @@ const WarehouseHeader = (props) => {
   );
 
   return (
-    <Box sx={{ mb: 8 }}>
-      {!hideBack && (
-        <IconButton title="go back" onClick={goToBack} sx={{ p: 0, mb: 0.5 }}>
-          {ICONS.back(32)}
-        </IconButton>
-      )}
-
-      <Stack direction="row" alignItems="center" spacing={1}>
-        {warehouse?.seller?.logo && (
-          <Avatar src={warehouse?.seller?.logo} sx={{ width: '88px', height: '88px' }} />
+    <Box sx={{ mb: 3, minHeight: 250, borderRadius: 1, overflow: 'hidden' }}>
+      <Stack
+        alignItems="start"
+        sx={(theme) => ({
+          ...bgGradient({
+            color: alpha(
+              theme.palette.background.default,
+              theme.palette.mode === 'light' ? 0.8 : 0.94
+            ),
+            imgUrl: warehouse?.banner || PLACEHOLDER_PROFILE_BANNER,
+          }),
+          height: 1,
+          px: 2,
+          py: 2,
+        })}
+      >
+        {!hideBack && (
+          <IconButton title="go back" onClick={goToBack} sx={{ p: 0, mb: 0.5 }}>
+            {ICONS.back(32)}
+          </IconButton>
         )}
-        <Stack>
-          <Typography variant="h2">{name}</Typography>
-          <Stack direction="row" spacing={1.5} alignItems="center" mb={2} flexWrap="wrap">
-            <Typography variant="body2">{joinAddressObj(address)}</Typography>
-            {region && <Label>{region}</Label>}
+
+        <Stack
+          direction={{
+            xs: 'column',
+            sm: 'row',
+          }}
+          alignItems={{
+            xs: 'start',
+            sm: 'center',
+          }}
+          spacing={1}
+          mt="auto"
+        >
+          {warehouse?.logo && (
+            <Image src={warehouse?.logo} sx={{ width: '100px', borderRadius: 1 }} />
+          )}
+          <Stack>
+            <Typography variant="h2">{name}</Typography>
+            <Stack direction="row" spacing={1} alignItems="center" mb={2} flexWrap="wrap">
+              <Typography variant="body2">{joinAddressObj(address)}</Typography>
+              {region && <Label>{region}</Label>}
+            </Stack>
           </Stack>
         </Stack>
-      </Stack>
 
-      {renderMetadata}
+        {renderMetadata}
+      </Stack>
     </Box>
   );
 };

@@ -1,4 +1,4 @@
-import { AboutView } from 'src/sections/public/marketing/about/view';
+import AboutView from 'src/sections/public/marketing/about';
 // ----------------------------------------------------------------------
 
 export const metadata = {

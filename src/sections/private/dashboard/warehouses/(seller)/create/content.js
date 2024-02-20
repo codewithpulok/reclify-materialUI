@@ -65,6 +65,8 @@ const defaultValues = {
   discountAll: null,
   hotRackEnabled: false,
   discountOption: 'percentage',
+  logo: null,
+  banner: null,
 };
 // ----------------------------------------------------------------------
 

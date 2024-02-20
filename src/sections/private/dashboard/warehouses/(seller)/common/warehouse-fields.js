@@ -34,6 +34,7 @@ import { checkValidAddress } from 'src/utils/address';
 import { restrictNegetiveValue } from 'src/utils/form';
 import { fFixedFloat } from 'src/utils/format-number';
 import { ICONS } from '../../config-warehouse';
+import WarehouseCompanyField from './warehouse-company-field';
 import WarehouseReviews from './warehouse-reviews';
 
 export const stepFields = {
@@ -124,78 +125,92 @@ const WarehouseFields = (props) => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [hasPromo]);
 
-  const step0_1 = (
-    <>
-      <Grid item xs={12}>
-        <RHFTextField name="name" label="Name" fullWidth />
-      </Grid>
+  const step0 = (
+    <Grid container spacing={1.2}>
+      <Grid item xs={12} md={6}>
+        <Grid container spacing={1.2}>
+          <Grid item xs={12}>
+            <RHFTextField name="name" label="Name" fullWidth />
+          </Grid>
 
-      <Grid item xs={12}>
-        <AddressField
-          name="address"
-          actionBtn={
-            isImportable ? (
-              <Tooltip title="Import reviews from Google!">
-                <IconButton color="primary">{ICONS.import(24)}</IconButton>
-              </Tooltip>
-            ) : null
-          }
-        />
-      </Grid>
+          <Grid item xs={12}>
+            <AddressField
+              name="address"
+              actionBtn={
+                isImportable ? (
+                  <Tooltip title="Import reviews from Google!">
+                    <IconButton color="primary">{ICONS.import(24)}</IconButton>
+                  </Tooltip>
+                ) : null
+              }
+            />
+          </Grid>
 
-      <Grid item xs={6}>
-        <RHFTextField name="regionScope" label="Region Scope" disabled fullWidth select>
-          <MenuItem disabled>Select Region Scope</MenuItem>
-          {regionScopes.map((option) => (
-            <MenuItem key={option.code} value={option.code}>
-              {option.name}
-            </MenuItem>
-          ))}
-        </RHFTextField>
-      </Grid>
-      <Grid item xs={6}>
-        <RHFTextField name="region" label="Region" disabled fullWidth select>
-          <MenuItem disabled>Select Region</MenuItem>
-          {getRegionsByScope(regionScope).map((option) => (
-            <MenuItem key={option.code} value={option.code}>
-              {option.name}
-            </MenuItem>
-          ))}
-        </RHFTextField>
-      </Grid>
-    </>
-  );
-  const step0_2 = (
-    <>
-      <Grid item xs={12}>
-        <RHFTextField
-          name="description"
-          label="Description"
-          rows={4}
-          helperText="Add a short description about your business."
-          multiline
-          fullWidth
-        />
-      </Grid>
+          <Grid item xs={6}>
+            <RHFTextField name="regionScope" label="Region Scope" disabled fullWidth select>
+              <MenuItem disabled>Select Region Scope</MenuItem>
+              {regionScopes.map((option) => (
+                <MenuItem key={option.code} value={option.code}>
+                  {option.name}
+                </MenuItem>
+              ))}
+            </RHFTextField>
+          </Grid>
+          <Grid item xs={6}>
+            <RHFTextField name="region" label="Region" disabled fullWidth select>
+              <MenuItem disabled>Select Region</MenuItem>
+              {getRegionsByScope(regionScope).map((option) => (
+                <MenuItem key={option.code} value={option.code}>
+                  {option.name}
+                </MenuItem>
+              ))}
+            </RHFTextField>
+          </Grid>
 
-      <Grid item xs={12}>
-        <RHFTextField
-          name="highlights"
-          label="Highlights"
-          placeholder="Multi-Facility 3PL operating since 1983.  Looking for apparel brands requiring high SKU count and custom boutique packaging."
-          helperText={`${200 - (highlights?.length || 0)} character left for highlights`}
-          onChangeMiddleware={(v) => (v.length > 200 ? highlights : v)}
-          rows={4}
-          multiline
-          fullWidth
-        />
-      </Grid>
+          <Grid item xs={12}>
+            <RHFTextField
+              name="description"
+              label="Description"
+              rows={4}
+              helperText="Add a short description about your business."
+              multiline
+              fullWidth
+            />
+          </Grid>
 
-      <Grid item xs={12}>
-        <Label sx={{ mb: 1 }}>Photos</Label>
-        <PhotosUploadField name="photos" />
+          <Grid item xs={12}>
+            <RHFTextField
+              name="highlights"
+              label="Highlights"
+              placeholder="Multi-Facility 3PL operating since 1983.  Looking for apparel brands requiring high SKU count and custom boutique packaging."
+              helperText={`${200 - (highlights?.length || 0)} character left for highlights`}
+              onChangeMiddleware={(v) => (v.length > 200 ? highlights : v)}
+              rows={4}
+              multiline
+              fullWidth
+            />
+          </Grid>
+
+          <Grid item xs={12}>
+            <Label sx={{ mb: 1 }}>Photos</Label>
+            <PhotosUploadField name="photos" />
+          </Grid>
+        </Grid>
       </Grid>
-    </>
+      <Grid item xs={12} md={6}>
+        <Grid container spacing={1.2}>
+          <Grid item xs={12}>
+            <WarehouseCompanyField fieldName="logo" label="Company Logo" />
+          </Grid>
+          <Grid item xs={12}>
+            <WarehouseCompanyField fieldName="banner" label="Company Banner" />
+          </Grid>
+          <Grid item xs={12}>
+            <WarehouseReviews list={reviews || []} />
+          </Grid>
+        </Grid>
+      </Grid>
+    </Grid>
   );
 
   const step1 = (
@@ -515,11 +530,7 @@ const WarehouseFields = (props) => {
   if (activeStep === 0) {
     return (
       <Grid container spacing={1.2}>
-        {step0_1}
-        {step0_2}
-        <Grid item xs={12}>
-          <WarehouseReviews list={reviews || []} />
-        </Grid>
+        {step0}
       </Grid>
     );
   }

@@ -1,5 +1,5 @@
 // mui
-import { CardContent, CardHeader, Grid, MenuItem } from '@mui/material';
+import { CardContent, CardHeader, Grid, Link, MenuItem } from '@mui/material';
 import Box from '@mui/material/Box';
 import Card from '@mui/material/Card';
 import Stack from '@mui/material/Stack';
@@ -9,6 +9,8 @@ import { RHFTextField } from 'src/components/common/hook-form';
 import { serviceTypes } from 'src/constant/service-types';
 import { selectAuth } from 'src/redux-toolkit/features/auth/authSlice';
 import { useAppSelector } from 'src/redux-toolkit/hooks';
+import { RouterLink } from 'src/routes/components';
+import { paths } from 'src/routes/paths';
 import formatPhone from 'src/utils/format-phone';
 
 // ----------------------------------------------------------------------
@@ -28,7 +30,20 @@ const InfoFields = () => {
 
   const serviceField =
     user?.userType === 'seller' ? (
-      <RHFTextField name="serviceType" label="Service Type" select>
+      <RHFTextField
+        name="serviceType"
+        label="Service Type"
+        helperText={
+          <>
+            <Link component={RouterLink} href={paths.contact_us}>
+              contact us
+            </Link>{' '}
+            to change the service type
+          </>
+        }
+        disabled
+        select
+      >
         {serviceTypes.map((serviceType) => (
           <MenuItem key={serviceType.value} value={serviceType.value}>
             {serviceType.label}
