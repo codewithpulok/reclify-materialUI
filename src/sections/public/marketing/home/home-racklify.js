@@ -65,7 +65,7 @@ export default function HomeRacklify() {
             theme.palette.background.default,
             theme.palette.mode === 'light' ? 0.8 : 0.94
           ),
-          imgUrl: '/assets/images/home/how-racklify-helps-you.jpg',
+          imgUrl: '/assets/images/home/how.jpg',
         }),
       })}
     >
