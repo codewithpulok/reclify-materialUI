@@ -133,7 +133,7 @@ export default function HomePricing() {
             }}
           >
             {plansResponse?.data?.results?.map(
-              (plan) => plan.id === currentTab && <PlanCard plan={plan} />
+              (plan) => plan.id === currentTab && <PlanCard key={plan.id} plan={plan} />
             )}
           </Box>
         </>
