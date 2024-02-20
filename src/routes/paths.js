@@ -16,12 +16,18 @@ export const paths = {
   website: 'https://racklify.com',
   root: '/',
 
-  // Main Links
+  // Page Links
   about_us: '/about-us',
   contact_us: '/contact-us',
   faqs: '/faqs',
   terms: '/terms-and-conditions',
   privacy: '/privacy-policy',
+  accessing_account: '/accessing-account',
+  create_account: '/create-account',
+  media: '/media',
+  rating_system: '/rating-system',
+  subscriptions: '/subscriptions',
+  supply_chain: '/supply-chain-logistics-definations',
 
   // AUTH
   auth: {
