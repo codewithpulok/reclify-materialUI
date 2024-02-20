@@ -8,7 +8,7 @@ import Link from '@mui/material/Link';
 import Stack from '@mui/material/Stack';
 import Typography from '@mui/material/Typography';
 import Grid from '@mui/material/Unstable_Grid2';
-import { alpha, styled } from '@mui/material/styles';
+import { alpha, styled, useTheme } from '@mui/material/styles';
 
 import { paths } from 'src/routes/paths';
 
@@ -19,7 +19,6 @@ import { bgBlur, bgGradient } from 'src/theme/css';
 
 import { MotionContainer, varFade } from 'src/components/common/animate';
 import { getIconify } from 'src/components/common/iconify/utilities';
-import Image from 'src/components/common/image';
 import Logo from 'src/components/common/logo';
 
 // ----------------------------------------------------------------------
@@ -80,6 +79,13 @@ const MotionButton = m(Button);
 
 export default function HomeHero() {
   const mdUp = useResponsive('up', 'md');
+  const theme = useTheme();
+  const transition = {
+    repeatType: 'loop',
+    ease: 'linear',
+    duration: 60 * 4,
+    repeat: Infinity,
+  };
 
   const heroRef = useRef(null);
 
@@ -106,6 +112,7 @@ export default function HomeHero() {
   }, [getScroll]);
 
   const opacity = 1 - percent / 100;
+  const lightMode = theme.palette.mode === 'light';
 
   const hide = percent > 120;
 
@@ -151,21 +158,67 @@ export default function HomeHero() {
   );
 
   const renderSlides = (
-    <Stack sx={{ position: 'relative' }}>
-      <m.div
-        variants={{
-          hidden: { opacity: 0, x: 0, y: 300 },
-          enter: { opacity: 1, x: 0, y: 0 },
+    <Stack
+      direction="row"
+      alignItems="flex-start"
+      sx={{
+        height: '150%',
+        position: 'absolute',
+        opacity: opacity > 0 ? opacity : 0,
+        transform: `skew(${-16 - percent / 24}deg, ${4 - percent / 16}deg)`,
+        ...(theme.direction === 'rtl' && {
+          transform: `skew(${16 + percent / 24}deg, ${4 + percent / 16}deg)`,
+        }),
+      }}
+    >
+      <Stack
+        component={m.div}
+        variants={varFade().in}
+        sx={{
+          width: 344,
+          position: 'relative',
         }}
-        initial="hidden"
-        animate="enter"
-        transition={{ type: 'spring', damping: 10, stiffness: 100, duration: 2 }}
       >
-        <Image
-          src="/assets/images/home/landing01.png"
-          sx={{ borderRadius: 1, maxWidth: 450, width: '100%', mx: 'auto' }}
+        <Box
+          component={m.img}
+          animate={{ y: ['0%', '100%'] }}
+          transition={transition}
+          alt={lightMode ? 'light_1' : 'dark_1'}
+          src={lightMode ? `/assets/images/home/light_1.webp` : `/assets/images/home/dark_1.webp`}
+          sx={{ position: 'absolute', mt: -5 }}
         />
-      </m.div>
+        <Box
+          component={m.img}
+          animate={{ y: ['-100%', '0%'] }}
+          transition={transition}
+          alt={lightMode ? 'light_1' : 'dark_1'}
+          src={lightMode ? `/assets/images/home/light_1.webp` : `/assets/images/home/dark_1.webp`}
+          sx={{ position: 'absolute' }}
+        />
+      </Stack>
+
+      <Stack
+        component={m.div}
+        variants={varFade().in}
+        sx={{ width: 720, position: 'relative', ml: -5 }}
+      >
+        <Box
+          component={m.img}
+          animate={{ y: ['100%', '0%'] }}
+          transition={transition}
+          alt={lightMode ? 'light_2' : 'dark_2'}
+          src={lightMode ? `/assets/images/home/light_2.webp` : `/assets/images/home/dark_2.webp`}
+          sx={{ position: 'absolute', mt: -5 }}
+        />
+        <Box
+          component={m.img}
+          animate={{ y: ['0%', '-100%'] }}
+          transition={transition}
+          alt={lightMode ? 'light_2' : 'dark_2'}
+          src={lightMode ? `/assets/images/home/light_2.webp` : `/assets/images/home/dark_2.webp`}
+          sx={{ position: 'absolute' }}
+        />
+      </Stack>
     </Stack>
   );
 
