@@ -200,10 +200,10 @@ const WarehouseFields = (props) => {
       <Grid item xs={12} md={6}>
         <Grid container spacing={1.2}>
           <Grid item xs={12}>
-            <WarehouseCompanyField fieldName="companyLogo" label="Company Logo" />
+            <WarehouseCompanyField fieldName="logo" label="Company Logo" />
           </Grid>
           <Grid item xs={12}>
-            <WarehouseCompanyField fieldName="companyBanner" label="Company Banner" />
+            <WarehouseCompanyField fieldName="banner" label="Company Banner" />
           </Grid>
           <Grid item xs={12}>
             <WarehouseReviews list={reviews || []} />
