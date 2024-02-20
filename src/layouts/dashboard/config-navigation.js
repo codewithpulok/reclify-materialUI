@@ -150,6 +150,9 @@ export function useNavData() {
       // admin warehouse routes
       ...(user?.userType === 'admin' ? adminWarehouseRoutes : []),
       {
+        type: 'DIVIDER',
+      },
+      {
         title: 'Messages',
         path: paths.dashboard.messages.root,
         icon: ICONS.messages(),
