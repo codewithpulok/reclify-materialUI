@@ -56,7 +56,7 @@ export default function RHFSelect(props) {
           >
             {options.map((option) => (
               <MenuItem key={option.value} value={option.value}>
-                <Checkbox checked={field.value.indexOf(option.value) > -1} />
+                <Checkbox checked={field.value?.indexOf(option.value) > -1} />
                 {option.label}
               </MenuItem>
             ))}

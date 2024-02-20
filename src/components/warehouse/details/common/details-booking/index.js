@@ -169,9 +169,6 @@ const DetailsBooking = (props) => {
     return percentDiscount || discountAll + discountMonth;
   }, [discountAll, discountEnabled, discountMonth, percentDiscount]);
   const discountedPricePerPallet = currentPrice - discount;
-
-  console.log({ discount, discountedPricePerPallet, percentDiscount, discountMonth, discountAll });
-
   const totalPrice = currentPrice * selectedMonth * requiredSpace;
   const totalDiscount = discount * selectedMonth * requiredSpace;
   const monthlyTotal = discountedPricePerPallet * requiredSpace;

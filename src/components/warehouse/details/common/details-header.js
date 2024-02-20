@@ -180,7 +180,7 @@ const WarehouseHeader = (props) => {
           mt="auto"
         >
           {warehouse?.logo && (
-            <Image src={warehouse?.logo} sx={{ width: '100px', borderRadius: 1 }} />
+            <Image src={warehouse?.logo} sx={{ height: '90px', borderRadius: 1 }} />
           )}
           <Stack>
             <Typography variant="h2">{name}</Typography>

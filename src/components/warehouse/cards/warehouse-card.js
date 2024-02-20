@@ -83,9 +83,9 @@ const WarehouseCard = (props) => {
         <CardContent sx={{ position: 'relative', p: isSm ? 1.5 : undefined }}>
           <Stack>
             <Stack direction="row" alignItems="center" spacing={1}>
-              {warehouse?.seller?.logo && (
+              {warehouse.logo && (
                 <Avatar
-                  src={warehouse?.seller?.logo}
+                  src={warehouse.logo}
                   sx={isSm ? { width: '48px', height: '48px' } : { width: '70px', height: '70px' }}
                 />
               )}
