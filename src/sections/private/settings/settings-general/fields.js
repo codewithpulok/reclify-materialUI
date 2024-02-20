@@ -1,15 +1,11 @@
 import { LoadingButton } from '@mui/lab';
 import { Button, Grid, Stack } from '@mui/material';
 import { useFormContext } from 'react-hook-form';
-import { selectAuth } from 'src/redux-toolkit/features/auth/authSlice';
-import { useAppSelector } from 'src/redux-toolkit/hooks';
 import AppearanceField from './appearance-field';
 import InfoFields from './info-fields';
-import LogoField from './logo-field';
 import SocialFields from './socials-fields';
 
 const Fields = () => {
-  const { user } = useAppSelector(selectAuth);
   const { formState } = useFormContext();
   const { isSubmitting } = formState;
 
@@ -21,7 +17,6 @@ const Fields = () => {
 
       <Grid item xs={12} md={4}>
         <Stack spacing={1.5}>
-          {user?.userType === 'seller' && <LogoField />}
           <SocialFields />
           <AppearanceField />
           <LoadingButton
