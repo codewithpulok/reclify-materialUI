@@ -1,7 +1,8 @@
-import { Avatar, Box, Button, Chip, IconButton, Rating, Stack, Typography } from '@mui/material';
+import { Box, Button, Chip, IconButton, Rating, Stack, Typography } from '@mui/material';
 import { useRouter } from 'next/navigation';
 import PropTypes from 'prop-types';
 
+import Image from 'src/components/common/image';
 import Label from 'src/components/common/label';
 import { selectAuth } from 'src/redux-toolkit/features/auth/authSlice';
 import { useAppSelector } from 'src/redux-toolkit/hooks';
@@ -146,11 +147,11 @@ const WarehouseHeader = (props) => {
 
       <Stack direction="row" alignItems="center" spacing={1}>
         {warehouse?.seller?.logo && (
-          <Avatar src={warehouse?.seller?.logo} sx={{ width: '88px', height: '88px' }} />
+          <Image src={warehouse?.seller?.logo} sx={{ width: '100px', borderRadius: 1 }} />
         )}
         <Stack>
           <Typography variant="h2">{name}</Typography>
-          <Stack direction="row" spacing={1.5} alignItems="center" mb={2} flexWrap="wrap">
+          <Stack direction="row" spacing={1} alignItems="center" mb={2} flexWrap="wrap">
             <Typography variant="body2">{joinAddressObj(address)}</Typography>
             {region && <Label>{region}</Label>}
           </Stack>

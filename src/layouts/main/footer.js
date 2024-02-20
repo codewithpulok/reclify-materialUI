@@ -25,6 +25,10 @@ const LINKS = [
       { name: 'About us', href: paths.about_us },
       { name: 'Contact us', href: paths.contact_us },
       { name: 'FAQs', href: paths.faqs },
+      { name: 'Accessing your account', href: '#' },
+      { name: 'Creating and account', href: '#' },
+      { name: 'Subscription tiers', href: '#' },
+      { name: 'Media', href: '#' },
     ],
   },
   {
