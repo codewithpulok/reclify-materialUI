@@ -1,7 +1,8 @@
 'use client';
 
-import AboutHero from '../about-hero';
-import AboutVision from '../about-vision';
+import AboutHero from './about-hero';
+import AboutTeam from './about-team';
+import AboutVision from './about-vision';
 
 // ----------------------------------------------------------------------
 
@@ -10,6 +11,7 @@ export default function AboutView() {
     <>
       <AboutHero />
       <AboutVision />
+      <AboutTeam />
     </>
   );
 }
