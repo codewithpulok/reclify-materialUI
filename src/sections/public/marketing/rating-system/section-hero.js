@@ -4,7 +4,6 @@ import PropTypes from 'prop-types';
 import Box from '@mui/material/Box';
 import Container from '@mui/material/Container';
 import Stack from '@mui/material/Stack';
-import Typography from '@mui/material/Typography';
 
 import { MotionContainer, varFade } from 'src/components/common/animate';
 
@@ -47,20 +46,6 @@ export default function SectionHero() {
             <TextAnimate text="Rating" />
             <TextAnimate text="System" />
           </Stack>
-
-          <m.div variants={varFade().inRight}>
-            <Typography
-              variant="h4"
-              sx={{
-                mt: 3,
-                color: 'common.white',
-                fontWeight: 'fontWeightSemiBold',
-              }}
-            >
-              An innovative unicorn born from the collaboration
-              <br /> of seasoned logistics professionals and tech-savvy entrepreneurs.
-            </Typography>
-          </m.div>
         </Box>
       </Container>
     </Box>

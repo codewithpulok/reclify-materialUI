@@ -58,8 +58,7 @@ export default function SectionHero() {
                 fontWeight: 'fontWeightSemiBold',
               }}
             >
-              An innovative unicorn born from the collaboration
-              <br /> of seasoned logistics professionals and tech-savvy entrepreneurs.
+              Certainly! Here are definitions for each of the terms you provided:
             </Typography>
           </m.div>
         </Box>

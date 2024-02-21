@@ -3,26 +3,20 @@
 import Container from '@mui/material/Container';
 
 import { Grid, Stack } from '@mui/material';
-import { useSearchParams } from 'next/navigation';
 import { useEffect } from 'react';
+import { useScrollTo } from 'src/routes/hooks';
 import ContactForm, { ContactFormDescription } from '../contact-form';
 import ContactHero from '../contact-hero';
 
 // ----------------------------------------------------------------------
 
 export default function ContactUsView() {
-  const searchParams = useSearchParams();
-  const scrollTo = searchParams.get('scrollTo');
+  const { scroll } = useScrollTo(undefined, 'FORM');
 
   // scroll to element
   useEffect(() => {
-    if (scrollTo === 'FORM') {
-      const formElement = document.getElementById(scrollTo);
-      if (formElement) {
-        formElement.scrollIntoView({ behavior: 'smooth' });
-      }
-    }
-  }, [scrollTo]);
+    scroll();
+  }, [scroll]);
 
   return (
     <>
