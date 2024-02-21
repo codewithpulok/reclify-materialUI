@@ -33,6 +33,8 @@ const defaultValues = {
   foundedYear: 1800,
   cta: '',
   promoCode: '',
+  logo: null,
+  banner: null,
 };
 
 const Props = {};

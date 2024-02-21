@@ -55,6 +55,7 @@ export const endpoints = {
     users: {
       list: '/users',
       get: (id) => `/users/${id}`,
+      update: (id) => `/users/${id}`,
     },
     transaction: {
       list: '/transaction',

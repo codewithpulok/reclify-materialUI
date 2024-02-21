@@ -34,12 +34,13 @@ const HomeAdminControl = (props) => {
 
   // form states
   const methods = useForm({ defaultValues });
-  const { handleSubmit, reset, formState } = methods;
+  const { handleSubmit, reset, formState, watch } = methods;
   const { isSubmitting } = formState;
+  const serviceType = watch('serviceType');
 
   const onSubmit = (values) => {
     console.log('Admin Control:', values);
-    serviceDialog.onOpen();
+    serviceDialog.onOpen(values?.serviceType);
   };
 
   // update default state
@@ -55,15 +56,16 @@ const HomeAdminControl = (props) => {
         <FormProvider methods={methods} onSubmit={handleSubmit(onSubmit)}>
           <CardContent component={Stack} spacing={1}>
             <RHFTextField name="serviceType" label="Service Type" select>
-              {serviceTypes.map((serviceType) => (
-                <MenuItem key={serviceType.value} value={serviceType.value}>
-                  {serviceType.label}
+              {serviceTypes.map((service) => (
+                <MenuItem key={service.value} value={service.value}>
+                  {service.label}
                 </MenuItem>
               ))}
             </RHFTextField>
             <CardActions sx={{ justifyContent: 'end' }}>
               <LoadingButton
                 loading={isSubmitting}
+                disabled={user?.serviceType === serviceType}
                 type="submit"
                 variant="contained"
                 color="primary"
@@ -74,7 +76,12 @@ const HomeAdminControl = (props) => {
           </CardContent>
         </FormProvider>
       </Card>
-      <ChangeServiceTypeDialog open={serviceDialog.open} onClose={serviceDialog.onClose} />
+      <ChangeServiceTypeDialog
+        open={serviceDialog.open}
+        onClose={serviceDialog.onClose}
+        id={user?.id}
+        serviceType={serviceDialog.value}
+      />
     </>
   );
 };
