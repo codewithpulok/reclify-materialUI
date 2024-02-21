@@ -42,3 +42,6 @@ export { default as NewsDeleteDialog } from './news/news-delete-dialog';
 
 // search dialog
 export { default as SearchFilterDialog } from './search/filter-dialog';
+
+// admin dialog
+export { default as ChangeServiceTypeDialog } from './admin/change-service-type';
