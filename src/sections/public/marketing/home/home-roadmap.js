@@ -52,8 +52,10 @@ export default function HomeRoadmap() {
         }),
       })}
     >
-      <Container component={MotionViewport}>{renderDescription}</Container>
-      <Roadmap />
+      <Container component={MotionViewport}>
+        {renderDescription}
+        <Roadmap />
+      </Container>
     </Box>
   );
 }
@@ -104,26 +106,34 @@ const Roadmap = () => {
           : {},
       }}
     >
-      {TIMELINES.map((item) => (
+      {TIMELINES.map((item, index) => (
         <TimelineItem key={item.key}>
           <TimelineSeparator>
             <TimelineDot color={item.color}>{item.icon}</TimelineDot>
             <TimelineConnector />
           </TimelineSeparator>
           <TimelineContent>
-            <Paper
-              sx={{
-                p: 3,
-                bgcolor: (theme) => alpha(theme.palette.grey[500], 0.12),
-              }}
+            <m.div
+              variants={
+                index % 2 === 0
+                  ? varFade({ durationIn: Number((0.3 * index + 0.64).toFixed(2)) }).inRight
+                  : varFade({ durationIn: Number((0.3 * index + 0.64).toFixed(2)) }).inLeft
+              }
             >
-              <Typography variant="subtitle2">{item.title}</Typography>
-              {!!item?.des && (
-                <Typography variant="body2" sx={{ color: 'text.secondary', mt: 1 }}>
-                  {item.des}
-                </Typography>
-              )}
-            </Paper>
+              <Paper
+                sx={{
+                  p: 3,
+                  bgcolor: (theme) => alpha(theme.palette.grey[500], 0.12),
+                }}
+              >
+                <Typography variant="subtitle2">{item.title}</Typography>
+                {!!item?.des && (
+                  <Typography variant="body2" sx={{ color: 'text.secondary', mt: 1 }}>
+                    {item.des}
+                  </Typography>
+                )}
+              </Paper>
+            </m.div>
           </TimelineContent>
         </TimelineItem>
       ))}
