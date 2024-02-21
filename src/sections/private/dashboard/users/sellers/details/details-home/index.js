@@ -15,7 +15,8 @@ import { getIconify } from 'src/components/common/iconify/utilities';
 import { RouterLink } from 'src/routes/components';
 import { paths } from 'src/routes/paths';
 import { fCurrency, fNumber } from 'src/utils/format-number';
-import { ICONS } from '../../config-users';
+import { ICONS } from '../../../config-users';
+import HomeAdminControl from './home-admin-control';
 
 // ----------------------------------------------------------------------
 
@@ -147,7 +148,10 @@ const DetailsHome = (props) => {
   return (
     <Grid container spacing={1.5}>
       <Grid xs={12} md={4}>
-        {renderStats}
+        <Stack spacing={1.5}>
+          {renderStats}
+          <HomeAdminControl user={user} />
+        </Stack>
       </Grid>
       <Grid xs={12} md={4}>
         {renderAbout}
