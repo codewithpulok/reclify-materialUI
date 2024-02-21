@@ -1,6 +1,6 @@
 'use client';
 
-import { Button, Stack, Typography } from '@mui/material';
+import { Button, Stack } from '@mui/material';
 // local components
 
 import { yupResolver } from '@hookform/resolvers/yup';
@@ -9,7 +9,6 @@ import { enqueueSnackbar } from 'notistack';
 import { useCallback, useEffect } from 'react';
 import { useForm } from 'react-hook-form';
 import FormProvider from 'src/components/common/hook-form/form-provider';
-import { getIconify } from 'src/components/common/iconify/utilities';
 import { ServiceDetailsPreview } from 'src/components/service/details';
 import { getServiceType } from 'src/constant/service-types';
 import { useBoolean } from 'src/hooks/use-boolean';
@@ -121,13 +120,8 @@ const SettingsService = (props) => {
 
       <FormProvider methods={methods} onSubmit={handleSubmit(onSubmit)} onReset={onReset}>
         <Stack spacing={1.5}>
-          <Stack direction="row" alignItems="center" spacing={1} mb={3}>
-            {serviceType?.icon && getIconify(serviceType.icon, 48, { color: 'primary.main' })}
-            <Typography variant="h2">{serviceType?.label}</Typography>
-          </Stack>
-
           {previewMode.value && <ServiceDetailsPreview service={getValues() || {}} />}
-          {!previewMode.value && <ServiceFields />}
+          {!previewMode.value && <ServiceFields serviceType={serviceType} />}
 
           <Stack
             sx={{

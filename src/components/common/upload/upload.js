@@ -102,7 +102,7 @@ export default function Upload(props) {
   const removeSinglePreview = hasFile && onDelete && (
     <IconButton
       size="small"
-      onClick={onDelete}
+      onClick={(e) => onDelete(e, file)}
       sx={{
         top: 16,
         right: 16,
