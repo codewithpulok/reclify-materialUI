@@ -22,11 +22,9 @@ export const paths = {
   faqs: '/faqs',
   terms: '/terms-and-conditions',
   privacy: '/privacy-policy',
-  accessing_account: '/accessing-account',
-  create_account: '/create-account',
   media: '/media',
   rating_system: '/rating-system',
-  subscriptions: '/subscriptions',
+  subscriptions: '/?scrollTo=PRICING',
   supply_chain: '/supply-chain-logistics-definations',
 
   // AUTH

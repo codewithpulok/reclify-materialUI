@@ -1,9 +1,15 @@
 'use client';
 
+import SectionContent from './section-content';
 import SectionHero from './section-hero';
 
 // ----------------------------------------------------------------------
 
 export default function SupplyChainView() {
-  return <SectionHero />;
+  return (
+    <>
+      <SectionHero />
+      <SectionContent />
+    </>
+  );
 }

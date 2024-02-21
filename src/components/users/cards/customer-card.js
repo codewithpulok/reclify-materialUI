@@ -46,18 +46,20 @@ const CustomerCard = (props) => {
           </Stack>
         </Stack>
 
-        <Stack
-          direction="row"
-          spacing={2}
-          sx={{ bgcolor: 'background.neutral', px: 0.5, py: 0.25, borderRadius: 0.5 }}
-        >
-          <Stack direction="row" spacing={0.5} alignItems="center">
-            {ICONS.transactions(16, { color: 'primary.main' })}
-            <Typography variant="body2">
-              {fShortenNumber(totalTransactions) || 0} Transactions
-            </Typography>
+        {!!totalTransactions && (
+          <Stack
+            direction="row"
+            spacing={2}
+            sx={{ bgcolor: 'background.neutral', px: 0.5, py: 0.25, borderRadius: 0.5 }}
+          >
+            <Stack direction="row" spacing={0.5} alignItems="center">
+              {ICONS.transactions(16, { color: 'primary.main' })}
+              <Typography variant="body2">
+                {fShortenNumber(totalTransactions) || 0} Transactions
+              </Typography>
+            </Stack>
           </Stack>
-        </Stack>
+        )}
       </CardActionArea>
     </Card>
   );
