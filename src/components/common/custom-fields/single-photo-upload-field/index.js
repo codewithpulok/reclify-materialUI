@@ -21,7 +21,7 @@ const Props = {
  * @param {Props} props
  * @returns {JSX.Element}
  */
-const WarehouseCompanyField = (props) => {
+const SinglePhotoUploadField = (props) => {
   const { sx, fieldName, label } = props;
   const { setValue } = useFormContext();
 
@@ -30,7 +30,7 @@ const WarehouseCompanyField = (props) => {
   const [deleteFile, deleteResponse] = useFileDeleteByURLMutation();
 
   const handleRemove = useCallback(
-    async (imgLink) => {
+    async (_e, imgLink) => {
       const response = await deleteFile(imgLink);
       const { error, data } = response;
 
@@ -110,6 +110,6 @@ const WarehouseCompanyField = (props) => {
   );
 };
 
-WarehouseCompanyField.propTypes = Props;
+SinglePhotoUploadField.propTypes = Props;
 
-export default WarehouseCompanyField;
+export default SinglePhotoUploadField;

@@ -120,6 +120,13 @@ export const adminApi = createApi({
     getUser: builder.query({
       query: (id) => endpoints.admin.users.get(id),
     }),
+    updateSeller: builder.mutation({
+      query: ({ id, data }) => ({
+        url: endpoints.admin.users.update(id),
+        method: 'PUT',
+        body: data,
+      }),
+    }),
     // transaction actions
     listTransaction: builder.query({
       query: () => endpoints.admin.transaction.list,
@@ -189,4 +196,5 @@ export const {
   useListTransactionQuery,
   useLazyListTransactionQuery,
   useUpgradePlanMutation,
+  useUpdateSellerMutation,
 } = adminApi;

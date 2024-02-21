@@ -110,8 +110,11 @@ export default function HomePricing() {
             gap: 1.5,
           }}
         >
-          {plansResponse?.data?.results?.map((plan) => (
-            <m.div key={plan.id} variants={varFade().in}>
+          {plansResponse?.data?.results?.map((plan, index) => (
+            <m.div
+              key={plan.id}
+              variants={varFade({ durationIn: Number((0.3 * index + 0.64).toFixed(2)) }).inUp}
+            >
               <PlanCard plan={plan} />
             </m.div>
           ))}

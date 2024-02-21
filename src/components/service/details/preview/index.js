@@ -2,6 +2,7 @@ import { Grid } from '@mui/material';
 import PropTypes from 'prop-types';
 import { getSellers } from 'src/assets/dummy';
 import { useResponsive } from 'src/hooks/use-responsive';
+import HeaderContent from '../full/header-content';
 import MainContent from './main-content';
 import SidebarContent from './sidebar-content';
 
@@ -22,6 +23,9 @@ const ServiceDetailsPreview = (props) => {
 
   return (
     <Grid container spacing={2}>
+      <Grid item xs={12}>
+        <HeaderContent service={service} hideBack />
+      </Grid>
       <Grid item xs={12} md={7}>
         <MainContent service={service} seller={seller} />
       </Grid>

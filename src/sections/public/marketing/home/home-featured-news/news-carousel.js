@@ -1,5 +1,7 @@
 import { Box } from '@mui/material';
+import { m } from 'framer-motion';
 import PropTypes from 'prop-types';
+import { varFade } from 'src/components/common/animate';
 import Carousel, { CarouselArrows, useCarousel } from 'src/components/common/carousel';
 import { NewsCard } from 'src/components/news/cards';
 
@@ -47,6 +49,8 @@ const NewsCarousel = (props) => {
           ml: 0,
         },
       }}
+      component={m.div}
+      variants={varFade().inDown}
     >
       <CarouselArrows
         filled

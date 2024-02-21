@@ -1,4 +1,4 @@
-import { Box, Button, Chip, IconButton, Rating, Stack, Typography, alpha } from '@mui/material';
+import { Button, Chip, IconButton, Rating, Stack, Typography, alpha } from '@mui/material';
 import { useRouter } from 'next/navigation';
 import PropTypes from 'prop-types';
 
@@ -145,55 +145,55 @@ const WarehouseHeader = (props) => {
   );
 
   return (
-    <Box sx={{ mb: 3, minHeight: 250, borderRadius: 1, overflow: 'hidden' }}>
-      <Stack
-        alignItems="start"
-        sx={(theme) => ({
-          ...bgGradient({
-            color: alpha(
-              theme.palette.background.default,
-              theme.palette.mode === 'light' ? 0.8 : 0.94
-            ),
-            imgUrl: warehouse?.banner || PLACEHOLDER_PROFILE_BANNER,
-          }),
-          height: 1,
-          px: 2,
-          py: 2,
-        })}
-      >
-        {!hideBack && (
-          <IconButton title="go back" onClick={goToBack} sx={{ p: 0, mb: 0.5 }}>
-            {ICONS.back(32)}
-          </IconButton>
-        )}
+    <Stack
+      alignItems="start"
+      sx={(theme) => ({
+        ...bgGradient({
+          color: alpha(
+            theme.palette.background.default,
+            theme.palette.mode === 'light' ? 0.8 : 0.94
+          ),
+          imgUrl: warehouse?.banner || PLACEHOLDER_PROFILE_BANNER,
+        }),
+        px: 2,
+        py: 2,
+        minHeight: '250px',
+        mb: 3,
+        borderRadius: 1,
+      })}
+    >
+      {!hideBack && (
+        <IconButton title="go back" onClick={goToBack} sx={{ p: 0, mb: 0.5 }}>
+          {ICONS.back(32)}
+        </IconButton>
+      )}
 
-        <Stack
-          direction={{
-            xs: 'column',
-            sm: 'row',
-          }}
-          alignItems={{
-            xs: 'start',
-            sm: 'center',
-          }}
-          spacing={1}
-          mt="auto"
-        >
-          {warehouse?.logo && (
-            <Image src={warehouse?.logo} sx={{ height: '90px', borderRadius: 1 }} />
-          )}
-          <Stack>
-            <Typography variant="h2">{name}</Typography>
-            <Stack direction="row" spacing={1} alignItems="center" mb={2} flexWrap="wrap">
-              <Typography variant="body2">{joinAddressObj(address)}</Typography>
-              {region && <Label>{region}</Label>}
-            </Stack>
+      <Stack
+        direction={{
+          xs: 'column',
+          sm: 'row',
+        }}
+        alignItems={{
+          xs: 'start',
+          sm: 'center',
+        }}
+        spacing={1}
+        mt="auto"
+      >
+        {warehouse?.logo && (
+          <Image src={warehouse?.logo} sx={{ height: '90px', borderRadius: 1 }} />
+        )}
+        <Stack>
+          <Typography variant="h2">{name}</Typography>
+          <Stack direction="row" spacing={1} alignItems="center" mb={2} flexWrap="wrap">
+            <Typography variant="body2">{joinAddressObj(address)}</Typography>
+            {region && <Label>{region}</Label>}
           </Stack>
         </Stack>
-
-        {renderMetadata}
       </Stack>
-    </Box>
+
+      {renderMetadata}
+    </Stack>
   );
 };
 

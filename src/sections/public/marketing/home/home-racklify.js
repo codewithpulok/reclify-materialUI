@@ -89,28 +89,33 @@ export default function HomeRacklify() {
         </Stack>
 
         <Grid container justifyContent="center" spacing={{ xs: 3 }}>
-          {CARDS.map((card) => (
+          {CARDS.map((card, index) => (
             <Grid item sm={12} md={4} key={card.id}>
-              <Card
-                component={Stack}
-                sx={{
-                  textAlign: 'center',
-                  alignItems: 'center',
-                  width: '100%',
-                  height: '100%',
-                  p: (theme) => theme.spacing(10, 5),
-                }}
+              <m.div
+                variants={varFade({ durationIn: Number((0.3 * index + 0.64).toFixed(2)) }).inUp}
+                style={{ height: '100%' }}
               >
-                <Image src={`/assets/images/home/${card.image}`} sx={{ width: '100px' }} />
+                <Card
+                  component={Stack}
+                  sx={{
+                    textAlign: 'center',
+                    alignItems: 'center',
+                    width: '100%',
+                    height: '100%',
+                    p: (theme) => theme.spacing(10, 5),
+                  }}
+                >
+                  <Image src={`/assets/images/home/${card.image}`} sx={{ width: '100px' }} />
 
-                <Typography variant="h5" sx={{ mt: 7, mb: 2 }}>
-                  {card.title}
-                </Typography>
+                  <Typography variant="h5" sx={{ mt: 7, mb: 2 }}>
+                    {card.title}
+                  </Typography>
 
-                <Typography variant="body2" sx={{ color: 'text.secondary' }}>
-                  {card.description}
-                </Typography>
-              </Card>
+                  <Typography variant="body2" sx={{ color: 'text.secondary' }}>
+                    {card.description}
+                  </Typography>
+                </Card>
+              </m.div>
             </Grid>
           ))}
         </Grid>

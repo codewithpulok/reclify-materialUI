@@ -23,6 +23,7 @@ import {
   PhotosUploadField,
   PredefinedFields,
   ReferenceTextField,
+  SinglePhotoUploadField,
 } from 'src/components/common/custom-fields';
 import { EmptyState } from 'src/components/common/custom-state';
 import { RHFAccordion, RHFSwitch, RHFTextField } from 'src/components/common/hook-form';
@@ -34,7 +35,6 @@ import { checkValidAddress } from 'src/utils/address';
 import { restrictNegetiveValue } from 'src/utils/form';
 import { fFixedFloat } from 'src/utils/format-number';
 import { ICONS } from '../../config-warehouse';
-import WarehouseCompanyField from './warehouse-company-field';
 import WarehouseReviews from './warehouse-reviews';
 
 export const stepFields = {
@@ -200,10 +200,10 @@ const WarehouseFields = (props) => {
       <Grid item xs={12} md={6}>
         <Grid container spacing={1.2}>
           <Grid item xs={12}>
-            <WarehouseCompanyField fieldName="logo" label="Company Logo" />
+            <SinglePhotoUploadField fieldName="logo" label="Company Logo" />
           </Grid>
           <Grid item xs={12}>
-            <WarehouseCompanyField fieldName="banner" label="Company Banner" />
+            <SinglePhotoUploadField fieldName="banner" label="Company Banner" />
           </Grid>
           <Grid item xs={12}>
             <WarehouseReviews list={reviews || []} />

@@ -6,7 +6,7 @@ import TextField from '@mui/material/TextField';
 // ----------------------------------------------------------------------
 
 const RHFTextFieldProps = {
-  helperText: PropTypes.object,
+  helperText: PropTypes.oneOfType([PropTypes.string, PropTypes.node]),
   name: PropTypes.string,
   /** @type {(value: string) => string } */
   onChangeMiddleware: PropTypes.func,
