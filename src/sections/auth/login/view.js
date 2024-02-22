@@ -71,14 +71,6 @@ export default function LoginView() {
   const renderHead = (
     <Stack spacing={2} sx={{ mb: 5 }}>
       <Typography variant="h4">Sign in to Racklify</Typography>
-
-      <Stack direction="row" spacing={0.5}>
-        <Typography variant="body2">New user?</Typography>
-
-        <Link component={RouterLink} href={paths.auth.register} variant="subtitle2">
-          Create an account
-        </Link>
-      </Stack>
     </Stack>
   );
 

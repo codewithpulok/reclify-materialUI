@@ -1,4 +1,4 @@
-import { Alert, IconButton, InputAdornment, MenuItem, Tooltip } from '@mui/material';
+import { Alert, Button, InputAdornment, MenuItem } from '@mui/material';
 import Grid from '@mui/material/Grid';
 import { useEffect } from 'react';
 import { useFormContext } from 'react-hook-form';
@@ -15,15 +15,14 @@ import {
   predefinedAmenities,
   predefinedFacility,
   predefinedFeatures,
-  predefinedServices,
 } from 'src/assets/data/predefined-fields/warehouse';
 import {
   AddressField,
+  BannerField,
   DocumentsUploadField,
   PhotosUploadField,
   PredefinedFields,
   ReferenceTextField,
-  SinglePhotoUploadField,
 } from 'src/components/common/custom-fields';
 import { EmptyState } from 'src/components/common/custom-state';
 import { RHFAccordion, RHFSwitch, RHFTextField } from 'src/components/common/hook-form';
@@ -127,6 +126,9 @@ const WarehouseFields = (props) => {
 
   const step0 = (
     <Grid container spacing={1.2}>
+      <Grid item xs={12} mb={2}>
+        <BannerField photoLabel="Company Logo" photoName="logo" bannerName="banner" />
+      </Grid>
       <Grid item xs={12} md={6}>
         <Grid container spacing={1.2}>
           <Grid item xs={12}>
@@ -134,19 +136,10 @@ const WarehouseFields = (props) => {
           </Grid>
 
           <Grid item xs={12}>
-            <AddressField
-              name="address"
-              actionBtn={
-                isImportable ? (
-                  <Tooltip title="Import reviews from Google!">
-                    <IconButton color="primary">{ICONS.import(24)}</IconButton>
-                  </Tooltip>
-                ) : null
-              }
-            />
+            <AddressField name="address" />
           </Grid>
 
-          <Grid item xs={6}>
+          <Grid item xs={6} display="none">
             <RHFTextField name="regionScope" label="Region Scope" disabled fullWidth select>
               <MenuItem disabled>Select Region Scope</MenuItem>
               {regionScopes.map((option) => (
@@ -156,7 +149,7 @@ const WarehouseFields = (props) => {
               ))}
             </RHFTextField>
           </Grid>
-          <Grid item xs={6}>
+          <Grid item xs={12}>
             <RHFTextField name="region" label="Region" disabled fullWidth select>
               <MenuItem disabled>Select Region</MenuItem>
               {getRegionsByScope(regionScope).map((option) => (
@@ -200,12 +193,15 @@ const WarehouseFields = (props) => {
       <Grid item xs={12} md={6}>
         <Grid container spacing={1.2}>
           <Grid item xs={12}>
-            <SinglePhotoUploadField fieldName="logo" label="Company Logo" />
-          </Grid>
-          <Grid item xs={12}>
-            <SinglePhotoUploadField fieldName="banner" label="Company Banner" />
-          </Grid>
-          <Grid item xs={12}>
+            <Button
+              disabled={!isImportable}
+              variant="outlined"
+              size="small"
+              sx={{ mb: 1, ml: 'auto' }}
+              endIcon={ICONS.import()}
+            >
+              Import Reviews
+            </Button>
             <WarehouseReviews list={reviews || []} />
           </Grid>
         </Grid>
@@ -515,14 +511,6 @@ const WarehouseFields = (props) => {
             </>
           )}
         </RHFAccordion>
-      </Grid>
-      <Grid item xs={12}>
-        <PredefinedFields
-          name="services"
-          fields={predefinedServices}
-          label="Available Services and Rates"
-          defaultExpanded
-        />
       </Grid>
     </>
   );

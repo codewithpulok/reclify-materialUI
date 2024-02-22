@@ -235,8 +235,17 @@ const DetailsBooking = (props) => {
               <Typography fontWeight="bold" color="primary" sx={bookingInfoStyle.title}>
                 Reserve Now:
               </Typography>
-              <Stack direction="row" columnGap={1} rowGap={0} alignItems="baseline" flexWrap="wrap">
-                <Typography component="span" sx={bookingInfoStyle.heading1}>
+              <Stack
+                direction="row"
+                columnGap={0.5}
+                rowGap={0}
+                alignItems="baseline"
+                flexWrap="wrap"
+              >
+                <Typography component="span" sx={bookingInfoStyle.heading2}>
+                  upto
+                </Typography>
+                <Typography component="span" sx={bookingInfoStyle.heading1} mr={0.5}>
                   {fNumber(warehouse.maxSpaceOrder || warehouse.totalSpace)}
                 </Typography>
                 <Typography component="span" sx={bookingInfoStyle.heading2}>

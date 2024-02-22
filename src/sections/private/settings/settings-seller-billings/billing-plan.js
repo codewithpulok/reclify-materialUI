@@ -113,7 +113,7 @@ const BillingPlan = (props) => {
           title="Plan"
           action={
             <FormControlLabel
-              label="Anually"
+              label="Annually"
               labelPlacement="start"
               control={<Switch onChange={(_e, c) => isAnnual.setValue(c)} value={isAnnual.value} />}
             />

@@ -80,19 +80,19 @@ const PlanCard = (props) => {
         {plan.title}
       </Box>
 
-      <Stack direction="row" alignItems="center" sx={{ typography: 'h4' }}>
-        {plan?.id === 'enterprise' && user?.planId !== 'enterprise' ? (
-          <Button
-            LinkComponent={RouterLink}
-            href={`${paths.contact_us}/#FORM`}
-            color="primary"
-            variant="contained"
-            size="small"
-          >
-            Contact Us. A la Carte
-          </Button>
-        ) : (
-          <>
+      {plan?.id === 'enterprise' && user?.planId !== 'enterprise' ? (
+        <Button
+          LinkComponent={RouterLink}
+          href={`${paths.contact_us}/#FORM`}
+          color="primary"
+          variant="contained"
+          size="small"
+        >
+          Contact Us. A la Carte
+        </Button>
+      ) : (
+        <>
+          <Stack direction="row" alignItems="center" sx={{ typography: 'h4' }}>
             {currentPrice ? fCurrency(currentPrice) : 'Free'}
 
             {!!currentPrice && (
@@ -100,9 +100,23 @@ const PlanCard = (props) => {
                 /mo
               </Box>
             )}
-          </>
-        )}
-      </Stack>
+          </Stack>
+
+          {showAnnual && !!currentPrice && (
+            <Stack
+              direction="row"
+              alignItems="center"
+              sx={{ typography: 'subtitle1', color: 'text.secondary' }}
+            >
+              {fCurrency(currentPrice * 12)}
+
+              <Box component="span" sx={{ typography: 'body2', ml: 0.5 }}>
+                /yr
+              </Box>
+            </Stack>
+          )}
+        </>
+      )}
 
       {plan?.features && plan.features.length && (
         <>

@@ -1,8 +1,7 @@
-import { Button, Chip, IconButton, Rating, Stack, Typography, alpha } from '@mui/material';
+import { Avatar, Button, Chip, IconButton, Rating, Stack, Typography, alpha } from '@mui/material';
 import { useRouter } from 'next/navigation';
 import PropTypes from 'prop-types';
 
-import Image from 'src/components/common/image';
 import Label from 'src/components/common/label';
 import { PLACEHOLDER_PROFILE_BANNER } from 'src/config-global';
 import { selectAuth } from 'src/redux-toolkit/features/auth/authSlice';
@@ -29,7 +28,7 @@ const metadataWrapperStyle = {
   },
   columnGap: 0.8,
   rowGap: 1,
-  bgcolor: 'background.default',
+  bgcolor: (theme) => alpha(theme.palette.background.default, 0.4),
   px: 1,
   py: 0.2,
   borderRadius: 0.9,
@@ -180,9 +179,7 @@ const WarehouseHeader = (props) => {
         spacing={1}
         mt="auto"
       >
-        {warehouse?.logo && (
-          <Image src={warehouse?.logo} sx={{ height: '90px', borderRadius: 1 }} />
-        )}
+        {warehouse?.logo && <Avatar src={warehouse?.logo} sx={{ height: '90px', width: '90px' }} />}
         <Stack>
           <Typography variant="h2">{name}</Typography>
           <Stack direction="row" spacing={1} alignItems="center" mb={2} flexWrap="wrap">
