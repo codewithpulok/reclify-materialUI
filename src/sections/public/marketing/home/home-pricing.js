@@ -1,7 +1,7 @@
 'use client';
 
 import { m } from 'framer-motion';
-import { useCallback, useEffect, useState } from 'react';
+import { useCallback, useState } from 'react';
 
 import Box from '@mui/material/Box';
 import Container from '@mui/material/Container';
@@ -15,20 +15,13 @@ import { useResponsive } from 'src/hooks/use-responsive';
 
 import { MotionViewport, varFade } from 'src/components/common/animate';
 import { PlanCard } from 'src/components/user-settings/cards';
-import { useScrollTo } from 'src/routes/hooks';
+import { ScrollTo } from 'src/routes/components';
 
 // ----------------------------------------------------------------------
 
 export default function HomePricing() {
   const mdUp = useResponsive('up', 'md');
   const [currentTab, setCurrentTab] = useState('free');
-
-  const { scroll } = useScrollTo(undefined, 'PRICING');
-
-  // scroll to element
-  useEffect(() => {
-    scroll();
-  }, [scroll]);
 
   // api state
   const plansResponse = {
@@ -156,7 +149,6 @@ export default function HomePricing() {
 
   return (
     <Box
-      id="PRICING"
       sx={{
         py: { xs: 10, md: 15 },
         bgcolor: (theme) => alpha(theme.palette.grey[500], 0.04),
@@ -164,6 +156,7 @@ export default function HomePricing() {
       }}
     >
       <Container component={MotionViewport}>
+        <ScrollTo id="PRICING" />
         {renderDescription}
 
         {!plansResponse?.isLoading && plansResponse?.isSuccess && renderContent}

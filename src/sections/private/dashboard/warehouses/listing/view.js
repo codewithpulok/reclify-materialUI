@@ -1,6 +1,6 @@
 'use client';
 
-import { Button, Grid, Stack, Typography } from '@mui/material';
+import { Button, Grid, Stack, Typography, alpha } from '@mui/material';
 import Container from '@mui/material/Container';
 import { useCallback, useMemo } from 'react';
 // local components
@@ -109,7 +109,9 @@ export default function ListingView() {
 
         <Grid container spacing={2}>
           {renderWarehouses(hotdeals, 'No hot deals available', undefined, {
-            itemProps: { glow: true },
+            itemProps: {
+              contentSx: { bgcolor: (theme) => alpha(theme.palette.secondary.main, 0.4) },
+            },
           })}
         </Grid>
       </Stack>

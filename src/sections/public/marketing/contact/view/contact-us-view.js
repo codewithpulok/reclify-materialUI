@@ -3,21 +3,13 @@
 import Container from '@mui/material/Container';
 
 import { Grid, Stack } from '@mui/material';
-import { useEffect } from 'react';
-import { useScrollTo } from 'src/routes/hooks';
+import { ScrollTo } from 'src/routes/components';
 import ContactForm, { ContactFormDescription } from '../contact-form';
 import ContactHero from '../contact-hero';
 
 // ----------------------------------------------------------------------
 
 export default function ContactUsView() {
-  const { scroll } = useScrollTo(undefined, 'FORM');
-
-  // scroll to element
-  useEffect(() => {
-    scroll();
-  }, [scroll]);
-
   return (
     <>
       <ContactHero />
@@ -27,6 +19,7 @@ export default function ContactUsView() {
           <ContactFormDescription />
           <Grid container>
             <Grid item xs={12} md={6}>
+              <ScrollTo id="FORM" />
               <ContactForm />
             </Grid>
           </Grid>

@@ -57,8 +57,6 @@ const WarehouseFeaturedCarousel = (props) => {
         icon="solar:alt-arrow-right-bold"
         onNext={carousel.onNext}
         onPrev={carousel.onPrev}
-        // leftButtonProps={{ disabled: !carousel?.hasPrev }}
-        // rightButtonProps={{ disabled: !carousel?.hasNext }}
       >
         <Carousel ref={carousel.carouselRef} {...carousel.carouselSettings}>
           {filteredData.map((item) => (

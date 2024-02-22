@@ -12,7 +12,7 @@ const Props = {
  * @param {Props} props
  * @returns
  */
-const DetailsHighlights = (props) => {
+const ServiceHighlights = (props) => {
   const { highlights, sx = {} } = props;
 
   return (
@@ -22,6 +22,6 @@ const DetailsHighlights = (props) => {
   );
 };
 
-DetailsHighlights.propTypes = Props;
+ServiceHighlights.propTypes = Props;
 
-export default DetailsHighlights;
+export default ServiceHighlights;

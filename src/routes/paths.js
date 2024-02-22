@@ -24,7 +24,7 @@ export const paths = {
   privacy: '/privacy-policy',
   media: '/media',
   rating_system: '/rating-system',
-  subscriptions: '/?scrollTo=PRICING',
+  subscriptions: '/#PRICING',
   supply_chain: '/supply-chain-logistics-definations',
 
   // AUTH
