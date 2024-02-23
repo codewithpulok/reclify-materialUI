@@ -64,6 +64,7 @@ export default function HomePricing() {
           id: 'enterprise',
           title: 'Enterprise',
           features: [
+            'include professional features',
             'Hero Feature',
             'Direct Advertising',
             'Press Release',
