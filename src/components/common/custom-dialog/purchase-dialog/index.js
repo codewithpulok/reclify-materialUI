@@ -92,7 +92,7 @@ const PurchaseDialog = (props) => {
         open={successDialog.open}
         action={
           <Button variant="contained" color="primary" onClick={goToTransaction}>
-            Go to transaction
+            View Transaction
           </Button>
         }
       />

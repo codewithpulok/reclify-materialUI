@@ -1,3 +1,4 @@
+import { yupResolver } from '@hookform/resolvers/yup';
 import { LoadingButton } from '@mui/lab';
 import {
   Card,
@@ -11,6 +12,7 @@ import {
 } from '@mui/material';
 import { enqueueSnackbar } from 'notistack';
 import PropTypes from 'prop-types';
+import { useCallback } from 'react';
 import { useForm } from 'react-hook-form';
 import { ArrayField } from 'src/components/common/custom-fields';
 import { EmptyState, ErrorState, LoadingState } from 'src/components/common/custom-state';
@@ -19,6 +21,7 @@ import FormProvider from 'src/components/common/hook-form/form-provider';
 import { useUpgradePlanMutation } from 'src/redux-toolkit/services/adminApi';
 import { usePlanGetQuery } from 'src/redux-toolkit/services/planApi';
 import { restrictNegetiveValue } from 'src/utils/form';
+import * as Yup from 'yup';
 
 // ----------------------------------------------------------------------
 const Props = {
@@ -32,6 +35,11 @@ const defaultValues = {
   additionalFeatures: [],
 };
 
+const schema = Yup.object().shape({
+  price: Yup.number().label('Price').required(),
+  features: Yup.array().label('Features'),
+});
+
 // ----------------------------------------------------------------------
 const MembershipCustom = (props) => {
   const { userId } = props;
@@ -41,28 +49,41 @@ const MembershipCustom = (props) => {
   const [upgradePlan] = useUpgradePlanMutation();
 
   // form state
-  const methods = useForm({ defaultValues });
-  const { handleSubmit, formState, watch, setValue } = methods;
+  const methods = useForm({ defaultValues, resolver: yupResolver(schema) });
+  const { handleSubmit, formState, watch, setValue, reset } = methods;
   const { isSubmitting } = formState;
   const features = watch('features', []);
 
   // handle submit
-  const onSubmit = async (formValues) => {
-    console.log('Plan Upgrade: ', formValues);
-    const response = await upgradePlan({ id: userId, data: formValues });
-    const { data, error } = response;
+  const onSubmit = useCallback(
+    async (formValues) => {
+      if (!planResponse?.data?.results?.features?.[0]) return;
 
-    // error state
-    if (error || data?.isError) {
-      enqueueSnackbar('Error in upgrade plan', { variant: 'error' });
-      console.error('Plan Upgrade Error:', response);
-    }
-    // success state
-    else if (!error && data?.success) {
-      enqueueSnackbar('Plan Upgraded');
-      console.warn('Plan Upgraded:', response);
-    }
-  };
+      console.log('Plan Upgrade: ', formValues);
+
+      formValues.features = [
+        planResponse.data.results.features[0],
+        ...formValues.features,
+        ...formValues.additionalFeatures,
+      ];
+      const response = await upgradePlan({ id: userId, data: formValues });
+      const { data, error } = response;
+
+      // error state
+      if (error || data?.isError) {
+        enqueueSnackbar('Error in upgrade plan', { variant: 'error' });
+        console.error('Plan Upgrade Error:', response);
+        reset(defaultValues);
+      }
+      // success state
+      else if (!error && data?.success) {
+        enqueueSnackbar('Plan Upgraded');
+        console.warn('Plan Upgraded:', response);
+        reset(defaultValues);
+      }
+    },
+    [planResponse?.data?.results?.features, reset, upgradePlan, userId]
+  );
 
   const isLoading = planResponse?.isLoading || planResponse?.isFetching;
   const isError = !planResponse?.isLoading && !planResponse?.isFetching && planResponse?.isError;
@@ -99,7 +120,7 @@ const MembershipCustom = (props) => {
                       <FormControlLabel
                         control={
                           <Checkbox
-                            checked={features.includes(f)}
+                            checked={index === 0 ? true : features.includes(f)}
                             onChange={(_e, checked) => {
                               if (checked) {
                                 const prev = [...features];
@@ -110,6 +131,7 @@ const MembershipCustom = (props) => {
                                 setValue('features', filterd);
                               }
                             }}
+                            disabled={index === 0}
                           />
                         }
                         label={f}

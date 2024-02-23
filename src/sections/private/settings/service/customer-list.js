@@ -32,7 +32,7 @@ const CustomerList = (props) => {
   };
 
   return (
-    <RHFAccordion name={fieldName} label={fieldLabel}>
+    <RHFAccordion name={fieldName} label={fieldLabel} defaultExpanded>
       <Stack spacing={1}>
         {fields.map((field, index) => (
           <CustomerField index={index} onDelete={() => removeCustomer(index)} key={field._id} />

@@ -195,6 +195,7 @@ export const adminApi = createApi({
             adminApi.util.updateQueryData('getUser', arg?.id, (draft) => {
               if (draft.results?.membership !== undefined) {
                 draft.results.membership = data.results;
+                console.log(draft.resutls.membership);
               }
             })
           );
