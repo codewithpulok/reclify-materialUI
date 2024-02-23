@@ -62,6 +62,8 @@ const DetailsContent = (props) => {
     setCurrentTab(newValue);
   }, []);
 
+  console.log({ user });
+
   return (
     <Container maxWidth={settings.themeStretch ? false : 'lg'}>
       <CustomBreadcrumbs
@@ -105,8 +107,8 @@ const DetailsContent = (props) => {
       {currentTab === 'warehouses' && <DetailsWarehouses warehouses={user?.warehouses || []} />}
       {currentTab === 'membership' && (
         <DetailsMembership
-          currentPlanId={user?.membership?.[0]?.planId}
-          membershipHistory={user?.membership || []}
+          currentPlan={user?.membership?.currentPlan}
+          membershipHistory={user?.membership?.planHistory || []}
           userId={user?.id}
         />
       )}

@@ -13,6 +13,7 @@ import {
 } from 'src/components/common/custom-fields';
 import { RHFDatePicker, RHFTextField } from 'src/components/common/hook-form';
 import Label from 'src/components/common/label';
+import CustomerList from './customer-list';
 
 const Props = {
   serviceType: PropTypes.object,
@@ -26,7 +27,7 @@ const ServiceFields = (props) => {
   const { serviceType } = props;
   const { watch, setValue } = useFormContext();
   const type = watch('type', undefined);
-  const companyName = watch('name', undefined);
+
   const foundedYear = watch('foundedYear');
 
   /** @type {PredefinedField[]} */
@@ -39,8 +40,7 @@ const ServiceFields = (props) => {
           photoLabel="Company Logo"
           photoName="logo"
           bannerName="banner"
-          secondaryText={serviceType?.label}
-          primaryText={companyName}
+          primaryText={serviceType?.label}
         />
       </Grid>
 
@@ -56,7 +56,7 @@ const ServiceFields = (props) => {
             <RHFTextField name="website" label="Website" type="url" fullWidth />
           </Grid>
           <Grid item xs={12}>
-            <RHFTextField name="clientList" label="Client list" fullWidth />
+            <CustomerList />
           </Grid>
           <Grid item xs={12}>
             <RHFTextField

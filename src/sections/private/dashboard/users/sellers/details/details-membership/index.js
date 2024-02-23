@@ -9,8 +9,8 @@ import MembershipHistory from './membership-history';
 
 const Props = {
   userId: PropTypes.string,
-  /** @type {PlanId} */
-  currentPlanId: PropTypes.string,
+  /** @type {Plan} */
+  currentPlan: PropTypes.object,
   /** @type {Membership[]} */
   membershipHistory: PropTypes.arrayOf(PropTypes.object),
 };
@@ -22,14 +22,14 @@ const Props = {
  * @returns {JSX.Element}
  */
 const DetailsMembership = (props) => {
-  const { currentPlanId, membershipHistory = [], userId } = props;
+  const { currentPlan, membershipHistory = [], userId } = props;
 
   return (
     <Grid container spacing={1.5}>
       <Grid item xs={12} md={4}>
         <Stack spacing={1.5}>
           <MembershipCustom userId={userId} />
-          <MembershipCurrent currentPlanId={currentPlanId} />
+          <MembershipCurrent currentPlan={currentPlan} />
         </Stack>
       </Grid>
       <Grid item xs={12} md={8}>

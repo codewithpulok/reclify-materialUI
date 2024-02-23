@@ -1,12 +1,13 @@
-import { Box, IconButton, Stack, Typography, alpha } from '@mui/material';
+import { Avatar, Box, IconButton, Stack, Typography, alpha } from '@mui/material';
 import { useRouter } from 'next/navigation';
 import PropTypes from 'prop-types';
 
 import { getIconify } from 'src/components/common/iconify/utilities';
-import Image from 'src/components/common/image';
+import Label from 'src/components/common/label';
 import { PLACEHOLDER_PROFILE_BANNER } from 'src/config-global';
 import { getServiceType } from 'src/constant/service-types';
 import { bgGradient } from 'src/theme/css';
+import { joinAddressObj } from 'src/utils/address';
 import { ICONS } from '../../icons';
 
 const Props = {
@@ -42,7 +43,7 @@ const HeaderContent = (props) => {
         px: 2,
         py: 2,
         borderRadius: 1,
-        mb: 3,
+        mb: 0.5,
       })}
     >
       {!hideBack && (
@@ -52,12 +53,26 @@ const HeaderContent = (props) => {
       )}
 
       <Box mt="auto" />
-
-      {service?.logo && <Image src={service?.logo} sx={{ height: '90px', borderRadius: 1 }} />}
-
-      <Stack direction="row" alignItems="center" spacing={1}>
-        {serviceType?.icon && getIconify(serviceType.icon, 48, { color: 'primary.main' })}
-        <Typography variant="h2">{serviceType?.label}</Typography>
+      <Stack
+        direction={{
+          xs: 'column',
+          sm: 'row',
+        }}
+        alignItems={{
+          xs: 'start',
+          sm: 'center',
+        }}
+        spacing={1}
+        mt="auto"
+      >
+        {service?.logo && <Avatar src={service?.logo} sx={{ height: '90px', width: '90px' }} />}
+        <Stack alignItems="start">
+          <Typography variant="h2">{service?.name}</Typography>
+          <Stack direction="row" spacing={1} alignItems="center" flexWrap="wrap">
+            <Label startIcon={getIconify(serviceType.icon)}>{serviceType?.label}</Label>
+            <Typography variant="body2">{joinAddressObj(service?.address)}</Typography>
+          </Stack>
+        </Stack>
       </Stack>
     </Stack>
   );

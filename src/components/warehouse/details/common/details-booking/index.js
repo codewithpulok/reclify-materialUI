@@ -7,7 +7,7 @@ import { useDialog } from 'src/hooks/use-dialog';
 // utils
 import { fCurrency, fNumber } from 'src/utils/format-number';
 // components
-import { PurchasePaymentDialog } from 'src/components/common/custom-dialog';
+import { PurchaseDialog } from 'src/components/common/custom-dialog';
 import { WarehouseMonthCard } from 'src/components/warehouse/cards';
 // constants
 import { CUBIC_FEET_PER_PALLET, SQUARE_FEET_PER_PALLET } from 'src/constant/pallet';
@@ -175,7 +175,7 @@ const DetailsBooking = (props) => {
 
   // open payment dialog
   const openPaymentDialog = useCallback(() => {
-    /** @type {import('src/components/common/custom-dialog/purchase-payment-dialog').PurchaseData} */
+    /** @type {import('src/components/common/custom-dialog/purchase-dialog').PurchaseData} */
     const struct = {
       warehouseId: warehouse?.id,
       selectedTerm: selectedMonth,
@@ -243,7 +243,7 @@ const DetailsBooking = (props) => {
                 flexWrap="wrap"
               >
                 <Typography component="span" sx={bookingInfoStyle.heading2}>
-                  upto
+                  Upto
                 </Typography>
                 <Typography component="span" sx={bookingInfoStyle.heading1} mr={0.5}>
                   {fNumber(warehouse.maxSpaceOrder || warehouse.totalSpace)}
@@ -258,7 +258,7 @@ const DetailsBooking = (props) => {
               <Typography sx={bookingInfoStyle.description}>
                 Total available space
                 <br />
-                {fNumber(warehouse.totalSpace)} pallets
+                <b>{fNumber(warehouse.totalSpace)}</b> pallets
               </Typography>
               <Typography sx={bookingInfoStyle.description}>
                 {fNumber(warehouse.totalSpace * SQUARE_FEET_PER_PALLET)} square feet
@@ -429,7 +429,7 @@ const DetailsBooking = (props) => {
         ) : null}
       </Card>
 
-      <PurchasePaymentDialog
+      <PurchaseDialog
         open={paymentDialog.open}
         onClose={paymentDialog.onClose}
         purchaseData={paymentDialog.value}

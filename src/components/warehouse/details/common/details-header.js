@@ -157,7 +157,7 @@ const WarehouseHeader = (props) => {
         px: 2,
         py: 2,
         minHeight: '250px',
-        mb: 3,
+        mb: 0.5,
         borderRadius: 1,
       })}
     >
