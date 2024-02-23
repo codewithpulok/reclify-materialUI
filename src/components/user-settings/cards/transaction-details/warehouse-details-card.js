@@ -7,24 +7,24 @@ import Typography from '@mui/material/Typography';
 
 import { Card } from '@mui/material';
 import Image from 'src/components/common/image';
-import { PLACEHOLDER_WAREHOUSE_IMAGE } from 'src/config-global';
 import { joinAddressObj } from 'src/utils/address';
+import { getPrimaryPhoto } from 'src/utils/photos';
 import { ICONS } from '../../config-user-settings';
 
-const WarehouseDetailsCardProps = {
+const Props = {
   /** @type {Warehouse} */
   warehouse: PropTypes.object.isRequired,
   /** @type {SxProps} */
   sx: PropTypes.object,
 };
 /**
- * @param {WarehouseDetailsCardProps} props
+ * @param {Props} props
  * @returns {JSX.Element}
  */
 const WarehouseDetailsCard = (props) => {
   const { warehouse, sx = {} } = props;
 
-  const warehouseImage = warehouse?.photos?.[0]?.link || PLACEHOLDER_WAREHOUSE_IMAGE;
+  const warehouseImage = getPrimaryPhoto(warehouse?.photos);
 
   return (
     <Card component={Stack} spacing={1.5} sx={{ p: 1.5, borderRadius: 1, ...sx }}>
@@ -50,6 +50,6 @@ const WarehouseDetailsCard = (props) => {
   );
 };
 
-WarehouseDetailsCard.propTypes = WarehouseDetailsCardProps;
+WarehouseDetailsCard.propTypes = Props;
 
 export default WarehouseDetailsCard;

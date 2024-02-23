@@ -99,6 +99,12 @@ export const paths = {
       details: (id) => `${ROOTS.DASHBOARD}/news/${id}`,
       edit: (id) => `${ROOTS.DASHBOARD}/news/edit/${id}`,
     },
+
+    // WAREHOUSES
+    transactions: {
+      root: `${ROOTS.DASHBOARD}/transactions`,
+      details: (id) => `${ROOTS.DASHBOARD}/transactions/${id}`,
+    },
   },
 
   // SETTINGS

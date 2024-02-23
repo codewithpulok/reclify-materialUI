@@ -85,6 +85,7 @@ export const endpoints = {
   transaction: {
     root: '/user/transaction',
     list: '/',
+    get: (id) => `/${id}`,
     cancel: (id) => `/cancel/${id}`,
     complete: (id) => `/complete/${id}`,
   },

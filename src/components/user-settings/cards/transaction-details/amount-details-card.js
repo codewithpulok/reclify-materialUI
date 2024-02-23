@@ -6,8 +6,8 @@ import Typography from '@mui/material/Typography';
 // utils
 import { fCurrency, fNumber } from 'src/utils/format-number';
 // redux
-import { useAppSelector } from 'src/redux-toolkit/hooks';
 import { selectAuth } from 'src/redux-toolkit/features/auth/authSlice';
+import { useAppSelector } from 'src/redux-toolkit/hooks';
 
 const Props = {
   /** @type {TransactionPurchase} */
@@ -49,7 +49,7 @@ const AmountDetailsCard = (props) => {
     ) : null;
 
   return (
-    <Card component={Stack} sx={{ mb: 1, p: 1.5, ...sx }} spacing={0.5}>
+    <Card component={Stack} sx={{ mb: 1, p: 1.5, borderRadius: 1, ...sx }} spacing={0.5}>
       <Stack direction="row" justifyContent="space-between" alignItems="baseline" spacing={1}>
         <Typography variant="subtitle2">Selected Term (months): </Typography>
         <Typography variant="subtitle2" color="text.secondary">
