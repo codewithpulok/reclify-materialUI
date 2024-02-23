@@ -13,6 +13,7 @@ import {
 } from 'src/components/common/custom-fields';
 import { RHFDatePicker, RHFTextField } from 'src/components/common/hook-form';
 import Label from 'src/components/common/label';
+import CustomerList from './customer-list';
 
 const Props = {
   serviceType: PropTypes.object,
@@ -56,7 +57,7 @@ const ServiceFields = (props) => {
             <RHFTextField name="website" label="Website" type="url" fullWidth />
           </Grid>
           <Grid item xs={12}>
-            <RHFTextField name="clientList" label="Client list" fullWidth />
+            <CustomerList />
           </Grid>
           <Grid item xs={12}>
             <RHFTextField

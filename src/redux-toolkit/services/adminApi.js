@@ -176,6 +176,25 @@ export const adminApi = createApi({
         method: 'PUT',
         body: data,
       }),
+      onQueryStarted: async (arg, { dispatch, queryFulfilled }) => {
+        try {
+          const response = await queryFulfilled;
+          const { data } = response;
+
+          if (!data?.results) return;
+
+          // update the user cache
+          dispatch(
+            adminApi.util.updateQueryData('getUser', arg?.id, (draft) => {
+              if (draft.results?.membership !== undefined) {
+                draft.results.membership = data.results;
+              }
+            })
+          );
+        } catch (error) {
+          console.error('ERROR: User cache update', error);
+        }
+      },
     }),
   }),
 });

@@ -90,7 +90,7 @@ const RHFAccordion = (props) => {
           )}
           {isError && name && (
             <Typography variant="caption" color="error.main">
-              {errors?.[name].root?.message}
+              {errors?.[name]?.root?.message}
             </Typography>
           )}
         </Stack>

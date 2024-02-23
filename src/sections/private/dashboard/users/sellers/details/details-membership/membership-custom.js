@@ -1,6 +1,5 @@
 import { LoadingButton } from '@mui/lab';
 import {
-  Box,
   Card,
   CardContent,
   CardHeader,
@@ -13,6 +12,7 @@ import {
 import { enqueueSnackbar } from 'notistack';
 import PropTypes from 'prop-types';
 import { useForm } from 'react-hook-form';
+import { ArrayField } from 'src/components/common/custom-fields';
 import { EmptyState, ErrorState, LoadingState } from 'src/components/common/custom-state';
 import { RHFTextField } from 'src/components/common/hook-form';
 import FormProvider from 'src/components/common/hook-form/form-provider';
@@ -29,6 +29,7 @@ const planId = 'enterprise';
 const defaultValues = {
   price: null,
   features: [],
+  additionalFeatures: [],
 };
 
 // ----------------------------------------------------------------------
@@ -63,16 +64,19 @@ const MembershipCustom = (props) => {
     }
   };
 
+  const isLoading = planResponse?.isLoading || planResponse?.isFetching;
+  const isError = !planResponse?.isLoading && !planResponse?.isFetching && planResponse?.isError;
+  const isSuccess =
+    !planResponse?.isLoading && !planResponse?.isFetching && planResponse?.isSuccess;
+
   return (
     <FormProvider methods={methods} onSubmit={handleSubmit(onSubmit)}>
       <Card>
         <CardHeader title="Customize Membership" />
         <CardContent>
-          {(planResponse?.isLoading || planResponse?.isFetching) && <LoadingState />}
-          {!planResponse?.isLoading && !planResponse?.isFetching && planResponse?.isError && (
-            <ErrorState />
-          )}
-          {!planResponse?.isLoading && !planResponse?.isFetching && planResponse?.isSuccess && (
+          {isLoading && <LoadingState />}
+          {isError && <ErrorState />}
+          {isSuccess && (
             <Stack spacing={1}>
               <RHFTextField
                 name="price"
@@ -85,7 +89,7 @@ const MembershipCustom = (props) => {
                 }}
                 onChangeMiddleware={restrictNegetiveValue}
               />
-              <Box>
+              <Stack spacing={0.5}>
                 <Typography variant="overline" color="text.secondary">
                   Features
                 </Typography>
@@ -109,13 +113,16 @@ const MembershipCustom = (props) => {
                           />
                         }
                         label={f}
+                        key={`${f}-${index}`}
                       />
                     ))
                   ) : (
                     <EmptyState />
                   )}
                 </Stack>
-              </Box>
+
+                <ArrayField defaultExpanded label="Additional Features" name="additionalFeatures" />
+              </Stack>
               <Stack direction="row" mt={1} justifyContent="end">
                 <LoadingButton
                   type="submit"
