@@ -42,7 +42,7 @@ const HeaderContent = (props) => {
         px: 2,
         py: 2,
         borderRadius: 1,
-        mb: 3,
+        mb: 0.5,
       })}
     >
       {!hideBack && (
