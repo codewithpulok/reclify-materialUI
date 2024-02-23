@@ -45,3 +45,6 @@ export { default as SearchFilterDialog } from './search/filter-dialog';
 
 // admin dialog
 export { default as ChangeServiceTypeDialog } from './admin/change-service-type';
+
+// avatar
+export { default as AvatarCrop } from './avatar-crop';

@@ -4,16 +4,32 @@ import { enqueueSnackbar } from 'notistack';
 import PropTypes from 'prop-types';
 import { useCallback } from 'react';
 import { RHFUploadAvatar } from 'src/components/common/hook-form';
+import { useDialog } from 'src/hooks/use-dialog';
 import {
   useFileDeleteByURLMutation,
   useFilesUploadMutation,
 } from 'src/redux-toolkit/services/uploadFilesApi';
+import { AvatarCrop } from '../../custom-dialog';
+
+// ----------------------------------------------------------------------
 
 const Props = {
   sx: PropTypes.object,
   fieldName: PropTypes.string.isRequired,
   label: PropTypes.string.isRequired,
 };
+
+const blobUrlToFile = (blobUrl) =>
+  new Promise((resolve) => {
+    fetch(blobUrl).then((res) => {
+      res.blob().then((blob) => {
+        // please change the file.extension with something more meaningful
+        // or create a utility function to parse from URL
+        const file = new File([blob], 'file.jpeg', { type: blob.type });
+        resolve(file);
+      });
+    });
+  });
 
 // ----------------------------------------------------------------------
 
@@ -23,9 +39,16 @@ const Props = {
  */
 const PhotoField = (props) => {
   const { sx, fieldName, label } = props;
-  const { setValue } = useFormContext();
+
+  // dialog state
+  const cropDialog = useDialog();
+
+  // api state
   const [uploadFile, uploadResults] = useFilesUploadMutation();
   const [deleteFile, deleteResponse] = useFileDeleteByURLMutation();
+
+  // form state
+  const { setValue } = useFormContext();
 
   const handleRemove = useCallback(
     async (_e, imgLink) => {
@@ -69,9 +92,15 @@ const PhotoField = (props) => {
     setValue(fieldName, null, { shouldValidate: true });
   };
 
-  const handleDrop = async (acceptedFiles) => {
+  const handleDrop = (acceptedFiles) => {
     // check file
     const file = acceptedFiles[0];
+    if (!file) return;
+    cropDialog.onOpen(file);
+  };
+
+  const handleUpload = async (blobUrl) => {
+    const file = await blobUrlToFile(blobUrl);
     if (!file) return;
     // handle temp file
     const tempFile = handlePreview(file);
@@ -92,17 +121,27 @@ const PhotoField = (props) => {
       console.warn(`${label} uploaded`, response);
       handleSuccess(data.results[0].link, tempFile.preview);
     }
+
+    cropDialog.onClose();
   };
 
   return (
-    <RHFUploadAvatar
-      name={fieldName}
-      maxSize={3145728}
-      onDrop={handleDrop}
-      sx={sx}
-      disabled={uploadResults?.isLoading || deleteResponse?.isLoading}
-      onDelete={handleRemove}
-    />
+    <>
+      <RHFUploadAvatar
+        name={fieldName}
+        maxSize={3145728}
+        onDrop={handleDrop}
+        sx={sx}
+        disabled={uploadResults?.isLoading || deleteResponse?.isLoading}
+        onDelete={handleRemove}
+      />
+      <AvatarCrop
+        croppedCallback={handleUpload}
+        img={cropDialog.value ? URL.createObjectURL(cropDialog.value) : undefined}
+        open={cropDialog.open}
+        onClose={cropDialog.onClose}
+      />
+    </>
   );
 };
 
