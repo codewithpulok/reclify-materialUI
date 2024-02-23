@@ -7,7 +7,7 @@ import { useDialog } from 'src/hooks/use-dialog';
 // utils
 import { fCurrency, fNumber } from 'src/utils/format-number';
 // components
-import { PurchasePaymentDialog } from 'src/components/common/custom-dialog';
+import { PurchaseDialog } from 'src/components/common/custom-dialog';
 import { WarehouseMonthCard } from 'src/components/warehouse/cards';
 // constants
 import { CUBIC_FEET_PER_PALLET, SQUARE_FEET_PER_PALLET } from 'src/constant/pallet';
@@ -175,7 +175,7 @@ const DetailsBooking = (props) => {
 
   // open payment dialog
   const openPaymentDialog = useCallback(() => {
-    /** @type {import('src/components/common/custom-dialog/purchase-payment-dialog').PurchaseData} */
+    /** @type {import('src/components/common/custom-dialog/purchase-dialog').PurchaseData} */
     const struct = {
       warehouseId: warehouse?.id,
       selectedTerm: selectedMonth,
@@ -429,7 +429,7 @@ const DetailsBooking = (props) => {
         ) : null}
       </Card>
 
-      <PurchasePaymentDialog
+      <PurchaseDialog
         open={paymentDialog.open}
         onClose={paymentDialog.onClose}
         purchaseData={paymentDialog.value}

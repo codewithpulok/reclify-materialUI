@@ -17,7 +17,7 @@ const Props = {
  * @param {Props} props
  * @returns {JSX.Element}
  */
-const PurchasePaymentDialog = (props) => {
+const PurchaseDialog = (props) => {
   const { open, onClose, purchaseData } = props;
 
   const [createPurchase] = useCreatePurchaseMutation();
@@ -66,6 +66,6 @@ const PurchasePaymentDialog = (props) => {
   );
 };
 
-PurchasePaymentDialog.propTypes = Props;
+PurchaseDialog.propTypes = Props;
 
-export default PurchasePaymentDialog;
+export default PurchaseDialog;
