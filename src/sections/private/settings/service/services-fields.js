@@ -27,7 +27,7 @@ const ServiceFields = (props) => {
   const { serviceType } = props;
   const { watch, setValue } = useFormContext();
   const type = watch('type', undefined);
-  const companyName = watch('name', undefined);
+
   const foundedYear = watch('foundedYear');
 
   /** @type {PredefinedField[]} */
@@ -40,8 +40,7 @@ const ServiceFields = (props) => {
           photoLabel="Company Logo"
           photoName="logo"
           bannerName="banner"
-          secondaryText={serviceType?.label}
-          primaryText={companyName}
+          primaryText={serviceType?.label}
         />
       </Grid>
 

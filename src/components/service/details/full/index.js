@@ -12,6 +12,7 @@ import MainContent from './main-content';
 import SidebarContent from './sidebar-content';
 
 const Props = {
+  /** @type {Service} */
   service: PropTypes.object.isRequired,
 };
 
@@ -37,7 +38,9 @@ const ServiceDetails = (props) => {
           <MainContent service={service} seller={seller} />
         </Grid>
         <Grid item xs={12}>
-          <ServiceCustomers />
+          <ServiceCustomers
+            data={Array.isArray(service.customerList) ? service.customerList : []}
+          />
         </Grid>
         <Grid item xs={12} md={6}>
           <Stack spacing={2}>
