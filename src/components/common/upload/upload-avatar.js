@@ -14,7 +14,7 @@ import RejectionFiles from './errors-rejection-files';
 // ----------------------------------------------------------------------
 
 const Props = {
-  disabled: PropTypes.object,
+  disabled: PropTypes.bool,
   error: PropTypes.bool,
   file: PropTypes.oneOfType([PropTypes.string, PropTypes.object]),
   helperText: PropTypes.object,

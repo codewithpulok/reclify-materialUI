@@ -39,28 +39,43 @@ export default function RHFSelect(props) {
       render={({ field, fieldState: { error } }) => (
         <FormControl>
           <InputLabel>{label}</InputLabel>
-          <Select
-            {...field}
-            multiple
-            value={Array.isArray(field.value) ? field.value : []}
-            onChange={(e) => field.onChange(e.target.value)}
-            renderValue={(selected) => (
-              <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 0.5 }}>
-                {selected.map((value) => (
-                  <Chip key={value} label={value} variant="outlined" />
-                ))}
-              </Box>
-            )}
-            input={<OutlinedInput label={label} />}
-            {...other}
-          >
-            {options.map((option) => (
-              <MenuItem key={option.value} value={option.value}>
-                <Checkbox checked={field.value?.indexOf(option.value) > -1} />
-                {option.label}
-              </MenuItem>
-            ))}
-          </Select>
+          {other.multiple ? (
+            <Select
+              {...field}
+              multiple
+              value={Array.isArray(field.value) ? field.value : []}
+              onChange={(e) => field.onChange(e.target.value)}
+              renderValue={(selected) => (
+                <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 0.5 }}>
+                  {selected.map((value) => (
+                    <Chip key={value} label={value} variant="outlined" />
+                  ))}
+                </Box>
+              )}
+              input={<OutlinedInput label={label} />}
+              {...other}
+            >
+              {options.map((option) => (
+                <MenuItem key={option.value} value={option.value}>
+                  <Checkbox checked={field.value?.indexOf(option.value) > -1} />
+                  {option.label}
+                </MenuItem>
+              ))}
+            </Select>
+          ) : (
+            <Select
+              {...field}
+              onChange={(e) => field.onChange(e.target.value)}
+              input={<OutlinedInput label={label} />}
+              {...other}
+            >
+              {options.map((option) => (
+                <MenuItem key={option.value} value={option.value}>
+                  {option.label}
+                </MenuItem>
+              ))}
+            </Select>
+          )}
           <FormHelperText error={!!error}>{error ? error?.message : helperText}</FormHelperText>
         </FormControl>
       )}
