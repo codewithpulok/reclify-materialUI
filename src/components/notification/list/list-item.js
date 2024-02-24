@@ -12,6 +12,7 @@ import NotificationActions from 'src/components/notification/actions';
 import { CircularProgress } from '@mui/material';
 import { fToNow } from 'src/utils/format-time';
 import ICONS from '../icons';
+import NotificationMetadata from '../metadata';
 
 // ----------------------------------------------------------------------
 
@@ -37,14 +38,14 @@ const getNotificationIcon = (type) => {
   }
 };
 
-// ----------------------------------------------------------------------
-
 const Props = {
   /** @type {NotificationType} */
   notification: PropTypes.object,
   onClick: PropTypes.func,
   isLoading: PropTypes.bool,
 };
+
+// ----------------------------------------------------------------------
 
 /**
  * @param {Props} props
@@ -153,6 +154,8 @@ const NotificationListItem = (props) => {
         <Stack direction="row" spacing={0.5}>
           <NotificationActions notification={notification} {...other} />
         </Stack>
+
+        <NotificationMetadata metadata={notification?.meta} type={notification?.type} />
       </Stack>
     </ListItemButton>
   );
