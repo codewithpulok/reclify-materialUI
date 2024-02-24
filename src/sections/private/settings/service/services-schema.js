@@ -3,7 +3,6 @@ import * as Yup from 'yup';
 /** @type {CustomerList} */
 const customerSchema = {
   image: Yup.string()
-    .url()
     .label('Customer image')
     .test({
       name: 'oneOfRequired',

@@ -1,6 +1,7 @@
-import { Avatar, Box, Card, Stack, Typography } from '@mui/material';
+import { Box, Card, Stack, Typography } from '@mui/material';
 import PropTypes from 'prop-types';
 import Carousel, { CarouselArrows, useCarousel } from 'src/components/common/carousel';
+import Image from 'src/components/common/image';
 
 const Props = {
   /** @type {CustomerList[]} */
@@ -63,9 +64,7 @@ const ServiceCustomers = (props) => {
                 alignItems="center"
                 justifyContent="center"
               >
-                {item?.image && (
-                  <Avatar src={item.image} sx={{ width: '100px', height: '100px' }} />
-                )}
+                {item?.image && <Image src={item.image} />}
                 {!item?.image && item?.name && <Typography variant="h5">{item.name}</Typography>}
               </Card>
             </Box>
