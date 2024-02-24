@@ -37,11 +37,11 @@ const ServiceDetails = (props) => {
         <Grid item xs={12} md={6}>
           <MainContent service={service} seller={seller} />
         </Grid>
-        <Grid item xs={12}>
-          <ServiceCustomers
-            data={Array.isArray(service.customerList) ? service.customerList : []}
-          />
-        </Grid>
+        {service.customerList?.length && (
+          <Grid item xs={12}>
+            <ServiceCustomers data={service.customerList} />
+          </Grid>
+        )}
         <Grid item xs={12} md={6}>
           <Stack spacing={2}>
             <ImageCarousel list={service?.photos || []} />

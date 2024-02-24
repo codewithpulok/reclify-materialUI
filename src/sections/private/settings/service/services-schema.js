@@ -4,6 +4,7 @@ import * as Yup from 'yup';
 const customerSchema = {
   image: Yup.string()
     .label('Customer image')
+    .nullable()
     .test({
       name: 'oneOfRequired',
       message: 'Customer Image or Name at least one should provide',
