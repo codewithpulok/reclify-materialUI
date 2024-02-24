@@ -13,70 +13,28 @@ import { alpha } from '@mui/material/styles';
 
 import { useResponsive } from 'src/hooks/use-responsive';
 
+import PropTypes from 'prop-types';
 import { MotionViewport, varFade } from 'src/components/common/animate';
 import { PlanCard } from 'src/components/user-settings/cards';
 import { ScrollTo } from 'src/routes/components';
 
 // ----------------------------------------------------------------------
 
-export default function HomePricing() {
+const Props = {
+  /** @type {Plan[]} */
+  data: PropTypes.array,
+};
+
+// ----------------------------------------------------------------------
+
+/**
+ * @param {Props} props
+ * @returns {JSX.Element}
+ */
+const HomePricing = (props) => {
+  const { data } = props;
   const mdUp = useResponsive('up', 'md');
   const [currentTab, setCurrentTab] = useState('free');
-
-  // api state
-  const plansResponse = {
-    data: {
-      results: [
-        {
-          id: 'free',
-          title: 'Free',
-          features: [
-            'Includes Basic profile',
-            'Unique shareable URL',
-            'Instant messaging tool',
-            'Available space pricing(not for sale on Racklify)',
-            'Adds verfieid badge',
-            'Racklify Rating with shareable badge',
-            'Google Review integration',
-            'Featured above unverified listings',
-            'Unlocked ability to sell space through Racklify',
-          ],
-          price: 0,
-          annualPrice: 0,
-        },
-        {
-          id: 'pro',
-          title: 'Professional',
-          features: [
-            'Includes Free features',
-            'Verified features',
-            'Unlock HotRack deals feature',
-            '1 press release',
-            'SEO Optimized page',
-            'Reporting',
-            'Promoted above Verified',
-            'Multi-Warehouse: +$20/warehouse/month (required if multi-warehouse)',
-          ],
-          price: 125,
-          annualPrice: 100,
-        },
-        {
-          id: 'enterprise',
-          title: 'Enterprise',
-          features: [
-            'include professional features',
-            'Hero Feature',
-            'Direct Advertising',
-            'Press Release',
-            'Account Sales Manager',
-          ],
-          price: 0,
-          annualPrice: 0,
-        },
-      ],
-    },
-    isSuccess: true,
-  };
 
   const handleChangeTab = useCallback((event, newValue) => {
     setCurrentTab(newValue);
@@ -114,7 +72,7 @@ export default function HomePricing() {
             gap: 1.5,
           }}
         >
-          {plansResponse?.data?.results?.map((plan, index) => (
+          {data.map((plan, index) => (
             <m.div
               key={plan.id}
               variants={varFade({ durationIn: Number((0.3 * index + 0.64).toFixed(2)) }).inUp}
@@ -127,7 +85,7 @@ export default function HomePricing() {
         <>
           <Stack alignItems="center" sx={{ mb: 5 }}>
             <Tabs value={currentTab} onChange={handleChangeTab}>
-              {plansResponse?.data?.results?.map((tab) => (
+              {data.map((tab) => (
                 <Tab key={tab.id} value={tab.id} label={tab.title} />
               ))}
             </Tabs>
@@ -139,9 +97,7 @@ export default function HomePricing() {
               border: (theme) => `dashed 1px ${theme.palette.divider}`,
             }}
           >
-            {plansResponse?.data?.results?.map(
-              (plan) => plan.id === currentTab && <PlanCard key={plan.id} plan={plan} />
-            )}
+            {data.map((plan) => plan.id === currentTab && <PlanCard key={plan.id} plan={plan} />)}
           </Box>
         </>
       )}
@@ -160,8 +116,12 @@ export default function HomePricing() {
         <ScrollTo id="PRICING" />
         {renderDescription}
 
-        {!plansResponse?.isLoading && plansResponse?.isSuccess && renderContent}
+        {renderContent}
       </Container>
     </Box>
   );
-}
+};
+
+HomePricing.propTypes = Props;
+
+export default HomePricing;
