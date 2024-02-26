@@ -161,4 +161,10 @@ export const endpoints = {
     root: '/users',
     get: (id) => `/${id}`,
   },
+  payment: {
+    root: '/payment',
+    plans: '/payment/plans',
+    subscription: '/payment/subscription',
+    account_refresh_url: '/payment/stripe/accountRefreshUrl',
+  },
 };

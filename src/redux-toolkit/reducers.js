@@ -13,6 +13,7 @@ import { cardApi } from './services/cardApi';
 import { contactApi } from './services/contactApi';
 import { invoiceApi } from './services/invoiceApi';
 import { notificationApi } from './services/notificationApi';
+import { paymentApi } from './services/paymentApi';
 import { planApi } from './services/planApi';
 import { profileApi } from './services/profileApi';
 import { purchaseApi } from './services/purchaseApi';
@@ -50,6 +51,7 @@ const reducers = combineReducers({
   [billingApi.reducerPath]: billingApi.reducer,
   [notificationApi.reducerPath]: notificationApi.reducer,
   [usersApi.reducerPath]: usersApi.reducer,
+  [paymentApi.reducerPath]: paymentApi.reducer,
 });
 
 export default reducers;
