@@ -69,7 +69,9 @@ const HeaderContent = (props) => {
         <Stack alignItems="start">
           <Typography variant="h2">{service?.name}</Typography>
           <Stack direction="row" spacing={1} alignItems="center" flexWrap="wrap">
-            <Label startIcon={getIconify(serviceType.icon)}>{serviceType?.label}</Label>
+            <Label startIcon={getIconify(serviceType.icon)} color="primary">
+              {serviceType?.label}
+            </Label>
             <Typography variant="body2">{joinAddressObj(service?.address)}</Typography>
           </Stack>
         </Stack>

@@ -3,8 +3,8 @@ import * as Yup from 'yup';
 /** @type {CustomerList} */
 const customerSchema = {
   image: Yup.string()
-    .url()
     .label('Customer image')
+    .nullable()
     .test({
       name: 'oneOfRequired',
       message: 'Customer Image or Name at least one should provide',

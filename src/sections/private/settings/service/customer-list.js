@@ -1,7 +1,13 @@
 import { Button, IconButton, Stack, Typography } from '@mui/material';
+import { enqueueSnackbar } from 'notistack';
 import PropTypes from 'prop-types';
+import { useCallback } from 'react';
 import { useFieldArray, useFormContext } from 'react-hook-form';
-import { RHFAccordion, RHFTextField } from 'src/components/common/hook-form';
+import { RHFAccordion, RHFTextField, RHFUpload } from 'src/components/common/hook-form';
+import {
+  useFileDeleteByURLMutation,
+  useFilesUploadMutation,
+} from 'src/redux-toolkit/services/uploadFilesApi';
 import { ICONS } from '../config-settings';
 
 // ----------------------------------------------------------------------
@@ -65,6 +71,83 @@ const CProps = {
  */
 const CustomerField = (props) => {
   const { onDelete, index } = props;
+
+  const { setValue } = useFormContext();
+  const imageFieldName = `${fieldName}.${index}.image`;
+  const nameFieldName = `${fieldName}.${index}.name`;
+
+  // api state
+  const [uploadFile, uploadResults] = useFilesUploadMutation();
+  const [deleteFile, deleteResponse] = useFileDeleteByURLMutation();
+
+  const handleRemove = useCallback(
+    async (e, imgLink) => {
+      const response = await deleteFile(imgLink);
+      const { error, data } = response;
+
+      // handle error state
+      if (error || data.isError) {
+        console.error('Image Delete Error:', error || data);
+        enqueueSnackbar('Error in deleting Images', { variant: 'error' });
+      }
+
+      // handle success state
+      else if (data && data?.success) {
+        console.log('Image Deleted Successfully: ', response);
+        enqueueSnackbar('Image Deleted successfully');
+      }
+      setValue(imageFieldName, null);
+    },
+    [deleteFile, imageFieldName, setValue]
+  );
+
+  const handlePreview = (file) => {
+    const newFile = {
+      file,
+      preview: URL.createObjectURL(file),
+    };
+
+    setValue(imageFieldName, newFile.preview, { shouldValidate: false });
+
+    return newFile;
+  };
+
+  const handleSuccess = (newUrl, tempUrl) => {
+    URL.revokeObjectURL(tempUrl);
+    console.log({ newUrl });
+    setValue(imageFieldName, newUrl, { shouldValidate: true });
+  };
+
+  const handleError = (tempUrl) => {
+    URL.revokeObjectURL(tempUrl);
+    setValue(imageFieldName, null, { shouldValidate: true });
+  };
+
+  const handleDrop = async (acceptedFiles) => {
+    // check file
+    const file = acceptedFiles[0];
+    if (!file) return;
+    // handle temp file
+    const tempFile = handlePreview(file);
+
+    const response = await uploadFile([tempFile.file]);
+    const { error, data } = response;
+
+    // handle error state
+    if (error || data?.isError) {
+      enqueueSnackbar('Error in uploading logo', { variant: 'error' });
+      console.error('Error in uploading logo:', response);
+      handleError(tempFile.preview);
+    }
+
+    // handle success state
+    else if (data?.success && data?.results?.[0]?.link) {
+      enqueueSnackbar('Logo uploaded');
+      console.warn('Logo uploaded', response);
+      handleSuccess(data.results[0].link, tempFile.preview);
+    }
+  };
+
   return (
     <Stack spacing={0.5}>
       <Stack direction="row" justifyContent="space-between" alignItems="center">
@@ -75,8 +158,16 @@ const CustomerField = (props) => {
           {ICONS.delete()}
         </IconButton>
       </Stack>
-      <RHFTextField name={`${fieldName}.${index}.name`} label="Name" fullWidth />
-      <RHFTextField name={`${fieldName}.${index}.image`} label="Image" fullWidth />
+
+      <RHFTextField name={nameFieldName} label="Name" fullWidth />
+      <RHFUpload
+        name={imageFieldName}
+        maxSize={3145728}
+        onDrop={handleDrop}
+        disabled={uploadResults?.isLoading || deleteResponse?.isLoading}
+        onDelete={handleRemove}
+        placeholderIllustration={false}
+      />
     </Stack>
   );
 };

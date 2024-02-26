@@ -74,6 +74,7 @@ const AvatarField = (props) => {
       onDrop={handleDrop}
       sx={sx}
       disabled={uploadResults?.isLoading}
+      isLoading={uploadResults?.isLoading}
     />
   );
 };

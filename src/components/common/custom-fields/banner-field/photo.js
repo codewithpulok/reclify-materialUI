@@ -133,6 +133,7 @@ const PhotoField = (props) => {
         onDrop={handleDrop}
         sx={sx}
         disabled={uploadResults?.isLoading || deleteResponse?.isLoading}
+        isLoading={uploadResults?.isLoading || deleteResponse?.isLoading}
         onDelete={handleRemove}
       />
       <AvatarCrop

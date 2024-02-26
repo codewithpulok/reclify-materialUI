@@ -7,9 +7,13 @@ import { alpha } from '@mui/material/styles';
 // local components
 import { Card, IconButton } from '@mui/material';
 import { enqueueSnackbar } from 'notistack';
+import { useCallback } from 'react';
 import { useFormContext } from 'react-hook-form';
 import { PLACEHOLDER_PROFILE_BANNER } from 'src/config-global';
-import { useFilesUploadMutation } from 'src/redux-toolkit/services/uploadFilesApi';
+import {
+  useFileDeleteByURLMutation,
+  useFilesUploadMutation,
+} from 'src/redux-toolkit/services/uploadFilesApi';
 import { bgGradient } from 'src/theme/css';
 import { ICONS } from '../config-fields';
 import PhotoField from './photo';
@@ -56,22 +60,31 @@ const BannerField = (props) => {
 
   // api state
   const [uploadFile, uploadResults] = useFilesUploadMutation();
+  const [deleteFile] = useFileDeleteByURLMutation();
 
   // form state
-  const { setValue, watch } = useFormContext();
+  const { setValue, watch, getValues } = useFormContext();
 
   const bannerUrl = watch(bannerName);
 
-  const handlePreview = (file) => {
-    const newFile = {
-      file,
-      preview: URL.createObjectURL(file),
-    };
+  const handlePreview = useCallback(
+    (file) => {
+      const newFile = {
+        file,
+        preview: URL.createObjectURL(file),
+      };
 
-    setValue(bannerName, newFile.preview, { shouldValidate: false });
+      // remove old banner
+      const oldBanner = getValues(bannerName);
+      if (oldBanner) deleteFile(oldBanner);
 
-    return newFile;
-  };
+      // add new banner
+      setValue(bannerName, newFile.preview, { shouldValidate: false });
+
+      return newFile;
+    },
+    [bannerName, deleteFile, getValues, setValue]
+  );
 
   const handleSuccess = (newUrl, tempUrl) => {
     URL.revokeObjectURL(tempUrl);

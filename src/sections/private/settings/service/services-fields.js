@@ -29,6 +29,7 @@ const ServiceFields = (props) => {
   const type = watch('type', undefined);
 
   const foundedYear = watch('foundedYear');
+  const highlights = watch('highlights', '');
 
   /** @type {PredefinedField[]} */
   const subServices = useMemo(() => predefinedServiceFeatures(type), [type]);
@@ -93,7 +94,15 @@ const ServiceFields = (props) => {
           </Grid>
 
           <Grid item xs={12}>
-            <RHFTextField name="highlights" label="Highlights" rows={4} multiline fullWidth />
+            <RHFTextField
+              name="highlights"
+              label="Highlights"
+              rows={4}
+              helperText={`${200 - (highlights?.length || 0)} character left for highlights`}
+              onChangeMiddleware={(v) => (v.length > 200 ? highlights : v)}
+              multiline
+              fullWidth
+            />
           </Grid>
 
           <Grid item xs={12}>

@@ -4,7 +4,6 @@ import { notFound } from 'next/navigation';
 import PropTypes from 'prop-types';
 import { useEffect } from 'react';
 // local component
-import { warehouses } from 'src/assets/dummy';
 import { ErrorState } from 'src/components/common/custom-state';
 import { LoadingScreen } from 'src/components/common/loading-screen';
 import { useLazyWarehouseQuery } from 'src/redux-toolkit/services/warehouseApi';
@@ -27,11 +26,6 @@ const WarehouseCreateView = (props) => {
   }, [getWarehouse, id]);
 
   if (id !== undefined) {
-    // ******** THIS IS FOR TEST PERPOSE ************* // TODO: Remove this
-    if (!result.isLoading && id === 'test') {
-      return <Content warehouse={warehouses[0]} />;
-    }
-
     // if error occured
     if ((result.isError || result.data?.isError) && !id.isLoading) return <ErrorState />;
 
