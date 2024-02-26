@@ -32,6 +32,8 @@ export const authSlice = createSlice({
         state.user.serviceType = action.payload.serviceType;
       if (action.payload?.planId !== undefined) state.user.planId = action.payload.planId;
       if (action.payload?.avatar !== undefined) state.user.avatar = action.payload.avatar;
+      if (action.payload?.stripeAccountCompleteStatus !== undefined)
+        state.user.stripeAccountCompleteStatus = action.payload.stripeAccountCompleteStatus;
     },
   },
 });

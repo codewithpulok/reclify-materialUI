@@ -19,4 +19,5 @@
  * @property {string} serviceType
  * @property {string} serviceType
  * @property {PlanId} planId
+ * @property {boolean} stripeAccountCompleteStatus
  */

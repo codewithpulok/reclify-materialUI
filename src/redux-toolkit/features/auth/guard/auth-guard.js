@@ -26,7 +26,7 @@ AuthGuard.propTypes = {
 // ----------------------------------------------------------------------
 
 function Container({ children }) {
-  const { isAuthenticated } = useAppSelector(selectAuth);
+  const { isAuthenticated, user } = useAppSelector(selectAuth);
   const router = useRouter();
 
   const [checked, setChecked] = useState(false);
@@ -41,9 +41,13 @@ function Container({ children }) {
 
       router.replace(href);
     } else {
+      // if user is seller and haven't complete the stripe account link then redirect to the refresh page
+      if (user?.userType === 'seller' && user?.stripeAccountCompleteStatus === false) {
+        router.replace(paths.auth.refresh);
+      }
       setChecked(true);
     }
-  }, [isAuthenticated, router]);
+  }, [isAuthenticated, router, user]);
 
   useEffect(() => {
     check();

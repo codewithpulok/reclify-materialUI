@@ -163,8 +163,8 @@ export const endpoints = {
   },
   payment: {
     root: '/payment',
-    plans: '/payment/plans',
-    subscription: '/payment/subscription',
-    account_refresh_url: '/payment/stripe/accountRefreshUrl',
+    plans: '/plans',
+    subscription: '/subscription',
+    account_refresh_url: '/stripe/accountRefreshUrl',
   },
 };
