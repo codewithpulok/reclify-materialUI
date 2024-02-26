@@ -7,7 +7,7 @@ import InitAuth from 'src/redux-toolkit/features/auth/init-auth';
 export default function Layout({ children }) {
   return (
     <InitAuth>
-      <AuthGuard>{children}</AuthGuard>
+      <AuthGuard ignoreStripeCompleteStatus>{children}</AuthGuard>
     </InitAuth>
   );
 }
