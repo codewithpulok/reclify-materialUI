@@ -34,6 +34,7 @@ export const paths = {
     forgot_password: `${ROOTS.AUTH}/forgot-password`,
     new_password: `${ROOTS.AUTH}/new-password`,
     email_verify: `${ROOTS.AUTH}/email-verify`,
+    refresh: `${ROOTS.AUTH}/refresh`,
   },
 
   // DASHBOARD

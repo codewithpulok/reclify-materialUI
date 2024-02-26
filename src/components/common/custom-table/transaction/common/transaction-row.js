@@ -76,8 +76,8 @@ const TransactionRow = (props) => {
                 overflow: 'hidden',
                 textOverflow: 'ellipsis',
                 display: '-webkit-box',
-                webkitlineclamp: '1',
-                webkitboxorient: 'vertical',
+                WebkitLineClamp: '1',
+                WebkitBoxOrient: 'vertical',
               }}
             />
           </Stack>
