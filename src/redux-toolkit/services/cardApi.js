@@ -1,6 +1,7 @@
 import { createApi } from '@reduxjs/toolkit/query/react';
 import { endpoints } from 'src/utils/api/client';
 import { publicBaseQuery } from '../utills';
+import { billingApi } from './billingApi';
 
 export const cardApi = createApi({
   reducerPath: 'cardApi',
@@ -30,13 +31,40 @@ export const cardApi = createApi({
           dispatch(
             cardApi.util.updateQueryData('cardList', undefined, (draft) => {
               // if other primary exist the make it false
-              if (data?.results?.isPrimary && draft.results?.length) {
-                const primaryIndex = draft.results.findIndex((d) => d.isPrimary);
+              if (data?.results?.isPrimary && Array.isArray(draft?.results)) {
+                const primaryIndex = draft.results.findIndex((d) => d.isPrimary === true);
                 if (primaryIndex !== -1) draft.results[primaryIndex].isPrimary = false;
               }
-
+              // update the existing array
               if (Array.isArray(draft?.results)) {
                 draft.results?.push(data?.results);
+              }
+            })
+          );
+          // update the cache - in primary
+          dispatch(
+            cardApi.util.updateQueryData('cardPrimary', undefined, (draft) => {
+              // if it's primary then update primary cache
+              if (data?.results?.isPrimary) {
+                draft.results = data?.results;
+                draft.success = true;
+                draft.statusCode = 200;
+                draft.error = undefined;
+                draft.message = undefined;
+              }
+            })
+          );
+          // update the cache - in billing
+          dispatch(
+            billingApi.util.updateQueryData('getBilling', undefined, (draft) => {
+              // if it's primary then update primary cache
+              if (data?.results?.isPrimary) {
+                // draft.results // TODO: ADD THis
+                // draft.results = data?.results;
+                // draft.success = true;
+                // draft.statusCode = 200;
+                // draft.error = undefined;
+                // draft.message = undefined;
               }
             })
           );
@@ -76,6 +104,19 @@ export const cardApi = createApi({
               draft.results = data?.results;
             })
           );
+          // update the primary cache
+          dispatch(
+            cardApi.util.updateQueryData('cardPrimary', undefined, (draft) => {
+              // if it's primary then update primary cache
+              if (data?.results?.isPrimary) {
+                draft.results = data?.results;
+                draft.success = true;
+                draft.statusCode = 200;
+                draft.error = undefined;
+                draft.message = undefined;
+              }
+            })
+          );
         } catch (error) {
           console.error('ERROR: Card Cache update', error);
         }
@@ -89,12 +130,24 @@ export const cardApi = createApi({
       onQueryStarted: async (arg, { dispatch, queryFulfilled }) => {
         try {
           await queryFulfilled;
-
           // update list cache
           dispatch(
             cardApi.util.updateQueryData('cardList', undefined, (draft) => {
               const filtered = draft.results.filter((b) => b.id !== arg);
               draft.results = filtered;
+            })
+          );
+          // update the primary cache
+          dispatch(
+            cardApi.util.updateQueryData('cardPrimary', undefined, (draft) => {
+              // if it's primary then update primary cache
+              if (draft?.results?.id === arg) {
+                draft.results = null;
+                draft.success = false;
+                draft.statusCode = 404;
+                draft.error = undefined;
+                draft.message = undefined;
+              }
             })
           );
         } catch (error) {

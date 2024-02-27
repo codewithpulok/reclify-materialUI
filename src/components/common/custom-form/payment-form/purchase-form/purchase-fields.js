@@ -46,8 +46,9 @@ const PurchaseFormFields = (props) => {
     primaryAch,
   } = props;
 
+  // form states
   const methods = useForm({ defaultValues, resolver: yupResolver(PurchaseSchema) });
-  const { handleSubmit, reset, watch, formState } = methods;
+  const { handleSubmit, watch, formState, setValue } = methods;
   const { isSubmitting } = formState;
 
   const agree = watch('agree', false);
@@ -71,14 +72,19 @@ const PurchaseFormFields = (props) => {
 
   // update primary/default values
   useEffect(() => {
-    const changes = { ...defaultValues };
+    setValue('card', primaryCard);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [primaryCard]);
 
-    if (primaryCard) changes.card = primaryCard;
-    if (primaryAddress) changes.billing_details = primaryAddress;
-    if (primaryAch) changes.ach = primaryAch;
+  useEffect(() => {
+    setValue('billing_details', primaryAddress);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [primaryAddress]);
 
-    reset(changes);
-  }, [primaryCard, primaryAddress, primaryAch, reset]);
+  useEffect(() => {
+    setValue('ach', primaryAch);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [primaryAch]);
 
   return (
     <FormProvider methods={methods} onSubmit={handleSubmit(onSubmit)} onReset={onReset}>

@@ -36,7 +36,7 @@ const PurchaseForm = (props) => {
       achResponse.refetch();
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [user]);
+  }, [user?.id]);
 
   // success state
   if (!infoResponse.isLoading && !cardResponse.isLoading && !achResponse.isLoading) {
