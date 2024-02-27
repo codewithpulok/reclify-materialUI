@@ -81,7 +81,7 @@ const PaymentCardListDialog = (props) => {
       ) {
         return (
           <Stack
-            spacing={0.5}
+            spacing={1}
             sx={{
               p: 2,
               maxHeight: 80 * 8,

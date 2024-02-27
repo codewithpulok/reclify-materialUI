@@ -1,4 +1,4 @@
-import { Tab, Tabs } from '@mui/material';
+import { Stack, Tab, Tabs } from '@mui/material';
 import { useFormContext } from 'react-hook-form';
 import AchField from './ach-field';
 import CardFields from './card-fields';
@@ -24,8 +24,13 @@ const PaymentTypeTab = (props) => {
         <Tab label="Pay By Card" value="CARD" />
       </Tabs>
 
-      {paymentType === 'ACH' && <AchField />}
-      {paymentType === 'CARD' && <CardFields />}
+      <Stack spacing={1} display={paymentType === 'ACH' ? undefined : 'none'}>
+        <AchField />
+      </Stack>
+
+      <Stack spacing={1} display={paymentType === 'CARD' ? undefined : 'none'}>
+        <CardFields />
+      </Stack>
     </>
   );
 };

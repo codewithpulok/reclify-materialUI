@@ -30,13 +30,26 @@ export const achApi = createApi({
           dispatch(
             achApi.util.updateQueryData('achList', undefined, (draft) => {
               // if other primary exist the make it false
-              if (data?.results?.isPrimary && draft.results?.length) {
+              if (data?.results?.isPrimary && Array.isArray(draft?.results)) {
                 const primaryIndex = draft.results.findIndex((d) => d.isPrimary);
                 if (primaryIndex !== -1) draft.results[primaryIndex].isPrimary = false;
               }
 
               if (Array.isArray(draft?.results)) {
                 draft.results?.push(data?.results);
+              }
+            })
+          );
+          // update the primary cache
+          dispatch(
+            achApi.util.updateQueryData('achPrimary', undefined, (draft) => {
+              // if it's primary then update primary cache
+              if (data?.results?.isPrimary) {
+                draft.results = data?.results;
+                draft.success = true;
+                draft.statusCode = 200;
+                draft.error = undefined;
+                draft.message = undefined;
               }
             })
           );
@@ -77,6 +90,19 @@ export const achApi = createApi({
               draft.results = data?.results;
             })
           );
+          // update the primary cache
+          dispatch(
+            achApi.util.updateQueryData('achPrimary', undefined, (draft) => {
+              // if it's primary then update primary cache
+              if (data?.results?.isPrimary) {
+                draft.results = data?.results;
+                draft.success = true;
+                draft.statusCode = 200;
+                draft.error = undefined;
+                draft.message = undefined;
+              }
+            })
+          );
         } catch (error) {
           console.error('ERROR: ACH Cache update', error);
         }
@@ -96,6 +122,17 @@ export const achApi = createApi({
             achApi.util.updateQueryData('achList', undefined, (draft) => {
               const filtered = draft.results.filter((b) => b.id !== arg);
               draft.results = filtered;
+            })
+          );
+          // update the primary cache
+          dispatch(
+            achApi.util.updateQueryData('achPrimary', undefined, (draft) => {
+              // if it's primary then update primary cache
+              if (draft?.results?.id === arg) {
+                draft.results = null;
+                draft.success = false;
+                draft.statusCode = 404;
+              }
             })
           );
         } catch (error) {
