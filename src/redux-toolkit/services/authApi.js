@@ -37,6 +37,8 @@ export const authApi = createApi({
         try {
           const { data } = await queryFulfilled;
           if (data?.isError) throw new Error(data?.message);
+          // if stripe account connect is not complete then don't save user data in session
+          if (data?.results?.data?.stripeAccountCompleteStatus === false) return;
 
           const state = await saveAuthState(data.results?.token, data?.results?.data);
 
@@ -57,6 +59,9 @@ export const authApi = createApi({
         try {
           const { data } = await queryFulfilled;
           if (data?.isError) throw new Error(data?.message);
+          // if stripe account connect is not complete then don't save user data in session
+          if (data?.results?.data?.stripeAccountCompleteStatus === false) return;
+
           const state = await saveAuthState(data.results?.token, data.results?.data);
           dispatch(login(state));
         } catch (error) {

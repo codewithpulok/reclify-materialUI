@@ -1,6 +1,7 @@
 import { createApi } from '@reduxjs/toolkit/query/react';
 import { endpoints } from 'src/utils/api/client';
 import { publicBaseQuery } from '../utills';
+import { billingApi } from './billingApi';
 
 export const cardApi = createApi({
   reducerPath: 'cardApi',
@@ -40,7 +41,7 @@ export const cardApi = createApi({
               }
             })
           );
-          // update the primary cache
+          // update the cache - in primary
           dispatch(
             cardApi.util.updateQueryData('cardPrimary', undefined, (draft) => {
               // if it's primary then update primary cache
@@ -50,6 +51,20 @@ export const cardApi = createApi({
                 draft.statusCode = 200;
                 draft.error = undefined;
                 draft.message = undefined;
+              }
+            })
+          );
+          // update the cache - in billing
+          dispatch(
+            billingApi.util.updateQueryData('getBilling', undefined, (draft) => {
+              // if it's primary then update primary cache
+              if (data?.results?.isPrimary) {
+                // draft.results // TODO: ADD THis
+                // draft.results = data?.results;
+                // draft.success = true;
+                // draft.statusCode = 200;
+                // draft.error = undefined;
+                // draft.message = undefined;
               }
             })
           );
