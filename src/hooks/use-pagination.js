@@ -4,6 +4,8 @@ const usePagination = (data, perPage = 9) => {
   const [currentData, setCurrentData] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
 
+  console.log({ data });
+
   const totalPages = useMemo(() => {
     if (!data || !Array.isArray(data)) return 0;
     const listLength = data.length;
