@@ -66,6 +66,7 @@ export default function NotificationsPopover() {
 
   // api state
   const notificationResponse = useGetNotificationsQuery();
+  const isLoading = notificationResponse?.isLoading || notificationResponse.isFetching;
   const totalUnRead = useMemo(
     () => (notificationResponse?.data?.results || []).filter((n) => n?.isRead === false).length,
     [notificationResponse?.data?.results]
@@ -163,7 +164,11 @@ export default function NotificationsPopover() {
         color={drawer.value ? 'primary' : 'default'}
         onClick={drawer.onTrue}
       >
-        <Badge badgeContent={totalUnRead} color="error">
+        <Badge
+          badgeContent={isLoading ? undefined : totalUnRead}
+          variant={isLoading ? 'dot' : 'standard'}
+          color="error"
+        >
           <Iconify icon="solar:bell-bing-bold-duotone" width={24} />
         </Badge>
       </IconButton>
