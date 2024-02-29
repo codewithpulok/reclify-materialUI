@@ -1,5 +1,6 @@
 import { LoadingButton } from '@mui/lab';
 import { Stack } from '@mui/material';
+import { enqueueSnackbar } from 'notistack';
 import { useCallback } from 'react';
 import { useFormContext } from 'react-hook-form';
 import { EmptyState } from 'src/components/common/custom-state';
@@ -20,7 +21,7 @@ const ServiceReviews = (props) => {
   const [getReviews, reviewsResponse] = useAddressGoogleReviewsMutation();
 
   // form state
-  const { watch } = useFormContext();
+  const { watch, setValue } = useFormContext();
   const address = watch('address');
   const reviews = watch('reviews', []);
 
@@ -30,8 +31,21 @@ const ServiceReviews = (props) => {
   // fetch reviews
   const getReviewsHandler = useCallback(async () => {
     const response = await getReviews(joinAddressObj(address));
-    console.log(response);
-  }, [address, getReviews]);
+    const { data, error } = response;
+
+    // handle error state
+    if (error || data.isError) {
+      enqueueSnackbar('Error in importing reviews', { variant: 'error' });
+      console.error('Error: Import Reviews', response);
+    }
+    // handle success state
+    else if (data.success) {
+      enqueueSnackbar('Successfully imported reviews');
+      console.warn('Reviews Imported:', response);
+      setValue('reviews', data?.results || []);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [address]);
 
   return (
     <Stack alignItems="end">
