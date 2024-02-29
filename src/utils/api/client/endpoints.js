@@ -7,6 +7,7 @@ export const endpoints = {
     root: '/auth',
     login: `/login`,
     signup: `/signup`,
+    refresh: `${PUBLIC_BACKEND_API}/auth/refresh`,
     password: {
       change: '/update-password',
       forgot: '/forgot-password',

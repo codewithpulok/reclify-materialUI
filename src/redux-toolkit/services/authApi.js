@@ -11,8 +11,15 @@ export const authApi = createApi({
     initAuth: builder.mutation({
       queryFn: async () => {
         try {
-          const authstate = await getAuthState();
-          return { data: authstate };
+          const authState = await getAuthState();
+          const response = await fetch(endpoints.auth.refresh, {
+            method: 'POST',
+            headers: {
+              authorization: `Bearer ${authState?.token}`,
+            },
+          });
+          const data = await response.json();
+          return { data };
         } catch (error) {
           return { error: error?.message };
         }
@@ -20,7 +27,10 @@ export const authApi = createApi({
       onQueryStarted: async (arg, { dispatch, queryFulfilled }) => {
         try {
           const { data } = await queryFulfilled;
-          dispatch(login(data));
+          if (data?.isError) throw new Error(data?.message);
+
+          const state = await saveAuthState(data.results?.token, data?.results?.data);
+          dispatch(login(state));
         } catch (error) {
           await removeAuthState();
           dispatch(logout());
@@ -37,11 +47,8 @@ export const authApi = createApi({
         try {
           const { data } = await queryFulfilled;
           if (data?.isError) throw new Error(data?.message);
-          // if stripe account connect is not complete then don't save user data in session
-          if (data?.results?.data?.stripeAccountCompleteStatus === false) return;
 
           const state = await saveAuthState(data.results?.token, data?.results?.data);
-
           dispatch(login(state));
         } catch (error) {
           console.error(error);
@@ -59,8 +66,6 @@ export const authApi = createApi({
         try {
           const { data } = await queryFulfilled;
           if (data?.isError) throw new Error(data?.message);
-          // if stripe account connect is not complete then don't save user data in session
-          if (data?.results?.data?.stripeAccountCompleteStatus === false) return;
 
           const state = await saveAuthState(data.results?.token, data.results?.data);
           dispatch(login(state));

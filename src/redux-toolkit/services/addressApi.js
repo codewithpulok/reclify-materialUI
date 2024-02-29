@@ -36,12 +36,13 @@ export const addressApi = createApi({
         url: endpoints.address.get(id),
       }),
     }),
-    addressGoogleReviews: builder.query({
+    addressGoogleReviews: builder.mutation({
       query: (address) => ({
         url: endpoints.address.google_reviews,
         body: {
           address,
         },
+        method: 'POST',
       }),
     }),
   }),
@@ -55,6 +56,5 @@ export const {
   useAddressUpdateMutation,
   useLazyAddressGetQuery,
   useLazyAddressSearchQuery,
-  useAddressGoogleReviewsQuery,
-  useLazyAddressGoogleReviewsQuery,
+  useAddressGoogleReviewsMutation,
 } = addressApi;

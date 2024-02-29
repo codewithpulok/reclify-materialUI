@@ -5,7 +5,7 @@ import { useFormContext } from 'react-hook-form';
 import { EmptyState } from 'src/components/common/custom-state';
 import { RHFAccordion } from 'src/components/common/hook-form';
 import { WarehouseReviewCard } from 'src/components/warehouse/cards';
-import { useLazyAddressGoogleReviewsQuery } from 'src/redux-toolkit/services/addressApi';
+import { useAddressGoogleReviewsMutation } from 'src/redux-toolkit/services/addressApi';
 import { checkValidAddress, joinAddressObj } from 'src/utils/address';
 import { ICONS } from '../../config-warehouse';
 
@@ -17,7 +17,7 @@ const Props = {};
  */
 const WarehouseReviews = (props) => {
   // api state
-  const [getReviews, reviewsResponse] = useLazyAddressGoogleReviewsQuery();
+  const [getReviews, reviewsResponse] = useAddressGoogleReviewsMutation();
 
   // form state
   const { watch } = useFormContext();
