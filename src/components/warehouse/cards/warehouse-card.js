@@ -10,7 +10,6 @@ import {
   Tooltip,
   Typography,
 } from '@mui/material';
-import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import PropTypes from 'prop-types';
 // redux
@@ -22,6 +21,7 @@ import { paths } from 'src/routes/paths';
 import Image from 'src/components/common/image';
 import Label from 'src/components/common/label';
 // utils
+import { RouterLink } from 'src/routes/components';
 import { joinAddressObj } from 'src/utils/address';
 import { getPrimaryPhoto } from 'src/utils/photos';
 import WarehouseAdminMenu from '../common/warehouse-admin-menu';
@@ -117,8 +117,8 @@ const WarehouseCard = (props) => {
                     overflow: 'hidden',
                     textOverflow: 'ellipsis',
                     display: '-webkit-box',
-                    '-webkit-line-clamp': '2',
-                    '-webkit-box-orient': 'vertical',
+                    WebkitLineClamp: '2',
+                    WebkitBoxOrient: 'vertical',
                     maxHeight: isSm ? '38px' : '44px',
                     height: isSm ? '38px' : '44px',
                     fontSize: isSm ? '12px' : undefined,
@@ -188,19 +188,29 @@ const WarehouseCard = (props) => {
         {/* if seller user has access to the operation then show controls */}
         {hasControl && (
           <Box sx={{ bgcolor: 'grey.100', borderRadius: 5, transition: '0.3s' }}>
-            <Link href={`${paths.dashboard.warehouses.create}?clone=${warehouse.id}`}>
-              <IconButton size="small" color="primary">
-                {ICONS.duplicate()}
-              </IconButton>
-            </Link>
-            <Link href={`${paths.dashboard.warehouses.edit}/${warehouse.id}`}>
-              <IconButton size="small" color="warning">
-                {ICONS.edit()}
-              </IconButton>
-            </Link>
-            <IconButton size="small" color="error" onClick={onDelete}>
-              {ICONS.delete()}
+            <IconButton
+              size="small"
+              color="primary"
+              LinkComponent={RouterLink}
+              href={paths.dashboard.warehouses.clone(warehouse?.id)}
+            >
+              {ICONS.duplicate()}
             </IconButton>
+
+            <IconButton
+              size="small"
+              color="warning"
+              LinkComponent={RouterLink}
+              href={paths.dashboard.warehouses.edit(warehouse?.id)}
+            >
+              {ICONS.edit()}
+            </IconButton>
+
+            {!!onDelete && (
+              <IconButton size="small" color="error" onClick={() => onDelete(warehouse?.id)}>
+                {ICONS.delete()}
+              </IconButton>
+            )}
           </Box>
         )}
 

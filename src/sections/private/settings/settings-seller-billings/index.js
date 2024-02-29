@@ -23,7 +23,7 @@ const SettingsSellerBillings = (props) => {
       billingResponse.refetch();
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [user]);
+  }, [user?.id]);
 
   return (
     <Grid container spacing={3} disableEqualOverflow>

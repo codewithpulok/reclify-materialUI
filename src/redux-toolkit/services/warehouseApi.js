@@ -49,7 +49,7 @@ export const warehouseApi = createApi({
             })
           );
         } catch (error) {
-          // console.log("Warehouse Create API Error: ", error);
+          console.log('Error: Warehouse Cache Update:', error);
         }
       },
     }),
@@ -85,7 +85,7 @@ export const warehouseApi = createApi({
             })
           );
         } catch (error) {
-          console.log('Warehouse Update API Error: ', error);
+          console.log('Error: Warehouse Cache Update:', error);
         }
       },
     }),
@@ -113,7 +113,7 @@ export const warehouseApi = createApi({
             })
           );
         } catch (error) {
-          // console.log("Warehouse Update API Error: ", error);
+          console.log('Error: Warehouse Cache Update:', error);
         }
       },
     }),

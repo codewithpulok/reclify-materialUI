@@ -8,12 +8,12 @@ import Stack from '@mui/material/Stack';
 import PropTypes from 'prop-types';
 
 import { useMemo } from 'react';
-import { getTransactionStatusColor } from 'src/assets/dummy';
+
 import Label from 'src/components/common/label';
 import Scrollbar from 'src/components/common/scrollbar';
 import { AmountDetailsCard, WarehouseDetailsCard } from 'src/components/user-settings/cards';
 import { UserDetailsCard } from 'src/components/users/cards';
-import { getTransactionStatusLabel } from 'src/constant/transaction';
+import { getTransactionStatusColor, getTransactionStatusLabel } from 'src/constant/transaction';
 import { ICONS } from '../../icons';
 
 const Props = {

@@ -1,6 +1,7 @@
-import { Grid, Typography } from '@mui/material';
+import { Grid, Link, Typography } from '@mui/material';
 import PropTypes from 'prop-types';
 import { useMemo } from 'react';
+import { RouterLink } from 'src/routes/components';
 import { ServiceDetailsBox } from '../../box';
 
 const Props = {
@@ -29,7 +30,11 @@ const ServiceInfo = (props) => {
       },
       {
         label: 'Website',
-        value: service?.website,
+        value: (
+          <Link component={RouterLink} target="_blank" href={service?.website}>
+            {service?.website}
+          </Link>
+        ),
       },
     ],
     [service]
@@ -48,8 +53,7 @@ const ServiceInfo = (props) => {
               </Grid>
               <Grid item xs={12} sm={7}>
                 <Typography variant="body2" color="text.secondary">
-                  {field.value === null && '-'}
-                  {field.value && field.value}
+                  {field.value}
                 </Typography>
               </Grid>
             </Grid>

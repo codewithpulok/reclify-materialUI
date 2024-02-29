@@ -13,6 +13,7 @@ import {
 } from 'src/components/common/custom-fields';
 import { RHFDatePicker, RHFTextField } from 'src/components/common/hook-form';
 import Label from 'src/components/common/label';
+import WarehouseReviews from '../../dashboard/warehouses/(seller)/common/warehouse-reviews';
 import CustomerList from './customer-list';
 
 const Props = {
@@ -56,9 +57,7 @@ const ServiceFields = (props) => {
           <Grid item xs={12}>
             <RHFTextField name="website" label="Website" type="url" fullWidth />
           </Grid>
-          <Grid item xs={12}>
-            <CustomerList />
-          </Grid>
+
           <Grid item xs={12}>
             <RHFTextField
               name="businessSize"
@@ -90,7 +89,7 @@ const ServiceFields = (props) => {
           </Grid>
 
           <Grid item xs={12}>
-            <RHFTextField name="promoCode" label="Promo Code" fullWidth />
+            <RHFTextField name="promoCode" label="Promotion" fullWidth />
           </Grid>
 
           <Grid item xs={12}>
@@ -110,8 +109,7 @@ const ServiceFields = (props) => {
           </Grid>
 
           <Grid item xs={12}>
-            <Label sx={{ mb: 1 }}>Photos</Label>
-            <PhotosUploadField name="photos" />
+            <CustomerList />
           </Grid>
         </Grid>
       </Grid>
@@ -130,6 +128,15 @@ const ServiceFields = (props) => {
 
           <Grid item xs={12}>
             <ArrayField name="keyFeatures" label="Key Features" defaultExpanded />
+          </Grid>
+
+          <Grid item xs={12}>
+            <Label sx={{ mb: 1 }}>Photos</Label>
+            <PhotosUploadField name="photos" />
+          </Grid>
+
+          <Grid item xs={12} mt={1}>
+            <WarehouseReviews />
           </Grid>
         </Grid>
       </Grid>

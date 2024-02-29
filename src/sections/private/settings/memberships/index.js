@@ -22,16 +22,12 @@ import {
   useTable,
 } from 'src/components/common/table';
 
-import {
-  getAllMemberships,
-  getPlanSubscriptionColor,
-  PLAN_SUBSCRIPTION_OPTIONS,
-} from 'src/assets/dummy';
+import { getPlanColor, PLAN_OPTIONS } from 'src/constant/plan';
 import TransactionTableRow from './table-row';
 
 // ----------------------------------------------------------------------
 
-const STATUS_OPTIONS = [{ value: 'all', label: 'All' }, ...PLAN_SUBSCRIPTION_OPTIONS];
+const STATUS_OPTIONS = [{ value: 'all', label: 'All' }, ...PLAN_OPTIONS];
 
 const TABLE_HEAD = [
   { id: 'seller', label: 'Seller' },
@@ -46,7 +42,7 @@ const defaultFilters = {
 // ----------------------------------------------------------------------
 
 const Memberships = () => {
-  const memberships = getAllMemberships();
+  const memberships = [];
   const table = useTable({ defaultOrderBy: 'createdAt' });
   const [tableData] = useState(memberships);
 
@@ -92,7 +88,7 @@ const Memberships = () => {
               variant={
                 ((tab.value === 'all' || tab.value === filters.status) && 'filled') || 'soft'
               }
-              color={getPlanSubscriptionColor(tab.value)}
+              color={getPlanColor(tab.value)}
             >
               {tab.value === 'all' && tableData.length}
               {

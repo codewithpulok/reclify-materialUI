@@ -7,6 +7,7 @@ export const endpoints = {
     root: '/auth',
     login: `/login`,
     signup: `/signup`,
+    refresh: `${PUBLIC_BACKEND_API}/auth/refresh`,
     password: {
       change: '/update-password',
       forgot: '/forgot-password',
@@ -38,6 +39,7 @@ export const endpoints = {
     update: '/',
     get: (id) => `/${id}`,
     delete: (id) => `/${id}`,
+    google_reviews: `/google-reviews`,
   },
   file_upload: {
     root: '/file-upload',

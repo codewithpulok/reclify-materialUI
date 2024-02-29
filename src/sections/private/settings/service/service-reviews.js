@@ -8,7 +8,7 @@ import { RHFAccordion } from 'src/components/common/hook-form';
 import { WarehouseReviewCard } from 'src/components/warehouse/cards';
 import { useAddressGoogleReviewsMutation } from 'src/redux-toolkit/services/addressApi';
 import { checkValidAddress, joinAddressObj } from 'src/utils/address';
-import { ICONS } from '../../config-warehouse';
+import { ICONS } from '../config-settings';
 
 const Props = {};
 
@@ -16,7 +16,7 @@ const Props = {};
  * @param {Props} props
  * @returns {JSX.Element}
  */
-const WarehouseReviews = (props) => {
+const ServiceReviews = (props) => {
   // api state
   const [getReviews, reviewsResponse] = useAddressGoogleReviewsMutation();
 
@@ -82,6 +82,6 @@ const WarehouseReviews = (props) => {
   );
 };
 
-WarehouseReviews.propTypes = Props;
+ServiceReviews.propTypes = Props;
 
-export default WarehouseReviews;
+export default ServiceReviews;

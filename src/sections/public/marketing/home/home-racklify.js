@@ -7,10 +7,9 @@ import Container from '@mui/material/Container';
 import Stack from '@mui/material/Stack';
 import Typography from '@mui/material/Typography';
 
-import { Box, Grid, alpha } from '@mui/material';
+import { Box, Grid } from '@mui/material';
 import { MotionViewport, varFade } from 'src/components/common/animate';
 import Image from 'src/components/common/image';
-import { bgGradient } from 'src/theme/css';
 
 // ----------------------------------------------------------------------
 
@@ -57,18 +56,7 @@ const CARDS = [
 
 export default function HomeRacklify() {
   return (
-    <Box
-      sx={(theme) => ({
-        py: { xs: 10, md: 15 },
-        ...bgGradient({
-          color: alpha(
-            theme.palette.background.default,
-            theme.palette.mode === 'light' ? 0.8 : 0.94
-          ),
-          imgUrl: '/assets/images/home/how.jpg',
-        }),
-      })}
-    >
+    <Box sx={{ py: { xs: 10, md: 15 } }}>
       <Container component={MotionViewport}>
         <Stack
           spacing={3}

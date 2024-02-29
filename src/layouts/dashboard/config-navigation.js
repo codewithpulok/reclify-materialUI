@@ -152,15 +152,17 @@ export function useNavData() {
       {
         type: 'DIVIDER',
       },
-      {
-        title: 'Messages',
-        path: paths.dashboard.messages.root,
-        icon: ICONS.messages(),
-      },
+
       // not admin route
       ...(user?.userType !== 'admin' ? notAdminRoutes : []),
       // admin routes
       ...(user?.userType === 'admin' ? adminRoutes : []),
+
+      // {
+      //   title: 'Messages',
+      //   path: paths.dashboard.messages.root,
+      //   icon: ICONS.messages(),
+      // },
     ],
     [adminRoutes, adminWarehouseRoutes, notAdminRoutes, user?.userType]
   );
