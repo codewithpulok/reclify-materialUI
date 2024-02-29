@@ -158,11 +158,11 @@ export function useNavData() {
       // admin routes
       ...(user?.userType === 'admin' ? adminRoutes : []),
 
-      {
-        title: 'Messages',
-        path: paths.dashboard.messages.root,
-        icon: ICONS.messages(),
-      },
+      // {
+      //   title: 'Messages',
+      //   path: paths.dashboard.messages.root,
+      //   icon: ICONS.messages(),
+      // },
     ],
     [adminRoutes, adminWarehouseRoutes, notAdminRoutes, user?.userType]
   );

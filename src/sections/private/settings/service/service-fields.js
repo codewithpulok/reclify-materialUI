@@ -3,7 +3,6 @@ import { useMemo } from 'react';
 import { useFormContext } from 'react-hook-form';
 import { predefinedServiceFeatures } from 'src/assets/data/predefined-fields/service';
 // local components
-import { Button, Stack } from '@mui/material';
 import PropTypes from 'prop-types';
 import {
   AddressField,
@@ -14,9 +13,7 @@ import {
 } from 'src/components/common/custom-fields';
 import { RHFDatePicker, RHFTextField } from 'src/components/common/hook-form';
 import Label from 'src/components/common/label';
-import { checkValidAddress } from 'src/utils/address';
 import WarehouseReviews from '../../dashboard/warehouses/(seller)/common/warehouse-reviews';
-import { ICONS } from '../config-settings';
 import CustomerList from './customer-list';
 
 const Props = {
@@ -34,14 +31,9 @@ const ServiceFields = (props) => {
 
   const foundedYear = watch('foundedYear');
   const highlights = watch('highlights', '');
-  const address = watch('address');
-  const reviews = watch('reviews', []);
 
   /** @type {PredefinedField[]} */
   const subServices = useMemo(() => predefinedServiceFeatures(type), [type]);
-
-  // conditional state
-  const isImportable = checkValidAddress(address);
 
   return (
     <Grid container spacing={1.5}>
@@ -97,7 +89,7 @@ const ServiceFields = (props) => {
           </Grid>
 
           <Grid item xs={12}>
-            <RHFTextField name="promoCode" label="Promotion Code" fullWidth />
+            <RHFTextField name="promoCode" label="Promotion" fullWidth />
           </Grid>
 
           <Grid item xs={12}>
@@ -144,18 +136,7 @@ const ServiceFields = (props) => {
           </Grid>
 
           <Grid item xs={12} mt={1}>
-            <Stack alignItems="end">
-              <Button
-                disabled={!isImportable}
-                variant="outlined"
-                size="small"
-                sx={{ mb: 1, ml: 'auto' }}
-                endIcon={ICONS.import()}
-              >
-                Import Reviews
-              </Button>
-              <WarehouseReviews list={reviews || []} />
-            </Stack>
+            <WarehouseReviews />
           </Grid>
         </Grid>
       </Grid>

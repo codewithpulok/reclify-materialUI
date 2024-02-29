@@ -1,5 +1,6 @@
 import { Typography } from '@mui/material';
 import PropTypes from 'prop-types';
+import { WarehouseDetailsBox } from '../../box';
 
 const Props = {
   highlights: PropTypes.string,
@@ -8,7 +9,6 @@ const Props = {
 };
 
 /**
- *  Warehouse description
  * @param {Props} props
  * @returns
  */
@@ -16,9 +16,11 @@ const DetailsHighlights = (props) => {
   const { highlights, sx = {} } = props;
 
   return (
-    <Typography sx={{ fontStyle: 'italic', fontWeight: 'normal', fontSize: 22, ...sx }}>
-      {highlights}
-    </Typography>
+    <WarehouseDetailsBox title="Highlights" sx={sx}>
+      <Typography sx={{ fontStyle: 'italic', fontWeight: 'normal', fontSize: 22 }}>
+        {highlights}
+      </Typography>
+    </WarehouseDetailsBox>
   );
 };
 

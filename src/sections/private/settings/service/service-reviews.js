@@ -58,7 +58,7 @@ const ServiceReviews = (props) => {
         onClick={getReviewsHandler}
         loading={reviewsResponse.isLoading}
       >
-        Import Reviews
+        Import Google Reviews
       </LoadingButton>
       <RHFAccordion label="Reviews" defaultExpanded name="reviews" sx={{ width: 1 }}>
         {reviews?.length ? (

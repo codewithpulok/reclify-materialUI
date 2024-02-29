@@ -20,8 +20,8 @@ export const joinAddressObj = (address) => {
  * @param {Address} address
  */
 export const checkValidAddress = (address) => {
-  if (!address?.street2) return false;
-  if (!address?.street1) return false;
+  // if (!address?.street2) return false; // street address & number is not required
+  // if (!address?.street1) return false;
   if (!address?.zipCode) return false;
   if (!address?.city) return false;
   if (!address?.state) return false;
