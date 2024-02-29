@@ -33,4 +33,7 @@ export const ICONS = {
   uploading: getIconifyFunc('line-md:uploading-loop'),
 
   delete: getIconifyFunc('solar:trash-bin-2-bold-duotone'),
+
+  review: getIconifyFunc('solar:chat-round-like-broken'),
+  import: getIconifyFunc('solar:import-bold-duotone'),
 };
