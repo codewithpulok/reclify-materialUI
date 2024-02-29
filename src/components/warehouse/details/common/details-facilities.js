@@ -26,30 +26,34 @@ const DetailsFacilities = (props) => {
   return (
     <WarehouseDetailsBox sx={sx} title="Facilities">
       <Grid container sx={{ rowGap: { xs: 1.3, sm: 1 } }}>
-        {values.map((field) => (
-          <Grid item container key={field.key} xs={12} spacing={0.2}>
-            <Grid item xs={12} sm={6}>
-              <Stack direction="row" alignItems="center" spacing={1}>
-                {field?.icon ? getIconify(field.icon, 16) : '-'}
+        {values.map((field) => {
+          if (!field.value) return null;
 
-                <Typography variant="subtitle2">{field.label}</Typography>
-              </Stack>
-            </Grid>
-            <Grid item xs={12} sm={6}>
-              <Typography variant="body2" color="text.secondary">
-                {field.value === null && '-'}
+          return (
+            <Grid item container key={field.key} xs={12} spacing={0.2}>
+              <Grid item xs={12} sm={6}>
+                <Stack direction="row" alignItems="center" spacing={1}>
+                  {field?.icon ? getIconify(field.icon, 16) : '-'}
 
-                {field.value && (
-                  <>
-                    {field?.startText && `${field.startText} `}
-                    {field.value}
-                    {field?.endText && ` ${field.endText}`}
-                  </>
-                )}
-              </Typography>
+                  <Typography variant="subtitle2">{field.label}</Typography>
+                </Stack>
+              </Grid>
+              <Grid item xs={12} sm={6}>
+                <Typography variant="body2" color="text.secondary">
+                  {field.value === null && '-'}
+
+                  {field.value && (
+                    <>
+                      {field?.startText && `${field.startText} `}
+                      {field.value}
+                      {field?.endText && ` ${field.endText}`}
+                    </>
+                  )}
+                </Typography>
+              </Grid>
             </Grid>
-          </Grid>
-        ))}
+          );
+        })}
       </Grid>
     </WarehouseDetailsBox>
   );

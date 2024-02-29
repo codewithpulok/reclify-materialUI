@@ -16,14 +16,14 @@ import { EmptyState } from '../../custom-state';
 import { RHFAccordion } from '../../hook-form';
 import { ICONS } from '../config-fields';
 
-const ArrayFieldProps = {
+const Props = {
   name: PropTypes.string.isRequired,
   label: PropTypes.string.isRequired,
   defaultExpanded: PropTypes.bool,
 };
 
 /**
- * @param {ArrayFieldProps} props
+ * @param {Props} props
  * @returns {JSX.Element}
  */
 const ArrayField = (props) => {
@@ -100,6 +100,6 @@ const ArrayField = (props) => {
   );
 };
 
-ArrayField.propTypes = ArrayFieldProps;
+ArrayField.propTypes = Props;
 
 export default ArrayField;

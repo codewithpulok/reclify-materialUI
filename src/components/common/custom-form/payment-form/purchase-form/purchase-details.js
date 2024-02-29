@@ -6,7 +6,7 @@ import PropTypes from 'prop-types';
 import { fCurrency, fNumber } from 'src/utils/format-number';
 
 const Props = {
-  /** @type {import('src/components/common/custom-dialog/purchase-payment-dialog').PurchaseData} */
+  /** @type {import('src/components/common/custom-dialog/purchase-dialog').PurchaseData} */
   purchaseData: PropTypes.object,
   /** @type {SxProps} */
   sx: PropTypes.object,

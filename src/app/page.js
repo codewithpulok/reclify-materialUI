@@ -1,4 +1,5 @@
 import HomeView from 'src/sections/public/marketing/home/view';
+import { getAllPlans } from 'src/utils/api/server/services/plans.api';
 // ----------------------------------------------------------------------
 
 export const metadata = {
@@ -6,5 +7,7 @@ export const metadata = {
 };
 
 export default async function HomePage() {
-  return <HomeView />;
+  const plans = await getAllPlans();
+
+  return <HomeView plans={plans?.results || []} />;
 }

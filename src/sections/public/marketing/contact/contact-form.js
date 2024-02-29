@@ -81,7 +81,7 @@ export default function ContactForm(props) {
 
   return (
     <FormProvider methods={methods} onSubmit={handleSubmit(onSubmit)}>
-      <Stack component={MotionViewport} spacing={5} id="FORM" sx={{ scrollMarginTop: '100px' }}>
+      <Stack component={MotionViewport} spacing={5} sx={{ scrollMarginTop: '100px' }}>
         <Stack spacing={3}>
           <m.div variants={varFade().inUp}>
             <RHFTextField {...textFieldProps} name="name" fullWidth label="Name" />

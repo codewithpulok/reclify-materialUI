@@ -51,19 +51,23 @@ const RegisterView = (props) => {
       console.log('Register: ', values);
 
       // call some api to register
-      const response = await handleRegister(values);
+      const response = await handleRegister({ ...values, return_url: returnTo });
       const { data, error } = response;
 
       // handle error
       if (error || data?.isError) {
-        console.error('Register Failed: ', error || data?.message);
+        console.error('Register Failed:', error || data?.message);
         setApiError(error?.data?.message || data?.message);
         resetField('password');
       }
 
       // handle success
       if (data?.success) {
-        console.info('Register Success: ', data);
+        console.warn('Register Success:', data);
+        if (data?.results?.data?.stripeAccountLink?.url) {
+          window.open(data?.results?.data?.stripeAccountLink?.url, '_self', 'noopener,noreferrer');
+          return;
+        }
         router.push(returnTo);
       }
     },

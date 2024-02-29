@@ -1,5 +1,5 @@
 import { LoadingButton } from '@mui/lab';
-import { IconButton, InputAdornment, Link, Stack } from '@mui/material';
+import { Alert, IconButton, InputAdornment, Link, Stack } from '@mui/material';
 import { useFormContext } from 'react-hook-form';
 import { RHFTextField } from 'src/components/common/hook-form';
 import Iconify from 'src/components/common/iconify';
@@ -12,13 +12,20 @@ const PasswordFields = (props) => {
   const password = useBoolean();
 
   // form states
-  const { formState } = useFormContext();
+  const { formState, watch } = useFormContext();
   const { isSubmitting } = formState;
+  const token = watch('token');
 
   return (
-    <Stack spacing={3} alignItems="center">
+    <Stack spacing={1} alignItems="center">
+      {!token && (
+        <Alert sx={{ width: 1, mb: 2 }} severity="error">
+          Invalid password reset token
+        </Alert>
+      )}
+
       <RHFTextField
-        name="password"
+        name="newPassword"
         label="Password"
         type={password.value ? 'text' : 'password'}
         InputProps={{
@@ -55,6 +62,8 @@ const PasswordFields = (props) => {
         type="submit"
         variant="contained"
         loading={isSubmitting}
+        disabled={!token}
+        sx={{ mt: 1 }}
       >
         Update Password
       </LoadingButton>

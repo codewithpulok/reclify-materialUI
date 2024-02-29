@@ -40,10 +40,7 @@ const MembershipHistory = (props) => {
         </TableHead>
         <TableBody>
           {membershipHistory.map((row) => (
-            <TableRow
-              key={row?.createdAt}
-              sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
-            >
+            <TableRow key={row?.id} sx={{ '&:last-child td, &:last-child th': { border: 0 } }}>
               <TableCell component="th" scope="row" sx={{ textTransform: 'capitalize' }}>
                 {row?.planId}
               </TableCell>

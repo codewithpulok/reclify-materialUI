@@ -40,6 +40,7 @@ const ServiceCard = (props) => {
           <Image src={thumbnail} ratio="16/9" />
         </Box>
         <CardContent sx={{ position: 'relative' }}>
+          <Typography variant="h5">{service.name}</Typography>
           <Typography
             variant="body2"
             color="text.secondary"
@@ -47,8 +48,8 @@ const ServiceCard = (props) => {
               overflow: 'hidden',
               textOverflow: 'ellipsis',
               display: '-webkit-box',
-              webkitlineclamp: '1',
-              webkitboxorient: 'vertical',
+              WebkitLineClamp: '2',
+              WebkitBoxOrient: 'vertical',
             }}
           >
             {service.description}
@@ -81,8 +82,8 @@ export const ServiceCardSkeleton = () => (
           overflow: 'hidden',
           textOverflow: 'ellipsis',
           display: '-webkit-box',
-          webkitlineclamp: '1',
-          webkitboxorient: 'vertical',
+          WebkitLineClamp: '1',
+          WebkitBoxOrient: 'vertical',
         }}
       >
         <Skeleton />

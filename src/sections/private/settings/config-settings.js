@@ -31,4 +31,6 @@ export const ICONS = {
 
   cover_edit: getIconifyFunc('solar:gallery-edit-line-duotone'),
   uploading: getIconifyFunc('line-md:uploading-loop'),
+
+  delete: getIconifyFunc('solar:trash-bin-2-bold-duotone'),
 };

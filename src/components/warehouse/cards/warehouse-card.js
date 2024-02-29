@@ -37,6 +37,8 @@ const Props = {
   hasControl: PropTypes.bool,
   /** @type {SxProps} */
   sx: PropTypes.object,
+  /** @type {SxProps} */
+  contentSx: PropTypes.object,
   /** @type {'sm' | 'md'} */
   size: PropTypes.string,
   glow: PropTypes.bool,
@@ -48,7 +50,15 @@ const Props = {
  */
 
 const WarehouseCard = (props) => {
-  const { warehouse, onDelete = () => {}, hasControl = false, sx = {}, size, glow = false } = props;
+  const {
+    warehouse,
+    onDelete = () => {},
+    hasControl = false,
+    sx = {},
+    contentSx = {},
+    size,
+    glow = false,
+  } = props;
 
   const router = useRouter();
   const { isAuthenticated, user } = useAppSelector(selectAuth);
@@ -68,20 +78,22 @@ const WarehouseCard = (props) => {
       >
         <Box width="100%" sx={{ position: 'relative' }}>
           <Image src={thumbnail} ratio="16/9" />
-          {/* if there is a discount then show badge */}
-          {!!warehouse.discountRate && (
-            <Label
-              color="secondary"
-              variant="filled"
-              startIcon={ICONS.discount()}
-              sx={{ position: 'absolute', bottom: 7, right: 7, color: 'white' }}
-            >
-              {warehouse.discountRate}% OFF
-            </Label>
-          )}
         </Box>
-        <CardContent sx={{ position: 'relative', p: isSm ? 1.5 : undefined }}>
-          <Stack>
+        <CardContent sx={{ position: 'relative', p: isSm ? 1.5 : 2, pt: 0.8, ...contentSx }}>
+          <Stack spacing={0.5}>
+            <Stack direction="row" justifyContent="end">
+              {/* if there is a discount then show badge */}
+              {!!warehouse.discountRate && (
+                <Label
+                  color="secondary"
+                  variant="filled"
+                  startIcon={ICONS.discount()}
+                  sx={{ color: 'white' }}
+                >
+                  {warehouse.discountRate}% OFF
+                </Label>
+              )}
+            </Stack>
             <Stack direction="row" alignItems="center" spacing={1}>
               {warehouse.logo && (
                 <Avatar
@@ -119,29 +131,28 @@ const WarehouseCard = (props) => {
             </Stack>
           </Stack>
         </CardContent>
-
-        {/* Featured Badge */}
-        {warehouse.isFeatured ? (
-          <Tooltip title="Featured" placement="right" arrow>
-            <Stack
-              sx={{
-                position: 'absolute',
-                top: 10,
-                left: 10,
-                color: 'grey.100',
-                bgcolor: 'secondary.main',
-                width: '30px',
-                height: '30px',
-                borderRadius: 1,
-              }}
-              alignItems="center"
-              justifyContent="center"
-            >
-              {ICONS.featured(28)}
-            </Stack>
-          </Tooltip>
-        ) : null}
       </CardActionArea>
+      {/* Featured Badge */}
+      {warehouse.isFeatured ? (
+        <Tooltip title="Featured" placement="right" arrow>
+          <Stack
+            sx={{
+              position: 'absolute',
+              top: 10,
+              left: 10,
+              color: 'grey.100',
+              bgcolor: 'secondary.main',
+              width: '30px',
+              height: '30px',
+              borderRadius: 1,
+            }}
+            alignItems="center"
+            justifyContent="center"
+          >
+            {ICONS.featured(28)}
+          </Stack>
+        </Tooltip>
+      ) : null}
       <Stack
         sx={{
           position: 'absolute',
@@ -230,8 +241,8 @@ export const WarehouseCardSkeleton = () => (
           overflow: 'hidden',
           textOverflow: 'ellipsis',
           display: '-webkit-box',
-          webkitlineclamp: '1',
-          webkitboxorient: 'vertical',
+          WebkitLineClamp: '1',
+          WebkitBoxOrient: 'vertical',
         }}
       >
         <Skeleton />

@@ -3,7 +3,6 @@
 import { notFound } from 'next/navigation';
 import PropTypes from 'prop-types';
 // local component
-import { warehouses } from 'src/assets/dummy';
 import { ErrorState } from 'src/components/common/custom-state';
 import { LoadingScreen } from 'src/components/common/loading-screen';
 import { useWarehouseQuery } from 'src/redux-toolkit/services/warehouseApi';
@@ -20,11 +19,6 @@ const Props = {
 const WarehouseEditView = (props) => {
   const { id } = props;
   const warehouseResult = useWarehouseQuery(id);
-
-  // ******** THIS IS FOR TEST PERPOSE ************* // TODO: Remove this
-  if (!warehouseResult.isLoading && id === 'test') {
-    return <Content warehouse={warehouses[0]} />;
-  }
 
   // if error occured
   if ((warehouseResult.isError || warehouseResult.data?.isError) && !warehouseResult.isLoading)

@@ -34,8 +34,10 @@ function WarehouseDetailsPreview(props) {
 
   return (
     <Container maxWidth={settings.themeStretch ? false : 'xl'}>
-      <WarehouseHeader warehouse={warehouse} hideBack />
       <Grid container spacing={2}>
+        <Grid item xs={12}>
+          <WarehouseHeader warehouse={warehouse} hideBack />
+        </Grid>
         <Grid item xs={12} md={7}>
           <WarehosueDetailsMain seller={user} warehouse={warehouse} reviews={reviews} />
         </Grid>

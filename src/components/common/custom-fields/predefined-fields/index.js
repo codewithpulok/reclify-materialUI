@@ -92,6 +92,7 @@ const PredefinedFields = (props) => {
                 label={field.label}
                 options={field.options?.map((o) => ({ label: o, value: o })) || []}
                 multiple={field.dataType === 'array'}
+                key={field.key}
               />
             );
           }

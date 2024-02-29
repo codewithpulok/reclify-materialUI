@@ -20,16 +20,16 @@ const ServiceInfo = (props) => {
   const values = useMemo(
     () => [
       {
-        label: 'Client List',
-        value: service?.clientList,
-      },
-      {
         label: 'Business Size',
         value: service?.businessSize,
       },
       {
         label: 'Founded Year',
         value: service?.foundedYear,
+      },
+      {
+        label: 'Website',
+        value: service?.website,
       },
     ],
     [service]
@@ -38,19 +38,23 @@ const ServiceInfo = (props) => {
   return (
     <ServiceDetailsBox title="Info" sx={sx}>
       <Grid container sx={{ rowGap: { xs: 1.3, sm: 1 } }}>
-        {values.map((field) => (
-          <Grid item container key={field.label} xs={12} spacing={0.2}>
-            <Grid item xs={12} sm={5}>
-              <Typography variant="subtitle2">{field.label}</Typography>
+        {values.map((field) => {
+          if (!field.value) return null;
+
+          return (
+            <Grid item container key={field.label} xs={12} spacing={0.2}>
+              <Grid item xs={12} sm={5}>
+                <Typography variant="subtitle2">{field.label}</Typography>
+              </Grid>
+              <Grid item xs={12} sm={7}>
+                <Typography variant="body2" color="text.secondary">
+                  {field.value === null && '-'}
+                  {field.value && field.value}
+                </Typography>
+              </Grid>
             </Grid>
-            <Grid item xs={12} sm={7}>
-              <Typography variant="body2" color="text.secondary">
-                {field.value === null && '-'}
-                {field.value && field.value}
-              </Typography>
-            </Grid>
-          </Grid>
-        ))}
+          );
+        })}
       </Grid>
     </ServiceDetailsBox>
   );

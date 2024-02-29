@@ -3,7 +3,6 @@ import {
   predefinedAmenities,
   predefinedFacility,
   predefinedFeatures,
-  predefinedServices,
 } from 'src/assets/data/predefined-fields/warehouse';
 import { getPredefinedFieldSchema } from 'src/utils/predefined-fields';
 import * as Yup from 'yup';
@@ -107,7 +106,6 @@ const schema = {
       return keys.some((k) => obj[k]);
     }),
   facilityDetails: Yup.object().shape(getPredefinedFieldSchema(predefinedFacility)),
-  services: Yup.object().shape(getPredefinedFieldSchema(predefinedServices)),
   amenities: Yup.object().shape(getPredefinedFieldSchema(predefinedAmenities)),
 };
 const warehouseSchema = Yup.object().shape(schema);

@@ -10,7 +10,6 @@ import WarehouseFacilities from './details-facilities';
 import WarehouseFeatures from './details-features';
 import WarehouseHighlights from './details-highlights';
 import WarehouseReviews from './details-reviews';
-import WarehouseServices from './details-services';
 import WarehouseDetailsSidebar from './details-sidebar';
 import ImageCarousel from './image-carousel';
 
@@ -44,14 +43,13 @@ const DetailsMain = (props) => {
         sx={{ display: { md: 'none' } }}
       />
 
-      <WarehouseDescription description={warehouse?.description} />
       <WarehouseHighlights highlights={warehouse?.highlights} />
+      <WarehouseDescription description={warehouse?.description} />
 
       <WarehouseFeatures features={warehouse.features} />
       <DetailsAmenities amenities={warehouse.amenities} />
 
       <WarehouseFacilities facilityDetails={warehouse.facilityDetails} />
-      <WarehouseServices services={warehouse.services} />
 
       {mdDown && (
         <WarehouseReviews

@@ -1,4 +1,3 @@
-import { Stack, Typography } from '@mui/material';
 import Grid from '@mui/material/Grid';
 import { useMemo } from 'react';
 import { useFormContext } from 'react-hook-form';
@@ -6,14 +5,15 @@ import { predefinedServiceFeatures } from 'src/assets/data/predefined-fields/ser
 // local components
 import PropTypes from 'prop-types';
 import {
+  AddressField,
   ArrayField,
+  BannerField,
   PhotosUploadField,
   PredefinedFields,
-  SinglePhotoUploadField,
 } from 'src/components/common/custom-fields';
 import { RHFDatePicker, RHFTextField } from 'src/components/common/hook-form';
-import { getIconify } from 'src/components/common/iconify/utilities';
 import Label from 'src/components/common/label';
+import CustomerList from './customer-list';
 
 const Props = {
   serviceType: PropTypes.object,
@@ -27,24 +27,37 @@ const ServiceFields = (props) => {
   const { serviceType } = props;
   const { watch, setValue } = useFormContext();
   const type = watch('type', undefined);
+
   const foundedYear = watch('foundedYear');
+  const highlights = watch('highlights', '');
 
   /** @type {PredefinedField[]} */
   const subServices = useMemo(() => predefinedServiceFeatures(type), [type]);
 
   return (
     <Grid container spacing={1.5}>
-      <Grid xs={12}>
-        <Stack direction="row" alignItems="center" spacing={1} mb={3}>
-          {serviceType?.icon && getIconify(serviceType.icon, 48, { color: 'primary.main' })}
-          <Typography variant="h2">{serviceType?.label}</Typography>
-        </Stack>
+      <Grid item xs={12} mb={2}>
+        <BannerField
+          photoLabel="Company Logo"
+          photoName="logo"
+          bannerName="banner"
+          primaryText={serviceType?.label}
+        />
       </Grid>
 
       <Grid item xs={12} md={6}>
         <Grid container spacing={1.2}>
           <Grid item xs={12}>
-            <RHFTextField name="clientList" label="Client list" fullWidth />
+            <RHFTextField name="name" label="Compnay Name" fullWidth />
+          </Grid>
+          <Grid item xs={12}>
+            <AddressField name="address" />
+          </Grid>
+          <Grid item xs={12}>
+            <RHFTextField name="website" label="Website" type="url" fullWidth />
+          </Grid>
+          <Grid item xs={12}>
+            <CustomerList />
           </Grid>
           <Grid item xs={12}>
             <RHFTextField
@@ -81,6 +94,18 @@ const ServiceFields = (props) => {
           </Grid>
 
           <Grid item xs={12}>
+            <RHFTextField
+              name="highlights"
+              label="Highlights"
+              rows={4}
+              helperText={`${200 - (highlights?.length || 0)} character left for highlights`}
+              onChangeMiddleware={(v) => (v.length > 200 ? highlights : v)}
+              multiline
+              fullWidth
+            />
+          </Grid>
+
+          <Grid item xs={12}>
             <RHFTextField name="description" label="Description" rows={4} multiline fullWidth />
           </Grid>
 
@@ -93,13 +118,6 @@ const ServiceFields = (props) => {
 
       <Grid item xs={12} md={6}>
         <Grid container spacing={1.2}>
-          <Grid item xs={12}>
-            <SinglePhotoUploadField fieldName="logo" label="Company Logo" />
-          </Grid>
-          <Grid item xs={12}>
-            <SinglePhotoUploadField fieldName="banner" label="Company Banner" />
-          </Grid>
-
           <Grid item xs={12}>
             <PredefinedFields
               name="features"

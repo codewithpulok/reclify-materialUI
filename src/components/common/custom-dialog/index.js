@@ -3,7 +3,7 @@ export * from './config-custom-dialog';
 export { default as ConfirmDialog } from './confirm-dialog';
 
 // payment form dialog
-export { default as PurchasePaymentDialog } from './purchase-payment-dialog';
+export { default as PurchaseDialog } from './purchase-dialog';
 export { default as SubscriptionPaymentDialog } from './subscription-payment-dialog';
 
 // payment card dialog
@@ -45,3 +45,6 @@ export { default as SearchFilterDialog } from './search/filter-dialog';
 
 // admin dialog
 export { default as ChangeServiceTypeDialog } from './admin/change-service-type';
+
+// avatar
+export { default as AvatarCrop } from './avatar-crop';

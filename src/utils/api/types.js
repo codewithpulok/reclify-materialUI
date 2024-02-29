@@ -11,14 +11,14 @@
 /**
  * Success Response for client side API
  * @template R
- * @typedef {Object} ClientSuccessResponse
- * @property {boolean} isSuccess - indicate success response
+ * @typedef {Object} SuccessResponse
+ * @property {boolean} success - indicate success response
  * @property {R} results - nececcery data with the response
  */
 
 /**
  * Error Response for client side API
- * @typedef {Object} ClientErrorResponse
+ * @typedef {Object} ErrorResponse
  * @property {boolean} isError - indicate error response
  * @property {number} statusCode - status code for the response
  * @property {any} message - message for the response
@@ -27,14 +27,14 @@
 /**
  * Client response type
  * @template RESULTS
- * @typedef {ClientSuccessResponse<RESULTS>|ClientErrorResponse} ClientResponse
+ * @typedef {SuccessResponse<RESULTS>|ErrorResponse} ClientResponse
  */
 
 /**
  * Client async wrapper handler function
  * @template T
  * @template R
- * @callback ClientAsyncHandler
+ * @callback AsyncHandler
  * @param {T} param
  * @returns {Promise<ClientResponse<R>>}
  */
@@ -43,7 +43,7 @@
  * Client async wrapper return function
  * @template T
  * @template R
- * @callback ClientAsyncReturn
+ * @callback AsyncReturn
  * @param {T} param
  * @returns {Promise<ClientResponse<R>>}
  */

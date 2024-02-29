@@ -1,6 +1,7 @@
 import { createApi } from '@reduxjs/toolkit/query/react';
 import { endpoints } from 'src/utils/api/client';
 import { publicBaseQuery } from '../utills';
+import { transactionApi } from './transactionApi';
 import { warehouseApi } from './warehouseApi';
 
 const updateWarehoueCache = (dispatch, arg = {}, updates = {}) => {
@@ -32,6 +33,12 @@ const updateTransactionStatus = (dispatch, arg, value) => {
     adminApi.util.updateQueryData('listTransaction', undefined, (draft) => {
       const updateIndex = draft.results.findIndex((w) => w.id === arg);
       if (updateIndex !== -1) draft.results[updateIndex].status = value;
+    })
+  );
+
+  dispatch(
+    transactionApi.util.updateQueryData('getTransaction', arg, (draft) => {
+      if (draft?.results?.status) draft.results.status = value;
     })
   );
 };
@@ -176,6 +183,26 @@ export const adminApi = createApi({
         method: 'PUT',
         body: data,
       }),
+      onQueryStarted: async (arg, { dispatch, queryFulfilled }) => {
+        try {
+          const response = await queryFulfilled;
+          const { data } = response;
+
+          if (!data?.results) return;
+
+          // update the user cache
+          dispatch(
+            adminApi.util.updateQueryData('getUser', arg?.id, (draft) => {
+              if (draft.results?.membership !== undefined) {
+                draft.results.membership = data.results;
+                console.log(draft.resutls.membership);
+              }
+            })
+          );
+        } catch (error) {
+          console.error('ERROR: User cache update', error);
+        }
+      },
     }),
   }),
 });

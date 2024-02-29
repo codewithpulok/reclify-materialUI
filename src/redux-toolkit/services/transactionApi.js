@@ -9,6 +9,12 @@ export const updateStatus = (dispatch, arg, value) => {
       if (updateIndex !== -1) draft.results[updateIndex].status = value;
     })
   );
+
+  dispatch(
+    transactionApi.util.updateQueryData('getTransaction', arg, (draft) => {
+      if (draft?.results?.status) draft.results.status = value;
+    })
+  );
 };
 
 export const transactionApi = createApi({
@@ -17,6 +23,9 @@ export const transactionApi = createApi({
   endpoints: (builder) => ({
     listTransaction: builder.query({
       query: () => endpoints.transaction.list,
+    }),
+    getTransaction: builder.query({
+      query: (id) => endpoints.transaction.get(id),
     }),
     completeTransaction: builder.mutation({
       query: (id) => ({
@@ -64,4 +73,6 @@ export const {
   useLazyListTransactionQuery,
   useListTransactionQuery,
   useCompleteTransactionMutation,
+  useGetTransactionQuery,
+  useLazyGetTransactionQuery,
 } = transactionApi;

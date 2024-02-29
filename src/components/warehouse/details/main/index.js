@@ -34,8 +34,10 @@ function WarehouseDetailsMain(props) {
 
   return (
     <Container maxWidth={settings.themeStretch ? false : 'xl'}>
-      <WarehouseHeader warehouse={warehouse} />
       <Grid container spacing={2}>
+        <Grid item xs={12}>
+          <WarehouseHeader warehouse={warehouse} />
+        </Grid>
         <Grid item xs={12} md={7}>
           <WarehosueDetailsMain
             seller={warehouse?.seller}

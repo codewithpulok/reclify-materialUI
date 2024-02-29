@@ -24,7 +24,7 @@ export const paths = {
   privacy: '/privacy-policy',
   media: '/media',
   rating_system: '/rating-system',
-  subscriptions: '/?scrollTo=PRICING',
+  subscriptions: '/#PRICING',
   supply_chain: '/supply-chain-logistics-definations',
 
   // AUTH
@@ -34,6 +34,7 @@ export const paths = {
     forgot_password: `${ROOTS.AUTH}/forgot-password`,
     new_password: `${ROOTS.AUTH}/new-password`,
     email_verify: `${ROOTS.AUTH}/email-verify`,
+    refresh: `${ROOTS.AUTH}/refresh`,
   },
 
   // DASHBOARD
@@ -98,6 +99,12 @@ export const paths = {
       create: `${ROOTS.DASHBOARD}/news/create`,
       details: (id) => `${ROOTS.DASHBOARD}/news/${id}`,
       edit: (id) => `${ROOTS.DASHBOARD}/news/edit/${id}`,
+    },
+
+    // WAREHOUSES
+    transactions: {
+      root: `${ROOTS.DASHBOARD}/transactions`,
+      details: (id) => `${ROOTS.DASHBOARD}/transactions/${id}`,
     },
   },
 

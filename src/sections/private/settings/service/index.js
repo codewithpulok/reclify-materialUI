@@ -23,12 +23,16 @@ import createSchema from './services-schema';
 
 /** @type {Service} */
 const defaultValues = {
+  name: '',
+  address: '',
+  website: '',
+  highlights: '',
   type: '',
   features: {},
   photos: [],
   description: '',
   keyFeatures: [],
-  clientList: '',
+  customerList: [],
   businessSize: 0,
   foundedYear: 1800,
   cta: '',

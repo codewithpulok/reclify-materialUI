@@ -76,8 +76,8 @@ const TransactionRow = (props) => {
                 overflow: 'hidden',
                 textOverflow: 'ellipsis',
                 display: '-webkit-box',
-                webkitlineclamp: '1',
-                webkitboxorient: 'vertical',
+                WebkitLineClamp: '1',
+                WebkitBoxOrient: 'vertical',
               }}
             />
           </Stack>
@@ -206,7 +206,7 @@ const TransactionRow = (props) => {
             </MenuItem>
           )}
 
-          {onCompleteOrder !== undefined && isAdminPending && (
+          {onCompleteOrder !== undefined && isPending && (
             <MenuItem
               color="success"
               onClick={() => {
