@@ -1,6 +1,8 @@
 import { Stack } from '@mui/material';
 import PropTypes from 'prop-types';
 import { UserDetailsCard } from 'src/components/users/cards';
+import ServiceDescription from '../common/service-description';
+import ServiceHighlights from '../common/service-highlights';
 import ServiceInfo from '../common/service-info';
 
 const Props = {
@@ -19,8 +21,10 @@ const SidebarContent = (props) => {
 
   return (
     <Stack spacing={2}>
-      <UserDetailsCard user={seller} />
+      {!!seller && <UserDetailsCard user={seller} />}
       <ServiceInfo service={service} />
+      <ServiceHighlights highlights={service?.highlights} />
+      <ServiceDescription description={service.description} />
     </Stack>
   );
 };

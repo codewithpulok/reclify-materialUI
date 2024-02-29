@@ -1,4 +1,4 @@
-import { Alert, Button, InputAdornment, MenuItem } from '@mui/material';
+import { Alert, Button, InputAdornment, MenuItem, Stack } from '@mui/material';
 import Grid from '@mui/material/Grid';
 import { useEffect } from 'react';
 import { useFormContext } from 'react-hook-form';
@@ -183,26 +183,28 @@ const WarehouseFields = (props) => {
               fullWidth
             />
           </Grid>
-
-          <Grid item xs={12}>
-            <Label sx={{ mb: 1 }}>Photos</Label>
-            <PhotosUploadField name="photos" />
-          </Grid>
         </Grid>
       </Grid>
       <Grid item xs={12} md={6}>
         <Grid container spacing={1.2}>
           <Grid item xs={12}>
-            <Button
-              disabled={!isImportable}
-              variant="outlined"
-              size="small"
-              sx={{ mb: 1, ml: 'auto' }}
-              endIcon={ICONS.import()}
-            >
-              Import Reviews
-            </Button>
-            <WarehouseReviews list={reviews || []} />
+            <Stack alignItems="end">
+              <Button
+                disabled={!isImportable}
+                variant="outlined"
+                size="small"
+                sx={{ mb: 1, ml: 'auto' }}
+                endIcon={ICONS.import()}
+              >
+                Import Reviews
+              </Button>
+              <WarehouseReviews list={reviews || []} />
+            </Stack>
+          </Grid>
+
+          <Grid item xs={12}>
+            <Label sx={{ mb: 1 }}>Photos</Label>
+            <PhotosUploadField name="photos" />
           </Grid>
         </Grid>
       </Grid>

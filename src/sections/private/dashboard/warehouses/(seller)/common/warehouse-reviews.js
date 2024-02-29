@@ -14,7 +14,7 @@ const Props = { list: PropTypes.arrayOf(PropTypes.object) };
 const WarehouseReviews = (props) => {
   const { list = [] } = props;
   return (
-    <RHFAccordion label="Reviews" defaultExpanded name="reviews">
+    <RHFAccordion label="Reviews" defaultExpanded name="reviews" sx={{ width: 1 }}>
       {list?.length ? (
         <Stack spacing={3.5}>
           {list.map((review) => (

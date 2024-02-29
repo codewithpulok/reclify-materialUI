@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 
 import { Container, Grid, Typography } from '@mui/material';
 import { useMemo } from 'react';
-import { getTransactionStatusColor } from 'src/assets/dummy';
+
 import {
   ApproveTransactionDialog,
   CancelTransactionAdminDialog,
@@ -15,7 +15,7 @@ import Label from 'src/components/common/label';
 import { useSettingsContext } from 'src/components/common/settings';
 import { AmountDetailsCard, WarehouseDetailsCard } from 'src/components/user-settings/cards';
 import { UserDetailsCard } from 'src/components/users/cards';
-import { getTransactionStatusLabel } from 'src/constant/transaction';
+import { getTransactionStatusColor, getTransactionStatusLabel } from 'src/constant/transaction';
 import { useDialog } from 'src/hooks/use-dialog';
 import { selectAuth } from 'src/redux-toolkit/features/auth/authSlice';
 import { useAppSelector } from 'src/redux-toolkit/hooks';

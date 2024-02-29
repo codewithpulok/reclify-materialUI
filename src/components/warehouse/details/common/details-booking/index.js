@@ -50,7 +50,7 @@ const bookingInfoStyle = {
     },
   },
   description: {
-    fontSize: '11px',
+    fontSize: '12px',
     color: 'text.secondary',
   },
 };
@@ -243,7 +243,7 @@ const DetailsBooking = (props) => {
                 flexWrap="wrap"
               >
                 <Typography component="span" sx={bookingInfoStyle.heading2}>
-                  Upto
+                  Up to
                 </Typography>
                 <Typography component="span" sx={bookingInfoStyle.heading1} mr={0.5}>
                   {fNumber(warehouse.maxSpaceOrder || warehouse.totalSpace)}
@@ -252,12 +252,18 @@ const DetailsBooking = (props) => {
                   pallets
                 </Typography>
               </Stack>
-              <Typography variant="subtitle2">
+              <Typography sx={bookingInfoStyle.description}>
+                {fNumber(warehouse.maxSpaceOrder * SQUARE_FEET_PER_PALLET)} square feet
+                <br />
+                {fNumber(warehouse.maxSpaceOrder * CUBIC_FEET_PER_PALLET)} cubic feet
+              </Typography>
+              <Typography sx={bookingInfoStyle.description} mb={1.5}>
                 {fNumber(warehouse.minSpaceOrder)} pallets (minimum)
               </Typography>
-              <Typography sx={bookingInfoStyle.description}>
+              <Typography fontWeight="bold" color="primary" sx={bookingInfoStyle.title}>
                 Total available space
-                <br />
+              </Typography>
+              <Typography sx={bookingInfoStyle.description}>
                 <b>{fNumber(warehouse.totalSpace)}</b> pallets
               </Typography>
               <Typography sx={bookingInfoStyle.description}>

@@ -1,10 +1,7 @@
 import { Grid, Stack } from '@mui/material';
 import PropTypes from 'prop-types';
-import { getSellers } from 'src/assets/dummy';
 import ImageCarousel from '../common/image-carousel';
 import ServiceCustomers from '../common/service-customers';
-import ServiceDescription from '../common/service-description';
-import ServiceHighlights from '../common/service-highlights';
 import ServicePromo from '../common/service-promo';
 import HeaderContent from '../full/header-content';
 import MainContent from '../full/main-content';
@@ -21,7 +18,7 @@ const Props = {
 const ServiceDetailsPreview = (props) => {
   const { service } = props;
 
-  const seller = service?.seller || getSellers()[0];
+  const seller = service?.seller;
 
   return (
     <Grid container spacing={2}>
@@ -42,12 +39,10 @@ const ServiceDetailsPreview = (props) => {
       <Grid item xs={12} md={6}>
         <Stack spacing={2}>
           <ImageCarousel list={service?.photos || []} />
-          <ServiceHighlights highlights={service?.highlights} />
         </Stack>
       </Grid>
       <Grid item xs={12} md={6}>
         <Stack spacing={2}>
-          <ServiceDescription description={service.description} />
           <ServicePromo />
         </Stack>
       </Grid>

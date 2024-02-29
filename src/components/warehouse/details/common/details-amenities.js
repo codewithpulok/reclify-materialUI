@@ -46,7 +46,17 @@ const DetailsAmenities = (props) => {
                   {field.value === null && '-'}
 
                   {field?.startText && `${field.startText} `}
-                  {typeof field.value === 'boolean' && <>{field.value ? 'YES' : 'NO'}</>}
+                  {typeof field.value === 'boolean' && (
+                    <>
+                      {field.value
+                        ? getIconify('solar:check-circle-line-duotone', undefined, {
+                            color: 'success.main',
+                          })
+                        : getIconify('solar:close-circle-line-duotone', undefined, {
+                            color: 'error.main',
+                          })}
+                    </>
+                  )}
                   {typeof field.value !== 'boolean' && field.value}
                   {field?.endText && ` ${field.endText}`}
                 </Typography>

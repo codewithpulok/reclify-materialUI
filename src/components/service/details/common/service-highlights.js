@@ -16,7 +16,7 @@ const ServiceHighlights = (props) => {
   const { highlights, sx = {} } = props;
 
   return (
-    <Typography variant="h4" sx={{ fontStyle: 'italic', ...sx }}>
+    <Typography sx={{ fontStyle: 'italic', fontWeight: 'normal', fontSize: 22, ...sx }}>
       {highlights}
     </Typography>
   );

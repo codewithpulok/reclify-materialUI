@@ -90,7 +90,7 @@ const ServiceFields = (props) => {
           </Grid>
 
           <Grid item xs={12}>
-            <RHFTextField name="promoCode" label="Promo Code" fullWidth />
+            <RHFTextField name="promoCode" label="Promotion Code" fullWidth />
           </Grid>
 
           <Grid item xs={12}>
@@ -107,11 +107,6 @@ const ServiceFields = (props) => {
 
           <Grid item xs={12}>
             <RHFTextField name="description" label="Description" rows={4} multiline fullWidth />
-          </Grid>
-
-          <Grid item xs={12}>
-            <Label sx={{ mb: 1 }}>Photos</Label>
-            <PhotosUploadField name="photos" />
           </Grid>
         </Grid>
       </Grid>
@@ -130,6 +125,11 @@ const ServiceFields = (props) => {
 
           <Grid item xs={12}>
             <ArrayField name="keyFeatures" label="Key Features" defaultExpanded />
+          </Grid>
+
+          <Grid item xs={12}>
+            <Label sx={{ mb: 1 }}>Photos</Label>
+            <PhotosUploadField name="photos" />
           </Grid>
         </Grid>
       </Grid>
