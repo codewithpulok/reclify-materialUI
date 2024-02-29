@@ -18,8 +18,8 @@ import {
   useLazyGetOwnServiceQuery,
   useUpdateOwnServiceMutation,
 } from 'src/redux-toolkit/services/serviceApi';
-import ServiceFields from './services-fields';
-import createSchema from './services-schema';
+import ServiceFields from './service-fields';
+import createSchema from './service-schema';
 
 /** @type {Service} */
 const defaultValues = {

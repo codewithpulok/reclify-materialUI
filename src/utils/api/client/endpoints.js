@@ -38,6 +38,7 @@ export const endpoints = {
     update: '/',
     get: (id) => `/${id}`,
     delete: (id) => `/${id}`,
+    google_reviews: `/google-reviews`,
   },
   file_upload: {
     root: '/file-upload',

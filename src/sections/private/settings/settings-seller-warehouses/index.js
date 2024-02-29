@@ -1,7 +1,7 @@
 'use client';
 
 import { Box, Button, Pagination, Stack } from '@mui/material';
-import { useEffect } from 'react';
+import { useEffect, useMemo } from 'react';
 // local components
 import { WarehouseDeleteDialog } from 'src/components/common/custom-dialog';
 import { useDialog } from 'src/hooks/use-dialog';
@@ -20,11 +20,13 @@ export default function Warehouses() {
 
   // data state
   const listResponse = useWarehouseOwnListQuery();
+  const listData = useMemo(() => {
+    if (Array.isArray(listResponse?.data?.results)) return [...listResponse.data.results].reverse();
+    return undefined;
+  }, [listResponse?.data?.results]);
 
   // logic state
-  const { currentData, currentPage, goTo, totalPages } = usePagination(
-    [...(listResponse?.data?.results || [])].reverse()
-  );
+  const { currentData, currentPage, goTo, totalPages } = usePagination(listData);
 
   // dialog state
   const deleteDialog = useDialog();

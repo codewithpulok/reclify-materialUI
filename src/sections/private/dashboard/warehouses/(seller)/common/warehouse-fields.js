@@ -1,4 +1,4 @@
-import { Alert, Button, InputAdornment, MenuItem, Stack } from '@mui/material';
+import { Alert, InputAdornment, MenuItem } from '@mui/material';
 import Grid from '@mui/material/Grid';
 import { useEffect } from 'react';
 import { useFormContext } from 'react-hook-form';
@@ -30,10 +30,8 @@ import Label from 'src/components/common/label';
 import { SQUARE_FEET_PER_PALLET } from 'src/constant/pallet';
 import { selectAuth } from 'src/redux-toolkit/features/auth/authSlice';
 import { useAppSelector } from 'src/redux-toolkit/hooks';
-import { checkValidAddress } from 'src/utils/address';
 import { restrictNegetiveValue } from 'src/utils/form';
 import { fFixedFloat } from 'src/utils/format-number';
-import { ICONS } from '../../config-warehouse';
 import WarehouseReviews from './warehouse-reviews';
 
 export const stepFields = {
@@ -71,17 +69,12 @@ const WarehouseFields = (props) => {
   // form state
   const { watch, getValues, resetField, setValue, setFocus } = useFormContext();
   const regionScope = watch('regionScope');
-  const address = watch('address');
   const addressCountry = watch('address.country', undefined);
   const addressState = watch('address.state', undefined);
-  const reviews = watch('reviews', []);
   const highlights = watch('highlights', '');
   const hasPromo = watch('hasPromo', false);
   const hotRackEnabled = watch('hotRackEnabled', false);
   const discountOption = watch('discountOption', 'percentage');
-
-  // conditional state
-  const isImportable = checkValidAddress(address);
 
   useEffect(() => {
     if (regionScope) {
@@ -188,18 +181,7 @@ const WarehouseFields = (props) => {
       <Grid item xs={12} md={6}>
         <Grid container spacing={1.2}>
           <Grid item xs={12}>
-            <Stack alignItems="end">
-              <Button
-                disabled={!isImportable}
-                variant="outlined"
-                size="small"
-                sx={{ mb: 1, ml: 'auto' }}
-                endIcon={ICONS.import()}
-              >
-                Import Reviews
-              </Button>
-              <WarehouseReviews list={reviews || []} />
-            </Stack>
+            <WarehouseReviews />
           </Grid>
 
           <Grid item xs={12}>
