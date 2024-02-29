@@ -11,6 +11,9 @@ const Props = {
   /** @type {Warehouse[]} */
   data: PropTypes.arrayOf(PropTypes.object),
   totalPages: PropTypes.number,
+  // optional
+  /** @type {WarehouseCard.propTypes} */
+  cardProps: PropTypes.object,
 };
 
 /**
@@ -18,7 +21,15 @@ const Props = {
  * @returns {JSX.Element}
  */
 const RenderWarehouses = (props) => {
-  const { data = [], isError, isFetching, isLoading, isSuccess, totalPages } = props;
+  const {
+    data = [],
+    isError,
+    isFetching,
+    isLoading,
+    isSuccess,
+    totalPages,
+    cardProps = {},
+  } = props;
 
   // error state
   if (!isLoading && !isFetching && isError) {
@@ -36,7 +47,7 @@ const RenderWarehouses = (props) => {
       <Grid container spacing={2}>
         {data.map((warehouse) => (
           <Grid item key={warehouse?.id} xs={12} sm={6} md={4}>
-            <WarehouseCard key={warehouse?.id} warehouse={warehouse} />
+            <WarehouseCard key={warehouse?.id} warehouse={warehouse} {...cardProps} />
           </Grid>
         ))}
       </Grid>

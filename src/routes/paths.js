@@ -54,7 +54,8 @@ export const paths = {
       root: `${ROOTS.DASHBOARD}/warehouses`,
       details: (id) => `${ROOTS.DASHBOARD}/warehouses/${id}`,
       create: `${ROOTS.DASHBOARD}/warehouses/create`,
-      edit: `${ROOTS.DASHBOARD}/warehouses/edit`,
+      edit: (id) => `${ROOTS.DASHBOARD}/warehouses/edit/${id}`,
+      clone: (id) => `${ROOTS.DASHBOARD}/warehouses/create/?clone=${id}`,
       hot_deals: `${ROOTS.DASHBOARD}/warehouses/hot-deals`,
 
       hidden: `${ROOTS.DASHBOARD}/warehouses/hidden`,

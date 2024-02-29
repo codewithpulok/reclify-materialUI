@@ -23,7 +23,6 @@ import { ICONS } from './config-settings';
 import SettingsService from './service';
 import SettingsCustomerBillings from './settings-customer-billings';
 import SettingsGeneral from './settings-general';
-import SettingsKyc from './settings-kyc';
 import SettingsSecurity from './settings-security';
 import SettingsSellerBillings from './settings-seller-billings';
 import Warehouses from './settings-seller-warehouses';
@@ -69,12 +68,6 @@ export const TABS = [
     value: '#security',
     label: 'Security',
     icon: ICONS.key(),
-  },
-  {
-    value: '#kyc',
-    label: 'KYC',
-    icon: ICONS.kyc(),
-    roles: ['seller', 'customer'],
   },
 ];
 
@@ -169,18 +162,6 @@ const UserSettingsView = () => {
             return <EmptyState />;
         }
       }
-      case '#kyc': {
-        switch (user?.userType) {
-          case 'seller': {
-            return <SettingsKyc />;
-          }
-          case 'customer': {
-            return <SettingsKyc />;
-          }
-          default:
-            return <EmptyState />;
-        }
-      }
       case '#transactions': {
         switch (user?.userType) {
           case 'seller': {
@@ -202,7 +183,7 @@ const UserSettingsView = () => {
         return <EmptyState />;
     }
 
-    return <LoadingState text="Something is cooking" />;
+    return <LoadingState />;
   }, [currentTab, user]);
 
   return (

@@ -19,9 +19,9 @@ const InfoFields = () => {
   const { user } = useAppSelector(selectAuth);
 
   const companyField =
-    user?.userType === 'seller' ? null : (
+    user?.userType === 'seller' ? (
       <RHFTextField name="company" label="Company Name" fullWidth />
-    );
+    ) : null;
 
   const goodsField =
     user?.userType === 'seller' ? null : (

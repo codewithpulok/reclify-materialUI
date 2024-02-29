@@ -81,15 +81,21 @@ const PlanCard = (props) => {
       </Box>
 
       {plan?.id === 'enterprise' && user?.planId !== 'enterprise' ? (
-        <Button
-          LinkComponent={RouterLink}
-          href={`${paths.contact_us}/#FORM`}
-          color="primary"
-          variant="contained"
-          size="small"
-        >
-          Contact Us. A la Carte
-        </Button>
+        <Stack alignItems="start">
+          <Button
+            LinkComponent={RouterLink}
+            href={`${paths.contact_us}/#FORM`}
+            color="primary"
+            variant="contained"
+            size="small"
+            fullWidth
+          >
+            Contact Us
+          </Button>
+          <Typography color="text.secondary" variant="body2">
+            A la Carte
+          </Typography>
+        </Stack>
       ) : (
         <>
           <Stack direction="row" alignItems="center" sx={{ typography: 'h4' }}>

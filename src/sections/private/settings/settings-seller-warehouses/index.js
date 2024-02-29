@@ -59,6 +59,7 @@ export default function Warehouses() {
         isSuccess={listResponse.isSuccess}
         data={currentData}
         totalPages={totalPages}
+        cardProps={{ hasControl: true, onDelete: deleteDialog.onOpen }}
       />
 
       <Stack direction="row" justifyContent="center" mt={3} mb={1}>
