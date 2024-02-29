@@ -17,19 +17,19 @@ const teams = [
     id: '1',
     avatar: '/assets/images/about/teams/brian.jpeg',
     name: 'Brian Antar',
-    bio: 'CEO, Shipmate Fulfillment',
+    bio: 'CEO of Racklify',
   },
   {
     id: '2',
     avatar: '/assets/images/about/teams/bill.jpg',
     name: 'Bill Carlin',
-    bio: 'CMO, Shipmate Fulfillment',
+    bio: 'CMO of Racklify',
   },
   {
     id: '3',
     avatar: '/assets/images/about/teams/andrew.jpg',
     name: 'Andrew Antar',
-    bio: 'Co-Founder & President of Tune.fm',
+    bio: 'CTO of Racklify',
   },
 ];
 
