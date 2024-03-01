@@ -9,6 +9,7 @@ import { useResponsive } from 'src/hooks/use-responsive';
 
 import { useSettingsContext } from 'src/components/common/settings';
 
+import Loading from 'src/app/loading';
 import { SnackbarProvider } from 'src/components/common/snackbar';
 import Footer from '../main/footer';
 import Header from './header';
@@ -74,26 +75,30 @@ export default function DashboardLayout({ children }) {
     );
   }
 
-  return (
-    <SnackbarProvider>
-      <Header onOpenNav={nav.onTrue} />
+  if (isHorizontal === false && isMini === false) {
+    return (
+      <SnackbarProvider>
+        <Header onOpenNav={nav.onTrue} />
 
-      <Box
-        sx={{
-          minHeight: 1,
-          display: 'flex',
-          flexDirection: { xs: 'column', lg: 'row' },
-        }}
-      >
-        {renderNavVertical}
+        <Box
+          sx={{
+            minHeight: 1,
+            display: 'flex',
+            flexDirection: { xs: 'column', lg: 'row' },
+          }}
+        >
+          {renderNavVertical}
 
-        <Main>
-          {children}
-          <Footer sx={{ mt: 10 }} />
-        </Main>
-      </Box>
-    </SnackbarProvider>
-  );
+          <Main>
+            {children}
+            <Footer sx={{ mt: 10 }} />
+          </Main>
+        </Box>
+      </SnackbarProvider>
+    );
+  }
+
+  return <Loading />;
 }
 
 DashboardLayout.propTypes = {

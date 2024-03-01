@@ -9,6 +9,7 @@ import { useResponsive } from 'src/hooks/use-responsive';
 
 import { useSettingsContext } from 'src/components/common/settings';
 
+import Loading from 'src/app/loading';
 import { SnackbarProvider } from 'src/components/common/snackbar';
 import Footer from '../main/footer';
 import Header from './header';
@@ -22,13 +23,17 @@ import NavVertical from './nav-vertical';
 export default function PublicDashboardLayout({ children }) {
   const settings = useSettingsContext();
 
+  console.log({ settings });
+
   const lgUp = useResponsive('up', 'lg');
 
   const nav = useBoolean();
 
-  const isHorizontal = settings.themeLayout === 'horizontal';
+  const isHorizontal =
+    typeof settings?.themeLayout === 'string' ? settings.themeLayout === 'horizontal' : undefined;
 
-  const isMini = settings.themeLayout === 'mini';
+  const isMini =
+    typeof settings?.themeLayout === 'string' ? settings.themeLayout === 'mini' : undefined;
 
   const renderNavMini = <NavMini />;
 
@@ -74,26 +79,30 @@ export default function PublicDashboardLayout({ children }) {
     );
   }
 
-  return (
-    <SnackbarProvider>
-      <Header onOpenNav={nav.onTrue} />
+  if (isHorizontal === false && isMini === false) {
+    return (
+      <SnackbarProvider>
+        <Header onOpenNav={nav.onTrue} />
 
-      <Box
-        sx={{
-          minHeight: 1,
-          display: 'flex',
-          flexDirection: { xs: 'column', lg: 'row' },
-        }}
-      >
-        {renderNavVertical}
+        <Box
+          sx={{
+            minHeight: 1,
+            display: 'flex',
+            flexDirection: { xs: 'column', lg: 'row' },
+          }}
+        >
+          {renderNavVertical}
 
-        <Main>
-          {children}
-          <Footer sx={{ mt: 10 }} />
-        </Main>
-      </Box>
-    </SnackbarProvider>
-  );
+          <Main>
+            {children}
+            <Footer sx={{ mt: 10 }} />
+          </Main>
+        </Box>
+      </SnackbarProvider>
+    );
+  }
+
+  return <Loading />;
 }
 
 PublicDashboardLayout.propTypes = {

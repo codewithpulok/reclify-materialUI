@@ -1,7 +1,7 @@
 'use client';
 
 import { Container, Pagination, Stack } from '@mui/material';
-import { useSearchParams } from 'next/navigation';
+import { useRouter, useSearchParams } from 'next/navigation';
 import { useEffect } from 'react';
 import CustomBreadcrumbs from 'src/components/common/custom-breadcrumbs/custom-breadcrumbs';
 import { useSettingsContext } from 'src/components/common/settings';
@@ -17,6 +17,7 @@ const Props = {};
  * @returns {JSX.Element}
  */
 const SearchUsersView = (props) => {
+  const router = useRouter();
   const searchParam = useSearchParams();
   const query = searchParam.get('query');
   const settings = useSettingsContext();
@@ -32,7 +33,9 @@ const SearchUsersView = (props) => {
 
   // make request on search
   useEffect(() => {
-    if (query) searchUsers(query);
+    if (query === null || query?.trim().length === 0) {
+      router.replace(paths.warehouses.root);
+    } else if (query) searchUsers(query);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [query]);
 

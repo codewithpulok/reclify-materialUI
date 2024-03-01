@@ -1,7 +1,7 @@
 'use client';
 
 import { Button, Container, Grid, Stack, Typography } from '@mui/material';
-import { useSearchParams } from 'next/navigation';
+import { useRouter, useSearchParams } from 'next/navigation';
 import { useCallback, useEffect, useMemo } from 'react';
 import CustomBreadcrumbs from 'src/components/common/custom-breadcrumbs/custom-breadcrumbs';
 import { EmptyState, ErrorState, LoadingState } from 'src/components/common/custom-state';
@@ -20,9 +20,12 @@ const Props = {};
  * @returns {JSX.Element}
  */
 const SearchListView = (props) => {
+  const router = useRouter();
   const searchParam = useSearchParams();
   const query = searchParam.get('query');
   const settings = useSettingsContext();
+
+  console.log({ query });
 
   // api state
   const [searchAll, searchResponse] = useLazySearchAllQuery();
@@ -33,7 +36,11 @@ const SearchListView = (props) => {
 
   // make request on search
   useEffect(() => {
-    if (query) searchAll(query);
+    if (query === null || query?.trim().length === 0) {
+      router.replace(paths.warehouses.root);
+    } else if (query) {
+      searchAll(query);
+    }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [query]);
 
