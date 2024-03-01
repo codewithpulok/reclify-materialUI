@@ -27,7 +27,6 @@ export const joinAddressObj = (address, preText, endText) => {
  * @param {boolean} check
  */
 export const checkValidAddress = (address, check) => {
-  console.log({ check });
   if (check === false) return false; // if check is false then igonre other checks
 
   // if (!address?.street2) return false; // street address & number is not required
