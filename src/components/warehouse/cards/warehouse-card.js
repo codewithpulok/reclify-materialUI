@@ -207,7 +207,7 @@ const WarehouseCard = (props) => {
             </IconButton>
 
             {!!onDelete && (
-              <IconButton size="small" color="error" onClick={() => onDelete(warehouse?.id)}>
+              <IconButton size="small" color="error" onClick={() => onDelete(warehouse)}>
                 {ICONS.delete()}
               </IconButton>
             )}
