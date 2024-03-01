@@ -23,8 +23,6 @@ import NavVertical from './nav-vertical';
 export default function PublicDashboardLayout({ children }) {
   const settings = useSettingsContext();
 
-  console.log({ settings });
-
   const lgUp = useResponsive('up', 'lg');
 
   const nav = useBoolean();
