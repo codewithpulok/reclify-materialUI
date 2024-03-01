@@ -19,7 +19,9 @@ import { bgBlur, bgGradient } from 'src/theme/css';
 
 import { MotionContainer, varFade } from 'src/components/common/animate';
 import { getIconify } from 'src/components/common/iconify/utilities';
+import Image from 'src/components/common/image';
 import Logo from 'src/components/common/logo';
+import useHash from 'src/hooks/use-hash';
 
 // ----------------------------------------------------------------------
 
@@ -78,6 +80,8 @@ const MotionButton = m(Button);
 // ----------------------------------------------------------------------
 
 export default function HomeHero() {
+  const hash = useHash();
+
   const mdUp = useResponsive('up', 'md');
   const theme = useTheme();
   const transition = {
@@ -116,6 +120,25 @@ export default function HomeHero() {
 
   const hide = percent > 120;
 
+  const renderBoxes = (
+    <Stack sx={{ position: 'relative' }}>
+      <m.div
+        variants={{
+          hidden: { opacity: 0, x: 0, y: 300 },
+          enter: { opacity: 1, x: 0, y: 0 },
+        }}
+        initial="hidden"
+        animate="enter"
+        transition={{ type: 'spring', damping: 10, stiffness: 100, duration: 2 }}
+      >
+        <Image
+          src="/assets/images/home/hero-boxes.png"
+          sx={{ borderRadius: 1, maxWidth: 250, width: '100%', mx: 'auto' }}
+        />
+      </m.div>
+    </Stack>
+  );
+
   const renderDescription = (
     <Stack
       alignItems="center"
@@ -130,6 +153,9 @@ export default function HomeHero() {
         },
       }}
     >
+      {/* TODO: remove this */}
+      {hash === '#TOP' && renderBoxes}
+
       <m.div variants={varFade().inRight} transition={{ duration: 2 }}>
         <Logo sx={{ maxWidth: 450, height: 'auto', width: '100%' }} isLong disabledLink />
       </m.div>
@@ -154,6 +180,8 @@ export default function HomeHero() {
           Start today
         </MotionButton>
       </Stack>
+
+      {hash !== '#TOP' && renderBoxes}
     </Stack>
   );
 

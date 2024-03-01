@@ -17,6 +17,7 @@ import PropTypes from 'prop-types';
 import { MotionViewport, varFade } from 'src/components/common/animate';
 import { PlanCard } from 'src/components/user-settings/cards';
 import { ScrollTo } from 'src/routes/components';
+import { bgGradient } from 'src/theme/css';
 
 // ----------------------------------------------------------------------
 
@@ -106,11 +107,16 @@ const HomePricing = (props) => {
 
   return (
     <Box
-      sx={{
+      sx={(theme) => ({
         py: { xs: 10, md: 15 },
-        bgcolor: (theme) => alpha(theme.palette.grey[500], 0.04),
-        scrollMarginTop: '110px',
-      }}
+        ...bgGradient({
+          color: alpha(
+            theme.palette.background.default,
+            theme.palette.mode === 'light' ? 0.85 : 0.94
+          ),
+          imgUrl: '/assets/images/home/plans.jpg',
+        }),
+      })}
     >
       <Container component={MotionViewport}>
         <ScrollTo id="PRICING" />
