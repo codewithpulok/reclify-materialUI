@@ -35,7 +35,7 @@ const Props = {
  */
 const WarehouseAdminMenu = (props) => {
   const { warehouse, menuProps = {}, iconBtnProps = {}, id, iconWidth } = props;
-  const { isFeatured, isVerified, isVisible, seller } = warehouse || {};
+  const { isFeatured, isVerified, visible, seller } = warehouse || {};
 
   const [updateFeatured, featuredResults] = useUpdateWarehouseFeaturedMutation();
   const [updateVerified, verifiedResults] = useUpdateWarehouseVerifiedMutation();
@@ -94,13 +94,13 @@ const WarehouseAdminMenu = (props) => {
       {
         name: 'Show this warehouse',
         aciton: openVisibleDialog,
-        show: !isVisible,
+        show: !visible,
         icon: ICONS.visible,
       },
       {
         name: 'Hide this warehouse',
         aciton: openInvisibleDialog,
-        show: isVisible,
+        show: visible,
         icon: ICONS.invisible,
       },
       { name: 'Make verified', aciton: openVerifyDialog, show: !isVerified, icon: ICONS.verified },
@@ -127,7 +127,7 @@ const WarehouseAdminMenu = (props) => {
     [
       isFeatured,
       isVerified,
-      isVisible,
+      visible,
       openFeaturedDialog,
       openInvisibleDialog,
       openUnfeaturedDialog,

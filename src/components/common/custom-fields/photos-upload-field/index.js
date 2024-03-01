@@ -90,8 +90,8 @@ const PhotosUploadField = (props) => {
       else if (data && data?.success) {
         console.log('Image Deleted Successfully: ', response);
         enqueueSnackbar('Image Deleted successfully');
-        remove(fields.findIndex((f) => f._id === image._id));
       }
+      remove(fields.findIndex((f) => f._id === image._id)); // delete the image
     },
     [deleteFile, fields, remove]
   );
