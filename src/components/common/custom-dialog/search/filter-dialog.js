@@ -33,11 +33,14 @@ const SearchFilterDialog = (props) => {
   // router state
   const searchParams = useSearchParams();
   const router = useRouter();
+  const defServiceType = searchParams.get('serviceType');
+  const defSearchType = searchParams.get('type');
+  const defRegion = searchParams.get('region');
 
   // app state
-  const [searchType, setSearchType] = useState('all');
-  const [serviceType, setServiceType] = useState(null);
-  const [warehouseRegion, setWarehouseRegion] = useState(null);
+  const [searchType, setSearchType] = useState(defSearchType || 'all');
+  const [serviceType, setServiceType] = useState(defServiceType || null);
+  const [warehouseRegion, setWarehouseRegion] = useState(defRegion || null);
 
   // is valid filter
   const isValid = useMemo(() => {

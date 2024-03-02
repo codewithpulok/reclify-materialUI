@@ -23,9 +23,10 @@ const SearchListView = (props) => {
   const router = useRouter();
   const searchParam = useSearchParams();
   const query = searchParam.get('query');
+  const type = searchParam.get('type');
   const settings = useSettingsContext();
 
-  console.log({ query });
+  const hasTypeFilter = useMemo(() => type === 'warehouse' || type === 'service', [type]);
 
   // api state
   const [searchAll, searchResponse] = useLazySearchAllQuery();
@@ -139,56 +140,79 @@ const SearchListView = (props) => {
           heading={`You've searched for - ${query}`}
           links={[{ name: 'Home', href: paths.root }, { name: 'Search' }]}
         />
-        <Stack spacing={3}>
-          <Typography variant="h4">Users</Typography>
 
-          {renderUsers(searchResponse.data?.results?.users || [])}
+        {hasTypeFilter ? (
+          <>
+            {type === 'warehouse' && (
+              <Stack spacing={3}>
+                <Typography variant="h4">Warehouses</Typography>
 
-          <Stack direction="row" justifyContent="end">
-            <Button
-              variant="contained"
-              color="primary"
-              LinkComponent={RouterLink}
-              href={paths.search.users(query)}
-            >
-              Show More
-            </Button>
-          </Stack>
-        </Stack>
+                {renderWarehouses(searchResponse.data?.results?.warehouses || [])}
+              </Stack>
+            )}
 
-        <Stack spacing={3}>
-          <Typography variant="h4">Warehouses</Typography>
+            {type === 'service' && (
+              <Stack spacing={3}>
+                <Typography variant="h4">Services</Typography>
 
-          {renderWarehouses(searchResponse.data?.results?.warehouses || [])}
+                {renderServices(searchResponse.data?.results?.services || [])}
+              </Stack>
+            )}
+          </>
+        ) : (
+          <>
+            <Stack spacing={3}>
+              <Typography variant="h4">Users</Typography>
 
-          <Stack direction="row" justifyContent="end">
-            <Button
-              variant="contained"
-              color="primary"
-              LinkComponent={RouterLink}
-              href={paths.search.warehouses(query)}
-            >
-              Show More
-            </Button>
-          </Stack>
-        </Stack>
+              {renderUsers(searchResponse.data?.results?.users || [])}
 
-        <Stack spacing={3}>
-          <Typography variant="h4">Services</Typography>
+              <Stack direction="row" justifyContent="end">
+                <Button
+                  variant="contained"
+                  color="primary"
+                  LinkComponent={RouterLink}
+                  href={paths.search.users(query)}
+                >
+                  Show More
+                </Button>
+              </Stack>
+            </Stack>
 
-          {renderServices(searchResponse.data?.results?.services || [])}
+            <Stack spacing={3}>
+              <Typography variant="h4">Warehouses</Typography>
 
-          <Stack direction="row" justifyContent="end">
-            <Button
-              variant="contained"
-              color="primary"
-              LinkComponent={RouterLink}
-              href={paths.search.services(query)}
-            >
-              Show More
-            </Button>
-          </Stack>
-        </Stack>
+              {renderWarehouses(searchResponse.data?.results?.warehouses || [])}
+
+              <Stack direction="row" justifyContent="end">
+                <Button
+                  variant="contained"
+                  color="primary"
+                  LinkComponent={RouterLink}
+                  href={paths.search.warehouses(query)}
+                >
+                  Show More
+                </Button>
+              </Stack>
+            </Stack>
+
+            <Stack spacing={3}>
+              <Typography variant="h4">Services</Typography>
+
+              {renderServices(searchResponse.data?.results?.services || [])}
+
+              <Stack direction="row" justifyContent="end">
+                <Button
+                  variant="contained"
+                  color="primary"
+                  LinkComponent={RouterLink}
+                  href={paths.search.services(query)}
+                >
+                  Show More
+                </Button>
+              </Stack>
+            </Stack>
+          </>
+        )}
       </Stack>
     </Container>
   );

@@ -2,7 +2,7 @@ import { memo, useCallback, useEffect, useState } from 'react';
 
 import IconButton from '@mui/material/IconButton';
 
-import { Dialog, FilledInput, InputAdornment } from '@mui/material';
+import { Dialog, FilledInput, InputAdornment, Tooltip } from '@mui/material';
 import { useRouter, useSearchParams } from 'next/navigation';
 import PropTypes from 'prop-types';
 import { SearchFilterDialog } from 'src/components/common/custom-dialog';
@@ -54,6 +54,8 @@ function Searchbar(props) {
     if (query) setSearchQuery(query);
   }, [searchParams]);
 
+  const isValidQuery = !!searchQuery?.trim()?.length;
+
   return (
     <>
       <form style={{ width: '60%' }} onSubmit={handleSearchSubmit}>
@@ -67,9 +69,11 @@ function Searchbar(props) {
           }
           endAdornment={
             <InputAdornment position="end">
-              <IconButton onClick={filterDialog.onOpen}>
-                <Iconify icon="lets-icons:filter" />
-              </IconButton>
+              <Tooltip title={isValidQuery ? null : 'Enter search text to apply filter'}>
+                <IconButton onClick={isValidQuery ? filterDialog.onOpen : undefined}>
+                  <Iconify icon="lets-icons:filter" />
+                </IconButton>
+              </Tooltip>
             </InputAdornment>
           }
           placeholder="Search here"
