@@ -1,21 +1,31 @@
 import { createApi } from '@reduxjs/toolkit/query/react';
+import { usRegions } from 'src/assets/data';
 import { endpoints } from 'src/utils/api/client';
 import { publicBaseQuery } from '../utills';
 import { transactionApi } from './transactionApi';
 import { warehouseApi } from './warehouseApi';
 
+// update warehouse list cache
 const updateWarehouseCache = (dispatch, arg = {}, updates = {}) => {
+  // list cache update handler
+  const updateListCache = (draft) => {
+    const updateIndex = draft.results.findIndex((w) => w.id === arg.id);
+    if (updateIndex === -1) return;
+
+    const warehouse = { ...draft.results[updateIndex], ...updates };
+
+    draft.results[updateIndex] = warehouse;
+  };
+
   // update the warehouse list cache
-  dispatch(
-    warehouseApi.util.updateQueryData('warehouseList', undefined, (draft) => {
-      const updateIndex = draft.results.findIndex((w) => w.id === arg.id);
-      if (updateIndex === -1) return;
+  dispatch(warehouseApi.util.updateQueryData('warehouseList', undefined, updateListCache));
 
-      const warehouse = { ...draft.results[updateIndex], ...updates };
-
-      draft.results[updateIndex] = warehouse;
-    })
-  );
+  // update regions cache
+  usRegions.forEach((region) => {
+    dispatch(
+      warehouseApi.util.updateQueryData('warehouseList', { region: region.code }, updateListCache)
+    );
+  });
 
   // update the individual warehouse cache
   dispatch(
@@ -95,6 +105,22 @@ const updateVerifiedCache = (dispatch, arg = {}, updates = {}) => {
   );
 };
 
+// update diamond warehouses
+const updateDiamondCache = (dispatch, arg = {}, updates = {}) => {
+  // update not rated api cache (ADMIN)
+  dispatch(
+    warehouseApi.util.updateQueryData('warehouseList', { hasDiscount: false }, (draft) => {
+      if (!Array.isArray(draft?.results)) return; // check is results valid or not
+
+      if (arg?.diamond > 0) {
+        const filtered = draft.results.filter((w) => w.id !== arg.id); // remove warehouse from the cache
+        draft.results = filtered;
+      }
+    })
+  );
+};
+
+// update transaction status cache
 const updateTransactionStatus = (dispatch, arg, value) => {
   dispatch(
     adminApi.util.updateQueryData('listTransaction', undefined, (draft) => {
@@ -156,9 +182,10 @@ export const adminApi = createApi({
       }),
       onQueryStarted: async (arg, { dispatch, queryFulfilled }) => {
         try {
-          await queryFulfilled;
+          const response = await queryFulfilled;
 
           updateWarehouseCache(dispatch, arg, { diamond: arg.diamond });
+          updateDiamondCache(dispatch, arg, response?.data?.results);
         } catch (error) {
           console.error('Update Cache Warehouse Diamond Error:', error);
         }
