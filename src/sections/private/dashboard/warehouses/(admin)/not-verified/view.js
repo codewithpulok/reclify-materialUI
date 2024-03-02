@@ -24,7 +24,7 @@ const WarehouseNotVerifiedView = (props) => {
   const { user } = useAppSelector(selectAuth);
 
   // api state
-  const listResponse = useWarehouseListQuery({ visible: false });
+  const listResponse = useWarehouseListQuery({ verified: false });
 
   // logic state
   const { currentData, currentPage, goTo, totalPages } = usePagination(listResponse?.data?.results);

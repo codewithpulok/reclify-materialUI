@@ -4,16 +4,14 @@ import { publicBaseQuery } from '../utills';
 import { transactionApi } from './transactionApi';
 import { warehouseApi } from './warehouseApi';
 
-const updateWarehoueCache = (dispatch, arg = {}, updates = {}) => {
-  // update the waehouse list cache
+const updateWarehouseCache = (dispatch, arg = {}, updates = {}) => {
+  // update the warehouse list cache
   dispatch(
     warehouseApi.util.updateQueryData('warehouseList', undefined, (draft) => {
       const updateIndex = draft.results.findIndex((w) => w.id === arg.id);
       if (updateIndex === -1) return;
 
       const warehouse = { ...draft.results[updateIndex], ...updates };
-
-      console.log({ warehouse, updateIndex });
 
       draft.results[updateIndex] = warehouse;
     })
@@ -24,6 +22,75 @@ const updateWarehoueCache = (dispatch, arg = {}, updates = {}) => {
     warehouseApi.util.updateQueryData('warehouse', arg.id, (draft) => {
       const warehouse = { ...draft.results, ...updates };
       draft.results = warehouse;
+    })
+  );
+};
+
+// update visible warehouses
+const updateVisibleCache = (dispatch, arg = {}, updates = {}) => {
+  // update invisible api cache (ADMIN)
+  dispatch(
+    warehouseApi.util.updateQueryData('warehouseList', { visible: false }, (draft) => {
+      if (!Array.isArray(draft?.results)) return; // check is results valid or not
+
+      if (arg?.visible === true) {
+        const filtered = draft.results.filter((w) => w.id !== arg.id); // remove warehouse from the cache
+        draft.results = filtered;
+      }
+    })
+  );
+
+  const removeInvisible = (draft) => {
+    if (!Array.isArray(draft?.results)) return; // check is results valid or not
+
+    if (arg?.visible === false) {
+      const filtered = draft.results.filter((w) => w.id !== arg.id); // remove warehouse from the cache
+      draft.results = filtered;
+    }
+  };
+
+  // update not rated api cache (ADMIN)
+  dispatch(
+    warehouseApi.util.updateQueryData('warehouseList', { hasDiscount: false }, removeInvisible)
+  );
+
+  // update not verified api cache (ADMIN)
+  dispatch(
+    warehouseApi.util.updateQueryData('warehouseList', { verified: false }, removeInvisible)
+  );
+
+  // update not featured api cache (ADMIN)
+  dispatch(
+    warehouseApi.util.updateQueryData('warehouseList', { featured: false }, removeInvisible)
+  );
+};
+
+// update featured warehouses
+const updateFeaturedCache = (dispatch, arg = {}, updates = {}) => {
+  // update not featured api cache (ADMIN)
+  dispatch(
+    warehouseApi.util.updateQueryData('warehouseList', { featured: false }, (draft) => {
+      if (!Array.isArray(draft?.results)) return; // check is results valid or not
+
+      if (arg?.isFeatured === true) {
+        const filtered = draft.results.filter((w) => w.id !== arg.id); // remove warehouse from the cache
+        draft.results = filtered;
+      }
+    })
+  );
+};
+
+// update verified warehouses
+const updateVerifiedCache = (dispatch, arg = {}, updates = {}) => {
+  // update not verified api cache (ADMIN)
+  dispatch(
+    warehouseApi.util.updateQueryData('warehouseList', { verified: false }, (draft) => {
+      if (!Array.isArray(draft?.results)) return; // check is results valid or not
+
+      if (arg?.isVerified === true) {
+        const filtered = draft.results.filter((w) => w.id !== arg.id); // remove warehouse from the cache
+        draft.results = filtered;
+      }
     })
   );
 };
@@ -55,9 +122,10 @@ export const adminApi = createApi({
       }),
       onQueryStarted: async (arg, { dispatch, queryFulfilled }) => {
         try {
-          await queryFulfilled;
+          const response = await queryFulfilled;
 
-          updateWarehoueCache(dispatch, arg, { isVerified: arg.isVerified });
+          updateWarehouseCache(dispatch, arg, { isVerified: arg.isVerified });
+          updateVerifiedCache(dispatch, arg, response?.data?.results);
         } catch (error) {
           console.error('Update Cache Warehouse Verified Error:', error);
         }
@@ -71,9 +139,10 @@ export const adminApi = createApi({
       }),
       onQueryStarted: async (arg, { dispatch, queryFulfilled }) => {
         try {
-          await queryFulfilled;
+          const response = await queryFulfilled;
 
-          updateWarehoueCache(dispatch, arg, { isFeatured: arg.isFeatured });
+          updateFeaturedCache(dispatch, arg, response?.data?.results);
+          updateWarehouseCache(dispatch, arg, { isFeatured: arg.isFeatured });
         } catch (error) {
           console.error('Update Cache Warehouse Featured Error:', error);
         }
@@ -89,7 +158,7 @@ export const adminApi = createApi({
         try {
           await queryFulfilled;
 
-          updateWarehoueCache(dispatch, arg, { diamond: arg.diamond });
+          updateWarehouseCache(dispatch, arg, { diamond: arg.diamond });
         } catch (error) {
           console.error('Update Cache Warehouse Diamond Error:', error);
         }
@@ -103,9 +172,10 @@ export const adminApi = createApi({
       }),
       onQueryStarted: async (arg, { dispatch, queryFulfilled }) => {
         try {
-          await queryFulfilled;
+          const response = await queryFulfilled;
 
-          updateWarehoueCache(dispatch, arg, { visible: arg.visible });
+          updateWarehouseCache(dispatch, arg, { visible: arg.visible });
+          updateVisibleCache(dispatch, arg, response?.data?.results);
         } catch (error) {
           console.error('Update Cache Warehouse Diamond Error:', error);
         }
