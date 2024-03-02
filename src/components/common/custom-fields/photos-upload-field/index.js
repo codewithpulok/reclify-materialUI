@@ -16,6 +16,7 @@ import PreviewCard from './preview-card';
 
 const Props = {
   name: PropTypes.string.isRequired,
+  excludeImages: PropTypes.arrayOf(PropTypes.string),
 };
 
 /**
@@ -23,7 +24,7 @@ const Props = {
  * @returns {JSX.Element}
  */
 const PhotosUploadField = (props) => {
-  const { name } = props;
+  const { name, excludeImages = [] } = props;
   const [uploadFiles, { isLoading }] = useFilesUploadMutation();
   const [deleteFile] = useFileDeleteMutation();
 
@@ -77,23 +78,28 @@ const PhotosUploadField = (props) => {
   // remove image
   const removeImage = useCallback(
     async (image) => {
-      const response = await deleteFile(image.id);
-      const { error, data } = response;
-
-      // handle error state
-      if (error || data.isError) {
-        console.error('Image Delete Error:', error || data);
-        enqueueSnackbar('Error in deleting Images', { variant: 'error' });
-      }
-
-      // handle success state
-      else if (data && data?.success) {
-        console.log('Image Deleted Successfully: ', response);
+      if (excludeImages.includes(image.link)) {
         enqueueSnackbar('Image Deleted successfully');
+      } else {
+        const response = await deleteFile(image.id);
+        const { error, data } = response;
+
+        // handle error state
+        if (error || data.isError) {
+          console.error('Image Delete Error:', error || data);
+          enqueueSnackbar('Error in deleting Images', { variant: 'error' });
+        }
+
+        // handle success state
+        else if (data && data?.success) {
+          console.log('Image Deleted Successfully: ', response);
+          enqueueSnackbar('Image Deleted successfully');
+        }
       }
+
       remove(fields.findIndex((f) => f._id === image._id)); // delete the image
     },
-    [deleteFile, fields, remove]
+    [deleteFile, excludeImages, fields, remove]
   );
 
   // open edit dialog

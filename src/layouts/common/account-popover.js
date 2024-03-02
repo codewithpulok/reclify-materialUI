@@ -30,7 +30,7 @@ const AccountPopover = () => {
   const popover = usePopover();
 
   // auth state
-  const { user } = useAppSelector(selectAuth);
+  const { user, isAuthenticated } = useAppSelector(selectAuth);
 
   // api state
   const [logout] = useLogoutMutation();
@@ -106,15 +106,17 @@ const AccountPopover = () => {
       </IconButton>
 
       <CustomPopover open={popover.open} onClose={popover.onClose} sx={{ width: 200, p: 0 }}>
-        <Box sx={{ p: 2, pb: 1.5 }}>
-          <Typography variant="subtitle2" noWrap>
-            {`${user?.firstName} ${user?.lastName}`}
-          </Typography>
+        {isAuthenticated && (
+          <Box sx={{ p: 2, pb: 1.5 }}>
+            <Typography variant="subtitle2" noWrap>
+              {`${user?.firstName} ${user?.lastName}`}
+            </Typography>
 
-          <Typography variant="body2" sx={{ color: 'text.secondary' }} noWrap>
-            {user?.email}
-          </Typography>
-        </Box>
+            <Typography variant="body2" sx={{ color: 'text.secondary' }} noWrap>
+              {user?.email}
+            </Typography>
+          </Box>
+        )}
 
         <Divider sx={{ borderStyle: 'dashed' }} />
 

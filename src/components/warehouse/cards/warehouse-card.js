@@ -21,6 +21,7 @@ import { paths } from 'src/routes/paths';
 import Image from 'src/components/common/image';
 import Label from 'src/components/common/label';
 // utils
+import TextMaxLine from 'src/components/common/text-max-line';
 import { RouterLink } from 'src/routes/components';
 import { joinAddressObj } from 'src/utils/address';
 import { getPrimaryPhoto } from 'src/utils/photos';
@@ -103,7 +104,9 @@ const WarehouseCard = (props) => {
               )}
               <Stack>
                 <Stack direction="row" alignItems="center">
-                  <Typography variant={isSm ? 'subtitle2' : 'h5'}>{warehouse.name}</Typography>
+                  <TextMaxLine variant={isSm ? 'subtitle2' : 'h5'} line={1}>
+                    {warehouse.name}
+                  </TextMaxLine>
                   {warehouse.isVerified ? (
                     <Tooltip title="Verified" placement="top" arrow>
                       {ICONS.verified(isSm ? 16 : 18, { color: 'primary.main', lineHeight: '1' })}

@@ -173,7 +173,10 @@ const Content = (props) => {
               handleNext={validateStep}
             />
 
-            <WarehouseFields activeStep={activeStep} />
+            <WarehouseFields
+              activeStep={activeStep}
+              excludeImages={sourceWarehouse?.photos?.map((p) => p.link) || []}
+            />
             <Stack
               sx={{
                 flexDirection: {
