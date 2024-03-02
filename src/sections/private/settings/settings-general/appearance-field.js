@@ -7,10 +7,10 @@ import {
   Switch,
   Typography,
 } from '@mui/material';
-import { useSettingsContext } from 'src/components/common/settings';
+import useAppearance from 'src/redux-toolkit/features/appearance/use-appearance';
 
 const AppearanceField = (props) => {
-  const settings = useSettingsContext();
+  const appearance = useAppearance();
 
   return (
     <Card>
@@ -21,13 +21,13 @@ const AppearanceField = (props) => {
           <FormControlLabel
             control={
               <Switch
-                checked={settings?.themeMode === 'dark'}
+                checked={appearance?.themeMode === 'dark'}
                 onChange={(e) =>
-                  settings.onUpdate('themeMode', e.target.checked ? 'dark' : 'light')
+                  appearance.onUpdate('themeMode', e.target.checked ? 'dark' : 'light')
                 }
               />
             }
-            label={settings?.themeMode === 'dark' ? 'Dark' : 'Light'}
+            label={appearance?.themeMode === 'dark' ? 'Dark' : 'Light'}
             labelPlacement="start"
           />
         </Stack>

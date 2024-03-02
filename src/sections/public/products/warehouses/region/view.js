@@ -5,8 +5,8 @@ import Container from '@mui/material/Container';
 import PropTypes from 'prop-types';
 // local components
 import CustomBreadcrumbs from 'src/components/common/custom-breadcrumbs/custom-breadcrumbs';
-import { useSettingsContext } from 'src/components/common/settings';
 import usePagination from 'src/hooks/use-pagination';
+import useAppearance from 'src/redux-toolkit/features/appearance/use-appearance';
 import { useWarehouseListQuery } from 'src/redux-toolkit/services/warehouseApi';
 import { paths } from 'src/routes/paths';
 import RenderWarehouses from 'src/sections/private/dashboard/warehouses/common/render-warehouses';
@@ -22,7 +22,7 @@ const Props = {
  */
 const RegionView = (props) => {
   const { region } = props;
-  const settings = useSettingsContext();
+  const appearance = useAppearance();
 
   // api state
   const listResponse = useWarehouseListQuery({ region: region.code });
@@ -31,7 +31,7 @@ const RegionView = (props) => {
   const { currentData, currentPage, goTo, totalPages } = usePagination(listResponse?.data?.results);
 
   return (
-    <Container maxWidth={settings.themeStretch ? false : 'xl'}>
+    <Container maxWidth={appearance.themeStretch ? false : 'xl'}>
       <Stack mb={5} spacing={5}>
         <CustomBreadcrumbs
           heading={`${region.name} Warehouses`}

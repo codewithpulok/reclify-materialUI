@@ -17,10 +17,10 @@ import { useDebounce } from 'src/hooks/use-debounce';
 import CustomBreadcrumbs from 'src/components/common/custom-breadcrumbs';
 import Iconify from 'src/components/common/iconify';
 import Label from 'src/components/common/label';
-import { useSettingsContext } from 'src/components/common/settings';
 
 import NewsSearch from 'src/components/news/news-search';
 import NewsSort from 'src/components/news/news-sort';
+import useAppearance from 'src/redux-toolkit/features/appearance/use-appearance';
 import { useBlogListQuery } from 'src/redux-toolkit/services/blogApi';
 import { paramCase } from 'src/utils/change-case';
 import ViewList from './view-list';
@@ -45,7 +45,7 @@ export const POST_SORT_OPTIONS = [
 // ----------------------------------------------------------------------
 
 export default function NewsListingView() {
-  const settings = useSettingsContext();
+  const appearance = useAppearance();
 
   // api states
   const listResponse = useBlogListQuery();
@@ -85,7 +85,7 @@ export default function NewsListingView() {
   );
 
   return (
-    <Container maxWidth={settings.themeStretch ? false : 'lg'}>
+    <Container maxWidth={appearance.themeStretch ? false : 'lg'}>
       <CustomBreadcrumbs
         heading="News List"
         links={[

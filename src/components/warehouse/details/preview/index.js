@@ -4,8 +4,8 @@ import { Grid } from '@mui/material';
 import Container from '@mui/material/Container';
 import PropTypes from 'prop-types';
 // local components
-import { useSettingsContext } from 'src/components/common/settings';
 import { useResponsive } from 'src/hooks/use-responsive';
+import useAppearance from 'src/redux-toolkit/features/appearance/use-appearance';
 import { selectAuth } from 'src/redux-toolkit/features/auth/authSlice';
 import { useAppSelector } from 'src/redux-toolkit/hooks';
 import WarehouseHeader from '../common/details-header';
@@ -27,13 +27,13 @@ const Props = {
  */
 function WarehouseDetailsPreview(props) {
   const { warehouse, reviews } = props;
-  const settings = useSettingsContext();
+  const appearance = useAppearance();
   const { user } = useAppSelector(selectAuth);
 
   const mdUp = useResponsive('up', 'md');
 
   return (
-    <Container maxWidth={settings.themeStretch ? false : 'xl'}>
+    <Container maxWidth={appearance.themeStretch ? false : 'xl'}>
       <Grid container spacing={2}>
         <Grid item xs={12}>
           <WarehouseHeader warehouse={warehouse} hideBack />

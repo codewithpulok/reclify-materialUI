@@ -5,10 +5,10 @@ import { useRouter, useSearchParams } from 'next/navigation';
 import { useCallback, useEffect, useMemo } from 'react';
 import CustomBreadcrumbs from 'src/components/common/custom-breadcrumbs/custom-breadcrumbs';
 import { EmptyState, ErrorState, LoadingState } from 'src/components/common/custom-state';
-import { useSettingsContext } from 'src/components/common/settings';
 import { ServiceCard } from 'src/components/service/cards';
 import { CustomerCard, SellerCard } from 'src/components/users/cards';
 import { WarehouseCard } from 'src/components/warehouse/cards';
+import useAppearance from 'src/redux-toolkit/features/appearance/use-appearance';
 import { useLazySearchAllQuery } from 'src/redux-toolkit/services/searchApi';
 import { RouterLink } from 'src/routes/components';
 import { paths } from 'src/routes/paths';
@@ -24,7 +24,7 @@ const SearchListView = (props) => {
   const searchParam = useSearchParams();
   const query = searchParam.get('query');
   const type = searchParam.get('type');
-  const settings = useSettingsContext();
+  const appearance = useAppearance();
 
   const hasTypeFilter = useMemo(() => type === 'warehouse' || type === 'service', [type]);
 
@@ -134,7 +134,7 @@ const SearchListView = (props) => {
   );
 
   return (
-    <Container maxWidth={settings.themeStretch ? false : 'lg'}>
+    <Container maxWidth={appearance.themeStretch ? false : 'lg'}>
       <Stack mb={5} spacing={5}>
         <CustomBreadcrumbs
           heading={`You've searched for - ${query}`}

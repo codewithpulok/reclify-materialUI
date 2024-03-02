@@ -7,18 +7,18 @@ import IconButton from '@mui/material/IconButton';
 
 import { varHover } from 'src/components/common/animate';
 import Iconify from 'src/components/common/iconify';
-import { useSettingsContext } from 'src/components/common/settings';
+import useAppearance from 'src/redux-toolkit/features/appearance/use-appearance';
 
 // ----------------------------------------------------------------------
 
 export default function AppearanceButton({ sx }) {
-  const settings = useSettingsContext();
+  const appearance = useAppearance();
 
   return (
     <Badge
       color="error"
       variant="dot"
-      invisible={!settings.canReset}
+      invisible={!appearance.canReset}
       sx={{
         [`& .${badgeClasses.badge}`]: {
           top: 8,
@@ -34,7 +34,7 @@ export default function AppearanceButton({ sx }) {
           whileHover="hover"
           variants={varHover(1.05)}
           aria-label="settings"
-          onClick={settings.onToggle}
+          onClick={appearance.onToggle}
           sx={{
             width: 40,
             height: 40,

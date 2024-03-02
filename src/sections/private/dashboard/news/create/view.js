@@ -5,17 +5,17 @@ import Container from '@mui/material/Container';
 import { paths } from 'src/routes/paths';
 
 import CustomBreadcrumbs from 'src/components/common/custom-breadcrumbs';
-import { useSettingsContext } from 'src/components/common/settings';
 
+import useAppearance from 'src/redux-toolkit/features/appearance/use-appearance';
 import CreateForm from './create-form';
 
 // ----------------------------------------------------------------------
 
 export default function PostCreateView() {
-  const settings = useSettingsContext();
+  const appearance = useAppearance();
 
   return (
-    <Container maxWidth={settings.themeStretch ? false : 'lg'}>
+    <Container maxWidth={appearance.themeStretch ? false : 'lg'}>
       <CustomBreadcrumbs
         heading="Create a new post"
         links={[

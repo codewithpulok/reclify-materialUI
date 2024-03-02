@@ -4,8 +4,7 @@ import Box from '@mui/material/Box';
 
 import { useResponsive } from 'src/hooks/use-responsive';
 
-import { useSettingsContext } from 'src/components/common/settings';
-
+import useAppearance from 'src/redux-toolkit/features/appearance/use-appearance';
 import { HEADER, NAV } from '../config-layout';
 
 // ----------------------------------------------------------------------
@@ -13,13 +12,13 @@ import { HEADER, NAV } from '../config-layout';
 const SPACING = 8;
 
 export default function Main({ children, sx, ...other }) {
-  const settings = useSettingsContext();
+  const appearance = useAppearance();
 
   const lgUp = useResponsive('up', 'lg');
 
-  const isNavHorizontal = settings.themeLayout === 'horizontal';
+  const isNavHorizontal = appearance.themeLayout === 'horizontal';
 
-  const isNavMini = settings.themeLayout === 'mini';
+  const isNavMini = appearance.themeLayout === 'mini';
 
   if (isNavHorizontal) {
     return (

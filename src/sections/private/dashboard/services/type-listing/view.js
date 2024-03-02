@@ -6,9 +6,9 @@ import PropTypes from 'prop-types';
 import { useMemo } from 'react';
 // local components
 import CustomBreadcrumbs from 'src/components/common/custom-breadcrumbs/custom-breadcrumbs';
-import { useSettingsContext } from 'src/components/common/settings';
 import { getServiceType } from 'src/constant/service-types';
 import usePagination from 'src/hooks/use-pagination';
+import useAppearance from 'src/redux-toolkit/features/appearance/use-appearance';
 import { useListServicesQuery } from 'src/redux-toolkit/services/serviceApi';
 import { paths } from 'src/routes/paths';
 import RenderServices from '../common/render-services';
@@ -24,7 +24,7 @@ const Props = {
 const RegionView = (props) => {
   const { serviceType } = props;
 
-  const settings = useSettingsContext();
+  const appearance = useAppearance();
   const service = getServiceType(serviceType);
 
   // api state
@@ -43,7 +43,7 @@ const RegionView = (props) => {
   const { currentData, currentPage, goTo, totalPages } = usePagination(filteredData);
 
   return (
-    <Container maxWidth={settings.themeStretch ? false : 'xl'}>
+    <Container maxWidth={appearance.themeStretch ? false : 'xl'}>
       <Stack mb={5} spacing={5}>
         <CustomBreadcrumbs
           heading={`${service.label} Services`}

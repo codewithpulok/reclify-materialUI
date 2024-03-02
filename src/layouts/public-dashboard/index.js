@@ -7,10 +7,9 @@ import Box from '@mui/material/Box';
 import { useBoolean } from 'src/hooks/use-boolean';
 import { useResponsive } from 'src/hooks/use-responsive';
 
-import { useSettingsContext } from 'src/components/common/settings';
-
 import Loading from 'src/app/loading';
 import { SnackbarProvider } from 'src/components/common/snackbar';
+import useAppearance from 'src/redux-toolkit/features/appearance/use-appearance';
 import Footer from '../main/footer';
 import Header from './header';
 import Main from './main';
@@ -21,17 +20,19 @@ import NavVertical from './nav-vertical';
 // ----------------------------------------------------------------------
 
 export default function PublicDashboardLayout({ children }) {
-  const settings = useSettingsContext();
+  const appearance = useAppearance();
 
   const lgUp = useResponsive('up', 'lg');
 
   const nav = useBoolean();
 
   const isHorizontal =
-    typeof settings?.themeLayout === 'string' ? settings.themeLayout === 'horizontal' : undefined;
+    typeof appearance?.themeLayout === 'string'
+      ? appearance.themeLayout === 'horizontal'
+      : undefined;
 
   const isMini =
-    typeof settings?.themeLayout === 'string' ? settings.themeLayout === 'mini' : undefined;
+    typeof appearance?.themeLayout === 'string' ? appearance.themeLayout === 'mini' : undefined;
 
   const renderNavMini = <NavMini />;
 

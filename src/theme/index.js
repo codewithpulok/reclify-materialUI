@@ -7,10 +7,9 @@ import { useMemo } from 'react';
 import CssBaseline from '@mui/material/CssBaseline';
 import { createTheme, ThemeProvider as MuiThemeProvider } from '@mui/material/styles';
 
-import { useSettingsContext } from 'src/components/common/settings';
-
 // system
 import { AppRouterCacheProvider } from '@mui/material-nextjs/v13-appRouter';
+import useAppearance from 'src/redux-toolkit/features/appearance/use-appearance';
 import { palette } from './palette';
 import { shadows } from './shadows';
 import { typography } from './typography';
@@ -24,31 +23,31 @@ import { componentsOverrides } from './overrides';
 // ----------------------------------------------------------------------
 
 export default function ThemeProvider({ children }) {
-  const settings = useSettingsContext();
+  const appearance = useAppearance();
 
-  const presets = createPresets(settings.themeColorPresets);
+  const presets = createPresets(appearance.themeColorPresets);
 
-  const contrast = createContrast(settings.themeContrast, settings.themeMode);
+  const contrast = createContrast(appearance.themeContrast, appearance.themeMode);
 
   const memoizedValue = useMemo(
     () => ({
       palette: {
-        ...palette(settings.themeMode),
+        ...palette(appearance.themeMode),
         ...presets.palette,
         ...contrast.palette,
       },
       customShadows: {
-        ...customShadows(settings.themeMode),
+        ...customShadows(appearance.themeMode),
         ...presets.customShadows,
       },
-      direction: settings.themeDirection,
-      shadows: shadows(settings.themeMode),
+      direction: appearance.themeDirection,
+      shadows: shadows(appearance.themeMode),
       shape: { borderRadius: 8 },
       typography,
     }),
     [
-      settings.themeMode,
-      settings.themeDirection,
+      appearance.themeMode,
+      appearance.themeDirection,
       presets.palette,
       presets.customShadows,
       contrast.palette,
@@ -63,7 +62,7 @@ export default function ThemeProvider({ children }) {
     // <NextAppDirEmotionCacheProvider options={{ key: 'css' }}>
     <AppRouterCacheProvider options={{ key: 'css' }}>
       <MuiThemeProvider theme={theme}>
-        <RTL themeDirection={settings.themeDirection}>
+        <RTL themeDirection={appearance.themeDirection}>
           <CssBaseline />
           {children}
         </RTL>

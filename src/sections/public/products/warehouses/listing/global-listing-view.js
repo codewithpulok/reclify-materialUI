@@ -6,8 +6,8 @@ import { useEffect } from 'react';
 // local components
 import { getRegionScope } from 'src/assets/data';
 import CustomBreadcrumbs from 'src/components/common/custom-breadcrumbs/custom-breadcrumbs';
-import { useSettingsContext } from 'src/components/common/settings';
 import usePagination from 'src/hooks/use-pagination';
+import useAppearance from 'src/redux-toolkit/features/appearance/use-appearance';
 import { selectAuth } from 'src/redux-toolkit/features/auth/authSlice';
 import { useAppSelector } from 'src/redux-toolkit/hooks';
 import { useWarehouseListQuery } from 'src/redux-toolkit/services/warehouseApi';
@@ -23,7 +23,7 @@ const Props = {};
 const GlobalListingView = (props) => {
   const scope = getRegionScope('global');
 
-  const settings = useSettingsContext();
+  const appearance = useAppearance();
   const { user } = useAppSelector(selectAuth);
 
   // api state
@@ -43,7 +43,7 @@ const GlobalListingView = (props) => {
   }, [user?.id]);
 
   return (
-    <Container maxWidth={settings.themeStretch ? false : 'xl'}>
+    <Container maxWidth={appearance.themeStretch ? false : 'xl'}>
       <Stack mb={5} spacing={5}>
         <CustomBreadcrumbs
           heading={`${scope.name} Warehouses`}

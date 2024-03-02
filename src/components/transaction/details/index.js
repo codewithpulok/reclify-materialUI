@@ -12,11 +12,11 @@ import {
   CompleteTransactionDialog,
 } from 'src/components/common/custom-dialog';
 import Label from 'src/components/common/label';
-import { useSettingsContext } from 'src/components/common/settings';
 import { AmountDetailsCard, WarehouseDetailsCard } from 'src/components/user-settings/cards';
 import { UserDetailsCard } from 'src/components/users/cards';
 import { getTransactionStatusColor, getTransactionStatusLabel } from 'src/constant/transaction';
 import { useDialog } from 'src/hooks/use-dialog';
+import useAppearance from 'src/redux-toolkit/features/appearance/use-appearance';
 import { selectAuth } from 'src/redux-toolkit/features/auth/authSlice';
 import { useAppSelector } from 'src/redux-toolkit/hooks';
 import { fDateTime } from 'src/utils/format-time';
@@ -36,7 +36,7 @@ const Props = {
  */
 const TransactionDetails = (props) => {
   const { transaction } = props;
-  const settings = useSettingsContext();
+  const appearance = useAppearance();
   const { user } = useAppSelector(selectAuth);
 
   // app states
@@ -54,7 +54,7 @@ const TransactionDetails = (props) => {
 
   return (
     <>
-      <Container maxWidth={settings.themeStretch ? false : 'xl'}>
+      <Container maxWidth={appearance.themeStretch ? false : 'xl'}>
         <Grid container spacing={1.2}>
           <Grid item xs={12} mb={3}>
             <Stack spacing={0.2}>

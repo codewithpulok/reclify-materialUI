@@ -3,7 +3,7 @@
 import { Card, Container } from '@mui/material';
 import PropTypes from 'prop-types';
 import CustomBreadcrumbs from 'src/components/common/custom-breadcrumbs/custom-breadcrumbs';
-import { useSettingsContext } from 'src/components/common/settings';
+import useAppearance from 'src/redux-toolkit/features/appearance/use-appearance';
 import { selectAuth } from 'src/redux-toolkit/features/auth/authSlice';
 import { useAppSelector } from 'src/redux-toolkit/hooks';
 import { paths } from 'src/routes/paths';
@@ -20,12 +20,12 @@ const Props = {
  * @returns {JSX.Element}
  */
 const DetailsContent = (props) => {
-  const settings = useSettingsContext();
+  const appearance = useAppearance();
   const { user } = props;
   const { user: authUser } = useAppSelector(selectAuth);
 
   return (
-    <Container maxWidth={settings.themeStretch ? false : 'lg'}>
+    <Container maxWidth={appearance.themeStretch ? false : 'lg'}>
       <CustomBreadcrumbs
         heading="Customer Details"
         links={[

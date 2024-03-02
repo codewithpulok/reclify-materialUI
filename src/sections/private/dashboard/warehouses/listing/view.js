@@ -7,9 +7,9 @@ import { useCallback, useMemo } from 'react';
 import { regionScopes } from 'src/assets/data';
 import { EmptyState, ErrorState } from 'src/components/common/custom-state';
 import { getIconify } from 'src/components/common/iconify/utilities';
-import { useSettingsContext } from 'src/components/common/settings';
 import { WarehouseCardSkeleton } from 'src/components/warehouse/cards';
 import { WarehouseCarousel, WarehouseFeaturedCarousel } from 'src/components/warehouse/carousel';
+import useAppearance from 'src/redux-toolkit/features/appearance/use-appearance';
 import { useWarehouseListQuery } from 'src/redux-toolkit/services/warehouseApi';
 import { RouterLink } from 'src/routes/components';
 import { paths } from 'src/routes/paths';
@@ -18,7 +18,7 @@ import { ICONS } from '../config-warehouse';
 // ----------------------------------------------------------------------
 
 export default function ListingView() {
-  const settings = useSettingsContext();
+  const appearance = useAppearance();
 
   const warehousesResponse = useWarehouseListQuery();
 
@@ -84,7 +84,7 @@ export default function ListingView() {
   );
 
   return (
-    <Container maxWidth={settings.themeStretch ? false : 'xl'}>
+    <Container maxWidth={appearance.themeStretch ? false : 'xl'}>
       <Stack mb={5} spacing={5}>
         <Stack
           sx={{

@@ -11,13 +11,13 @@ import { useResponsive } from 'src/hooks/use-responsive';
 // theme
 import { bgBlur } from 'src/theme/css';
 // routes
-import { paths } from 'src/routes/paths';
 import { RouterLink } from 'src/routes/components';
+import { paths } from 'src/routes/paths';
 // components
-import Logo from 'src/components/common/logo';
-import { useSettingsContext } from 'src/components/common/settings';
-import SvgColor from 'src/components/common/svg-color';
 import { getIconify } from 'src/components/common/iconify/utilities';
+import Logo from 'src/components/common/logo';
+import SvgColor from 'src/components/common/svg-color';
+import useAppearance from 'src/redux-toolkit/features/appearance/use-appearance';
 import AccountPopover from '../common/account-popover';
 import NotificationsPopover from '../common/notifications-popover';
 import Searchbar from '../common/searchbar';
@@ -27,9 +27,9 @@ import { HEADER, NAV } from '../config-layout';
 
 export default function Header({ onOpenNav }) {
   const theme = useTheme();
-  const settings = useSettingsContext();
-  const isNavHorizontal = settings.themeLayout === 'horizontal';
-  const isNavMini = settings.themeLayout === 'mini';
+  const appearance = useAppearance();
+  const isNavHorizontal = appearance.themeLayout === 'horizontal';
+  const isNavMini = appearance.themeLayout === 'mini';
 
   const lgUp = useResponsive('up', 'lg');
   const offset = useOffSetTop(HEADER.H_DESKTOP);

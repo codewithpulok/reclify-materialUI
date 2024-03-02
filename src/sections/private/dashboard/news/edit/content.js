@@ -1,7 +1,7 @@
 import { Container } from '@mui/material';
 import PropTypes from 'prop-types';
 import CustomBreadcrumbs from 'src/components/common/custom-breadcrumbs/custom-breadcrumbs';
-import { useSettingsContext } from 'src/components/common/settings';
+import useAppearance from 'src/redux-toolkit/features/appearance/use-appearance';
 import { paths } from 'src/routes/paths';
 import EditForm from './edit-form';
 
@@ -16,10 +16,10 @@ const Props = {
  */
 const EditContent = (props) => {
   const { post } = props;
-  const settings = useSettingsContext();
+  const appearance = useAppearance();
 
   return (
-    <Container maxWidth={settings.themeStretch ? false : 'lg'}>
+    <Container maxWidth={appearance.themeStretch ? false : 'lg'}>
       <CustomBreadcrumbs
         heading="Edit"
         links={[

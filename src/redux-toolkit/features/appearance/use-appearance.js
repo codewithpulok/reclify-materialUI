@@ -10,18 +10,11 @@ const useAppearance = () => {
 
   const isArabic = localStorageGetItem('i18nextLng') === 'ar';
 
-  const changeThemeMode = useCallback(
-    (mode) => {
-      dispatch(updateAppearance({ themeMode: mode }));
-      updateAppearanceState('themeMode', mode);
-    },
-    [dispatch]
-  );
-
+  // update api state with localstorage
   const update = useCallback(
     (key, value) => {
       dispatch(updateAppearance({ [key]: value }));
-      updateAppearanceState([key], value);
+      updateAppearanceState(key, value);
     },
     [dispatch]
   );
@@ -34,6 +27,9 @@ const useAppearance = () => {
     },
     [dispatch]
   );
+
+  // change theme mode
+  const changeThemeMode = useCallback((mode) => update('themeMode', mode), [update]);
 
   useEffect(() => {
     if (isArabic) {

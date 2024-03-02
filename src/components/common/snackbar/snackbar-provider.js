@@ -7,16 +7,16 @@ import { useRef } from 'react';
 import Collapse from '@mui/material/Collapse';
 import IconButton from '@mui/material/IconButton';
 
+import useAppearance from 'src/redux-toolkit/features/appearance/use-appearance';
 import Iconify from '../iconify';
-import { useSettingsContext } from '../settings';
 import { StyledIcon, StyledNotistack } from './styles';
 
 // ----------------------------------------------------------------------
 
 export default function SnackbarProvider({ children }) {
-  const settings = useSettingsContext();
+  const appearance = useAppearance();
 
-  const isRTL = settings.themeDirection === 'rtl';
+  const isRTL = appearance.themeDirection === 'rtl';
 
   const notistackRef = useRef(null);
 

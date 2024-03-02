@@ -9,7 +9,8 @@ import { primaryFont } from 'src/theme/typography';
 
 import { MotionLazy } from 'src/components/common/animate/motion-lazy';
 import ProgressBar from 'src/components/common/progress-bar';
-import { SettingsDrawer, SettingsProvider } from 'src/components/common/settings';
+import { SettingsDrawer } from 'src/components/common/settings';
+import InitAppearance from 'src/redux-toolkit/features/appearance/init-appearance';
 import Provider from 'src/redux-toolkit/provider';
 
 // ----------------------------------------------------------------------
@@ -34,16 +35,7 @@ export default function RootLayout({ children }) {
     <html lang="en" className={primaryFont.className}>
       <body style={{ scrollBehavior: 'smooth' }}>
         <Provider>
-          <SettingsProvider
-            defaultSettings={{
-              themeMode: 'light', // 'light' | 'dark'
-              themeDirection: 'ltr', //  'rtl' | 'ltr'
-              themeContrast: 'default', // 'default' | 'bold'
-              themeLayout: 'vertical', // 'vertical' | 'horizontal' | 'mini'
-              themeColorPresets: 'default', // 'default' | 'cyan' | 'purple' | 'blue' | 'orange' | 'red'
-              themeStretch: false,
-            }}
-          >
+          <InitAppearance>
             <ThemeProvider>
               <MotionLazy>
                 <SettingsDrawer />
@@ -51,7 +43,7 @@ export default function RootLayout({ children }) {
                 {children}
               </MotionLazy>
             </ThemeProvider>
-          </SettingsProvider>
+          </InitAppearance>
         </Provider>
       </body>
     </html>
