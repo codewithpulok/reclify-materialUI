@@ -1,14 +1,14 @@
 'use client';
 
 import { Button, Container, Grid, Stack, Typography } from '@mui/material';
-import { useSearchParams } from 'next/navigation';
+import { useRouter, useSearchParams } from 'next/navigation';
 import { useCallback, useEffect, useMemo } from 'react';
 import CustomBreadcrumbs from 'src/components/common/custom-breadcrumbs/custom-breadcrumbs';
 import { EmptyState, ErrorState, LoadingState } from 'src/components/common/custom-state';
-import { useSettingsContext } from 'src/components/common/settings';
 import { ServiceCard } from 'src/components/service/cards';
 import { CustomerCard, SellerCard } from 'src/components/users/cards';
 import { WarehouseCard } from 'src/components/warehouse/cards';
+import useAppearance from 'src/redux-toolkit/features/appearance/use-appearance';
 import { useLazySearchAllQuery } from 'src/redux-toolkit/services/searchApi';
 import { RouterLink } from 'src/routes/components';
 import { paths } from 'src/routes/paths';
@@ -20,9 +20,13 @@ const Props = {};
  * @returns {JSX.Element}
  */
 const SearchListView = (props) => {
+  const router = useRouter();
   const searchParam = useSearchParams();
   const query = searchParam.get('query');
-  const settings = useSettingsContext();
+  const type = searchParam.get('type');
+  const appearance = useAppearance();
+
+  const hasTypeFilter = useMemo(() => type === 'warehouse' || type === 'service', [type]);
 
   // api state
   const [searchAll, searchResponse] = useLazySearchAllQuery();
@@ -33,7 +37,11 @@ const SearchListView = (props) => {
 
   // make request on search
   useEffect(() => {
-    if (query) searchAll(query);
+    if (query === null || query?.trim().length === 0) {
+      router.replace(paths.warehouses.root);
+    } else if (query) {
+      searchAll(query);
+    }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [query]);
 
@@ -126,62 +134,85 @@ const SearchListView = (props) => {
   );
 
   return (
-    <Container maxWidth={settings.themeStretch ? false : 'lg'}>
+    <Container maxWidth={appearance.themeStretch ? false : 'lg'}>
       <Stack mb={5} spacing={5}>
         <CustomBreadcrumbs
           heading={`You've searched for - ${query}`}
           links={[{ name: 'Home', href: paths.root }, { name: 'Search' }]}
         />
-        <Stack spacing={3}>
-          <Typography variant="h4">Users</Typography>
 
-          {renderUsers(searchResponse.data?.results?.users || [])}
+        {hasTypeFilter ? (
+          <>
+            {type === 'warehouse' && (
+              <Stack spacing={3}>
+                <Typography variant="h4">Warehouses</Typography>
 
-          <Stack direction="row" justifyContent="end">
-            <Button
-              variant="contained"
-              color="primary"
-              LinkComponent={RouterLink}
-              href={paths.search.users(query)}
-            >
-              Show More
-            </Button>
-          </Stack>
-        </Stack>
+                {renderWarehouses(searchResponse.data?.results?.warehouses || [])}
+              </Stack>
+            )}
 
-        <Stack spacing={3}>
-          <Typography variant="h4">Warehouses</Typography>
+            {type === 'service' && (
+              <Stack spacing={3}>
+                <Typography variant="h4">Services</Typography>
 
-          {renderWarehouses(searchResponse.data?.results?.warehouses || [])}
+                {renderServices(searchResponse.data?.results?.services || [])}
+              </Stack>
+            )}
+          </>
+        ) : (
+          <>
+            <Stack spacing={3}>
+              <Typography variant="h4">Users</Typography>
 
-          <Stack direction="row" justifyContent="end">
-            <Button
-              variant="contained"
-              color="primary"
-              LinkComponent={RouterLink}
-              href={paths.search.warehouses(query)}
-            >
-              Show More
-            </Button>
-          </Stack>
-        </Stack>
+              {renderUsers(searchResponse.data?.results?.users || [])}
 
-        <Stack spacing={3}>
-          <Typography variant="h4">Services</Typography>
+              <Stack direction="row" justifyContent="end">
+                <Button
+                  variant="contained"
+                  color="primary"
+                  LinkComponent={RouterLink}
+                  href={paths.search.users(query)}
+                >
+                  Show More
+                </Button>
+              </Stack>
+            </Stack>
 
-          {renderServices(searchResponse.data?.results?.services || [])}
+            <Stack spacing={3}>
+              <Typography variant="h4">Warehouses</Typography>
 
-          <Stack direction="row" justifyContent="end">
-            <Button
-              variant="contained"
-              color="primary"
-              LinkComponent={RouterLink}
-              href={paths.search.services(query)}
-            >
-              Show More
-            </Button>
-          </Stack>
-        </Stack>
+              {renderWarehouses(searchResponse.data?.results?.warehouses || [])}
+
+              <Stack direction="row" justifyContent="end">
+                <Button
+                  variant="contained"
+                  color="primary"
+                  LinkComponent={RouterLink}
+                  href={paths.search.warehouses(query)}
+                >
+                  Show More
+                </Button>
+              </Stack>
+            </Stack>
+
+            <Stack spacing={3}>
+              <Typography variant="h4">Services</Typography>
+
+              {renderServices(searchResponse.data?.results?.services || [])}
+
+              <Stack direction="row" justifyContent="end">
+                <Button
+                  variant="contained"
+                  color="primary"
+                  LinkComponent={RouterLink}
+                  href={paths.search.services(query)}
+                >
+                  Show More
+                </Button>
+              </Stack>
+            </Stack>
+          </>
+        )}
       </Stack>
     </Container>
   );

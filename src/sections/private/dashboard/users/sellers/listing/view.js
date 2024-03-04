@@ -4,8 +4,8 @@ import { Container, Pagination, Stack } from '@mui/material';
 import { useEffect } from 'react';
 // local components
 import CustomBreadcrumbs from 'src/components/common/custom-breadcrumbs';
-import { useSettingsContext } from 'src/components/common/settings';
 import usePagination from 'src/hooks/use-pagination';
+import useAppearance from 'src/redux-toolkit/features/appearance/use-appearance';
 import { selectAuth } from 'src/redux-toolkit/features/auth/authSlice';
 import { useAppSelector } from 'src/redux-toolkit/hooks';
 import { useListSellersQuery } from 'src/redux-toolkit/services/adminApi';
@@ -14,7 +14,7 @@ import RenderUsers from '../../common/render-users';
 
 const SellersListingView = () => {
   // app state
-  const settings = useSettingsContext();
+  const appearance = useAppearance();
   const { user } = useAppSelector(selectAuth);
 
   // api state
@@ -35,7 +35,7 @@ const SellersListingView = () => {
   }, [user?.id]);
 
   return (
-    <Container maxWidth={settings.themeStretch ? false : 'lg'}>
+    <Container maxWidth={appearance.themeStretch ? false : 'lg'}>
       <CustomBreadcrumbs
         heading="Sellers"
         links={[{ name: 'Dashboard', href: paths.dashboard.root }, { name: 'Sellers' }]}

@@ -1,6 +1,6 @@
 import { Container, Grid, Stack } from '@mui/material';
 import PropTypes from 'prop-types';
-import { useSettingsContext } from 'src/components/common/settings';
+import useAppearance from 'src/redux-toolkit/features/appearance/use-appearance';
 import ImageCarousel from '../common/image-carousel';
 import ServiceCustomers from '../common/service-customers';
 import ServicePromo from '../common/service-promo';
@@ -20,10 +20,10 @@ const Props = {
 const ServiceDetails = (props) => {
   const { service } = props;
   const seller = service?.seller;
-  const settings = useSettingsContext();
+  const appearance = useAppearance();
 
   return (
-    <Container maxWidth={settings.themeStretch ? false : 'xl'}>
+    <Container maxWidth={appearance.themeStretch ? false : 'xl'}>
       <Grid container spacing={2}>
         <Grid item xs={12}>
           <HeaderContent service={service} />

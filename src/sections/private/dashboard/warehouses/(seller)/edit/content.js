@@ -12,10 +12,10 @@ import { LoadingButton } from '@mui/lab';
 import { useRouter } from 'next/navigation';
 import CustomBreadcrumbs from 'src/components/common/custom-breadcrumbs';
 import FormProvider from 'src/components/common/hook-form/form-provider';
-import { useSettingsContext } from 'src/components/common/settings';
 import { WarehouseDetailsPreview } from 'src/components/warehouse/details';
 import { useBoolean } from 'src/hooks/use-boolean';
 import useStepper from 'src/hooks/use-stepper';
+import useAppearance from 'src/redux-toolkit/features/appearance/use-appearance';
 import { useWarehouseUpdateMutation } from 'src/redux-toolkit/services/warehouseApi';
 import { paths } from 'src/routes/paths';
 import WarehouseFields, { stepFields } from '../common/warehouse-fields';
@@ -34,7 +34,7 @@ const Props = {
 const Content = (props) => {
   const { warehouse } = props;
   const router = useRouter();
-  const settings = useSettingsContext();
+  const appearance = useAppearance();
   const { enqueueSnackbar } = useSnackbar();
 
   // app states
@@ -114,7 +114,7 @@ const Content = (props) => {
   }, [warehouse, reset]);
 
   return (
-    <Container maxWidth={settings.themeStretch ? false : 'xl'}>
+    <Container maxWidth={appearance.themeStretch ? false : 'xl'}>
       <CustomBreadcrumbs
         heading="Edit Warehouse"
         links={[{ name: 'warehouses', href: paths.dashboard.warehouses.root }, { name: 'edit' }]}

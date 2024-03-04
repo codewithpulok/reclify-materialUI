@@ -1,11 +1,11 @@
 'use client';
 
 import { Container, Pagination, Stack } from '@mui/material';
-import { useSearchParams } from 'next/navigation';
+import { useRouter, useSearchParams } from 'next/navigation';
 import { useEffect } from 'react';
 import CustomBreadcrumbs from 'src/components/common/custom-breadcrumbs/custom-breadcrumbs';
-import { useSettingsContext } from 'src/components/common/settings';
 import usePagination from 'src/hooks/use-pagination';
+import useAppearance from 'src/redux-toolkit/features/appearance/use-appearance';
 import { useLazySearchWarehousesQuery } from 'src/redux-toolkit/services/searchApi';
 import { paths } from 'src/routes/paths';
 import RenderWarehouses from 'src/sections/private/dashboard/warehouses/common/render-warehouses';
@@ -17,9 +17,10 @@ const Props = {};
  * @returns {JSX.Element}
  */
 const SearchWarehousesView = (props) => {
+  const router = useRouter();
   const searchParam = useSearchParams();
   const query = searchParam.get('query');
-  const settings = useSettingsContext();
+  const appearance = useAppearance();
 
   // api state
   const [searchWarehouses, searchResponse] = useLazySearchWarehousesQuery();
@@ -31,12 +32,14 @@ const SearchWarehousesView = (props) => {
 
   // make request on search
   useEffect(() => {
-    if (query) searchWarehouses(query);
+    if (query === null || query?.trim().length === 0) {
+      router.replace(paths.warehouses.root);
+    } else if (query) searchWarehouses(query);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [query]);
 
   return (
-    <Container maxWidth={settings.themeStretch ? false : 'xl'}>
+    <Container maxWidth={appearance.themeStretch ? false : 'xl'}>
       <Stack mb={5} spacing={5}>
         <CustomBreadcrumbs
           heading={`You've searched for - ${query}`}

@@ -5,8 +5,8 @@ import PropTypes from 'prop-types';
 import { useCallback, useState } from 'react';
 import CustomBreadcrumbs from 'src/components/common/custom-breadcrumbs/custom-breadcrumbs';
 import { TransactionsUserTable } from 'src/components/common/custom-table';
-import { useSettingsContext } from 'src/components/common/settings';
 import { PLACEHOLDER_PROFILE_AVATAR, PLACEHOLDER_PROFILE_BANNER } from 'src/config-global';
+import useAppearance from 'src/redux-toolkit/features/appearance/use-appearance';
 import { selectAuth } from 'src/redux-toolkit/features/auth/authSlice';
 import { useAppSelector } from 'src/redux-toolkit/hooks';
 import { paths } from 'src/routes/paths';
@@ -51,7 +51,7 @@ const Props = {
  * @returns {JSX.Element}
  */
 const DetailsContent = (props) => {
-  const settings = useSettingsContext();
+  const appearance = useAppearance();
   const { user } = props;
   const { user: authUser } = useAppSelector(selectAuth);
 
@@ -65,7 +65,7 @@ const DetailsContent = (props) => {
   console.log({ user });
 
   return (
-    <Container maxWidth={settings.themeStretch ? false : 'lg'}>
+    <Container maxWidth={appearance.themeStretch ? false : 'lg'}>
       <CustomBreadcrumbs
         heading="Seller Details"
         links={[

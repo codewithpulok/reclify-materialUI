@@ -14,8 +14,7 @@ import { useMockedUser } from 'src/hooks/use-mocked-user';
 
 import { useGetContacts, useGetConversation, useGetConversations } from 'src/utils/chat';
 
-import { useSettingsContext } from 'src/components/common/settings';
-
+import useAppearance from 'src/redux-toolkit/features/appearance/use-appearance';
 import ChatHeaderCompose from '../chat-header-compose';
 import ChatHeaderDetail from '../chat-header-detail';
 import ChatMessageInput from '../chat-message-input';
@@ -30,7 +29,7 @@ export default function ChatView() {
 
   const { user } = useMockedUser();
 
-  const settings = useSettingsContext();
+  const appearance = useAppearance();
 
   const searchParams = useSearchParams();
 
@@ -113,7 +112,7 @@ export default function ChatView() {
   );
 
   return (
-    <Container maxWidth={settings.themeStretch ? false : 'xl'}>
+    <Container maxWidth={appearance.themeStretch ? false : 'xl'}>
       <Typography
         variant="h4"
         sx={{

@@ -9,15 +9,17 @@ import { updateAppearance } from './appearanceSlice';
 const InitAppearance = (props) => {
   const dispatch = useAppDispatch();
 
+  // get saved appearance state
   const getPersistState = useCallback(async () => {
     try {
       const state = await getAppearanceState();
       dispatch(updateAppearance(state));
     } catch (error) {
-      console.log('Apperance:', error);
+      // console.error('Apperance:', error);
     }
   }, [dispatch]);
 
+  // execute on first render
   useEffect(() => {
     getPersistState();
     // eslint-disable-next-line react-hooks/exhaustive-deps

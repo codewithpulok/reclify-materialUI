@@ -17,10 +17,10 @@ import {
 } from 'src/assets/data/predefined-fields/warehouse';
 import CustomBreadcrumbs from 'src/components/common/custom-breadcrumbs';
 import FormProvider from 'src/components/common/hook-form/form-provider';
-import { useSettingsContext } from 'src/components/common/settings';
 import { WarehouseDetailsPreview } from 'src/components/warehouse/details';
 import { useBoolean } from 'src/hooks/use-boolean';
 import useStepper from 'src/hooks/use-stepper';
+import useAppearance from 'src/redux-toolkit/features/appearance/use-appearance';
 import { useWarehouseCreateMutation } from 'src/redux-toolkit/services/warehouseApi';
 import { paths } from 'src/routes/paths';
 import { getPredefinedFieldsDefaultValue } from 'src/utils/predefined-fields';
@@ -79,7 +79,7 @@ const Content = (props) => {
 
   const router = useRouter();
   const { enqueueSnackbar } = useSnackbar();
-  const settings = useSettingsContext();
+  const appearance = useAppearance();
 
   // app states
   const { activeStep, goBack, goNext } = useStepper(0, 2);
@@ -147,7 +147,7 @@ const Content = (props) => {
   };
 
   return (
-    <Container maxWidth={settings.themeStretch ? false : 'lg'}>
+    <Container maxWidth={appearance.themeStretch ? false : 'lg'}>
       <CustomBreadcrumbs
         heading="Create Warehouse"
         links={[
@@ -173,7 +173,10 @@ const Content = (props) => {
               handleNext={validateStep}
             />
 
-            <WarehouseFields activeStep={activeStep} />
+            <WarehouseFields
+              activeStep={activeStep}
+              excludeImages={sourceWarehouse?.photos?.map((p) => p.link) || []}
+            />
             <Stack
               sx={{
                 flexDirection: {

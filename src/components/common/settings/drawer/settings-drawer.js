@@ -11,9 +11,9 @@ import { useTheme } from '@mui/material/styles';
 
 import { paper } from 'src/theme/css';
 
+import useAppearance from 'src/redux-toolkit/features/appearance/use-appearance';
 import Iconify from '../../iconify';
 import Scrollbar from '../../scrollbar';
-import { useSettingsContext } from '../context';
 import BaseOptions from './base-option';
 import FullScreenOption from './fullscreen-option';
 import LayoutOptions from './layout-options';
@@ -25,7 +25,7 @@ import StretchOptions from './stretch-options';
 export default function SettingsDrawer() {
   const theme = useTheme();
 
-  const settings = useSettingsContext();
+  const appearance = useAppearance();
 
   const labelStyles = {
     mb: 1.5,
@@ -45,14 +45,14 @@ export default function SettingsDrawer() {
       </Typography>
 
       <Tooltip title="Reset">
-        <IconButton onClick={settings.onReset}>
-          <Badge color="error" variant="dot" invisible={!settings.canReset}>
+        <IconButton onClick={appearance.onReset}>
+          <Badge color="error" variant="dot" invisible={!appearance.canReset}>
             <Iconify icon="solar:restart-bold" />
           </Badge>
         </IconButton>
       </Tooltip>
 
-      <IconButton onClick={settings.onClose}>
+      <IconButton onClick={appearance.onClose}>
         <Iconify icon="mingcute:close-line" />
       </IconButton>
     </Stack>
@@ -65,8 +65,8 @@ export default function SettingsDrawer() {
       </Typography>
 
       <BaseOptions
-        value={settings.themeMode}
-        onChange={(newValue) => settings.onUpdate('themeMode', newValue)}
+        value={appearance.themeMode}
+        onChange={(newValue) => appearance.onUpdate('themeMode', newValue)}
         options={['light', 'dark']}
         icons={['sun', 'moon']}
       />
@@ -80,8 +80,8 @@ export default function SettingsDrawer() {
       </Typography>
 
       <BaseOptions
-        value={settings.themeContrast}
-        onChange={(newValue) => settings.onUpdate('themeContrast', newValue)}
+        value={appearance.themeContrast}
+        onChange={(newValue) => appearance.onUpdate('themeContrast', newValue)}
         options={['default', 'bold']}
         icons={['contrast', 'contrast_bold']}
       />
@@ -95,8 +95,8 @@ export default function SettingsDrawer() {
       </Typography>
 
       <BaseOptions
-        value={settings.themeDirection}
-        onChange={(newValue) => settings.onUpdate('themeDirection', newValue)}
+        value={appearance.themeDirection}
+        onChange={(newValue) => appearance.onUpdate('themeDirection', newValue)}
         options={['ltr', 'rtl']}
         icons={['align_left', 'align_right']}
       />
@@ -110,8 +110,8 @@ export default function SettingsDrawer() {
       </Typography>
 
       <LayoutOptions
-        value={settings.themeLayout}
-        onChange={(newValue) => settings.onUpdate('themeLayout', newValue)}
+        value={appearance.themeLayout}
+        onChange={(newValue) => appearance.onUpdate('themeLayout', newValue)}
         options={['vertical', 'horizontal', 'mini']}
       />
     </div>
@@ -135,8 +135,8 @@ export default function SettingsDrawer() {
       </Typography>
 
       <StretchOptions
-        value={settings.themeStretch}
-        onChange={() => settings.onUpdate('themeStretch', !settings.themeStretch)}
+        value={appearance.themeStretch}
+        onChange={() => appearance.onUpdate('themeStretch', !appearance.themeStretch)}
       />
     </div>
   );
@@ -148,8 +148,8 @@ export default function SettingsDrawer() {
       </Typography>
 
       <PresetsOptions
-        value={settings.themeColorPresets}
-        onChange={(newValue) => settings.onUpdate('themeColorPresets', newValue)}
+        value={appearance.themeColorPresets}
+        onChange={(newValue) => appearance.onUpdate('themeColorPresets', newValue)}
       />
     </div>
   );
@@ -157,8 +157,8 @@ export default function SettingsDrawer() {
   return (
     <Drawer
       anchor="right"
-      open={settings.open}
-      onClose={settings.onClose}
+      open={appearance.open}
+      onClose={appearance.onClose}
       slotProps={{
         backdrop: { invisible: true },
       }}

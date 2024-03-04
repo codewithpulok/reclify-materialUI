@@ -23,19 +23,23 @@ const ServiceReviews = (props) => {
   // form state
   const { watch, setValue } = useFormContext();
   const address = watch('address');
+  const name = watch('name', undefined);
   const reviews = watch('reviews', []);
 
   // conditional state
-  const isImportable = checkValidAddress(address);
+  const isImportable = checkValidAddress(
+    address,
+    typeof name === 'string' && name.trim()?.length > 0
+  );
 
   // fetch reviews
   const getReviewsHandler = useCallback(async () => {
-    const response = await getReviews(joinAddressObj(address));
+    const response = await getReviews(joinAddressObj(address, name));
     const { data, error } = response;
 
     // handle error state
     if (error || data.isError) {
-      enqueueSnackbar('Error in importing reviews', { variant: 'error' });
+      enqueueSnackbar(error?.data?.message || 'Error in importing reviews', { variant: 'error' });
       console.error('Error: Import Reviews', response);
     }
     // handle success state
@@ -44,8 +48,7 @@ const ServiceReviews = (props) => {
       console.warn('Reviews Imported:', response);
       setValue('reviews', data?.results || []);
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [address]);
+  }, [address, getReviews, name, setValue]);
 
   return (
     <Stack alignItems="end">

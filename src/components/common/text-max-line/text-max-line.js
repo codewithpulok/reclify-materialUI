@@ -6,42 +6,7 @@ import Typography from '@mui/material/Typography';
 
 import useTypography from './use-typography';
 
-// ----------------------------------------------------------------------
-
-const TextMaxLine = forwardRef(
-  ({ asLink, variant = 'body1', line = 2, persistent = false, children, sx, ...other }, ref) => {
-    const { lineHeight } = useTypography(variant);
-
-    /** @type {SxProps} */
-    const styles = {
-      overflow: 'hidden',
-      textOverflow: 'ellipsis',
-      display: '-webkit-box',
-      WebkitBoxOrient: 'vertical',
-      WebkitLineClamp: line,
-      ...(persistent && {
-        height: lineHeight * line,
-      }),
-      ...sx,
-    };
-
-    if (asLink) {
-      return (
-        <Link color="inherit" ref={ref} variant={variant} sx={{ ...styles }} {...other}>
-          {children}
-        </Link>
-      );
-    }
-
-    return (
-      <Typography ref={ref} variant={variant} sx={{ ...styles }} {...other}>
-        {children}
-      </Typography>
-    );
-  }
-);
-
-TextMaxLine.propTypes = {
+const Props = {
   asLink: PropTypes.bool,
   children: PropTypes.node,
   line: PropTypes.number,
@@ -64,5 +29,44 @@ TextMaxLine.propTypes = {
     'subtitle2',
   ]),
 };
+
+// ----------------------------------------------------------------------
+
+/**
+ * @type {import('react').ForwardedRef<Props>}
+ */
+const TextMaxLine = forwardRef((props, ref) => {
+  const { asLink, variant = 'body1', line = 2, persistent = false, children, sx, ...other } = props;
+  const { lineHeight } = useTypography(variant);
+
+  /** @type {SxProps} */
+  const styles = {
+    overflow: 'hidden',
+    textOverflow: 'ellipsis',
+    display: '-webkit-box',
+    WebkitBoxOrient: 'vertical',
+    WebkitLineClamp: line,
+    ...(persistent && {
+      height: lineHeight * line,
+    }),
+    ...sx,
+  };
+
+  if (asLink) {
+    return (
+      <Link color="inherit" ref={ref} variant={variant} sx={{ ...styles }} {...other}>
+        {children}
+      </Link>
+    );
+  }
+
+  return (
+    <Typography ref={ref} variant={variant} sx={{ ...styles }} {...other}>
+      {children}
+    </Typography>
+  );
+});
+
+TextMaxLine.propTypes = Props;
 
 export default TextMaxLine;

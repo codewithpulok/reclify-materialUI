@@ -107,7 +107,10 @@ const DetailsReviews = (props) => {
                   avatar={review.userData?.avatar}
                   createdAt={review?.createdAt}
                   feedback={review.feedback}
-                  name={`${review.userData?.firstName} ${review.userData?.lastName}`}
+                  name={
+                    review?.userData?.fullName ||
+                    `${review.userData?.firstName} ${review.userData?.lastName}`
+                  }
                   rating={review.rating}
                   showDeleteOption={
                     auth?.user?.userType === 'admin' || auth?.user?.id === review?.userData?.id

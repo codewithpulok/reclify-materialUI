@@ -6,8 +6,8 @@ import PropTypes from 'prop-types';
 import { useEffect } from 'react';
 // local components
 import CustomBreadcrumbs from 'src/components/common/custom-breadcrumbs/custom-breadcrumbs';
-import { useSettingsContext } from 'src/components/common/settings';
 import usePagination from 'src/hooks/use-pagination';
+import useAppearance from 'src/redux-toolkit/features/appearance/use-appearance';
 import { selectAuth } from 'src/redux-toolkit/features/auth/authSlice';
 import { useAppSelector } from 'src/redux-toolkit/hooks';
 import { useWarehouseListQuery } from 'src/redux-toolkit/services/warehouseApi';
@@ -26,7 +26,7 @@ const Props = {
 const RegionView = (props) => {
   const { region } = props;
 
-  const settings = useSettingsContext();
+  const appearance = useAppearance();
   const { user } = useAppSelector(selectAuth);
 
   // api state
@@ -44,7 +44,7 @@ const RegionView = (props) => {
   }, [user?.id]);
 
   return (
-    <Container maxWidth={settings.themeStretch ? false : 'xl'}>
+    <Container maxWidth={appearance.themeStretch ? false : 'xl'}>
       <Stack mb={5} spacing={5}>
         <CustomBreadcrumbs
           heading={`${region.name} Warehouses`}

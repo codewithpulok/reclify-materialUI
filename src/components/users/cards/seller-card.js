@@ -24,8 +24,6 @@ const SellerCard = (props) => {
 
   const isServiceSeller = user?.serviceType !== 'warehouse';
 
-  console.log({ isServiceSeller });
-
   return (
     <Card sx={{ borderRadius: 1 }}>
       <CardActionArea

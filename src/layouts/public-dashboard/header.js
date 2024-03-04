@@ -12,10 +12,10 @@ import { useResponsive } from 'src/hooks/use-responsive';
 import { bgBlur } from 'src/theme/css';
 
 import Logo from 'src/components/common/logo';
-import { useSettingsContext } from 'src/components/common/settings';
 import SvgColor from 'src/components/common/svg-color';
 
 import { Button } from '@mui/material';
+import useAppearance from 'src/redux-toolkit/features/appearance/use-appearance';
 import { RouterLink } from 'src/routes/components';
 import { paths } from 'src/routes/paths';
 import LoginButton from '../common/login-button';
@@ -28,9 +28,9 @@ import NavMobile from '../main/nav/mobile';
 
 export default function Header({ onOpenNav }) {
   const theme = useTheme();
-  const settings = useSettingsContext();
-  const isNavHorizontal = settings.themeLayout === 'horizontal';
-  const isNavMini = settings.themeLayout === 'mini';
+  const appearance = useAppearance();
+  const isNavHorizontal = appearance.themeLayout === 'horizontal';
+  const isNavMini = appearance.themeLayout === 'mini';
 
   const lgUp = useResponsive('up', 'lg');
   const mdUp = useResponsive('up', 'md');

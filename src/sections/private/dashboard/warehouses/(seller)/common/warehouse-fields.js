@@ -60,10 +60,11 @@ export const stepFields = {
 
 const Props = {
   activeStep: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
+  excludeImages: PropTypes.arrayOf(PropTypes.string),
 };
 
 const WarehouseFields = (props) => {
-  const { activeStep = 'CREATE' } = props;
+  const { activeStep = 'CREATE', excludeImages = [] } = props;
   const { user } = useAppSelector(selectAuth);
 
   // form state
@@ -186,7 +187,7 @@ const WarehouseFields = (props) => {
 
           <Grid item xs={12}>
             <Label sx={{ mb: 1 }}>Photos</Label>
-            <PhotosUploadField name="photos" />
+            <PhotosUploadField name="photos" excludeImages={excludeImages} />
           </Grid>
         </Grid>
       </Grid>

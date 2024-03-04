@@ -5,9 +5,9 @@ import Container from '@mui/material/Container';
 import { useCallback, useMemo } from 'react';
 // local components
 import { EmptyState, ErrorState } from 'src/components/common/custom-state';
-import { useSettingsContext } from 'src/components/common/settings';
 import { ServiceCardSkeleton } from 'src/components/service/cards';
 import { getAvailableServiceTypes, serviceTypes } from 'src/constant/service-types';
+import useAppearance from 'src/redux-toolkit/features/appearance/use-appearance';
 import { useListServicesQuery } from 'src/redux-toolkit/services/serviceApi';
 import { RouterLink } from 'src/routes/components';
 import { paths } from 'src/routes/paths';
@@ -17,7 +17,7 @@ import ServiceCarousel from './service-carousel';
 // ----------------------------------------------------------------------
 
 export default function ListingView() {
-  const settings = useSettingsContext();
+  const appearance = useAppearance();
 
   const servicesResponse = useListServicesQuery();
 
@@ -67,7 +67,7 @@ export default function ListingView() {
   );
 
   return (
-    <Container maxWidth={settings.themeStretch ? false : 'xl'}>
+    <Container maxWidth={appearance.themeStretch ? false : 'xl'}>
       {getAvailableServiceTypes().map((service) => (
         <Stack mb={5} spacing={5} key={service.value}>
           <Stack

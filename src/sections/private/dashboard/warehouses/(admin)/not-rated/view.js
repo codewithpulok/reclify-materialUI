@@ -5,8 +5,8 @@ import Container from '@mui/material/Container';
 import { useEffect } from 'react';
 // local components
 import CustomBreadcrumbs from 'src/components/common/custom-breadcrumbs/custom-breadcrumbs';
-import { useSettingsContext } from 'src/components/common/settings';
 import usePagination from 'src/hooks/use-pagination';
+import useAppearance from 'src/redux-toolkit/features/appearance/use-appearance';
 import { selectAuth } from 'src/redux-toolkit/features/auth/authSlice';
 import { useAppSelector } from 'src/redux-toolkit/hooks';
 import { useWarehouseListQuery } from 'src/redux-toolkit/services/warehouseApi';
@@ -20,7 +20,7 @@ const Props = {};
  * @returns {JSX.Element}
  */
 const WarehouseNotVerifiedView = (props) => {
-  const settings = useSettingsContext();
+  const appearance = useAppearance();
   const { user } = useAppSelector(selectAuth);
 
   // api state
@@ -38,7 +38,7 @@ const WarehouseNotVerifiedView = (props) => {
   }, [user?.id]);
 
   return (
-    <Container maxWidth={settings.themeStretch ? false : 'xl'}>
+    <Container maxWidth={appearance.themeStretch ? false : 'xl'}>
       <Stack mb={5} spacing={5}>
         <CustomBreadcrumbs
           heading="Not Rated Warehouses"

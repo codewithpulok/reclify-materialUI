@@ -51,7 +51,7 @@ export default function HomeJoin() {
         pb: { xs: 10, md: 20 },
         ...bgGradient({
           color: alpha(theme.palette.grey[900], 0.89),
-          imgUrl: '/assets/images/home/join_racklify.jpg',
+          imgUrl: '/assets/images/home/join-racklify.jpg',
         }),
       })}
     >

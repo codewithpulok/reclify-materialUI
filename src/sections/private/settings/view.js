@@ -6,8 +6,6 @@ import Container from '@mui/material/Container';
 import Tab from '@mui/material/Tab';
 import Tabs from '@mui/material/Tabs';
 
-import { useSettingsContext } from 'src/components/common/settings';
-
 import { useRouter } from 'next/navigation';
 import CustomBreadcrumbs from 'src/components/common/custom-breadcrumbs';
 import { EmptyState, LoadingState } from 'src/components/common/custom-state';
@@ -17,6 +15,7 @@ import {
   TransactionsSellerTable,
 } from 'src/components/common/custom-table';
 import useHash from 'src/hooks/use-hash';
+import useAppearance from 'src/redux-toolkit/features/appearance/use-appearance';
 import { selectAuth } from 'src/redux-toolkit/features/auth/authSlice';
 import { useAppSelector } from 'src/redux-toolkit/hooks';
 import { ICONS } from './config-settings';
@@ -74,7 +73,7 @@ export const TABS = [
 // ----------------------------------------------------------------------
 
 const UserSettingsView = () => {
-  const settings = useSettingsContext();
+  const appearance = useAppearance();
   const { user } = useAppSelector(selectAuth);
 
   const router = useRouter();
@@ -187,7 +186,7 @@ const UserSettingsView = () => {
   }, [currentTab, user]);
 
   return (
-    <Container maxWidth={settings.themeStretch ? false : 'lg'}>
+    <Container maxWidth={appearance.themeStretch ? false : 'lg'}>
       <CustomBreadcrumbs
         heading={`${headingPrefix} Settings`}
         links={[{ name: 'Settings' }]}

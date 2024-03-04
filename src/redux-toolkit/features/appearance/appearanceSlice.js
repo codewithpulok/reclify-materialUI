@@ -2,11 +2,11 @@ import { createSlice } from '@reduxjs/toolkit';
 
 /** @type {AppearanceType} */
 export const initialState = {
-  themeMode: 'light',
-  themeDirection: 'ltr',
-  themeContrast: 'default',
-  themeLayout: 'vertical',
-  themeColorPresets: 'default',
+  themeMode: 'light', // 'light' | 'dark'
+  themeDirection: 'ltr', //  'rtl' | 'ltr'
+  themeContrast: 'default', // 'default' | 'bold'
+  themeLayout: 'vertical', // 'vertical' | 'horizontal' | 'mini'
+  themeColorPresets: 'default', // 'default' | 'cyan' | 'purple' | 'blue' | 'orange' | 'red'
   themeStretch: false,
 };
 
@@ -33,4 +33,4 @@ export const { updateAppearance } = appearanceSlice.actions;
  * @param {import('src/redux-toolkit/store').RootState} state
  * @returns {AppearanceType}
  */
-export const selectAppearance = (state) => state.auth;
+export const selectAppearance = (state) => state.appearance;

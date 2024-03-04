@@ -13,20 +13,19 @@ import { useDebounce } from 'src/hooks/use-debounce';
 
 import { POST_SORT_OPTIONS } from 'src/_mock';
 
-import { useSettingsContext } from 'src/components/common/settings';
-
 import NewsPostList from 'src/components/news/details/common/news-list';
 import NewsFeatured from 'src/components/news/news-featured';
 
 import NewsSearch from 'src/components/news/news-search';
 import NewsSort from 'src/components/news/news-sort';
+import useAppearance from 'src/redux-toolkit/features/appearance/use-appearance';
 import { useBlogListQuery } from 'src/redux-toolkit/services/blogApi';
 import { paramCase } from 'src/utils/change-case';
 
 // ----------------------------------------------------------------------
 
 export default function NewsListingView() {
-  const settings = useSettingsContext();
+  const appearance = useAppearance();
 
   // api states
   const listResponse = useBlogListQuery();
@@ -57,7 +56,7 @@ export default function NewsListingView() {
   );
 
   return (
-    <Container maxWidth={settings.themeStretch ? false : 'lg'}>
+    <Container maxWidth={appearance.themeStretch ? false : 'lg'}>
       <Typography
         variant="h4"
         sx={{

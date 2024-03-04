@@ -35,8 +35,6 @@ const usePagination = (data, perPage = 9) => {
 
   // update current page
   useEffect(() => {
-    console.log('HELLO', { data, perPage, currentPage });
-
     if (Array.isArray(data) && typeof perPage === 'number' && !Number.isNaN(perPage)) {
       const end = perPage * currentPage;
       const start = end - perPage;

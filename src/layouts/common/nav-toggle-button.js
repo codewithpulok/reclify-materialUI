@@ -8,8 +8,8 @@ import { useResponsive } from 'src/hooks/use-responsive';
 import { bgBlur } from 'src/theme/css';
 
 import Iconify from 'src/components/common/iconify';
-import { useSettingsContext } from 'src/components/common/settings';
 
+import useAppearance from 'src/redux-toolkit/features/appearance/use-appearance';
 import { NAV } from '../config-layout';
 
 // ----------------------------------------------------------------------
@@ -17,7 +17,7 @@ import { NAV } from '../config-layout';
 export default function NavToggleButton({ sx, ...other }) {
   const theme = useTheme();
 
-  const settings = useSettingsContext();
+  const appearance = useAppearance();
 
   const lgUp = useResponsive('up', 'lg');
 
@@ -29,7 +29,10 @@ export default function NavToggleButton({ sx, ...other }) {
     <IconButton
       size="small"
       onClick={() =>
-        settings.onUpdate('themeLayout', settings.themeLayout === 'vertical' ? 'mini' : 'vertical')
+        appearance.onUpdate(
+          'themeLayout',
+          appearance.themeLayout === 'vertical' ? 'mini' : 'vertical'
+        )
       }
       sx={{
         p: 0.5,
@@ -49,7 +52,7 @@ export default function NavToggleButton({ sx, ...other }) {
       <Iconify
         width={16}
         icon={
-          settings.themeLayout === 'vertical'
+          appearance.themeLayout === 'vertical'
             ? 'eva:arrow-ios-back-fill'
             : 'eva:arrow-ios-forward-fill'
         }
