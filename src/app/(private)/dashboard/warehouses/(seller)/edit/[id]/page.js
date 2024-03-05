@@ -4,7 +4,9 @@ import { WarehousesEditView } from 'src/sections/private/dashboard/warehouses';
 const WarehouseEditPage = ({ params }) => <WarehousesEditView id={params.id} />;
 
 WarehouseEditPage.propTypes = {
-  params: PropTypes.object,
+  params: {
+    id: PropTypes.string,
+  },
 };
 
 export default WarehouseEditPage;

@@ -7,9 +7,9 @@ const NewsPreviewPage = ({ params }) => {
 };
 
 NewsPreviewPage.propTypes = {
-  params: PropTypes.shape({
+  params: {
     id: PropTypes.string,
-  }),
+  },
 };
 
 export default NewsPreviewPage;

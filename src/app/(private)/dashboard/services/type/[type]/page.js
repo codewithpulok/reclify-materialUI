@@ -15,12 +15,6 @@ export const generateMetadata = async ({ params }) => {
   };
 };
 
-const Props = {
-  params: {
-    type: PropTypes.string,
-  },
-};
-
 /**
  * @param {Props} props
  * @returns {JSX.Element}
@@ -31,6 +25,10 @@ const ServicesByTypePage = (props) => {
   return <ServicesTypeListingView serviceType={params.type} />;
 };
 
-ServicesByTypePage.propTypes = Props;
+ServicesByTypePage.propTypes = {
+  params: {
+    type: PropTypes.string,
+  },
+};
 
 export default ServicesByTypePage;

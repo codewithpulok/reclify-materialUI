@@ -74,10 +74,10 @@ export default function NavList({ data }) {
 }
 
 NavList.propTypes = {
-  data: PropTypes.shape({
+  data: {
     title: PropTypes.string,
     path: PropTypes.string,
     icon: PropTypes.element,
     children: PropTypes.array,
-  }),
+  },
 };

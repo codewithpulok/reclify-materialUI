@@ -13,8 +13,8 @@ const NewsDetailsPage = ({ params }) => {
 };
 
 NewsDetailsPage.propTypes = {
-  params: PropTypes.shape({
+  params: {
     id: PropTypes.string,
-  }),
+  },
 };
 export default NewsDetailsPage;
