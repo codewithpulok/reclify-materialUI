@@ -6,6 +6,6 @@ export const metadata = {
   title: 'US Warehouses Listing - Dashboard',
 };
 
-export default function WarehousesUSListingPage() {
-  return <WarehouseUSListingView />;
-}
+const WarehousesUSListingPage = () => <WarehouseUSListingView />;
+
+export default WarehousesUSListingPage;

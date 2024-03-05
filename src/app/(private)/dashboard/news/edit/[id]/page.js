@@ -7,9 +7,9 @@ const NewsEditPage = ({ params }) => {
 };
 
 NewsEditPage.propTypes = {
-  params: PropTypes.shape({
+  params: {
     id: PropTypes.string,
-  }),
+  },
 };
 
 export default NewsEditPage;

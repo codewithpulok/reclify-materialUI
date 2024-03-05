@@ -5,16 +5,12 @@ export const metadata = {
   title: 'Service Details - Racklify',
 };
 
-const Props = {
-  params: PropTypes.object,
-};
-
-/**
- * @param {Props} props
- * @returns
- */
 const ServicesDetailsPage = ({ params }) => <ServicesDetailsView id={params.id} />;
 
-ServicesDetailsPage.propTypes = Props;
+ServicesDetailsPage.propTypes = {
+  params: {
+    id: PropTypes.string,
+  },
+};
 
 export default ServicesDetailsPage;

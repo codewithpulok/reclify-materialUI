@@ -1,9 +1,16 @@
+import PropTypes from 'prop-types';
 import { TransactionDetailsView } from 'src/sections/private/dashboard/transactions';
 
 export const metadata = {
   title: 'Transaction Details - Racklify',
 };
 
-export default async function TransactionDetailsPage({ params }) {
-  return <TransactionDetailsView id={params.id} />;
-}
+const TransactionDetailsPage = ({ params }) => <TransactionDetailsView id={params.id} />;
+
+TransactionDetailsPage.propTypes = {
+  params: {
+    id: PropTypes.string,
+  },
+};
+
+export default TransactionDetailsPage;

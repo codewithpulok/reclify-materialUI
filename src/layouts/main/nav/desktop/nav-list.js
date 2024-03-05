@@ -1,12 +1,12 @@
 import PropTypes from 'prop-types';
-import { useState, useEffect, useCallback } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 
 import Fade from '@mui/material/Fade';
-import Paper from '@mui/material/Paper';
-import Stack from '@mui/material/Stack';
-import Portal from '@mui/material/Portal';
-import { useTheme } from '@mui/material/styles';
 import ListSubheader from '@mui/material/ListSubheader';
+import Paper from '@mui/material/Paper';
+import Portal from '@mui/material/Portal';
+import Stack from '@mui/material/Stack';
+import { useTheme } from '@mui/material/styles';
 
 import { usePathname } from 'src/routes/hooks';
 import { useActiveLink } from 'src/routes/hooks/use-active-link';
@@ -93,11 +93,11 @@ export default function NavList({ data }) {
 }
 
 NavList.propTypes = {
-  data: PropTypes.shape({
+  data: {
     path: PropTypes.string,
     title: PropTypes.string,
     children: PropTypes.array,
-  }),
+  },
 };
 
 // ----------------------------------------------------------------------
