@@ -66,7 +66,7 @@ const WarehouseReviews = (props) => {
       <RHFAccordion label="Reviews" defaultExpanded name="reviews" sx={{ width: 1 }}>
         {reviews?.length ? (
           <Stack spacing={3.5}>
-            {reviews.map((review) => (
+            {[...reviews].slice(0, 5).map((review) => (
               <WarehouseReviewCard
                 key={review.id}
                 avatar={review.userData?.avatar}

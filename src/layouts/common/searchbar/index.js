@@ -27,6 +27,7 @@ function Searchbar(props) {
 
   // app state
   const [searchQuery, setSearchQuery] = useState('');
+
   // dialog state
   const searchDialog = useDialog();
   const filterDialog = useDialog();
@@ -40,6 +41,9 @@ function Searchbar(props) {
   const handleSearchSubmit = useCallback(
     (e) => {
       e.preventDefault();
+
+      if (!searchQuery) return; // if there is no search query then skip search
+
       console.log('Searched For: ', searchQuery);
       router.push(`${basePath}/?${createQueryString('query', searchQuery, searchParams)}`);
       searchDialog.onClose();
