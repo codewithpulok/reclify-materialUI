@@ -63,25 +63,27 @@ export default function VerifyForm() {
   }
 
   return (
-    <FormProvider methods={methods} onSubmit={handleSubmit(onSubmit)}>
-      <EmailInboxIcon sx={{ height: 96 }} />
+    <Stack maxWidth={500}>
+      <FormProvider methods={methods} onSubmit={handleSubmit(onSubmit)}>
+        <EmailInboxIcon sx={{ height: 96 }} />
 
-      <Stack spacing={1} sx={{ my: 5 }}>
-        <Typography variant="h3">Email Verification!</Typography>
+        <Stack spacing={1} sx={{ my: 5 }}>
+          <Typography variant="h3">Email Verification!</Typography>
 
-        <Typography variant="body2" sx={{ color: 'text.secondary' }}>
-          Lorem ipsum dolor sit amet consectetur adipisicing elit. Quidem, quisquam commodi.
-          Obcaecati doloribus ipsam, voluptates similique excepturi ipsa beatae nihil.
-        </Typography>
-      </Stack>
+          <Typography variant="body2" sx={{ color: 'text.secondary' }}>
+            Lorem ipsum dolor sit amet consectetur adipisicing elit. Quidem, quisquam commodi.
+            Obcaecati doloribus ipsam, voluptates similique excepturi ipsa beatae nihil.
+          </Typography>
+        </Stack>
 
-      {!!apiError && (
-        <Alert severity="error" sx={{ mb: 5 }}>
-          {apiError}
-        </Alert>
-      )}
+        {!!apiError && (
+          <Alert severity="error" sx={{ mb: 5 }}>
+            {apiError}
+          </Alert>
+        )}
 
-      <VerifyFields />
-    </FormProvider>
+        <VerifyFields />
+      </FormProvider>
+    </Stack>
   );
 }
