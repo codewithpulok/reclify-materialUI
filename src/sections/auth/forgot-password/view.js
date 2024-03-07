@@ -79,16 +79,18 @@ export default function ForgotPasswordView() {
   }
 
   return (
-    <FormProvider methods={methods} onSubmit={handleSubmit(onSubmit)}>
-      {renderHead}
+    <Stack maxWidth={500}>
+      <FormProvider methods={methods} onSubmit={handleSubmit(onSubmit)}>
+        {renderHead}
 
-      {!!apiError && (
-        <Alert severity="error" sx={{ mb: 5 }}>
-          {apiError}
-        </Alert>
-      )}
+        {!!apiError && (
+          <Alert severity="error" sx={{ mb: 5 }}>
+            {apiError}
+          </Alert>
+        )}
 
-      <ForgotFields />
-    </FormProvider>
+        <ForgotFields />
+      </FormProvider>
+    </Stack>
   );
 }

@@ -40,7 +40,7 @@ const RefreshView = (props) => {
   };
 
   return (
-    <Stack alignItems="center" justifyContent="center" spacing={2}>
+    <Stack maxWidth={400} alignItems="center" justifyContent="center" spacing={2}>
       <RefreshIcon />
 
       {showError && (

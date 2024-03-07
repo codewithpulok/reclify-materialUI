@@ -168,5 +168,6 @@ export const endpoints = {
     plans: '/plans',
     subscription: '/subscription',
     account_refresh_url: '/stripe/accountRefreshUrl',
+    onboarding: '/stripe-onboarding',
   },
 };

@@ -54,7 +54,7 @@ function Container(props) {
         user?.stripeAccountCompleteStatus === false &&
         !ignoreStripeCompleteStatus
       ) {
-        router.replace(paths.auth.refresh);
+        router.replace(paths.auth.onboarding);
         return;
       }
       setChecked(true);

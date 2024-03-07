@@ -65,6 +65,7 @@ const RegisterView = (props) => {
       if (data?.success) {
         console.warn('Register Success:', data);
         if (data?.results?.data?.stripeAccountLink?.url) {
+          // TODO: maybe it will be removed in future
           window.open(data?.results?.data?.stripeAccountLink?.url, '_self', 'noopener,noreferrer');
           return;
         }
