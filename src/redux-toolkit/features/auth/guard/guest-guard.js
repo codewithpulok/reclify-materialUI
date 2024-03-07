@@ -37,7 +37,7 @@ function Container({ children }) {
     if (isAuthenticated) {
       // if user is seller and haven't complete the stripe account link then redirect to the refresh page
       if (user?.userType === 'seller' && user?.stripeAccountCompleteStatus === false) {
-        router.replace(paths.auth.refresh);
+        router.replace(paths.auth.onboarding);
       }
 
       router.replace(returnTo);

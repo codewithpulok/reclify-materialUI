@@ -121,7 +121,7 @@ const AddressField = (props) => {
                   </>
                 ),
               }}
-              error={Object.keys(errors?.[name] || {}).length}
+              error={!!Object.keys(errors?.[name] || {}).length}
             />
           )}
           onChange={handleOptionChange}
@@ -136,7 +136,10 @@ const AddressField = (props) => {
         {/* custom action button */}
         {actionBtn}
       </Stack>
-      <Collapse in={addressCollapse.value && isEditable.value} sx={{ mt: 1 }}>
+      <Collapse
+        in={addressCollapse.value && isEditable.value}
+        sx={{ mt: addressCollapse.value && isEditable.value ? 1 : 0 }}
+      >
         <Fields name={name} value={addressValue} />
       </Collapse>
     </Stack>
