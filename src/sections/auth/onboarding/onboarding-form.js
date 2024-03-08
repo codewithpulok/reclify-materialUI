@@ -1,6 +1,7 @@
 import { yupResolver } from '@hookform/resolvers/yup';
 import { LoadingButton } from '@mui/lab';
 import { Stack, Typography } from '@mui/material';
+import subYears from 'date-fns/subYears';
 import { enqueueSnackbar } from 'notistack';
 import { useCallback, useEffect } from 'react';
 import { useForm } from 'react-hook-form';
@@ -22,7 +23,7 @@ const defaultValues = {
   lastName: '',
   phone: '',
   ssn: '',
-  dob: Date.now(),
+  dob: subYears(new Date(), 13),
   address: {
     country: '',
     state: '',
@@ -62,7 +63,11 @@ const OnboardingForm = (props) => {
   const [updateOnboarding] = useOnboardingMutation();
 
   // form state
-  const methods = useForm({ defaultValues, resolver: yupResolver(onboardingSchema) });
+  const methods = useForm({
+    defaultValues,
+    resolver: yupResolver(onboardingSchema),
+    reValidateMode: 'onChange',
+  });
   const { handleSubmit, formState, setValue } = methods;
   const { isSubmitting } = formState;
 
@@ -166,8 +171,6 @@ const OnboardingForm = (props) => {
       </Typography>
     </Stack>
   );
-
-  console.log({ user });
 
   return (
     <Stack width="100%">

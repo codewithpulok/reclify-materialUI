@@ -38,8 +38,8 @@ const AddressField = (props) => {
   const isEditable = useBoolean(true);
 
   // form state
-  const { watch, setValue, formState } = useFormContext();
-  const { errors } = formState;
+  const { watch, setValue, getFieldState } = useFormContext();
+  const { error } = getFieldState(name);
   const addressValue = watch(name, {});
 
   // search for address while changing the input
@@ -119,7 +119,7 @@ const AddressField = (props) => {
                   </>
                 ),
               }}
-              error={!!Object.keys(errors?.[name] || {}).length}
+              error={!!Object.keys(error || {}).length}
             />
           )}
           onChange={handleOptionChange}

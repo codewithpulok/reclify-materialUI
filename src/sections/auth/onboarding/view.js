@@ -12,16 +12,11 @@ import OnboardingStatus from './onboarding-status';
 
 const OnboardingView = () => {
   const { user } = useAppSelector(selectAuth);
-  const showForm =
-    user?.stripeAccountCompleteStatus === 'NOT_SENT' ||
-    user?.stripeAccountCompleteStatus === 'FAILED';
+
   const showStatus =
     user?.stripeAccountCompleteStatus === 'PENDING' ||
     user?.stripeAccountCompleteStatus === 'SUCCEDED';
-  const showLogout =
-    user?.stripeAccountCompleteStatus === 'PENDING' ||
-    user?.stripeAccountCompleteStatus === 'NOT_SENT' ||
-    user?.stripeAccountCompleteStatus === 'FAILED';
+  const showLogout = user?.stripeAccountCompleteStatus !== 'SUCCEDED';
 
   // router state
   const router = useRouter();
@@ -37,8 +32,7 @@ const OnboardingView = () => {
 
   return (
     <Stack maxWidth={800} width="100%" alignItems="center">
-      {showForm && <OnboardingForm />}
-      {showStatus && <OnboardingStatus />}
+      {showStatus ? <OnboardingStatus /> : <OnboardingForm />}
 
       <Stack spacing={1} mt={5}>
         {showLogout && (

@@ -1,9 +1,17 @@
 import { Grid, Stack } from '@mui/material';
+import subYears from 'date-fns/subYears';
 import { AddressField, PasswordField } from 'src/components/common/custom-fields';
 import { RHFAccordion, RHFDatePicker, RHFTextField } from 'src/components/common/hook-form';
 import formatPhone from 'src/utils/format-phone';
 import AchField from './common/ach-field';
 import CardField from './common/card-field';
+
+/**
+ * according to the stripe docs DOB must be between 13 and 120 years old
+ * https://docs.stripe.com/connect/required-verification-information#US+US+custom+full+individual+card_payments,tax_reporting_us_1099_k,transfers
+ */
+const minDate = subYears(new Date(), 120);
+const maxDate = subYears(new Date(), 13);
 
 const OnboardingFields = () => (
   <Grid container spacing={1}>
@@ -45,6 +53,8 @@ const OnboardingFields = () => (
         name="dob"
         label="Date of Birth"
         slotProps={{ textField: { fullWidth: true } }}
+        maxDate={maxDate}
+        minDate={minDate}
       />
     </Grid>
 
