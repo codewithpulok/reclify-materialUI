@@ -1,5 +1,9 @@
 import { TOKEN_STORAGE_KEY, USER_STORAGE_KEY } from 'src/config-global';
 // ----------------------------------------------------------------------
+
+/**
+ * @returns {Promise<boolean>}
+ */
 export const removeAuthState = () =>
   new Promise((resolve, reject) => {
     try {
@@ -12,6 +16,12 @@ export const removeAuthState = () =>
     }
   });
 
+/**
+ *
+ * @param {string} newToken
+ * @param {AuthUser} userUpdates
+ * @returns {Promise<{token: string, user: AuthUser}>}
+ */
 export const saveAuthState = (token = null, user = null) =>
   new Promise((resolve, reject) => {
     try {
@@ -26,6 +36,9 @@ export const saveAuthState = (token = null, user = null) =>
     }
   });
 
+/**
+ * @returns {Promise<{token: string, user: AuthUser}>}
+ */
 export const getAuthState = () =>
   new Promise((resolve, reject) => {
     try {
@@ -42,6 +55,12 @@ export const getAuthState = () =>
     }
   });
 
+/**
+ *
+ * @param {string | null} newToken
+ * @param {AuthUser | null} userUpdates
+ * @returns {Promise<{token: string | null, user: AuthUser | null}>}
+ */
 export const updateAuthState = (newToken = null, userUpdates = null) =>
   // eslint-disable-next-line no-async-promise-executor
   new Promise(async (resolve, reject) => {

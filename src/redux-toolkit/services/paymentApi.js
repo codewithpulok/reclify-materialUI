@@ -22,7 +22,10 @@ export const paymentApi = createApi({
           const { data } = await queryFulfilled;
           if (data?.isError) throw new Error(data?.message);
 
-          const state = await updateAuthState(null, { stripeAccountCompleteStatus: true });
+          const state = await updateAuthState(null, {
+            stripeAccountCompleteStatus: 'PENDING',
+            customerStripeId: data?.results?.id,
+          });
           dispatch(update(state));
         } catch (error) {
           console.error('Error: Update onboarding', error);

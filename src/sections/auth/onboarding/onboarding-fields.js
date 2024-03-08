@@ -1,6 +1,7 @@
 import { Grid, Stack } from '@mui/material';
-import { AddressField } from 'src/components/common/custom-fields';
+import { AddressField, PasswordField } from 'src/components/common/custom-fields';
 import { RHFAccordion, RHFDatePicker, RHFTextField } from 'src/components/common/hook-form';
+import formatPhone from 'src/utils/format-phone';
 
 const OnboardingFields = () => (
   <Grid container spacing={1}>
@@ -12,14 +13,6 @@ const OnboardingFields = () => (
     </Grid>
 
     <Grid xs={12} md={6} item>
-      <RHFTextField name="statementdescriptor" label="Statement Descriptor" fullWidth />
-    </Grid>
-
-    <Grid xs={12} md={6} item>
-      <RHFTextField name="ip" label="TOS Acceptance IP" fullWidth />
-    </Grid>
-
-    <Grid xs={12} md={6} item>
       <RHFTextField name="firstName" label="First Name" fullWidth />
     </Grid>
 
@@ -28,11 +21,21 @@ const OnboardingFields = () => (
     </Grid>
 
     <Grid xs={12} md={6} item>
-      <RHFTextField name="phone" label="Phone" fullWidth />
+      <RHFTextField
+        name="phone"
+        label="Phone"
+        onChangeMiddleware={formatPhone}
+        placeholder="000-000-0000"
+        fullWidth
+      />
     </Grid>
 
     <Grid xs={12} md={6} item>
-      <RHFTextField name="ssn" label="SSN" fullWidth />
+      <PasswordField name="ssn" label="SSN" fullWidth />
+    </Grid>
+
+    <Grid xs={12} md={6} item>
+      <RHFTextField name="statementdescriptor" label="Statement Descriptor" fullWidth />
     </Grid>
 
     <Grid xs={12} md={6} item>
@@ -42,7 +45,7 @@ const OnboardingFields = () => (
         slotProps={{ textField: { fullWidth: true } }}
       />
     </Grid>
-    <Grid xs={12} md={6} item>
+    <Grid xs={12} item>
       <AddressField name="address" />
     </Grid>
     <Grid item>

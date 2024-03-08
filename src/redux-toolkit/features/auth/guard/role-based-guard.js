@@ -39,7 +39,7 @@ export default function RoleBasedGuard(props) {
 
   const currentRole = user?.userType;
 
-  if (typeof roles !== 'undefined' && !roles.includes(currentRole)) {
+  if (Array.isArray(roles) && !roles.includes(currentRole)) {
     return hasContent ? (
       <Container component={MotionContainer} sx={{ textAlign: 'center', ...sx }}>
         <m.div variants={varBounce().in}>
@@ -69,7 +69,7 @@ export default function RoleBasedGuard(props) {
             size="large"
             component={RouterLink}
             href={paths.root}
-            fullWidth
+            sx={{ maxWidth: 400, width: '100%' }}
           >
             Go to Home
           </Button>

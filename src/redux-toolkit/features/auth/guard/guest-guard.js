@@ -9,7 +9,6 @@ import { SplashScreen } from 'src/components/common/loading-screen';
 
 import { PATH_AFTER_LOGIN } from 'src/config-global';
 import { useAppSelector } from 'src/redux-toolkit/hooks';
-import { paths } from 'src/routes/paths';
 import { selectAuth } from '../authSlice';
 
 // ----------------------------------------------------------------------
@@ -27,7 +26,7 @@ GuestGuard.propTypes = {
 // ----------------------------------------------------------------------
 
 function Container({ children }) {
-  const { isAuthenticated, user } = useAppSelector(selectAuth);
+  const { isAuthenticated } = useAppSelector(selectAuth);
 
   const router = useRouter();
   const searchParams = useSearchParams();
@@ -35,14 +34,9 @@ function Container({ children }) {
 
   const check = useCallback(() => {
     if (isAuthenticated) {
-      // if user is seller and haven't complete the stripe account link then redirect to the refresh page
-      if (user?.userType === 'seller' && user?.stripeAccountCompleteStatus === false) {
-        router.replace(paths.auth.onboarding);
-      }
-
       router.replace(returnTo);
     }
-  }, [isAuthenticated, returnTo, router, user?.stripeAccountCompleteStatus, user?.userType]);
+  }, [isAuthenticated, returnTo, router]);
 
   useEffect(() => {
     check();
