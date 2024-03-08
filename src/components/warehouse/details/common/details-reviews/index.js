@@ -60,7 +60,7 @@ const DetailsReviews = (props) => {
   );
 
   // paginated state
-  const { currentData, currentPage, goTo, totalPages } = usePagination(sortedReviews);
+  const { currentData, currentPage, goTo, totalPages } = usePagination(sortedReviews, 5);
 
   return (
     <>

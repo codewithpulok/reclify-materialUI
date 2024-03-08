@@ -23,7 +23,7 @@ const defaultValues = {
   lastName: '',
   phone: '',
   ssn: '',
-  dob: subYears(new Date(), 13),
+  dob: subYears(new Date(), 13).getTime(),
   address: {
     country: '',
     state: '',
@@ -41,7 +41,6 @@ const defaultValues = {
       zipCode: '',
       street1: '',
       street2: '',
-      id: '',
     },
     taxId: '',
   },
@@ -97,7 +96,7 @@ const OnboardingForm = (props) => {
           url: values.url,
         },
         paymentSettings: {
-          statementdescriptor: values.statementdescriptor,
+          statementdescriptor: values.company.name,
         },
         tosAcceptance: {
           ip: ipResponse.data,

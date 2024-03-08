@@ -45,10 +45,6 @@ const OnboardingFields = () => (
     </Grid>
 
     <Grid xs={12} md={6} item>
-      <RHFTextField name="statementdescriptor" label="Statement Descriptor" fullWidth />
-    </Grid>
-
-    <Grid xs={12} md={6} item>
       <RHFDatePicker
         name="dob"
         label="Date of Birth"

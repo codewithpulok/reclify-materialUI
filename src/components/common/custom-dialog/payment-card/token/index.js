@@ -35,7 +35,7 @@ const CardTokenDialog = (props) => {
                 Cancel
               </Button>
               <LoadingButton type="submit" color="primary" variant="contained">
-                Create
+                Select
               </LoadingButton>
             </DialogActions>
           }

@@ -4,10 +4,6 @@ import * as Yup from 'yup';
 const onboardingSchema = Yup.object().shape({
   email: Yup.string().email().label('Email').required(),
   url: Yup.string().url().label('Business URL').required(),
-  statementdescriptor: Yup.string()
-    .oneOf([Yup.ref('company.name')], 'Statement Descriptor must match with Company Name')
-    .label('Statement Descriptor')
-    .required(),
   firstName: Yup.string().label('First Name').required(),
   lastName: Yup.string().label('Last Name').required(),
   phone: Yup.string().label('Phone').required(),

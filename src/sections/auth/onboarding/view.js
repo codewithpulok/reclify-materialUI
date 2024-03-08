@@ -26,8 +26,8 @@ const OnboardingView = () => {
 
   // handle logout function
   const handleLogout = async () => {
-    await logout();
     router.replace(paths.auth.login);
+    logout();
   };
 
   return (
