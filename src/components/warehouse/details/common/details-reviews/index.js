@@ -9,6 +9,7 @@ import { WarehouseDetailsBox } from 'src/components/warehouse/box';
 import { WarehouseReviewCard } from 'src/components/warehouse/cards';
 import { useBoolean } from 'src/hooks/use-boolean';
 import { useDialog } from 'src/hooks/use-dialog';
+import usePagination from 'src/hooks/use-pagination';
 import { selectAuth } from 'src/redux-toolkit/features/auth/authSlice';
 import { useAppSelector } from 'src/redux-toolkit/hooks';
 import { ICONS } from '../../../../../sections/private/dashboard/warehouses/config-warehouse';
@@ -35,6 +36,7 @@ const DetailsReviews = (props) => {
   const [sortType, setSortType] = useState('DEFAULT'); // NEW_FIRST, OLD_FIRST, DEFAULT
   const auth = useAppSelector(selectAuth);
 
+  // dialog state
   const createDialog = useBoolean(false);
   const editDialog = useDialog();
   const deleteDialog = useDialog();
@@ -56,6 +58,9 @@ const DetailsReviews = (props) => {
         : [],
     [reviews, sortType]
   );
+
+  // paginated state
+  const { currentData, currentPage, goTo, totalPages } = usePagination(sortedReviews);
 
   return (
     <>
@@ -98,10 +103,10 @@ const DetailsReviews = (props) => {
           </>
         }
       >
-        {sortedReviews?.length ? (
+        {totalPages ? (
           <>
             <Stack spacing={3.5}>
-              {sortedReviews.map((review) => (
+              {currentData.map((review) => (
                 <WarehouseReviewCard
                   key={review.id}
                   avatar={review.userData?.avatar}
@@ -122,9 +127,17 @@ const DetailsReviews = (props) => {
               ))}
             </Stack>
 
-            <Stack direction="row" justifyContent="center" mt={5} mb={1}>
-              <Pagination count={10} color="primary" size="small" />
-            </Stack>
+            {!!totalPages && (
+              <Stack direction="row" justifyContent="center" mt={7} mb={2}>
+                <Pagination
+                  count={totalPages}
+                  color="primary"
+                  size="small"
+                  page={currentPage}
+                  onChange={(_e, page) => goTo(page)}
+                />
+              </Stack>
+            )}
           </>
         ) : (
           <EmptyState icon={ICONS.review()} text="no reviews yet" />
