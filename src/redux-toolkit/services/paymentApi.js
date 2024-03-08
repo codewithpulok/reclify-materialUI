@@ -26,7 +26,7 @@ export const paymentApi = createApi({
             stripeAccountCompleteStatus: 'PENDING',
             customerStripeId: data?.results?.id,
           });
-          dispatch(update(state));
+          dispatch(update(state.user));
         } catch (error) {
           console.error('Error: Update onboarding', error);
         }

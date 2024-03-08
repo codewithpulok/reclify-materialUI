@@ -13,14 +13,12 @@ import OnboardingStatus from './onboarding-status';
 const OnboardingView = () => {
   const { user } = useAppSelector(selectAuth);
   const showForm =
-    true ||
     user?.stripeAccountCompleteStatus === 'NOT_SENT' ||
     user?.stripeAccountCompleteStatus === 'FAILED';
   const showStatus =
     user?.stripeAccountCompleteStatus === 'PENDING' ||
     user?.stripeAccountCompleteStatus === 'SUCCEDED';
   const showLogout =
-    true ||
     user?.stripeAccountCompleteStatus === 'PENDING' ||
     user?.stripeAccountCompleteStatus === 'NOT_SENT' ||
     user?.stripeAccountCompleteStatus === 'FAILED';

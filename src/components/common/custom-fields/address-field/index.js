@@ -59,8 +59,6 @@ const AddressField = (props) => {
     (_event, newValue) => {
       const option = { ...newValue };
 
-      console.log({ option });
-
       setValue(name, option, true);
     },
     [name, setValue]

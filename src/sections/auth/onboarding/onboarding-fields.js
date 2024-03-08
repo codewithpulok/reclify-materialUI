@@ -2,6 +2,8 @@ import { Grid, Stack } from '@mui/material';
 import { AddressField, PasswordField } from 'src/components/common/custom-fields';
 import { RHFAccordion, RHFDatePicker, RHFTextField } from 'src/components/common/hook-form';
 import formatPhone from 'src/utils/format-phone';
+import AchField from './common/ach-field';
+import CardField from './common/card-field';
 
 const OnboardingFields = () => (
   <Grid container spacing={1}>
@@ -45,10 +47,20 @@ const OnboardingFields = () => (
         slotProps={{ textField: { fullWidth: true } }}
       />
     </Grid>
+
     <Grid xs={12} item>
       <AddressField name="address" />
     </Grid>
-    <Grid item>
+
+    <Grid xs={12} md={6} item>
+      <AchField />
+    </Grid>
+
+    <Grid xs={12} md={6} item>
+      <CardField />
+    </Grid>
+
+    <Grid xs={12} item>
       <RHFAccordion name="company" label="Company" defaultExpanded>
         <Stack spacing={0.8}>
           <RHFTextField name="company.name" label="Name" fullWidth />

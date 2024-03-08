@@ -44,6 +44,8 @@ const defaultValues = {
     },
     taxId: '',
   },
+  ach: undefined,
+  card: undefined,
 };
 
 // ----------------------------------------------------------------------
@@ -122,9 +124,11 @@ const OnboardingForm = (props) => {
           },
           tax_id: values.company.taxId,
         },
+        cardToken: values?.card?.cardToken,
+        achToken: values?.ach?.achToken,
       };
 
-      console.log('Complete Onboarding', values);
+      console.log('Complete Onboarding', { values, structuredValues });
 
       const response = await updateOnboarding(structuredValues);
       const { data, error } = response;
@@ -162,6 +166,8 @@ const OnboardingForm = (props) => {
       </Typography>
     </Stack>
   );
+
+  console.log({ user });
 
   return (
     <Stack width="100%">
