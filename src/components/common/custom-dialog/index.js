@@ -11,6 +11,7 @@ export { default as PaymentCardCreateDialog } from './payment-card/create';
 export { default as PaymentCardDeleteDialog } from './payment-card/delete';
 export { default as PaymentCardEditDialog } from './payment-card/edit';
 export { default as PaymentCardListDialog } from './payment-card/list';
+export { default as CardTokenDialog } from './payment-card/token';
 
 // billing address dialog
 export { default as BillingAddressCreateDialog } from './billing-address/create';
@@ -32,6 +33,7 @@ export { default as ACHInfoCreateDialog } from './ach-info/create';
 export { default as ACHInfoDeleteDialog } from './ach-info/delete';
 export { default as ACHInfoEditDialog } from './ach-info/edit';
 export { default as ACHInfoListDialog } from './ach-info/list';
+export { default as ACHTokenDialog } from './ach-info/token';
 
 // plan dialog
 export { default as PlanCancelDialog } from './plan/plan-cancel-dialog';

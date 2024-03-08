@@ -37,9 +37,15 @@ export default function RHFDatePicker(props) {
           {...field}
           value={new Date(field.value)}
           onChange={(value) => field.onChange(new Date(value).getTime())}
-          error={!!error}
-          helperText={error ? error?.message : helperText}
           {...other}
+          slotProps={{
+            ...(other?.slotProps || {}),
+            textField: {
+              error: !!error,
+              helperText: error ? error?.message : helperText,
+              ...(other?.slotProps?.textField || {}),
+            },
+          }}
         />
       )}
     />

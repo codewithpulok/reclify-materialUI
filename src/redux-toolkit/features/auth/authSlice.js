@@ -34,6 +34,8 @@ export const authSlice = createSlice({
       if (action.payload?.avatar !== undefined) state.user.avatar = action.payload.avatar;
       if (action.payload?.stripeAccountCompleteStatus !== undefined)
         state.user.stripeAccountCompleteStatus = action.payload.stripeAccountCompleteStatus;
+      if (action.payload?.customerStripeId !== undefined)
+        state.user.customerStripeId = action.payload.customerStripeId;
     },
   },
 });

@@ -37,7 +37,10 @@ const PaymentCardCreateForm = (props) => {
     clearErrors(); // reset errors
     if (!stripe || !elements) return null;
 
-    const { error, token } = await stripe.createToken(elements.getElement('card'), { name });
+    const { error, token } = await stripe.createToken(elements.getElement('card'), {
+      name,
+      currency: 'usd',
+    });
 
     if (error) {
       console.error('ERROR: Create Token ->', error);

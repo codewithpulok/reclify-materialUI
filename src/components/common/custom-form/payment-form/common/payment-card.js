@@ -46,7 +46,7 @@ const PaymentCard = (props) => {
       {...other}
     >
       <Stack width="100%" direction="row" alignItems="start" justifyContent="space-between">
-        {card && getCreditCardIcon(card.cardNumber)(20)}
+        {card && getCreditCardIcon(card?.cardNumber)(20)}
 
         {!card && <Typography variant="subtitle2">Select Payment card</Typography>}
 
@@ -54,7 +54,7 @@ const PaymentCard = (props) => {
       </Stack>
       {card && (
         <>
-          <Typography variant="subtitle1">{`**** **** **** ${card?.last4}`}</Typography>
+          <Typography variant="subtitle1">{`**** **** **** ${card?.last4 || '****'}`}</Typography>
           <Typography variant="subtitle2" color="text.secondary">
             {card.cardHolder}
           </Typography>
