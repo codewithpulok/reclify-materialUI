@@ -2,6 +2,7 @@
 export const transactionStatusOptions = [
   { value: 'completed', label: 'Completed', color: 'success' },
   { value: 'pending', label: 'Pending', color: 'warning' },
+  { value: 'approved', label: 'Approved', color: 'info' },
   { value: 'admin_pending', label: 'Admin Pending', color: 'secondary' },
   { value: 'cancelled', label: 'Cancelled', color: 'error' },
 ];

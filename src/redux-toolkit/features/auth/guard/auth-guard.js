@@ -51,7 +51,7 @@ function Container(props) {
       // if user is seller and haven't complete the stripe account link then redirect to the refresh page
       if (
         user?.userType === 'seller' &&
-        user?.stripeAccountCompleteStatus !== 'SUCCEDED' &&
+        user?.stripeAccountStatus !== 'SUCCEDED' &&
         !ignoreStripeCompleteStatus
       ) {
         router.replace(paths.auth.onboarding);
@@ -63,7 +63,7 @@ function Container(props) {
     ignoreStripeCompleteStatus,
     isAuthenticated,
     router,
-    user?.stripeAccountCompleteStatus,
+    user?.stripeAccountStatus,
     user?.userType,
   ]);
 

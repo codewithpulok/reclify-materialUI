@@ -23,7 +23,7 @@ export const paymentApi = createApi({
           if (data?.isError) throw new Error(data?.message);
 
           const state = await updateAuthState(null, {
-            stripeAccountCompleteStatus: 'PENDING',
+            stripeAccountStatus: 'PENDING',
             customerStripeId: data?.results?.id,
           });
           dispatch(update(state.user));

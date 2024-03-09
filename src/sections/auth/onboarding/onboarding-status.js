@@ -19,10 +19,10 @@ const texts = {
 const OnboardingStatus = (props) => {
   const { user } = useAppSelector(selectAuth);
 
-  const title = titles?.[user?.stripeAccountCompleteStatus];
-  const text = texts?.[user?.stripeAccountCompleteStatus];
-  const isSuccess = user?.stripeAccountCompleteStatus === 'SUCCEDED';
-  const isPending = user?.stripeAccountCompleteStatus === 'PENDING';
+  const title = titles?.[user?.stripeAccountStatus];
+  const text = texts?.[user?.stripeAccountStatus];
+  const isSuccess = user?.stripeAccountStatus === 'SUCCEDED';
+  const isPending = user?.stripeAccountStatus === 'PENDING';
 
   // api state
   const [refreshAuth, refreshResponse] = useInitAuthMutation();
