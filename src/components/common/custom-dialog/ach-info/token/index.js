@@ -36,6 +36,7 @@ const ACHTokenDialog = (props) => {
             </DialogActions>
           }
           submitCallback={onSubmit}
+          hidePrimary
         />
       </Elements>
     </Dialog>

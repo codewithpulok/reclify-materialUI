@@ -40,7 +40,7 @@ export const transactionApi = createApi({
           if (!data?.success) throw new Error(response);
 
           // update the transaction list cache
-          updateStatus(dispatch, arg, 'completed');
+          updateStatus(dispatch, arg, 'approved');
         } catch (error) {
           console.error('Transction cache update error: ', error);
         }
