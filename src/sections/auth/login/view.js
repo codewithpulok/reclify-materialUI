@@ -62,10 +62,6 @@ export default function LoginView() {
       // handle success
       if (data?.success) {
         console.warn('Login Success: ', data);
-        if (data?.results?.data?.stripeAccountCompleteStatus === false) {
-          window.open(data?.results?.data?.stripeAccountLink?.url, '_self', 'noopener,noreferrer');
-          return;
-        }
         router.push(returnTo);
       }
     },

@@ -40,6 +40,7 @@ const CardTokenDialog = (props) => {
             </DialogActions>
           }
           submitCallback={onSubmit}
+          hidePrimary
         />
       </Elements>
     </Dialog>

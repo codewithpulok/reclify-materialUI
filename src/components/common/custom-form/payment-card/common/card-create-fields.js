@@ -6,16 +6,15 @@ import { RHFSwitch, RHFTextField } from 'src/components/common/hook-form';
 import Scrollbar from 'src/components/common/scrollbar';
 
 const Props = {
-  /** @type {'CREATE' | 'EDIT'} */
-  mode: PropTypes.oneOf(['CREATE', 'EDIT']),
+  hidePrimary: PropTypes.bool,
 };
 
 /**
  * @param {Props} props
  * @returns {JSX.Element}
  */
-const CardFields = (props) => {
-  const { mode = 'CREATE' } = props;
+const CardCreateFields = (props) => {
+  const { hidePrimary } = props;
 
   const { formState } = useFormContext();
   const { errors } = formState;
@@ -26,14 +25,14 @@ const CardFields = (props) => {
         {errors?.root?.message && <Alert severity="error">{errors?.root?.message}</Alert>}
         <RHFTextField name="cardHolder" label="Card Holder" />
         <Box my={1.2}>
-          <CardElement options={{ disabled: mode === 'EDIT' }} />
+          <CardElement />
         </Box>
-        <RHFSwitch name="isPrimary" label="Primary" />
+        {!hidePrimary && <RHFSwitch name="isPrimary" label="Primary" />}
       </Stack>
     </Scrollbar>
   );
 };
 
-CardFields.propTypes = Props;
+CardCreateFields.propTypes = Props;
 
-export default CardFields;
+export default CardCreateFields;

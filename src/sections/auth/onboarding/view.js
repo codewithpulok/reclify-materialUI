@@ -14,9 +14,8 @@ const OnboardingView = () => {
   const { user } = useAppSelector(selectAuth);
 
   const showStatus =
-    user?.stripeAccountCompleteStatus === 'PENDING' ||
-    user?.stripeAccountCompleteStatus === 'SUCCEDED';
-  const showLogout = user?.stripeAccountCompleteStatus !== 'SUCCEDED';
+    user?.stripeAccountStatus === 'PENDING' || user?.stripeAccountStatus === 'SUCCEDED';
+  const showLogout = user?.stripeAccountStatus !== 'SUCCEDED';
 
   // router state
   const router = useRouter();

@@ -18,7 +18,7 @@
  */
 
 /**
- * @typedef {'completed' | 'pending' | 'cancelled' | 'admin_pending'} TransactionStatus
+ * @typedef {'completed' | 'pending' | 'cancelled' | 'admin_pending' | 'approved'} TransactionStatus
  */
 
 /**

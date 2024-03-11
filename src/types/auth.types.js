@@ -20,5 +20,5 @@
  * @property {string} serviceType
  * @property {PlanId} planId
  * @property {string} customerStripeId
- * @property {'NOT_SENT' | 'PENDING' | 'SUCCEDED' | 'FAILED'} stripeAccountCompleteStatus
+ * @property {'NOT_SENT' | 'PENDING' | 'SUCCEDED' | 'FAILED'} stripeAccountStatus
  */

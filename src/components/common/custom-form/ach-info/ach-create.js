@@ -4,13 +4,15 @@ import { useCallback } from 'react';
 import { useForm } from 'react-hook-form';
 
 import { useStripe } from '@stripe/react-stripe-js';
+import PropTypes from 'prop-types';
 import FormProvider from 'src/components/common/hook-form/form-provider';
 import { CustomFormProps } from '../config-custom-form';
-import AchFields from './common/ach-fields';
+import AchCreateFields from './common/ach-create-fields';
 import { AchSchema } from './common/ach-schema';
 
 const Props = {
   ...CustomFormProps,
+  hidePrimary: PropTypes.bool,
 };
 
 /** @type {ACHType} */
@@ -28,7 +30,7 @@ const defaultValues = {
  * @returns {JSX.Element}
  */
 const ACHInfoCreateForm = (props) => {
-  const { actions, submitCallback = () => {}, wrapperElement, sx = {} } = props;
+  const { actions, submitCallback = () => {}, wrapperElement, sx = {}, hidePrimary } = props;
 
   const stripe = useStripe();
 
@@ -76,7 +78,7 @@ const ACHInfoCreateForm = (props) => {
   return (
     <FormProvider methods={methods} onSubmit={handleSubmit(onSubmit)} onReset={onReset}>
       <Box component={wrapperElement} sx={sx}>
-        <AchFields />
+        <AchCreateFields hidePrimary={hidePrimary} />
       </Box>
 
       {actions}

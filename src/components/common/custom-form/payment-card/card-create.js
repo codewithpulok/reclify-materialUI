@@ -4,13 +4,15 @@ import { useCallback } from 'react';
 import { useForm } from 'react-hook-form';
 
 import { useElements, useStripe } from '@stripe/react-stripe-js';
+import PropTypes from 'prop-types';
 import FormProvider from 'src/components/common/hook-form/form-provider';
 import { CustomFormProps } from '../config-custom-form';
-import CardFields from './common/card-fields';
+import CardCreateFields from './common/card-create-fields';
 import { cardSchema } from './common/card-schema';
 
 const Props = {
   ...CustomFormProps,
+  hidePrimary: PropTypes.bool,
 };
 
 /** @type {PaymentCard} */
@@ -24,7 +26,7 @@ const defaultValues = {
  * @returns {JSX.Element}
  */
 const PaymentCardCreateForm = (props) => {
-  const { actions, submitCallback = () => {}, wrapperElement, sx = {} } = props;
+  const { actions, submitCallback = () => {}, wrapperElement, sx = {}, hidePrimary } = props;
 
   const stripe = useStripe();
   const elements = useElements();
@@ -69,7 +71,7 @@ const PaymentCardCreateForm = (props) => {
   return (
     <FormProvider methods={methods} onSubmit={handleSubmit(onSubmit)} onReset={onReset}>
       <Box component={wrapperElement} sx={sx}>
-        <CardFields />
+        <CardCreateFields hidePrimary={hidePrimary} />
       </Box>
 
       {actions}
