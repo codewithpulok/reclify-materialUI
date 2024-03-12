@@ -33,6 +33,7 @@ const Props = {
   onCancelOrder: PropTypes.func,
   onCompleteOrder: PropTypes.func,
   onApproveOrder: PropTypes.func,
+  isAdmin: PropTypes.bool,
 };
 
 /**
@@ -47,6 +48,7 @@ const TransactionRow = (props) => {
     onCancelOrder,
     onCompleteOrder,
     onApproveOrder,
+    isAdmin,
   } = props;
   const popover = usePopover(false);
 
@@ -55,6 +57,8 @@ const TransactionRow = (props) => {
   const showActions = isAdminPending || isPending;
 
   const warehouseImage = getPrimaryPhoto(row?.warehouse?.photos);
+  const sellerPath = isAdmin ? paths.dashboard.users.seller : paths.users.seller;
+  const customerPath = isAdmin ? paths.dashboard.users.customer : paths.users.customer;
 
   const renderPrimary = (
     <TableRow hover>
@@ -86,16 +90,18 @@ const TransactionRow = (props) => {
 
       {show.includes('invoice') && (
         <TableCell>
-          <Tooltip title="Click to visit invoice PDF" arrow>
-            <Chip
-              label="Invoice"
-              icon={ICONS.invoice()}
-              clickable
-              variant="outlined"
-              component={RouterLink}
-              href="#"
-            />
-          </Tooltip>
+          {row.status === 'completed' && (
+            <Tooltip title="Click to visit invoice PDF" arrow>
+              <Chip
+                label="Invoice"
+                icon={ICONS.invoice()}
+                clickable
+                variant="outlined"
+                component={RouterLink}
+                href="#"
+              />
+            </Tooltip>
+          )}
         </TableCell>
       )}
 
@@ -104,10 +110,7 @@ const TransactionRow = (props) => {
           <Stack direction="row" alignItems="center">
             <Avatar alt={row.seller?.firstName} src={row.seller.avatar} sx={{ mr: 2 }} />
             <Stack>
-              <Link
-                component={RouterLink}
-                href={`${paths.dashboard.users.sellers}/${row.seller.id}`}
-              >
+              <Link component={RouterLink} href={sellerPath(row.seller.id)}>
                 <Typography variant="body2" color="text.primary">
                   {row.seller?.firstName} {row.seller?.lastName}
                 </Typography>
@@ -122,10 +125,7 @@ const TransactionRow = (props) => {
           <Stack direction="row" alignItems="center">
             <Avatar alt={row.customer?.firstName} src={row.customer.avatar} sx={{ mr: 2 }} />
             <Stack>
-              <Link
-                component={RouterLink}
-                href={`${paths.dashboard.users.customers}/${row.customer.id}`}
-              >
+              <Link component={RouterLink} href={customerPath(row.customer.id)}>
                 <Typography variant="body2" color="text.primary">
                   {row.customer?.firstName} {row.customer?.lastName}
                 </Typography>

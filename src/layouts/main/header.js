@@ -16,6 +16,9 @@ import { bgBlur } from 'src/theme/css';
 import { paths } from 'src/routes/paths';
 // components
 import Logo from 'src/components/common/logo';
+import { selectAuth } from 'src/redux-toolkit/features/auth/authSlice';
+import { useAppSelector } from 'src/redux-toolkit/hooks';
+import AccountPopover from '../common/account-popover';
 import HeaderShadow from '../common/header-shadow';
 import LoginButton from '../common/login-button';
 import { HEADER } from '../config-layout';
@@ -25,6 +28,7 @@ import NavMobile from './nav/mobile';
 // ----------------------------------------------------------------------
 
 export default function Header() {
+  const { isAuthenticated } = useAppSelector(selectAuth);
   const theme = useTheme();
 
   const mdUp = useResponsive('up', 'md');
@@ -81,7 +85,8 @@ export default function Header() {
                 </Button>
               </>
             )}
-            <LoginButton />
+
+            {isAuthenticated ? <AccountPopover /> : <LoginButton />}
           </Stack>
           {mdDown && <NavMobile data={navConfig} />}
         </Container>

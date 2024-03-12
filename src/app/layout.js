@@ -5,7 +5,7 @@ import 'src/global.css';
 import PropTypes from 'prop-types';
 
 import ThemeProvider from 'src/theme';
-import { primaryFont } from 'src/theme/typography';
+import { highlightsFont, primaryFont } from 'src/theme/typography';
 
 import { MotionLazy } from 'src/components/common/animate/motion-lazy';
 import ProgressBar from 'src/components/common/progress-bar';
@@ -32,7 +32,7 @@ export const metadata = {
 
 export default function RootLayout({ children }) {
   return (
-    <html lang="en" className={primaryFont.className}>
+    <html lang="en" className={`${primaryFont.className} ${highlightsFont.className}`}>
       <body style={{ scrollBehavior: 'smooth' }}>
         <Provider>
           <InitAppearance>

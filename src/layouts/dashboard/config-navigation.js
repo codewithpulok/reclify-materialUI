@@ -111,9 +111,9 @@ export function useNavData() {
         children: [
           // common warehouse routes
           {
-            title: 'Hot Racks',
+            title: 'HotRacks',
             path: paths.dashboard.warehouses.hot_deals,
-            icon: ICONS.hot_deals(),
+            icon: ICONS.hot_deals(undefined, { color: 'secondary.main' }),
           },
 
           // sub region warehouse routes (hiding global)

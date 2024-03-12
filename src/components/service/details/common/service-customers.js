@@ -1,9 +1,13 @@
 import { Box, Card, Stack, Typography } from '@mui/material';
 import PropTypes from 'prop-types';
 import Carousel, { CarouselArrows, useCarousel } from 'src/components/common/carousel';
+import { EmptyState } from 'src/components/common/custom-state';
 import Image from 'src/components/common/image';
+import { ServiceDetailsBox } from '../../box';
 
 const Props = {
+  /** @type {SxProps} */
+  sx: PropTypes.object,
   /** @type {CustomerList[]} */
   data: PropTypes.array,
 };
@@ -13,7 +17,7 @@ const Props = {
  * @returns {JSX.Element}
  */
 const ServiceCustomers = (props) => {
-  const { data = [] } = props;
+  const { data = [], sx } = props;
 
   const carousel = useCarousel({
     slidesToShow: 4,
@@ -39,39 +43,47 @@ const ServiceCustomers = (props) => {
   });
 
   return (
-    <Box
-      sx={{
-        overflow: 'hidden',
-        position: 'relative',
-        '& .slick-track': {
-          ml: 0,
-          py: 2,
-        },
-      }}
-    >
-      <CarouselArrows
-        filled
-        icon="solar:alt-arrow-right-bold"
-        onNext={carousel.onNext}
-        onPrev={carousel.onPrev}
-      >
-        <Carousel ref={carousel.carouselRef} {...carousel.carouselSettings}>
-          {data.map((item, index) => (
-            <Box key={index} sx={{ px: { xs: 0.5, sm: 1 } }}>
-              <Card
-                sx={{ borderRadius: 1, py: 1, height: '120px' }}
-                component={Stack}
-                alignItems="center"
-                justifyContent="center"
-              >
-                {item?.image && <Image src={item.image} />}
-                {!item?.image && item?.name && <Typography variant="h5">{item.name}</Typography>}
-              </Card>
-            </Box>
-          ))}
-        </Carousel>
-      </CarouselArrows>
-    </Box>
+    <ServiceDetailsBox title="Featured Client List" sx={sx}>
+      {data?.length > 0 ? (
+        <Box
+          sx={{
+            overflow: 'hidden',
+            position: 'relative',
+            '& .slick-track': {
+              ml: 0,
+              py: 2,
+            },
+          }}
+        >
+          <CarouselArrows
+            filled
+            icon="solar:alt-arrow-right-bold"
+            onNext={carousel.onNext}
+            onPrev={carousel.onPrev}
+          >
+            <Carousel ref={carousel.carouselRef} {...carousel.carouselSettings}>
+              {data.map((item, index) => (
+                <Box key={index} sx={{ px: { xs: 0.5, sm: 1 } }}>
+                  <Card
+                    sx={{ borderRadius: 1, py: 1, height: '120px' }}
+                    component={Stack}
+                    alignItems="center"
+                    justifyContent="center"
+                  >
+                    {item?.image && <Image src={item.image} />}
+                    {!item?.image && item?.name && (
+                      <Typography variant="h5">{item.name}</Typography>
+                    )}
+                  </Card>
+                </Box>
+              ))}
+            </Carousel>
+          </CarouselArrows>
+        </Box>
+      ) : (
+        <EmptyState />
+      )}
+    </ServiceDetailsBox>
   );
 };
 

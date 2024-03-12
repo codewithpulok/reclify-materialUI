@@ -2,6 +2,8 @@ import { Avatar, Box, Card, CardActionArea, Stack, Typography } from '@mui/mater
 import { useRouter } from 'next/navigation';
 import PropTypes from 'prop-types';
 import { PLACEHOLDER_PROFILE_AVATAR } from 'src/config-global';
+import { selectAuth } from 'src/redux-toolkit/features/auth/authSlice';
+import { useAppSelector } from 'src/redux-toolkit/hooks';
 import { paths } from 'src/routes/paths';
 import { fShortenNumber } from 'src/utils/format-number';
 import { ICONS } from '../config-users';
@@ -19,6 +21,10 @@ const Props = {
 const SellerCard = (props) => {
   const { user, serviceCount } = props;
   const router = useRouter();
+  const { user: authUser } = useAppSelector(selectAuth);
+
+  const sellerPath =
+    authUser?.userType === 'admin' ? paths.dashboard.users.seller : paths.users.seller;
 
   const avatar = user?.avatar || PLACEHOLDER_PROFILE_AVATAR;
 
@@ -27,7 +33,7 @@ const SellerCard = (props) => {
   return (
     <Card sx={{ borderRadius: 1 }}>
       <CardActionArea
-        onClick={() => router.push(`${paths.dashboard.users.sellers}/${user.id}`)}
+        onClick={() => router.push(sellerPath(user.id))}
         sx={{ minHeight: '100%', px: { xs: 1, sm: 1.5 }, py: { xs: 1, sm: 1.2 } }}
       >
         <Stack direction="row" spacing={1.5} mb={2} alignItems="center">

@@ -1,5 +1,6 @@
-import { ListItem, ListItemText } from '@mui/material';
+import { ListItem, ListItemIcon, ListItemText } from '@mui/material';
 import PropTypes from 'prop-types';
+import { getIconify } from 'src/components/common/iconify/utilities';
 import { WarehouseDetailsBox } from 'src/components/warehouse/box';
 
 const Props = {
@@ -19,6 +20,7 @@ const ServiceKeyFeatures = (props) => {
     <WarehouseDetailsBox title="Key Features" sx={sx}>
       {keyFeatures.map((feature, index) => (
         <ListItem key={`${feature}-${index}`} disableGutters>
+          <ListItemIcon>{getIconify('fluent-mdl2:radio-bullet')}</ListItemIcon>
           <ListItemText primary={feature} />
         </ListItem>
       ))}

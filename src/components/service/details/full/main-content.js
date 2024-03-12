@@ -1,6 +1,6 @@
 import { Stack } from '@mui/material';
 import PropTypes from 'prop-types';
-import ServiceFeatures from '../common/service-features';
+import ServiceHighlights from '../common/service-highlights';
 import ServiceKeyFeatures from '../common/service-keyfeatures';
 
 const Props = {
@@ -17,7 +17,7 @@ const MainContent = (props) => {
 
   return (
     <Stack spacing={2}>
-      <ServiceFeatures features={service.features} type={service.type} />
+      <ServiceHighlights highlights={service?.highlights} />
       <ServiceKeyFeatures keyFeatures={service?.keyFeatures} />
     </Stack>
   );

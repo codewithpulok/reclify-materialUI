@@ -20,6 +20,7 @@ const Props = {
   name: PropTypes.string.isRequired,
   label: PropTypes.string.isRequired,
   defaultExpanded: PropTypes.bool,
+  max: PropTypes.number,
 };
 
 /**
@@ -27,9 +28,9 @@ const Props = {
  * @returns {JSX.Element}
  */
 const ArrayField = (props) => {
-  const { name, label, defaultExpanded } = props;
+  const { name, label, defaultExpanded, max } = props;
   const { setValue, watch } = useFormContext();
-  const value = watch(name);
+  const value = watch(name, []);
 
   const [newRule, setNewRule] = useState('');
 
@@ -71,7 +72,11 @@ const ArrayField = (props) => {
           InputProps={{
             endAdornment: (
               <InputAdornment position="end">
-                <IconButton type="button" onClick={handleAddValue}>
+                <IconButton
+                  type="button"
+                  onClick={handleAddValue}
+                  disabled={typeof max === 'number' && value.length === max}
+                >
                   {ICONS.add()}
                 </IconButton>
               </InputAdornment>

@@ -59,6 +59,7 @@ const RenderPlans = (props) => {
     return plans?.map((plan) => (
       <Grid xs={12} md={4} key={plan.id}>
         <PlanCard
+          size="sm"
           isSelected={plan.id === selectedPlan}
           onSelect={handleSelectPlan}
           plan={plan}

@@ -1,6 +1,6 @@
-import { Alert, InputAdornment, MenuItem } from '@mui/material';
+import { Alert, InputAdornment, MenuItem, TextField } from '@mui/material';
 import Grid from '@mui/material/Grid';
-import { useEffect } from 'react';
+import { useCallback, useEffect } from 'react';
 import { useFormContext } from 'react-hook-form';
 // local components
 import PropTypes from 'prop-types';
@@ -30,8 +30,8 @@ import Label from 'src/components/common/label';
 import { SQUARE_FEET_PER_PALLET } from 'src/constant/pallet';
 import { selectAuth } from 'src/redux-toolkit/features/auth/authSlice';
 import { useAppSelector } from 'src/redux-toolkit/hooks';
-import { restrictNegetiveValue } from 'src/utils/form';
-import { fFixedFloat } from 'src/utils/format-number';
+import { restrictNegetiveValue, restrictPercentValue } from 'src/utils/form';
+import { fCurrency, fFixedFloat } from 'src/utils/format-number';
 import WarehouseReviews from './warehouse-reviews';
 
 export const stepFields = {
@@ -76,6 +76,44 @@ const WarehouseFields = (props) => {
   const hasPromo = watch('hasPromo', false);
   const hotRackEnabled = watch('hotRackEnabled', false);
   const discountOption = watch('discountOption', 'percentage');
+
+  const price1 = watch('price1');
+  const price3 = watch('price3');
+  const price6 = watch('price6');
+  const price12 = watch('price12');
+
+  const discount1 = watch('discount1');
+  const discount3 = watch('discount3');
+  const discount6 = watch('discount6');
+  const discount12 = watch('discount12');
+  const discountAll = watch('discountAll');
+
+  const monthlyDiscount = useCallback(
+    (price, discount) => {
+      if (!price) return 0;
+      return price - (discount || 0) - (discountAll || 0);
+    },
+    [discountAll]
+  );
+
+  useEffect(() => {
+    if (!price1) {
+      setValue('discount1', 0);
+    }
+
+    if (!price3) {
+      setValue('discount3', 0);
+    }
+
+    if (!price6) {
+      setValue('discount6', 0);
+    }
+
+    if (!price12) {
+      setValue('discount12', 0);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [price1, price12, price3, price6]);
 
   useEffect(() => {
     if (regionScope) {
@@ -288,7 +326,7 @@ const WarehouseFields = (props) => {
               defaultExpanded
             >
               <Alert sx={{ mb: 2 }} icon={false} severity="info">
-                {`Enter your the price per month for each pallet location, based on the term. Leave empty or enter 0 if you don't want to offer a specific term.`}
+                {`Enter the price per month for each pallet location, based on the term. Leave empty or enter 0 if you don't want to offer a specific term.`}
               </Alert>
               <Grid container spacing={1.2}>
                 <Grid item xs={12}>
@@ -361,7 +399,7 @@ const WarehouseFields = (props) => {
                 'discount12',
                 'discountAll',
               ]}
-              label="Hot Rack"
+              label="HotRack"
               defaultExpanded
               sx={{
                 borderWidth: '2px',
@@ -385,7 +423,7 @@ const WarehouseFields = (props) => {
               ) : (
                 <>
                   <Alert sx={{ mb: 2 }} icon={false} severity="secondary">
-                    {`A "Hot Rack" refers to a time-limited discounted offer on palletized storage space. When our partners find themselves with surplus available space, they have the opportunity to list this space at a discounted rate and be prominently featured on Racklify. This dynamic approach creates a mutually beneficial scenario for both the warehouse and the customer. Warehouses gain the advantage of filling up available space quickly, while customers benefit from exclusive discounts on palletized storage, resulting in a win-win situation for all parties involved. Keep an eye out for these Hot Rack offers as they present an excellent opportunity to secure storage space at a compelling rate.`}
+                    {`A "HotRack" refers to a time-limited discounted offer on palletized storage space. When our partners find themselves with surplus available space, they have the opportunity to list this space at a discounted rate and be prominently featured on Racklify. This dynamic approach creates a mutually beneficial scenario for both the warehouse and the customer. Warehouses gain the advantage of filling up available space quickly, while customers benefit from exclusive discounts on palletized storage, resulting in a win-win situation for all parties involved. Keep an eye out for these HotRack offers as they present an excellent opportunity to secure storage space at a compelling rate.`}
                   </Alert>
                   <Grid container spacing={1.2}>
                     <Grid item xs={12}>
@@ -402,45 +440,23 @@ const WarehouseFields = (props) => {
                       </RHFTextField>
                     </Grid>
                     {discountOption === 'percentage' && (
-                      <>
-                        <Grid item xs={12}>
-                          <RHFTextField
-                            type="number"
-                            name="discountRate"
-                            label="Discount Rate"
-                            InputProps={{
-                              startAdornment: <InputAdornment position="start">%</InputAdornment>,
-                            }}
-                            onChangeMiddleware={restrictNegetiveValue}
-                            fullWidth
-                            disabled={!hotRackEnabled || user?.planId === 'free'}
-                          />
-                        </Grid>
-                        <Grid item xs={12} sm={6}>
-                          <RHFTextField
-                            label="Promo Code"
-                            name="promoCode"
-                            fullWidth
-                            disabled={!hasPromo || !hotRackEnabled || user?.planId === 'free'}
-                          />
-                        </Grid>
-                        <Grid
-                          item
-                          xs={12}
-                          sm={6}
-                          sx={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}
-                        >
-                          <RHFSwitch
-                            label="Enable Promo Code"
-                            name="hasPromo"
-                            disabled={!hotRackEnabled || user?.planId === 'free'}
-                          />
-                        </Grid>
-                      </>
+                      <Grid item xs={12}>
+                        <RHFTextField
+                          type="number"
+                          name="discountRate"
+                          label="Discount Rate"
+                          InputProps={{
+                            startAdornment: <InputAdornment position="start">%</InputAdornment>,
+                          }}
+                          onChangeMiddleware={restrictPercentValue}
+                          fullWidth
+                          disabled={!hotRackEnabled || user?.planId === 'free'}
+                        />
+                      </Grid>
                     )}
                     {discountOption === 'fixed' && (
                       <>
-                        <Grid item xs={12}>
+                        <Grid item xs={12} md={6}>
                           <RHFTextField
                             type="number"
                             name="discount1"
@@ -450,10 +466,18 @@ const WarehouseFields = (props) => {
                             }}
                             onChangeMiddleware={restrictNegetiveValue}
                             fullWidth
-                            disabled={!hotRackEnabled}
+                            disabled={!hotRackEnabled || !price1}
                           />
                         </Grid>
-                        <Grid item xs={12}>
+                        <Grid item xs={12} md={6}>
+                          <TextField
+                            label="Discounted Price 1 Month"
+                            value={fCurrency(monthlyDiscount(price1, discount1))}
+                            fullWidth
+                            disabled
+                          />
+                        </Grid>
+                        <Grid item xs={12} md={6}>
                           <RHFTextField
                             type="number"
                             name="discount3"
@@ -463,10 +487,18 @@ const WarehouseFields = (props) => {
                             }}
                             onChangeMiddleware={restrictNegetiveValue}
                             fullWidth
-                            disabled={!hotRackEnabled}
+                            disabled={!hotRackEnabled || !price3}
                           />
                         </Grid>
-                        <Grid item xs={12}>
+                        <Grid item xs={12} md={6}>
+                          <TextField
+                            label="Discounted Price 3 Month"
+                            value={fCurrency(monthlyDiscount(price3, discount3))}
+                            fullWidth
+                            disabled
+                          />
+                        </Grid>
+                        <Grid item xs={12} md={6}>
                           <RHFTextField
                             type="number"
                             name="discount6"
@@ -476,10 +508,18 @@ const WarehouseFields = (props) => {
                             }}
                             onChangeMiddleware={restrictNegetiveValue}
                             fullWidth
-                            disabled={!hotRackEnabled}
+                            disabled={!hotRackEnabled || !price6}
                           />
                         </Grid>
-                        <Grid item xs={12}>
+                        <Grid item xs={12} md={6}>
+                          <TextField
+                            label="Discounted Price 6 Month"
+                            value={fCurrency(monthlyDiscount(price6, discount6))}
+                            fullWidth
+                            disabled
+                          />
+                        </Grid>
+                        <Grid item xs={12} md={6}>
                           <RHFTextField
                             type="number"
                             name="discount12"
@@ -489,7 +529,15 @@ const WarehouseFields = (props) => {
                             }}
                             onChangeMiddleware={restrictNegetiveValue}
                             fullWidth
-                            disabled={!hotRackEnabled}
+                            disabled={!hotRackEnabled || !price12}
+                          />
+                        </Grid>
+                        <Grid item xs={12} md={6}>
+                          <TextField
+                            label="Discounted Price 12 Month"
+                            value={fCurrency(monthlyDiscount(price12, discount12))}
+                            fullWidth
+                            disabled
                           />
                         </Grid>
 

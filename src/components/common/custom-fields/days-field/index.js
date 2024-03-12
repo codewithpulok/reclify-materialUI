@@ -23,7 +23,7 @@ const DaysField = (props) => {
       defaultExpanded={defaultExpanded}
     >
       <Stack spacing={0.3}>
-        {Array.from(Array(6).keys()).map((day) => (
+        {Array.from(Array(7).keys()).map((day) => (
           <RHFSwitch key={day} name={`${name}.${day}`} label={fDay(day)} size="small" />
         ))}
       </Stack>

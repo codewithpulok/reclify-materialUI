@@ -1,4 +1,4 @@
-import { Stack, Typography } from '@mui/material';
+import { InputAdornment, Stack, Typography } from '@mui/material';
 import PropTypes from 'prop-types';
 import { getIconify } from 'src/components/common/iconify/utilities';
 import {
@@ -105,6 +105,12 @@ const PredefinedFields = (props) => {
               key={field.key}
               type={field.dataType}
               multiline={field.multiline}
+              onChangeMiddleware={field?.fieldMiddleware || undefined}
+              InputProps={{
+                startAdornment: field?.fieldStartAdorment ? (
+                  <InputAdornment position="start">{field?.fieldStartAdorment}</InputAdornment>
+                ) : undefined,
+              }}
               rows={2}
             />
           );

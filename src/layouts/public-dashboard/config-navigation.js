@@ -50,7 +50,7 @@ export function useNavData() {
         children: [
           // common warehouse routes
           {
-            title: 'Hot Racks',
+            title: 'HotRacks',
             path: paths.warehouses.hot_deals,
             icon: ICONS.hot_deals(),
           },

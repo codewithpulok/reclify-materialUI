@@ -80,8 +80,8 @@ const WarehouseCard = (props) => {
         <Box width="100%" sx={{ position: 'relative' }}>
           <Image src={thumbnail} ratio="16/9" />
         </Box>
-        <CardContent sx={{ position: 'relative', p: isSm ? 1.5 : 2, pt: 0.8, ...contentSx }}>
-          <Stack spacing={0.5}>
+        <CardContent sx={{ position: 'relative', p: isSm ? 1.5 : 2, pt: 1.3, ...contentSx }}>
+          <Stack spacing={0.7}>
             <Stack direction="row" justifyContent="end">
               {/* if there is a discount then show badge */}
               {!!warehouse.discountRate && (

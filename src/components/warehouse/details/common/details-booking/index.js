@@ -208,7 +208,7 @@ const DetailsBooking = (props) => {
         {!!discount && (
           <Stack direction="row" spacing={0.5} flexWrap="wrap" alignItems="start" sx={{ mb: 1 }}>
             <Chip
-              label="Hot Rack"
+              label="HotRack"
               color="secondary"
               variant="filled"
               icon={ICONS.hot()}
@@ -226,7 +226,7 @@ const DetailsBooking = (props) => {
           </Stack>
         )}
         <Typography variant="h5" sx={{ mb: 4 }}>
-          Check Availability and Your Monthly Cost
+          Reserve Your Space In this Warehouse Now
         </Typography>
 
         <Grid container sx={{ mb: 5 }} spacing={2}>

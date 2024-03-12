@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import useAppearance from 'src/redux-toolkit/features/appearance/use-appearance';
 import ImageCarousel from '../common/image-carousel';
 import ServiceCustomers from '../common/service-customers';
+import ServiceFeatures from '../common/service-features';
 import ServicePromo from '../common/service-promo';
 import HeaderContent from './header-content';
 import MainContent from './main-content';
@@ -47,6 +48,7 @@ const ServiceDetails = (props) => {
         <Grid item xs={12} md={6}>
           <Stack spacing={2}>
             <ServicePromo />
+            <ServiceFeatures features={service.features} type={service.type} />
           </Stack>
         </Grid>
       </Grid>

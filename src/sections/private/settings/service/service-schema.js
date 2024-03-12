@@ -3,7 +3,7 @@ import * as Yup from 'yup';
 /** @type {CustomerList} */
 const customerSchema = {
   image: Yup.string()
-    .label('Customer image')
+    .label('Client image')
     .nullable()
     .test({
       name: 'oneOfRequired',
@@ -14,7 +14,7 @@ const customerSchema = {
       },
     }),
   name: Yup.string()
-    .label('Customer name')
+    .label('Client name')
     .test({
       name: 'oneOfRequired',
       message: 'Customer Image or Name at least one should provide',
@@ -27,11 +27,8 @@ const customerSchema = {
 
 /** @type {Service} */
 const schema = {
-  customerList: Yup.array()
-    .of(Yup.object().shape(customerSchema))
-    .min(1)
-    .label('Customer list')
-    .required(),
+  customerList: Yup.array().of(Yup.object().shape(customerSchema)).label('Client list').required(),
+  keyFeatures: Yup.array().of(Yup.string()).max(3).label('Key Features'),
 };
 const createSchema = Yup.object().shape(schema);
 

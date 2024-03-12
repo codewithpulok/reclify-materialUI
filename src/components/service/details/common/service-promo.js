@@ -1,4 +1,4 @@
-import { TextField } from '@mui/material';
+import { Typography } from '@mui/material';
 import PropTypes from 'prop-types';
 
 import { ServiceDetailsBox } from '../../box';
@@ -6,6 +6,8 @@ import { ServiceDetailsBox } from '../../box';
 const Props = {
   /** @type {SxProps} */
   sx: PropTypes.object,
+  /** @type {Service} */
+  service: PropTypes.object,
 };
 
 /**
@@ -13,15 +15,15 @@ const Props = {
  * @returns {JSX.Element}
  */
 const ServicePromo = (props) => {
-  const { sx } = props;
+  const { sx, service } = props;
 
   return (
-    <ServiceDetailsBox title="Promo Code" sx={sx}>
-      <TextField
-        label="Promo Code"
-        fullWidth
-        helperText="enter promo code to get exciting discount"
-      />
+    <ServiceDetailsBox title="Promotion Code" sx={sx}>
+      {service?.promoCode ? (
+        <Typography variant="h4">{service.promoCode}</Typography>
+      ) : (
+        <Typography color="text.secondary">No Promotion code are available</Typography>
+      )}
     </ServiceDetailsBox>
   );
 };
