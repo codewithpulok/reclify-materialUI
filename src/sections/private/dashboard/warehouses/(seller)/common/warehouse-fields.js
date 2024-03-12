@@ -288,7 +288,7 @@ const WarehouseFields = (props) => {
               defaultExpanded
             >
               <Alert sx={{ mb: 2 }} icon={false} severity="info">
-                {`Enter your the price per month for each pallet location, based on the term. Leave empty or enter 0 if you don't want to offer a specific term.`}
+                {`Enter the price per month for each pallet location, based on the term. Leave empty or enter 0 if you don't want to offer a specific term.`}
               </Alert>
               <Grid container spacing={1.2}>
                 <Grid item xs={12}>
@@ -361,7 +361,7 @@ const WarehouseFields = (props) => {
                 'discount12',
                 'discountAll',
               ]}
-              label="Hot Rack"
+              label="HotRack"
               defaultExpanded
               sx={{
                 borderWidth: '2px',
@@ -385,7 +385,7 @@ const WarehouseFields = (props) => {
               ) : (
                 <>
                   <Alert sx={{ mb: 2 }} icon={false} severity="secondary">
-                    {`A "Hot Rack" refers to a time-limited discounted offer on palletized storage space. When our partners find themselves with surplus available space, they have the opportunity to list this space at a discounted rate and be prominently featured on Racklify. This dynamic approach creates a mutually beneficial scenario for both the warehouse and the customer. Warehouses gain the advantage of filling up available space quickly, while customers benefit from exclusive discounts on palletized storage, resulting in a win-win situation for all parties involved. Keep an eye out for these Hot Rack offers as they present an excellent opportunity to secure storage space at a compelling rate.`}
+                    {`A "HotRack" refers to a time-limited discounted offer on palletized storage space. When our partners find themselves with surplus available space, they have the opportunity to list this space at a discounted rate and be prominently featured on Racklify. This dynamic approach creates a mutually beneficial scenario for both the warehouse and the customer. Warehouses gain the advantage of filling up available space quickly, while customers benefit from exclusive discounts on palletized storage, resulting in a win-win situation for all parties involved. Keep an eye out for these HotRack offers as they present an excellent opportunity to secure storage space at a compelling rate.`}
                   </Alert>
                   <Grid container spacing={1.2}>
                     <Grid item xs={12}>
@@ -402,41 +402,19 @@ const WarehouseFields = (props) => {
                       </RHFTextField>
                     </Grid>
                     {discountOption === 'percentage' && (
-                      <>
-                        <Grid item xs={12}>
-                          <RHFTextField
-                            type="number"
-                            name="discountRate"
-                            label="Discount Rate"
-                            InputProps={{
-                              startAdornment: <InputAdornment position="start">%</InputAdornment>,
-                            }}
-                            onChangeMiddleware={restrictNegetiveValue}
-                            fullWidth
-                            disabled={!hotRackEnabled || user?.planId === 'free'}
-                          />
-                        </Grid>
-                        <Grid item xs={12} sm={6}>
-                          <RHFTextField
-                            label="Promo Code"
-                            name="promoCode"
-                            fullWidth
-                            disabled={!hasPromo || !hotRackEnabled || user?.planId === 'free'}
-                          />
-                        </Grid>
-                        <Grid
-                          item
-                          xs={12}
-                          sm={6}
-                          sx={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}
-                        >
-                          <RHFSwitch
-                            label="Enable Promo Code"
-                            name="hasPromo"
-                            disabled={!hotRackEnabled || user?.planId === 'free'}
-                          />
-                        </Grid>
-                      </>
+                      <Grid item xs={12}>
+                        <RHFTextField
+                          type="number"
+                          name="discountRate"
+                          label="Discount Rate"
+                          InputProps={{
+                            startAdornment: <InputAdornment position="start">%</InputAdornment>,
+                          }}
+                          onChangeMiddleware={restrictNegetiveValue}
+                          fullWidth
+                          disabled={!hotRackEnabled || user?.planId === 'free'}
+                        />
+                      </Grid>
                     )}
                     {discountOption === 'fixed' && (
                       <>

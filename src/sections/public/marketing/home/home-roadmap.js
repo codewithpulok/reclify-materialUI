@@ -18,7 +18,6 @@ import { Paper, alpha } from '@mui/material';
 import { MotionViewport, varFade } from 'src/components/common/animate';
 import Iconify from 'src/components/common/iconify';
 import { useResponsive } from 'src/hooks/use-responsive';
-import { bgGradient } from 'src/theme/css';
 
 // ----------------------------------------------------------------------
 
@@ -43,13 +42,6 @@ export default function HomeRoadmap() {
         textAlign: 'center',
         pt: { xs: 10, md: 15 },
         pb: { xs: 10, md: 20 },
-        ...bgGradient({
-          color: alpha(
-            theme.palette.background.default,
-            theme.palette.mode === 'light' ? 0.85 : 0.94
-          ),
-          imgUrl: '/assets/images/home/roadmap.jpg',
-        }),
       })}
     >
       <Container component={MotionViewport}>

@@ -11,5 +11,5 @@
 
 /**
  * Plan Type
- * @typedef {'free' | 'premium' | 'enterprise'} PlanId
+ * @typedef {'free' | 'pro' | 'enterprise'} PlanId
  */

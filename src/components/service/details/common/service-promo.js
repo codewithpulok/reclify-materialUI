@@ -16,11 +16,11 @@ const ServicePromo = (props) => {
   const { sx } = props;
 
   return (
-    <ServiceDetailsBox title="Promo Code" sx={sx}>
+    <ServiceDetailsBox title="Promotion Code" sx={sx}>
       <TextField
-        label="Promo Code"
+        label="Promotion Code"
         fullWidth
-        helperText="enter promo code to get exciting discount"
+        helperText="enter promotion code to get exciting discount"
       />
     </ServiceDetailsBox>
   );

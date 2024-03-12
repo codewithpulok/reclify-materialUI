@@ -65,8 +65,8 @@ export default function ListingView() {
   // hot deals
   const hotdeals = useMemo(
     () =>
-      warehousesResponse?.data?.results instanceof Array
-        ? warehousesResponse?.data?.results.filter((w) => w.discountRate > 0 && w?.visible)
+      Array.isArray(warehousesResponse?.data?.results)
+        ? warehousesResponse?.data?.results.filter((w) => w.hotRackEnabled && w.isFeatured)
         : [],
     [warehousesResponse]
   );
@@ -74,10 +74,9 @@ export default function ListingView() {
   const scopeData = useMemo(
     () =>
       regionScopes.reduce((prev, next) => {
-        prev[next.code] =
-          warehousesResponse?.data?.results instanceof Array
-            ? warehousesResponse.data?.results.filter((w) => w?.regionScope === next.code)
-            : [];
+        prev[next.code] = Array.isArray(warehousesResponse?.data?.results)
+          ? warehousesResponse.data?.results.filter((w) => w?.regionScope === next.code)
+          : [];
         return prev;
       }, {}),
     [warehousesResponse]
@@ -94,7 +93,7 @@ export default function ListingView() {
           }}
         >
           {ICONS.hot_deals(28, { color: 'secondary.main' })}
-          <Typography variant="h4">Hot Racks</Typography>
+          <Typography variant="h4">HotRacks</Typography>
 
           <Button
             LinkComponent={RouterLink}
@@ -110,7 +109,7 @@ export default function ListingView() {
         <Grid container spacing={2}>
           {renderWarehouses(hotdeals, 'No hot deals available', undefined, {
             itemProps: {
-              contentSx: { bgcolor: (theme) => alpha(theme.palette.secondary.main, 0.4) },
+              contentSx: { bgcolor: (theme) => alpha(theme.palette.secondary.main, 0.2) },
             },
           })}
         </Grid>
@@ -125,7 +124,7 @@ export default function ListingView() {
               gap: 0.5,
             }}
           >
-            {getIconify(scope.icon, 28, { color: 'secondary.main' })}
+            {getIconify(scope.icon, 28)}
             <Typography variant="h4">In {scope.name}</Typography>
 
             <Button

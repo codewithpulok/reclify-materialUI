@@ -47,7 +47,7 @@ const SpaceField = (props) => {
       helperText={error}
       error={!!error}
       type="number"
-      label="Order Quantity (pallets)"
+      label="Order Quantity (pallet positions)"
       variant="filled"
       value={value}
       onChange={(e) => handleChange(e.target.value)}

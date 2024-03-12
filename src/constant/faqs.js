@@ -46,8 +46,8 @@ export const FAQS = [
   },
   {
     id: 'panel-5',
-    heading: 'What is a Hot Rack?',
-    detail: `A "Hot Rack" refers to a time-limited discounted offer on palletized storage space. When our partners find themselves with surplus available space, they have the opportunity to list this space at a discounted rate and be prominently featured on Racklify. This dynamic approach creates a mutually beneficial scenario for both the warehouse and the customer. Warehouses gain the advantage of filling up available space quickly, while customers benefit from exclusive discounts on palletized storage, resulting in a win-win situation for all parties involved. Keep an eye out for these Hot Rack offers as they present an excellent opportunity to secure storage space at a compelling rate.`,
+    heading: 'What is a HotRack?',
+    detail: `A "HotRack" refers to a time-limited discounted offer on palletized storage space. When our partners find themselves with surplus available space, they have the opportunity to list this space at a discounted rate and be prominently featured on Racklify. This dynamic approach creates a mutually beneficial scenario for both the warehouse and the customer. Warehouses gain the advantage of filling up available space quickly, while customers benefit from exclusive discounts on palletized storage, resulting in a win-win situation for all parties involved. Keep an eye out for these HotRack offers as they present an excellent opportunity to secure storage space at a compelling rate.`,
   },
   {
     id: 'panel-6',
@@ -62,10 +62,10 @@ export const FAQS = [
   },
   {
     id: 'panel-8',
-    heading: 'How Do I Unlock Hot Racks and Featured Listings?',
-    detail: `To highlight your Hot Rack or feature your listing on Racklify, take advantage of our premium features available for a nominal subscription fee. You have several convenient options to enable these features:
+    heading: 'How Do I Unlock HotRacks and Featured Listings?',
+    detail: `To highlight your HotRack or feature your listing on Racklify, take advantage of our premium features available for a nominal subscription fee. You have several convenient options to enable these features:
     Profile Settings: Head to your profile, specifically the listings section, where you can effortlessly activate these premium features.
     Team Assistance: If you prefer personalized assistance, don't hesitate to email a member of our team. They will be more than happy to guide you through the process and address any questions or concerns.
-    Contact Us Page: Alternatively, you can visit our "Contact Us" page to express your interest and sign up for these premium features. We are committed to providing you with flexible options to enhance the visibility of your offerings on Racklify. Elevate your listings and Hot Racks to a broader audience by exploring these convenient subscription options.`,
+    Contact Us Page: Alternatively, you can visit our "Contact Us" page to express your interest and sign up for these premium features. We are committed to providing you with flexible options to enhance the visibility of your offerings on Racklify. Elevate your listings and HotRacks to a broader audience by exploring these convenient subscription options.`,
   },
 ];

@@ -1,3 +1,5 @@
+import { restrictPercentValue } from 'src/utils/form';
+
 /**
  * predefined feature fields
  * @type {PredefinedField[]}
@@ -239,15 +241,18 @@ export const predefinedFacility = [
     key: 'orderAccuracyRate',
     icon: 'icon-park-outline:check-correct',
     label: 'Order Accuracy Rate',
-    dataType: 'string',
+    dataType: 'number',
     fieldType: 'text-field',
+    fieldStartAdorment: '%',
+    fieldMiddleware: restrictPercentValue,
   },
   {
     key: 'buildingSecurity',
     icon: 'ic:twotone-security',
     label: 'Building Security',
     dataType: 'string',
-    fieldType: 'text-field',
+    fieldType: 'dropdown',
+    options: ['Yes', 'No'],
   },
 ];
 

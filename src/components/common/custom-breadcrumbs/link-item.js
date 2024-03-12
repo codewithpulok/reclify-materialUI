@@ -9,11 +9,7 @@ const Props = {
   activeLast: PropTypes.bool,
   disabled: PropTypes.bool,
   /** @type {BreadcrumbLinkType} */
-  link: {
-    href: PropTypes.string,
-    icon: PropTypes.node,
-    name: PropTypes.string,
-  },
+  link: PropTypes.object,
 };
 // ----------------------------------------------------------------------
 

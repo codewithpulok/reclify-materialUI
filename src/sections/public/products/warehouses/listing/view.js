@@ -95,7 +95,7 @@ export default function ListingView() {
           }}
         >
           {ICONS.hot_deals(28, { color: 'secondary.main' })}
-          <Typography variant="h4">Hot Racks</Typography>
+          <Typography variant="h4">HotRacks</Typography>
 
           <Button
             LinkComponent={RouterLink}

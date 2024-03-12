@@ -49,22 +49,22 @@ function Container(props) {
       router.replace(href);
     } else {
       // if user is seller and haven't complete the stripe account link then redirect to the refresh page
-      if (
-        user?.userType === 'seller' &&
-        user?.stripeAccountStatus !== 'SUCCEDED' &&
-        !ignoreStripeCompleteStatus
-      ) {
-        router.replace(paths.auth.onboarding);
-        return;
-      }
+      // if (
+      //   user?.userType === 'seller' &&
+      //   user?.stripeAccountStatus !== 'SUCCEDED' &&
+      //   !ignoreStripeCompleteStatus
+      // ) {
+      //   router.replace(paths.auth.onboarding);
+      //   return;
+      // }
       setChecked(true);
     }
   }, [
-    ignoreStripeCompleteStatus,
+    // ignoreStripeCompleteStatus,
     isAuthenticated,
     router,
-    user?.stripeAccountStatus,
-    user?.userType,
+    // user?.stripeAccountStatus,
+    // user?.userType,
   ]);
 
   useEffect(() => {

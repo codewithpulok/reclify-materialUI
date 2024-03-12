@@ -1,6 +1,6 @@
 'use client';
 
-import { Pagination, Stack } from '@mui/material';
+import { Pagination, Stack, alpha } from '@mui/material';
 import Container from '@mui/material/Container';
 import { useEffect } from 'react';
 // local components
@@ -41,11 +41,11 @@ const HotDealsView = (props) => {
     <Container maxWidth={appearance.themeStretch ? false : 'xl'}>
       <Stack mb={5} spacing={5}>
         <CustomBreadcrumbs
-          heading="Hot Racks"
+          heading="HotRacks"
           links={[
             { name: 'Dashboard', href: paths.dashboard.root },
             { name: 'Warehouses', href: paths.dashboard.warehouses.root },
-            { name: 'Hot Racks' },
+            { name: 'HotRacks' },
           ]}
         />
 
@@ -56,6 +56,9 @@ const HotDealsView = (props) => {
           isSuccess={listResponse.isSuccess}
           data={currentData}
           totalPages={totalPages}
+          cardProps={{
+            contentSx: { bgcolor: (theme) => alpha(theme.palette.secondary.main, 0.2) },
+          }}
         />
 
         <Stack direction="row" justifyContent="center" mt={3} mb={1}>

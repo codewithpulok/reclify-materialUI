@@ -16,8 +16,14 @@ const DetailsHighlights = (props) => {
   const { highlights, sx = {} } = props;
 
   return (
-    <WarehouseDetailsBox title="Highlights" sx={sx}>
-      <Typography sx={{ fontStyle: 'italic', fontWeight: 'normal', fontSize: 22 }}>
+    <WarehouseDetailsBox sx={sx}>
+      <Typography
+        sx={{
+          fontWeight: 'bold',
+          fontFamily: 'fontHighlightsFamily',
+          fontSize: 22,
+        }}
+      >
         {highlights}
       </Typography>
     </WarehouseDetailsBox>

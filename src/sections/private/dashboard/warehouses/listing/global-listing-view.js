@@ -2,7 +2,7 @@
 
 import { Pagination, Stack } from '@mui/material';
 import Container from '@mui/material/Container';
-import { useEffect } from 'react';
+import { useEffect, useMemo } from 'react';
 // local components
 import { getRegionScope } from 'src/assets/data';
 import CustomBreadcrumbs from 'src/components/common/custom-breadcrumbs/custom-breadcrumbs';
@@ -28,11 +28,13 @@ const GlobalListingView = (props) => {
 
   // api state
   const listResponse = useWarehouseListQuery({ regionScope: 'global' });
+  const data = useMemo(
+    () => listResponse?.data?.results?.filter((w) => w?.regionScope === 'global') || [],
+    [listResponse?.data?.results]
+  );
 
   // logic state
-  const { currentData, currentPage, goTo, totalPages } = usePagination(
-    listResponse?.data?.results?.filter((w) => w?.regionScope === 'global') || []
-  );
+  const { currentData, currentPage, goTo, totalPages } = usePagination(data);
 
   // refetch data on user id change
   useEffect(() => {

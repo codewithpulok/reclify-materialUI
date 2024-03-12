@@ -1,4 +1,4 @@
-import { Barlow, Public_Sans } from 'next/font/google';
+import { Barlow, Lobster, Public_Sans } from 'next/font/google';
 
 // ----------------------------------------------------------------------
 
@@ -38,6 +38,11 @@ export const secondaryFont = Barlow({
   fallback: ['Helvetica', 'Arial', 'sans-serif'],
 });
 
+export const highlightsFont = Lobster({
+  weight: ['400'],
+  subsets: ['latin'],
+});
+
 // ----------------------------------------------------------------------
 
 // LEARN MORE
@@ -46,6 +51,7 @@ export const secondaryFont = Barlow({
 export const typography = {
   fontFamily: primaryFont.style.fontFamily,
   fontSecondaryFamily: secondaryFont.style.fontFamily,
+  fontHighlightsFamily: highlightsFont.style.fontFamily,
   fontWeightRegular: 400,
   fontWeightMedium: 500,
   fontWeightSemiBold: 600,
