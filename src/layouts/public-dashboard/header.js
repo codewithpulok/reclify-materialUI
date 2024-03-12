@@ -16,8 +16,11 @@ import SvgColor from 'src/components/common/svg-color';
 
 import { Button } from '@mui/material';
 import useAppearance from 'src/redux-toolkit/features/appearance/use-appearance';
+import { selectAuth } from 'src/redux-toolkit/features/auth/authSlice';
+import { useAppSelector } from 'src/redux-toolkit/hooks';
 import { RouterLink } from 'src/routes/components';
 import { paths } from 'src/routes/paths';
+import AccountPopover from '../common/account-popover';
 import LoginButton from '../common/login-button';
 import Searchbar from '../common/searchbar';
 import { HEADER, NAV } from '../config-layout';
@@ -27,6 +30,8 @@ import NavMobile from '../main/nav/mobile';
 // ----------------------------------------------------------------------
 
 export default function Header({ onOpenNav }) {
+  const { isAuthenticated } = useAppSelector(selectAuth);
+
   const theme = useTheme();
   const appearance = useAppearance();
   const isNavHorizontal = appearance.themeLayout === 'horizontal';
@@ -76,7 +81,7 @@ export default function Header({ onOpenNav }) {
               </Button>
             </>
           )}
-          <LoginButton />
+          {isAuthenticated ? <AccountPopover /> : <LoginButton />}
         </Stack>
         {mdDown && <NavMobile data={navConfig} />}
       </Stack>
