@@ -1,6 +1,6 @@
-import { Alert, InputAdornment, MenuItem } from '@mui/material';
+import { Alert, InputAdornment, MenuItem, TextField } from '@mui/material';
 import Grid from '@mui/material/Grid';
-import { useEffect } from 'react';
+import { useCallback, useEffect } from 'react';
 import { useFormContext } from 'react-hook-form';
 // local components
 import PropTypes from 'prop-types';
@@ -30,8 +30,8 @@ import Label from 'src/components/common/label';
 import { SQUARE_FEET_PER_PALLET } from 'src/constant/pallet';
 import { selectAuth } from 'src/redux-toolkit/features/auth/authSlice';
 import { useAppSelector } from 'src/redux-toolkit/hooks';
-import { restrictNegetiveValue } from 'src/utils/form';
-import { fFixedFloat } from 'src/utils/format-number';
+import { restrictNegetiveValue, restrictPercentValue } from 'src/utils/form';
+import { fCurrency, fFixedFloat } from 'src/utils/format-number';
 import WarehouseReviews from './warehouse-reviews';
 
 export const stepFields = {
@@ -76,6 +76,44 @@ const WarehouseFields = (props) => {
   const hasPromo = watch('hasPromo', false);
   const hotRackEnabled = watch('hotRackEnabled', false);
   const discountOption = watch('discountOption', 'percentage');
+
+  const price1 = watch('price1');
+  const price3 = watch('price3');
+  const price6 = watch('price6');
+  const price12 = watch('price12');
+
+  const discount1 = watch('discount1');
+  const discount3 = watch('discount3');
+  const discount6 = watch('discount6');
+  const discount12 = watch('discount12');
+  const discountAll = watch('discountAll');
+
+  const monthlyDiscount = useCallback(
+    (price, discount) => {
+      if (!price) return 0;
+      return price - (discount || 0) - (discountAll || 0);
+    },
+    [discountAll]
+  );
+
+  useEffect(() => {
+    if (!price1) {
+      setValue('discount1', 0);
+    }
+
+    if (!price3) {
+      setValue('discount3', 0);
+    }
+
+    if (!price6) {
+      setValue('discount6', 0);
+    }
+
+    if (!price12) {
+      setValue('discount12', 0);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [price1, price12, price3, price6]);
 
   useEffect(() => {
     if (regionScope) {
@@ -410,7 +448,7 @@ const WarehouseFields = (props) => {
                           InputProps={{
                             startAdornment: <InputAdornment position="start">%</InputAdornment>,
                           }}
-                          onChangeMiddleware={restrictNegetiveValue}
+                          onChangeMiddleware={restrictPercentValue}
                           fullWidth
                           disabled={!hotRackEnabled || user?.planId === 'free'}
                         />
@@ -418,7 +456,7 @@ const WarehouseFields = (props) => {
                     )}
                     {discountOption === 'fixed' && (
                       <>
-                        <Grid item xs={12}>
+                        <Grid item xs={12} md={6}>
                           <RHFTextField
                             type="number"
                             name="discount1"
@@ -428,10 +466,18 @@ const WarehouseFields = (props) => {
                             }}
                             onChangeMiddleware={restrictNegetiveValue}
                             fullWidth
-                            disabled={!hotRackEnabled}
+                            disabled={!hotRackEnabled || !price1}
                           />
                         </Grid>
-                        <Grid item xs={12}>
+                        <Grid item xs={12} md={6}>
+                          <TextField
+                            label="Discounted Price 1 Month"
+                            value={fCurrency(monthlyDiscount(price1, discount1))}
+                            fullWidth
+                            disabled
+                          />
+                        </Grid>
+                        <Grid item xs={12} md={6}>
                           <RHFTextField
                             type="number"
                             name="discount3"
@@ -441,10 +487,18 @@ const WarehouseFields = (props) => {
                             }}
                             onChangeMiddleware={restrictNegetiveValue}
                             fullWidth
-                            disabled={!hotRackEnabled}
+                            disabled={!hotRackEnabled || !price3}
                           />
                         </Grid>
-                        <Grid item xs={12}>
+                        <Grid item xs={12} md={6}>
+                          <TextField
+                            label="Discounted Price 3 Month"
+                            value={fCurrency(monthlyDiscount(price3, discount3))}
+                            fullWidth
+                            disabled
+                          />
+                        </Grid>
+                        <Grid item xs={12} md={6}>
                           <RHFTextField
                             type="number"
                             name="discount6"
@@ -454,10 +508,18 @@ const WarehouseFields = (props) => {
                             }}
                             onChangeMiddleware={restrictNegetiveValue}
                             fullWidth
-                            disabled={!hotRackEnabled}
+                            disabled={!hotRackEnabled || !price6}
                           />
                         </Grid>
-                        <Grid item xs={12}>
+                        <Grid item xs={12} md={6}>
+                          <TextField
+                            label="Discounted Price 6 Month"
+                            value={fCurrency(monthlyDiscount(price6, discount6))}
+                            fullWidth
+                            disabled
+                          />
+                        </Grid>
+                        <Grid item xs={12} md={6}>
                           <RHFTextField
                             type="number"
                             name="discount12"
@@ -467,7 +529,15 @@ const WarehouseFields = (props) => {
                             }}
                             onChangeMiddleware={restrictNegetiveValue}
                             fullWidth
-                            disabled={!hotRackEnabled}
+                            disabled={!hotRackEnabled || !price12}
+                          />
+                        </Grid>
+                        <Grid item xs={12} md={6}>
+                          <TextField
+                            label="Discounted Price 12 Month"
+                            value={fCurrency(monthlyDiscount(price12, discount12))}
+                            fullWidth
+                            disabled
                           />
                         </Grid>
 

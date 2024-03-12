@@ -12,7 +12,11 @@ import { useRouter, useSearchParams } from 'next/navigation';
 import PropTypes from 'prop-types';
 import { useCallback, useMemo, useState } from 'react';
 import { getRegionByCode, usRegions } from 'src/assets/data';
-import { getAllServiceTypes, getServiceType } from 'src/constant/service-types';
+import {
+  getAllServiceTypes,
+  getAvailableServiceTypes,
+  getServiceType,
+} from 'src/constant/service-types';
 import { createQueryString } from 'src/utils/query';
 
 // ----------------------------------------------------------------------
@@ -119,7 +123,7 @@ const SearchFilterDialog = (props) => {
               onChange={(e) => setServiceType(e.target.value)}
             >
               <MenuItem disabled>Select service type</MenuItem>
-              {getAllServiceTypes().map((t) => (
+              {getAvailableServiceTypes().map((t) => (
                 <MenuItem value={t.value} key={t.value}>
                   {t.label}
                 </MenuItem>

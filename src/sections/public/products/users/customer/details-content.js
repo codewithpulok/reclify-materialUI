@@ -29,8 +29,7 @@ const DetailsContent = (props) => {
       <CustomBreadcrumbs
         heading="Customer Details"
         links={[
-          { name: 'Dasboard', href: paths.dashboard.root },
-          { name: 'Merchants', href: paths.dashboard.users.customers },
+          { name: 'Home', href: paths.root },
           { name: `${user?.firstName} ${user?.lastName}` },
         ]}
         sx={{

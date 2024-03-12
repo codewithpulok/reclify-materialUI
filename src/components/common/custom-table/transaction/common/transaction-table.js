@@ -28,6 +28,8 @@ import PropTypes from 'prop-types';
 import { ErrorState } from 'src/components/common/custom-state';
 import { getTransactionStatusColor, transactionStatusOptions } from 'src/constant/transaction';
 import { useDialog } from 'src/hooks/use-dialog';
+import { selectAuth } from 'src/redux-toolkit/features/auth/authSlice';
+import { useAppSelector } from 'src/redux-toolkit/hooks';
 import TransactionDetailsDialog from './transaction-details-dialog';
 import TransactionRow from './transaction-row';
 // ----------------------------------------------------------------------
@@ -85,6 +87,8 @@ const TransactionTable = (props) => {
     isLoading = true,
     isSuccess,
   } = props;
+
+  const { user } = useAppSelector(selectAuth);
 
   // dialog states
   const transactionDialog = useDialog();
@@ -203,6 +207,7 @@ const TransactionTable = (props) => {
                           onApproveOrder={onApproveOrder}
                           onCompleteOrder={onCompleteOrder}
                           show={tableHead.map((t) => t.id)}
+                          isAdmin={user?.userType === 'admin'}
                         />
                       ))}
 
