@@ -28,6 +28,13 @@ const bookingInfoStyle = {
       sm: '28px',
     },
   },
+  heading1Discount: {
+    fontWeight: 'bold',
+    fontSize: {
+      xs: '28px',
+      sm: '32px',
+    },
+  },
   disabledHeading1: {
     fontWeight: 'bold',
     fontSize: {
@@ -40,6 +47,13 @@ const bookingInfoStyle = {
     fontSize: {
       xs: '20px',
       sm: '22px',
+    },
+  },
+  heading2Discount: {
+    fontWeight: 'bold',
+    fontSize: {
+      xs: '22px',
+      sm: '24px',
     },
   },
   disabledHeading2: {
@@ -330,15 +344,15 @@ const DetailsBooking = (props) => {
                   sx={{ color: 'secondary.main', position: 'relative' }}
                 >
                   <Box sx={{ position: 'absolute', top: 4, left: '-32px' }}>
-                    {ICONS.hot(32, { color: 'secondary.main' })}
+                    {ICONS.hot(36, { color: 'secondary.main' })}
                   </Box>
-                  <Typography sx={bookingInfoStyle.heading1} color="inherit">
+                  <Typography sx={bookingInfoStyle.heading1Discount} color="inherit">
                     {fCurrency(discountedPricePerPallet)}
                   </Typography>
-                  <Typography sx={bookingInfoStyle.heading1} color="inherit">
+                  <Typography sx={bookingInfoStyle.heading1Discount} color="inherit">
                     /
                   </Typography>
-                  <Typography sx={bookingInfoStyle.heading2} color="inherit">
+                  <Typography sx={bookingInfoStyle.heading2Discount} color="inherit">
                     pallet
                   </Typography>
                 </Stack>

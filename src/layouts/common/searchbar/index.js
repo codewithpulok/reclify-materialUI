@@ -1,3 +1,5 @@
+// TODO: make it clear
+
 import { memo, useCallback, useEffect, useState } from 'react';
 
 import IconButton from '@mui/material/IconButton';
@@ -23,10 +25,20 @@ const Props = {
 function Searchbar(props) {
   const { basePath } = props;
   const router = useRouter();
+
+  // query states
   const searchParams = useSearchParams();
+  const defServiceType = searchParams.get('serviceType');
+  const defSearchType = searchParams.get('type');
+  const defRegion = searchParams.get('region');
+  const defSubtypes = searchParams.get('subtype');
 
   // app state
   const [searchQuery, setSearchQuery] = useState('');
+  const [searchType, setSearchType] = useState(defSearchType || 'all');
+  const [serviceType, setServiceType] = useState(defServiceType || null);
+  const [warehouseRegion, setWarehouseRegion] = useState(defRegion || null);
+  const [serviceSubtypes, setServiceSubtypes] = useState(defSubtypes?.split(',') || []);
 
   // dialog state
   const searchDialog = useDialog();
@@ -37,19 +49,41 @@ function Searchbar(props) {
     setSearchQuery(event.target.value);
   }, []);
 
+  // handle search
+  const handleSearch = useCallback(() => {
+    if (!searchQuery) return; // if there is no search query then skip search
+
+    let queryString;
+
+    if (searchType === 'all') queryString = createQueryString('type', null, searchParams);
+    else queryString = createQueryString('type', searchType, searchParams);
+
+    queryString = createQueryString('serviceType', serviceType, queryString);
+    queryString = createQueryString('region', warehouseRegion, queryString);
+    queryString = createQueryString('subtype', serviceSubtypes?.join(','), queryString);
+
+    queryString = createQueryString('query', searchQuery, queryString);
+
+    console.log('Searched For: ', searchQuery);
+    router.push(`${basePath}/?${queryString}`);
+    searchDialog.onClose();
+  }, [
+    searchQuery,
+    searchType,
+    searchParams,
+    serviceType,
+    warehouseRegion,
+    serviceSubtypes,
+    router,
+    basePath,
+    searchDialog,
+  ]);
+
   // handle search submit
-  const handleSearchSubmit = useCallback(
-    (e) => {
-      e.preventDefault();
-
-      if (!searchQuery) return; // if there is no search query then skip search
-
-      console.log('Searched For: ', searchQuery);
-      router.push(`${basePath}/?${createQueryString('query', searchQuery, searchParams)}`);
-      searchDialog.onClose();
-    },
-    [basePath, searchDialog, router, searchParams, searchQuery]
-  );
+  const handleSearchSubmit = (e) => {
+    e.preventDefault();
+    handleSearch();
+  };
 
   // update states after refresh
   useEffect(() => {
@@ -57,8 +91,6 @@ function Searchbar(props) {
 
     if (query) setSearchQuery(query);
   }, [searchParams]);
-
-  const isValidQuery = !!searchQuery?.trim()?.length;
 
   return (
     <>
@@ -73,8 +105,8 @@ function Searchbar(props) {
           }
           endAdornment={
             <InputAdornment position="end">
-              <Tooltip title={isValidQuery ? null : 'Enter search text to apply filter'}>
-                <IconButton onClick={isValidQuery ? filterDialog.onOpen : undefined}>
+              <Tooltip title="Apply filters">
+                <IconButton onClick={filterDialog.onOpen}>
                   <Iconify icon="lets-icons:filter" />
                 </IconButton>
               </Tooltip>
@@ -117,6 +149,15 @@ function Searchbar(props) {
         open={filterDialog.open}
         onClose={filterDialog.onClose}
         basePath={basePath}
+        searchType={searchType}
+        serviceType={serviceType}
+        setSearchType={setSearchType}
+        setServiceType={setServiceType}
+        setWarehouseRegion={setWarehouseRegion}
+        warehouseRegion={warehouseRegion}
+        onSubmit={handleSearch}
+        serviceSubtypes={serviceSubtypes}
+        setServiceSubtypes={setServiceSubtypes}
       />
     </>
   );

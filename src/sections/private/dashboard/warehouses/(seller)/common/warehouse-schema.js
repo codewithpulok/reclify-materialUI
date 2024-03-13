@@ -4,6 +4,7 @@ import {
   predefinedFacility,
   predefinedFeatures,
 } from 'src/assets/data/predefined-fields/warehouse';
+import { addressFieldSchema } from 'src/components/common/custom-fields';
 import { getPredefinedFieldSchema } from 'src/utils/predefined-fields';
 import * as Yup from 'yup';
 
@@ -28,7 +29,8 @@ const schema = {
       skipAbsent: true,
     })
     .required(),
-  // address: addressFieldSchema,
+  address: addressFieldSchema,
+  additionalAddress: Yup.array().of(addressFieldSchema),
   totalSpace: Yup.number().label('Total space').min(1).required(),
   hotRackEnabled: Yup.bool().label('HotRack Enabled').default(false),
   discountOption: Yup.string().oneOf(['fixed', 'percentage']).default('percentage').optional(),

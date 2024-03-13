@@ -17,6 +17,7 @@ import {
   predefinedFeatures,
 } from 'src/assets/data/predefined-fields/warehouse';
 import {
+  AddressArrayField,
   AddressField,
   BannerField,
   DocumentsUploadField,
@@ -30,7 +31,7 @@ import Label from 'src/components/common/label';
 import { SQUARE_FEET_PER_PALLET } from 'src/constant/pallet';
 import { selectAuth } from 'src/redux-toolkit/features/auth/authSlice';
 import { useAppSelector } from 'src/redux-toolkit/hooks';
-import { restrictNegetiveValue, restrictPercentValue } from 'src/utils/form';
+import { restrictMaxLength, restrictNegetiveValue, restrictPercentValue } from 'src/utils/form';
 import { fCurrency, fFixedFloat } from 'src/utils/format-number';
 import WarehouseReviews from './warehouse-reviews';
 
@@ -171,6 +172,12 @@ const WarehouseFields = (props) => {
             <AddressField name="address" />
           </Grid>
 
+          <Grid item xs={12}>
+            <RHFAccordion name="additionalAddresses" label="Additional Addresses" defaultExpanded>
+              <AddressArrayField name="additionalAddresses" />
+            </RHFAccordion>
+          </Grid>
+
           <Grid item xs={6} display="none">
             <RHFTextField name="regionScope" label="Region Scope" disabled fullWidth select>
               <MenuItem disabled>Select Region Scope</MenuItem>
@@ -209,7 +216,7 @@ const WarehouseFields = (props) => {
               label="Highlights"
               placeholder="Multi-Facility 3PL operating since 1983.  Looking for apparel brands requiring high SKU count and custom boutique packaging."
               helperText={`${200 - (highlights?.length || 0)} character left for highlights`}
-              onChangeMiddleware={(v) => (v.length > 200 ? highlights : v)}
+              onChangeMiddleware={restrictMaxLength(200)}
               rows={4}
               multiline
               fullWidth

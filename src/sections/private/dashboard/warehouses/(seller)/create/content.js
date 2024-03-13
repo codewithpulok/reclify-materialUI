@@ -114,7 +114,9 @@ const Content = (props) => {
       const { data, error } = response;
 
       if (error || data?.isError) {
-        enqueueSnackbar(data?.message || 'Error in warehouse create', { variant: 'error' });
+        enqueueSnackbar(error?.data?.message || data?.message || 'Error in warehouse create', {
+          variant: 'error',
+        });
       } else if (!error || data?.success) {
         enqueueSnackbar('Warehouse created!');
         reset(defaultValues);

@@ -68,8 +68,10 @@ const Content = (props) => {
       const { data, error } = response;
 
       if (error || data?.isError) {
-        enqueueSnackbar(data?.message || 'Error in warehouse update', { variant: 'error' });
-        console.error('Error Warehouse Update: ', error || data?.message);
+        enqueueSnackbar(error?.data?.message || data?.message || 'Error in warehouse update', {
+          variant: 'error',
+        });
+        console.error('Error Warehouse Update: ', response);
       } else if (!error && data?.success) {
         enqueueSnackbar('Warehouse updated!');
         reset({});

@@ -12,6 +12,7 @@ import {
 import PropTypes from 'prop-types';
 import { useCallback, useState } from 'react';
 import { useFormContext } from 'react-hook-form';
+import { restrictMaxLength } from 'src/utils/form';
 import { EmptyState } from '../../custom-state';
 import { RHFAccordion } from '../../hook-form';
 import { ICONS } from '../config-fields';
@@ -21,6 +22,7 @@ const Props = {
   label: PropTypes.string.isRequired,
   defaultExpanded: PropTypes.bool,
   max: PropTypes.number,
+  maxLength: PropTypes.number,
 };
 
 /**
@@ -28,11 +30,17 @@ const Props = {
  * @returns {JSX.Element}
  */
 const ArrayField = (props) => {
-  const { name, label, defaultExpanded, max } = props;
+  const { name, label, defaultExpanded, max, maxLength } = props;
   const { setValue, watch } = useFormContext();
   const value = watch(name, []);
 
   const [newRule, setNewRule] = useState('');
+
+  // handle rule change
+  const handleRuleChange = (ruleValue) => {
+    const slicedValue = maxLength ? restrictMaxLength(maxLength)(ruleValue) : ruleValue;
+    setNewRule(slicedValue);
+  };
 
   // handle add
   const handleAddValue = useCallback(() => {
@@ -67,7 +75,7 @@ const ArrayField = (props) => {
         <TextField
           label="New Item"
           value={newRule}
-          onChange={(e) => setNewRule(e.target.value)}
+          onChange={(e) => handleRuleChange(e.target.value)}
           onKeyDown={handleCatchEnter}
           InputProps={{
             endAdornment: (

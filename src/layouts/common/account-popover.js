@@ -32,8 +32,6 @@ const AccountPopover = () => {
   // auth state
   const { user, isAuthenticated } = useAppSelector(selectAuth);
 
-  console.log({ user });
-
   // api state
   const [logout] = useLogoutMutation();
 

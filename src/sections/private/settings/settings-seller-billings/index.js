@@ -7,6 +7,7 @@ import { useAppSelector } from 'src/redux-toolkit/hooks';
 import { useGetBillingQuery } from 'src/redux-toolkit/services/billingApi';
 import BillingSection from '../common/billing-section';
 import BillingHistory from './billing-history';
+import OnboardingStatus from './billing-onboarding-status';
 import BillingPlan from './billing-plan';
 
 // ----------------------------------------------------------------------
@@ -27,6 +28,10 @@ const SettingsSellerBillings = (props) => {
 
   return (
     <Grid container spacing={3} disableEqualOverflow>
+      <Grid xs={12}>
+        <OnboardingStatus />
+      </Grid>
+
       <Grid xs={12} md={8}>
         <Stack spacing={3}>
           <BillingPlan

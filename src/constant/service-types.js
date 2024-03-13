@@ -476,3 +476,5 @@ export const serviceTypes = [
 export const getAllServiceTypes = () => serviceTypes;
 export const getAvailableServiceTypes = () => serviceTypes.slice(1); // services without the warehouse
 export const getServiceType = (value) => serviceTypes.find((s) => s.value === value);
+export const getServiceSubType = (value) =>
+  getAvailableServiceTypes().find((s) => s.value === value)?.subtypes || [];

@@ -1,4 +1,4 @@
-import { ListItem, ListItemIcon, ListItemText } from '@mui/material';
+import { ListItem, ListItemIcon, ListItemText, Stack } from '@mui/material';
 import PropTypes from 'prop-types';
 import { getIconify } from 'src/components/common/iconify/utilities';
 import { WarehouseDetailsBox } from 'src/components/warehouse/box';
@@ -18,12 +18,14 @@ const ServiceKeyFeatures = (props) => {
   const { keyFeatures = [], sx = {} } = props;
   return (
     <WarehouseDetailsBox title="Key Features" sx={sx}>
-      {keyFeatures.map((feature, index) => (
-        <ListItem key={`${feature}-${index}`} disableGutters>
-          <ListItemIcon>{getIconify('fluent-mdl2:radio-bullet')}</ListItemIcon>
-          <ListItemText primary={feature} />
-        </ListItem>
-      ))}
+      <Stack spacing={1}>
+        {keyFeatures.map((feature, index) => (
+          <ListItem key={`${feature}-${index}`} disableGutters sx={{ py: 0 }}>
+            <ListItemIcon sx={{ mr: 0.7 }}>{getIconify('fluent-mdl2:radio-bullet')}</ListItemIcon>
+            <ListItemText primary={feature} primaryTypographyProps={{ fontSize: '15px' }} />
+          </ListItem>
+        ))}
+      </Stack>
     </WarehouseDetailsBox>
   );
 };
