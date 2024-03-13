@@ -52,7 +52,7 @@ export function useNavData() {
           {
             title: 'HotRacks',
             path: paths.warehouses.hot_deals,
-            icon: ICONS.hot_deals(),
+            icon: ICONS.hot_deals(undefined, { color: 'secondary.main' }),
           },
 
           // sub region warehouse routes (hiding global)
