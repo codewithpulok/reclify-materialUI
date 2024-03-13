@@ -1,9 +1,9 @@
 import { yupResolver } from '@hookform/resolvers/yup';
 import { LoadingButton } from '@mui/lab';
-import { Stack, Typography } from '@mui/material';
+import { Alert, Stack, Typography } from '@mui/material';
 import subYears from 'date-fns/subYears';
 import { enqueueSnackbar } from 'notistack';
-import { useCallback, useEffect } from 'react';
+import { useCallback, useEffect, useMemo } from 'react';
 import { useForm } from 'react-hook-form';
 import FormProvider from 'src/components/common/hook-form/form-provider';
 import { selectAuth } from 'src/redux-toolkit/features/auth/authSlice';
@@ -57,6 +57,17 @@ const defaultValues = {
  */
 const OnboardingForm = (props) => {
   const { user } = useAppSelector(selectAuth);
+
+  const failedMessages = useMemo(() => {
+    if (user.stripeAccountStatus !== 'FAILED') return [];
+
+    if (!Array.isArray(user?.onboardingDetails?.requirements?.errors)) return [];
+
+    return user?.onboardingDetails?.requirements?.errors.map((e) => ({
+      message: e?.reason || null,
+      key: e?.requirement || null,
+    }));
+  }, [user?.onboardingDetails?.requirements?.errors, user.stripeAccountStatus]);
 
   // api state
   const [updateOnboarding] = useOnboardingMutation();
@@ -168,6 +179,20 @@ const OnboardingForm = (props) => {
       <Typography variant="body2" sx={{ color: 'text.secondary' }}>
         Lorem ipsum dolor sit amet, consectetur adipisicing elit. Dignissimos, at.
       </Typography>
+
+      {!!failedMessages?.length && (
+        <Stack spacing={1}>
+          {failedMessages.map((fail) => {
+            if (fail.message === null && fail.key === null) return null;
+
+            return (
+              <Alert key={fail.key} severity="error">
+                {fail.message || fail.key}
+              </Alert>
+            );
+          })}
+        </Stack>
+      )}
     </Stack>
   );
 
