@@ -62,8 +62,6 @@ const DetailsContent = (props) => {
     setCurrentTab(newValue);
   }, []);
 
-  console.log({ user });
-
   return (
     <Container maxWidth={appearance.themeStretch ? false : 'lg'}>
       <CustomBreadcrumbs

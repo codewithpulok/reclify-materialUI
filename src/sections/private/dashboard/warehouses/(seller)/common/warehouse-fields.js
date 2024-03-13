@@ -17,6 +17,7 @@ import {
   predefinedFeatures,
 } from 'src/assets/data/predefined-fields/warehouse';
 import {
+  AddressArrayField,
   AddressField,
   BannerField,
   DocumentsUploadField,
@@ -169,6 +170,12 @@ const WarehouseFields = (props) => {
 
           <Grid item xs={12}>
             <AddressField name="address" />
+          </Grid>
+
+          <Grid item xs={12}>
+            <RHFAccordion name="additionalAddresses" label="Additional Addresses" defaultExpanded>
+              <AddressArrayField name="additionalAddresses" />
+            </RHFAccordion>
           </Grid>
 
           <Grid item xs={6} display="none">

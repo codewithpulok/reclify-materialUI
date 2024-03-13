@@ -14,26 +14,21 @@ import { selectAuth } from '../authSlice';
 // ----------------------------------------------------------------------
 
 export default function AuthGuard(props) {
-  const { children, ignoreStripeCompleteStatus = false } = props;
+  const { children } = props;
   const { isLoading } = useAppSelector(selectAuth);
 
-  return isLoading ? (
-    <SplashScreen />
-  ) : (
-    <Container ignoreStripeCompleteStatus={ignoreStripeCompleteStatus}>{children}</Container>
-  );
+  return isLoading ? <SplashScreen /> : <Container>{children}</Container>;
 }
 
 AuthGuard.propTypes = {
   children: PropTypes.node,
-  ignoreStripeCompleteStatus: PropTypes.bool,
 };
 
 // ----------------------------------------------------------------------
 
 function Container(props) {
-  const { children, ignoreStripeCompleteStatus } = props;
-  const { isAuthenticated, user } = useAppSelector(selectAuth);
+  const { children } = props;
+  const { isAuthenticated } = useAppSelector(selectAuth);
   const router = useRouter();
 
   const [checked, setChecked] = useState(false);
@@ -48,24 +43,9 @@ function Container(props) {
 
       router.replace(href);
     } else {
-      // if user is seller and haven't complete the stripe account link then redirect to the refresh page
-      // if (
-      //   user?.userType === 'seller' &&
-      //   user?.stripeAccountStatus !== 'SUCCEDED' &&
-      //   !ignoreStripeCompleteStatus
-      // ) {
-      //   router.replace(paths.auth.onboarding);
-      //   return;
-      // }
       setChecked(true);
     }
-  }, [
-    // ignoreStripeCompleteStatus,
-    isAuthenticated,
-    router,
-    // user?.stripeAccountStatus,
-    // user?.userType,
-  ]);
+  }, [isAuthenticated, router]);
 
   useEffect(() => {
     check();
@@ -81,5 +61,4 @@ function Container(props) {
 
 Container.propTypes = {
   children: PropTypes.node,
-  ignoreStripeCompleteStatus: PropTypes.bool,
 };
