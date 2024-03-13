@@ -1,29 +1,44 @@
 import {
+  Box,
   Button,
+  Checkbox,
+  Chip,
   Dialog,
   DialogActions,
   DialogContent,
   DialogTitle,
+  FormControl,
+  InputLabel,
   MenuItem,
+  OutlinedInput,
+  Select,
   Stack,
   TextField,
 } from '@mui/material';
-import { useRouter, useSearchParams } from 'next/navigation';
 import PropTypes from 'prop-types';
-import { useCallback, useMemo, useState } from 'react';
+import { useMemo } from 'react';
 import { getRegionByCode, usRegions } from 'src/assets/data';
 import {
-  getAllServiceTypes,
   getAvailableServiceTypes,
+  getServiceSubType,
   getServiceType,
 } from 'src/constant/service-types';
-import { createQueryString } from 'src/utils/query';
 
 // ----------------------------------------------------------------------
 const Props = {
   open: PropTypes.bool.isRequired,
   onClose: PropTypes.func.isRequired,
-  basePath: PropTypes.string.isRequired,
+  onSubmit: PropTypes.func.isRequired,
+  // basePath: PropTypes.string.isRequired,
+  searchType: PropTypes.string,
+  serviceType: PropTypes.string,
+  warehouseRegion: PropTypes.string,
+  serviceSubtypes: PropTypes.array,
+
+  setServiceSubtypes: PropTypes.func.isRequired,
+  setSearchType: PropTypes.func.isRequired,
+  setServiceType: PropTypes.func.isRequired,
+  setWarehouseRegion: PropTypes.func.isRequired,
 };
 // ----------------------------------------------------------------------
 
@@ -32,30 +47,33 @@ const Props = {
  * @returns {JSX.Element}
  */
 const SearchFilterDialog = (props) => {
-  const { onClose, open, basePath } = props;
+  const {
+    onClose,
+    open,
+    searchType,
+    serviceType,
+    warehouseRegion,
+    setSearchType,
+    setServiceType,
+    setWarehouseRegion,
+    onSubmit,
+    setServiceSubtypes,
+    serviceSubtypes = [],
+  } = props;
 
-  // router state
-  const searchParams = useSearchParams();
-  const router = useRouter();
-  const defServiceType = searchParams.get('serviceType');
-  const defSearchType = searchParams.get('type');
-  const defRegion = searchParams.get('region');
-
-  // app state
-  const [searchType, setSearchType] = useState(defSearchType || 'all');
-  const [serviceType, setServiceType] = useState(defServiceType || null);
-  const [warehouseRegion, setWarehouseRegion] = useState(defRegion || null);
+  const subtypes = useMemo(() => getServiceSubType(serviceType) || [], [serviceType]);
 
   // is valid filter
   const isValid = useMemo(() => {
     if (searchType === 'all') return true;
 
-    if (searchType === 'service' && !!getServiceType(serviceType)) return true;
+    if (searchType === 'service' && !!getServiceType(serviceType) && Array.isArray(serviceSubtypes))
+      return true;
 
     if (searchType === 'warehouse' && !!getRegionByCode(warehouseRegion)) return true;
 
     return false;
-  }, [searchType, serviceType, warehouseRegion]);
+  }, [searchType, serviceSubtypes, serviceType, warehouseRegion]);
 
   // handle service type change
   const handleServiceTypeChange = (value) => {
@@ -67,7 +85,7 @@ const SearchFilterDialog = (props) => {
     }
     //
     else if (value === 'service') {
-      setServiceType(getAllServiceTypes()[0].value);
+      setServiceType(getAvailableServiceTypes()[0].value);
       setWarehouseRegion(null);
     }
     //
@@ -84,19 +102,10 @@ const SearchFilterDialog = (props) => {
     setWarehouseRegion(null);
   };
 
-  // handle filter execution
-  const handleSubmitFilter = useCallback(() => {
-    let queryString;
-
-    if (searchType === 'all') queryString = createQueryString('type', null, searchParams);
-    else queryString = createQueryString('type', searchType, searchParams);
-
-    queryString = createQueryString('serviceType', serviceType, queryString);
-    queryString = createQueryString('region', warehouseRegion, queryString);
-
-    router.push(`${basePath}/?${queryString}`);
+  const handleSubmit = () => {
     onClose();
-  }, [basePath, onClose, router, searchParams, searchType, serviceType, warehouseRegion]);
+    onSubmit();
+  };
 
   return (
     <Dialog fullWidth maxWidth="xs" open={open} onClose={onClose}>
@@ -146,6 +155,33 @@ const SearchFilterDialog = (props) => {
               ))}
             </TextField>
           )}
+
+          {!!subtypes?.length && (
+            <FormControl>
+              <InputLabel>Service Subtypes</InputLabel>
+              <Select
+                multiple
+                value={serviceSubtypes}
+                onChange={(e) => setServiceSubtypes(e.target.value)}
+                input={<OutlinedInput label="Service Subtypes" />}
+                renderValue={(selected) => (
+                  <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 0.5 }}>
+                    {selected.map((value) => (
+                      <Chip key={value} label={value} variant="outlined" />
+                    ))}
+                  </Box>
+                )}
+              >
+                <MenuItem disabled>Select Service Subtypes</MenuItem>
+                {subtypes.map((type) => (
+                  <MenuItem value={type.value} key={type.value}>
+                    <Checkbox checked={serviceSubtypes?.includes(type.value)} />
+                    {type.label}
+                  </MenuItem>
+                ))}
+              </Select>
+            </FormControl>
+          )}
         </Stack>
       </DialogContent>
 
@@ -153,12 +189,7 @@ const SearchFilterDialog = (props) => {
         <Button color="error" variant="soft" onClick={handleResetFilter}>
           Reset
         </Button>
-        <Button
-          color="primary"
-          variant="contained"
-          onClick={handleSubmitFilter}
-          disabled={!isValid}
-        >
+        <Button color="primary" variant="contained" onClick={handleSubmit} disabled={!isValid}>
           Filter
         </Button>
       </DialogActions>
