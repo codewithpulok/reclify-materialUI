@@ -16,3 +16,10 @@ export const restrictPercentValue = (v) => {
 
   return Number(notNegetive) > 100 ? 100 : notNegetive;
 };
+
+/**
+ * Restrict max length on text input field
+ * @param {number} max
+ * @returns {(v: string) => string}
+ */
+export const restrictMaxLength = (max) => (v) => v.slice(0, max);

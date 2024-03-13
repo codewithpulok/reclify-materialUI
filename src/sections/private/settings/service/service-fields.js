@@ -127,7 +127,13 @@ const ServiceFields = (props) => {
           </Grid>
 
           <Grid item xs={12}>
-            <ArrayField name="keyFeatures" label="Key Features" defaultExpanded max={3} />
+            <ArrayField
+              name="keyFeatures"
+              label="Key Features"
+              defaultExpanded
+              max={3}
+              maxLength={200}
+            />
           </Grid>
 
           <Grid item xs={12}>

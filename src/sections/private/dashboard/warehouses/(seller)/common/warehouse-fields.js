@@ -30,7 +30,7 @@ import Label from 'src/components/common/label';
 import { SQUARE_FEET_PER_PALLET } from 'src/constant/pallet';
 import { selectAuth } from 'src/redux-toolkit/features/auth/authSlice';
 import { useAppSelector } from 'src/redux-toolkit/hooks';
-import { restrictNegetiveValue, restrictPercentValue } from 'src/utils/form';
+import { restrictMaxLength, restrictNegetiveValue, restrictPercentValue } from 'src/utils/form';
 import { fCurrency, fFixedFloat } from 'src/utils/format-number';
 import WarehouseReviews from './warehouse-reviews';
 
@@ -209,7 +209,7 @@ const WarehouseFields = (props) => {
               label="Highlights"
               placeholder="Multi-Facility 3PL operating since 1983.  Looking for apparel brands requiring high SKU count and custom boutique packaging."
               helperText={`${200 - (highlights?.length || 0)} character left for highlights`}
-              onChangeMiddleware={(v) => (v.length > 200 ? highlights : v)}
+              onChangeMiddleware={restrictMaxLength(200)}
               rows={4}
               multiline
               fullWidth
