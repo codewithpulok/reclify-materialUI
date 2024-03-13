@@ -20,7 +20,7 @@ const DetailsHighlights = (props) => {
       <Typography
         sx={{
           fontFamily: 'fontHighlightsFamily',
-          fontSize: 22,
+          fontSize: 24,
         }}
       >
         {highlights}
