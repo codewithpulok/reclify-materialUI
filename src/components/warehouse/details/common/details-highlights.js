@@ -19,7 +19,6 @@ const DetailsHighlights = (props) => {
     <WarehouseDetailsBox sx={sx}>
       <Typography
         sx={{
-          fontWeight: 'bold',
           fontFamily: 'fontHighlightsFamily',
           fontSize: 22,
         }}
