@@ -1,6 +1,6 @@
 'use client';
 
-import { Pagination, Stack } from '@mui/material';
+import { Pagination, Stack, alpha } from '@mui/material';
 import Container from '@mui/material/Container';
 // local components
 import CustomBreadcrumbs from 'src/components/common/custom-breadcrumbs/custom-breadcrumbs';
@@ -44,6 +44,9 @@ const HotDealsView = (props) => {
           isSuccess={listResponse.isSuccess}
           data={currentData}
           totalPages={totalPages}
+          cardProps={{
+            contentSx: { bgcolor: (theme) => alpha(theme.palette.secondary.main, 0.2) },
+          }}
         />
 
         <Stack direction="row" justifyContent="center" mt={3} mb={1}>

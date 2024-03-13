@@ -245,6 +245,7 @@ export const predefinedFacility = [
     fieldType: 'text-field',
     fieldStartAdorment: '%',
     fieldMiddleware: restrictPercentValue,
+    endText: '%',
   },
   {
     key: 'buildingSecurity',
