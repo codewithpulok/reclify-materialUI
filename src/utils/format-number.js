@@ -13,7 +13,8 @@ export function fFixedFloat(number) {
 }
 
 export function fCurrency(number) {
-  const format = number ? numeral(number).format('$0,0.00') : '';
+  if (typeof number !== 'number' || Number.isNaN(number)) return '$0';
+  const format = numeral(number).format('$0,0.00');
 
   return result(format, '.00');
 }

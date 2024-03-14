@@ -141,11 +141,7 @@ const AddressField = (props) => {
                     {results?.isLoading || results?.isFetching
                       ? getIconify('eos-icons:loading')
                       : null}
-                    {hasAddressValue && (
-                      <IconButton color="info" size="small" onClick={resetAddress}>
-                        {getIconify('solar:close-circle-line-duotone')}
-                      </IconButton>
-                    )}
+
                     {hasAddressValue && (
                       <IconButton color="warning" size="small" onClick={addressCollapse.onToggle}>
                         {ICONS.edit()}

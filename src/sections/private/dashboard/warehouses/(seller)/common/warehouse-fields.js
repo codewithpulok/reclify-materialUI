@@ -480,9 +480,15 @@ const WarehouseFields = (props) => {
                           <TextField
                             label="Discounted Price 1 Month"
                             value={fCurrency(monthlyDiscount(price1, discount1))}
-                            error={monthlyDiscount(price1, discount1) < 1}
+                            error={monthlyDiscount(price1, discount1) <= 0}
+                            disabled={!hotRackEnabled || !price1}
                             fullWidth
-                            disabled
+                            sx={{
+                              pointerEvents: 'none',
+                            }}
+                            InputProps={{
+                              readOnly: true,
+                            }}
                           />
                         </Grid>
                         <Grid item xs={12} md={6}>
@@ -502,9 +508,15 @@ const WarehouseFields = (props) => {
                           <TextField
                             label="Discounted Price 3 Month"
                             value={fCurrency(monthlyDiscount(price3, discount3))}
-                            error={monthlyDiscount(price3, discount3) < 1}
+                            error={monthlyDiscount(price3, discount3) <= 0}
+                            disabled={!hotRackEnabled || !price3}
                             fullWidth
-                            disabled
+                            sx={{
+                              pointerEvents: 'none',
+                            }}
+                            InputProps={{
+                              readOnly: true,
+                            }}
                           />
                         </Grid>
                         <Grid item xs={12} md={6}>
@@ -524,9 +536,15 @@ const WarehouseFields = (props) => {
                           <TextField
                             label="Discounted Price 6 Month"
                             value={fCurrency(monthlyDiscount(price6, discount6))}
-                            error={monthlyDiscount(price6, discount6) < 1}
+                            error={monthlyDiscount(price6, discount6) <= 0}
                             fullWidth
-                            disabled
+                            disabled={!hotRackEnabled || !price6}
+                            sx={{
+                              pointerEvents: 'none',
+                            }}
+                            InputProps={{
+                              readOnly: true,
+                            }}
                           />
                         </Grid>
                         <Grid item xs={12} md={6}>
@@ -546,9 +564,15 @@ const WarehouseFields = (props) => {
                           <TextField
                             label="Discounted Price 12 Month"
                             value={fCurrency(monthlyDiscount(price12, discount12))}
-                            error={monthlyDiscount(price12, discount12) < 1}
+                            error={monthlyDiscount(price12, discount12) <= 0}
                             fullWidth
-                            disabled
+                            disabled={!hotRackEnabled || !price12}
+                            sx={{
+                              pointerEvents: 'none',
+                            }}
+                            InputProps={{
+                              readOnly: true,
+                            }}
                           />
                         </Grid>
 

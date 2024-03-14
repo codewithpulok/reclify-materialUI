@@ -4,6 +4,8 @@ import PropTypes from 'prop-types';
 import { socialsBrands } from 'src/assets/data';
 import { getIconify } from 'src/components/common/iconify/utilities';
 import Label from 'src/components/common/label';
+import { selectAuth } from 'src/redux-toolkit/features/auth/authSlice';
+import { useAppSelector } from 'src/redux-toolkit/hooks';
 import { RouterLink } from 'src/routes/components';
 import { paths } from 'src/routes/paths';
 import formatPhone from 'src/utils/format-phone';
@@ -24,6 +26,11 @@ const Props = {
  */
 const UserDetailsCard = (props) => {
   const { user, sx, userType } = props;
+  const { user: authUser } = useAppSelector(selectAuth);
+
+  const type = userType || user?.userType;
+
+  const userPath = authUser?.userType === 'admin' ? paths.dashboard.users[type] : paths.users[type];
 
   return (
     <Card
@@ -128,9 +135,7 @@ const UserDetailsCard = (props) => {
           <Link
             component={RouterLink}
             sx={{ width: { xs: '100%', sm: 'auto' } }}
-            href={`${paths.dashboard.users[user.userType === 'seller' ? 'sellers' : 'customers']}/${
-              user.id
-            }`}
+            href={userPath(user?.id)}
           >
             <Chip
               sx={{ width: { xs: '100%', sm: 'auto' } }}
