@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { useFieldArray, useFormContext } from 'react-hook-form';
 import AddressField from '.';
 import { EmptyState } from '../../custom-state';
-import { ICONS } from '../config-fields';
+import { getIconify } from '../../iconify/utilities';
 
 /**
  * @param {AddressArrayField.propTypes} props
@@ -36,7 +36,7 @@ const AddressArrayField = (props) => {
               name={`${name}.${index}`}
               actionBtn={
                 <IconButton color="error" onClick={() => handleRemove(index)}>
-                  {ICONS.delete()}
+                  {getIconify('solar:close-square-bold-duotone')}
                 </IconButton>
               }
             />

@@ -480,6 +480,7 @@ const WarehouseFields = (props) => {
                           <TextField
                             label="Discounted Price 1 Month"
                             value={fCurrency(monthlyDiscount(price1, discount1))}
+                            error={monthlyDiscount(price1, discount1) < 1}
                             fullWidth
                             disabled
                           />
@@ -501,6 +502,7 @@ const WarehouseFields = (props) => {
                           <TextField
                             label="Discounted Price 3 Month"
                             value={fCurrency(monthlyDiscount(price3, discount3))}
+                            error={monthlyDiscount(price3, discount3) < 1}
                             fullWidth
                             disabled
                           />
@@ -522,6 +524,7 @@ const WarehouseFields = (props) => {
                           <TextField
                             label="Discounted Price 6 Month"
                             value={fCurrency(monthlyDiscount(price6, discount6))}
+                            error={monthlyDiscount(price6, discount6) < 1}
                             fullWidth
                             disabled
                           />
@@ -543,6 +546,7 @@ const WarehouseFields = (props) => {
                           <TextField
                             label="Discounted Price 12 Month"
                             value={fCurrency(monthlyDiscount(price12, discount12))}
+                            error={monthlyDiscount(price12, discount12) < 1}
                             fullWidth
                             disabled
                           />

@@ -78,7 +78,7 @@ const HomePricing = (props) => {
               key={plan.id}
               variants={varFade({ durationIn: Number((0.3 * index + 0.64).toFixed(2)) }).inUp}
             >
-              <PlanCard plan={plan} />
+              <PlanCard plan={plan} staticData />
             </m.div>
           ))}
         </Box>

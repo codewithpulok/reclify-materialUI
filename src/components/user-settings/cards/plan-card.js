@@ -29,6 +29,7 @@ const Props = {
   showAnnual: PropTypes.bool,
   /** @type {'sm' | 'md'} */
   size: PropTypes.string,
+  staticData: PropTypes.bool,
 };
 
 // ----------------------------------------------------------------------
@@ -41,7 +42,16 @@ const Props = {
 const PlanCard = (props) => {
   const { user } = useAppSelector(selectAuth);
 
-  const { plan, isSelected, onSelect, sx = {}, isCurrent, showAnnual, size = 'md' } = props;
+  const {
+    plan,
+    isSelected,
+    onSelect,
+    sx = {},
+    isCurrent,
+    showAnnual,
+    size = 'md',
+    staticData = false,
+  } = props;
 
   const currentPrice = showAnnual ? plan?.annualPrice : plan?.price;
 
@@ -121,7 +131,7 @@ const PlanCard = (props) => {
     </Stack>
   );
   const renderEnterprise =
-    user?.planId === 'enterprise' ? (
+    user?.planId === 'enterprise' && !staticData ? (
       renderPremium
     ) : (
       <Stack alignItems="start" spacing={1}>

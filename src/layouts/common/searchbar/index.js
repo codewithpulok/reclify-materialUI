@@ -38,7 +38,9 @@ function Searchbar(props) {
   const [searchType, setSearchType] = useState(defSearchType || 'all');
   const [serviceType, setServiceType] = useState(defServiceType || null);
   const [warehouseRegion, setWarehouseRegion] = useState(defRegion || null);
-  const [serviceSubtypes, setServiceSubtypes] = useState(defSubtypes?.split(',') || []);
+  const [serviceSubtypes, setServiceSubtypes] = useState(
+    defSubtypes?.length ? defSubtypes?.split(',') || [] : []
+  );
 
   // dialog state
   const searchDialog = useDialog();
@@ -51,8 +53,6 @@ function Searchbar(props) {
 
   // handle search
   const handleSearch = useCallback(() => {
-    if (!searchQuery) return; // if there is no search query then skip search
-
     let queryString;
 
     if (searchType === 'all') queryString = createQueryString('type', null, searchParams);
@@ -60,7 +60,7 @@ function Searchbar(props) {
 
     queryString = createQueryString('serviceType', serviceType, queryString);
     queryString = createQueryString('region', warehouseRegion, queryString);
-    queryString = createQueryString('subtype', serviceSubtypes?.join(','), queryString);
+    queryString = createQueryString('subtype', serviceSubtypes?.join(',') || null, queryString);
 
     queryString = createQueryString('query', searchQuery, queryString);
 

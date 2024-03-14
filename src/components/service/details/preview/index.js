@@ -2,6 +2,7 @@ import { Grid, Stack } from '@mui/material';
 import PropTypes from 'prop-types';
 import ImageCarousel from '../common/image-carousel';
 import ServiceCustomers from '../common/service-customers';
+import ServiceFeatures from '../common/service-features';
 import ServicePromo from '../common/service-promo';
 import HeaderContent from '../full/header-content';
 import MainContent from '../full/main-content';
@@ -31,7 +32,7 @@ const ServiceDetailsPreview = (props) => {
       <Grid item xs={12} md={6}>
         <MainContent service={service} seller={seller} />
       </Grid>
-      {service.customerList?.length && (
+      {!!service.customerList?.length && (
         <Grid item xs={12}>
           <ServiceCustomers data={service.customerList} />
         </Grid>
@@ -43,7 +44,8 @@ const ServiceDetailsPreview = (props) => {
       </Grid>
       <Grid item xs={12} md={6}>
         <Stack spacing={2}>
-          <ServicePromo />
+          <ServicePromo service={service} />
+          <ServiceFeatures features={service.features} type={service.type} />
         </Stack>
       </Grid>
     </Grid>

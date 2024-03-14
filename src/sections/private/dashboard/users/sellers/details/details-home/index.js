@@ -12,6 +12,8 @@ import PropTypes from 'prop-types';
 // local components
 import { getSocialBrand } from 'src/assets/data/social-brands';
 import { getIconify } from 'src/components/common/iconify/utilities';
+import { selectAuth } from 'src/redux-toolkit/features/auth/authSlice';
+import { useAppSelector } from 'src/redux-toolkit/hooks';
 import { RouterLink } from 'src/routes/components';
 import { paths } from 'src/routes/paths';
 import { fCurrency, fNumber } from 'src/utils/format-number';
@@ -35,6 +37,7 @@ const DetailsHomeProps = {
  */
 const DetailsHome = (props) => {
   const { customerNumber, totalSales, totalWarehouses, user, allowSendMessage } = props;
+  const { user: authUser } = useAppSelector(selectAuth);
 
   const renderStats = (
     <Card sx={{ py: 3, textAlign: 'center', typography: 'h4' }}>
@@ -150,7 +153,7 @@ const DetailsHome = (props) => {
       <Grid xs={12} md={4}>
         <Stack spacing={1.5}>
           {renderStats}
-          <HomeAdminControl user={user} />
+          {authUser?.userType === 'admin' && <HomeAdminControl user={user} />}
         </Stack>
       </Grid>
       <Grid xs={12} md={4}>
