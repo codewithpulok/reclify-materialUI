@@ -1,7 +1,7 @@
 'use client';
 
 import { Button, Container, Grid, Stack, Typography } from '@mui/material';
-import { useRouter, useSearchParams } from 'next/navigation';
+import { useSearchParams } from 'next/navigation';
 import { useCallback, useEffect, useMemo } from 'react';
 import CustomBreadcrumbs from 'src/components/common/custom-breadcrumbs/custom-breadcrumbs';
 import { EmptyState, ErrorState, LoadingState } from 'src/components/common/custom-state';
@@ -20,7 +20,6 @@ const Props = {};
  * @returns {JSX.Element}
  */
 const SearchListView = (props) => {
-  const router = useRouter();
   const searchParam = useSearchParams();
   const query = searchParam.get('query');
   const type = searchParam.get('type');
@@ -37,17 +36,14 @@ const SearchListView = (props) => {
 
   // make request on search
   useEffect(() => {
-    if (query === null || query?.trim().length === 0) {
-      router.replace(paths.warehouses.root);
-    } else if (query) {
-      searchAll(query);
-    }
+    searchAll(query);
+
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [query]);
 
   // render users
   const renderUsers = useCallback(
-    (data = []) => {
+    (data = [], showLess) => {
       if (!isLoading && searchResponse.isError) {
         return <ErrorState />;
       }
@@ -59,13 +55,14 @@ const SearchListView = (props) => {
       if (!isLoading && searchResponse.data?.success && data) {
         return (
           <Grid container spacing={1}>
-            {data.slice(0, 4).map((user) => (
+            {data.slice(0, showLess ? 4 : undefined).map((user) => (
               <Grid item xs={12} sm={6} md={4} lg={3} key={user.id}>
-                {user.userType === 'seller' && <SellerCard user={user} serviceCount={10} />}
-                {user.userType === 'customer' && (
-                  <CustomerCard user={user} totalTransactions={100} />
+                {user.userType === 'seller' && (
+                  <SellerCard user={user} serviceCount={user?.serviceCount} />
                 )}
-                {user.userType === 'admin' && <CustomerCard user={user} totalTransactions={1000} />}
+                {user.userType === 'customer' && (
+                  <CustomerCard user={user} totalTransactions={user?.transactionCount} />
+                )}
               </Grid>
             ))}
           </Grid>

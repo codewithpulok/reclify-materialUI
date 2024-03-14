@@ -10,7 +10,7 @@ import {
   TextField,
 } from '@mui/material';
 import PropTypes from 'prop-types';
-import { useCallback, useState } from 'react';
+import { useCallback, useMemo, useState } from 'react';
 import { useFormContext } from 'react-hook-form';
 import { restrictMaxLength } from 'src/utils/form';
 import { EmptyState } from '../../custom-state';
@@ -23,6 +23,8 @@ const Props = {
   defaultExpanded: PropTypes.bool,
   max: PropTypes.number,
   maxLength: PropTypes.number,
+  /** @type {import('@mui/material').TextFieldProps} */
+  fieldProps: PropTypes.object,
 };
 
 /**
@@ -30,24 +32,29 @@ const Props = {
  * @returns {JSX.Element}
  */
 const ArrayField = (props) => {
-  const { name, label, defaultExpanded, max, maxLength } = props;
+  const { name, label, defaultExpanded, max, maxLength, fieldProps } = props;
   const { setValue, watch } = useFormContext();
   const value = watch(name, []);
+  const maxLimitReach = useMemo(() => {
+    if (typeof max !== 'number' || Number.isNaN(max)) return false;
 
-  const [newRule, setNewRule] = useState('');
+    return value.length >= max;
+  }, [max, value.length]);
+
+  const [newValue, setNewValue] = useState('');
 
   // handle rule change
-  const handleRuleChange = (ruleValue) => {
-    const slicedValue = maxLength ? restrictMaxLength(maxLength)(ruleValue) : ruleValue;
-    setNewRule(slicedValue);
+  const handleValueChange = (fieldValue) => {
+    const slicedValue = maxLength ? restrictMaxLength(maxLength)(fieldValue) : fieldValue;
+    setNewValue(slicedValue);
   };
 
   // handle add
   const handleAddValue = useCallback(() => {
-    if (!newRule) return;
-    setValue(name, [newRule, ...value]);
-    setNewRule('');
-  }, [value, setValue, newRule, name]);
+    if (!newValue || maxLimitReach) return;
+    setValue(name, [newValue, ...value]);
+    setNewValue('');
+  }, [newValue, maxLimitReach, setValue, name, value]);
 
   // handle remove
   const handleRemoveValue = useCallback(
@@ -74,23 +81,21 @@ const ArrayField = (props) => {
       <Stack>
         <TextField
           label="New Item"
-          value={newRule}
-          onChange={(e) => handleRuleChange(e.target.value)}
+          value={newValue}
+          onChange={(e) => handleValueChange(e.target.value)}
           onKeyDown={handleCatchEnter}
           InputProps={{
             endAdornment: (
               <InputAdornment position="end">
-                <IconButton
-                  type="button"
-                  onClick={handleAddValue}
-                  disabled={typeof max === 'number' && value.length === max}
-                >
+                <IconButton type="button" onClick={handleAddValue} disabled={maxLimitReach}>
                   {ICONS.add()}
                 </IconButton>
               </InputAdornment>
             ),
           }}
           sx={{ mb: 2 }}
+          helperText={maxLength ? `${200 - (newValue?.length || 0)} character left` : undefined}
+          {...fieldProps}
         />
         {value && value?.length ? (
           <List sx={{ bgcolor: 'background.paper', borderRadius: 1 }}>

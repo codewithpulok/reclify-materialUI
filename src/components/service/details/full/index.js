@@ -35,7 +35,7 @@ const ServiceDetails = (props) => {
         <Grid item xs={12} md={6}>
           <MainContent service={service} seller={seller} />
         </Grid>
-        {service.customerList?.length && (
+        {!!service.customerList?.length && (
           <Grid item xs={12}>
             <ServiceCustomers data={service.customerList} />
           </Grid>
@@ -47,7 +47,7 @@ const ServiceDetails = (props) => {
         </Grid>
         <Grid item xs={12} md={6}>
           <Stack spacing={2}>
-            <ServicePromo />
+            <ServicePromo service={service} />
             <ServiceFeatures features={service.features} type={service.type} />
           </Stack>
         </Grid>

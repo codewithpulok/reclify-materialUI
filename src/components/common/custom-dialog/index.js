@@ -50,3 +50,6 @@ export { default as ChangeServiceTypeDialog } from './admin/change-service-type'
 
 // avatar
 export { default as AvatarCrop } from './avatar-crop';
+
+// address delete
+export { default as AddressDeleteDialog } from './address/delete-dialog';

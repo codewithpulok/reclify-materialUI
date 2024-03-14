@@ -9,7 +9,7 @@ export { default as PredefinedFields } from './predefined-fields';
 // address field
 export { default as AddressField } from './address-field';
 export { default as AddressArrayField } from './address-field/array-field';
-export { addressFieldSchema } from './address-field/schema';
+export * from './address-field/schema';
 
 // photos upload field
 export { default as BannerField } from './banner-field';

@@ -30,7 +30,7 @@ const schema = {
     })
     .required(),
   address: addressFieldSchema,
-  additionalAddress: Yup.array().of(addressFieldSchema),
+  additionalAddresses: Yup.array().of(addressFieldSchema),
   totalSpace: Yup.number().label('Total space').min(1).required(),
   hotRackEnabled: Yup.bool().label('HotRack Enabled').default(false),
   discountOption: Yup.string().oneOf(['fixed', 'percentage']).default('percentage').optional(),

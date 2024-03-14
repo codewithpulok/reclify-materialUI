@@ -1,7 +1,7 @@
 'use client';
 
 import { Container, Pagination, Stack } from '@mui/material';
-import { useRouter, useSearchParams } from 'next/navigation';
+import { useSearchParams } from 'next/navigation';
 import { useEffect } from 'react';
 import CustomBreadcrumbs from 'src/components/common/custom-breadcrumbs/custom-breadcrumbs';
 import usePagination from 'src/hooks/use-pagination';
@@ -17,7 +17,6 @@ const Props = {};
  * @returns {JSX.Element}
  */
 const SearchServicesView = (props) => {
-  const router = useRouter();
   const searchParam = useSearchParams();
   const query = searchParam.get('query');
   const appearance = useAppearance();
@@ -31,9 +30,7 @@ const SearchServicesView = (props) => {
 
   // make request on search
   useEffect(() => {
-    if (query === null || query?.trim().length === 0) {
-      router.replace(paths.dashboard.root);
-    } else if (query) searchServices(query);
+    searchServices(query);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [query]);
 

@@ -14,7 +14,7 @@ import { ICONS } from '../config-settings';
 
 const Props = {};
 const fieldName = 'customerList';
-const fieldLabel = 'Customer List';
+const fieldLabel = 'Featured Client List';
 const defaultValues = { name: '', image: '' };
 
 // ----------------------------------------------------------------------
@@ -45,7 +45,7 @@ const CustomerList = (props) => {
         ))}
 
         <Button color="primary" variant="soft" onClick={addCustomer} fullWidth>
-          Add Customer
+          Add Client
         </Button>
       </Stack>
     </RHFAccordion>

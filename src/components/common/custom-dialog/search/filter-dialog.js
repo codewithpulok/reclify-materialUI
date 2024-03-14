@@ -75,13 +75,14 @@ const SearchFilterDialog = (props) => {
     return false;
   }, [searchType, serviceSubtypes, serviceType, warehouseRegion]);
 
-  // handle service type change
-  const handleServiceTypeChange = (value) => {
+  // handle search type change
+  const handleSearchTypeChange = (value) => {
     setSearchType(value);
 
     if (value === 'all') {
       setServiceType(null);
       setWarehouseRegion(null);
+      setServiceSubtypes([]);
     }
     //
     else if (value === 'service') {
@@ -92,6 +93,7 @@ const SearchFilterDialog = (props) => {
     else if (value === 'warehouse') {
       setServiceType(null);
       setWarehouseRegion(usRegions[0].code);
+      setServiceSubtypes([]);
     }
   };
 
@@ -117,7 +119,7 @@ const SearchFilterDialog = (props) => {
             select
             label="Search Type"
             value={searchType}
-            onChange={(e) => handleServiceTypeChange(e.target.value)}
+            onChange={(e) => handleSearchTypeChange(e.target.value)}
           >
             <MenuItem value="all">All</MenuItem>
             <MenuItem value="service">Service</MenuItem>

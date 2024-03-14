@@ -22,7 +22,7 @@ const DetailsAdditional = (props) => {
 
   const carousel = useCarousel({
     slidesToShow: 1,
-    infinite: data?.length >= 4,
+    infinite: true,
     autoplay: true,
     autoplaySpeed: 1500,
     initialSlide: 0,
