@@ -124,7 +124,7 @@ export default function ListingView() {
               gap: 0.5,
             }}
           >
-            {getIconify(scope.icon, 28)}
+            {getIconify(scope.icon, 28, { color: 'text.secondary' })}
             <Typography variant="h4">In {scope.name}</Typography>
 
             <Button
