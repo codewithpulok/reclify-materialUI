@@ -94,7 +94,7 @@ export default function USListingView() {
               }}
             >
               {getIconify(region.icon, 28, {
-                color: 'secondary.main',
+                color: 'text.secondary',
                 rotate: `${region.rotate ? 90 * region.rotate : 0}deg`,
               })}
               <Typography variant="h4">In {region.name}</Typography>

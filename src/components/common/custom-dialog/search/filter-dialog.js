@@ -1,44 +1,28 @@
 import {
-  Box,
   Button,
-  Checkbox,
-  Chip,
   Dialog,
   DialogActions,
   DialogContent,
   DialogTitle,
-  FormControl,
-  InputLabel,
   MenuItem,
-  OutlinedInput,
-  Select,
   Stack,
-  TextField,
 } from '@mui/material';
 import PropTypes from 'prop-types';
-import { useMemo } from 'react';
+import { useEffect, useMemo } from 'react';
+import { useFormContext } from 'react-hook-form';
 import { getRegionByCode, usRegions } from 'src/assets/data';
 import {
   getAvailableServiceTypes,
   getServiceSubType,
   getServiceType,
 } from 'src/constant/service-types';
+import { RHFSelect, RHFTextField } from '../../hook-form';
 
 // ----------------------------------------------------------------------
 const Props = {
   open: PropTypes.bool.isRequired,
   onClose: PropTypes.func.isRequired,
-  onSubmit: PropTypes.func.isRequired,
-  // basePath: PropTypes.string.isRequired,
-  searchType: PropTypes.string,
-  serviceType: PropTypes.string,
-  warehouseRegion: PropTypes.string,
-  serviceSubtypes: PropTypes.array,
-
-  setServiceSubtypes: PropTypes.func.isRequired,
-  setSearchType: PropTypes.func.isRequired,
-  setServiceType: PropTypes.func.isRequired,
-  setWarehouseRegion: PropTypes.func.isRequired,
+  handleSearch: PropTypes.func.isRequired,
 };
 // ----------------------------------------------------------------------
 
@@ -47,67 +31,64 @@ const Props = {
  * @returns {JSX.Element}
  */
 const SearchFilterDialog = (props) => {
-  const {
-    onClose,
-    open,
-    searchType,
-    serviceType,
-    warehouseRegion,
-    setSearchType,
-    setServiceType,
-    setWarehouseRegion,
-    onSubmit,
-    setServiceSubtypes,
-    serviceSubtypes = [],
-  } = props;
+  const { onClose, open, handleSearch } = props;
 
-  const subtypes = useMemo(() => getServiceSubType(serviceType) || [], [serviceType]);
+  // form states
+  const { watch, setValue, handleSubmit } = useFormContext();
+  const type = watch('type');
+  const service = watch('service');
+  const region = watch('region');
+  const subtypes = watch('subtypes');
+
+  const subtypeOptions = useMemo(() => getServiceSubType(service) || [], [service]);
 
   // is valid filter
   const isValid = useMemo(() => {
-    if (searchType === 'all') return true;
+    if (type === 'all') return true;
 
-    if (searchType === 'service' && !!getServiceType(serviceType) && Array.isArray(serviceSubtypes))
-      return true;
+    if (type === 'service' && !!getServiceType(service) && Array.isArray(subtypes)) return true;
 
-    if (searchType === 'warehouse' && !!getRegionByCode(warehouseRegion)) return true;
+    if (type === 'warehouse' && !!getRegionByCode(region)) return true;
 
     return false;
-  }, [searchType, serviceSubtypes, serviceType, warehouseRegion]);
-
-  // handle search type change
-  const handleSearchTypeChange = (value) => {
-    setSearchType(value);
-
-    if (value === 'all') {
-      setServiceType(null);
-      setWarehouseRegion(null);
-      setServiceSubtypes([]);
-    }
-    //
-    else if (value === 'service') {
-      setServiceType(getAvailableServiceTypes()[0].value);
-      setWarehouseRegion(null);
-    }
-    //
-    else if (value === 'warehouse') {
-      setServiceType(null);
-      setWarehouseRegion(usRegions[0].code);
-      setServiceSubtypes([]);
-    }
-  };
+  }, [region, service, subtypes, type]);
 
   // handle reset search
   const handleResetFilter = () => {
-    setSearchType('all');
-    setServiceType(null);
-    setWarehouseRegion(null);
+    setValue('type', 'all');
+    setValue('service', '');
+    setValue('region', '');
+    setValue('subtypes', []);
+    handleSubmit(handleSearch)();
+    onClose();
   };
 
-  const handleSubmit = () => {
+  // handle filter form submit
+  const handleFilterSubmit = () => {
+    handleSubmit(handleSearch)();
     onClose();
-    onSubmit();
   };
+
+  // update other fields based on type field update
+  useEffect(() => {
+    if (type === 'all') {
+      setValue('service', '');
+      setValue('region', '');
+      setValue('subtypes', []);
+    }
+    //
+    else if (type === 'service') {
+      setValue('service', getAvailableServiceTypes()[0].value);
+      setValue('region', '');
+    }
+    //
+    else if (type === 'warehouse') {
+      setValue('service', '');
+      setValue('region', usRegions[0].code);
+      setValue('subtypes', []);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [type]);
 
   return (
     <Dialog fullWidth maxWidth="xs" open={open} onClose={onClose}>
@@ -115,83 +96,56 @@ const SearchFilterDialog = (props) => {
 
       <DialogContent>
         <Stack spacing={1.5} pt={0.5}>
-          <TextField
-            select
-            label="Search Type"
-            value={searchType}
-            onChange={(e) => handleSearchTypeChange(e.target.value)}
-          >
+          <RHFTextField name="type" select label="Search Type">
             <MenuItem value="all">All</MenuItem>
             <MenuItem value="service">Service</MenuItem>
             <MenuItem value="warehouse">Warehouse</MenuItem>
-          </TextField>
+          </RHFTextField>
 
-          {searchType === 'service' && (
-            <TextField
-              select
-              label="Service Type"
-              value={serviceType ?? ''}
-              onChange={(e) => setServiceType(e.target.value)}
-            >
-              <MenuItem disabled>Select service type</MenuItem>
-              {getAvailableServiceTypes().map((t) => (
-                <MenuItem value={t.value} key={t.value}>
-                  {t.label}
-                </MenuItem>
-              ))}
-            </TextField>
+          {type === 'service' && (
+            <>
+              <RHFTextField name="service" select label="Service Type">
+                <MenuItem disabled>Select service type</MenuItem>
+                {getAvailableServiceTypes().map((t) => (
+                  <MenuItem value={t.value} key={t.value}>
+                    {t.label}
+                  </MenuItem>
+                ))}
+              </RHFTextField>
+              {!!subtypeOptions?.length && (
+                <RHFSelect
+                  label="Service Subtypes"
+                  multiple
+                  name="subtypes"
+                  options={subtypeOptions}
+                />
+              )}
+            </>
           )}
 
-          {searchType === 'warehouse' && (
-            <TextField
-              select
-              label="Warehouse Region"
-              value={warehouseRegion ?? ''}
-              onChange={(e) => setWarehouseRegion(e.target.value)}
-            >
+          {type === 'warehouse' && (
+            <RHFTextField name="region" select label="Warehouse Region">
               <MenuItem disabled>Select warehouse region</MenuItem>
               {usRegions.map((r) => (
                 <MenuItem value={r.code} key={r.code}>
                   {r.name}
                 </MenuItem>
               ))}
-            </TextField>
-          )}
-
-          {!!subtypes?.length && (
-            <FormControl>
-              <InputLabel>Service Subtypes</InputLabel>
-              <Select
-                multiple
-                value={serviceSubtypes}
-                onChange={(e) => setServiceSubtypes(e.target.value)}
-                input={<OutlinedInput label="Service Subtypes" />}
-                renderValue={(selected) => (
-                  <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 0.5 }}>
-                    {selected.map((value) => (
-                      <Chip key={value} label={value} variant="outlined" />
-                    ))}
-                  </Box>
-                )}
-              >
-                <MenuItem disabled>Select Service Subtypes</MenuItem>
-                {subtypes.map((type) => (
-                  <MenuItem value={type.value} key={type.value}>
-                    <Checkbox checked={serviceSubtypes?.includes(type.value)} />
-                    {type.label}
-                  </MenuItem>
-                ))}
-              </Select>
-            </FormControl>
+            </RHFTextField>
           )}
         </Stack>
       </DialogContent>
 
       <DialogActions>
-        <Button color="error" variant="soft" onClick={handleResetFilter}>
+        <Button color="error" variant="soft" type="button" onClick={handleResetFilter}>
           Reset
         </Button>
-        <Button color="primary" variant="contained" onClick={handleSubmit} disabled={!isValid}>
+        <Button
+          color="primary"
+          variant="contained"
+          onClick={handleFilterSubmit}
+          disabled={!isValid}
+        >
           Filter
         </Button>
       </DialogActions>

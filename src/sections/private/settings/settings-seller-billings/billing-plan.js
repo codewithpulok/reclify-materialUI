@@ -4,12 +4,11 @@ import Button from '@mui/material/Button';
 import Card from '@mui/material/Card';
 import CardHeader from '@mui/material/CardHeader';
 import Divider from '@mui/material/Divider';
-import Stack from '@mui/material/Stack';
 import Grid from '@mui/material/Unstable_Grid2';
 
 import PlanCard from 'src/components/user-settings/cards/plan-card';
 
-import { FormControlLabel, Switch } from '@mui/material';
+import { CardContent, FormControlLabel, Switch } from '@mui/material';
 import PropTypes from 'prop-types';
 import { PlanCancelDialog, PlanUpgradeDialog } from 'src/components/common/custom-dialog';
 import { ErrorState, LoadingState } from 'src/components/common/custom-state';
@@ -59,7 +58,6 @@ const RenderPlans = (props) => {
     return plans?.map((plan) => (
       <Grid xs={12} md={4} key={plan.id}>
         <PlanCard
-          size="sm"
           isSelected={plan.id === selectedPlan}
           onSelect={handleSelectPlan}
           plan={plan}
@@ -121,22 +119,26 @@ const BillingPlan = (props) => {
           }
         />
 
-        <Grid container spacing={1.5} sx={{ p: 3 }}>
-          <RenderPlans
-            currentPlan={currentPlan}
-            handleSelectPlan={handleSelectPlan}
-            isError={isError}
-            isLoading={isLoading}
-            isSuccess={isSuccess}
-            plans={plans}
-            selectedPlan={selectedPlan}
-            showAnnual={isAnnual.value}
-          />
-        </Grid>
+        <CardContent>
+          <Grid container spacing={1.5}>
+            <RenderPlans
+              currentPlan={currentPlan}
+              handleSelectPlan={handleSelectPlan}
+              isError={isError}
+              isLoading={isLoading}
+              isSuccess={isSuccess}
+              plans={plans}
+              selectedPlan={selectedPlan}
+              showAnnual={isAnnual.value}
+            />
+          </Grid>
+        </CardContent>
 
         <Divider sx={{ borderStyle: 'dashed' }} />
 
-        <Stack spacing={1.5} direction="row" justifyContent="flex-end" sx={{ p: 3 }}>
+        <CardContent
+          sx={{ display: 'flex', alignItems: 'center', gap: 1, justifyContent: 'flex-end' }}
+        >
           <Button
             variant="outlined"
             onClick={cancelPlan.onOpen}
@@ -152,7 +154,7 @@ const BillingPlan = (props) => {
           >
             Upgrade Plan
           </Button>
-        </Stack>
+        </CardContent>
       </Card>
 
       <PlanUpgradeDialog

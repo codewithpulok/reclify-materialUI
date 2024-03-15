@@ -1,7 +1,7 @@
 'use client';
 
 import { Button, Container, Grid, Stack, Typography } from '@mui/material';
-import { useSearchParams } from 'next/navigation';
+import { useRouter, useSearchParams } from 'next/navigation';
 import { useCallback, useEffect, useMemo } from 'react';
 import CustomBreadcrumbs from 'src/components/common/custom-breadcrumbs/custom-breadcrumbs';
 import { EmptyState, ErrorState, LoadingState } from 'src/components/common/custom-state';
@@ -20,14 +20,28 @@ const Props = {};
  * @returns {JSX.Element}
  */
 const SearchListView = (props) => {
+  const appearance = useAppearance();
+  const router = useRouter();
+
+  // query state
   const searchParam = useSearchParams();
   const query = searchParam.get('query');
   const type = searchParam.get('type');
-  // const region = searchParam.get('region');
-  // const serviceType = searchParam.get('serviceType');
-  const appearance = useAppearance();
+  const region = searchParam.get('region');
+  const service = searchParam.get('service');
+  const subtypes = searchParam.get('subtypes');
 
+  // check valid type filter or not
   const hasTypeFilter = useMemo(() => type === 'warehouse' || type === 'service', [type]);
+
+  // parse page heading based on search params
+  const pageHeading = useMemo(() => {
+    if (typeof query === 'string' && !!query.trim()) return `You've searched for - ${query}`;
+
+    if (hasTypeFilter) return 'Showing Filtered Data';
+
+    return undefined;
+  }, [hasTypeFilter, query]);
 
   // api state
   const [searchAll, searchResponse] = useLazySearchAllQuery();
@@ -38,9 +52,14 @@ const SearchListView = (props) => {
 
   // make request on search
   useEffect(() => {
-    searchAll(query);
+    if (!query && !type) {
+      router.push(paths.dashboard.root); // there is nothing related to search then redirect
+    } else {
+      searchAll({ query, type, region, service, subtypes });
+    }
+
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [query]);
+  }, [query, region, service, subtypes, type]);
 
   // render users
   const renderUsers = useCallback(
@@ -117,9 +136,9 @@ const SearchListView = (props) => {
       if (!isLoading && searchResponse.data?.success && data) {
         return (
           <Grid container spacing={1.5}>
-            {data.slice(0, showLess ? 3 : undefined).map((service) => (
-              <Grid item key={service.id} xs={12} sm={6} md={4}>
-                <ServiceCard key={service.id} service={service} />
+            {data.slice(0, showLess ? 3 : undefined).map((serviceData) => (
+              <Grid item key={serviceData.id} xs={12} sm={6} md={4}>
+                <ServiceCard key={serviceData.id} service={serviceData} />
               </Grid>
             ))}
           </Grid>
@@ -135,7 +154,7 @@ const SearchListView = (props) => {
     <Container maxWidth={appearance.themeStretch ? false : 'lg'}>
       <Stack mb={5} spacing={5}>
         <CustomBreadcrumbs
-          heading={`You've searched for - ${query}`}
+          heading={pageHeading}
           links={[{ name: 'Dashboard', href: paths.dashboard.root }, { name: 'Search' }]}
         />
 
@@ -165,14 +184,16 @@ const SearchListView = (props) => {
               {renderUsers(searchResponse.data?.results?.users || [], true)}
 
               <Stack direction="row" justifyContent="end">
-                <Button
-                  variant="contained"
-                  color="primary"
-                  LinkComponent={RouterLink}
-                  href={paths.dashboard.search.users(query)}
-                >
-                  Show More
-                </Button>
+                {!!searchResponse.data?.results?.users && (
+                  <Button
+                    variant="contained"
+                    color="primary"
+                    LinkComponent={RouterLink}
+                    href={paths.dashboard.search.users(query)}
+                  >
+                    Show More
+                  </Button>
+                )}
               </Stack>
             </Stack>
 
@@ -182,14 +203,16 @@ const SearchListView = (props) => {
               {renderWarehouses(searchResponse.data?.results?.warehouses || [], true)}
 
               <Stack direction="row" justifyContent="end">
-                <Button
-                  variant="contained"
-                  color="primary"
-                  LinkComponent={RouterLink}
-                  href={paths.dashboard.search.warehouses(query)}
-                >
-                  Show More
-                </Button>
+                {!!searchResponse.data?.results?.warehouses && (
+                  <Button
+                    variant="contained"
+                    color="primary"
+                    LinkComponent={RouterLink}
+                    href={paths.dashboard.search.warehouses(query)}
+                  >
+                    Show More
+                  </Button>
+                )}
               </Stack>
             </Stack>
 
@@ -199,14 +222,16 @@ const SearchListView = (props) => {
               {renderServices(searchResponse.data?.results?.services || [], true)}
 
               <Stack direction="row" justifyContent="end">
-                <Button
-                  variant="contained"
-                  color="primary"
-                  LinkComponent={RouterLink}
-                  href={paths.dashboard.search.services(query)}
-                >
-                  Show More
-                </Button>
+                {!!searchResponse.data?.results?.services && (
+                  <Button
+                    variant="contained"
+                    color="primary"
+                    LinkComponent={RouterLink}
+                    href={paths.dashboard.search.services(query)}
+                  >
+                    Show More
+                  </Button>
+                )}
               </Stack>
             </Stack>
           </>
