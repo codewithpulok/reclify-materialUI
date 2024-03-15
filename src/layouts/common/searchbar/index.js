@@ -93,34 +93,32 @@ function Searchbar(props) {
   );
 
   return (
-    <Box sx={{ width: '100%' }}>
+    <Box sx={{ width: '60%' }}>
       <FormProvider methods={methods} onSubmit={handleSubmit(handleSearch)}>
-        <Box sx={{ width: '60%' }}>
-          <RHFTextField
-            name="query"
-            variant="filled"
-            InputProps={{
-              startAdornment: (
-                <InputAdornment position="start">
-                  <Iconify icon="eva:search-fill" />
-                </InputAdornment>
-              ),
-              endAdornment: (
-                <InputAdornment position="end">
-                  <Tooltip title="Apply filters">
-                    <IconButton onClick={filterDialog.onOpen}>
-                      <Iconify icon="lets-icons:filter" />
-                    </IconButton>
-                  </Tooltip>
-                </InputAdornment>
-              ),
-            }}
-            placeholder="Search here"
-            hiddenLabel
-            sx={{ display: { xs: 'none', sm: 'flex' }, bgcolor: 'background.paper' }}
-            fullWidth
-          />
-        </Box>
+        <RHFTextField
+          name="query"
+          variant="filled"
+          InputProps={{
+            startAdornment: (
+              <InputAdornment position="start">
+                <Iconify icon="eva:search-fill" />
+              </InputAdornment>
+            ),
+            endAdornment: (
+              <InputAdornment position="end">
+                <Tooltip title="Apply filters">
+                  <IconButton onClick={filterDialog.onOpen}>
+                    <Iconify icon="lets-icons:filter" />
+                  </IconButton>
+                </Tooltip>
+              </InputAdornment>
+            ),
+          }}
+          placeholder="Search here"
+          hiddenLabel
+          sx={{ display: { xs: 'none', sm: 'flex' }, bgcolor: 'background.paper' }}
+          fullWidth
+        />
 
         <IconButton onClick={searchDialog.onOpen} sx={{ display: { sm: 'none', xs: 'inherit' } }}>
           <Iconify icon="eva:search-fill" />
