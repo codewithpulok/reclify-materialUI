@@ -89,7 +89,7 @@ const ServiceFields = (props) => {
           </Grid>
 
           <Grid item xs={12}>
-            <RHFTextField name="promoCode" label="Promotion" fullWidth />
+            <RHFTextField name="promoCode" label="Promotion Code" fullWidth />
           </Grid>
 
           <Grid item xs={12}>
