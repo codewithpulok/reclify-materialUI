@@ -10,10 +10,10 @@ export const searchApi = createApi({
       query: ({ query, type, service, subtypes }) => ({
         url: endpoints.search.all,
         params: {
-          type,
-          query,
-          serviceType: service,
-          subTypes: subtypes,
+          type: type || undefined,
+          query: query || undefined,
+          serviceType: service || undefined,
+          subTypes: subtypes || undefined,
         },
       }),
     }),
