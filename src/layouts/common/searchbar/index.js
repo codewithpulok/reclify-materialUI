@@ -1,13 +1,16 @@
 // TODO: make it clear
 
-import { memo, useCallback, useEffect, useState } from 'react';
+import { memo, useCallback, useMemo } from 'react';
 
 import IconButton from '@mui/material/IconButton';
 
-import { Dialog, FilledInput, InputAdornment, Tooltip } from '@mui/material';
+import { Box, Dialog, InputAdornment, Tooltip } from '@mui/material';
 import { useRouter, useSearchParams } from 'next/navigation';
 import PropTypes from 'prop-types';
+import { useForm } from 'react-hook-form';
 import { SearchFilterDialog } from 'src/components/common/custom-dialog';
+import { RHFTextField } from 'src/components/common/hook-form';
+import FormProvider from 'src/components/common/hook-form/form-provider';
 import Iconify from 'src/components/common/iconify';
 import { useDialog } from 'src/hooks/use-dialog';
 import { createQueryString } from 'src/utils/query';
@@ -28,138 +31,141 @@ function Searchbar(props) {
 
   // query states
   const searchParams = useSearchParams();
-  const defServiceType = searchParams.get('serviceType');
-  const defSearchType = searchParams.get('type');
+  const defQuery = searchParams.get('query');
+  const defType = searchParams.get('type');
+  const defService = searchParams.get('serviceType');
   const defRegion = searchParams.get('region');
   const defSubtypes = searchParams.get('subtype');
+  const parsedSubtypes = useMemo(() => {
+    if (typeof defSubtypes !== 'string' || !defSubtypes?.length) return [];
+    return defSubtypes?.split(',') || [];
+  }, [defSubtypes]);
 
-  // app state
-  const [searchQuery, setSearchQuery] = useState('');
-  const [searchType, setSearchType] = useState(defSearchType || 'all');
-  const [serviceType, setServiceType] = useState(defServiceType || null);
-  const [warehouseRegion, setWarehouseRegion] = useState(defRegion || null);
-  const [serviceSubtypes, setServiceSubtypes] = useState(
-    defSubtypes?.length ? defSubtypes?.split(',') || [] : []
+  // form states
+  const defaultValues = useMemo(
+    () => ({
+      query: defQuery || '',
+      type: defType || 'all',
+      service: defService || '',
+      region: defRegion || '',
+      subtypes: parsedSubtypes || [],
+    }),
+    [defQuery, defRegion, defService, defType, parsedSubtypes]
   );
+  const methods = useForm({ defaultValues });
+  const { handleSubmit } = methods;
 
   // dialog state
   const searchDialog = useDialog();
   const filterDialog = useDialog();
 
-  // handle query field change
-  const handleQueryChange = useCallback((event) => {
-    setSearchQuery(event.target.value);
-  }, []);
-
   // handle search
-  const handleSearch = useCallback(() => {
-    let queryString;
+  const handleSearch = useCallback(
+    (formValues) => {
+      const { query, type, service, region, subtypes } = formValues;
+      let queryString;
 
-    if (searchType === 'all') queryString = createQueryString('type', null, searchParams);
-    else queryString = createQueryString('type', searchType, searchParams);
+      if (type === 'all' || !type) {
+        // search type is all or not exist then remove
+        queryString = createQueryString('type', null, searchParams);
+      } else {
+        // if not then add
+        queryString = createQueryString('type', type, searchParams);
+      }
 
-    queryString = createQueryString('serviceType', serviceType, queryString);
-    queryString = createQueryString('region', warehouseRegion, queryString);
-    queryString = createQueryString('subtype', serviceSubtypes?.join(',') || null, queryString);
+      // add service types in the query string
+      queryString = createQueryString('serviceType', service || null, queryString);
 
-    queryString = createQueryString('query', searchQuery, queryString);
+      // add region in the query if exist
+      queryString = createQueryString('region', region || null, queryString);
 
-    console.log('Searched For: ', searchQuery);
-    router.push(`${basePath}/?${queryString}`);
-    searchDialog.onClose();
-  }, [
-    searchQuery,
-    searchType,
-    searchParams,
-    serviceType,
-    warehouseRegion,
-    serviceSubtypes,
-    router,
-    basePath,
-    searchDialog,
-  ]);
+      // add subtype in the query if exist
+      queryString = createQueryString('subtype', subtypes?.join(',') || null, queryString);
 
-  // handle search submit
-  const handleSearchSubmit = (e) => {
-    e.preventDefault();
-    handleSearch();
-  };
+      // add if there is an query
+      queryString = createQueryString('query', query || null, queryString);
 
-  // update states after refresh
-  useEffect(() => {
-    const query = searchParams.get('query');
-
-    if (query) setSearchQuery(query);
-  }, [searchParams]);
+      console.log('Searched For: ', formValues);
+      router.push(`${basePath}/?${queryString}`);
+      searchDialog.onClose();
+    },
+    [searchParams, router, basePath, searchDialog]
+  );
 
   return (
-    <>
-      <form style={{ width: '60%' }} onSubmit={handleSearchSubmit}>
-        <FilledInput
-          value={searchQuery}
-          onChange={handleQueryChange}
-          startAdornment={
-            <InputAdornment position="start">
-              <Iconify icon="eva:search-fill" />
-            </InputAdornment>
-          }
-          endAdornment={
-            <InputAdornment position="end">
-              <Tooltip title="Apply filters">
-                <IconButton onClick={filterDialog.onOpen}>
-                  <Iconify icon="lets-icons:filter" />
-                </IconButton>
-              </Tooltip>
-            </InputAdornment>
-          }
-          placeholder="Search here"
-          hiddenLabel
-          sx={{ display: { xs: 'none', sm: 'flex' }, bgcolor: 'background.paper' }}
-          fullWidth
-        />
-      </form>
-
-      <IconButton onClick={searchDialog.onOpen} sx={{ display: { sm: 'none', xs: 'inherit' } }}>
-        <Iconify icon="eva:search-fill" />
-      </IconButton>
-
-      <Dialog
-        fullWidth
-        sx={{ '& .MuiDialog-container': { alignItems: 'flex-start' } }}
-        open={searchDialog.open}
-        onClose={searchDialog.onClose}
-      >
-        <form style={{ width: '100%' }} onSubmit={handleSearchSubmit}>
-          <FilledInput
-            value={searchQuery}
-            onChange={handleQueryChange}
-            startAdornment={
-              <InputAdornment position="start">
-                <Iconify icon="eva:search-fill" />
-              </InputAdornment>
-            }
-            size="small"
-            fullWidth
+    <Box sx={{ width: '100%' }}>
+      <FormProvider methods={methods} onSubmit={handleSubmit(handleSearch)}>
+        <Box sx={{ width: '60%' }}>
+          <RHFTextField
+            name="query"
+            variant="filled"
+            InputProps={{
+              startAdornment: (
+                <InputAdornment position="start">
+                  <Iconify icon="eva:search-fill" />
+                </InputAdornment>
+              ),
+              endAdornment: (
+                <InputAdornment position="end">
+                  <Tooltip title="Apply filters">
+                    <IconButton onClick={filterDialog.onOpen}>
+                      <Iconify icon="lets-icons:filter" />
+                    </IconButton>
+                  </Tooltip>
+                </InputAdornment>
+              ),
+            }}
+            placeholder="Search here"
             hiddenLabel
+            sx={{ display: { xs: 'none', sm: 'flex' }, bgcolor: 'background.paper' }}
+            fullWidth
           />
-        </form>
-      </Dialog>
+        </Box>
 
-      <SearchFilterDialog
-        open={filterDialog.open}
-        onClose={filterDialog.onClose}
-        basePath={basePath}
-        searchType={searchType}
-        serviceType={serviceType}
-        setSearchType={setSearchType}
-        setServiceType={setServiceType}
-        setWarehouseRegion={setWarehouseRegion}
-        warehouseRegion={warehouseRegion}
-        onSubmit={handleSearch}
-        serviceSubtypes={serviceSubtypes}
-        setServiceSubtypes={setServiceSubtypes}
-      />
-    </>
+        <IconButton onClick={searchDialog.onOpen} sx={{ display: { sm: 'none', xs: 'inherit' } }}>
+          <Iconify icon="eva:search-fill" />
+        </IconButton>
+
+        <Dialog
+          fullWidth
+          sx={{ '& .MuiDialog-container': { alignItems: 'flex-start' } }}
+          open={searchDialog.open}
+          onClose={searchDialog.onClose}
+        >
+          <Box style={{ width: '100%' }}>
+            <RHFTextField
+              variant="filled"
+              name="query"
+              InputProps={{
+                startAdornment: (
+                  <InputAdornment position="start">
+                    <Iconify icon="eva:search-fill" />
+                  </InputAdornment>
+                ),
+                endAdornment: (
+                  <InputAdornment position="end">
+                    <Tooltip title="Apply filters">
+                      <IconButton onClick={filterDialog.onOpen}>
+                        <Iconify icon="lets-icons:filter" />
+                      </IconButton>
+                    </Tooltip>
+                  </InputAdornment>
+                ),
+              }}
+              size="small"
+              fullWidth
+              hiddenLabel
+            />
+          </Box>
+        </Dialog>
+
+        <SearchFilterDialog
+          open={filterDialog.open}
+          onClose={filterDialog.onClose}
+          handleSearch={handleSearch}
+        />
+      </FormProvider>
+    </Box>
   );
 }
 

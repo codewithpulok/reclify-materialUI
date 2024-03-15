@@ -7,7 +7,15 @@ export const searchApi = createApi({
   baseQuery: publicBaseQuery(endpoints.search.root),
   endpoints: (builder) => ({
     searchAll: builder.query({
-      query: (q) => endpoints.search.query(q),
+      query: ({ query, type, service, subtypes }) => ({
+        url: endpoints.search.all,
+        params: {
+          type,
+          query,
+          serviceType: service,
+          subTypes: subtypes,
+        },
+      }),
     }),
     searchWarehouses: builder.query({
       query: (q) => endpoints.search.warehouses(q),

@@ -144,7 +144,7 @@ export const endpoints = {
   },
   search: {
     root: '/search',
-    query: (q) => `?query=${q}`,
+    all: `/`,
     warehouses: (q) => `/warehouses?query=${q}`,
     services: (q) => `/services?query=${q}`,
     users: (q) => `/users?query=${q}`,
