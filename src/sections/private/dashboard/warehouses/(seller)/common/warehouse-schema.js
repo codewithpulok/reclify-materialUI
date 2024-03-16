@@ -8,6 +8,67 @@ import { addressFieldSchema } from 'src/components/common/custom-fields';
 import { getPredefinedFieldSchema } from 'src/utils/predefined-fields';
 import * as Yup from 'yup';
 
+const discountValidation = (month) =>
+  Yup.number()
+    .label(`Discount for ${month} month`)
+    .optional()
+    .default(0)
+    .min(0)
+    .test({
+      name: 'valid-discount',
+      message: 'Invalid Discount',
+      test(value, ctx) {
+        const depended = ctx.parent?.[`price${month}`];
+        const discountAll = ctx.parent?.discountAll;
+        const discountOption = ctx.parent?.discountOption;
+
+        // check ignore cases
+        if (!ctx.parent.hotRackEnabled || !depended || discountOption !== 'fixed') return true;
+
+        let discountedPrice = depended - value;
+
+        if (typeof discountAll === 'number') discountedPrice -= discountAll;
+
+        return discountedPrice > 0;
+      },
+      skipAbsent: true,
+    });
+
+const discountAllValidation = () =>
+  Yup.number()
+    .label(`Discount for all month`)
+    .optional()
+    .default(0)
+    .min(0)
+    .test({
+      name: 'valid-discount',
+      message: 'Invalid Discount',
+      test(value, ctx) {
+        const discountAll = ctx.parent?.discountAll;
+        const discountOption = ctx.parent?.discountOption;
+
+        if (!ctx.parent?.hotRackEnabled || !discountAll || discountOption !== 'fixed') return true;
+
+        const checks = [1, 3, 6, 12];
+
+        const v = checks.find((month) => {
+          const price = ctx.parent?.[`price${month}`];
+          const discount = ctx.parent?.[`discount${month}`];
+
+          if (!price) return false; // skip if price is invalid
+
+          let discountedPrice = price - discountAll;
+
+          if (discount) discountedPrice -= discount;
+
+          return discountedPrice <= 0;
+        });
+
+        return !v;
+      },
+      skipAbsent: true,
+    });
+
 /** @type {Warehouse} */
 const schema = {
   name: Yup.string().label('Warehouse Name').required(),
@@ -38,6 +99,11 @@ const schema = {
   price3: Yup.number().label('Price for 3 month').min(0),
   price6: Yup.number().label('Price for 6 month').min(0),
   price12: Yup.number().label('Price for 12 month').min(0),
+  discount1: discountValidation(1),
+  discount3: discountValidation(3),
+  discount6: discountValidation(6),
+  discount12: discountValidation(12),
+  discountAll: discountAllValidation(),
   discountRate: Yup.number().label('HotRacks').min(0).max(100).notRequired(),
   maxSpaceOrder: Yup.number()
     .label('Max orderable space')
