@@ -69,7 +69,8 @@ const WarehouseFields = (props) => {
   const { user } = useAppSelector(selectAuth);
 
   // form state
-  const { watch, getValues, resetField, setValue, setFocus } = useFormContext();
+  const { watch, getValues, resetField, setValue, setFocus, formState } = useFormContext();
+  const { errors } = formState;
   const regionScope = watch('regionScope');
   const addressCountry = watch('address.country', undefined);
   const addressState = watch('address.state', undefined);
@@ -96,6 +97,8 @@ const WarehouseFields = (props) => {
     },
     [discountAll]
   );
+
+  console.log({ errors });
 
   useEffect(() => {
     if (!price1) {

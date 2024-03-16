@@ -23,7 +23,8 @@ const discountValidation = (month) =>
         const discountOption = ctx.parent?.discountOption;
 
         // check ignore cases
-        if (!ctx.parent.hotRackEnabled || !depended || discountOption !== 'fixed') return true;
+        if (!ctx.parent.hotRackEnabled || !depended || discountOption !== 'fixed' || !value)
+          return true;
 
         let discountedPrice = depended - value;
 

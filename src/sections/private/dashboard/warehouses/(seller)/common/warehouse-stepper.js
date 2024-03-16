@@ -36,8 +36,8 @@ const WarehouseStepper = (props) => {
     <Box sx={{ width: '100%', mb: 8 }}>
       <Stepper sx={{ mb: 3 }} activeStep={activeStep}>
         {steps.map((label, index) => (
-          <Step key={label} onClick={() => handleClick(index)} sx={{ cursor: 'pointer' }}>
-            <StepLabel>{label}</StepLabel>
+          <Step key={label} onClick={() => handleClick(index)}>
+            <StepLabel sx={{ cursor: 'pointer!important' }}>{label}</StepLabel>
           </Step>
         ))}
       </Stepper>
