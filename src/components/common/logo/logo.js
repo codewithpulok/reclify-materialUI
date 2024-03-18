@@ -21,11 +21,20 @@ const Logo = (props) => {
   );
 
   if (disabledLink) {
-    return <Box {...containerProps}>{logo}</Box>;
+    return (
+      <Box {...containerProps} sx={{ display: 'inline-flex', ...(containerProps?.sx || {}) }}>
+        {logo}
+      </Box>
+    );
   }
 
   return (
-    <Link component={RouterLink} href="/" {...containerProps}>
+    <Link
+      component={RouterLink}
+      href="/"
+      {...containerProps}
+      sx={{ display: 'inline-flex', ...(containerProps?.sx || {}) }}
+    >
       {logo}
     </Link>
   );
