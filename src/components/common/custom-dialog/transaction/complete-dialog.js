@@ -10,6 +10,7 @@ const Props = {
   open: PropTypes.bool,
   /** @type {Transaction} */
   transaction: PropTypes.object,
+  successCallback: PropTypes.func,
 };
 
 /**
@@ -17,7 +18,7 @@ const Props = {
  * @returns {JSX.Element}
  */
 const CompleteTransactionDialog = (props) => {
-  const { onClose, open, transaction } = props;
+  const { onClose, open, transaction, successCallback } = props;
 
   const [completeTransaction, completeResponse] = useCompleteTransactionMutation();
 
@@ -33,8 +34,9 @@ const CompleteTransactionDialog = (props) => {
       enqueueSnackbar('Transaction Completed!');
       console.warn('Transaction Completed!', response);
       onClose();
+      if (successCallback) successCallback();
     }
-  }, [completeTransaction, onClose, transaction]);
+  }, [completeTransaction, onClose, successCallback, transaction]);
 
   return (
     <ConfirmDialog

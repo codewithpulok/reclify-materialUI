@@ -10,6 +10,7 @@ const Props = {
   open: PropTypes.bool,
   /** @type {Transaction} */
   transaction: PropTypes.object,
+  successCallback: PropTypes.func,
 };
 
 /**
@@ -17,7 +18,7 @@ const Props = {
  * @returns {JSX.Element}
  */
 const CancelTransactionDialog = (props) => {
-  const { onClose, open, transaction } = props;
+  const { onClose, open, transaction, successCallback } = props;
 
   const [cancelTransaction, cancelResponse] = useCancelTransactionMutation();
 
@@ -33,8 +34,10 @@ const CancelTransactionDialog = (props) => {
       enqueueSnackbar('Transaction Canceled!');
       console.warn('Transaction Canceled!', response);
       onClose();
+
+      if (successCallback) successCallback();
     }
-  }, [cancelTransaction, onClose, transaction]);
+  }, [cancelTransaction, onClose, successCallback, transaction]);
 
   return (
     <ConfirmDialog
