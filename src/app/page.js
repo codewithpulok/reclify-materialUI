@@ -1,4 +1,4 @@
-import HomeView from 'src/sections/public/marketing/home/view';
+import HomeView from 'src/sections/public/pages/home/view';
 import { getAllPlans } from 'src/utils/api/server/services/plans.api';
 // ----------------------------------------------------------------------
 
