@@ -1,5 +1,3 @@
-'use client';
-
 import { varTranEnter, varTranExit } from './transition';
 
 // ----------------------------------------------------------------------

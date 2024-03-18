@@ -1,14 +1,10 @@
-'use client';
-
-import { m } from 'framer-motion';
-
 import Card from '@mui/material/Card';
 import Container from '@mui/material/Container';
 import Stack from '@mui/material/Stack';
 import Typography from '@mui/material/Typography';
 
 import { Box, Grid } from '@mui/material';
-import { MotionViewport, varFade } from 'src/components/common/animate';
+import { MotionDiv, MotionViewport, varFade } from 'src/components/common/animate';
 import Image from 'src/components/common/image';
 
 // ----------------------------------------------------------------------
@@ -66,21 +62,21 @@ export default function HomeRacklify() {
               mb: { xs: 5, md: 10 },
             }}
           >
-            <m.div variants={varFade().inUp}>
+            <MotionDiv variants={varFade().inUp}>
               <Typography component="div" variant="overline" sx={{ color: 'text.disabled' }}>
                 Racklify
               </Typography>
-            </m.div>
+            </MotionDiv>
 
-            <m.div variants={varFade().inDown}>
+            <MotionDiv variants={varFade().inDown}>
               <Typography variant="h2">How Racklify helps you</Typography>
-            </m.div>
+            </MotionDiv>
           </Stack>
 
           <Grid container justifyContent="center" spacing={{ xs: 3 }}>
             {CARDS.map((card, index) => (
               <Grid item sm={12} md={4} key={card.id}>
-                <m.div
+                <MotionDiv
                   variants={varFade({ durationIn: Number((0.3 * index + 0.64).toFixed(2)) }).inUp}
                   style={{ height: '100%' }}
                 >
@@ -91,7 +87,8 @@ export default function HomeRacklify() {
                       alignItems: 'center',
                       width: '100%',
                       height: '100%',
-                      p: (theme) => theme.spacing(10, 5),
+                      px: 5,
+                      py: 10,
                     }}
                   >
                     <Image src={`/assets/images/home/${card.image}`} sx={{ width: '100px' }} />
@@ -104,7 +101,7 @@ export default function HomeRacklify() {
                       {card.description}
                     </Typography>
                   </Card>
-                </m.div>
+                </MotionDiv>
               </Grid>
             ))}
           </Grid>

@@ -9,7 +9,7 @@ import HomeJoin from './home-join';
 import HomePricing from './home-pricing';
 import HomeProgress from './home-progress';
 import HomeRacklify from './home-racklify/index';
-import HomeRoadmap from './home-roadmap';
+import HomeRoadmap from './home-roadmap/index';
 
 // ----------------------------------------------------------------------
 

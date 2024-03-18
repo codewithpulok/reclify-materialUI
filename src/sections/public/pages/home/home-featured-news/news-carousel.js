@@ -1,25 +1,29 @@
+'use client';
+
 import { Box } from '@mui/material';
-import { m } from 'framer-motion';
-import PropTypes from 'prop-types';
-import { varFade } from 'src/components/common/animate';
+import { useMemo } from 'react';
+import { MotionDiv, varFade } from 'src/components/common/animate';
 import Carousel, { CarouselArrows, useCarousel } from 'src/components/common/carousel';
 import { NewsCard } from 'src/components/news/cards';
+import { useBlogListQuery } from 'src/redux-toolkit/services/blogApi';
 
-const Props = {
-  /** @type {Warehouse[]} */
-  data: PropTypes.array,
-};
+const Props = {};
 
 /**
  * @param {Props} props
  * @returns {JSX.Element}
  */
 const NewsCarousel = (props) => {
-  const { data } = props;
+  const listResponse = useBlogListQuery();
+  const featuredNews = useMemo(
+    () =>
+      listResponse?.data?.results ? listResponse.data?.results?.filter((n) => n.isFeatured) : [],
+    [listResponse.data?.results]
+  );
 
   const carousel = useCarousel({
     slidesToShow: 4,
-    infinite: data?.length >= 4,
+    infinite: featuredNews?.length >= 4,
     autoplay: true,
     autoplaySpeed: 1500,
     initialSlide: 0,
@@ -27,15 +31,15 @@ const NewsCarousel = (props) => {
     responsive: [
       {
         breakpoint: 1024,
-        settings: { slidesToShow: 3, infinite: data?.length >= 3 },
+        settings: { slidesToShow: 3, infinite: featuredNews?.length >= 3 },
       },
       {
         breakpoint: 600,
-        settings: { slidesToShow: 2, infinite: data?.length >= 2 },
+        settings: { slidesToShow: 2, infinite: featuredNews?.length >= 2 },
       },
       {
         breakpoint: 480,
-        settings: { slidesToShow: 1, infinite: data?.length >= 1 },
+        settings: { slidesToShow: 1, infinite: featuredNews?.length >= 1 },
       },
     ],
   });
@@ -49,7 +53,7 @@ const NewsCarousel = (props) => {
           ml: 0,
         },
       }}
-      component={m.div}
+      component={MotionDiv}
       variants={varFade().inDown}
     >
       <CarouselArrows
@@ -59,7 +63,7 @@ const NewsCarousel = (props) => {
         onPrev={carousel.onPrev}
       >
         <Carousel ref={carousel.carouselRef} {...carousel.carouselSettings}>
-          {data.map((item, index) => (
+          {featuredNews.map((item, index) => (
             <Box key={item.id} sx={{ px: { xs: 0.5, sm: 1 } }}>
               <NewsCard post={item} index={index} />
             </Box>
