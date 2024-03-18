@@ -1,3 +1,5 @@
+'use client';
+
 import { alpha, styled } from '@mui/material/styles';
 
 import { bgBlur } from 'src/theme/css';

@@ -68,10 +68,8 @@ const AddressField = (props) => {
         return;
       }
 
-      if (newValue?.id) {
-        const option = { ...newValue };
-        setValue(name, option, true);
-      }
+      const option = { ...newValue };
+      setValue(name, option, true);
     },
     [addressCollapse, name, setValue]
   );

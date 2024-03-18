@@ -85,7 +85,9 @@ const Content = (props) => {
       hotRackEnabled: warehouse?.hotRackEnabled || false,
       discountOption: warehouse?.discountOption || 'percentage',
       logo: warehouse?.logo || null,
+      miniLogo: warehouse?.miniLogo || null,
       banner: warehouse?.banner || null,
+      highlights: warehouse?.highlights,
     }),
     [warehouse]
   );

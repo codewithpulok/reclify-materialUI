@@ -13,7 +13,7 @@ export const searchApi = createApi({
           type: type || undefined,
           query: query || undefined,
           serviceType: service || undefined,
-          subTypes: subtypes || undefined,
+          subType: subtypes || undefined,
         },
       }),
     }),

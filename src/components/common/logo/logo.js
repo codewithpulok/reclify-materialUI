@@ -1,14 +1,17 @@
-import PropTypes from 'prop-types';
-import { forwardRef } from 'react';
-
+import { Link } from '@mui/material';
 import Box from '@mui/material/Box';
-import Link from '@mui/material/Link';
-
+import PropTypes from 'prop-types';
 import { RouterLink } from 'src/routes/components';
 
 // ----------------------------------------------------------------------
 
-const Logo = forwardRef(({ disabledLink = false, sx, isLong = false }, ref) => {
+/**
+ * @param {Logo.propTypes} props
+ * @returns {JSX.Element}
+ */
+const Logo = (props) => {
+  const { disabledLink = false, sx, isLong = false, containerProps } = props;
+
   const logo = (
     <Box
       component="img"
@@ -18,20 +21,31 @@ const Logo = forwardRef(({ disabledLink = false, sx, isLong = false }, ref) => {
   );
 
   if (disabledLink) {
-    return logo;
+    return (
+      <Box {...containerProps} sx={{ display: 'inline-flex', ...(containerProps?.sx || {}) }}>
+        {logo}
+      </Box>
+    );
   }
 
   return (
-    <Link component={RouterLink} href="/" sx={{ display: 'contents' }}>
+    <Link
+      component={RouterLink}
+      href="/"
+      {...containerProps}
+      sx={{ display: 'inline-flex', ...(containerProps?.sx || {}) }}
+    >
       {logo}
     </Link>
   );
-});
+};
 
 Logo.propTypes = {
   disabledLink: PropTypes.bool,
   isLong: PropTypes.bool,
   sx: PropTypes.object,
+  /** @type {import('@mui/material').LinkProps | import('@mui/material').BoxProps} */
+  containerProps: PropTypes.object,
 };
 
 export default Logo;

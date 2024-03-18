@@ -179,7 +179,9 @@ const WarehouseHeader = (props) => {
         spacing={1}
         mt="auto"
       >
-        {warehouse?.logo && <Avatar src={warehouse?.logo} sx={{ height: '90px', width: '90px' }} />}
+        {warehouse?.miniLogo && (
+          <Avatar src={warehouse?.miniLogo} sx={{ height: '90px', width: '90px' }} />
+        )}
         <Stack>
           <Typography variant="h2">{name}</Typography>
           <Stack direction="row" spacing={1} alignItems="center" mb={2} flexWrap="wrap">

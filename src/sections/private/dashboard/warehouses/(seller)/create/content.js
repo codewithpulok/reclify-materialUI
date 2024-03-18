@@ -67,6 +67,8 @@ const defaultValues = {
   discountOption: 'percentage',
   logo: null,
   banner: null,
+  miniLogo: null,
+  highlights: '',
 };
 // ----------------------------------------------------------------------
 

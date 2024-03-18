@@ -96,9 +96,9 @@ const WarehouseCard = (props) => {
               )}
             </Stack>
             <Stack direction="row" alignItems="center" spacing={1}>
-              {warehouse.logo && (
+              {warehouse?.miniLogo && (
                 <Avatar
-                  src={warehouse.logo}
+                  src={warehouse?.miniLogo}
                   sx={isSm ? { width: '48px', height: '48px' } : { width: '70px', height: '70px' }}
                 />
               )}

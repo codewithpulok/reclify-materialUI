@@ -104,7 +104,15 @@ const SearchFilterDialog = (props) => {
 
           {type === 'service' && (
             <>
-              <RHFTextField name="service" select label="Service Type">
+              <RHFTextField
+                name="service"
+                select
+                label="Service Type"
+                onChangeMiddleware={(v) => {
+                  if (v !== service) setValue('subtypes', []);
+                  return v;
+                }}
+              >
                 <MenuItem disabled>Select service type</MenuItem>
                 {getAvailableServiceTypes().map((t) => (
                   <MenuItem value={t.value} key={t.value}>

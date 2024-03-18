@@ -6,7 +6,6 @@ import MuiLink from '@mui/material/Link';
 import Stack from '@mui/material/Stack';
 import Typography from '@mui/material/Typography';
 import Grid from '@mui/material/Unstable_Grid2';
-import { alpha } from '@mui/material/styles';
 
 import { RouterLink } from 'src/routes/components';
 import { paths } from 'src/routes/paths';
@@ -15,6 +14,7 @@ import PropTypes from 'prop-types';
 import { getSocialBrand, socials } from 'src/assets/data';
 import Iconify from 'src/components/common/iconify';
 import Logo from 'src/components/common/logo';
+import { alpha } from 'src/utils/color';
 
 // ----------------------------------------------------------------------
 
