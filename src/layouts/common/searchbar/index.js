@@ -33,9 +33,9 @@ function Searchbar(props) {
   const searchParams = useSearchParams();
   const defQuery = searchParams.get('query');
   const defType = searchParams.get('type');
-  const defService = searchParams.get('serviceType');
+  const defService = searchParams.get('service');
   const defRegion = searchParams.get('region');
-  const defSubtypes = searchParams.get('subtype');
+  const defSubtypes = searchParams.get('subtypes');
   const parsedSubtypes = useMemo(() => {
     if (typeof defSubtypes !== 'string' || !defSubtypes?.length) return [];
     return defSubtypes?.split(',') || [];
@@ -74,13 +74,13 @@ function Searchbar(props) {
       }
 
       // add service types in the query string
-      queryString = createQueryString('serviceType', service || null, queryString);
+      queryString = createQueryString('service', service || null, queryString);
 
       // add region in the query if exist
       queryString = createQueryString('region', region || null, queryString);
 
       // add subtype in the query if exist
-      queryString = createQueryString('subtype', subtypes?.join(',') || null, queryString);
+      queryString = createQueryString('subtypes', subtypes?.join(',') || null, queryString);
 
       // add if there is an query
       queryString = createQueryString('query', query || null, queryString);

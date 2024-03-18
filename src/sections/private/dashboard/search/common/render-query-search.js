@@ -97,11 +97,11 @@ const RenderUsers = (props) => {
     return <ErrorState />;
   }
 
-  if (!isLoading && isSuccess && !data.length) {
+  if (!isLoading && isSuccess && !data?.length) {
     return <EmptyState />;
   }
 
-  if (!isLoading && isSuccess && data.length) {
+  if (!isLoading && isSuccess && data?.length) {
     return (
       <Grid container spacing={1}>
         {data.slice(0, 4).map((user) => (

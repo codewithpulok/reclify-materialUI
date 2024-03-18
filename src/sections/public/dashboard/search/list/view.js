@@ -45,7 +45,7 @@ const SearchListView = (props) => {
   // make request on search
   useEffect(() => {
     if (!query && !type) {
-      router.push(paths.dashboard.root); // there is nothing related to search then redirect
+      router.push(paths.warehouses.root); // there is nothing related to search then redirect
     } else {
       searchAll({ query, type, region, service, subtypes });
     }
