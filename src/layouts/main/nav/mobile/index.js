@@ -1,3 +1,5 @@
+'use client';
+
 import PropTypes from 'prop-types';
 import { useCallback, useEffect, useState } from 'react';
 
@@ -14,7 +16,13 @@ import NavList from './nav-list';
 
 // ----------------------------------------------------------------------
 
-export default function NavMobile({ data }) {
+/**
+ * @param {NavMobile.propTypes} props
+ * @returns {JSX.Element}
+ */
+export default function NavMobile(props) {
+  const { data, actionSx, drawerSx } = props;
+
   const pathname = usePathname();
 
   const [openMenu, setOpenMenu] = useState(false);
@@ -36,7 +44,7 @@ export default function NavMobile({ data }) {
 
   return (
     <>
-      <IconButton onClick={handleOpenMenu} sx={{ ml: 1 }}>
+      <IconButton onClick={handleOpenMenu} sx={{ ml: 1, ...actionSx }}>
         <SvgColor src="/assets/icons/navbar/ic_menu_item.svg" />
       </IconButton>
 
@@ -49,6 +57,7 @@ export default function NavMobile({ data }) {
             width: 260,
           },
         }}
+        sx={drawerSx}
       >
         <Scrollbar>
           <Logo sx={{ mx: 2.5, my: 3 }} />
@@ -64,4 +73,8 @@ export default function NavMobile({ data }) {
 
 NavMobile.propTypes = {
   data: PropTypes.array,
+  /** @type {SxProps} */
+  actionSx: PropTypes.object,
+  /** @type {SxProps} */
+  drawerSx: PropTypes.object,
 };

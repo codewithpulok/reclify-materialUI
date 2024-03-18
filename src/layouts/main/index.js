@@ -2,29 +2,28 @@ import PropTypes from 'prop-types';
 
 import Box from '@mui/material/Box';
 
-import { usePathname } from 'src/routes/hooks';
-
 import Footer from './footer';
 import Header from './header';
 
 // ----------------------------------------------------------------------
 
-export default function MainLayout({ children }) {
-  const pathname = usePathname();
-
-  const homePage = pathname === '/';
+/**
+ * @param {MainLayout.propTypes} props
+ * @returns {JSX.Element}
+ */
+export default function MainLayout(props) {
+  const { children, containerSx, contentSx } = props;
 
   return (
-    <Box sx={{ display: 'flex', flexDirection: 'column', height: 1 }}>
+    <Box sx={{ display: 'flex', flexDirection: 'column', height: 1, ...containerSx }}>
       <Header />
 
       <Box
         component="main"
         sx={{
           flexGrow: 1,
-          ...(!homePage && {
-            pt: { xs: 8, md: 10 },
-          }),
+          pt: { xs: 8, md: 10 },
+          ...contentSx,
         }}
       >
         {children}
@@ -37,4 +36,8 @@ export default function MainLayout({ children }) {
 
 MainLayout.propTypes = {
   children: PropTypes.node,
+  /** @type {SxProps} */
+  containerSx: PropTypes.object,
+  /** @type {SxProps} */
+  contentSx: PropTypes.object,
 };

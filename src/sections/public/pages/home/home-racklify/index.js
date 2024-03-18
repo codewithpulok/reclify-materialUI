@@ -57,57 +57,59 @@ const CARDS = [
 export default function HomeRacklify() {
   return (
     <Box sx={{ py: { xs: 10, md: 15 } }}>
-      <Container component={MotionViewport}>
-        <Stack
-          spacing={3}
-          sx={{
-            textAlign: 'center',
-            mb: { xs: 5, md: 10 },
-          }}
-        >
-          <m.div variants={varFade().inUp}>
-            <Typography component="div" variant="overline" sx={{ color: 'text.disabled' }}>
-              Racklify
-            </Typography>
-          </m.div>
+      <MotionViewport>
+        <Container>
+          <Stack
+            spacing={3}
+            sx={{
+              textAlign: 'center',
+              mb: { xs: 5, md: 10 },
+            }}
+          >
+            <m.div variants={varFade().inUp}>
+              <Typography component="div" variant="overline" sx={{ color: 'text.disabled' }}>
+                Racklify
+              </Typography>
+            </m.div>
 
-          <m.div variants={varFade().inDown}>
-            <Typography variant="h2">How Racklify helps you</Typography>
-          </m.div>
-        </Stack>
+            <m.div variants={varFade().inDown}>
+              <Typography variant="h2">How Racklify helps you</Typography>
+            </m.div>
+          </Stack>
 
-        <Grid container justifyContent="center" spacing={{ xs: 3 }}>
-          {CARDS.map((card, index) => (
-            <Grid item sm={12} md={4} key={card.id}>
-              <m.div
-                variants={varFade({ durationIn: Number((0.3 * index + 0.64).toFixed(2)) }).inUp}
-                style={{ height: '100%' }}
-              >
-                <Card
-                  component={Stack}
-                  sx={{
-                    textAlign: 'center',
-                    alignItems: 'center',
-                    width: '100%',
-                    height: '100%',
-                    p: (theme) => theme.spacing(10, 5),
-                  }}
+          <Grid container justifyContent="center" spacing={{ xs: 3 }}>
+            {CARDS.map((card, index) => (
+              <Grid item sm={12} md={4} key={card.id}>
+                <m.div
+                  variants={varFade({ durationIn: Number((0.3 * index + 0.64).toFixed(2)) }).inUp}
+                  style={{ height: '100%' }}
                 >
-                  <Image src={`/assets/images/home/${card.image}`} sx={{ width: '100px' }} />
+                  <Card
+                    component={Stack}
+                    sx={{
+                      textAlign: 'center',
+                      alignItems: 'center',
+                      width: '100%',
+                      height: '100%',
+                      p: (theme) => theme.spacing(10, 5),
+                    }}
+                  >
+                    <Image src={`/assets/images/home/${card.image}`} sx={{ width: '100px' }} />
 
-                  <Typography variant="h5" sx={{ mt: 7, mb: 2 }}>
-                    {card.title}
-                  </Typography>
+                    <Typography variant="h5" sx={{ mt: 7, mb: 2 }}>
+                      {card.title}
+                    </Typography>
 
-                  <Typography variant="body2" sx={{ color: 'text.secondary' }}>
-                    {card.description}
-                  </Typography>
-                </Card>
-              </m.div>
-            </Grid>
-          ))}
-        </Grid>
-      </Container>
+                    <Typography variant="body2" sx={{ color: 'text.secondary' }}>
+                      {card.description}
+                    </Typography>
+                  </Card>
+                </m.div>
+              </Grid>
+            ))}
+          </Grid>
+        </Container>
+      </MotionViewport>
     </Box>
   );
 }

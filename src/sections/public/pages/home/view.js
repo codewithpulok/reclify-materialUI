@@ -1,17 +1,14 @@
-'use client';
-
-import { useScroll } from 'framer-motion';
 // mui
 import { Box } from '@mui/material';
 // components
 import PropTypes from 'prop-types';
-import ScrollProgress from 'src/components/common/scroll-progress';
 import MainLayout from 'src/layouts/main';
 import HomeFeaturedNews from './home-featured-news';
-import HomeHero from './home-hero';
+import HomeHero from './home-hero/index';
 import HomeJoin from './home-join';
 import HomePricing from './home-pricing';
-import HomeRacklify from './home-racklify';
+import HomeProgress from './home-progress';
+import HomeRacklify from './home-racklify/index';
 import HomeRoadmap from './home-roadmap';
 
 // ----------------------------------------------------------------------
@@ -29,11 +26,10 @@ const Props = {
  */
 const HomeView = (props) => {
   const { plans } = props;
-  const { scrollYProgress } = useScroll();
 
   return (
     <MainLayout>
-      <ScrollProgress scrollYProgress={scrollYProgress} />
+      <HomeProgress />
       <HomeHero />
       <Box
         sx={{

@@ -1,3 +1,5 @@
+'use client';
+
 import PropTypes from 'prop-types';
 import { useEffect, useRef } from 'react';
 import useHash from 'src/hooks/use-hash';
