@@ -201,7 +201,10 @@ export default function NotificationsPopover() {
 
         {notificationResponse.isLoading && <LoadingState />}
         {notificationResponse?.isSuccess && (
-          <NotificationList notifications={notifications || []} />
+          <NotificationList
+            notifications={notifications || []}
+            refetch={notificationResponse.refetch}
+          />
         )}
       </Drawer>
     </>

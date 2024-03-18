@@ -24,8 +24,8 @@ const DocumentsPreviewList = (props) => {
 
   return (
     <Stack direction="row" alignItems="center" spacing={1} flexWrap="wrap">
-      {documents.map((doc) => (
-        <Stack alignItems="center">
+      {documents.map((doc, index) => (
+        <Stack alignItems="center" key={index}>
           <Box
             sx={{
               position: 'relative',

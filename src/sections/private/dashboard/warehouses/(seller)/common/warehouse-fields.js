@@ -24,6 +24,7 @@ import {
   PhotosUploadField,
   PredefinedFields,
   ReferenceTextField,
+  SinglePhotoUploadField,
 } from 'src/components/common/custom-fields';
 import { EmptyState } from 'src/components/common/custom-state';
 import { RHFAccordion, RHFSwitch, RHFTextField } from 'src/components/common/hook-form';
@@ -69,7 +70,8 @@ const WarehouseFields = (props) => {
   const { user } = useAppSelector(selectAuth);
 
   // form state
-  const { watch, getValues, resetField, setValue, setFocus } = useFormContext();
+  const { watch, getValues, resetField, setValue, setFocus, formState } = useFormContext();
+  const { errors } = formState;
   const regionScope = watch('regionScope');
   const addressCountry = watch('address.country', undefined);
   const addressState = watch('address.state', undefined);
@@ -96,6 +98,8 @@ const WarehouseFields = (props) => {
     },
     [discountAll]
   );
+
+  console.log({ errors });
 
   useEffect(() => {
     if (!price1) {
@@ -160,7 +164,7 @@ const WarehouseFields = (props) => {
   const step0 = (
     <Grid container spacing={1.2}>
       <Grid item xs={12} mb={2}>
-        <BannerField photoLabel="Company Logo" photoName="logo" bannerName="banner" />
+        <BannerField photoLabel="Company Logo" photoName="miniLogo" bannerName="banner" />
       </Grid>
       <Grid item xs={12} md={6}>
         <Grid container spacing={1.2}>
@@ -226,6 +230,9 @@ const WarehouseFields = (props) => {
       </Grid>
       <Grid item xs={12} md={6}>
         <Grid container spacing={1.2}>
+          <Grid item xs={12}>
+            <SinglePhotoUploadField fieldName="logo" label="Logo" />
+          </Grid>
           <Grid item xs={12}>
             <WarehouseReviews />
           </Grid>

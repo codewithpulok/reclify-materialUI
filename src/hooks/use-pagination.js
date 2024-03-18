@@ -33,7 +33,7 @@ const usePagination = (data, perPage = 9) => {
     [totalPages]
   );
 
-  // update current page
+  // update current data based on current page
   useEffect(() => {
     if (Array.isArray(data) && typeof perPage === 'number' && !Number.isNaN(perPage)) {
       const end = perPage * currentPage;
@@ -42,6 +42,11 @@ const usePagination = (data, perPage = 9) => {
       setCurrentData(data.slice(start, end));
     }
   }, [currentPage, data, perPage]);
+
+  // on data change reset to first page
+  useEffect(() => {
+    setCurrentPage(1);
+  }, [data]);
 
   return { goNext, goPrev, hasNext, hasPrev, currentData, currentPage, goTo, totalPages };
 };

@@ -15,6 +15,7 @@ import NotificationListItem from './list-item';
 const Props = {
   /** @type {NotificationType[]} */
   notifications: PropTypes.array,
+  refetch: PropTypes.func,
 };
 
 /**
@@ -22,7 +23,7 @@ const Props = {
  * @returns {JSX.Element}
  */
 const NotificationList = (props) => {
-  const { notifications = [] } = props;
+  const { notifications = [], refetch } = props;
 
   // app state
   const [selectedNotification, setSelectedNotification] = useState(null);
@@ -67,21 +68,25 @@ const NotificationList = (props) => {
         open={cancelAdminDialog.open}
         onClose={cancelAdminDialog.onClose}
         transaction={cancelAdminDialog.value}
+        successCallback={refetch}
       />
       <CancelTransactionDialog
         open={cancelDialog.open}
         onClose={cancelDialog.onClose}
         transaction={cancelDialog.value}
+        successCallback={refetch}
       />
       <ApproveTransactionDialog
         open={approveDialog.open}
         onClose={approveDialog.onClose}
         transaction={approveDialog.value}
+        successCallback={refetch}
       />
       <CompleteTransactionDialog
         open={completeDialog.open}
         onClose={completeDialog.onClose}
         transaction={completeDialog.value}
+        successCallback={refetch}
       />
     </>
   );

@@ -35,20 +35,11 @@ const WarehouseStepper = (props) => {
   return (
     <Box sx={{ width: '100%', mb: 8 }}>
       <Stepper sx={{ mb: 3 }} activeStep={activeStep}>
-        {steps.map((label, index) => {
-          const stepProps = {};
-          const labelProps = {};
-          return (
-            <Step
-              key={label}
-              {...stepProps}
-              onClick={() => handleClick(index)}
-              sx={{ cursor: 'pointer' }}
-            >
-              <StepLabel {...labelProps}>{label}</StepLabel>
-            </Step>
-          );
-        })}
+        {steps.map((label, index) => (
+          <Step key={label} onClick={() => handleClick(index)}>
+            <StepLabel sx={{ cursor: 'pointer!important' }}>{label}</StepLabel>
+          </Step>
+        ))}
       </Stepper>
       <Stack direction="row" spacing={0.5} alignItems="center" justifyContent="center">
         {getIconify('solar:clock-circle-bold-duotone')}

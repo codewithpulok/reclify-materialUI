@@ -4,12 +4,18 @@ import { yupResolver } from '@hookform/resolvers/yup';
 import { Button, Container, Stack } from '@mui/material';
 import { useSnackbar } from 'notistack';
 import PropTypes from 'prop-types';
-import { useCallback, useEffect } from 'react';
+import { useCallback, useEffect, useMemo } from 'react';
 import { useForm } from 'react-hook-form';
 
 // local components
 import { LoadingButton } from '@mui/lab';
 import { useRouter } from 'next/navigation';
+import {
+  predefinedAmenities,
+  predefinedFacility,
+  predefinedFeatures,
+  predefinedServices,
+} from 'src/assets/data/predefined-fields/warehouse';
 import CustomBreadcrumbs from 'src/components/common/custom-breadcrumbs';
 import FormProvider from 'src/components/common/hook-form/form-provider';
 import { WarehouseDetailsPreview } from 'src/components/warehouse/details';
@@ -18,6 +24,7 @@ import useStepper from 'src/hooks/use-stepper';
 import useAppearance from 'src/redux-toolkit/features/appearance/use-appearance';
 import { useWarehouseUpdateMutation } from 'src/redux-toolkit/services/warehouseApi';
 import { paths } from 'src/routes/paths';
+import { getPredefinedFieldsDefaultValue } from 'src/utils/predefined-fields';
 import WarehouseFields, { stepFields } from '../common/warehouse-fields';
 import warehouseSchema from '../common/warehouse-schema';
 import WarehouseStepper from '../common/warehouse-stepper';
@@ -45,7 +52,44 @@ const Content = (props) => {
   const [updateWarehouse] = useWarehouseUpdateMutation();
 
   // form states
-  const methods = useForm({ defaultValues: warehouse, resolver: yupResolver(warehouseSchema) });
+  const defaultValues = useMemo(
+    () => ({
+      name: warehouse?.name || '',
+      address: warehouse?.address || '',
+      totalSpace: warehouse?.totalSpace || 0,
+      pricePerSpace: warehouse?.pricePerSpace || 0,
+      discountRate: warehouse?.discountRate || 0,
+      maxSpaceOrder: warehouse?.maxSpaceOrder || 0,
+      minSpaceOrder: warehouse?.minSpaceOrder || 0,
+      description: warehouse?.description || '',
+      photos: warehouse?.photos || [],
+      features: warehouse?.features || getPredefinedFieldsDefaultValue(predefinedFeatures),
+      facilityDetails:
+        warehouse?.facilityDetails || getPredefinedFieldsDefaultValue(predefinedFacility),
+      services: warehouse?.services || getPredefinedFieldsDefaultValue(predefinedServices),
+      amenities: warehouse?.amenities || getPredefinedFieldsDefaultValue(predefinedAmenities),
+      regionScope: warehouse?.regionScope || '',
+      region: warehouse?.region || '',
+      documents: warehouse?.documents || [],
+      discount1: warehouse?.discount1 || 0,
+      discount3: warehouse?.discount3 || 0,
+      discount6: warehouse?.discount6 || 0,
+      discount12: warehouse?.discount12 || 0,
+      hasPromo: warehouse?.hasPromo || false,
+      price1: warehouse?.price1 || 0,
+      price12: warehouse?.price12 || 0,
+      price3: warehouse?.price3 || 0,
+      price6: warehouse?.price6 || 0,
+      promoCode: warehouse?.promoCode || '',
+      discountAll: warehouse?.discountAll || 0,
+      hotRackEnabled: warehouse?.hotRackEnabled || false,
+      discountOption: warehouse?.discountOption || 'percentage',
+      logo: warehouse?.logo || null,
+      banner: warehouse?.banner || null,
+    }),
+    [warehouse]
+  );
+  const methods = useForm({ defaultValues, resolver: yupResolver(warehouseSchema) });
   const { handleSubmit, reset, formState, trigger, watch } = methods;
   const { isSubmitting } = formState;
   const values = watch();
@@ -110,10 +154,9 @@ const Content = (props) => {
 
   // update form on warehous changes
   useEffect(() => {
-    if (warehouse) {
-      reset(warehouse);
-    }
-  }, [warehouse, reset]);
+    reset(defaultValues);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [defaultValues]);
 
   return (
     <Container maxWidth={appearance.themeStretch ? false : 'xl'}>
