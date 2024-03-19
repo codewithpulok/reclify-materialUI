@@ -4,8 +4,8 @@ import Stack from '@mui/material/Stack';
 import Typography from '@mui/material/Typography';
 
 import { Box, Grid } from '@mui/material';
+import Image from 'next/image';
 import { MotionDiv, MotionViewport, varFade } from 'src/components/common/animate';
-import Image from 'src/components/common/image';
 import data from './data.json';
 
 // ----------------------------------------------------------------------
@@ -51,7 +51,14 @@ export default function HomeRacklify() {
                       py: 10,
                     }}
                   >
-                    <Image src={`/assets/images/home/${card.image}`} sx={{ width: '100px' }} />
+                    <Image
+                      src={`/assets/images/home/${card.image}`}
+                      width={100}
+                      height={100}
+                      alt={card.title}
+                      placeholder="blur"
+                      blurDataURL="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mP8PxMAAp0BmiC7I60AAAAASUVORK5CYII="
+                    />
 
                     <Typography variant="h5" sx={{ mt: 7, mb: 2 }}>
                       {card.title}

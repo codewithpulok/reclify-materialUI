@@ -4,8 +4,9 @@ import Container from '@mui/material/Container';
 import Stack from '@mui/material/Stack';
 import Typography from '@mui/material/Typography';
 // components
+import Image from 'next/image';
 import { MotionDiv, MotionViewport, varFade } from 'src/components/common/animate';
-import Image from 'src/components/common/image';
+import warehouse from '../../../../../public/assets/images/home/3d-warehouse.png';
 import ContactForm from '../contact/contact-form';
 
 // ----------------------------------------------------------------------
@@ -13,10 +14,16 @@ import ContactForm from '../contact/contact-form';
 export default function HomeJoin() {
   const renderDescription = (
     <Stack alignItems="center" spacing={3} mb={8}>
-      <Image
-        src="/assets/images/home/3d-warehouse.png"
-        sx={{ borderRadius: 1, maxWidth: 180, width: '100%', mx: 'auto' }}
-      />
+      <MotionDiv variants={varFade().inUp}>
+        <Box
+          component={Image}
+          src={warehouse}
+          width={180}
+          height={124}
+          sx={{ borderRadius: 1, maxWidth: 180, width: '100%' }}
+          placeholder="blur"
+        />
+      </MotionDiv>
       <MotionDiv variants={varFade().inUp}>
         <Typography component="div" variant="overline" sx={{ color: 'primary.main' }}>
           Experience the future of warehousing.

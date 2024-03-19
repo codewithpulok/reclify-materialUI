@@ -1,4 +1,5 @@
-module.exports = {
+/** @type {import('next').NextConfig} */
+const config = {
   trailingSlash: true,
   images: {
     remotePatterns: [
@@ -29,3 +30,5 @@ module.exports = {
     return config;
   },
 };
+
+module.exports = config;
