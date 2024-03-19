@@ -1,9 +1,7 @@
 import { LoadingButton } from '@mui/lab';
 import { Button, Dialog, DialogActions, DialogContent, DialogTitle } from '@mui/material';
-import { Elements } from '@stripe/react-stripe-js';
 import PropTypes from 'prop-types';
 import { ACHInfoCreateForm } from 'src/components/common/custom-form';
-import stripePromise from 'src/utils/stripe';
 
 const Props = {
   open: PropTypes.bool.isRequired,
@@ -22,23 +20,21 @@ const ACHTokenDialog = (props) => {
     <Dialog fullWidth maxWidth="xs" open={open} onClose={onClose}>
       <DialogTitle>ACH</DialogTitle>
 
-      <Elements stripe={stripePromise}>
-        <ACHInfoCreateForm
-          wrapperElement={DialogContent}
-          actions={
-            <DialogActions>
-              <Button type="reset" onClick={onClose}>
-                Cancel
-              </Button>
-              <LoadingButton type="submit" color="primary" variant="contained">
-                Select
-              </LoadingButton>
-            </DialogActions>
-          }
-          submitCallback={onSubmit}
-          hidePrimary
-        />
-      </Elements>
+      <ACHInfoCreateForm
+        wrapperElement={DialogContent}
+        actions={
+          <DialogActions>
+            <Button type="reset" onClick={onClose}>
+              Cancel
+            </Button>
+            <LoadingButton type="submit" color="primary" variant="contained">
+              Select
+            </LoadingButton>
+          </DialogActions>
+        }
+        submitCallback={onSubmit}
+        hidePrimary
+      />
     </Dialog>
   );
 };

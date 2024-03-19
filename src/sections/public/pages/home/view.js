@@ -6,7 +6,7 @@ import MainLayout from 'src/layouts/main';
 import HomeFeaturedNews from './home-featured-news';
 import HomeHero from './home-hero/index';
 import HomeJoin from './home-join';
-import HomePricing from './home-pricing';
+import HomePricing from './home-pricing/index';
 import HomeProgress from './home-progress';
 import HomeRacklify from './home-racklify/index';
 import HomeRoadmap from './home-roadmap/index';
@@ -28,7 +28,7 @@ const HomeView = (props) => {
   const { plans } = props;
 
   return (
-    <MainLayout>
+    <MainLayout contentSx={{ pt: 0 }}>
       <HomeProgress />
       <HomeHero />
       <Box

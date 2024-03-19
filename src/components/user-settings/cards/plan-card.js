@@ -3,10 +3,9 @@ import PropTypes from 'prop-types';
 import { PlanFreeIcon, PlanPremiumIcon, PlanStarterIcon } from 'src/assets/icons';
 import Iconify from 'src/components/common/iconify';
 import Label from 'src/components/common/label';
-import { selectAuth } from 'src/redux-toolkit/features/auth/authSlice';
-import { useAppSelector } from 'src/redux-toolkit/hooks';
 import { RouterLink } from 'src/routes/components';
 import { paths } from 'src/routes/paths';
+import { primary } from 'src/theme/palette';
 import { fNumber } from 'src/utils/format-number';
 import { ICONS } from '../config-user-settings';
 
@@ -29,7 +28,7 @@ const Props = {
   showAnnual: PropTypes.bool,
   /** @type {'sm' | 'md'} */
   size: PropTypes.string,
-  staticData: PropTypes.bool,
+  showEnterprise: PropTypes.bool,
 };
 
 // ----------------------------------------------------------------------
@@ -40,8 +39,6 @@ const Props = {
  * @returns
  */
 const PlanCard = (props) => {
-  const { user } = useAppSelector(selectAuth);
-
   const {
     plan,
     isSelected,
@@ -50,7 +47,7 @@ const PlanCard = (props) => {
     isCurrent,
     showAnnual,
     size = 'md',
-    staticData = false,
+    showEnterprise,
   } = props;
 
   const currentPrice = showAnnual ? plan?.annualPrice : plan?.price;
@@ -130,26 +127,25 @@ const PlanCard = (props) => {
       )}
     </Stack>
   );
-  const renderEnterprise =
-    user?.planId === 'enterprise' && !staticData ? (
-      renderPremium
-    ) : (
-      <Stack alignItems="start" spacing={1}>
-        <Button
-          LinkComponent={RouterLink}
-          href={`${paths.contact_us}/#FORM`}
-          color="primary"
-          variant="contained"
-          size={isSm ? 'small' : 'medium'}
-          fullWidth
-        >
-          Contact Us
-        </Button>
-        <Typography color="text.secondary" variant="body2">
-          A la Carte
-        </Typography>
-      </Stack>
-    );
+  const renderEnterprise = showEnterprise ? (
+    renderPremium
+  ) : (
+    <Stack alignItems="start" spacing={1}>
+      <Button
+        LinkComponent={RouterLink}
+        href={`${paths.contact_us}/#FORM`}
+        color="primary"
+        variant="contained"
+        size={isSm ? 'small' : 'medium'}
+        fullWidth
+      >
+        Contact Us
+      </Button>
+      <Typography color="text.secondary" variant="body2">
+        A la Carte
+      </Typography>
+    </Stack>
+  );
 
   const renderPrice = (
     <>
@@ -191,8 +187,7 @@ const PlanCard = (props) => {
         p: isSm ? 2 : 5,
         borderRadius: isSm ? 1 : 2,
         cursor: onSelect && plan?.id !== 'enterprise' ? 'pointer' : 'default',
-        boxShadow: (theme) =>
-          isSelected ? `0 0 0 2px ${theme.palette.primary.main}` : theme.customShadows.card,
+        boxShadow: `0 0 0 2px ${isSelected ? primary.main : 'transparent'}`,
         ...sx,
       }}
     >

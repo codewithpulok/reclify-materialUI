@@ -1,12 +1,10 @@
 import { LoadingButton } from '@mui/lab';
 import { Button, Dialog, DialogActions, DialogContent, DialogTitle } from '@mui/material';
-import { Elements } from '@stripe/react-stripe-js';
 import { enqueueSnackbar } from 'notistack';
 import PropTypes from 'prop-types';
 import { useCallback } from 'react';
 import { ACHInfoEditForm } from 'src/components/common/custom-form';
 import { useAchUpdateMutation } from 'src/redux-toolkit/services/achApi';
-import stripePromise from 'src/utils/stripe';
 
 const Props = {
   open: PropTypes.bool.isRequired,
@@ -54,28 +52,26 @@ const ACHInfoEditDialog = (props) => {
     <Dialog fullWidth maxWidth="xs" open={open} onClose={onClose}>
       <DialogTitle>Edit ACH Info</DialogTitle>
 
-      <Elements stripe={stripePromise}>
-        <ACHInfoEditForm
-          wrapperElement={DialogContent}
-          actions={
-            <DialogActions>
-              <Button type="reset" onClick={onClose}>
-                Cancel
-              </Button>
-              <LoadingButton
-                loading={updateResponse.isLoading}
-                type="submit"
-                color="primary"
-                variant="contained"
-              >
-                Update
-              </LoadingButton>
-            </DialogActions>
-          }
-          ach={ach}
-          submitCallback={handleSubmit}
-        />
-      </Elements>
+      <ACHInfoEditForm
+        wrapperElement={DialogContent}
+        actions={
+          <DialogActions>
+            <Button type="reset" onClick={onClose}>
+              Cancel
+            </Button>
+            <LoadingButton
+              loading={updateResponse.isLoading}
+              type="submit"
+              color="primary"
+              variant="contained"
+            >
+              Update
+            </LoadingButton>
+          </DialogActions>
+        }
+        ach={ach}
+        submitCallback={handleSubmit}
+      />
     </Dialog>
   );
 };

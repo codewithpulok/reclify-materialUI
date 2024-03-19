@@ -1,11 +1,9 @@
 import { LoadingButton } from '@mui/lab';
 import { Button, Dialog, DialogActions, DialogContent, DialogTitle } from '@mui/material';
-import { Elements } from '@stripe/react-stripe-js';
 import { enqueueSnackbar } from 'notistack';
 import PropTypes from 'prop-types';
 import { ACHInfoCreateForm } from 'src/components/common/custom-form';
 import { useAchCreateMutation } from 'src/redux-toolkit/services/achApi';
-import stripePromise from 'src/utils/stripe';
 
 const Props = {
   open: PropTypes.bool.isRequired,
@@ -48,27 +46,25 @@ const ACHInfoCreateDialog = (props) => {
     <Dialog fullWidth maxWidth="xs" open={open} onClose={onClose}>
       <DialogTitle>New ACH Info</DialogTitle>
 
-      <Elements stripe={stripePromise}>
-        <ACHInfoCreateForm
-          wrapperElement={DialogContent}
-          actions={
-            <DialogActions>
-              <Button type="reset" onClick={onClose}>
-                Cancel
-              </Button>
-              <LoadingButton
-                loading={createResponse.isLoading}
-                type="submit"
-                color="primary"
-                variant="contained"
-              >
-                Create
-              </LoadingButton>
-            </DialogActions>
-          }
-          submitCallback={handleSubmit}
-        />
-      </Elements>
+      <ACHInfoCreateForm
+        wrapperElement={DialogContent}
+        actions={
+          <DialogActions>
+            <Button type="reset" onClick={onClose}>
+              Cancel
+            </Button>
+            <LoadingButton
+              loading={createResponse.isLoading}
+              type="submit"
+              color="primary"
+              variant="contained"
+            >
+              Create
+            </LoadingButton>
+          </DialogActions>
+        }
+        submitCallback={handleSubmit}
+      />
     </Dialog>
   );
 };

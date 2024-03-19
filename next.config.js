@@ -1,5 +1,16 @@
-module.exports = {
+/** @type {import('next').NextConfig} */
+const config = {
   trailingSlash: true,
+  images: {
+    remotePatterns: [
+      {
+        protocol: 'https',
+        hostname: 'storage.googleapis.com',
+        port: '',
+        pathname: '/racklify-prod/**',
+      },
+    ],
+  },
   modularizeImports: {
     '@mui/material': {
       transform: '@mui/material/{{member}}',
@@ -19,3 +30,5 @@ module.exports = {
     return config;
   },
 };
+
+module.exports = config;

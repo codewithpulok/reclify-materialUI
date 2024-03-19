@@ -1,15 +1,17 @@
 'use client';
 
-import { Button, Stack, Typography } from '@mui/material';
+import { Box, Button, Stack, Typography } from '@mui/material';
 import { m } from 'framer-motion';
+import Image from 'next/image';
 import PropTypes from 'prop-types';
 import { varFade } from 'src/components/common/animate';
 import { getIconify } from 'src/components/common/iconify/utilities';
-import Image from 'src/components/common/image';
+
 import Logo from 'src/components/common/logo';
 import { HEADER } from 'src/layouts/config-layout';
 import { RouterLink } from 'src/routes/components';
 import { paths } from 'src/routes/paths';
+import box from '../../../../../../public/assets/images/home/hero-boxes.png';
 
 // ----------------------------------------------------------------------
 const MotionButton = m(Button);
@@ -33,9 +35,12 @@ const HeroDescription = (props) => {
         animate="enter"
         transition={{ type: 'spring', damping: 10, stiffness: 100, duration: 2 }}
       >
-        <Image
-          src="/assets/images/home/hero-boxes.png"
-          sx={{ borderRadius: 1, maxWidth: 250, width: '100%', mx: 'auto' }}
+        <Box
+          component={Image}
+          src={box}
+          sx={{ borderRadius: 1, maxWidth: 250, width: '100%', mx: 'auto', height: 'auto' }}
+          priority
+          placeholder="blur"
         />
       </m.div>
     </Stack>

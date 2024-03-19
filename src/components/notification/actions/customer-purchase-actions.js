@@ -1,5 +1,7 @@
 import { Button } from '@mui/material';
 import PropTypes from 'prop-types';
+import Label from 'src/components/common/label';
+import { getTransactionStatusColor } from 'src/constant/transaction';
 import { selectAuth } from 'src/redux-toolkit/features/auth/authSlice';
 import { useAppSelector } from 'src/redux-toolkit/hooks';
 
@@ -112,6 +114,30 @@ const CustomerPurchaseActions = (props) => {
         </>
       );
     }
+  }
+
+  if (transaction?.status === 'approved') {
+    return (
+      <Label color={getTransactionStatusColor('approved')} variant="soft">
+        Approved
+      </Label>
+    );
+  }
+
+  if (transaction?.status === 'cancelled') {
+    return (
+      <Label color={getTransactionStatusColor('cancelled')} variant="soft">
+        Cancelled
+      </Label>
+    );
+  }
+
+  if (transaction?.status === 'completed') {
+    return (
+      <Label color={getTransactionStatusColor('completed')} variant="soft">
+        Completed
+      </Label>
+    );
   }
 
   return null;
