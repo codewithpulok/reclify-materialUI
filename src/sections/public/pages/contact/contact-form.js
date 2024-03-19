@@ -1,4 +1,4 @@
-import { m } from 'framer-motion';
+'use client';
 
 import Alert from '@mui/material/Alert';
 import AlertTitle from '@mui/material/AlertTitle';
@@ -8,7 +8,7 @@ import Typography from '@mui/material/Typography';
 import { LoadingButton } from '@mui/lab';
 import PropTypes from 'prop-types';
 import { useForm } from 'react-hook-form';
-import { MotionViewport, varFade } from 'src/components/common/animate';
+import { MotionDiv, MotionViewport, varFade } from 'src/components/common/animate';
 import { RHFTextField } from 'src/components/common/hook-form';
 import FormProvider from 'src/components/common/hook-form/form-provider';
 import { useCreateContactMutation } from 'src/redux-toolkit/services/contactApi';
@@ -83,19 +83,19 @@ export default function ContactForm(props) {
     <FormProvider methods={methods} onSubmit={handleSubmit(onSubmit)}>
       <Stack component={MotionViewport} spacing={5} sx={{ scrollMarginTop: '100px' }}>
         <Stack spacing={3}>
-          <m.div variants={varFade().inUp}>
+          <MotionDiv variants={varFade().inUp}>
             <RHFTextField {...textFieldProps} name="name" fullWidth label="Name" />
-          </m.div>
+          </MotionDiv>
 
-          <m.div variants={varFade().inUp}>
+          <MotionDiv variants={varFade().inUp}>
             <RHFTextField {...textFieldProps} name="email" fullWidth label="Email" />
-          </m.div>
+          </MotionDiv>
 
-          <m.div variants={varFade().inUp}>
+          <MotionDiv variants={varFade().inUp}>
             <RHFTextField {...textFieldProps} name="subject" fullWidth label="Subject" />
-          </m.div>
+          </MotionDiv>
 
-          <m.div variants={varFade().inUp}>
+          <MotionDiv variants={varFade().inUp}>
             <RHFTextField
               {...textFieldProps}
               name="message"
@@ -104,7 +104,7 @@ export default function ContactForm(props) {
               multiline
               rows={4}
             />
-          </m.div>
+          </MotionDiv>
 
           {!createResponse.isLoading && (createResponse.isSuccess || createResponse.isError) && (
             <Alert variant="filled" severity={createResponse.isSuccess ? 'success' : 'error'}>
@@ -116,7 +116,7 @@ export default function ContactForm(props) {
           )}
         </Stack>
 
-        <m.div variants={varFade().inUp}>
+        <MotionDiv variants={varFade().inUp}>
           <LoadingButton
             loading={createResponse.isLoading}
             size="large"
@@ -126,7 +126,7 @@ export default function ContactForm(props) {
           >
             Submit Now
           </LoadingButton>
-        </m.div>
+        </MotionDiv>
       </Stack>
     </FormProvider>
   );

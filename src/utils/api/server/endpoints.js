@@ -5,4 +5,7 @@ export const endpoints = {
   plans: {
     root: `${PRIVATE_BACKEND_API}/plans`,
   },
+  posts: {
+    root: `${PRIVATE_BACKEND_API}/posts`,
+  },
 };

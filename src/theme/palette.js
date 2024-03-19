@@ -1,6 +1,6 @@
-import { alpha } from '@mui/material/styles';
-
 // ----------------------------------------------------------------------
+
+import { alpha } from 'src/utils/color';
 
 // SETUP COLORS
 

@@ -47,6 +47,7 @@ const RenderPlans = (props) => {
     handleSelectPlan,
     currentPlan,
   } = props;
+  const { user } = useAppSelector(selectAuth);
 
   // error state
   if (!isLoading && isError) {
@@ -63,6 +64,7 @@ const RenderPlans = (props) => {
           plan={plan}
           isCurrent={currentPlan === plan.id}
           showAnnual={showAnnual}
+          showEnterprise={user?.planId === 'enterprise'}
         />
       </Grid>
     ));
