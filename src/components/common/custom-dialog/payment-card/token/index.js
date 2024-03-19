@@ -1,9 +1,7 @@
 import { LoadingButton } from '@mui/lab';
 import { Button, Dialog, DialogActions, DialogContent, DialogTitle } from '@mui/material';
-import { Elements } from '@stripe/react-stripe-js';
 import PropTypes from 'prop-types';
 import { PaymentCardCreateForm } from 'src/components/common/custom-form';
-import stripePromise from 'src/utils/stripe';
 
 // ----------------------------------------------------------------------
 
@@ -26,23 +24,21 @@ const CardTokenDialog = (props) => {
     <Dialog fullWidth maxWidth="xs" open={open} onClose={onClose}>
       <DialogTitle>Card</DialogTitle>
 
-      <Elements stripe={stripePromise}>
-        <PaymentCardCreateForm
-          wrapperElement={DialogContent}
-          actions={
-            <DialogActions>
-              <Button type="reset" onClick={onClose}>
-                Cancel
-              </Button>
-              <LoadingButton type="submit" color="primary" variant="contained">
-                Select
-              </LoadingButton>
-            </DialogActions>
-          }
-          submitCallback={onSubmit}
-          hidePrimary
-        />
-      </Elements>
+      <PaymentCardCreateForm
+        wrapperElement={DialogContent}
+        actions={
+          <DialogActions>
+            <Button type="reset" onClick={onClose}>
+              Cancel
+            </Button>
+            <LoadingButton type="submit" color="primary" variant="contained">
+              Select
+            </LoadingButton>
+          </DialogActions>
+        }
+        submitCallback={onSubmit}
+        hidePrimary
+      />
     </Dialog>
   );
 };
