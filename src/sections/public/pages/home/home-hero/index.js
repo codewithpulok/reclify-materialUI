@@ -96,9 +96,9 @@ export default function HomeHero() {
         }}
       >
         <StyledWrapper>
-          <Container component={MotionContainer} sx={{ height: 1 }}>
+          <Container component={MotionContainer} sx={{ height: 1, pt: {} }}>
             <Grid container columnSpacing={{ md: 10 }} sx={{ height: 1 }}>
-              <Grid xs={12} md={6}>
+              <Grid xs={12} md={6} sx={{ mt: { xs: 20, md: 0 } }}>
                 <HeroDescription opacity={opacity} percent={percent} />
               </Grid>
 

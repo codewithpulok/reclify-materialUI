@@ -1,5 +1,15 @@
 module.exports = {
   trailingSlash: true,
+  images: {
+    remotePatterns: [
+      {
+        protocol: 'https',
+        hostname: 'storage.googleapis.com',
+        port: '',
+        pathname: '/racklify-prod/**',
+      },
+    ],
+  },
   modularizeImports: {
     '@mui/material': {
       transform: '@mui/material/{{member}}',
