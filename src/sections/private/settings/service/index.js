@@ -35,7 +35,6 @@ const defaultValues = {
   customerList: [],
   businessSize: 0,
   foundedYear: 1800,
-  cta: '',
   promoCode: '',
   logo: null,
   banner: null,

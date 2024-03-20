@@ -5,7 +5,7 @@ const KYC = () => (
     <CardHeader title="Identity Verification" />
     <CardContent>
       <Button color="primary" variant="contained">
-        Start identity verification
+        Start Identity Verification
       </Button>
     </CardContent>
   </Card>

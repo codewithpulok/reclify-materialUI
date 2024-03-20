@@ -10,7 +10,6 @@
  * @property {CustomerList[]} customerList - A string containing the names of clients associated with the transportation service.
  * @property {number} businessSize - The size of the transportation service's business.
  * @property {number} foundedYear - The year the transportation service was founded (between 1800 to the current year).
- * @property {string} cta - Call to action text for the transportation service.
  * @property {string} promoCode - A promotional code associated with the transportation service.
  */
 

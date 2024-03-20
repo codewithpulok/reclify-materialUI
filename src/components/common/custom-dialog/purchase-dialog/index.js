@@ -86,8 +86,8 @@ const PurchaseDialog = (props) => {
         />
       </Dialog>
       <ConfirmDialog
-        title="Warehouse order placed!"
-        content="now wait for seller confirmation. would you like to know more about the transaction?"
+        title="Warehouse Reservation Placed!"
+        content="Your reservation has been placed and is now awaiting warehouse confirmation."
         onClose={successDialog.onClose}
         open={successDialog.open}
         action={

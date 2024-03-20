@@ -18,11 +18,11 @@ const ServicePromo = (props) => {
   const { sx, service } = props;
 
   return (
-    <ServiceDetailsBox title="Promotion Code" sx={sx}>
+    <ServiceDetailsBox title="Promotion" sx={sx}>
       {service?.promoCode ? (
         <Typography variant="h4">{service.promoCode}</Typography>
       ) : (
-        <Typography color="text.secondary">No Promotion code are available</Typography>
+        <Typography color="text.secondary">No Promotion is available</Typography>
       )}
     </ServiceDetailsBox>
   );

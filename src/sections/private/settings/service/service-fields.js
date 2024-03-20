@@ -80,22 +80,12 @@ const ServiceFields = (props) => {
             />
           </Grid>
           <Grid item xs={12}>
-            <RHFTextField
-              name="cta"
-              label="Call To Action"
-              placeholder="What do you want to achieve?"
-              fullWidth
-            />
+            <RHFTextField name="promoCode" label="Promotion" fullWidth />
           </Grid>
-
-          <Grid item xs={12}>
-            <RHFTextField name="promoCode" label="Promotion Code" fullWidth />
-          </Grid>
-
           <Grid item xs={12}>
             <RHFTextField
               name="highlights"
-              label="Highlights"
+              label="Call To Action"
               rows={4}
               helperText={`${200 - (highlights?.length || 0)} character left for highlights`}
               onChangeMiddleware={(v) => (v.length > 200 ? highlights : v)}

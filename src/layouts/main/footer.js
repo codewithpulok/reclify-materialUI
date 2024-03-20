@@ -20,15 +20,12 @@ import { alpha } from 'src/utils/color';
 
 const LINKS = [
   {
-    headline: 'Pages',
+    headline: 'Resources',
     children: [
-      { name: 'About us', href: paths.about_us },
-      { name: 'Contact us', href: paths.contact_us },
       { name: 'FAQs', href: paths.faqs },
-      { name: 'Accessing your account', href: paths.auth.login },
-      { name: 'Creating an account', href: paths.auth.register },
-      { name: 'Subscription tiers', href: paths.subscriptions },
-      { name: 'Media', href: paths.media },
+      { name: 'Accessing Your Account', href: paths.auth.login },
+      { name: 'Create Your Account', href: paths.auth.register },
+      { name: 'Subscription Tiers', href: paths.subscriptions },
       { name: 'Racklify Rating System', href: paths.rating_system },
       { name: 'Racklify Supply Chain & Logistics Definitions', href: paths.supply_chain },
     ],
@@ -36,13 +33,18 @@ const LINKS = [
   {
     headline: 'Legal',
     children: [
-      { name: 'Terms and Condition', href: paths.terms },
+      { name: 'Terms and Conditions', href: paths.terms },
       { name: 'Privacy Policy', href: paths.privacy },
     ],
   },
   {
     headline: 'Contact',
-    children: [{ name: 'support@racklify.com', href: 'mailto:support@racklify.com' }],
+    children: [
+      { name: 'support@racklify.com', href: 'mailto:support@racklify.com' },
+      { name: 'About Us', href: paths.about_us },
+      { name: 'Contact Us', href: paths.contact_us },
+      { name: 'Media', href: paths.media },
+    ],
   },
 ];
 
@@ -94,7 +96,7 @@ export default function Footer(props) {
                 mx: { xs: 'auto', md: 'unset' },
               }}
             >
-              Welcome to Racklify - Your Online Logistics Hub!
+              Your Online Logistics Hub
             </Typography>
 
             <Stack

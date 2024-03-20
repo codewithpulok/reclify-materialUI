@@ -69,7 +69,7 @@ const ResetPassword = () => {
   return (
     <FormProvider methods={methods} onSubmit={handleSubmit(onSubmit)}>
       <Card>
-        <CardHeader title="Reset your password" />
+        <CardHeader title="Reset Your Password" />
         <CardContent>
           <Fields />
         </CardContent>

@@ -65,7 +65,7 @@ const HeroDescription = (props) => {
       </m.div>
       <m.div variants={varFade().inRight}>
         <Typography variant="h5" color="primary.main" sx={{ textAlign: 'center' }}>
-          Welcome to Racklify - Your Online Logistics Hub!
+          Your Online Logistics Hub
         </Typography>
       </m.div>
       <Stack sx={{ mt: 6, mb: 4 }}>

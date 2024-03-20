@@ -275,7 +275,7 @@ const DetailsBooking = (props) => {
                 {fNumber(warehouse.minSpaceOrder)} pallets (minimum)
               </Typography>
               <Typography fontWeight="bold" color="primary" sx={bookingInfoStyle.title}>
-                Total available space
+                Total Available Space
               </Typography>
               <Typography sx={bookingInfoStyle.description}>
                 <b>{fNumber(warehouse.totalSpace)}</b> pallets

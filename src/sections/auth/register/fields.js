@@ -60,8 +60,8 @@ const Fields = (props) => {
             icon="lets-icons:user-box-duotone"
           />
           <FormRadioCard
-            text="Find warehouse & other services"
-            title="SERVICE PROVIDER"
+            text="List warehouse & other services"
+            title="PROVIDER"
             name="userType"
             value="seller"
             icon="lets-icons:3d-box-duotone"
