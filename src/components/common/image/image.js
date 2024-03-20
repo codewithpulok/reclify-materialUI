@@ -27,6 +27,7 @@ const ImageProps = {
   src: PropTypes.string,
   /** @type {SxProps} */
   sx: PropTypes.object,
+  imageSx: PropTypes.object,
   threshold: PropTypes.number,
   useIntersectionObserver: PropTypes.bool,
   visibleByDefault: PropTypes.bool,
@@ -60,6 +61,7 @@ const Image = forwardRef((props, ref) => {
     wrapperClassName,
     useIntersectionObserver,
     sx,
+    imageSx,
     ...other
   } = props;
   const theme = useTheme();
@@ -105,6 +107,7 @@ const Image = forwardRef((props, ref) => {
           left: 0,
           position: 'absolute',
         }),
+        ...imageSx,
       }}
     />
   );

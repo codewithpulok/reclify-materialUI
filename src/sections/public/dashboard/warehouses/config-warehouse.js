@@ -28,8 +28,8 @@ export const ICONS = {
 
   hot_deals: getIconifyFunc('solar:fire-bold-duotone'),
 
-  diamond_fill: getIconifyFunc('ic:twotone-diamond'),
-  diamond_empty: getIconifyFunc('ic:outline-diamond'),
+  diamond_fill: getIconifyFunc('material-symbols:diamond'),
+  diamond_empty: getIconifyFunc('material-symbols:diamond'),
 
   import: getIconifyFunc('solar:import-bold-duotone'),
 };

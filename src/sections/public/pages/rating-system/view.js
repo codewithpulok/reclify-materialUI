@@ -1,11 +1,9 @@
-'use client';
-
 import SectionContent from './section-content';
 import SectionHero from './section-hero';
 
 // ----------------------------------------------------------------------
 
-export default function SupplyChainView() {
+export default function RatingSystemView() {
   return (
     <>
       <SectionHero />

@@ -1,24 +1,24 @@
-import { m } from 'framer-motion';
 import PropTypes from 'prop-types';
 // mui
 import Box from '@mui/material/Box';
 import Container from '@mui/material/Container';
 import Stack from '@mui/material/Stack';
-import { alpha, useTheme } from '@mui/material/styles';
+
 // components
+import { MotionContainer, MotionDiv, varFade } from 'src/components/common/animate';
+import MotionSpan from 'src/components/common/animate/motion-span';
 import { bgGradient } from 'src/theme/css';
-import { MotionContainer, varFade } from 'src/components/common/animate';
+import { grey } from 'src/theme/palette';
+import { alpha } from 'src/utils/color';
 
 // ----------------------------------------------------------------------
 
 export default function ContactHero() {
-  const theme = useTheme();
-
   return (
     <Stack
       sx={{
         ...bgGradient({
-          color: alpha(theme.palette.grey[900], 0.8),
+          color: alpha(grey['900'], 0.8),
           imgUrl: '/assets/images/contact/hero.jpg',
         }),
         height: { md: 560 },
@@ -51,7 +51,7 @@ export default function ContactHero() {
 function TextAnimate({ text, variants, sx, ...other }) {
   return (
     <Box
-      component={m.div}
+      component={MotionDiv}
       sx={{
         typography: 'h1',
         overflow: 'hidden',
@@ -61,9 +61,9 @@ function TextAnimate({ text, variants, sx, ...other }) {
       {...other}
     >
       {text.split('').map((letter, index) => (
-        <m.span key={index} variants={variants || varFade().inUp}>
+        <MotionSpan key={index} variants={variants || varFade().inUp}>
           {letter}
-        </m.span>
+        </MotionSpan>
       ))}
     </Box>
   );

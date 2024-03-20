@@ -11,7 +11,13 @@ const DetailsLogo = (props) => {
 
   return (
     <WarehouseDetailsBox>
-      <Image src={logo} alt="Company Logo" sx={{ width: '100%' }} ratio="16/9" />
+      <Image
+        src={logo}
+        alt="Company Logo"
+        sx={{ width: '100%' }}
+        imageSx={{ objectFit: 'contain!important' }}
+        ratio="16/9"
+      />
     </WarehouseDetailsBox>
   );
 };

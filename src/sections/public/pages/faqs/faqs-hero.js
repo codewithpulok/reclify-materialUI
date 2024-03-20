@@ -1,29 +1,26 @@
-import { m } from 'framer-motion';
+'use client';
+
 import PropTypes from 'prop-types';
 
 import Box from '@mui/material/Box';
 import Container from '@mui/material/Container';
-import InputAdornment from '@mui/material/InputAdornment';
-import { outlinedInputClasses } from '@mui/material/OutlinedInput';
 import Stack from '@mui/material/Stack';
-import TextField from '@mui/material/TextField';
-import { alpha, useTheme } from '@mui/material/styles';
 
 import { bgGradient } from 'src/theme/css';
 
-import { MotionContainer, varFade } from 'src/components/common/animate';
-import Iconify from 'src/components/common/iconify';
+import { MotionContainer, MotionDiv, MotionSpan, varFade } from 'src/components/common/animate';
+import { grey } from 'src/theme/palette';
+import { alpha } from 'src/utils/color';
+import FAQsSearch from './faqs-search';
 
 // ----------------------------------------------------------------------
 
 export default function FaqsHero() {
-  const theme = useTheme();
-
   return (
     <Box
       sx={{
         ...bgGradient({
-          color: alpha(theme.palette.grey[900], 0.8),
+          color: alpha(grey['900'], 0.8),
           imgUrl: '/assets/images/faqs/hero.jpg',
         }),
         height: { md: 560 },
@@ -52,29 +49,9 @@ export default function FaqsHero() {
             </Stack>
           </div>
 
-          <m.div variants={varFade().in}>
-            <TextField
-              fullWidth
-              placeholder="Search support..."
-              InputProps={{
-                startAdornment: (
-                  <InputAdornment position="start">
-                    <Iconify icon="eva:search-fill" sx={{ color: 'text.disabled' }} />
-                  </InputAdornment>
-                ),
-              }}
-              sx={{
-                mt: 5,
-                maxWidth: 360,
-                [`& .${outlinedInputClasses.root}`]: {
-                  bgcolor: 'common.white',
-                },
-                [`& .${outlinedInputClasses.input}`]: {
-                  typography: 'subtitle1',
-                },
-              }}
-            />
-          </m.div>
+          <MotionDiv variants={varFade().in}>
+            <FAQsSearch />
+          </MotionDiv>
         </Box>
       </Container>
     </Box>
@@ -86,7 +63,7 @@ export default function FaqsHero() {
 function TextAnimate({ text, variants, sx, ...other }) {
   return (
     <Box
-      component={m.div}
+      component={MotionDiv}
       sx={{
         typography: 'h1',
         overflow: 'hidden',
@@ -96,9 +73,9 @@ function TextAnimate({ text, variants, sx, ...other }) {
       {...other}
     >
       {text.split('').map((letter, index) => (
-        <m.span key={index} variants={variants || varFade().inUp}>
+        <MotionSpan key={index} variants={variants || varFade().inUp}>
           {letter}
-        </m.span>
+        </MotionSpan>
       ))}
     </Box>
   );

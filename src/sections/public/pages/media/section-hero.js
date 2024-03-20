@@ -1,11 +1,10 @@
-import { m } from 'framer-motion';
 import PropTypes from 'prop-types';
 
 import Box from '@mui/material/Box';
 import Container from '@mui/material/Container';
 import Typography from '@mui/material/Typography';
 
-import { MotionContainer, varFade } from 'src/components/common/animate';
+import { MotionContainer, MotionDiv, MotionSpan, varFade } from 'src/components/common/animate';
 
 // ----------------------------------------------------------------------
 
@@ -36,7 +35,7 @@ export default function SectionHero() {
         >
           <TextAnimate text="Media" variants={varFade().inRight} sx={{ color: 'primary.main' }} />
 
-          <m.div variants={varFade().inRight}>
+          <MotionDiv variants={varFade().inRight}>
             <Typography
               variant="h4"
               sx={{
@@ -48,7 +47,7 @@ export default function SectionHero() {
               An innovative unicorn born from the collaboration
               <br /> of seasoned logistics professionals and tech-savvy entrepreneurs.
             </Typography>
-          </m.div>
+          </MotionDiv>
         </Box>
       </Container>
     </Box>
@@ -60,7 +59,7 @@ export default function SectionHero() {
 function TextAnimate({ text, variants, sx, ...other }) {
   return (
     <Box
-      component={m.div}
+      component={MotionDiv}
       sx={{
         typography: 'h1',
         overflow: 'hidden',
@@ -70,9 +69,9 @@ function TextAnimate({ text, variants, sx, ...other }) {
       {...other}
     >
       {text.split('').map((letter, index) => (
-        <m.span key={index} variants={variants || varFade().inUp}>
+        <MotionSpan key={index} variants={variants || varFade().inUp}>
           {letter}
-        </m.span>
+        </MotionSpan>
       ))}
     </Box>
   );

@@ -1,11 +1,10 @@
-'use client';
-
 import Container from '@mui/material/Container';
 
 import { Grid, Stack } from '@mui/material';
 import { ScrollTo } from 'src/routes/components';
-import ContactForm, { ContactFormDescription } from '../contact-form';
-import ContactHero from '../contact-hero';
+import ContactFormDescription from './contact-description';
+import ContactForm from './contact-form';
+import ContactHero from './contact-hero';
 
 // ----------------------------------------------------------------------
 

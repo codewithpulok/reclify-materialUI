@@ -1,4 +1,4 @@
-import { FaqsView } from 'src/sections/public/pages/faqs/view';
+import FaqsView from 'src/sections/public/pages/faqs/view';
 // ----------------------------------------------------------------------
 
 export const metadata = {

@@ -1,4 +1,4 @@
-import { PrivacyPolicyView } from 'src/sections/public/pages/privacy-policy/view';
+import PrivacyPolicyView from 'src/sections/public/pages/privacy-policy/view';
 
 // ----------------------------------------------------------------------
 
