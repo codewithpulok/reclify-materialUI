@@ -47,7 +47,7 @@ const NewsCarousel = (props) => {
   return (
     <Box
       sx={{
-        overflow: 'hidden',
+        // overflow: 'hidden',
         position: 'relative',
         '& .slick-track': {
           ml: 0,
@@ -61,14 +61,26 @@ const NewsCarousel = (props) => {
         icon="solar:alt-arrow-right-bold"
         onNext={carousel.onNext}
         onPrev={carousel.onPrev}
+        leftButtonProps={{
+          sx: {
+            left: -5,
+          },
+        }}
+        rightButtonProps={{
+          sx: {
+            right: -5,
+          },
+        }}
       >
-        <Carousel ref={carousel.carouselRef} {...carousel.carouselSettings}>
-          {featuredNews.map((item, index) => (
-            <Box key={item.id} sx={{ px: { xs: 0.5, sm: 1 } }}>
-              <NewsCard post={item} index={index} />
-            </Box>
-          ))}
-        </Carousel>
+        <Box px={4}>
+          <Carousel ref={carousel.carouselRef} {...carousel.carouselSettings}>
+            {featuredNews.map((item, index) => (
+              <Box key={item.id} sx={{ px: { xs: 0.5, sm: 1 } }}>
+                <NewsCard post={item} index={index} />
+              </Box>
+            ))}
+          </Carousel>
+        </Box>
       </CarouselArrows>
     </Box>
   );
