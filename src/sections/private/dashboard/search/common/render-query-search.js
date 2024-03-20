@@ -17,11 +17,11 @@ const RenderServices = (props) => {
     return <ErrorState />;
   }
 
-  if (!isLoading && isSuccess && !data.length) {
+  if (!isLoading && isSuccess && !data?.length) {
     return <EmptyState />;
   }
 
-  if (!isLoading && isSuccess && data.length) {
+  if (!isLoading && isSuccess && data?.length) {
     return (
       <Grid container spacing={1}>
         {data.slice(0, 3).map((service) => (
@@ -57,14 +57,14 @@ const RenderWarehouses = (props) => {
     return <ErrorState />;
   }
 
-  if (!isLoading && isSuccess && !data.length) {
+  if (!isLoading && isSuccess && !data?.length) {
     return <EmptyState />;
   }
 
-  if (!isLoading && isSuccess && data.length) {
+  if (!isLoading && isSuccess && data?.length) {
     return (
       <Grid container spacing={1}>
-        {data.slice(0, 4).map((warehouse) => (
+        {data.slice(0, 3).map((warehouse) => (
           <Grid item key={warehouse.id} xs={12} sm={6} md={4}>
             <WarehouseCard key={warehouse.id} warehouse={warehouse} />
           </Grid>
