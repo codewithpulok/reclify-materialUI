@@ -1,4 +1,4 @@
-import RatingSystemView from 'src/sections/public/pages/rating-system';
+import RatingSystemView from 'src/sections/public/pages/rating-system/view';
 // ----------------------------------------------------------------------
 
 export const metadata = {
