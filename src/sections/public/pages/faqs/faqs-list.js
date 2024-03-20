@@ -3,16 +3,15 @@ import AccordionDetails from '@mui/material/AccordionDetails';
 import AccordionSummary from '@mui/material/AccordionSummary';
 import Typography from '@mui/material/Typography';
 
-import { FAQS } from 'src/constant/faqs';
-
 import Iconify from 'src/components/common/iconify';
+import data from './data.json';
 
 // ----------------------------------------------------------------------
 
 export default function FaqsList() {
   return (
     <div>
-      {FAQS.map((accordion) => (
+      {data.map((accordion) => (
         <Accordion key={accordion.id}>
           <AccordionSummary expandIcon={<Iconify icon="eva:arrow-ios-downward-fill" />}>
             <Typography variant="subtitle1">{accordion.heading}</Typography>
