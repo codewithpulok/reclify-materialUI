@@ -1,4 +1,4 @@
-import SupplyChainView from 'src/sections/public/pages/supply-chain-logistics-definations';
+import SupplyChainView from 'src/sections/public/pages/supply-chain-logistics-definations/view';
 // ----------------------------------------------------------------------
 
 export const metadata = {

@@ -1,5 +1,3 @@
-'use client';
-
 import SectionContent from './section-content';
 import SectionHero from './section-hero';
 
