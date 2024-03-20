@@ -3,7 +3,6 @@
 import Alert from '@mui/material/Alert';
 import AlertTitle from '@mui/material/AlertTitle';
 import Stack from '@mui/material/Stack';
-import Typography from '@mui/material/Typography';
 
 import { LoadingButton } from '@mui/lab';
 import PropTypes from 'prop-types';
@@ -14,28 +13,6 @@ import FormProvider from 'src/components/common/hook-form/form-provider';
 import { useCreateContactMutation } from 'src/redux-toolkit/services/contactApi';
 
 // ----------------------------------------------------------------------
-
-export const ContactFormDescription = () => (
-  <Stack spacing={1}>
-    <Typography>
-      {`Whether you're taking the first steps toward listing your services or embarking on a
-          search for the ideal warehousing space, Racklify is your partner in navigating the
-          logistics landscape.`}
-    </Typography>
-    <Typography>
-      {`We welcome your inquiries and are eager to assist you here at Racklify. Whether you're a
-          warehouse or service provider seeking to join our esteemed platform or an individual in
-          search of warehouse space, our team is ready to provide the support you need.`}
-    </Typography>
-    <Typography>
-      Feel free to reach out if you have questions, require guidance, or simply want to explore the
-      possibilities of being listed on our site.{' '}
-    </Typography>
-    <Typography>
-      Your satisfaction is our priority, and we look forward to connecting with you.
-    </Typography>
-  </Stack>
-);
 
 const defaultValues = {
   name: '',

@@ -1,4 +1,4 @@
-import { ContactUsView } from 'src/sections/public/pages/contact/view';
+import ContactUsView from 'src/sections/public/pages/contact/view';
 // ----------------------------------------------------------------------
 
 export const metadata = {
