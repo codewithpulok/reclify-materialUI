@@ -1,4 +1,4 @@
-import MediaView from 'src/sections/public/pages/media';
+import MediaView from 'src/sections/public/pages/media/view';
 // ----------------------------------------------------------------------
 
 export const metadata = {
