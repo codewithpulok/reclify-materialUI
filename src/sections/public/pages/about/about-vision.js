@@ -23,7 +23,7 @@ export default function AboutVision() {
             by seamlessly connecting individuals and businesses in search of storage space with our
             expansive network of partner warehouses. Our journey began with a deep-rooted
             understanding of the challenges faced by warehouses, drawing from over four decades of
-            experience in operating a family-owned warehouse.{' '}
+            experience in operating a family-owned warehouse.
           </Typography>
           <Typography>
             Through this extensive background, we pinpointed the struggles associated with both
@@ -48,7 +48,7 @@ export default function AboutVision() {
           <Typography>
             Racklify Ratings provides a detailed and nuanced evaluation system to assess the quality
             and features of different facilities. Our comprehensive rubric aims to provide a
-            thorough analysis, considering various aspects of buildings and their amenities.{' '}
+            thorough analysis, considering various aspects of buildings and their amenities.
           </Typography>
         </Stack>
       </Container>
