@@ -1,4 +1,4 @@
-import { TermsAndConditionsView } from 'src/sections/public/pages/terms-and-conditions/view';
+import TermsAndConditionsView from 'src/sections/public/pages/terms-and-conditions/view';
 
 // ----------------------------------------------------------------------
 

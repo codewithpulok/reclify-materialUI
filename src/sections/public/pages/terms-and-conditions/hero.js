@@ -1,25 +1,23 @@
-import { m } from 'framer-motion';
 import PropTypes from 'prop-types';
 
 import Box from '@mui/material/Box';
 import Container from '@mui/material/Container';
 import Stack from '@mui/material/Stack';
-import { alpha, useTheme } from '@mui/material/styles';
 
 import { bgGradient } from 'src/theme/css';
 
-import { MotionContainer, varFade } from 'src/components/common/animate';
+import { MotionContainer, MotionDiv, MotionSpan, varFade } from 'src/components/common/animate';
+import { grey } from 'src/theme/palette';
+import { alpha } from 'src/utils/color';
 
 // ----------------------------------------------------------------------
 
 export default function Hero() {
-  const theme = useTheme();
-
   return (
     <Box
       sx={{
         ...bgGradient({
-          color: alpha(theme.palette.grey[900], 0.8),
+          color: alpha(grey['900'], 0.8),
           imgUrl: '/assets/images/faqs/hero.jpg',
         }),
         height: { md: 560 },
@@ -57,7 +55,7 @@ export default function Hero() {
 function TextAnimate({ text, variants, sx, ...other }) {
   return (
     <Box
-      component={m.div}
+      component={MotionDiv}
       sx={{
         typography: 'h1',
         overflow: 'hidden',
@@ -67,9 +65,9 @@ function TextAnimate({ text, variants, sx, ...other }) {
       {...other}
     >
       {text.split('').map((letter, index) => (
-        <m.span key={index} variants={variants || varFade().inUp}>
+        <MotionSpan key={index} variants={variants || varFade().inUp}>
           {letter}
-        </m.span>
+        </MotionSpan>
       ))}
     </Box>
   );
