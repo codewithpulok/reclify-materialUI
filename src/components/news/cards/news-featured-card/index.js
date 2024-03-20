@@ -1,17 +1,18 @@
-import { m } from 'framer-motion';
 import PropTypes from 'prop-types';
 
 import Link from '@mui/material/Link';
 import Stack from '@mui/material/Stack';
 import Typography from '@mui/material/Typography';
-import { alpha, useTheme } from '@mui/material/styles';
 
-import { MotionContainer, varFade } from 'src/components/common/animate';
+import { MotionContainer, MotionDiv, varFade } from 'src/components/common/animate';
 
-import Image from 'src/components/common/image';
+import { Box } from '@mui/material';
+import { NextLazyImage } from 'src/components/common/next-image';
 import { PLACEHOLDER_NEWS_COVER } from 'src/config-global';
 import { RouterLink } from 'src/routes/components';
 import { paths } from 'src/routes/paths';
+import { grey } from 'src/theme/palette';
+import { alpha } from 'src/utils/color';
 
 const Props = {
   active: PropTypes.bool,
@@ -24,25 +25,41 @@ const Props = {
  */
 const NewsFeaturedCard = (props) => {
   const { item, active } = props;
-  const theme = useTheme();
 
   const { coverUrl, title, description } = item;
 
   const renderImg = (
-    <Image
-      alt={title}
-      src={coverUrl || PLACEHOLDER_NEWS_COVER}
-      overlay={`linear-gradient(to bottom, ${alpha(theme.palette.grey[900], 0)} 0%, ${
-        theme.palette.grey[900]
-      } 75%)`}
+    <Box
       sx={{
+        position: 'relative',
         width: 1,
         height: {
           xs: 280,
           xl: 320,
         },
       }}
-    />
+    >
+      <NextLazyImage
+        alt={title}
+        src={coverUrl || PLACEHOLDER_NEWS_COVER}
+        fill
+        style={{ width: '100%', height: '100%' }}
+      />
+
+      <Box
+        sx={{
+          position: 'absolute',
+          top: 0,
+          left: 0,
+          width: 1,
+          height: 1,
+          background: `linear-gradient(to bottom, ${alpha(grey['900'], 0)} 0%, ${alpha(
+            grey['900'],
+            0.8
+          )} 75%)`,
+        }}
+      />
+    </Box>
   );
 
   return (
@@ -59,13 +76,13 @@ const NewsFeaturedCard = (props) => {
           color: 'common.white',
         }}
       >
-        <m.div variants={varFade().inRight}>
+        <MotionDiv variants={varFade().inRight}>
           <Typography variant="overline" sx={{ color: 'primary.light' }}>
             Featured News
           </Typography>
-        </m.div>
+        </MotionDiv>
 
-        <m.div variants={varFade().inRight}>
+        <MotionDiv variants={varFade().inRight}>
           <Link
             color="inherit"
             underline="none"
@@ -76,13 +93,13 @@ const NewsFeaturedCard = (props) => {
               {title}
             </Typography>
           </Link>
-        </m.div>
+        </MotionDiv>
 
-        <m.div variants={varFade().inRight}>
+        <MotionDiv variants={varFade().inRight}>
           <Typography variant="body2" noWrap>
             {description}
           </Typography>
-        </m.div>
+        </MotionDiv>
       </Stack>
 
       {renderImg}
