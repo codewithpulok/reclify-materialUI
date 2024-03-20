@@ -1,8 +1,5 @@
-import { getIconify } from 'src/components/common/iconify/utilities';
+import { getIconify, getIconifyFunc } from 'src/components/common/iconify/utilities';
 
-/**
- * All icons for warehouse section
- */
 export const ICONS = {
   verified: (width, sx) => getIconify('solar:verified-check-bold', width, sx),
   unverified: (width, sx) => getIconify('solar:minus-circle-bold-duotone', width, sx),
@@ -28,6 +25,6 @@ export const ICONS = {
 
   hot_deals: (width, sx) => getIconify('solar:fire-bold-duotone', width, sx),
 
-  diamond_fill: (width, sx) => getIconify('ic:twotone-diamond', width, sx),
-  diamond_empty: (width, sx) => getIconify('ic:outline-diamond', width, sx),
+  diamond_fill: getIconifyFunc('material-symbols:diamond'),
+  diamond_empty: getIconifyFunc('material-symbols:diamond'),
 };

@@ -93,7 +93,7 @@ const WarehouseDiamond = (props) => {
             name="warehouse-diamond"
             value={value}
             icon={ICONS.diamond_fill(size)}
-            emptyIcon={ICONS.diamond_empty(size)}
+            emptyIcon={ICONS.diamond_empty(size, { color: 'text.primary', opacity: 0.7 })}
             sx={{
               '& .MuiRating-iconFilled': {
                 color: 'info.main',
