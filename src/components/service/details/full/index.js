@@ -1,13 +1,14 @@
-import { Container, Grid, Stack } from '@mui/material';
+import { Container, Grid } from '@mui/material';
 import PropTypes from 'prop-types';
 import useAppearance from 'src/redux-toolkit/features/appearance/use-appearance';
-import ImageCarousel from '../common/image-carousel';
 import ServiceCustomers from '../common/service-customers';
+import ServiceDescription from '../common/service-description';
 import ServiceFeatures from '../common/service-features';
-import ServicePromo from '../common/service-promo';
+import ServiceHighlights from '../common/service-highlights';
+import ServiceKeyFeatures from '../common/service-keyfeatures';
 import HeaderContent from './header-content';
-import MainContent from './main-content';
-import SidebarContent from './sidebar-content';
+import SidebarOne from './sidebar-one';
+import SidebarTwo from './sidebar-two';
 
 const Props = {
   /** @type {Service} */
@@ -30,26 +31,32 @@ const ServiceDetails = (props) => {
           <HeaderContent service={service} />
         </Grid>
         <Grid item xs={12} md={6}>
-          <SidebarContent service={service} seller={seller} />
+          <SidebarOne seller={seller} service={service} />
         </Grid>
         <Grid item xs={12} md={6}>
-          <MainContent service={service} seller={seller} />
+          <SidebarTwo service={service} />
         </Grid>
+
+        <Grid item xs={12}>
+          <ServiceHighlights highlights={service?.highlights} />
+        </Grid>
+
+        <Grid item xs={12}>
+          <ServiceKeyFeatures keyFeatures={service?.keyFeatures} />
+        </Grid>
+
+        <Grid item xs={12}>
+          <ServiceDescription description={service?.description} />
+        </Grid>
+
         {!!service.customerList?.length && (
           <Grid item xs={12}>
             <ServiceCustomers data={service.customerList} />
           </Grid>
         )}
-        <Grid item xs={12} md={6}>
-          <Stack spacing={2}>
-            <ImageCarousel list={service?.photos || []} />
-          </Stack>
-        </Grid>
-        <Grid item xs={12} md={6}>
-          <Stack spacing={2}>
-            <ServicePromo service={service} />
-            <ServiceFeatures features={service.features} type={service.type} />
-          </Stack>
+
+        <Grid item xs={12}>
+          <ServiceFeatures features={service.features} type={service.type} />
         </Grid>
       </Grid>
     </Container>
