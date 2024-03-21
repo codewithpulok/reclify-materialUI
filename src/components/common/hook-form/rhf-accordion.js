@@ -56,6 +56,8 @@ const RHFAccordion = (props) => {
   }, [errors, name, names]);
   const expanded = useBoolean(defaultExpanded);
 
+  console.log({ errors, isError });
+
   return (
     <Accordion
       sx={{

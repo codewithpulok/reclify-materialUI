@@ -11,6 +11,7 @@ import * as Yup from 'yup';
 const discountValidation = (month) =>
   Yup.number()
     .label(`Discount for ${month} month`)
+    .nullable()
     .optional()
     .default(0)
     .min(0)
@@ -38,6 +39,7 @@ const discountValidation = (month) =>
 const discountAllValidation = () =>
   Yup.number()
     .label(`Discount for all month`)
+    .nullable()
     .optional()
     .default(0)
     .min(0)
@@ -96,10 +98,10 @@ const schema = {
   totalSpace: Yup.number().label('Total space').min(1).required(),
   hotRackEnabled: Yup.bool().label('HotRack Enabled').default(false),
   discountOption: Yup.string().oneOf(['fixed', 'percentage']).default('percentage').optional(),
-  price1: Yup.number().label('Price for 1 month').min(0),
-  price3: Yup.number().label('Price for 3 month').min(0),
-  price6: Yup.number().label('Price for 6 month').min(0),
-  price12: Yup.number().label('Price for 12 month').min(0),
+  price1: Yup.number().label('Price for 1 month').min(0).nullable().default(0),
+  price3: Yup.number().label('Price for 3 month').min(0).nullable().default(0),
+  price6: Yup.number().label('Price for 6 month').min(0).nullable().default(0),
+  price12: Yup.number().label('Price for 12 month').min(0).nullable().default(0),
   discount1: discountValidation(1),
   discount3: discountValidation(3),
   discount6: discountValidation(6),
@@ -109,7 +111,7 @@ const schema = {
   maxSpaceOrder: Yup.number()
     .label('Max orderable space')
     .optional()
-    .default(undefined)
+    .required()
     .test({
       name: 'bigger-then-min-space',
       message: 'Should be bigger then minimum space',
@@ -135,7 +137,7 @@ const schema = {
   minSpaceOrder: Yup.number()
     .label('Min orderable space')
     .optional()
-    .default(undefined)
+    .required()
     .test({
       name: 'less-then-max-space',
       message: 'Should be less then maximum space',

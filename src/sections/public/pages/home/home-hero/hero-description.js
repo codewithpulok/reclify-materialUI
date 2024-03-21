@@ -71,7 +71,7 @@ const HeroDescription = (props) => {
       <Stack sx={{ mt: 6, mb: 4 }}>
         <MotionButton
           LinkComponent={RouterLink}
-          href={paths.warehouses.root}
+          href={paths.auth.register}
           variant="contained"
           color="primary"
           startIcon={getIconify('ion:rocket', 24)}
