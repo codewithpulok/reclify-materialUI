@@ -4,7 +4,7 @@ import { yupResolver } from '@hookform/resolvers/yup';
 import { Button, Container, Stack } from '@mui/material';
 import { useSnackbar } from 'notistack';
 import PropTypes from 'prop-types';
-import { useCallback, useEffect, useMemo } from 'react';
+import { useCallback, useEffect, useMemo, useRef } from 'react';
 import { useForm } from 'react-hook-form';
 
 // local components
@@ -25,7 +25,7 @@ import useAppearance from 'src/redux-toolkit/features/appearance/use-appearance'
 import { useWarehouseUpdateMutation } from 'src/redux-toolkit/services/warehouseApi';
 import { paths } from 'src/routes/paths';
 import { getPredefinedFieldsDefaultValue } from 'src/utils/predefined-fields';
-import WarehouseFields, { stepFields } from '../common/warehouse-fields';
+import WarehouseFields, { stepFields } from '../common/warehouse-fields/index';
 import warehouseSchema from '../common/warehouse-schema';
 import WarehouseStepper from '../common/warehouse-stepper';
 
@@ -38,8 +38,10 @@ const Props = {
  * @param {Props} props
  * @returns {JSX.Element}
  */
-const Content = (props) => {
+const WarehouseEditContent = (props) => {
   const { warehouse } = props;
+  const ref = useRef();
+
   const router = useRouter();
   const appearance = useAppearance();
   const { enqueueSnackbar } = useSnackbar();
@@ -101,6 +103,20 @@ const Content = (props) => {
     router.back();
   }, [reset, router]);
 
+  // ACTIONS----------------------------------------------------------------------
+
+  // handle go next
+  const handleGoNext = useCallback(() => {
+    if (ref?.current) ref.current?.scrollIntoView();
+    goNext();
+  }, [goNext, ref]);
+
+  // handle go back
+  const handleGoBack = useCallback(() => {
+    if (ref?.current) ref.current?.scrollIntoView();
+    goBack();
+  }, [goBack, ref]);
+
   // handle submit form request
   const handleUpdate = useCallback(
     async (formValues) => {
@@ -135,8 +151,8 @@ const Content = (props) => {
 
     if (!response) return;
 
-    goNext();
-  }, [activeStep, goNext, trigger]);
+    handleGoNext();
+  }, [activeStep, handleGoNext, trigger]);
 
   // mannualy submit form
   const submitForm = async () => {
@@ -160,7 +176,7 @@ const Content = (props) => {
   }, [defaultValues]);
 
   return (
-    <Container maxWidth={appearance.themeStretch ? false : 'xl'}>
+    <Container maxWidth={appearance.themeStretch ? false : 'xl'} ref={ref}>
       <CustomBreadcrumbs
         heading="Edit Warehouse"
         links={[{ name: 'warehouses', href: paths.settings.warehouses }, { name: 'edit' }]}
@@ -179,7 +195,7 @@ const Content = (props) => {
           <Stack>
             <WarehouseStepper
               activeStep={activeStep}
-              handleBack={goBack}
+              handleBack={handleGoBack}
               handleNext={validateStep}
             />
             <WarehouseFields activeStep={activeStep} />
@@ -213,7 +229,7 @@ const Content = (props) => {
                 variant="soft"
                 size="large"
                 color="error"
-                onClick={activeStep === 0 ? onReset : goBack}
+                onClick={activeStep === 0 ? onReset : handleGoBack}
               >
                 {activeStep === 0 ? 'Cancel' : 'Back'}
               </Button>
@@ -229,6 +245,6 @@ const Content = (props) => {
   );
 };
 
-Content.propTypes = Props;
+WarehouseEditContent.propTypes = Props;
 
-export default Content;
+export default WarehouseEditContent;

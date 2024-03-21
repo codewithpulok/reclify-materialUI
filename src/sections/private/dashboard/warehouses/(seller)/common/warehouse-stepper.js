@@ -4,7 +4,6 @@ import Step from '@mui/material/Step';
 import StepLabel from '@mui/material/StepLabel';
 import Stepper from '@mui/material/Stepper';
 import PropTypes from 'prop-types';
-import { useEffect, useRef } from 'react';
 import { getIconify } from 'src/components/common/iconify/utilities';
 
 // ----------------------------------------------------------------------
@@ -23,7 +22,6 @@ const Props = {
 // ----------------------------------------------------------------------
 const WarehouseStepper = (props) => {
   const { activeStep, handleBack, handleNext } = props;
-  const ref = useRef();
 
   // event handler
   const handleClick = (step) => {
@@ -34,14 +32,8 @@ const WarehouseStepper = (props) => {
     }
   };
 
-  useEffect(() => {
-    if (ref?.current) {
-      ref.current?.scrollIntoView();
-    }
-  }, [activeStep]);
-
   return (
-    <Box ref={ref} sx={{ width: '100%', mb: 8 }}>
+    <Box sx={{ width: '100%', mb: 8 }}>
       <Stepper sx={{ mb: 3 }} activeStep={activeStep}>
         {steps.map((label, index) => (
           <Step key={label} onClick={() => handleClick(index)}>

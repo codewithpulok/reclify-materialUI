@@ -8,7 +8,7 @@ import { useForm } from 'react-hook-form';
 import { LoadingButton } from '@mui/lab';
 import { useRouter } from 'next/navigation';
 import { useSnackbar } from 'notistack';
-import { useCallback } from 'react';
+import { useCallback, useRef } from 'react';
 import {
   predefinedAmenities,
   predefinedFacility,
@@ -24,7 +24,7 @@ import useAppearance from 'src/redux-toolkit/features/appearance/use-appearance'
 import { useWarehouseCreateMutation } from 'src/redux-toolkit/services/warehouseApi';
 import { paths } from 'src/routes/paths';
 import { getPredefinedFieldsDefaultValue } from 'src/utils/predefined-fields';
-import WarehouseFields, { stepFields } from '../common/warehouse-fields';
+import WarehouseFields, { stepFields } from '../common/warehouse-fields/index';
 import warehouseSchema from '../common/warehouse-schema';
 import WarehouseStepper from '../common/warehouse-stepper';
 
@@ -75,8 +75,9 @@ const defaultValues = {
  * @param {Props} props
  * @returns {JSX.Element}
  */
-const Content = (props) => {
+const WarehouseCreateContent = (props) => {
   const { sourceWarehouse } = props;
+  const ref = useRef();
 
   const router = useRouter();
   const { enqueueSnackbar } = useSnackbar();
@@ -84,6 +85,7 @@ const Content = (props) => {
 
   // app states
   const { activeStep, goBack, goNext } = useStepper(0, 2);
+
   const isPreview = useBoolean();
 
   // api state
@@ -97,6 +99,20 @@ const Content = (props) => {
   const { handleSubmit, formState, reset, trigger, watch } = methods;
   const { isSubmitting } = formState;
   const values = watch();
+
+  // ACTIONS ----------------------------------------------------------------------
+
+  // handle go next
+  const handleGoNext = useCallback(() => {
+    if (ref?.current) ref.current?.scrollIntoView();
+    goNext();
+  }, [goNext, ref]);
+
+  // handle go back
+  const handleGoBack = useCallback(() => {
+    if (ref?.current) ref.current?.scrollIntoView();
+    goBack();
+  }, [goBack, ref]);
 
   // reset form
   const onReset = useCallback(() => {
@@ -136,8 +152,8 @@ const Content = (props) => {
 
     if (!response) return;
 
-    goNext();
-  }, [activeStep, goNext, trigger]);
+    handleGoNext();
+  }, [activeStep, handleGoNext, trigger]);
 
   // mannualy submit form
   const submitForm = async () => {
@@ -150,7 +166,7 @@ const Content = (props) => {
   };
 
   return (
-    <Container maxWidth={appearance.themeStretch ? false : 'lg'}>
+    <Container maxWidth={appearance.themeStretch ? false : 'lg'} ref={ref}>
       <CustomBreadcrumbs
         heading="Create Warehouse"
         links={[
@@ -172,7 +188,7 @@ const Content = (props) => {
           <Stack spacing={1.5}>
             <WarehouseStepper
               activeStep={activeStep}
-              handleBack={goBack}
+              handleBack={handleGoBack}
               handleNext={validateStep}
             />
 
@@ -210,7 +226,7 @@ const Content = (props) => {
                 variant="soft"
                 size="large"
                 color="error"
-                onClick={activeStep === 0 ? onReset : goBack}
+                onClick={activeStep === 0 ? onReset : handleGoBack}
               >
                 {activeStep === 0 ? 'Cancel' : 'Back'}
               </Button>
@@ -226,6 +242,6 @@ const Content = (props) => {
   );
 };
 
-Content.propTypes = Props;
+WarehouseCreateContent.propTypes = Props;
 
-export default Content;
+export default WarehouseCreateContent;

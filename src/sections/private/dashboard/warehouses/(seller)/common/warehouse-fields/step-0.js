@@ -29,8 +29,8 @@ const Step0 = (props) => {
   const { excludeImages } = props;
 
   // form state
-  const { watch, getValues, resetField, setValue } = useFormContext();
-  const regionScope = watch('regionScope');
+  const { watch, getValues, setValue } = useFormContext();
+  const regionScope = watch('regionScope', '');
   const highlights = watch('highlights', '');
   const addressCountry = watch('address.country', undefined);
   const addressState = watch('address.state', undefined);
@@ -39,7 +39,7 @@ const Step0 = (props) => {
     if (regionScope) {
       const region = getValues('region');
       const regions = getRegionsByScope(regionScope);
-      if (regions.findIndex((r) => r.code === region) === -1) resetField('region');
+      if (regions.findIndex((r) => r.code === region) === -1) setValue('region', '');
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [regionScope]);

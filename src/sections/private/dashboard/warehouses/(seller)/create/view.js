@@ -7,7 +7,7 @@ import { useEffect } from 'react';
 import { ErrorState } from 'src/components/common/custom-state';
 import { LoadingScreen } from 'src/components/common/loading-screen';
 import { useLazyWarehouseQuery } from 'src/redux-toolkit/services/warehouseApi';
-import Content from './content';
+import WarehouseCreateContent from './content';
 
 const Props = {
   id: PropTypes.string,
@@ -34,13 +34,13 @@ const WarehouseCreateView = (props) => {
 
     // on request success
     if (result.isSuccess && result.data?.success) {
-      return <Content sourceWarehouse={result.data?.results} />;
+      return <WarehouseCreateContent sourceWarehouse={result.data?.results} />;
     }
 
     return <LoadingScreen />;
   }
 
-  return <Content sourceWarehouse={undefined} />;
+  return <WarehouseCreateContent sourceWarehouse={undefined} />;
 };
 
 WarehouseCreateView.propTypes = Props;
