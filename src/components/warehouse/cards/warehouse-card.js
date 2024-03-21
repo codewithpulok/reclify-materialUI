@@ -84,7 +84,7 @@ const WarehouseCard = (props) => {
           <Stack spacing={0.7}>
             <Stack direction="row" justifyContent="end">
               {/* if there is a discount then show badge */}
-              {!!warehouse.discountRate && (
+              {warehouse.hotRackEnabled && warehouse?.discountRate > 0 && (
                 <Label
                   color="secondary"
                   variant="filled"

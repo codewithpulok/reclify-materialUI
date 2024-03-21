@@ -10,7 +10,7 @@ import { RouterLink } from 'src/routes/components';
  * @returns {JSX.Element}
  */
 const Logo = (props) => {
-  const { disabledLink = false, sx, isLong = false, containerProps } = props;
+  const { disabledLink = false, sx, isLong = false, containerProps, href = '/' } = props;
 
   const logo = (
     <Box
@@ -31,7 +31,7 @@ const Logo = (props) => {
   return (
     <Link
       component={RouterLink}
-      href="/"
+      href={href}
       {...containerProps}
       sx={{ display: 'inline-flex', ...(containerProps?.sx || {}) }}
     >
@@ -46,6 +46,7 @@ Logo.propTypes = {
   sx: PropTypes.object,
   /** @type {import('@mui/material').LinkProps | import('@mui/material').BoxProps} */
   containerProps: PropTypes.object,
+  href: PropTypes.string,
 };
 
 export default Logo;
