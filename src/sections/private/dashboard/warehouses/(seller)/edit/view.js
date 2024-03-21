@@ -6,7 +6,7 @@ import PropTypes from 'prop-types';
 import { ErrorState } from 'src/components/common/custom-state';
 import { LoadingScreen } from 'src/components/common/loading-screen';
 import { useWarehouseQuery } from 'src/redux-toolkit/services/warehouseApi';
-import Content from './content';
+import WarehouseEditContent from './content';
 
 const Props = {
   id: PropTypes.string.isRequired,
@@ -29,7 +29,7 @@ const WarehouseEditView = (props) => {
 
   // on request success
   if (warehouseResult.isSuccess && warehouseResult.data?.success) {
-    return <Content warehouse={warehouseResult.data?.results} />;
+    return <WarehouseEditContent warehouse={warehouseResult.data?.results} />;
   }
 
   return <LoadingScreen />;

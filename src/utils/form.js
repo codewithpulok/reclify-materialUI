@@ -3,8 +3,11 @@
  * @param {number | string} v
  * @returns {number}
  */
-export const restrictNegetiveValue = (v) =>
-  v !== '' && Number(v) < 0 ? 0 : Number(Number(v).toFixed(2));
+export const restrictNegetiveValue = (v) => {
+  if (v === '') return v;
+
+  return v !== '' && Number(v) < 0 ? 0 : Number(Number(v).toFixed(2));
+};
 
 /**
  * Restrict Percent value on number input field
@@ -12,6 +15,8 @@ export const restrictNegetiveValue = (v) =>
  * @returns {number}
  */
 export const restrictPercentValue = (v) => {
+  if (v === '') return v;
+
   const notNegetive = restrictNegetiveValue(v);
 
   return Number(notNegetive) > 100 ? 100 : notNegetive;

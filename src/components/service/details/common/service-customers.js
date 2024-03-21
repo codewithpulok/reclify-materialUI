@@ -62,10 +62,10 @@ const ServiceCustomers = (props) => {
           onNext={carousel.onNext}
           onPrev={carousel.onPrev}
           leftButtonProps={{
-            sx: { left: 4 },
+            sx: { left: 4, mt: 0 },
           }}
           rightButtonProps={{
-            sx: { right: 4 },
+            sx: { right: 4, mt: 0 },
           }}
         >
           <Carousel ref={carousel.carouselRef} {...carousel.carouselSettings}>

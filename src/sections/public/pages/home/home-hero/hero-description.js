@@ -71,18 +71,23 @@ const HeroDescription = (props) => {
       <Stack sx={{ mt: 6, mb: 4 }}>
         <MotionButton
           LinkComponent={RouterLink}
-          href={paths.warehouses.root}
+          href={paths.auth.register}
           variant="contained"
           color="primary"
           startIcon={getIconify('ion:rocket', 24)}
           size="large"
-          sx={{ px: 4 }}
+          sx={{ px: 4, mb: 1 }}
           variants={varFade().inRight}
           whileHover={{ scale: 1.2 }}
           whileTap={{ scale: 0.8 }}
         >
           Start today
         </MotionButton>
+        <m.div variants={varFade().inRight} transition={{ duration: 2 }}>
+          <Typography variant="body2" textAlign="center">
+            Public Launch Coming Summer 2024
+          </Typography>
+        </m.div>
       </Stack>
 
       {renderBoxes}

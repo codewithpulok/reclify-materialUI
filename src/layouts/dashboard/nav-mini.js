@@ -8,6 +8,7 @@ import { NavSectionMini } from 'src/components/common/nav-section';
 
 import { selectAuth } from 'src/redux-toolkit/features/auth/authSlice';
 import { useAppSelector } from 'src/redux-toolkit/hooks';
+import { paths } from 'src/routes/paths';
 import NavToggleButton from '../common/nav-toggle-button';
 import { NAV } from '../config-layout';
 import { useNavData } from './config-navigation';
@@ -43,7 +44,7 @@ export default function NavMini() {
           ...hideScroll.x,
         }}
       >
-        <Logo sx={{ mx: 'auto', my: 2 }} />
+        <Logo sx={{ mx: 'auto', my: 2 }} href={paths.dashboard.root} />
 
         <NavSectionMini
           data={navData}

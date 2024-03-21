@@ -3,7 +3,7 @@ import { asyncWrapper } from '../helpers';
 
 /** @type {AsyncReturn<undefined, Plan[]>} */
 export const getAllPlans = asyncWrapper(async () => {
-  const response = await fetch(endpoints.plans.root);
+  const response = await fetch(endpoints.plans.root, { cache: 'force-cache' });
 
   if (!response?.ok) throw new Error('ERROR: Could not fetch plans');
 

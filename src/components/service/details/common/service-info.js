@@ -21,10 +21,6 @@ const ServiceInfo = (props) => {
   const values = useMemo(
     () => [
       {
-        label: 'Business Size',
-        value: service?.businessSize,
-      },
-      {
         label: 'Founded Year',
         value: service?.foundedYear,
       },
@@ -35,6 +31,10 @@ const ServiceInfo = (props) => {
             {service?.website}
           </Link>
         ),
+      },
+      {
+        label: 'Business Hours',
+        value: service?.businessHours,
       },
     ],
     [service]

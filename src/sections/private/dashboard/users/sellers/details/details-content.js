@@ -1,6 +1,6 @@
 'use client';
 
-import { Card, Container, Tab, Tabs } from '@mui/material';
+import { Button, Card, Container, Stack, Tab, Tabs, tabsClasses } from '@mui/material';
 import PropTypes from 'prop-types';
 import { useCallback, useState } from 'react';
 import CustomBreadcrumbs from 'src/components/common/custom-breadcrumbs/custom-breadcrumbs';
@@ -9,10 +9,11 @@ import { PLACEHOLDER_PROFILE_AVATAR, PLACEHOLDER_PROFILE_BANNER } from 'src/conf
 import useAppearance from 'src/redux-toolkit/features/appearance/use-appearance';
 import { selectAuth } from 'src/redux-toolkit/features/auth/authSlice';
 import { useAppSelector } from 'src/redux-toolkit/hooks';
+import { RouterLink } from 'src/routes/components';
 import { paths } from 'src/routes/paths';
 import { fDate } from 'src/utils/format-time';
 import UserCover from '../../common/user-cover';
-import { ICONS, TabsSx } from '../../config-users';
+import { ICONS } from '../../config-users';
 import DetailsHome from './details-home';
 import DetailsMembership from './details-membership';
 import DetailsWarehouses from './details-warehouses';
@@ -84,18 +85,61 @@ const DetailsContent = (props) => {
           coverUrl={user?.banner || PLACEHOLDER_PROFILE_BANNER}
         />
 
-        <Tabs value={currentTab} onChange={handleChangeTab} sx={TabsSx}>
-          {TABS.map((tab) => {
-            if (!!tab?.role && !tab.role.includes(authUser?.userType)) return null;
+        <Stack sx={{ width: 1, bottom: 0, zIndex: 9, position: 'absolute' }}>
+          {authUser && authUser?.id !== user.id && (
+            <Button
+              LinkComponent={RouterLink}
+              href={`${paths.dashboard.messages.root}?id=${user.id}`}
+              variant="contained"
+              color="inherit"
+              endIcon={ICONS.send_message()}
+              sx={{
+                alignSelf: {
+                  xs: 'center',
+                  md: 'end',
+                },
+                mr: {
+                  xs: 0,
+                  md: 2,
+                },
+                mb: 2,
+                bgcolor: 'grey.0',
+                color: 'grey.900',
+                ':hover': { bgcolor: 'grey.300' },
+              }}
+            >
+              Send Message
+            </Button>
+          )}
+          <Tabs
+            value={currentTab}
+            onChange={handleChangeTab}
+            sx={{
+              bgcolor: 'background.paper',
+              [`& .${tabsClasses.flexContainer}`]: {
+                pr: { md: 3 },
+                justifyContent: {
+                  sm: 'center',
+                  md: 'flex-end',
+                },
+              },
+              pl: {
+                xs: 1.5,
+                sm: 0,
+              },
+            }}
+          >
+            {TABS.map((tab) => {
+              if (!!tab?.role && !tab.role.includes(authUser?.userType)) return null;
 
-            return <Tab key={tab.value} value={tab.value} icon={tab.icon} label={tab.label} />;
-          })}
-        </Tabs>
+              return <Tab key={tab.value} value={tab.value} icon={tab.icon} label={tab.label} />;
+            })}
+          </Tabs>
+        </Stack>
       </Card>
 
       {currentTab === 'profile' && (
         <DetailsHome
-          allowSendMessage={authUser && authUser?.id !== user.id}
           user={user}
           customerNumber={user?.customerCount || 0}
           totalWarehouses={user?.warehouses?.length}

@@ -5,11 +5,9 @@ import PropTypes from 'prop-types';
 import MainLayout from 'src/layouts/main';
 import HomeFeaturedNews from './home-featured-news';
 import HomeHero from './home-hero/index';
-import HomeJoin from './home-join';
 import HomePricing from './home-pricing/index';
 import HomeProgress from './home-progress';
 import HomeRacklify from './home-racklify/index';
-import HomeRoadmap from './home-roadmap/index';
 
 // ----------------------------------------------------------------------
 
@@ -40,9 +38,7 @@ const HomeView = (props) => {
       >
         <HomeRacklify />
         <HomeFeaturedNews />
-        <HomeRoadmap />
         {!!plans?.length && <HomePricing data={plans} />}
-        <HomeJoin />
       </Box>
     </MainLayout>
   );
