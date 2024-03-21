@@ -1,6 +1,6 @@
 'use client';
 
-import { Button, Link } from '@mui/material';
+import { Link } from '@mui/material';
 import Box from '@mui/material/Box';
 import Card from '@mui/material/Card';
 import CardHeader from '@mui/material/CardHeader';
@@ -14,8 +14,6 @@ import { getSocialBrand } from 'src/assets/data/social-brands';
 import { getIconify } from 'src/components/common/iconify/utilities';
 import { selectAuth } from 'src/redux-toolkit/features/auth/authSlice';
 import { useAppSelector } from 'src/redux-toolkit/hooks';
-import { RouterLink } from 'src/routes/components';
-import { paths } from 'src/routes/paths';
 import { fCurrency, fNumber } from 'src/utils/format-number';
 import { ICONS } from '../../../config-users';
 import HomeAdminControl from './home-admin-control';
@@ -23,7 +21,6 @@ import HomeAdminControl from './home-admin-control';
 // ----------------------------------------------------------------------
 
 const DetailsHomeProps = {
-  allowSendMessage: PropTypes.bool,
   totalWarehouses: PropTypes.number,
   customerNumber: PropTypes.number,
   totalSales: PropTypes.number,
@@ -36,7 +33,7 @@ const DetailsHomeProps = {
  * @returns {JSX.Element}
  */
 const DetailsHome = (props) => {
-  const { customerNumber, totalSales, totalWarehouses, user, allowSendMessage } = props;
+  const { customerNumber, totalSales, totalWarehouses, user } = props;
   const { user: authUser } = useAppSelector(selectAuth);
 
   const renderStats = (
@@ -76,22 +73,7 @@ const DetailsHome = (props) => {
 
   const renderAbout = (
     <Card>
-      <CardHeader
-        title="About"
-        action={
-          allowSendMessage ? (
-            <Button
-              LinkComponent={RouterLink}
-              href={`${paths.dashboard.messages.root}?id=${user.id}`}
-              variant="outlined"
-              color="primary"
-              endIcon={ICONS.send_message()}
-            >
-              Send Message
-            </Button>
-          ) : null
-        }
-      />
+      <CardHeader title="About" />
 
       <Stack spacing={2} sx={{ p: 3 }}>
         <Box sx={{ typography: 'body2' }}>{user.about}</Box>
