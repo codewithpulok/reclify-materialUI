@@ -1,7 +1,14 @@
 import { Grid, MenuItem } from '@mui/material';
 import PropTypes from 'prop-types';
+import { useEffect } from 'react';
 import { useFormContext } from 'react-hook-form';
-import { getRegionsByScope, regionScopes } from 'src/assets/data';
+import {
+  getRegionByStateCode,
+  getRegionScope,
+  getRegionsByScope,
+  regionScopes,
+} from 'src/assets/data';
+import { getCountryByLabel, getStateByLabel } from 'src/assets/data/address';
 import {
   AddressArrayField,
   AddressField,
@@ -22,9 +29,40 @@ const Step0 = (props) => {
   const { excludeImages } = props;
 
   // form state
-  const { watch } = useFormContext();
+  const { watch, getValues, resetField, setValue } = useFormContext();
   const regionScope = watch('regionScope');
   const highlights = watch('highlights', '');
+  const addressCountry = watch('address.country', undefined);
+  const addressState = watch('address.state', undefined);
+
+  useEffect(() => {
+    if (regionScope) {
+      const region = getValues('region');
+      const regions = getRegionsByScope(regionScope);
+      if (regions.findIndex((r) => r.code === region) === -1) resetField('region');
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [regionScope]);
+
+  useEffect(() => {
+    if (addressCountry) {
+      const countryCode = getCountryByLabel(addressCountry)?.code;
+      if (countryCode) {
+        setValue('regionScope', getRegionScope(countryCode?.toLowerCase()).code);
+      }
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [addressCountry]);
+
+  useEffect(() => {
+    if (addressState) {
+      const stateCode = getStateByLabel(addressState)?.code;
+      if (stateCode) {
+        setValue('region', getRegionByStateCode(stateCode).code);
+      }
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [addressState]);
 
   return (
     <Grid container spacing={1.2}>

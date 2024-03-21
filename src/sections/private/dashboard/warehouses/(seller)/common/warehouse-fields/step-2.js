@@ -1,8 +1,6 @@
 import { Alert, Button, Grid, InputAdornment, MenuItem, TextField } from '@mui/material';
 import { useCallback, useEffect } from 'react';
 import { useFormContext } from 'react-hook-form';
-import { getRegionByStateCode, getRegionScope, getRegionsByScope } from 'src/assets/data';
-import { getCountryByLabel, getStateByLabel } from 'src/assets/data/address';
 import { ReferenceTextField } from 'src/components/common/custom-fields';
 import { RHFAccordion, RHFSwitch, RHFTextField } from 'src/components/common/hook-form';
 import { SQUARE_FEET_PER_PALLET } from 'src/constant/pallet';
@@ -21,11 +19,7 @@ const Step2 = (props) => {
   const { user } = useAppSelector(selectAuth);
 
   // form state
-  const { watch, getValues, resetField, setValue, setFocus } = useFormContext();
-  const regionScope = watch('regionScope');
-  const addressCountry = watch('address.country', undefined);
-  const addressState = watch('address.state', undefined);
-  const hasPromo = watch('hasPromo', false);
+  const { watch, setValue } = useFormContext();
   const hotRackEnabled = watch('hotRackEnabled', false);
   const discountOption = watch('discountOption', 'percentage');
 
@@ -62,47 +56,6 @@ const Step2 = (props) => {
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [price1, price12, price3, price6]);
-
-  useEffect(() => {
-    if (regionScope) {
-      const region = getValues('region');
-      const regions = getRegionsByScope(regionScope);
-      if (regions.findIndex((r) => r.code === region) === -1) resetField('region');
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [regionScope]);
-
-  useEffect(() => {
-    if (addressCountry) {
-      const countryCode = getCountryByLabel(addressCountry)?.code;
-      if (countryCode) {
-        setValue('regionScope', getRegionScope(countryCode?.toLowerCase()).code);
-      }
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [addressCountry]);
-
-  useEffect(() => {
-    if (addressState) {
-      const stateCode = getStateByLabel(addressState)?.code;
-      if (stateCode) {
-        setValue('region', getRegionByStateCode(stateCode).code);
-      }
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [addressState]);
-
-  // reset promo code on hasPromo change
-  useEffect(() => {
-    if (hasPromo === false) {
-      setValue('promoCode', '');
-    }
-
-    if (hasPromo === true) {
-      setFocus('promoCode');
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [hasPromo]);
 
   return (
     <Grid container spacing={1.2}>
