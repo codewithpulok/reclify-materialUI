@@ -27,7 +27,7 @@
  * @property {number} discount3
  * @property {number} discount6
  * @property {number} discount12
- * @property {number} discountAll
+//  * @property {number} discountAll
  * @property {boolean} hasPromo
  * @property {string} promoCode
  * @property {boolean} hotRackEnabled

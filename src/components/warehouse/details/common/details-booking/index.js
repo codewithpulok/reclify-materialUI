@@ -103,12 +103,7 @@ const DetailsBooking = (props) => {
     () => warehouse?.hotRackEnabled || false,
     [warehouse?.hotRackEnabled]
   );
-  const discountAll = useMemo(() => {
-    // if discount enabled & discount type is percentage then make it count
-    if (discountEnabled && warehouse?.discountOption === 'fixed')
-      return warehouse?.discountAll || 0;
-    return 0;
-  }, [discountEnabled, warehouse?.discountAll, warehouse?.discountOption]);
+
   const discountRate = useMemo(() => {
     // if discount enabled & discount type is percentage then make it count
     if (discountEnabled && warehouse?.discountOption === 'percentage')
@@ -180,8 +175,9 @@ const DetailsBooking = (props) => {
   const discount = useMemo(() => {
     if (!discountEnabled) return 0;
 
-    return percentDiscount || discountAll + discountMonth;
-  }, [discountAll, discountEnabled, discountMonth, percentDiscount]);
+    return percentDiscount || discountMonth;
+  }, [discountEnabled, discountMonth, percentDiscount]);
+
   const discountedPricePerPallet = currentPrice - discount;
   const totalPrice = currentPrice * selectedMonth * requiredSpace;
   const totalDiscount = discount * selectedMonth * requiredSpace;

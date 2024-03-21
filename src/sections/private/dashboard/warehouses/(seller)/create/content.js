@@ -62,7 +62,6 @@ const defaultValues = {
   price3: null,
   price6: null,
   promoCode: '',
-  discountAll: null,
   hotRackEnabled: false,
   discountOption: 'percentage',
   logo: null,
@@ -155,7 +154,7 @@ const Content = (props) => {
       <CustomBreadcrumbs
         heading="Create Warehouse"
         links={[
-          { name: 'warehouses', href: paths.dashboard.warehouses.root },
+          { name: 'warehouses', href: paths.settings.warehouses },
           { name: 'create', href: '#' },
         ]}
         sx={{

@@ -81,7 +81,6 @@ const Content = (props) => {
       price3: warehouse?.price3 || 0,
       price6: warehouse?.price6 || 0,
       promoCode: warehouse?.promoCode || '',
-      discountAll: warehouse?.discountAll || 0,
       hotRackEnabled: warehouse?.hotRackEnabled || false,
       discountOption: warehouse?.discountOption || 'percentage',
       logo: warehouse?.logo || null,
@@ -164,7 +163,7 @@ const Content = (props) => {
     <Container maxWidth={appearance.themeStretch ? false : 'xl'}>
       <CustomBreadcrumbs
         heading="Edit Warehouse"
-        links={[{ name: 'warehouses', href: paths.dashboard.warehouses.root }, { name: 'edit' }]}
+        links={[{ name: 'warehouses', href: paths.settings.warehouses }, { name: 'edit' }]}
         sx={{
           mb: { xs: 3, md: 5 },
         }}

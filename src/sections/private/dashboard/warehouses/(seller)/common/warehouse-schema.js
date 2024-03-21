@@ -20,54 +20,15 @@ const discountValidation = (month) =>
       message: 'Invalid Discount',
       test(value, ctx) {
         const depended = ctx.parent?.[`price${month}`];
-        const discountAll = ctx.parent?.discountAll;
         const discountOption = ctx.parent?.discountOption;
 
         // check ignore cases
         if (!ctx.parent.hotRackEnabled || !depended || discountOption !== 'fixed' || !value)
           return true;
 
-        let discountedPrice = depended - value;
-
-        if (typeof discountAll === 'number') discountedPrice -= discountAll;
+        const discountedPrice = depended - value;
 
         return discountedPrice > 0;
-      },
-      skipAbsent: true,
-    });
-
-const discountAllValidation = () =>
-  Yup.number()
-    .label(`Discount for all month`)
-    .nullable()
-    .optional()
-    .default(0)
-    .min(0)
-    .test({
-      name: 'valid-discount',
-      message: 'Invalid Discount',
-      test(value, ctx) {
-        const discountAll = ctx.parent?.discountAll;
-        const discountOption = ctx.parent?.discountOption;
-
-        if (!ctx.parent?.hotRackEnabled || !discountAll || discountOption !== 'fixed') return true;
-
-        const checks = [1, 3, 6, 12];
-
-        const v = checks.find((month) => {
-          const price = ctx.parent?.[`price${month}`];
-          const discount = ctx.parent?.[`discount${month}`];
-
-          if (!price) return false; // skip if price is invalid
-
-          let discountedPrice = price - discountAll;
-
-          if (discount) discountedPrice -= discount;
-
-          return discountedPrice <= 0;
-        });
-
-        return !v;
       },
       skipAbsent: true,
     });
@@ -106,7 +67,7 @@ const schema = {
   discount3: discountValidation(3),
   discount6: discountValidation(6),
   discount12: discountValidation(12),
-  discountAll: discountAllValidation(),
+  // discountAll: discountAllValidation(),
   discountRate: Yup.number().label('HotRacks').min(0).max(100).notRequired(),
   maxSpaceOrder: Yup.number()
     .label('Max orderable space')

@@ -1,81 +1,28 @@
-import { Alert, InputAdornment, MenuItem, TextField } from '@mui/material';
-import Grid from '@mui/material/Grid';
+import { Alert, Grid, InputAdornment, MenuItem, TextField } from '@mui/material';
 import { useCallback, useEffect } from 'react';
 import { useFormContext } from 'react-hook-form';
-// local components
-import PropTypes from 'prop-types';
-import {
-  getRegionByStateCode,
-  getRegionScope,
-  getRegionsByScope,
-  regionScopes,
-} from 'src/assets/data';
+import { getRegionByStateCode, getRegionScope, getRegionsByScope } from 'src/assets/data';
 import { getCountryByLabel, getStateByLabel } from 'src/assets/data/address';
-import {
-  predefinedAmenities,
-  predefinedFacility,
-  predefinedFeatures,
-} from 'src/assets/data/predefined-fields/warehouse';
-import {
-  AddressArrayField,
-  AddressField,
-  BannerField,
-  DocumentsUploadField,
-  PhotosUploadField,
-  PredefinedFields,
-  ReferenceTextField,
-  SinglePhotoUploadField,
-} from 'src/components/common/custom-fields';
-import { EmptyState } from 'src/components/common/custom-state';
+import { ReferenceTextField } from 'src/components/common/custom-fields';
 import { RHFAccordion, RHFSwitch, RHFTextField } from 'src/components/common/hook-form';
-import Label from 'src/components/common/label';
 import { SQUARE_FEET_PER_PALLET } from 'src/constant/pallet';
 import { selectAuth } from 'src/redux-toolkit/features/auth/authSlice';
 import { useAppSelector } from 'src/redux-toolkit/hooks';
-import { restrictMaxLength, restrictNegetiveValue, restrictPercentValue } from 'src/utils/form';
+import { restrictNegetiveValue, restrictPercentValue } from 'src/utils/form';
 import { fCurrency, fFixedFloat } from 'src/utils/format-number';
-import WarehouseReviews from './warehouse-reviews';
 
-export const stepFields = {
-  0: [
-    'name',
-    'address',
-    'regionScope',
-    'region',
-    'description',
-    'highlights',
-    'photos',
-    'services',
-  ],
-  1: ['features', 'amenities', 'facilityDetails', 'documents'],
-  2: [
-    'totalSpace',
-    'minSpaceOrder',
-    'maxSpaceOrder',
-    'price1',
-    'price3',
-    'price6',
-    'price12',
-    'discountRate',
-  ],
-};
-
-const Props = {
-  activeStep: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
-  excludeImages: PropTypes.arrayOf(PropTypes.string),
-};
-
-const WarehouseFields = (props) => {
-  const { activeStep = 'CREATE', excludeImages = [] } = props;
+/**
+ * @param {Step2.propTypes} props
+ * @returns {JSX.Element}
+ */
+const Step2 = (props) => {
   const { user } = useAppSelector(selectAuth);
 
   // form state
-  const { watch, getValues, resetField, setValue, setFocus, formState } = useFormContext();
-  const { errors } = formState;
+  const { watch, getValues, resetField, setValue, setFocus } = useFormContext();
   const regionScope = watch('regionScope');
   const addressCountry = watch('address.country', undefined);
   const addressState = watch('address.state', undefined);
-  const highlights = watch('highlights', '');
   const hasPromo = watch('hasPromo', false);
   const hotRackEnabled = watch('hotRackEnabled', false);
   const discountOption = watch('discountOption', 'percentage');
@@ -89,17 +36,11 @@ const WarehouseFields = (props) => {
   const discount3 = watch('discount3');
   const discount6 = watch('discount6');
   const discount12 = watch('discount12');
-  const discountAll = watch('discountAll');
 
-  const monthlyDiscount = useCallback(
-    (price, discount) => {
-      if (!price) return 0;
-      return price - (discount || 0) - (discountAll || 0);
-    },
-    [discountAll]
-  );
-
-  console.log({ errors });
+  const monthlyDiscount = useCallback((price, discount) => {
+    if (!price) return 0;
+    return price - (discount || 0);
+  }, []);
 
   useEffect(() => {
     if (!price1) {
@@ -161,134 +102,7 @@ const WarehouseFields = (props) => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [hasPromo]);
 
-  const step0 = (
-    <Grid container spacing={1.2}>
-      <Grid item xs={12} mb={2}>
-        <BannerField photoLabel="Company Logo" photoName="miniLogo" bannerName="banner" />
-      </Grid>
-      <Grid item xs={12} md={6}>
-        <Grid container spacing={1.2}>
-          <Grid item xs={12}>
-            <RHFTextField name="name" label="Name" fullWidth />
-          </Grid>
-
-          <Grid item xs={12}>
-            <AddressField name="address" />
-          </Grid>
-
-          <Grid item xs={12}>
-            <RHFAccordion name="additionalAddresses" label="Additional Addresses" defaultExpanded>
-              <AddressArrayField name="additionalAddresses" />
-            </RHFAccordion>
-          </Grid>
-
-          <Grid item xs={6} display="none">
-            <RHFTextField name="regionScope" label="Region Scope" disabled fullWidth select>
-              <MenuItem disabled>Select Region Scope</MenuItem>
-              {regionScopes.map((option) => (
-                <MenuItem key={option.code} value={option.code}>
-                  {option.name}
-                </MenuItem>
-              ))}
-            </RHFTextField>
-          </Grid>
-          <Grid item xs={12}>
-            <RHFTextField name="region" label="Region" disabled fullWidth select>
-              <MenuItem disabled>Select Region</MenuItem>
-              {getRegionsByScope(regionScope).map((option) => (
-                <MenuItem key={option.code} value={option.code}>
-                  {option.name}
-                </MenuItem>
-              ))}
-            </RHFTextField>
-          </Grid>
-
-          <Grid item xs={12}>
-            <RHFTextField
-              name="description"
-              label="Description"
-              rows={4}
-              helperText="Add a short description about your business."
-              multiline
-              fullWidth
-            />
-          </Grid>
-
-          <Grid item xs={12}>
-            <RHFTextField
-              name="highlights"
-              label="Highlights"
-              placeholder="Multi-Facility 3PL operating since 1983.  Looking for apparel brands requiring high SKU count and custom boutique packaging."
-              helperText={`${200 - (highlights?.length || 0)} character left for highlights`}
-              onChangeMiddleware={restrictMaxLength(200)}
-              rows={4}
-              multiline
-              fullWidth
-            />
-          </Grid>
-        </Grid>
-      </Grid>
-      <Grid item xs={12} md={6}>
-        <Grid container spacing={1.2}>
-          <Grid item xs={12}>
-            <SinglePhotoUploadField fieldName="logo" label="Logo" />
-          </Grid>
-          <Grid item xs={12}>
-            <WarehouseReviews />
-          </Grid>
-
-          <Grid item xs={12}>
-            <Label sx={{ mb: 1 }}>Photos</Label>
-            <PhotosUploadField name="photos" excludeImages={excludeImages} />
-          </Grid>
-        </Grid>
-      </Grid>
-    </Grid>
-  );
-
-  const step1 = (
-    <Grid container spacing={1.2}>
-      <Grid item xs={12} md={6}>
-        <Grid container spacing={1.2}>
-          <Grid item xs={12}>
-            <PredefinedFields
-              name="features"
-              fields={predefinedFeatures}
-              label="Features"
-              defaultExpanded
-              showIcon
-            />
-          </Grid>
-          <Grid item xs={12}>
-            <PredefinedFields
-              name="facilityDetails"
-              fields={predefinedFacility}
-              label="Facility Details"
-              defaultExpanded
-            />
-          </Grid>
-        </Grid>
-      </Grid>
-      <Grid item xs={12} md={6}>
-        <Grid container spacing={1.2}>
-          <Grid item xs={12}>
-            <PredefinedFields
-              name="amenities"
-              fields={predefinedAmenities}
-              label="Amenities"
-              defaultExpanded
-            />
-          </Grid>
-          <Grid item xs={12}>
-            <Label sx={{ mb: 1 }}>Warehouse Documents</Label>
-            <DocumentsUploadField name="documents" />
-          </Grid>
-        </Grid>
-      </Grid>
-    </Grid>
-  );
-
-  const step2 = (
+  return (
     <Grid container spacing={1.2}>
       <Grid item xs={12} md={6}>
         <Grid container spacing={1.2}>
@@ -411,7 +225,6 @@ const WarehouseFields = (props) => {
                 'discount3',
                 'discount6',
                 'discount12',
-                'discountAll',
               ]}
               label="HotRack"
               defaultExpanded
@@ -582,20 +395,6 @@ const WarehouseFields = (props) => {
                             }}
                           />
                         </Grid>
-
-                        <Grid item xs={12}>
-                          <RHFTextField
-                            type="number"
-                            name="discountAll"
-                            label="Discount for all month"
-                            InputProps={{
-                              startAdornment: <InputAdornment position="start">$</InputAdornment>,
-                            }}
-                            onChangeMiddleware={restrictNegetiveValue}
-                            fullWidth
-                            disabled={!hotRackEnabled}
-                          />
-                        </Grid>
                       </>
                     )}
                   </Grid>
@@ -607,34 +406,8 @@ const WarehouseFields = (props) => {
       </Grid>
     </Grid>
   );
-
-  if (activeStep === 0) {
-    return (
-      <Grid container spacing={1.2}>
-        {step0}
-      </Grid>
-    );
-  }
-
-  if (activeStep === 1) {
-    return (
-      <Grid container spacing={1.2}>
-        {step1}
-      </Grid>
-    );
-  }
-
-  if (activeStep === 2) {
-    return (
-      <Grid container spacing={1.2}>
-        {step2}
-      </Grid>
-    );
-  }
-
-  return <EmptyState />;
 };
 
-WarehouseFields.propTypes = Props;
+Step2.propTypes = {};
 
-export default WarehouseFields;
+export default Step2;
