@@ -1,4 +1,4 @@
-import { Alert, Grid, InputAdornment, MenuItem, TextField } from '@mui/material';
+import { Alert, Button, Grid, InputAdornment, MenuItem, TextField } from '@mui/material';
 import { useCallback, useEffect } from 'react';
 import { useFormContext } from 'react-hook-form';
 import { getRegionByStateCode, getRegionScope, getRegionsByScope } from 'src/assets/data';
@@ -8,6 +8,8 @@ import { RHFAccordion, RHFSwitch, RHFTextField } from 'src/components/common/hoo
 import { SQUARE_FEET_PER_PALLET } from 'src/constant/pallet';
 import { selectAuth } from 'src/redux-toolkit/features/auth/authSlice';
 import { useAppSelector } from 'src/redux-toolkit/hooks';
+import { RouterLink } from 'src/routes/components';
+import { paths } from 'src/routes/paths';
 import { restrictNegetiveValue, restrictPercentValue } from 'src/utils/form';
 import { fCurrency, fFixedFloat } from 'src/utils/format-number';
 
@@ -246,6 +248,15 @@ const Step2 = (props) => {
               {user?.planId === 'free' ? (
                 <Alert sx={{ mb: 2 }} icon={false} severity="warning">
                   You need to upgrade to a paid membership to add discount
+                  <Button
+                    LinkComponent={RouterLink}
+                    href={paths.settings.billing}
+                    variant="soft"
+                    color="warning"
+                    sx={{ mt: 1.5 }}
+                  >
+                    Upgrade Your Subscription
+                  </Button>
                 </Alert>
               ) : (
                 <>

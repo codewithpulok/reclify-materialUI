@@ -17,6 +17,7 @@ import { selectAuth } from 'src/redux-toolkit/features/auth/authSlice';
 import { useAppSelector } from 'src/redux-toolkit/hooks';
 import { paths } from 'src/routes/paths';
 import NavToggleButton from '../common/nav-toggle-button';
+import NavUpgrade from '../common/nav-upgrade';
 import { NAV } from '../config-layout';
 import { useNavData } from './config-navigation';
 
@@ -58,6 +59,7 @@ export default function NavVertical({ openNav, onCloseNav }) {
       />
 
       <Box sx={{ flexGrow: 1 }} />
+      {user?.userType === 'seller' && user.planId === 'free' && <NavUpgrade />}
     </Scrollbar>
   );
 

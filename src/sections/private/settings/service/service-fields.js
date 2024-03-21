@@ -60,8 +60,8 @@ const ServiceFields = (props) => {
 
           <Grid item xs={12}>
             <RHFTextField
-              name="businessSize"
-              label="Business Size"
+              name="businessHours"
+              label="Business Hours"
               type="number"
               onChangeMiddleware={(v) => (v !== '' && Number(v) < 0 ? 0 : v)}
               fullWidth
