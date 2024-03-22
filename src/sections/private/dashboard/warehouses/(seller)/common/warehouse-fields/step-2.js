@@ -1,4 +1,5 @@
-import { Alert, Button, Grid, InputAdornment, MenuItem, TextField } from '@mui/material';
+import { Alert, Button, Grid, InputAdornment, MenuItem, Stack, Typography } from '@mui/material';
+import PropTypes from 'prop-types';
 import { useCallback, useEffect } from 'react';
 import { useFormContext } from 'react-hook-form';
 import { ReferenceTextField } from 'src/components/common/custom-fields';
@@ -10,6 +11,30 @@ import { RouterLink } from 'src/routes/components';
 import { paths } from 'src/routes/paths';
 import { restrictNegetiveValue, restrictPercentValue } from 'src/utils/form';
 import { fCurrency, fFixedFloat } from 'src/utils/format-number';
+
+const DiscountResult = (props) => {
+  const { error, label, value, disabled } = props;
+
+  const color = error ? 'error.main' : 'inherit';
+
+  return (
+    <Stack>
+      <Typography variant="caption" color={disabled ? 'text.disabled' : color}>
+        {label}
+      </Typography>
+      <Typography variant="subtitle1" color={disabled ? 'text.disabled' : color}>
+        {value}
+      </Typography>
+    </Stack>
+  );
+};
+
+DiscountResult.propTypes = {
+  error: PropTypes.bool,
+  disabled: PropTypes.bool,
+  label: PropTypes.string,
+  value: PropTypes.string,
+};
 
 /**
  * @param {Step2.propTypes} props
@@ -97,20 +122,11 @@ const Step2 = (props) => {
         />
       </Grid>
       <Grid item xs={12} md={6}>
-        <TextField
+        <DiscountResult
           label="Discounted Price 1 Month"
           value={fCurrency(monthlyDiscount(price1, discount1))}
           error={monthlyDiscount(price1, discount1) <= 0}
           disabled={!hotRackEnabled || !price1}
-          fullWidth
-          sx={{
-            pointerEvents: 'none',
-          }}
-          InputProps={{
-            readOnly: true,
-            pointerEvents: 'none',
-          }}
-          variant="filled"
         />
       </Grid>
       <Grid item xs={12} md={6}>
@@ -129,20 +145,11 @@ const Step2 = (props) => {
         />
       </Grid>
       <Grid item xs={12} md={6}>
-        <TextField
+        <DiscountResult
           label="Discounted Price 3 Month"
           value={fCurrency(monthlyDiscount(price3, discount3))}
           error={monthlyDiscount(price3, discount3) <= 0}
           disabled={!hotRackEnabled || !price3}
-          fullWidth
-          sx={{
-            pointerEvents: 'none',
-          }}
-          InputProps={{
-            readOnly: true,
-            pointerEvents: 'none',
-          }}
-          variant="filled"
         />
       </Grid>
       <Grid item xs={12} md={6}>
@@ -161,20 +168,11 @@ const Step2 = (props) => {
         />
       </Grid>
       <Grid item xs={12} md={6}>
-        <TextField
+        <DiscountResult
           label="Discounted Price 6 Month"
           value={fCurrency(monthlyDiscount(price6, discount6))}
           error={monthlyDiscount(price6, discount6) <= 0}
-          fullWidth
           disabled={!hotRackEnabled || !price6}
-          sx={{
-            pointerEvents: 'none',
-          }}
-          InputProps={{
-            readOnly: true,
-            pointerEvents: 'none',
-          }}
-          variant="filled"
         />
       </Grid>
       <Grid item xs={12} md={6}>
@@ -193,20 +191,11 @@ const Step2 = (props) => {
         />
       </Grid>
       <Grid item xs={12} md={6}>
-        <TextField
+        <DiscountResult
           label="Discounted Price 12 Month"
           value={fCurrency(monthlyDiscount(price12, discount12))}
           error={monthlyDiscount(price12, discount12) <= 0}
-          fullWidth
           disabled={!hotRackEnabled || !price12}
-          sx={{
-            pointerEvents: 'none',
-          }}
-          InputProps={{
-            readOnly: true,
-            pointerEvents: 'none',
-          }}
-          variant="filled"
         />
       </Grid>
     </>
