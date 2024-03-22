@@ -43,6 +43,7 @@ const DetailsContent = (props) => {
           name={`${user?.firstName} ${user?.lastName}`}
           avatarUrl={user?.avatar}
           coverUrl={user?.banner}
+          avatarBottomSx={24}
         />
       </Card>
 

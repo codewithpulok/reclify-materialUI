@@ -60,7 +60,6 @@ const WarehouseEditContent = (props) => {
       address: warehouse?.address || '',
       totalSpace: warehouse?.totalSpace || 0,
       pricePerSpace: warehouse?.pricePerSpace || 0,
-      discountRate: warehouse?.discountRate || 0,
       maxSpaceOrder: warehouse?.maxSpaceOrder || 0,
       minSpaceOrder: warehouse?.minSpaceOrder || 0,
       description: warehouse?.description || '',

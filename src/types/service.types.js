@@ -8,7 +8,7 @@
  * @property {string} description - A description of the transportation service.
  * @property {Array<string>} keyFeatures - An array of key features of the transportation service.
  * @property {CustomerList[]} customerList - A string containing the names of clients associated with the transportation service.
- * @property {number} businessSize - The size of the transportation service's business.
+ * @property {BusinessHours} businessHours - The size of the transportation service's business.
  * @property {number} foundedYear - The year the transportation service was founded (between 1800 to the current year).
  * @property {string} promoCode - A promotional code associated with the transportation service.
  */
@@ -17,4 +17,10 @@
  * @typedef {Object} CustomerList
  * @property {string} name
  * @property {string} image
+ */
+
+/**
+ * @typedef {Object} BusinessHours
+ * @property {number} start
+ * @property {number} end
  */

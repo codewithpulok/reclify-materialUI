@@ -11,7 +11,7 @@ import {
   PhotosUploadField,
   PredefinedFields,
 } from 'src/components/common/custom-fields';
-import { RHFDatePicker, RHFTextField } from 'src/components/common/hook-form';
+import { RHFDatePicker, RHFTextField, RHFTimeRangePicker } from 'src/components/common/hook-form';
 import Label from 'src/components/common/label';
 import WarehouseReviews from '../../dashboard/warehouses/(seller)/common/warehouse-reviews';
 import CustomerList from './customer-list';
@@ -59,12 +59,10 @@ const ServiceFields = (props) => {
           </Grid>
 
           <Grid item xs={12}>
-            <RHFTextField
+            <RHFTimeRangePicker
               name="businessHours"
               label="Business Hours"
-              type="number"
-              onChangeMiddleware={(v) => (v !== '' && Number(v) < 0 ? 0 : v)}
-              fullWidth
+              wrapperSx={{ gap: 1.3 }}
             />
           </Grid>
           <Grid item xs={12}>

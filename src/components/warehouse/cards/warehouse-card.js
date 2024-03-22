@@ -28,6 +28,7 @@ import { getPrimaryPhoto } from 'src/utils/photos';
 import WarehouseAdminMenu from '../common/warehouse-admin-menu';
 import WarehouseDiamond from '../common/warehouse-diamond';
 import { ICONS } from '../config-warehouse';
+import { getWarehouseDiscount } from '../utills';
 
 const Props = {
   /** @type {Warehouse} */
@@ -71,6 +72,8 @@ const WarehouseCard = (props) => {
 
   const isSm = size === 'sm';
 
+  const discountRate = Math.ceil(getWarehouseDiscount(warehouse) || 0);
+
   return (
     <Card className={`card ${glow ? 'glow' : ''}`} sx={sx}>
       <CardActionArea
@@ -84,14 +87,14 @@ const WarehouseCard = (props) => {
           <Stack spacing={0.7}>
             <Stack direction="row" justifyContent="end">
               {/* if there is a discount then show badge */}
-              {warehouse.hotRackEnabled && warehouse?.discountRate > 0 && (
+              {warehouse.hotRackEnabled && discountRate > 0 && (
                 <Label
                   color="secondary"
                   variant="filled"
                   startIcon={ICONS.discount()}
                   sx={{ color: 'white' }}
                 >
-                  {warehouse.discountRate}% OFF
+                  {discountRate}% OFF
                 </Label>
               )}
             </Stack>

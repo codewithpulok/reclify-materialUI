@@ -19,7 +19,6 @@ import useAppearance from 'src/redux-toolkit/features/appearance/use-appearance'
 import { selectAuth } from 'src/redux-toolkit/features/auth/authSlice';
 import { useAppSelector } from 'src/redux-toolkit/hooks';
 import { ICONS } from './config-settings';
-import Memberships from './memberships';
 import SettingsService from './service';
 import SettingsCustomerBillings from './settings-customer-billings';
 import SettingsGeneral from './settings-general';
@@ -51,14 +50,20 @@ export const TABS = [
     value: '#billing',
     label: 'Billing',
     icon: ICONS.bills(),
-    roles: ['seller', 'customer'],
+    roles: ['customer'],
   },
   {
-    value: '#memberships',
-    label: 'Memberships',
-    icon: ICONS.membership(),
-    roles: ['admin'],
+    value: '#subscriptions',
+    label: 'Subscriptions',
+    icon: ICONS.bills(),
+    roles: ['seller'],
   },
+  // {
+  //   value: '#memberships',
+  //   label: 'Memberships',
+  //   icon: ICONS.membership(),
+  //   roles: ['admin'],
+  // },
   {
     value: '#transactions',
     label: 'Transactions',
@@ -141,22 +146,28 @@ const UserSettingsView = () => {
             return <EmptyState />;
         }
       }
-      case '#memberships': {
+      // case '#memberships': {
+      //   switch (user?.userType) {
+      //     case 'admin': {
+      //       return <Memberships />; // memberships for admin
+      //     }
+      //     default:
+      //       return <EmptyState />;
+      //   }
+      // }
+      case '#billing': {
         switch (user?.userType) {
-          case 'admin': {
-            return <Memberships />; // memberships for admin
+          case 'customer': {
+            return <SettingsCustomerBillings />;
           }
           default:
             return <EmptyState />;
         }
       }
-      case '#billing': {
+      case '#subscriptions': {
         switch (user?.userType) {
           case 'seller': {
             return <SettingsSellerBillings />;
-          }
-          case 'customer': {
-            return <SettingsCustomerBillings />;
           }
           default:
             return <EmptyState />;

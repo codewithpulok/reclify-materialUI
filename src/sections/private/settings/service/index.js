@@ -6,7 +6,7 @@ import { Button, Stack } from '@mui/material';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { LoadingButton } from '@mui/lab';
 import { enqueueSnackbar } from 'notistack';
-import { useCallback, useEffect } from 'react';
+import { useCallback, useEffect, useMemo } from 'react';
 import { useForm } from 'react-hook-form';
 import FormProvider from 'src/components/common/hook-form/form-provider';
 import { ServiceDetailsPreview } from 'src/components/service/details';
@@ -21,25 +21,6 @@ import {
 import ServiceFields from './service-fields';
 import createSchema from './service-schema';
 
-/** @type {Service} */
-const defaultValues = {
-  name: '',
-  address: '',
-  website: '',
-  highlights: '',
-  type: '',
-  features: {},
-  photos: [],
-  description: '',
-  keyFeatures: [],
-  customerList: [],
-  businessSize: 0,
-  foundedYear: 1800,
-  promoCode: '',
-  logo: null,
-  banner: null,
-};
-
 const Props = {};
 
 /**
@@ -53,6 +34,48 @@ const SettingsService = (props) => {
   const previewMode = useBoolean(false);
   const serviceType = getServiceType(user?.serviceType);
 
+  /** @type {Service} */
+  const defaultValues = useMemo(
+    () => ({
+      name: serviceResponse?.data?.results?.name || '',
+      address: serviceResponse?.data?.results?.address || '',
+      website: serviceResponse?.data?.results?.website || '',
+      highlights: serviceResponse?.data?.results?.highlights || '',
+      type: user?.serviceType || '',
+      features: serviceResponse?.data?.results?.features || {},
+      photos: serviceResponse?.data?.results?.photos || [],
+      description: serviceResponse?.data?.results?.description || '',
+      keyFeatures: serviceResponse?.data?.results?.keyFeatures || [],
+      customerList: serviceResponse?.data?.results?.customerList || [],
+      foundedYear: serviceResponse?.data?.results?.foundedYear || 1800,
+      promoCode: serviceResponse?.data?.results?.promoCode || '',
+      logo: serviceResponse?.data?.results?.logo || null,
+      banner: serviceResponse?.data?.results?.banner || null,
+      businessHours: {
+        start: serviceResponse?.data?.results?.businessHours?.start || new Date(),
+        end: serviceResponse?.data?.results?.businessHours?.end || new Date(),
+      },
+    }),
+    [
+      serviceResponse?.data?.results?.address,
+      serviceResponse?.data?.results?.banner,
+      serviceResponse?.data?.results?.businessHours?.start,
+      serviceResponse?.data?.results?.businessHours?.end,
+      serviceResponse?.data?.results?.customerList,
+      serviceResponse?.data?.results?.description,
+      serviceResponse?.data?.results?.features,
+      serviceResponse?.data?.results?.foundedYear,
+      serviceResponse?.data?.results?.highlights,
+      serviceResponse?.data?.results?.keyFeatures,
+      serviceResponse?.data?.results?.logo,
+      serviceResponse?.data?.results?.name,
+      serviceResponse?.data?.results?.photos,
+      serviceResponse?.data?.results?.promoCode,
+      serviceResponse?.data?.results?.website,
+      user?.serviceType,
+    ]
+  );
+
   const methods = useForm({ resolver: yupResolver(createSchema), defaultValues });
   const { handleSubmit, formState, reset, getValues } = methods;
   const { isSubmitting } = formState;
@@ -60,7 +83,7 @@ const SettingsService = (props) => {
   // reset form
   const onReset = useCallback(() => {
     reset(defaultValues);
-  }, [reset]);
+  }, [defaultValues, reset]);
 
   // handle form submit
   const onSubmit = useCallback(
@@ -91,23 +114,9 @@ const SettingsService = (props) => {
 
   // update values
   useEffect(() => {
-    if (serviceResponse.isSuccess && serviceResponse?.data?.success && user?.serviceType) {
-      const changes = {};
-
-      Object.keys(defaultValues).forEach((key) => {
-        if (key === 'type') {
-          changes[key] = user.serviceType;
-        } else if (serviceResponse?.data?.results?.[key]) {
-          changes[key] = serviceResponse.data.results[key];
-        } else {
-          changes[key] = defaultValues[key];
-        }
-      });
-
-      reset(changes);
-    }
+    reset(defaultValues);
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [serviceResponse, user]);
+  }, [defaultValues]);
 
   return (
     <>

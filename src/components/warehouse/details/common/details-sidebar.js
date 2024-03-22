@@ -6,7 +6,6 @@ import { useAppSelector } from 'src/redux-toolkit/hooks';
 import DetailsAdditional from './details-additional';
 import WarehouseBooking from './details-booking';
 import WarehouseDocumentList from './details-document-list';
-import DetailsLogo from './details-logo';
 import DetailsMap from './details-map';
 
 const Props = {
@@ -26,10 +25,9 @@ const Props = {
 const DetailsSidebar = (props) => {
   const { warehouse, seller, sx = {}, children } = props;
   const { user } = useAppSelector(selectAuth);
+
   return (
     <Stack sx={sx} spacing={2}>
-      {warehouse?.logo && <DetailsLogo logo={warehouse?.logo} />}
-
       {/* if this is seller own warehouse then don't show */}
       {user && seller?.id !== user?.id ? (
         <UserDetailsCard user={seller} userType="seller" showLogo />
@@ -38,8 +36,8 @@ const DetailsSidebar = (props) => {
         warehouse={warehouse}
         showPurchase={user?.userType === 'customer' && warehouse?.regionScope !== 'global'}
       />
-      {!!warehouse?.additionalAddresses?.length && (
-        <DetailsAdditional data={warehouse?.additionalAddresses} />
+      {!!warehouse?.additionalWarehouses?.length && (
+        <DetailsAdditional data={warehouse?.additionalWarehouses} />
       )}
       <DetailsMap warehouse={warehouse} />
       <WarehouseDocumentList documents={warehouse?.documents || []} />

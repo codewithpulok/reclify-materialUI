@@ -10,13 +10,12 @@ import {
 } from 'src/assets/data';
 import { getCountryByLabel, getStateByLabel } from 'src/assets/data/address';
 import {
-  AddressArrayField,
   AddressField,
   BannerField,
   PhotosUploadField,
   SinglePhotoUploadField,
 } from 'src/components/common/custom-fields';
-import { RHFAccordion, RHFTextField } from 'src/components/common/hook-form';
+import { RHFTextField } from 'src/components/common/hook-form';
 import Label from 'src/components/common/label';
 import { restrictMaxLength } from 'src/utils/form';
 import WarehouseReviews from '../warehouse-reviews';
@@ -77,12 +76,6 @@ const Step0 = (props) => {
 
           <Grid item xs={12}>
             <AddressField name="address" />
-          </Grid>
-
-          <Grid item xs={12}>
-            <RHFAccordion name="additionalAddresses" label="Additional Addresses" defaultExpanded>
-              <AddressArrayField name="additionalAddresses" />
-            </RHFAccordion>
           </Grid>
 
           <Grid item xs={6} display="none">

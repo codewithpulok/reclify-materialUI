@@ -61,7 +61,7 @@ export default function NavUpgrade() {
           </Typography>
         </Stack>
 
-        <Button LinkComponent={RouterLink} variant="contained" href={paths.settings.billing}>
+        <Button LinkComponent={RouterLink} variant="contained" href={paths.settings.subscriptions}>
           Upgrade to Pro
         </Button>
       </Stack>

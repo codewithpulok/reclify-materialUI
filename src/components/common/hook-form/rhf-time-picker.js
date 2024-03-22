@@ -35,7 +35,7 @@ export default function RHFTimePicker(props) {
       render={({ field, fieldState: { error } }) => (
         <VariantTimePicker
           {...field}
-          value={undefined}
+          value={field?.value ? new Date(field?.value) : new Date()}
           defaultValue={field.value ? new Date(field.value) : undefined}
           onChange={(value) => field.onChange(new Date(value).getTime())}
           slotProps={{

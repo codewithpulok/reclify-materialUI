@@ -1,15 +1,13 @@
-import { Box, Card, CardContent, Typography, alpha } from '@mui/material';
+import { Box } from '@mui/material';
 import PropTypes from 'prop-types';
 import Carousel, { CarouselArrows, useCarousel } from 'src/components/common/carousel';
-import Iconify from 'src/components/common/iconify';
-import { bgGradient } from 'src/theme/css';
-import { joinAddressObj } from 'src/utils/address';
 import { WarehouseDetailsBox } from '../../box';
+import { WarehouseSimpleCard } from '../../cards';
 
 const Props = {
   /** @type {SxProps} */
   sx: PropTypes.object,
-  /** @type {CustomerList[]} */
+  /** @type {Warehouse[]} */
   data: PropTypes.array,
 };
 
@@ -45,45 +43,17 @@ const DetailsAdditional = (props) => {
         }}
       >
         <CarouselArrows
-          // filled
+          filled
           icon="solar:alt-arrow-right-bold"
           onNext={carousel.onNext}
           onPrev={carousel.onPrev}
-          leftButtonProps={{
-            sx: { left: 4 },
-          }}
-          rightButtonProps={{
-            sx: { right: 4 },
-          }}
+          leftButtonProps={{}}
+          rightButtonProps={{}}
         >
           <Carousel ref={carousel.carouselRef} {...carousel.carouselSettings}>
             {data.map((item, index) => (
               <Box key={index} sx={{ px: { xs: 0.5, sm: 1 } }}>
-                <Card
-                  sx={(theme) => ({
-                    borderRadius: 1,
-                    py: 1,
-                    minHeight: '120px',
-                    ...bgGradient({
-                      color: alpha(
-                        theme.palette.background.default,
-                        theme.palette.mode === 'light' ? 0.8 : 0.94
-                      ),
-                      imgUrl: '/assets/placeholder/address.jpg',
-                    }),
-                  })}
-                >
-                  <CardContent>
-                    <Iconify
-                      icon="solar:map-point-bold-duotone"
-                      width={32}
-                      sx={{ color: 'primary.main' }}
-                    />
-                    <Typography variant="h6" sx={{ fontWeight: 'medium' }}>
-                      {joinAddressObj(item)}
-                    </Typography>
-                  </CardContent>
-                </Card>
+                <WarehouseSimpleCard warehouse={item} key={item.id} sx={{ boxShadow: 0 }} />
               </Box>
             ))}
           </Carousel>

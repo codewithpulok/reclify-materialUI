@@ -15,6 +15,7 @@ import Scrollbar from 'src/components/common/scrollbar';
 
 import { selectAuth } from 'src/redux-toolkit/features/auth/authSlice';
 import { useAppSelector } from 'src/redux-toolkit/hooks';
+import { paths } from 'src/routes/paths';
 import NavToggleButton from '../common/nav-toggle-button';
 import { NAV } from '../config-layout';
 import { useNavData } from './config-navigation';
@@ -22,13 +23,12 @@ import { useNavData } from './config-navigation';
 // ----------------------------------------------------------------------
 
 export default function NavVertical({ openNav, onCloseNav }) {
-  const { user } = useAppSelector(selectAuth);
-
+  const { user, isAuthenticated } = useAppSelector(selectAuth);
   const pathname = usePathname();
-
   const lgUp = useResponsive('up', 'lg');
-
   const navData = useNavData();
+
+  const path = isAuthenticated ? paths.dashboard.root : paths.root;
 
   useEffect(() => {
     if (openNav) {
@@ -48,7 +48,7 @@ export default function NavVertical({ openNav, onCloseNav }) {
         },
       }}
     >
-      <Logo sx={{ mt: 3, ml: 4, mb: 1 }} isLong />
+      <Logo sx={{ mt: 3, ml: 4, mb: 1 }} href={path} isLong />
       <NavSectionVertical
         data={navData}
         slotProps={{

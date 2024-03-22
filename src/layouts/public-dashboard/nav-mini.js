@@ -6,6 +6,9 @@ import { hideScroll } from 'src/theme/css';
 import Logo from 'src/components/common/logo';
 import { NavSectionMini } from 'src/components/common/nav-section';
 
+import { selectAuth } from 'src/redux-toolkit/features/auth/authSlice';
+import { useAppSelector } from 'src/redux-toolkit/hooks';
+import { paths } from 'src/routes/paths';
 import NavToggleButton from '../common/nav-toggle-button';
 import { NAV } from '../config-layout';
 import { useNavData } from './config-navigation';
@@ -13,7 +16,10 @@ import { useNavData } from './config-navigation';
 // ----------------------------------------------------------------------
 
 export default function NavMini() {
+  const { isAuthenticated } = useAppSelector(selectAuth);
   const navData = useNavData();
+
+  const path = isAuthenticated ? paths.dashboard.root : paths.root;
 
   return (
     <Box
@@ -39,7 +45,7 @@ export default function NavMini() {
           ...hideScroll.x,
         }}
       >
-        <Logo sx={{ mx: 'auto', my: 2 }} />
+        <Logo sx={{ mx: 'auto', my: 2 }} href={path} />
 
         <NavSectionMini data={navData} />
       </Stack>

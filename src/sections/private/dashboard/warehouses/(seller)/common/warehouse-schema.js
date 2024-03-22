@@ -67,11 +67,9 @@ const schema = {
   discount3: discountValidation(3),
   discount6: discountValidation(6),
   discount12: discountValidation(12),
-  // discountAll: discountAllValidation(),
-  discountRate: Yup.number().label('HotRacks').min(0).max(100).notRequired(),
   maxSpaceOrder: Yup.number()
     .label('Max orderable space')
-    .optional()
+    .nonNullable('Max orderable space is required')
     .required()
     .test({
       name: 'bigger-then-min-space',
@@ -97,7 +95,7 @@ const schema = {
     }),
   minSpaceOrder: Yup.number()
     .label('Min orderable space')
-    .optional()
+    .nonNullable('Max orderable space is required')
     .required()
     .test({
       name: 'less-then-max-space',

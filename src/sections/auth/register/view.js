@@ -10,10 +10,10 @@ import Stack from '@mui/material/Stack';
 import Typography from '@mui/material/Typography';
 
 import { RouterLink } from 'src/routes/components';
-import { useRouter, useSearchParams } from 'src/routes/hooks';
+import { useRouter } from 'src/routes/hooks';
 import { paths } from 'src/routes/paths';
 
-import { PATH_AFTER_LOGIN } from 'src/config-global';
+import { PATH_AFTER_REGISTER } from 'src/config-global';
 
 import { useCallback, useState } from 'react';
 import FormProvider from 'src/components/common/hook-form';
@@ -36,9 +36,7 @@ const RegisterView = (props) => {
   const [apiError, setApiError] = useState(null);
 
   const router = useRouter();
-
-  const searchParams = useSearchParams();
-  const returnTo = searchParams.get('returnTo') || PATH_AFTER_LOGIN;
+  const returnTo = PATH_AFTER_REGISTER;
 
   const methods = useForm({ resolver: yupResolver(registerSchema), defaultValues });
   const { handleSubmit, formState, resetField } = methods;

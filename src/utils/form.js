@@ -6,7 +6,9 @@
 export const restrictNegetiveValue = (v) => {
   if (v === '') return v;
 
-  return v !== '' && Number(v) < 0 ? 0 : Number(Number(v).toFixed(2));
+  const value = v !== '' && Number(v) < 0 ? 0 : Number(Number(v).toFixed(2));
+
+  return value;
 };
 
 /**
