@@ -52,8 +52,8 @@ const SettingsService = (props) => {
       logo: serviceResponse?.data?.results?.logo || null,
       banner: serviceResponse?.data?.results?.banner || null,
       businessHours: {
-        start: serviceResponse?.data?.results?.businessHours?.start || undefined,
-        end: serviceResponse?.data?.results?.businessHours?.end || undefined,
+        start: serviceResponse?.data?.results?.businessHours?.start || new Date(),
+        end: serviceResponse?.data?.results?.businessHours?.end || new Date(),
       },
     }),
     [
