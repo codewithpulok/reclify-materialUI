@@ -25,6 +25,7 @@ const Props = {
 const DetailsSidebar = (props) => {
   const { warehouse, seller, sx = {}, children } = props;
   const { user } = useAppSelector(selectAuth);
+
   return (
     <Stack sx={sx} spacing={2}>
       {/* if this is seller own warehouse then don't show */}
@@ -35,8 +36,8 @@ const DetailsSidebar = (props) => {
         warehouse={warehouse}
         showPurchase={user?.userType === 'customer' && warehouse?.regionScope !== 'global'}
       />
-      {!!warehouse?.additionalAddresses?.length && (
-        <DetailsAdditional data={warehouse?.additionalAddresses} />
+      {!!warehouse?.additionalWarehouses?.length && (
+        <DetailsAdditional data={warehouse?.additionalWarehouses} />
       )}
       <DetailsMap warehouse={warehouse} />
       <WarehouseDocumentList documents={warehouse?.documents || []} />
