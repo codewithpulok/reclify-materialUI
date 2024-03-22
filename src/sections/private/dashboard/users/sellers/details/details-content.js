@@ -25,8 +25,8 @@ const TABS = [
     icon: ICONS.profile(),
   },
   {
-    value: 'warehouses',
-    label: 'Warehouses',
+    value: 'services',
+    label: 'Services',
     icon: ICONS.warehouse(),
   },
   {
@@ -146,7 +146,7 @@ const DetailsContent = (props) => {
           totalSales={user?.totalSales || 0}
         />
       )}
-      {currentTab === 'warehouses' && <DetailsWarehouses warehouses={user?.warehouses || []} />}
+      {currentTab === 'services' && <DetailsWarehouses warehouses={user?.warehouses || []} />}
       {currentTab === 'membership' && (
         <DetailsMembership
           currentPlan={user?.membership?.currentPlan}

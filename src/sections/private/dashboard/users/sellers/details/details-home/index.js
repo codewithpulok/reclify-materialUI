@@ -1,29 +1,24 @@
 'use client';
 
-import { Link } from '@mui/material';
-import Box from '@mui/material/Box';
+import { CardContent, Link, Typography } from '@mui/material';
 import Card from '@mui/material/Card';
 import CardHeader from '@mui/material/CardHeader';
-import Divider from '@mui/material/Divider';
 import Stack from '@mui/material/Stack';
 import Grid from '@mui/material/Unstable_Grid2';
-import NextLink from 'next/link';
 import PropTypes from 'prop-types';
 // local components
-import { getSocialBrand } from 'src/assets/data/social-brands';
+import { socialsBrands } from 'src/assets/data/social-brands';
 import { getIconify } from 'src/components/common/iconify/utilities';
 import { selectAuth } from 'src/redux-toolkit/features/auth/authSlice';
 import { useAppSelector } from 'src/redux-toolkit/hooks';
-import { fCurrency, fNumber } from 'src/utils/format-number';
-import { ICONS } from '../../../config-users';
 import HomeAdminControl from './home-admin-control';
 
 // ----------------------------------------------------------------------
 
 const DetailsHomeProps = {
-  totalWarehouses: PropTypes.number,
-  customerNumber: PropTypes.number,
-  totalSales: PropTypes.number,
+  // totalWarehouses: PropTypes.number,
+  // customerNumber: PropTypes.number,
+  // totalSales: PropTypes.number,
   /** @type {User} */
   user: PropTypes.object,
 };
@@ -33,81 +28,54 @@ const DetailsHomeProps = {
  * @returns {JSX.Element}
  */
 const DetailsHome = (props) => {
-  const { customerNumber, totalSales, totalWarehouses, user } = props;
+  const { user } = props;
   const { user: authUser } = useAppSelector(selectAuth);
-
-  const renderStats = (
-    <Card sx={{ py: 3, textAlign: 'center', typography: 'h4' }}>
-      <Stack
-        spacing={2}
-        divider={<Divider orientation="horizontal" flexItem sx={{ borderStyle: 'dashed' }} />}
-      >
-        <Stack width={1}>
-          {fNumber(totalWarehouses)}
-          <Box component="span" sx={{ color: 'text.secondary', typography: 'body2' }}>
-            Warehouses
-          </Box>
-        </Stack>
-
-        <Stack
-          direction="row"
-          divider={<Divider orientation="vertical" flexItem sx={{ borderStyle: 'dashed' }} />}
-        >
-          <Stack width={1}>
-            {fNumber(customerNumber)}
-            <Box component="span" sx={{ color: 'text.secondary', typography: 'body2' }}>
-              Customer
-            </Box>
-          </Stack>
-
-          <Stack width={1}>
-            {fCurrency(totalSales)}
-            <Box component="span" sx={{ color: 'text.secondary', typography: 'body2' }}>
-              Sales
-            </Box>
-          </Stack>
-        </Stack>
-      </Stack>
-    </Card>
-  );
 
   const renderAbout = (
     <Card>
-      <CardHeader title="About" />
-
-      <Stack spacing={2} sx={{ p: 3 }}>
-        <Box sx={{ typography: 'body2' }}>{user.about}</Box>
-
-        <Stack direction="row" spacing={2}>
-          {ICONS.address(24)}
-
-          <Box sx={{ typography: 'body2' }}>
-            {`Live at `}
-            {user.address.country}
-          </Box>
-        </Stack>
-
-        <Stack direction="row" sx={{ typography: 'body2' }} spacing={2}>
-          {ICONS.email(24)}
-          {user.email}
-        </Stack>
-      </Stack>
+      <CardHeader title="About Provider:" />
+      <CardContent>
+        <Typography>{user?.about}</Typography>
+      </CardContent>
     </Card>
   );
 
-  const renderSocials = user?.socials && !!Object.keys(user?.socials).length && (
+  const renderInfo = (
     <Card>
-      <CardHeader title="Social" />
+      <CardContent component={Stack} spacing={2}>
+        <Stack direction="row" spacing={1}>
+          <Typography variant="subtitle2">Company Name:</Typography>
+          <Typography variant="body2">{user?.company || ''}</Typography>
+        </Stack>
+
+        <Stack direction="row" spacing={1}>
+          <Typography variant="subtitle2">Website:</Typography>
+          {user?.website && <Link href={user?.website}>{user?.website}</Link>}
+        </Stack>
+
+        <Stack direction="row" spacing={1}>
+          <Typography variant="subtitle2">Phone Number:</Typography>
+          <Typography variant="body2">{user?.phone || ''}</Typography>
+        </Stack>
+
+        <Stack direction="row" spacing={1}>
+          <Typography variant="subtitle2">Email:</Typography>
+          <Typography variant="body2">{user?.email || ''}</Typography>
+        </Stack>
+      </CardContent>
+    </Card>
+  );
+
+  const renderSocials = (
+    <Card>
+      <CardHeader title="Social Channels:" />
 
       <Stack spacing={2} sx={{ p: 3 }}>
-        {Object.keys(user.socials).map((social) => {
-          const link = user.socials[social];
-          const socialBrand = getSocialBrand(social);
+        {socialsBrands.map((social) => {
+          const link = user?.socials?.[social.key] || null;
 
-          if (!socialBrand) return null;
-
-          const linkArray = link.split('/');
-          const username = linkArray[linkArray.length - 1];
+          const linkArray = link ? link.split('/') : null;
+          const username = link ? linkArray[linkArray.length - 1] : null;
           return (
             <Stack
               key={social}
@@ -115,14 +83,18 @@ const DetailsHome = (props) => {
               direction="row"
               sx={{ wordBreak: 'break-all', typography: 'body2' }}
             >
-              {getIconify(socialBrand.icon, socialBrand.iconSize, {
+              {getIconify(social.icon, social.iconSize, {
                 flexShrink: 0,
-                color: socialBrand.color,
+                color: social.color,
               })}
 
-              <Link component={NextLink} href={link} color="inherit">
-                {username}
-              </Link>
+              {link ? (
+                <Link href={link} color="inherit">
+                  {username}
+                </Link>
+              ) : (
+                'Not Available'
+              )}
             </Stack>
           );
         })}
@@ -134,12 +106,12 @@ const DetailsHome = (props) => {
     <Grid container spacing={1.5}>
       <Grid xs={12} md={4}>
         <Stack spacing={1.5}>
-          {renderStats}
+          {renderAbout}
           {authUser?.userType === 'admin' && <HomeAdminControl user={user} />}
         </Stack>
       </Grid>
       <Grid xs={12} md={4}>
-        {renderAbout}
+        {renderInfo}
       </Grid>
       <Grid xs={12} md={4}>
         {renderSocials}
