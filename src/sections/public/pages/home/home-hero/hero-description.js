@@ -84,7 +84,7 @@ const HeroDescription = (props) => {
           Start today
         </MotionButton>
         <m.div variants={varFade().inRight} transition={{ duration: 2 }}>
-          <Typography variant="body2" textAlign="center">
+          <Typography variant="h6" textAlign="center">
             Public Launch Coming Summer 2024
           </Typography>
         </m.div>
