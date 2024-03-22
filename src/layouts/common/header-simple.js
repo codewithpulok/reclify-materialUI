@@ -1,3 +1,5 @@
+'use client';
+
 import AppBar from '@mui/material/AppBar';
 import Link from '@mui/material/Link';
 import Stack from '@mui/material/Stack';
@@ -10,6 +12,9 @@ import { bgBlur } from 'src/theme/css';
 
 import Logo from 'src/components/common/logo';
 
+import { selectAuth } from 'src/redux-toolkit/features/auth/authSlice';
+import { useAppSelector } from 'src/redux-toolkit/hooks';
+import { paths } from 'src/routes/paths';
 import { HEADER } from '../config-layout';
 import SettingsButton from './appearance-button';
 import HeaderShadow from './header-shadow';
@@ -18,7 +23,9 @@ import HeaderShadow from './header-shadow';
 
 export default function HeaderSimple() {
   const theme = useTheme();
+  const { isAuthenticated } = useAppSelector(selectAuth);
 
+  const path = isAuthenticated ? paths.dashboard.root : paths.root;
   const offsetTop = useOffSetTop(HEADER.H_DESKTOP);
 
   return (
@@ -44,7 +51,7 @@ export default function HeaderSimple() {
           }),
         }}
       >
-        <Logo />
+        <Logo href={path} />
 
         <Stack direction="row" alignItems="center" spacing={1}>
           <SettingsButton />

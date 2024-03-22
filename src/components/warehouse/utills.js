@@ -16,7 +16,7 @@ const getFixedDiscount = (warehouse) => {
     if (typeof currentPrice !== 'number' || Number.isNaN(currentPrice) || currentPrice <= 0)
       return 0;
 
-    return (d / 100) * currentPrice;
+    return (d / currentPrice) * 100;
   });
 
   return Math.max(...percentageDiscounts);

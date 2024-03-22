@@ -29,7 +29,7 @@ const DetailsAdditional = (props) => {
 
   return (
     <WarehouseDetailsBox
-      title="Additional Warehouses"
+      title="Additional Addresses"
       sx={sx}
       contentSx={{ overflow: 'hidden', position: 'relative', px: 0 }}
     >

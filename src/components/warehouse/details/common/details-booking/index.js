@@ -209,7 +209,7 @@ const DetailsBooking = (props) => {
   return (
     <>
       <Card sx={{ bgcolor: 'background.paper', borderRadius: 1, py: 2.5, px: 2.5 }}>
-        {!!discount && (
+        {!!discountEnabled && (
           <Stack direction="row" spacing={0.5} flexWrap="wrap" alignItems="start" sx={{ mb: 1 }}>
             <Chip
               label="HotRack"
