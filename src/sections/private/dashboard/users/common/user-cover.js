@@ -16,13 +16,14 @@ const Props = {
   coverUrl: PropTypes.string,
   name: PropTypes.string,
   joined: PropTypes.string,
+  avatarBottomSx: PropTypes.number,
 };
 /**
  * @param {Props} props
  * @returns {JSX.Element}
  */
 const UserCover = (props) => {
-  const { name, avatarUrl, joined, coverUrl } = props;
+  const { name, avatarUrl, joined, coverUrl, avatarBottomSx } = props;
   const theme = useTheme();
 
   return (
@@ -40,7 +41,7 @@ const UserCover = (props) => {
         direction={{ xs: 'column', md: 'row' }}
         sx={{
           left: { md: 24 },
-          bottom: { md: 24 },
+          bottom: { md: avatarBottomSx || 60 },
           zIndex: { md: 10 },
           pt: { xs: 6, md: 0 },
           position: { md: 'absolute' },

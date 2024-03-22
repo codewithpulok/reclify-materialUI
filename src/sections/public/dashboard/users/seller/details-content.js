@@ -67,6 +67,7 @@ const DetailsContent = (props) => {
           name={`${user?.firstName} ${user?.lastName}`}
           avatarUrl={user?.avatar || PLACEHOLDER_PROFILE_AVATAR}
           coverUrl={user?.banner || PLACEHOLDER_PROFILE_BANNER}
+          avatarBottomSx={24}
         />
 
         <Tabs value={currentTab} onChange={handleChangeTab} sx={TabsSx}>
