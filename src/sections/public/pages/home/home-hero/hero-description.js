@@ -7,11 +7,11 @@ import PropTypes from 'prop-types';
 import { varFade } from 'src/components/common/animate';
 import { getIconify } from 'src/components/common/iconify/utilities';
 
-import Logo from 'src/components/common/logo';
 import { HEADER } from 'src/layouts/config-layout';
 import { RouterLink } from 'src/routes/components';
 import { paths } from 'src/routes/paths';
 import box from '../../../../../../public/assets/images/home/hero-boxes.png';
+import logo from '../../../../../../public/assets/images/home/logo.png';
 
 // ----------------------------------------------------------------------
 const MotionButton = m(Button);
@@ -56,12 +56,16 @@ const HeroDescription = (props) => {
         maxWidth: 480,
         opacity: opacity > 0 ? opacity : 0,
         mt: {
-          md: `-${HEADER.H_DESKTOP + percent * 2.5}px`,
+          md: percent ? `-${HEADER.H_DESKTOP_OFFSET + percent * 2.5}px` : 0,
         },
       }}
     >
       <m.div variants={varFade().inRight} transition={{ duration: 2 }}>
-        <Logo sx={{ maxWidth: 450, height: 'auto', width: '100%' }} isLong disabledLink />
+        <Image
+          src={logo}
+          style={{ maxWidth: 450, height: 'auto', width: '100%' }}
+          placeholder="blur"
+        />
       </m.div>
       <m.div variants={varFade().inRight}>
         <Typography variant="h5" color="primary.main" sx={{ textAlign: 'center' }}>
@@ -84,7 +88,7 @@ const HeroDescription = (props) => {
           Start today
         </MotionButton>
         <m.div variants={varFade().inRight} transition={{ duration: 2 }}>
-          <Typography variant="h6" textAlign="center">
+          <Typography variant="body1" textAlign="center">
             Public Launch Coming Summer 2024
           </Typography>
         </m.div>
