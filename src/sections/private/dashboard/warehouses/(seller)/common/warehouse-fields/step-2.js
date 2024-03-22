@@ -22,6 +22,7 @@ const Step2 = (props) => {
   const { watch, setValue } = useFormContext();
   const hotRackEnabled = watch('hotRackEnabled', false);
   const discountOption = watch('discountOption', 'percentage');
+  const isPercentage = discountOption === 'percentage';
 
   const price1 = watch('price1');
   const price3 = watch('price3');
@@ -33,11 +34,32 @@ const Step2 = (props) => {
   const discount6 = watch('discount6');
   const discount12 = watch('discount12');
 
-  const monthlyDiscount = useCallback((price, discount) => {
-    if (!price) return 0;
-    return price - (discount || 0);
-  }, []);
+  // ACTIONS ----------------------------------------------------------------------
 
+  // reset discount
+  const resetDiscount = () => {
+    setValue('discount1', 0);
+    setValue('discount3', 0);
+    setValue('discount6', 0);
+    setValue('discount12', 0);
+  };
+
+  // get monthly discount
+  const monthlyDiscount = useCallback(
+    (price, discount) => {
+      if (!price) return 0;
+
+      if (isPercentage) {
+        const discountedPrice = (discount / 100) * price;
+        return price - discountedPrice;
+      }
+
+      return price - (discount || 0);
+    },
+    [isPercentage]
+  );
+
+  // reset discount field on price goes bellow 0
   useEffect(() => {
     if (!price1) {
       setValue('discount1', 0);
@@ -57,116 +79,268 @@ const Step2 = (props) => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [price1, price12, price3, price6]);
 
+  const fixedOptions = (
+    <>
+      <Grid item xs={12} md={6}>
+        <RHFTextField
+          type="number"
+          name="discount1"
+          label="Discount for 1 Month"
+          InputProps={{
+            startAdornment: (
+              <InputAdornment position="start">{isPercentage ? '%' : '$'}</InputAdornment>
+            ),
+          }}
+          onChangeMiddleware={isPercentage ? restrictPercentValue : restrictNegetiveValue}
+          fullWidth
+          disabled={!hotRackEnabled || !price1}
+        />
+      </Grid>
+      <Grid item xs={12} md={6}>
+        <TextField
+          label="Discounted Price 1 Month"
+          value={fCurrency(monthlyDiscount(price1, discount1))}
+          error={monthlyDiscount(price1, discount1) <= 0}
+          disabled={!hotRackEnabled || !price1}
+          fullWidth
+          sx={{
+            pointerEvents: 'none',
+          }}
+          InputProps={{
+            readOnly: true,
+            pointerEvents: 'none',
+          }}
+          variant="filled"
+        />
+      </Grid>
+      <Grid item xs={12} md={6}>
+        <RHFTextField
+          type="number"
+          name="discount3"
+          label="Discount for 3 Month"
+          InputProps={{
+            startAdornment: (
+              <InputAdornment position="start">{isPercentage ? '%' : '$'}</InputAdornment>
+            ),
+          }}
+          onChangeMiddleware={isPercentage ? restrictPercentValue : restrictNegetiveValue}
+          fullWidth
+          disabled={!hotRackEnabled || !price3}
+        />
+      </Grid>
+      <Grid item xs={12} md={6}>
+        <TextField
+          label="Discounted Price 3 Month"
+          value={fCurrency(monthlyDiscount(price3, discount3))}
+          error={monthlyDiscount(price3, discount3) <= 0}
+          disabled={!hotRackEnabled || !price3}
+          fullWidth
+          sx={{
+            pointerEvents: 'none',
+          }}
+          InputProps={{
+            readOnly: true,
+            pointerEvents: 'none',
+          }}
+          variant="filled"
+        />
+      </Grid>
+      <Grid item xs={12} md={6}>
+        <RHFTextField
+          type="number"
+          name="discount6"
+          label="Discount for 6 Month"
+          InputProps={{
+            startAdornment: (
+              <InputAdornment position="start">{isPercentage ? '%' : '$'}</InputAdornment>
+            ),
+          }}
+          onChangeMiddleware={restrictNegetiveValue}
+          fullWidth
+          disabled={!hotRackEnabled || !price6}
+        />
+      </Grid>
+      <Grid item xs={12} md={6}>
+        <TextField
+          label="Discounted Price 6 Month"
+          value={fCurrency(monthlyDiscount(price6, discount6))}
+          error={monthlyDiscount(price6, discount6) <= 0}
+          fullWidth
+          disabled={!hotRackEnabled || !price6}
+          sx={{
+            pointerEvents: 'none',
+          }}
+          InputProps={{
+            readOnly: true,
+            pointerEvents: 'none',
+          }}
+          variant="filled"
+        />
+      </Grid>
+      <Grid item xs={12} md={6}>
+        <RHFTextField
+          type="number"
+          name="discount12"
+          label="Discount for 12 Month"
+          InputProps={{
+            startAdornment: (
+              <InputAdornment position="start">{isPercentage ? '%' : '$'}</InputAdornment>
+            ),
+          }}
+          onChangeMiddleware={isPercentage ? restrictPercentValue : restrictNegetiveValue}
+          fullWidth
+          disabled={!hotRackEnabled || !price12}
+        />
+      </Grid>
+      <Grid item xs={12} md={6}>
+        <TextField
+          label="Discounted Price 12 Month"
+          value={fCurrency(monthlyDiscount(price12, discount12))}
+          error={monthlyDiscount(price12, discount12) <= 0}
+          fullWidth
+          disabled={!hotRackEnabled || !price12}
+          sx={{
+            pointerEvents: 'none',
+          }}
+          InputProps={{
+            readOnly: true,
+            pointerEvents: 'none',
+          }}
+          variant="filled"
+        />
+      </Grid>
+    </>
+  );
+
+  const freeAlert = (
+    <Alert sx={{ mb: 2 }} icon={false} severity="warning">
+      You need to upgrade to a paid membership to add discount
+      <Button
+        LinkComponent={RouterLink}
+        href={paths.settings.subscriptions}
+        variant="soft"
+        color="warning"
+        sx={{ mt: 1.5 }}
+      >
+        Upgrade Your Subscription
+      </Button>
+    </Alert>
+  );
+
+  const firstSection = (
+    <Grid container spacing={1.2}>
+      <Grid item xs={12}>
+        <RHFTextField
+          valueFormatter={(v) => Math.round(v)}
+          type="number"
+          name="totalSpace"
+          label="Total space available (Pallets)"
+          onChangeMiddleware={restrictNegetiveValue}
+          fullWidth
+        />
+      </Grid>
+      <Grid item xs={12}>
+        <ReferenceTextField
+          type="number"
+          name="totalSpace"
+          label="Total space available (Square Feet)"
+          fullWidth
+          srcTransformer={(v) =>
+            v === null ? '' : parseFloat(fFixedFloat(v * SQUARE_FEET_PER_PALLET))
+          }
+          valueTransformer={(v) => (v === '' ? null : v / SQUARE_FEET_PER_PALLET)}
+          onChangeMiddleware={restrictNegetiveValue}
+        />
+      </Grid>
+      <Grid item xs={6}>
+        <RHFTextField
+          type="number"
+          name="minSpaceOrder"
+          label="Minimum space available (Pallets)"
+          onChangeMiddleware={restrictNegetiveValue}
+          fullWidth
+        />
+      </Grid>
+      <Grid item xs={6}>
+        <RHFTextField
+          type="number"
+          name="maxSpaceOrder"
+          label="Maximum space available (Pallets)"
+          onChangeMiddleware={restrictNegetiveValue}
+          fullWidth
+        />
+      </Grid>
+      <Grid item xs={12}>
+        <RHFAccordion
+          label="Warehouse Prices (Per Pallet)"
+          names={['price1', 'price3', 'price6', 'price12']}
+          defaultExpanded
+        >
+          <Alert sx={{ mb: 2 }} icon={false} severity="info">
+            {`Enter the price per month for each pallet location, based on the term. Leave empty or enter 0 if you don't want to offer a specific term.`}
+          </Alert>
+          <Grid container spacing={1.2}>
+            <Grid item xs={12}>
+              <RHFTextField
+                type="number"
+                name="price1"
+                label="1 Month"
+                InputProps={{
+                  startAdornment: <InputAdornment position="start">$</InputAdornment>,
+                }}
+                onChangeMiddleware={restrictNegetiveValue}
+                fullWidth
+              />
+            </Grid>
+
+            <Grid item xs={12}>
+              <RHFTextField
+                type="number"
+                name="price3"
+                label="3 Month"
+                InputProps={{
+                  startAdornment: <InputAdornment position="start">$</InputAdornment>,
+                }}
+                onChangeMiddleware={restrictNegetiveValue}
+                fullWidth
+              />
+            </Grid>
+
+            <Grid item xs={12}>
+              <RHFTextField
+                type="number"
+                name="price6"
+                label="6 Month"
+                InputProps={{
+                  startAdornment: <InputAdornment position="start">$</InputAdornment>,
+                }}
+                onChangeMiddleware={restrictNegetiveValue}
+                fullWidth
+              />
+            </Grid>
+
+            <Grid item xs={12}>
+              <RHFTextField
+                type="number"
+                name="price12"
+                label="12 Month"
+                InputProps={{
+                  startAdornment: <InputAdornment position="start">$</InputAdornment>,
+                }}
+                onChangeMiddleware={restrictNegetiveValue}
+                fullWidth
+              />
+            </Grid>
+          </Grid>
+        </RHFAccordion>
+      </Grid>
+    </Grid>
+  );
+
   return (
     <Grid container spacing={1.2}>
       <Grid item xs={12} md={6}>
-        <Grid container spacing={1.2}>
-          <Grid item xs={12}>
-            <RHFTextField
-              valueFormatter={(v) => Math.round(v)}
-              type="number"
-              name="totalSpace"
-              label="Total space available (Pallets)"
-              onChangeMiddleware={restrictNegetiveValue}
-              fullWidth
-            />
-          </Grid>
-          <Grid item xs={12}>
-            <ReferenceTextField
-              type="number"
-              name="totalSpace"
-              label="Total space available (Square Feet)"
-              fullWidth
-              srcTransformer={(v) =>
-                v === null ? '' : parseFloat(fFixedFloat(v * SQUARE_FEET_PER_PALLET))
-              }
-              valueTransformer={(v) => (v === '' ? null : v / SQUARE_FEET_PER_PALLET)}
-              onChangeMiddleware={restrictNegetiveValue}
-            />
-          </Grid>
-          <Grid item xs={6}>
-            <RHFTextField
-              type="number"
-              name="minSpaceOrder"
-              label="Minimum space available (Pallets)"
-              onChangeMiddleware={restrictNegetiveValue}
-              fullWidth
-            />
-          </Grid>
-          <Grid item xs={6}>
-            <RHFTextField
-              type="number"
-              name="maxSpaceOrder"
-              label="Maximum space available (Pallets)"
-              onChangeMiddleware={restrictNegetiveValue}
-              fullWidth
-            />
-          </Grid>
-          <Grid item xs={12}>
-            <RHFAccordion
-              label="Warehouse Prices (Per Pallet)"
-              names={['price1', 'price3', 'price6', 'price12']}
-              defaultExpanded
-            >
-              <Alert sx={{ mb: 2 }} icon={false} severity="info">
-                {`Enter the price per month for each pallet location, based on the term. Leave empty or enter 0 if you don't want to offer a specific term.`}
-              </Alert>
-              <Grid container spacing={1.2}>
-                <Grid item xs={12}>
-                  <RHFTextField
-                    type="number"
-                    name="price1"
-                    label="1 Month"
-                    InputProps={{
-                      startAdornment: <InputAdornment position="start">$</InputAdornment>,
-                    }}
-                    onChangeMiddleware={restrictNegetiveValue}
-                    fullWidth
-                  />
-                </Grid>
-
-                <Grid item xs={12}>
-                  <RHFTextField
-                    type="number"
-                    name="price3"
-                    label="3 Month"
-                    InputProps={{
-                      startAdornment: <InputAdornment position="start">$</InputAdornment>,
-                    }}
-                    onChangeMiddleware={restrictNegetiveValue}
-                    fullWidth
-                  />
-                </Grid>
-
-                <Grid item xs={12}>
-                  <RHFTextField
-                    type="number"
-                    name="price6"
-                    label="6 Month"
-                    InputProps={{
-                      startAdornment: <InputAdornment position="start">$</InputAdornment>,
-                    }}
-                    onChangeMiddleware={restrictNegetiveValue}
-                    fullWidth
-                  />
-                </Grid>
-
-                <Grid item xs={12}>
-                  <RHFTextField
-                    type="number"
-                    name="price12"
-                    label="12 Month"
-                    InputProps={{
-                      startAdornment: <InputAdornment position="start">$</InputAdornment>,
-                    }}
-                    onChangeMiddleware={restrictNegetiveValue}
-                    fullWidth
-                  />
-                </Grid>
-              </Grid>
-            </RHFAccordion>
-          </Grid>
-        </Grid>
+        {firstSection}
       </Grid>
       <Grid item xs={12} md={6}>
         <Grid container spacing={1.2}>
@@ -199,18 +373,7 @@ const Step2 = (props) => {
               }
             >
               {user?.planId === 'free' ? (
-                <Alert sx={{ mb: 2 }} icon={false} severity="warning">
-                  You need to upgrade to a paid membership to add discount
-                  <Button
-                    LinkComponent={RouterLink}
-                    href={paths.settings.billing}
-                    variant="soft"
-                    color="warning"
-                    sx={{ mt: 1.5 }}
-                  >
-                    Upgrade Your Subscription
-                  </Button>
-                </Alert>
+                freeAlert
               ) : (
                 <>
                   <Alert sx={{ mb: 2 }} icon={false} severity="secondary">
@@ -224,143 +387,17 @@ const Step2 = (props) => {
                         fullWidth
                         select
                         disabled={!hotRackEnabled}
+                        onChangeMiddleware={(v) => {
+                          resetDiscount();
+                          return v;
+                        }}
                       >
                         <MenuItem disabled>Select Discount Option</MenuItem>
                         <MenuItem value="fixed">Fixed</MenuItem>
                         <MenuItem value="percentage">Percentage</MenuItem>
                       </RHFTextField>
                     </Grid>
-                    {discountOption === 'percentage' && (
-                      <Grid item xs={12}>
-                        <RHFTextField
-                          type="number"
-                          name="discountRate"
-                          label="Discount Rate"
-                          InputProps={{
-                            startAdornment: <InputAdornment position="start">%</InputAdornment>,
-                          }}
-                          onChangeMiddleware={restrictPercentValue}
-                          fullWidth
-                          disabled={!hotRackEnabled || user?.planId === 'free'}
-                        />
-                      </Grid>
-                    )}
-                    {discountOption === 'fixed' && (
-                      <>
-                        <Grid item xs={12} md={6}>
-                          <RHFTextField
-                            type="number"
-                            name="discount1"
-                            label="Discount for 1 Month"
-                            InputProps={{
-                              startAdornment: <InputAdornment position="start">$</InputAdornment>,
-                            }}
-                            onChangeMiddleware={restrictNegetiveValue}
-                            fullWidth
-                            disabled={!hotRackEnabled || !price1}
-                          />
-                        </Grid>
-                        <Grid item xs={12} md={6}>
-                          <TextField
-                            label="Discounted Price 1 Month"
-                            value={fCurrency(monthlyDiscount(price1, discount1))}
-                            error={monthlyDiscount(price1, discount1) <= 0}
-                            disabled={!hotRackEnabled || !price1}
-                            fullWidth
-                            sx={{
-                              pointerEvents: 'none',
-                            }}
-                            InputProps={{
-                              readOnly: true,
-                            }}
-                          />
-                        </Grid>
-                        <Grid item xs={12} md={6}>
-                          <RHFTextField
-                            type="number"
-                            name="discount3"
-                            label="Discount for 3 Month"
-                            InputProps={{
-                              startAdornment: <InputAdornment position="start">$</InputAdornment>,
-                            }}
-                            onChangeMiddleware={restrictNegetiveValue}
-                            fullWidth
-                            disabled={!hotRackEnabled || !price3}
-                          />
-                        </Grid>
-                        <Grid item xs={12} md={6}>
-                          <TextField
-                            label="Discounted Price 3 Month"
-                            value={fCurrency(monthlyDiscount(price3, discount3))}
-                            error={monthlyDiscount(price3, discount3) <= 0}
-                            disabled={!hotRackEnabled || !price3}
-                            fullWidth
-                            sx={{
-                              pointerEvents: 'none',
-                            }}
-                            InputProps={{
-                              readOnly: true,
-                            }}
-                          />
-                        </Grid>
-                        <Grid item xs={12} md={6}>
-                          <RHFTextField
-                            type="number"
-                            name="discount6"
-                            label="Discount for 6 Month"
-                            InputProps={{
-                              startAdornment: <InputAdornment position="start">$</InputAdornment>,
-                            }}
-                            onChangeMiddleware={restrictNegetiveValue}
-                            fullWidth
-                            disabled={!hotRackEnabled || !price6}
-                          />
-                        </Grid>
-                        <Grid item xs={12} md={6}>
-                          <TextField
-                            label="Discounted Price 6 Month"
-                            value={fCurrency(monthlyDiscount(price6, discount6))}
-                            error={monthlyDiscount(price6, discount6) <= 0}
-                            fullWidth
-                            disabled={!hotRackEnabled || !price6}
-                            sx={{
-                              pointerEvents: 'none',
-                            }}
-                            InputProps={{
-                              readOnly: true,
-                            }}
-                          />
-                        </Grid>
-                        <Grid item xs={12} md={6}>
-                          <RHFTextField
-                            type="number"
-                            name="discount12"
-                            label="Discount for 12 Month"
-                            InputProps={{
-                              startAdornment: <InputAdornment position="start">$</InputAdornment>,
-                            }}
-                            onChangeMiddleware={restrictNegetiveValue}
-                            fullWidth
-                            disabled={!hotRackEnabled || !price12}
-                          />
-                        </Grid>
-                        <Grid item xs={12} md={6}>
-                          <TextField
-                            label="Discounted Price 12 Month"
-                            value={fCurrency(monthlyDiscount(price12, discount12))}
-                            error={monthlyDiscount(price12, discount12) <= 0}
-                            fullWidth
-                            disabled={!hotRackEnabled || !price12}
-                            sx={{
-                              pointerEvents: 'none',
-                            }}
-                            InputProps={{
-                              readOnly: true,
-                            }}
-                          />
-                        </Grid>
-                      </>
-                    )}
+                    {fixedOptions}
                   </Grid>
                 </>
               )}

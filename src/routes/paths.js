@@ -115,6 +115,7 @@ export const paths = {
     root: ROOTS.SETTINGS,
     general: `${ROOTS.SETTINGS}#general`,
     warehouses: `${ROOTS.SETTINGS}#warehouses`,
+    subscriptions: `${ROOTS.SETTINGS}#subscriptions`,
     billing: `${ROOTS.SETTINGS}#billing`,
     transactions: `${ROOTS.SETTINGS}#transactions`,
     security: `${ROOTS.SETTINGS}#security`,

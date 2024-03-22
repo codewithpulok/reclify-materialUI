@@ -33,11 +33,14 @@ const defaultValues = {
   description: '',
   keyFeatures: [],
   customerList: [],
-  businessSize: 0,
   foundedYear: 1800,
   promoCode: '',
   logo: null,
   banner: null,
+  businessHours: {
+    start: undefined,
+    end: undefined,
+  },
 };
 
 const Props = {};

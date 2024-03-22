@@ -10,8 +10,10 @@ import { fCurrency, fNumber } from 'src/utils/format-number';
 import { PurchaseDialog } from 'src/components/common/custom-dialog';
 import { WarehouseMonthCard } from 'src/components/warehouse/cards';
 // constants
+import { getWarehouseDiscount } from 'src/components/warehouse/utills';
 import { CUBIC_FEET_PER_PALLET, SQUARE_FEET_PER_PALLET } from 'src/constant/pallet';
 import { ICONS } from '../../../../../sections/private/dashboard/warehouses/config-warehouse';
+import DetailsLogo from '../details-logo';
 import PromoField from './promo-field';
 import SpaceField from './space-field';
 // ----------------------------------------------------------------------
@@ -104,17 +106,11 @@ const DetailsBooking = (props) => {
     [warehouse?.hotRackEnabled]
   );
 
-  const discountRate = useMemo(() => {
-    // if discount enabled & discount type is percentage then make it count
-    if (discountEnabled && warehouse?.discountOption === 'percentage')
-      return warehouse?.discountRate || 0;
-    return 0;
-  }, [discountEnabled, warehouse?.discountOption, warehouse?.discountRate]);
   const discountMonth = useMemo(() => {
     let discount;
 
-    // if discount enabled & discount type is fixed then make it count
-    if (discountEnabled && warehouse?.discountOption === 'fixed') {
+    // if discount enabled then make it count
+    if (discountEnabled) {
       switch (selectedMonth) {
         case 1:
           discount = warehouse?.discount1 || 0;
@@ -140,7 +136,6 @@ const DetailsBooking = (props) => {
     warehouse?.discount12,
     warehouse?.discount3,
     warehouse?.discount6,
-    warehouse?.discountOption,
   ]);
 
   // current price maybe differ based on selected month
@@ -164,19 +159,18 @@ const DetailsBooking = (props) => {
     }
     return price || 0;
   }, [selectedMonth, warehouse]);
+
   // discount in current price
-  const percentDiscount = useMemo(() => {
-    if (discountRate && currentPrice) {
-      return (discountRate / 100) * currentPrice;
+  const discount = useMemo(() => {
+    if (warehouse?.discountOption === 'percentage' && discountMonth && currentPrice) {
+      return (discountMonth / 100) * currentPrice;
+    }
+
+    if (warehouse?.discountOption === 'fixed') {
+      return discountMonth;
     }
     return 0;
-  }, [currentPrice, discountRate]);
-
-  const discount = useMemo(() => {
-    if (!discountEnabled) return 0;
-
-    return percentDiscount || discountMonth;
-  }, [discountEnabled, discountMonth, percentDiscount]);
+  }, [currentPrice, discountMonth, warehouse?.discountOption]);
 
   const discountedPricePerPallet = currentPrice - discount;
   const totalPrice = currentPrice * selectedMonth * requiredSpace;
@@ -224,22 +218,21 @@ const DetailsBooking = (props) => {
               icon={ICONS.hot()}
               sx={{ color: 'white' }}
             />
-            {!!discountRate && (
-              <Chip
-                label={`${discountRate}% OFF`}
-                color="secondary"
-                variant="filled"
-                icon={ICONS.discount()}
-                sx={{ color: 'white' }}
-              />
-            )}
+
+            <Chip
+              label={`${Math.ceil(getWarehouseDiscount(warehouse))}% OFF`}
+              color="secondary"
+              variant="filled"
+              icon={ICONS.discount()}
+              sx={{ color: 'white' }}
+            />
           </Stack>
         )}
         <Typography variant="h5" sx={{ mb: 4 }}>
           Reserve Your Space In this Warehouse Now
         </Typography>
 
-        <Grid container sx={{ mb: 5 }} spacing={2}>
+        <Grid container sx={{ mb: 5 }} rowSpacing={1.5} columnSpacing={2}>
           <Grid item xs={12} sm={6}>
             <Stack>
               <Typography fontWeight="bold" color="primary" sx={bookingInfoStyle.title}>
@@ -267,19 +260,8 @@ const DetailsBooking = (props) => {
                 <br />
                 {fNumber(warehouse.maxSpaceOrder * CUBIC_FEET_PER_PALLET)} cubic feet
               </Typography>
-              <Typography sx={bookingInfoStyle.description} mb={1.5}>
+              <Typography sx={bookingInfoStyle.description}>
                 {fNumber(warehouse.minSpaceOrder)} pallets (minimum)
-              </Typography>
-              <Typography fontWeight="bold" color="primary" sx={bookingInfoStyle.title}>
-                Total Available Space
-              </Typography>
-              <Typography sx={bookingInfoStyle.description}>
-                <b>{fNumber(warehouse.totalSpace)}</b> pallets
-              </Typography>
-              <Typography sx={bookingInfoStyle.description}>
-                {fNumber(warehouse.totalSpace * SQUARE_FEET_PER_PALLET)} square feet
-                <br />
-                {fNumber(warehouse.totalSpace * CUBIC_FEET_PER_PALLET)} cubic feet
               </Typography>
             </Stack>
           </Grid>
@@ -295,25 +277,25 @@ const DetailsBooking = (props) => {
                 alignItems="baseline"
                 flexWrap="wrap"
                 sx={
-                  discountRate
+                  discount
                     ? { position: 'relative', color: 'text.disabled' }
                     : { position: 'relative', color: 'text.primary' }
                 }
               >
                 <Typography
-                  sx={discountRate ? bookingInfoStyle.disabledHeading1 : bookingInfoStyle.heading1}
+                  sx={discount ? bookingInfoStyle.disabledHeading1 : bookingInfoStyle.heading1}
                   color="inherit"
                 >
                   {fCurrency(currentPrice)}
                 </Typography>
                 <Typography
-                  sx={discountRate ? bookingInfoStyle.disabledHeading1 : bookingInfoStyle.heading1}
+                  sx={discount ? bookingInfoStyle.disabledHeading1 : bookingInfoStyle.heading1}
                   color="inherit"
                 >
                   /
                 </Typography>
                 <Typography
-                  sx={discountRate ? bookingInfoStyle.disabledHeading2 : bookingInfoStyle.heading2}
+                  sx={discount ? bookingInfoStyle.disabledHeading2 : bookingInfoStyle.heading2}
                   color="inherit"
                 >
                   pallet
@@ -354,6 +336,30 @@ const DetailsBooking = (props) => {
                 </Stack>
               )}
             </Stack>
+          </Grid>
+
+          <Grid item xs={12} sm={6}>
+            <Stack>
+              <Typography fontWeight="bold" color="primary" sx={bookingInfoStyle.title}>
+                Total Available Space
+              </Typography>
+              <Typography sx={bookingInfoStyle.description}>
+                <b>{fNumber(warehouse.totalSpace)}</b> pallets
+              </Typography>
+              <Typography sx={bookingInfoStyle.description}>
+                {fNumber(warehouse.totalSpace * SQUARE_FEET_PER_PALLET)} square feet
+                <br />
+                {fNumber(warehouse.totalSpace * CUBIC_FEET_PER_PALLET)} cubic feet
+              </Typography>
+            </Stack>
+          </Grid>
+
+          <Grid item xs={12} sm={6}>
+            {!!warehouse?.logo && (
+              <Box width={1}>
+                <DetailsLogo logo={warehouse?.logo} />
+              </Box>
+            )}
           </Grid>
         </Grid>
 

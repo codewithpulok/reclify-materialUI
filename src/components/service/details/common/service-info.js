@@ -2,6 +2,7 @@ import { Grid, Link, Typography } from '@mui/material';
 import PropTypes from 'prop-types';
 import { useMemo } from 'react';
 import { RouterLink } from 'src/routes/components';
+import { fTime } from 'src/utils/format-time';
 import { ServiceDetailsBox } from '../../box';
 
 const Props = {
@@ -34,7 +35,10 @@ const ServiceInfo = (props) => {
       },
       {
         label: 'Business Hours',
-        value: service?.businessHours,
+        value:
+          service?.businessHours?.start && service?.businessHours?.end
+            ? `${fTime(service?.businessHours?.start)} - ${fTime(service?.businessHours?.end)}`
+            : null,
       },
     ],
     [service]

@@ -29,6 +29,10 @@ const customerSchema = {
 const schema = {
   customerList: Yup.array().of(Yup.object().shape(customerSchema)).label('Client list').required(),
   keyFeatures: Yup.array().of(Yup.string()).max(3).label('Key Features'),
+  businessHours: Yup.object().shape({
+    start: Yup.number().label('Business Start Time').required(),
+    end: Yup.number().label('Business End Time').required(),
+  }),
 };
 const createSchema = Yup.object().shape(schema);
 

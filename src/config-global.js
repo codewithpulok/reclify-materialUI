@@ -17,8 +17,9 @@ export const MAPBOX_API = process.env.NEXT_PUBLIC_MAPBOX_API; // mapbox api key
 export const { PRIVATE_BACKEND_API } = process.env; // api link for server side
 export const PUBLIC_BACKEND_API = process.env.NEXT_PUBLIC_BACKEND_API; // api link for client side
 
-// ROOT PATH AFTER LOGIN SUCCESSFUL
+// ROOT PATH AFTER AUTH SUCCESSFUL // ----------------------------------------------------------------------
 export const PATH_AFTER_LOGIN = paths.dashboard.warehouses.root;
+export const PATH_AFTER_REGISTER = paths.settings.general;
 
 // STRIPE KEYS // ----------------------------------------------------------------------
 export const STRIPE_PK = process.env.NEXT_PUBLIC_STRIPE_PUBLISH_KEY;
