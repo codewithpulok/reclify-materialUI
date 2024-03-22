@@ -6,6 +6,7 @@ import { enqueueSnackbar } from 'notistack';
 import { useCallback, useEffect, useMemo } from 'react';
 import { useForm } from 'react-hook-form';
 import FormProvider from 'src/components/common/hook-form/form-provider';
+import { getIconify } from 'src/components/common/iconify/utilities';
 import { selectAuth } from 'src/redux-toolkit/features/auth/authSlice';
 import { useAppSelector } from 'src/redux-toolkit/hooks';
 import { useOnboardingMutation } from 'src/redux-toolkit/services/paymentApi';
@@ -174,10 +175,20 @@ const OnboardingForm = (props) => {
   // head part
   const renderHead = (
     <Stack spacing={1} sx={{ my: 5 }}>
-      <Typography variant="h3">Account Onboarding</Typography>
+      <Stack
+        direction="row"
+        alignItems="center"
+        gap={1}
+        justifyContent="center"
+        flexWrap="wrap-reverse"
+      >
+        <Typography variant="h3">Data secured by Stripe</Typography>
+        {getIconify('bi:stripe', 34, { color: '#635bff' })}
+      </Stack>
 
       <Typography variant="body2" sx={{ color: 'text.secondary' }}>
-        Lorem ipsum dolor sit amet, consectetur adipisicing elit. Dignissimos, at.
+        Please fillout the below information in order to complete your account setup and receive
+        payments
       </Typography>
 
       {!!failedMessages?.length && (
