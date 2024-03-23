@@ -270,17 +270,18 @@ const DetailsBooking = (props) => {
               <Typography fontWeight="bold" color="primary" sx={bookingInfoStyle.title}>
                 Price
               </Typography>
+
               <Stack
                 direction="row"
                 columnGap={0.5}
                 rowGap={0}
                 alignItems="baseline"
                 flexWrap="wrap"
-                sx={
-                  discount
-                    ? { position: 'relative', color: 'text.disabled' }
-                    : { position: 'relative', color: 'text.primary' }
-                }
+                sx={{
+                  position: 'relative',
+                  mb: 1,
+                  color: discount ? 'text.disabled' : 'text.primary',
+                }}
               >
                 <Typography
                   sx={discount ? bookingInfoStyle.disabledHeading1 : bookingInfoStyle.heading1}
@@ -312,6 +313,7 @@ const DetailsBooking = (props) => {
                   />
                 )}
               </Stack>
+
               {!!discount && (
                 <Stack
                   direction="row"

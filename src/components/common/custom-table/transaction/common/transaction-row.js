@@ -91,14 +91,18 @@ const TransactionRow = (props) => {
       {show.includes('invoice') && (
         <TableCell>
           {row.status === 'completed' && (
-            <Tooltip title="Click to visit invoice PDF" arrow>
+            <Tooltip
+              sx={{ visibility: !row?.invoiceId?.file ? 'hidden' : 'visible' }}
+              title="Click to visit invoice PDF"
+              arrow
+            >
               <Chip
                 label="Invoice"
                 icon={ICONS.invoice()}
                 clickable
                 variant="outlined"
                 component={RouterLink}
-                href="#"
+                href={row?.invoiceId?.file}
               />
             </Tooltip>
           )}
