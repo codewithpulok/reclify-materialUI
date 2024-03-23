@@ -1,5 +1,6 @@
+import { Card } from '@mui/material';
 import PropTypes from 'prop-types';
-import Image from 'src/components/common/image';
+import { NextLazyImage } from 'src/components/common/next-image';
 
 /**
  * @param {DetailsLogo.propTypes} props
@@ -9,13 +10,19 @@ const DetailsLogo = (props) => {
   const { logo } = props;
 
   return (
-    <Image
-      src={logo}
-      alt="Company Logo"
-      sx={{ width: '100%' }}
-      imageSx={{ objectFit: 'contain!important' }}
-      ratio="16/9"
-    />
+    <Card
+      sx={{
+        width: 1,
+        aspectRatio: 16 / 9,
+        position: 'relative',
+        borderRadius: 1,
+        borderWidth: 1,
+        borderStyle: 'solid',
+        borderColor: 'grey.300',
+      }}
+    >
+      <NextLazyImage src={logo} alt="Company Logo" fill style={{ objectFit: 'contain' }} />
+    </Card>
   );
 };
 
