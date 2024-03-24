@@ -163,7 +163,7 @@ const DetailsBooking = (props) => {
   // discount in current price
   const discount = useMemo(() => {
     if (warehouse?.discountOption === 'percentage' && discountMonth && currentPrice) {
-      return (discountMonth / 100) * currentPrice;
+      return Number(Number((discountMonth / 100) * currentPrice).toFixed(2));
     }
 
     if (warehouse?.discountOption === 'fixed') {
@@ -172,7 +172,7 @@ const DetailsBooking = (props) => {
     return 0;
   }, [currentPrice, discountMonth, warehouse?.discountOption]);
 
-  const discountedPricePerPallet = currentPrice - discount;
+  const discountedPricePerPallet = Number(Number(currentPrice - discount).toFixed(2));
   const totalPrice = currentPrice * selectedMonth * requiredSpace;
   const totalDiscount = discount * selectedMonth * requiredSpace;
   const monthlyTotal = discountedPricePerPallet * requiredSpace;
