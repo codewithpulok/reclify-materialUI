@@ -7,8 +7,8 @@ import { useForm } from 'react-hook-form';
 // local components
 import { LoadingButton } from '@mui/lab';
 import { useRouter } from 'next/navigation';
-import { useSnackbar } from 'notistack';
-import { useCallback, useRef } from 'react';
+import { enqueueSnackbar } from 'notistack';
+import { useCallback, useEffect, useMemo, useRef } from 'react';
 import {
   predefinedAmenities,
   predefinedFacility,
@@ -34,41 +34,6 @@ const Props = {
   sourceWarehouse: PropTypes.object,
 };
 
-/** @type {Warehouse} */
-const defaultValues = {
-  name: '',
-  address: '',
-  totalSpace: null,
-  pricePerSpace: null,
-  discountRate: null,
-  maxSpaceOrder: null,
-  minSpaceOrder: null,
-  description: '',
-  photos: [],
-  features: getPredefinedFieldsDefaultValue(predefinedFeatures),
-  facilityDetails: getPredefinedFieldsDefaultValue(predefinedFacility),
-  services: getPredefinedFieldsDefaultValue(predefinedServices),
-  amenities: getPredefinedFieldsDefaultValue(predefinedAmenities),
-  regionScope: '',
-  region: '',
-  documents: [],
-  discount1: null,
-  discount3: null,
-  discount6: null,
-  discount12: null,
-  hasPromo: false,
-  price1: null,
-  price12: null,
-  price3: null,
-  price6: null,
-  promoCode: '',
-  hotRackEnabled: false,
-  discountOption: 'percentage',
-  logo: null,
-  banner: null,
-  miniLogo: null,
-  highlights: '',
-};
 // ----------------------------------------------------------------------
 
 /**
@@ -76,11 +41,10 @@ const defaultValues = {
  * @returns {JSX.Element}
  */
 const WarehouseCreateContent = (props) => {
-  const { sourceWarehouse } = props;
+  const { sourceWarehouse: warehouse } = props;
   const ref = useRef();
 
   const router = useRouter();
-  const { enqueueSnackbar } = useSnackbar();
   const appearance = useAppearance();
 
   // app states
@@ -92,9 +56,46 @@ const WarehouseCreateContent = (props) => {
   const [createWarehouse] = useWarehouseCreateMutation();
 
   // form state
+  const defaultValues = useMemo(
+    () => ({
+      name: warehouse?.name || '',
+      address: warehouse?.address || '',
+      totalSpace: warehouse?.totalSpace || 0,
+      pricePerSpace: warehouse?.pricePerSpace || 0,
+      maxSpaceOrder: warehouse?.maxSpaceOrder || 0,
+      minSpaceOrder: warehouse?.minSpaceOrder || 0,
+      description: warehouse?.description || '',
+      photos: warehouse?.photos || [],
+      features: warehouse?.features || getPredefinedFieldsDefaultValue(predefinedFeatures),
+      facilityDetails:
+        warehouse?.facilityDetails || getPredefinedFieldsDefaultValue(predefinedFacility),
+      services: warehouse?.services || getPredefinedFieldsDefaultValue(predefinedServices),
+      amenities: warehouse?.amenities || getPredefinedFieldsDefaultValue(predefinedAmenities),
+      regionScope: warehouse?.regionScope || '',
+      region: warehouse?.region || '',
+      documents: warehouse?.documents || [],
+      discount1: warehouse?.discount1 || 0,
+      discount3: warehouse?.discount3 || 0,
+      discount6: warehouse?.discount6 || 0,
+      discount12: warehouse?.discount12 || 0,
+      hasPromo: warehouse?.hasPromo || false,
+      price1: warehouse?.price1 || 0,
+      price12: warehouse?.price12 || 0,
+      price3: warehouse?.price3 || 0,
+      price6: warehouse?.price6 || 0,
+      promoCode: warehouse?.promoCode || '',
+      hotRackEnabled: warehouse?.hotRackEnabled || false,
+      discountOption: warehouse?.discountOption || 'percentage',
+      logo: warehouse?.logo || null,
+      miniLogo: warehouse?.miniLogo || null,
+      banner: warehouse?.banner || null,
+      highlights: warehouse?.highlights,
+    }),
+    [warehouse]
+  );
   const methods = useForm({
     resolver: yupResolver(warehouseSchema),
-    defaultValues: sourceWarehouse || defaultValues,
+    defaultValues,
   });
   const { handleSubmit, formState, reset, trigger, watch } = methods;
   const { isSubmitting } = formState;
@@ -118,7 +119,8 @@ const WarehouseCreateContent = (props) => {
   const onReset = useCallback(() => {
     reset(defaultValues);
     router.back();
-  }, [reset, router]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [defaultValues]);
 
   // handle form submit
   const handleCreate = useCallback(
@@ -140,7 +142,8 @@ const WarehouseCreateContent = (props) => {
         router.push(`${paths.dashboard.warehouses.root}/${data?.results?.id}`);
       }
     },
-    [createWarehouse, enqueueSnackbar, reset, router]
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    [createWarehouse, defaultValues]
   );
 
   // validate steps before going to next step
@@ -164,6 +167,12 @@ const WarehouseCreateContent = (props) => {
       handleSubmit(handleCreate)();
     }
   };
+
+  // update form on warehous changes
+  useEffect(() => {
+    reset(defaultValues);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [defaultValues]);
 
   return (
     <Container maxWidth={appearance.themeStretch ? false : 'lg'} ref={ref}>
@@ -194,7 +203,7 @@ const WarehouseCreateContent = (props) => {
 
             <WarehouseFields
               activeStep={activeStep}
-              excludeImages={sourceWarehouse?.photos?.map((p) => p.link) || []}
+              excludeImages={defaultValues?.photos?.map((p) => p.link) || []}
             />
             <Stack
               sx={{

@@ -163,7 +163,7 @@ const DetailsBooking = (props) => {
   // discount in current price
   const discount = useMemo(() => {
     if (warehouse?.discountOption === 'percentage' && discountMonth && currentPrice) {
-      return (discountMonth / 100) * currentPrice;
+      return Number(Number((discountMonth / 100) * currentPrice).toFixed(2));
     }
 
     if (warehouse?.discountOption === 'fixed') {
@@ -172,7 +172,7 @@ const DetailsBooking = (props) => {
     return 0;
   }, [currentPrice, discountMonth, warehouse?.discountOption]);
 
-  const discountedPricePerPallet = currentPrice - discount;
+  const discountedPricePerPallet = Number(Number(currentPrice - discount).toFixed(2));
   const totalPrice = currentPrice * selectedMonth * requiredSpace;
   const totalDiscount = discount * selectedMonth * requiredSpace;
   const monthlyTotal = discountedPricePerPallet * requiredSpace;
@@ -270,17 +270,18 @@ const DetailsBooking = (props) => {
               <Typography fontWeight="bold" color="primary" sx={bookingInfoStyle.title}>
                 Price
               </Typography>
+
               <Stack
                 direction="row"
                 columnGap={0.5}
                 rowGap={0}
                 alignItems="baseline"
                 flexWrap="wrap"
-                sx={
-                  discount
-                    ? { position: 'relative', color: 'text.disabled' }
-                    : { position: 'relative', color: 'text.primary' }
-                }
+                sx={{
+                  position: 'relative',
+                  mb: 1,
+                  color: discount ? 'text.disabled' : 'text.primary',
+                }}
               >
                 <Typography
                   sx={discount ? bookingInfoStyle.disabledHeading1 : bookingInfoStyle.heading1}
@@ -312,6 +313,7 @@ const DetailsBooking = (props) => {
                   />
                 )}
               </Stack>
+
               {!!discount && (
                 <Stack
                   direction="row"

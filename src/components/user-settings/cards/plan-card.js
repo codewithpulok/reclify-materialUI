@@ -1,7 +1,7 @@
-import { Box, Button, Divider, Paper, Stack, Typography } from '@mui/material';
+import { Box, Button, Paper, Stack, Typography } from '@mui/material';
 import PropTypes from 'prop-types';
-import { PlanFreeIcon, PlanPremiumIcon, PlanStarterIcon } from 'src/assets/icons';
 import Iconify from 'src/components/common/iconify';
+import { getIconify } from 'src/components/common/iconify/utilities';
 import Label from 'src/components/common/label';
 import { RouterLink } from 'src/routes/components';
 import { paths } from 'src/routes/paths';
@@ -10,9 +10,27 @@ import { fNumber } from 'src/utils/format-number';
 import { ICONS } from '../config-user-settings';
 
 const icons = {
-  free: <PlanFreeIcon />,
-  pro: <PlanStarterIcon />,
-  enterprise: <PlanPremiumIcon />,
+  free: getIconify('fa:paper-plane', 66, {
+    color: 'text.primary',
+    opacity: 0.4,
+    position: 'absolute',
+    top: -5,
+    right: 0,
+  }),
+  pro: getIconify('ion:rocket-sharp', 68, {
+    color: 'text.primary',
+    opacity: 0.4,
+    position: 'absolute',
+    top: -5,
+    right: 0,
+  }),
+  enterprise: getIconify('uim:rocket', 68, {
+    color: 'text.primary',
+    opacity: 0.4,
+    position: 'absolute',
+    top: -5,
+    right: 0,
+  }),
 };
 
 const Props = {
@@ -25,10 +43,12 @@ const Props = {
   /** @type {SxProps} */
   sx: PropTypes.object,
   isCurrent: PropTypes.bool,
+  isPopular: PropTypes.bool,
   showAnnual: PropTypes.bool,
   /** @type {'sm' | 'md'} */
   size: PropTypes.string,
   showEnterprise: PropTypes.bool,
+  href: PropTypes.string,
 };
 
 // ----------------------------------------------------------------------
@@ -45,9 +65,11 @@ const PlanCard = (props) => {
     onSelect,
     sx = {},
     isCurrent,
+    isPopular,
     showAnnual,
     size = 'md',
     showEnterprise,
+    href,
   } = props;
 
   const currentPrice = showAnnual ? plan?.annualPrice : plan?.price;
@@ -58,79 +80,85 @@ const PlanCard = (props) => {
   const enterprise = plan.id === 'enterprise';
   const pro = plan.id === 'pro';
 
-  const renderCurrent = isCurrent && (
-    <Label color="info" startIcon={ICONS.current()} sx={{ position: 'absolute', top: 8, right: 8 }}>
-      Current
-    </Label>
+  const renderLabel = (
+    <Stack direction="row" alignItems="start" spacing={1} minHeight={50}>
+      {isPopular && (
+        <Label color="info" startIcon={ICONS.current()}>
+          Popular
+        </Label>
+      )}
+      {isCurrent && (
+        <Label color="info" startIcon={ICONS.current()}>
+          Current
+        </Label>
+      )}
+    </Stack>
   );
 
   const renderIcon = (
-    <Stack direction="row" alignItems="center" justifyContent="space-between">
-      <Box sx={{ width: 48, height: 48 }}>
-        {free && icons.free}
-        {pro && icons.pro}
-        {enterprise && icons.enterprise}
-      </Box>
-    </Stack>
+    <>
+      {free && icons.free}
+      {pro && icons.pro}
+      {enterprise && icons.enterprise}
+    </>
   );
 
   const renderSubscription = (
-    <Stack spacing={1}>
-      <Typography variant={isSm ? 'h6' : 'h4'} sx={{ textTransform: 'capitalize' }}>
+    <Stack spacing={1} sx={{ position: 'relative', mb: 2, minHeight: 60 }}>
+      <Typography
+        variant={isSm ? 'h6' : 'h4'}
+        color="primary.main"
+        sx={{ textTransform: 'capitalize' }}
+      >
         {plan.title}
       </Typography>
+
+      {renderIcon}
     </Stack>
   );
 
-  const renderFree = <Typography variant={isSm ? 'h4' : 'h2'}>Free</Typography>;
+  const renderFree = (
+    <Stack minHeight={100}>
+      <Typography variant={isSm ? 'h4' : 'h3'} mb={2.3}>
+        Free
+      </Typography>
+    </Stack>
+  );
   const renderPremium = (
-    <Stack>
+    <Stack minHeight={100}>
       <Stack direction="row">
         <Typography variant="h4" mr={0.2}>
           $
         </Typography>
 
-        <Typography variant={isSm ? 'h4' : 'h2'}>{fNumber(currentPrice)}</Typography>
+        <Typography variant={isSm ? 'h4' : 'h3'}>{fNumber(currentPrice)}</Typography>
 
         <Typography
           component="span"
           sx={{
             alignSelf: 'center',
             color: 'text.disabled',
-            ml: 1,
-            typography: 'body2',
+            ml: 0.3,
+            typography: 'h5',
           }}
         >
-          / mo
+          /mo
         </Typography>
       </Stack>
-      {showAnnual && (
-        <Stack direction="row" color="text.secondary">
-          <Typography variant="h5" mr={0.2}>
-            $
-          </Typography>
 
-          <Typography variant={isSm ? 'h5' : 'h3'}>{fNumber(currentPrice * 12)}</Typography>
-
-          <Typography
-            component="span"
-            sx={{
-              alignSelf: 'center',
-              color: 'text.disabled',
-              ml: 1,
-              typography: 'body2',
-            }}
-          >
-            / yr
-          </Typography>
-        </Stack>
-      )}
+      <Typography
+        color="text.secondary"
+        variant="h6"
+        visibility={showAnnual ? 'visible' : 'hidden'}
+      >
+        ${fNumber(currentPrice * 12)} /yr
+      </Typography>
     </Stack>
   );
   const renderEnterprise = showEnterprise ? (
     renderPremium
   ) : (
-    <Stack alignItems="start" spacing={1}>
+    <Stack alignItems="start" spacing={1} minHeight={100}>
       <Button
         LinkComponent={RouterLink}
         href={`${paths.contact_us}/#FORM`}
@@ -166,7 +194,11 @@ const PlanCard = (props) => {
       <Stack spacing={isSm ? 0.5 : 2}>
         {plan.features.map((item) => (
           <Stack key={item} spacing={1} direction="row" alignItems="center">
-            <Iconify icon="eva:checkmark-fill" width={isSm ? 12 : 16} sx={{ mr: isSm ? 0 : 1 }} />
+            <Iconify
+              icon="eva:checkmark-fill"
+              width={isSm ? 12 : 16}
+              sx={{ mr: isSm ? 0 : 1, color: 'primary.main' }}
+            />
             <Typography flex={1} width={1} fontSize={isSm ? 13 : 16}>
               {item}
             </Typography>
@@ -176,32 +208,83 @@ const PlanCard = (props) => {
     </Stack>
   );
 
+  const renderAction = href && (
+    <Stack mt={4}>
+      {href && (
+        <>
+          {free && (
+            <Button
+              LinkComponent={RouterLink}
+              href={href}
+              variant="outlined"
+              size="large"
+              fullWidth
+            >
+              Choose Package
+            </Button>
+          )}
+
+          {pro && (
+            <Button
+              LinkComponent={RouterLink}
+              href={href}
+              color="primary"
+              variant="contained"
+              size="large"
+              fullWidth
+            >
+              Choose Package
+            </Button>
+          )}
+
+          {enterprise && (
+            <Button
+              LinkComponent={RouterLink}
+              href={href}
+              color="secondary"
+              variant="contained"
+              size="large"
+              fullWidth
+            >
+              Choose Package
+            </Button>
+          )}
+        </>
+      )}
+    </Stack>
+  );
+
   return (
     <Stack
-      spacing={isSm ? 2 : 5}
       component={Paper}
       variant="outlined"
       onClick={plan?.id === 'enterprise' || !onSelect ? undefined : () => onSelect(plan.id)}
       sx={{
         position: 'relative',
-        p: isSm ? 2 : 5,
+        p: isSm ? 2 : 4,
         borderRadius: isSm ? 1 : 2,
         cursor: onSelect && plan?.id !== 'enterprise' ? 'pointer' : 'default',
         boxShadow: `0 0 0 2px ${isSelected ? primary.main : 'transparent'}`,
         ...sx,
       }}
     >
-      {renderCurrent}
-
-      {renderIcon}
+      {renderLabel}
 
       {renderSubscription}
 
       {renderPrice}
 
-      <Divider sx={{ borderStyle: 'dashed' }} />
+      <Box mb={4}>
+        <Typography variant="body2" color="text.secondary">
+          {free && 'Lorem, ipsum dolor sit amet consectetur adipisicing elit.'}
+          {pro && 'Lorem, ipsum dolor sit amet consectetur adipisicing elit. Animi sed'}
+          {enterprise && 'Lorem, ipsum dolor sit amet consectetur adipisicing.'}
+        </Typography>
+      </Box>
 
       {renderList}
+
+      {renderAction}
     </Stack>
   );
 };

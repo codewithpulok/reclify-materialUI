@@ -116,23 +116,16 @@ const WarehouseCard = (props) => {
                     </Tooltip>
                   ) : null}
                 </Stack>
-                <Typography
+                <TextMaxLine
                   variant={isSm ? 'inherit' : 'body2'}
                   color="text.secondary"
+                  line={2}
                   sx={{
-                    overflow: 'hidden',
-                    textOverflow: 'ellipsis',
-                    display: '-webkit-box',
-                    WebkitLineClamp: '2',
-                    WebkitBoxOrient: 'vertical',
-                    maxHeight: isSm ? '38px' : '44px',
-                    height: isSm ? '38px' : '44px',
                     fontSize: isSm ? '12px' : undefined,
-                    lineHeight: isSm ? 1.4 : undefined,
                   }}
                 >
                   {joinAddressObj(warehouse.address)}
-                </Typography>
+                </TextMaxLine>
               </Stack>
             </Stack>
           </Stack>
