@@ -168,7 +168,7 @@ const WarehouseEditContent = (props) => {
     window?.scrollTo(0, 0);
   }, [activeStep]);
 
-  // update form on warehous changes
+  // update form on warehouse changes
   useEffect(() => {
     reset(defaultValues);
     // eslint-disable-next-line react-hooks/exhaustive-deps
