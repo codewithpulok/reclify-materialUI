@@ -28,7 +28,8 @@ export default function ListingView() {
       warehouses = [],
       notFoundText = 'No warehouses found',
       errorText = 'Something went to wrong',
-      featuredProps = {}
+      featuredProps = {},
+      itemProps = {}
     ) => {
       // error state
       if (warehousesResponse.isError) {
@@ -46,7 +47,7 @@ export default function ListingView() {
           <Grid item xs={12}>
             <Stack spacing={5}>
               <WarehouseFeaturedCarousel data={warehouses} {...featuredProps} />
-              <WarehouseCarousel data={warehouses} />
+              <WarehouseCarousel data={warehouses} {...itemProps} />
             </Stack>
           </Grid>
         );
@@ -66,7 +67,7 @@ export default function ListingView() {
   const hotdeals = useMemo(
     () =>
       Array.isArray(warehousesResponse?.data?.results)
-        ? warehousesResponse?.data?.results.filter((w) => w.hotRackEnabled && w.isFeatured)
+        ? warehousesResponse?.data?.results.filter((w) => w.hotRackEnabled)
         : [],
     [warehousesResponse]
   );
@@ -107,11 +108,21 @@ export default function ListingView() {
         </Stack>
 
         <Grid container spacing={2}>
-          {renderWarehouses(hotdeals, 'No hot deals available', undefined, {
-            itemProps: {
-              contentSx: { bgcolor: (theme) => alpha(theme.palette.secondary.main, 0.2) },
+          {renderWarehouses(
+            hotdeals,
+            'No hot deals available',
+            undefined,
+            {
+              itemProps: {
+                contentSx: { bgcolor: (theme) => alpha(theme.palette.secondary.main, 0.2) },
+              },
             },
-          })}
+            {
+              itemProps: {
+                contentSx: { bgcolor: (theme) => alpha(theme.palette.secondary.main, 0.2) },
+              },
+            }
+          )}
         </Grid>
       </Stack>
 
