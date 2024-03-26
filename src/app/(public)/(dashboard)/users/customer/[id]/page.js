@@ -4,12 +4,6 @@ import Loading from 'src/app/loading';
 import { CustomerDetailsView } from 'src/sections/public/dashboard/users';
 import { getUser } from 'src/utils/api/server/services/users.api';
 
-export const dynamicParams = true;
-
-export async function generateStaticParams() {
-  return [];
-}
-
 const CustomerDetailsPage = async ({ params }) => {
   const customer = await getUser(params.id);
 

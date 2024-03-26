@@ -8,6 +8,10 @@ export const endpoints = {
   posts: {
     root: `${PRIVATE_BACKEND_API}/posts`,
   },
+  warehouses: {
+    root: `${PRIVATE_BACKEND_API}/warehouse`,
+    details: (id) => `${PRIVATE_BACKEND_API}/warehouse/${id}`,
+  },
   users: {
     root: (id) => `${PRIVATE_BACKEND_API}/users/${id}`,
   },
