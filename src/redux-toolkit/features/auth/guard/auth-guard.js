@@ -36,7 +36,7 @@ function Container(props) {
   const check = useCallback(() => {
     if (!isAuthenticated) {
       const searchParams = new URLSearchParams({
-        returnTo: window.location.pathname,
+        returnTo: window.location.pathname + window.location.search + window.location.hash,
       }).toString();
 
       const href = `${paths.auth.login}?${searchParams}`;

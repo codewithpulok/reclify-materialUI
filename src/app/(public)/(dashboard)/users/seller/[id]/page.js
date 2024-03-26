@@ -1,12 +1,12 @@
 import { notFound } from 'next/navigation';
 import PropTypes from 'prop-types';
-import { SplashScreen } from 'src/components/common/loading-screen';
+import Loading from 'src/app/loading';
 import { SellerDetailsView } from 'src/sections/public/dashboard/users';
+
 import { getUser } from 'src/utils/api/server/services/users.api';
 
 export const dynamicParams = true;
 
-/** @type {import('next').GetStaticPaths} */
 export async function generateStaticParams() {
   return [];
 }
@@ -16,9 +16,9 @@ const SellerDetailsPage = async ({ params }) => {
 
   if (seller?.isError) return notFound();
 
-  if (seller?.success) return <SellerDetailsView id={params.id} data={seller?.results} />;
+  if (seller?.success) return <SellerDetailsView user={seller?.results} />;
 
-  return <SplashScreen />;
+  return <Loading />;
 };
 
 SellerDetailsPage.propTypes = {

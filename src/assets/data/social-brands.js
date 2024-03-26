@@ -2,7 +2,7 @@
 export const socialsBrands = [
   {
     key: 'facebook',
-    name: 'FaceBook',
+    name: 'Facebook',
     icon: 'eva:facebook-fill',
     color: '#1877F2',
     iconSize: 20,

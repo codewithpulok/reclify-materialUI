@@ -236,19 +236,6 @@ const PlanCard = (props) => {
               Choose Package
             </Button>
           )}
-
-          {enterprise && (
-            <Button
-              LinkComponent={RouterLink}
-              href={href}
-              color="secondary"
-              variant="contained"
-              size="large"
-              fullWidth
-            >
-              Choose Package
-            </Button>
-          )}
         </>
       )}
     </Stack>
