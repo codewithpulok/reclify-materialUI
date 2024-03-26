@@ -1,37 +1,60 @@
 'use client';
 
-import { notFound } from 'next/navigation';
+import { Card, Container } from '@mui/material';
 import PropTypes from 'prop-types';
-import { ErrorState } from 'src/components/common/custom-state';
-import { LoadingScreen } from 'src/components/common/loading-screen';
-
-import { useGetUserQuery } from 'src/redux-toolkit/services/usersApi';
-import DetailsContent from './details-content';
+import CustomBreadcrumbs from 'src/components/common/custom-breadcrumbs/custom-breadcrumbs';
+import useAppearance from 'src/redux-toolkit/features/appearance/use-appearance';
+import { selectAuth } from 'src/redux-toolkit/features/auth/authSlice';
+import { useAppSelector } from 'src/redux-toolkit/hooks';
+import { paths } from 'src/routes/paths';
+import UserCover from 'src/sections/private/dashboard/users/common/user-cover';
+import DetailsHome from 'src/sections/private/dashboard/users/customers/details/details-home';
+import { fDate } from 'src/utils/format-time';
 
 const Props = {
-  id: PropTypes.string.isRequired,
+  /** @type {User} */
+  user: PropTypes.object.isRequired,
 };
 /**
  * @param {Props} props
  * @returns {JSX.Element}
  */
 const CustomerDetailsView = (props) => {
-  const { id } = props;
-  const userResponse = useGetUserQuery(id, { skip: !id });
+  const appearance = useAppearance();
+  const { user } = props;
+  const { user: authUser } = useAppSelector(selectAuth);
 
-  // if error occured
-  if ((userResponse.isError || userResponse.data?.isError) && !userResponse.isLoading)
-    return <ErrorState />;
+  return (
+    <Container maxWidth={appearance.themeStretch ? false : 'lg'}>
+      <CustomBreadcrumbs
+        heading="Customer Details"
+        links={[
+          { name: 'Home', href: paths.root },
+          { name: `${user?.firstName} ${user?.lastName}` },
+        ]}
+        sx={{
+          mb: { xs: 3, md: 5 },
+        }}
+      />
 
-  // if there is no warehouse then show error
-  if (userResponse.data?.statusCode === 404) notFound();
+      <Card sx={{ mb: 3, height: 290 }}>
+        <UserCover
+          joined={fDate(user.createdAt)}
+          name={`${user?.firstName} ${user?.lastName}`}
+          avatarUrl={user?.avatar}
+          coverUrl={user?.banner}
+          avatarBottomSx={24}
+        />
+      </Card>
 
-  // on request success
-  if (userResponse.isSuccess && userResponse.data?.success) {
-    return <DetailsContent user={userResponse.data.results} />;
-  }
-
-  return <LoadingScreen />;
+      <DetailsHome
+        allowSendMessage={authUser && authUser?.id !== user.id}
+        user={user}
+        totalPurchase={10}
+        spentMoney={user?.spent}
+      />
+    </Container>
+  );
 };
 
 CustomerDetailsView.propTypes = Props;
