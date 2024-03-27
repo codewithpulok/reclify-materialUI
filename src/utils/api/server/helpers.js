@@ -14,7 +14,7 @@ export const asyncWrapper = (handlerFunc) => async (param) => {
     // success response
     return { ...response };
   } catch (error) {
-    console.log('Client Side Error: ', error);
+    console.log('Server Side Error: ', error);
 
     // failure response for - runtime error
     return {

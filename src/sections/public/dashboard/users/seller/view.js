@@ -1,6 +1,6 @@
 'use client';
 
-import { Card, Container, Tab, Tabs } from '@mui/material';
+import { Button, Card, Container, Stack, Tab, Tabs, tabsClasses } from '@mui/material';
 import PropTypes from 'prop-types';
 import { useCallback, useState } from 'react';
 import CustomBreadcrumbs from 'src/components/common/custom-breadcrumbs/custom-breadcrumbs';
@@ -8,9 +8,10 @@ import { PLACEHOLDER_PROFILE_AVATAR, PLACEHOLDER_PROFILE_BANNER } from 'src/conf
 import useAppearance from 'src/redux-toolkit/features/appearance/use-appearance';
 import { selectAuth } from 'src/redux-toolkit/features/auth/authSlice';
 import { useAppSelector } from 'src/redux-toolkit/hooks';
+import { RouterLink } from 'src/routes/components';
 import { paths } from 'src/routes/paths';
 import UserCover from 'src/sections/private/dashboard/users/common/user-cover';
-import { ICONS, TabsSx } from 'src/sections/private/dashboard/users/config-users';
+import { ICONS } from 'src/sections/private/dashboard/users/config-users';
 import DetailsHome from 'src/sections/private/dashboard/users/sellers/details/details-home';
 import DetailsWarehouses from 'src/sections/private/dashboard/users/sellers/details/details-warehouses';
 import { fDate } from 'src/utils/format-time';
@@ -22,8 +23,8 @@ const TABS = [
     icon: ICONS.profile(),
   },
   {
-    value: 'warehouses',
-    label: 'Warehouses',
+    value: 'services',
+    label: 'Services',
     icon: ICONS.warehouse(),
   },
 ];
@@ -67,14 +68,57 @@ const SellerDetailsView = (props) => {
           name={`${user?.firstName} ${user?.lastName}`}
           avatarUrl={user?.avatar || PLACEHOLDER_PROFILE_AVATAR}
           coverUrl={user?.banner || PLACEHOLDER_PROFILE_BANNER}
-          avatarBottomSx={24}
         />
 
-        <Tabs value={currentTab} onChange={handleChangeTab} sx={TabsSx}>
-          {TABS.map((tab) => (
-            <Tab key={tab.value} value={tab.value} icon={tab.icon} label={tab.label} />
-          ))}
-        </Tabs>
+        <Stack sx={{ width: 1, bottom: 0, zIndex: 9, position: 'absolute' }}>
+          {authUser?.id !== user.id && (
+            <Button
+              LinkComponent={RouterLink}
+              href={`${paths.dashboard.messages.root}?id=${user.id}`}
+              variant="contained"
+              color="inherit"
+              endIcon={ICONS.send_message()}
+              sx={{
+                alignSelf: {
+                  xs: 'center',
+                  md: 'end',
+                },
+                mr: {
+                  xs: 0,
+                  md: 2,
+                },
+                mb: 2,
+                bgcolor: 'grey.0',
+                color: 'grey.900',
+                ':hover': { bgcolor: 'grey.300' },
+              }}
+            >
+              Send Message
+            </Button>
+          )}
+          <Tabs
+            value={currentTab}
+            onChange={handleChangeTab}
+            sx={{
+              bgcolor: 'background.paper',
+              [`& .${tabsClasses.flexContainer}`]: {
+                pr: { md: 3 },
+                justifyContent: {
+                  sm: 'center',
+                  md: 'flex-end',
+                },
+              },
+              pl: {
+                xs: 1.5,
+                sm: 0,
+              },
+            }}
+          >
+            {TABS.map((tab) => (
+              <Tab key={tab.value} value={tab.value} icon={tab.icon} label={tab.label} />
+            ))}
+          </Tabs>
+        </Stack>
       </Card>
 
       {currentTab === 'profile' && (
@@ -86,7 +130,7 @@ const SellerDetailsView = (props) => {
           totalSales={user?.totalSales || 0}
         />
       )}
-      {currentTab === 'warehouses' && <DetailsWarehouses warehouses={user?.warehouses || []} />}
+      {currentTab === 'services' && <DetailsWarehouses warehouses={user?.warehouses || []} />}
     </Container>
   );
 };

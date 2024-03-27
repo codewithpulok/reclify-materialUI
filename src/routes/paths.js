@@ -57,7 +57,7 @@ export const paths = {
       create: `${ROOTS.DASHBOARD}/warehouses/create`,
       edit: (id) => `${ROOTS.DASHBOARD}/warehouses/edit/${id}`,
       clone: (id) => `${ROOTS.DASHBOARD}/warehouses/create/?clone=${id}`,
-      hot_deals: `${ROOTS.DASHBOARD}/warehouses/hot-deals`,
+      hot_deals: `${ROOTS.DASHBOARD}/warehouses/hot-racks`,
 
       hidden: `${ROOTS.DASHBOARD}/warehouses/hidden`,
       not_verified: `${ROOTS.DASHBOARD}/warehouses/not-verified`,
@@ -131,7 +131,7 @@ export const paths = {
   warehouses: {
     root: `${ROOTS.WAREHOUSES}`,
     details: (id) => `${ROOTS.WAREHOUSES}/${id}`,
-    hot_deals: `${ROOTS.WAREHOUSES}/hot-deals`,
+    hot_deals: `${ROOTS.WAREHOUSES}/hot-racks`,
     // warehouses by region
     region: (region) => `${ROOTS.WAREHOUSES}/region/${region}`,
     // warehouses by region scope

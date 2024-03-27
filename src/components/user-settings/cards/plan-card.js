@@ -1,7 +1,8 @@
 import { Box, Button, Paper, Stack, Typography } from '@mui/material';
+import Image from 'next/image';
 import PropTypes from 'prop-types';
+import { useMemo } from 'react';
 import Iconify from 'src/components/common/iconify';
-import { getIconify } from 'src/components/common/iconify/utilities';
 import Label from 'src/components/common/label';
 import { RouterLink } from 'src/routes/components';
 import { paths } from 'src/routes/paths';
@@ -10,27 +11,9 @@ import { fNumber } from 'src/utils/format-number';
 import { ICONS } from '../config-user-settings';
 
 const icons = {
-  free: getIconify('fa:paper-plane', 66, {
-    color: 'text.primary',
-    opacity: 0.4,
-    position: 'absolute',
-    top: -5,
-    right: 0,
-  }),
-  pro: getIconify('ion:rocket-sharp', 68, {
-    color: 'text.primary',
-    opacity: 0.4,
-    position: 'absolute',
-    top: -5,
-    right: 0,
-  }),
-  enterprise: getIconify('uim:rocket', 68, {
-    color: 'text.primary',
-    opacity: 0.4,
-    position: 'absolute',
-    top: -5,
-    right: 0,
-  }),
+  free: '/assets/icons/plans/free-tier.svg',
+  pro: '/assets/icons/plans/pro-tier.svg',
+  enterprise: '/assets/icons/plans/enterprise-tier.svg',
 };
 
 const Props = {
@@ -74,6 +57,22 @@ const PlanCard = (props) => {
 
   const currentPrice = showAnnual ? plan?.annualPrice : plan?.price;
 
+  const savings = useMemo(() => {
+    if (!showAnnual) return 0;
+
+    const difference = (plan.price || 0) - (plan.annualPrice || 0);
+
+    console.log({ difference });
+
+    if (difference <= 0) return 0;
+
+    const percent = (25 / plan.annualPrice) * 100;
+
+    console.log({ percent });
+
+    return percent;
+  }, [plan?.annualPrice, plan?.price, showAnnual]);
+
   const isSm = size === 'sm';
 
   const free = plan.id === 'free';
@@ -97,14 +96,40 @@ const PlanCard = (props) => {
 
   const renderIcon = (
     <>
-      {free && icons.free}
-      {pro && icons.pro}
-      {enterprise && icons.enterprise}
+      {free && (
+        <Image
+          src={icons.free}
+          width={100}
+          height={100}
+          style={{ top: 0, right: 0, position: 'absolute' }}
+          alt={plan.title}
+        />
+      )}
+      {pro && (
+        <Image
+          src={icons.pro}
+          width={100}
+          height={100}
+          style={{ top: 0, right: 0, position: 'absolute' }}
+          alt={plan.title}
+        />
+      )}
+      {enterprise && (
+        <Image
+          src={icons.enterprise}
+          width={100}
+          height={100}
+          style={{ top: 0, right: 0, position: 'absolute' }}
+          alt={plan.title}
+        />
+      )}
     </>
   );
 
   const renderSubscription = (
     <Stack spacing={1} sx={{ position: 'relative', mb: 2, minHeight: 60 }}>
+      {renderLabel}
+
       <Typography
         variant={isSm ? 'h6' : 'h4'}
         color="primary.main"
@@ -126,32 +151,54 @@ const PlanCard = (props) => {
   );
   const renderPremium = (
     <Stack minHeight={100}>
-      <Stack direction="row">
-        <Typography variant="h4" mr={0.2}>
-          $
-        </Typography>
+      {showAnnual ? (
+        <Stack direction="row">
+          <Typography variant="h4" mr={0.2}>
+            $
+          </Typography>
 
-        <Typography variant={isSm ? 'h4' : 'h3'}>{fNumber(currentPrice)}</Typography>
+          <Typography variant={isSm ? 'h4' : 'h3'}>{fNumber(currentPrice * 12)}</Typography>
 
-        <Typography
-          component="span"
-          sx={{
-            alignSelf: 'center',
-            color: 'text.disabled',
-            ml: 0.3,
-            typography: 'h5',
-          }}
-        >
-          /mo
-        </Typography>
-      </Stack>
+          <Typography
+            component="span"
+            sx={{
+              alignSelf: 'center',
+              color: 'text.disabled',
+              ml: 0.3,
+              typography: 'h5',
+            }}
+          >
+            /yr
+          </Typography>
+        </Stack>
+      ) : (
+        <Stack direction="row">
+          <Typography variant="h4" mr={0.2}>
+            $
+          </Typography>
+
+          <Typography variant={isSm ? 'h4' : 'h3'}>{fNumber(currentPrice)}</Typography>
+
+          <Typography
+            component="span"
+            sx={{
+              alignSelf: 'center',
+              color: 'text.disabled',
+              ml: 0.3,
+              typography: 'h5',
+            }}
+          >
+            /mo
+          </Typography>
+        </Stack>
+      )}
 
       <Typography
         color="text.secondary"
         variant="h6"
         visibility={showAnnual ? 'visible' : 'hidden'}
       >
-        ${fNumber(currentPrice * 12)} /yr
+        ${fNumber(currentPrice)} /mo
       </Typography>
     </Stack>
   );
@@ -205,6 +252,30 @@ const PlanCard = (props) => {
           </Stack>
         ))}
       </Stack>
+
+      {Array.isArray(plan?.verifiedFeatures) && !!plan?.verifiedFeatures?.length && (
+        <>
+          <Stack direction="row" alignItems="center" justifyContent="start" spacing={0.5}>
+            <Typography variant="subtitle2">VERIFIED</Typography>
+            {ICONS.verified(undefined, { color: 'primary.main' })}
+          </Stack>
+
+          <Stack spacing={isSm ? 0.5 : 2}>
+            {plan.verifiedFeatures.map((item) => (
+              <Stack key={item} spacing={1} direction="row" alignItems="center">
+                <Iconify
+                  icon="eva:checkmark-fill"
+                  width={isSm ? 12 : 16}
+                  sx={{ mr: isSm ? 0 : 1, color: 'primary.main' }}
+                />
+                <Typography flex={1} width={1} fontSize={isSm ? 13 : 16}>
+                  {item}
+                </Typography>
+              </Stack>
+            ))}
+          </Stack>
+        </>
+      )}
     </Stack>
   );
 
@@ -255,11 +326,15 @@ const PlanCard = (props) => {
         ...sx,
       }}
     >
-      {renderLabel}
-
       {renderSubscription}
 
       {renderPrice}
+
+      {!!savings && (
+        <Label variant="filled" color="secondary" sx={{ mb: 1 }}>
+          You Saved UpTo {savings}%
+        </Label>
+      )}
 
       <Box mb={4}>
         <Typography variant="body2" color="text.secondary">

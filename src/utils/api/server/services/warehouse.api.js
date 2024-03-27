@@ -11,7 +11,7 @@ export const getAllWarehouses = asyncWrapper(async (params) => {
     visible: params?.visible || '',
   });
   const response = await fetch(`${endpoints.warehouses.root}?${queryString}`, {
-    cache: 'no-cache',
+    cache: 'no-store',
   });
 
   if (!response?.ok) throw new Error('ERROR: Could not fetch warehouses');
@@ -22,7 +22,7 @@ export const getAllWarehouses = asyncWrapper(async (params) => {
 /** @type {AsyncReturn<string, Warehouse>} */
 export const getWarehouse = asyncWrapper(async (id) => {
   const response = await fetch(endpoints.warehouses.details(id), {
-    cache: 'no-cache',
+    cache: 'no-store',
   });
 
   if (!response?.ok) throw new Error('ERROR: Could not fetch warehouse');

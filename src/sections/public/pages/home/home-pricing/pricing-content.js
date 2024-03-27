@@ -39,12 +39,14 @@ const PricingContent = (props) => {
         <MotionDiv
           key={plan.id}
           variants={varFade({ durationIn: Number((0.3 * index + 0.64).toFixed(2)) }).inUp}
+          style={{ height: '100%' }}
         >
           <PlanCard
             showAnnual={isAnnual.value}
             plan={plan}
             isPopular={index === 1}
             href={paths.settings.subscriptions}
+            sx={{ height: '100%' }}
           />
         </MotionDiv>
       ))}
