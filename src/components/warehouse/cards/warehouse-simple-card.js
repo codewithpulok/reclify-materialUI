@@ -51,12 +51,12 @@ const WarehouseSimpleCard = (props) => {
         <Box width="100%" sx={{ position: 'relative' }}>
           <Image src={thumbnail} ratio="16/9" />
         </Box>
-        <CardContent sx={{ position: 'relative', p: 2, pt: 1.3, ...contentSx }}>
-          <Stack spacing={0.7}>
-            <TextMaxLine variant="h5" line={1}>
+        <CardContent sx={{ position: 'relative', p: 1.5, pt: 1.3, ...contentSx }}>
+          <Stack spacing={0.5}>
+            <TextMaxLine variant="subtitle2" line={1}>
               {warehouse.name}
             </TextMaxLine>
-            <TextMaxLine variant="body2" color="text.secondary" line={2} sx={{ height: '44px' }}>
+            <TextMaxLine variant="caption" color="text.secondary" line={2}>
               {joinAddressObj(warehouse.address)}
             </TextMaxLine>
           </Stack>
