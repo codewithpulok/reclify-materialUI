@@ -1,6 +1,7 @@
 import { Box, Button, Paper, Stack, Typography } from '@mui/material';
 import Image from 'next/image';
 import PropTypes from 'prop-types';
+import { useMemo } from 'react';
 import Iconify from 'src/components/common/iconify';
 import Label from 'src/components/common/label';
 import { RouterLink } from 'src/routes/components';
@@ -55,6 +56,22 @@ const PlanCard = (props) => {
   } = props;
 
   const currentPrice = showAnnual ? plan?.annualPrice : plan?.price;
+
+  const savings = useMemo(() => {
+    if (!showAnnual) return 0;
+
+    const difference = (plan.price || 0) - (plan.annualPrice || 0);
+
+    console.log({ difference });
+
+    if (difference <= 0) return 0;
+
+    const percent = (25 / plan.annualPrice) * 100;
+
+    console.log({ percent });
+
+    return percent;
+  }, [plan?.annualPrice, plan?.price, showAnnual]);
 
   const isSm = size === 'sm';
 
@@ -134,32 +151,54 @@ const PlanCard = (props) => {
   );
   const renderPremium = (
     <Stack minHeight={100}>
-      <Stack direction="row">
-        <Typography variant="h4" mr={0.2}>
-          $
-        </Typography>
+      {showAnnual ? (
+        <Stack direction="row">
+          <Typography variant="h4" mr={0.2}>
+            $
+          </Typography>
 
-        <Typography variant={isSm ? 'h4' : 'h3'}>{fNumber(currentPrice)}</Typography>
+          <Typography variant={isSm ? 'h4' : 'h3'}>{fNumber(currentPrice * 12)}</Typography>
 
-        <Typography
-          component="span"
-          sx={{
-            alignSelf: 'center',
-            color: 'text.disabled',
-            ml: 0.3,
-            typography: 'h5',
-          }}
-        >
-          /mo
-        </Typography>
-      </Stack>
+          <Typography
+            component="span"
+            sx={{
+              alignSelf: 'center',
+              color: 'text.disabled',
+              ml: 0.3,
+              typography: 'h5',
+            }}
+          >
+            /yr
+          </Typography>
+        </Stack>
+      ) : (
+        <Stack direction="row">
+          <Typography variant="h4" mr={0.2}>
+            $
+          </Typography>
+
+          <Typography variant={isSm ? 'h4' : 'h3'}>{fNumber(currentPrice)}</Typography>
+
+          <Typography
+            component="span"
+            sx={{
+              alignSelf: 'center',
+              color: 'text.disabled',
+              ml: 0.3,
+              typography: 'h5',
+            }}
+          >
+            /mo
+          </Typography>
+        </Stack>
+      )}
 
       <Typography
         color="text.secondary"
         variant="h6"
         visibility={showAnnual ? 'visible' : 'hidden'}
       >
-        ${fNumber(currentPrice * 12)} /yr
+        ${fNumber(currentPrice)} /mo
       </Typography>
     </Stack>
   );
@@ -266,6 +305,12 @@ const PlanCard = (props) => {
       {renderSubscription}
 
       {renderPrice}
+
+      {!!savings && (
+        <Label variant="filled" color="secondary" sx={{ mb: 1 }}>
+          You Saved UpTo {savings}%
+        </Label>
+      )}
 
       <Box mb={4}>
         <Typography variant="body2" color="text.secondary">

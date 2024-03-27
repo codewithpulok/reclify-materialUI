@@ -1,4 +1,4 @@
-import { Box, Button, Stack, Typography } from '@mui/material';
+import { Box, Button, Stack } from '@mui/material';
 import PropTypes from 'prop-types';
 import Carousel, { CarouselArrows, useCarousel } from 'src/components/common/carousel';
 import { RouterLink } from 'src/routes/components';
@@ -29,14 +29,7 @@ const DetailsAdditional = (props) => {
 
   return (
     <WarehouseDetailsBox
-      title={
-        <>
-          Additional{' '}
-          <Typography color="secondary.main" variant="inherit" component="span">
-            Locations
-          </Typography>
-        </>
-      }
+      title="Additional Locations"
       sx={sx}
       contentSx={{ overflow: 'hidden', position: 'relative', px: 0 }}
     >

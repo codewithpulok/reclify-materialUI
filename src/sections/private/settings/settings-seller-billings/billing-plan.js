@@ -8,7 +8,7 @@ import Grid from '@mui/material/Unstable_Grid2';
 
 import PlanCard from 'src/components/user-settings/cards/plan-card';
 
-import { CardContent, FormControlLabel, Switch } from '@mui/material';
+import { CardContent, Stack, Switch, Typography } from '@mui/material';
 import PropTypes from 'prop-types';
 import { PlanCancelDialog, PlanUpgradeDialog } from 'src/components/common/custom-dialog';
 import { ErrorState, LoadingState } from 'src/components/common/custom-state';
@@ -57,7 +57,7 @@ const RenderPlans = (props) => {
   // success state
   if (!isLoading && isSuccess && Array.isArray(plans)) {
     return plans?.map((plan) => (
-      <Grid xs={12} md={4} key={plan.id}>
+      <Grid xs={12} md={4} key={plan.id} alignSelf="stretch">
         <PlanCard
           isSelected={plan.id === selectedPlan}
           onSelect={handleSelectPlan}
@@ -65,6 +65,7 @@ const RenderPlans = (props) => {
           isCurrent={currentPlan === plan.id}
           showAnnual={showAnnual}
           showEnterprise={user?.planId === 'enterprise'}
+          sx={{ height: '100%' }}
         />
       </Grid>
     ));
@@ -113,11 +114,16 @@ const BillingPlan = (props) => {
         <CardHeader
           title="Plan"
           action={
-            <FormControlLabel
-              label="Annually"
-              labelPlacement="start"
-              control={<Switch onChange={(_e, c) => isAnnual.setValue(c)} value={isAnnual.value} />}
-            />
+            <Stack direction="row" alignItems="center" justifyContent="center">
+              <Typography variant="overline">MONTHLY</Typography>
+              <Switch
+                value={isAnnual.value}
+                onChange={(_e, v) => isAnnual.setValue(v)}
+                color="primary"
+                size="small"
+              />
+              <Typography variant="overline">YEARLY</Typography>
+            </Stack>
           }
         />
 
