@@ -252,6 +252,30 @@ const PlanCard = (props) => {
           </Stack>
         ))}
       </Stack>
+
+      {Array.isArray(plan?.verifiedFeatures) && !!plan?.verifiedFeatures?.length && (
+        <>
+          <Stack direction="row" alignItems="center" justifyContent="start" spacing={0.5}>
+            <Typography variant="subtitle2">VERIFIED</Typography>
+            {ICONS.verified(undefined, { color: 'primary.main' })}
+          </Stack>
+
+          <Stack spacing={isSm ? 0.5 : 2}>
+            {plan.verifiedFeatures.map((item) => (
+              <Stack key={item} spacing={1} direction="row" alignItems="center">
+                <Iconify
+                  icon="eva:checkmark-fill"
+                  width={isSm ? 12 : 16}
+                  sx={{ mr: isSm ? 0 : 1, color: 'primary.main' }}
+                />
+                <Typography flex={1} width={1} fontSize={isSm ? 13 : 16}>
+                  {item}
+                </Typography>
+              </Stack>
+            ))}
+          </Stack>
+        </>
+      )}
     </Stack>
   );
 
