@@ -371,7 +371,7 @@ export const predefinedAmenities = [
     icon: 'gis:wms',
     dataType: 'array',
     fieldType: 'dropdown',
-    options: ['Amazon', 'Shopify', 'Walmart', 'eBay', 'Wayfair', 'Additional Integrations'],
+    options: ['Amazon', 'Shopify', 'Walmart', 'eBay', 'Wayfair', 'Additional Integrations', 'EDI'],
   },
   {
     key: 'parcelCarriers',
