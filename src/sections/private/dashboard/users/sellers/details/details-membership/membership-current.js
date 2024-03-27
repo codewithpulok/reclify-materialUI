@@ -22,7 +22,7 @@ const MembershipCurrent = (props) => {
     <Card>
       <CardHeader title="Current Plan" />
       <CardContent>
-        <PlanCard plan={currentPlan} />
+        <PlanCard plan={currentPlan} showAnnual />
       </CardContent>
     </Card>
   );

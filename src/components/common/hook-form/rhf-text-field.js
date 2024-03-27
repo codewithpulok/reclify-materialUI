@@ -36,7 +36,7 @@ export default function RHFTextField(props) {
       render={({ field, fieldState: { error } }) => (
         <TextField
           {...field}
-          value={field.value === null ? '' : String(valueFormatter(field.value))}
+          value={field.value === null ? '' : String(valueFormatter(field.value) || '')}
           onChange={(event) => {
             let { value } = event.target;
 

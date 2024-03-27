@@ -13,7 +13,7 @@ export const detailsContentStyle = {
 };
 
 const Props = {
-  title: PropTypes.string,
+  title: PropTypes.node,
   headerActions: PropTypes.node,
   children: PropTypes.node,
   /** @type {SxProps} */

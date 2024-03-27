@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import { useMemo } from 'react';
 import { RouterLink } from 'src/routes/components';
 import { fTime } from 'src/utils/format-time';
+import { getValueByFieldType } from 'src/utils/predefined-fields';
 import { ServiceDetailsBox } from '../../box';
 
 const Props = {
@@ -39,6 +40,11 @@ const ServiceInfo = (props) => {
           service?.businessHours?.start && service?.businessHours?.end
             ? `${fTime(service?.businessHours?.start)} - ${fTime(service?.businessHours?.end)}`
             : null,
+      },
+      {
+        label: 'Operating Days',
+        value:
+          getValueByFieldType({ fieldType: 'days-picker' }, service?.operatingDays || []) || null,
       },
     ],
     [service]

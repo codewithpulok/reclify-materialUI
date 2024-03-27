@@ -7,6 +7,7 @@ import { MotionDiv, varFade } from 'src/components/common/animate';
 import { PlanCard } from 'src/components/user-settings/cards';
 import { useBoolean } from 'src/hooks/use-boolean';
 import { useResponsive } from 'src/hooks/use-responsive';
+import { paths } from 'src/routes/paths';
 
 /**
  * @param {PricingContent.propTypes} props
@@ -38,8 +39,15 @@ const PricingContent = (props) => {
         <MotionDiv
           key={plan.id}
           variants={varFade({ durationIn: Number((0.3 * index + 0.64).toFixed(2)) }).inUp}
+          style={{ height: '100%' }}
         >
-          <PlanCard showAnnual={isAnnual.value} plan={plan} isPopular={index === 1} href="#" />
+          <PlanCard
+            showAnnual={isAnnual.value}
+            plan={plan}
+            isPopular={index === 1}
+            href={paths.settings.subscriptions}
+            sx={{ height: '100%' }}
+          />
         </MotionDiv>
       ))}
     </Box>
@@ -64,7 +72,12 @@ const PricingContent = (props) => {
         {data.map(
           (plan) =>
             plan.id === currentTab && (
-              <PlanCard key={plan.id} plan={plan} href="#" showAnnual={isAnnual.value} />
+              <PlanCard
+                key={plan.id}
+                plan={plan}
+                href={paths.settings.subscriptions}
+                showAnnual={isAnnual.value}
+              />
             )
         )}
       </Box>

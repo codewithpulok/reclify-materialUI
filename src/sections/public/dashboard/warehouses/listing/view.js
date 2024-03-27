@@ -4,44 +4,37 @@ import { Button, Grid, Stack, Typography, alpha } from '@mui/material';
 import Container from '@mui/material/Container';
 import { useCallback, useMemo } from 'react';
 // local components
+import PropTypes from 'prop-types';
 import { regionScopes } from 'src/assets/data';
-import { EmptyState, ErrorState } from 'src/components/common/custom-state';
+import { EmptyState } from 'src/components/common/custom-state';
 import { getIconify } from 'src/components/common/iconify/utilities';
 import { WarehouseCardSkeleton } from 'src/components/warehouse/cards';
 import { WarehouseCarousel, WarehouseFeaturedCarousel } from 'src/components/warehouse/carousel';
 import useAppearance from 'src/redux-toolkit/features/appearance/use-appearance';
-import { useWarehouseListQuery } from 'src/redux-toolkit/services/warehouseApi';
 import { RouterLink } from 'src/routes/components';
 import { paths } from 'src/routes/paths';
 import { ICONS } from '../config-warehouse';
 
 // ----------------------------------------------------------------------
 
-export default function ListingView() {
+/**
+ * @param {ListingView.propTypes} props
+ * @returns {JSX.Element}
+ */
+const ListingView = (props) => {
+  const { data } = props;
   const appearance = useAppearance();
-
-  const warehousesResponse = useWarehouseListQuery();
 
   // render warehouses
   const renderWarehouses = useCallback(
-    (
-      warehouses = [],
-      notFoundText = 'No warehouses found',
-      errorText = 'Something went to wrong',
-      featuredProps = {}
-    ) => {
-      // error state
-      if (warehousesResponse.isError) {
-        return <ErrorState text={warehousesResponse?.error?.data?.message || errorText} />;
-      }
-
+    (warehouses = [], notFoundText = 'No warehouses found', featuredProps = {}) => {
       // empty state
-      if (warehousesResponse.isSuccess && warehouses.length === 0) {
+      if (warehouses.length === 0) {
         return <EmptyState text={notFoundText} icon={ICONS.warehouse()} />;
       }
 
       // success state
-      if (warehousesResponse.isSuccess && warehouses.length) {
+      if (warehouses.length) {
         return (
           <Grid item xs={12}>
             <Stack spacing={5}>
@@ -59,28 +52,25 @@ export default function ListingView() {
         </Grid>
       ));
     },
-    [warehousesResponse]
+    []
   );
 
   // hot deals
   const hotdeals = useMemo(
-    () =>
-      Array.isArray(warehousesResponse?.data?.results)
-        ? warehousesResponse?.data?.results.filter((w) => w.hotRackEnabled && w.isFeatured)
-        : [],
-    [warehousesResponse]
+    () => (Array.isArray(data) ? data.filter((w) => w.hotRackEnabled) : []),
+    [data]
   );
 
   // data based on scope
   const scopeData = useMemo(
     () =>
       regionScopes.reduce((prev, next) => {
-        prev[next.code] = Array.isArray(warehousesResponse?.data?.results)
-          ? warehousesResponse.data?.results.filter((w) => w?.regionScope === next.code)
+        prev[next.code] = Array.isArray(data)
+          ? data.filter((w) => w?.regionScope === next.code)
           : [];
         return prev;
       }, {}),
-    [warehousesResponse]
+    [data]
   );
 
   return (
@@ -108,7 +98,7 @@ export default function ListingView() {
         </Stack>
 
         <Grid container spacing={2}>
-          {renderWarehouses(hotdeals, 'No hot deals available', undefined, {
+          {renderWarehouses(hotdeals, 'No hot deals available', {
             itemProps: {
               contentSx: { bgcolor: (theme) => alpha(theme.palette.secondary.main, 0.4) },
             },
@@ -146,4 +136,11 @@ export default function ListingView() {
       ))}
     </Container>
   );
-}
+};
+
+ListingView.propTypes = {
+  /** @type {Warehouse[]} */
+  data: PropTypes.arrayOf(PropTypes.object),
+};
+
+export default ListingView;

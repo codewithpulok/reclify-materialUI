@@ -1,13 +1,13 @@
 import { yupResolver } from '@hookform/resolvers/yup';
 import { useSnackbar } from 'notistack';
+import { useCallback, useEffect, useMemo } from 'react';
 import { useForm } from 'react-hook-form';
 import * as Yup from 'yup';
-import { useCallback, useEffect } from 'react';
 // mui
 import { Card, Stack } from '@mui/material';
 // redux
-import { useAppSelector } from 'src/redux-toolkit/hooks';
 import { selectAuth } from 'src/redux-toolkit/features/auth/authSlice';
+import { useAppSelector } from 'src/redux-toolkit/hooks';
 // utils
 import { fDate } from 'src/utils/format-time';
 // components
@@ -21,22 +21,6 @@ import {
 } from 'src/redux-toolkit/services/profileApi';
 import BannerField from './banner-field';
 import Fields from './fields';
-
-const defaultValues = {
-  firstName: '',
-  lastName: '',
-  email: '',
-  website: '',
-  company: '',
-  goods: '',
-  serviceType: '',
-  avatar: null,
-  logo: null,
-  banner: PLACEHOLDER_PROFILE_BANNER,
-  phone: '',
-  address: {},
-  about: '',
-};
 
 // schema
 const UpdateUserSchema = Yup.object().shape({
@@ -61,6 +45,39 @@ const SettingsGeneral = () => {
   const [getProfile, profileResponse] = useLazyProfileGetQuery();
   const [updateProfile] = useProfileUpdateMutation();
 
+  // form states
+  const defaultValues = useMemo(
+    () => ({
+      firstName: profileResponse.data?.results?.firstName || '',
+      lastName: profileResponse.data?.results?.lastName || '',
+      email: profileResponse.data?.results?.email || '',
+      website: profileResponse.data?.results?.website || '',
+      company: profileResponse.data?.results?.company || '',
+      goods: profileResponse.data?.results?.goods || '',
+      serviceType: profileResponse.data?.results?.serviceType || '',
+      avatar: profileResponse.data?.results?.avatar || null,
+      logo: profileResponse.data?.results?.logo || null,
+      banner: profileResponse.data?.results?.banner || PLACEHOLDER_PROFILE_BANNER,
+      phone: profileResponse.data?.results?.phone || '',
+      address: profileResponse.data?.results?.address || {},
+      about: profileResponse.data?.results?.about || '',
+    }),
+    [
+      profileResponse.data?.results?.about,
+      profileResponse.data?.results?.address,
+      profileResponse.data?.results?.avatar,
+      profileResponse.data?.results?.banner,
+      profileResponse.data?.results?.company,
+      profileResponse.data?.results?.email,
+      profileResponse.data?.results?.firstName,
+      profileResponse.data?.results?.goods,
+      profileResponse.data?.results?.lastName,
+      profileResponse.data?.results?.logo,
+      profileResponse.data?.results?.phone,
+      profileResponse.data?.results?.serviceType,
+      profileResponse.data?.results?.website,
+    ]
+  );
   const methods = useForm({ resolver: yupResolver(UpdateUserSchema), defaultValues });
   const { handleSubmit, reset } = methods;
 
@@ -84,7 +101,8 @@ const SettingsGeneral = () => {
   // handle form reset
   const onReset = useCallback(async () => {
     reset(defaultValues);
-  }, [reset]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [defaultValues]);
 
   useEffect(() => {
     if (user) {
@@ -94,17 +112,9 @@ const SettingsGeneral = () => {
 
   // update state
   useEffect(() => {
-    const changes = defaultValues;
-
-    if (profileResponse.isSuccess && profileResponse.data?.success) {
-      Object.keys(defaultValues).forEach((key) => {
-        if (profileResponse.data?.results?.[key])
-          changes[key] = profileResponse.data?.results?.[key];
-      });
-    }
-
-    reset(changes);
-  }, [profileResponse, reset]);
+    reset(defaultValues);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [defaultValues]);
 
   // if somehow user account is not available then show some errors
   if (!user || profileResponse?.isError || profileResponse?.data?.isError) {

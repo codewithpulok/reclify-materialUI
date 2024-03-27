@@ -71,7 +71,7 @@ const DetailsContent = (props) => {
         />
 
         <Stack sx={{ width: 1, bottom: 0, zIndex: 9, position: 'absolute' }}>
-          {authUser && authUser?.id !== user.id && (
+          {authUser?.id !== user.id && (
             <Button
               LinkComponent={RouterLink}
               href={`${paths.dashboard.messages.root}?id=${user.id}`}
