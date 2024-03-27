@@ -8,6 +8,7 @@ import {
   AddressField,
   ArrayField,
   BannerField,
+  DaysField,
   PhotosUploadField,
   PredefinedFields,
 } from 'src/components/common/custom-fields';
@@ -64,6 +65,9 @@ const ServiceFields = (props) => {
               label="Business Hours"
               wrapperSx={{ gap: 1.3 }}
             />
+          </Grid>
+          <Grid item xs={12}>
+            <DaysField name="operatingDays" label="Operating Days" defaultExpanded />
           </Grid>
           <Grid item xs={12}>
             <RHFDatePicker

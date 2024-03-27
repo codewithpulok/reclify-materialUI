@@ -102,7 +102,7 @@ const TransactionRow = (props) => {
                 clickable
                 variant="outlined"
                 component={RouterLink}
-                href={row?.invoiceId?.file}
+                href={row?.invoiceId?.file || '#'}
               />
             </Tooltip>
           )}

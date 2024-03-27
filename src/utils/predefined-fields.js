@@ -16,7 +16,7 @@ import { fDay, fTime } from './format-time';
  * @param {string | number | object | boolean | undefined} value
  * @returns {PredefinedFieldValue}
  */
-const getValueByFieldType = (field, value) => {
+export const getValueByFieldType = (field, value) => {
   // handle field type
   switch (field.fieldType) {
     case 'days-picker': {
