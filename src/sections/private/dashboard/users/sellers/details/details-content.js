@@ -2,10 +2,11 @@
 
 import { Button, Card, Container, Stack, Tab, Tabs, tabsClasses } from '@mui/material';
 import PropTypes from 'prop-types';
-import { useCallback, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import CustomBreadcrumbs from 'src/components/common/custom-breadcrumbs/custom-breadcrumbs';
 import { TransactionsUserTable } from 'src/components/common/custom-table';
 import { PLACEHOLDER_PROFILE_AVATAR, PLACEHOLDER_PROFILE_BANNER } from 'src/config-global';
+import useHash from 'src/hooks/use-hash';
 import useAppearance from 'src/redux-toolkit/features/appearance/use-appearance';
 import { selectAuth } from 'src/redux-toolkit/features/auth/authSlice';
 import { useAppSelector } from 'src/redux-toolkit/hooks';
@@ -55,6 +56,7 @@ const DetailsContent = (props) => {
   const appearance = useAppearance();
   const { user } = props;
   const { user: authUser } = useAppSelector(selectAuth);
+  const hash = useHash();
 
   const [currentTab, setCurrentTab] = useState('profile');
 
@@ -62,6 +64,15 @@ const DetailsContent = (props) => {
   const handleChangeTab = useCallback((event, newValue) => {
     setCurrentTab(newValue);
   }, []);
+
+  // update tab
+  useEffect(() => {
+    if (hash) {
+      const hashTab = TABS.find((t) => `#${t.value}` === hash);
+
+      if (hashTab) setCurrentTab(hashTab.value);
+    }
+  }, [hash]);
 
   return (
     <Container maxWidth={appearance.themeStretch ? false : 'lg'}>

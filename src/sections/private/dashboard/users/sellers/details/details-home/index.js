@@ -78,7 +78,7 @@ const DetailsHome = (props) => {
           const username = link ? linkArray[linkArray.length - 1] : null;
           return (
             <Stack
-              key={social}
+              key={social.key}
               spacing={2}
               direction="row"
               sx={{ wordBreak: 'break-all', typography: 'body2' }}

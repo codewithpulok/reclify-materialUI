@@ -37,7 +37,7 @@ const DetailsSidebar = (props) => {
         showPurchase={user?.userType === 'customer' && warehouse?.regionScope !== 'global'}
       />
       {!!warehouse?.additionalWarehouses?.length && (
-        <DetailsAdditional data={warehouse?.additionalWarehouses} />
+        <DetailsAdditional data={warehouse?.additionalWarehouses} sellerId={seller.id} />
       )}
       <DetailsMap warehouse={warehouse} />
       <WarehouseDocumentList documents={warehouse?.documents || []} />
