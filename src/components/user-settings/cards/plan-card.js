@@ -32,6 +32,7 @@ const Props = {
   size: PropTypes.string,
   showEnterprise: PropTypes.bool,
   href: PropTypes.string,
+  isStatic: PropTypes.bool,
 };
 
 // ----------------------------------------------------------------------
@@ -53,6 +54,7 @@ const PlanCard = (props) => {
     size = 'md',
     showEnterprise,
     href,
+    isStatic = true,
   } = props;
 
   const currentPrice = showAnnual ? plan?.annualPrice : plan?.price;
@@ -258,6 +260,12 @@ const PlanCard = (props) => {
           <Stack direction="row" alignItems="center" justifyContent="start" spacing={0.5}>
             <Typography variant="subtitle2">VERIFIED</Typography>
             {ICONS.verified(undefined, { color: 'primary.main' })}
+
+            {!isStatic && (
+              <Button size="small" color="primary" variant="soft" sx={{ ml: 'auto' }}>
+                Verify
+              </Button>
+            )}
           </Stack>
 
           <Stack spacing={isSm ? 0.5 : 2}>

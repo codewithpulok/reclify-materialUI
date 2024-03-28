@@ -66,6 +66,7 @@ const RenderPlans = (props) => {
           showAnnual={showAnnual}
           showEnterprise={user?.planId === 'enterprise'}
           sx={{ height: '100%' }}
+          isStatic={false}
         />
       </Grid>
     ));
