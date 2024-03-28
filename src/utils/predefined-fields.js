@@ -101,12 +101,18 @@ const fieldTypeValidation = (field) => {
     case 'days-picker':
       validation = Yup.boolean().default(false).required();
       break;
-    case 'time-picker':
+    case 'time-picker': {
+      let start = Yup.number().label('Start time');
+      if (field.required) start = start.required();
+      let end = Yup.number().label('End time');
+      if (field.required) end = end.required();
+
       validation = {
-        start: Yup.number().label('Start time'),
-        end: Yup.number().label('Start time'),
+        start,
+        end,
       };
       break;
+    }
     default:
       validation = undefined;
       break;

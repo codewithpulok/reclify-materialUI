@@ -207,6 +207,7 @@ export const predefinedFacility = [
     label: 'Operating Days',
     dataType: 'array',
     fieldType: 'days-picker',
+    required: true,
   },
   {
     key: 'operatingHours',
@@ -214,6 +215,7 @@ export const predefinedFacility = [
     label: 'Operating Hours',
     dataType: 'object',
     fieldType: 'time-picker',
+    required: true,
   },
   {
     key: 'yearFounded',
@@ -228,6 +230,7 @@ export const predefinedFacility = [
     label: 'Square Footage',
     dataType: 'string',
     fieldType: 'text-field',
+    required: true,
   },
   {
     key: 'employees',

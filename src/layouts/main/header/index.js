@@ -17,7 +17,7 @@ import HeaderLinks from './header-links';
 export default function Header() {
   const { isAuthenticated } = useAppSelector(selectAuth);
 
-  const path = isAuthenticated ? paths.dashboard.root : paths.root;
+  const path = isAuthenticated ? paths.dashboard.root : paths.warehouses.root;
   return (
     <AppBar>
       <HeaderContainer>

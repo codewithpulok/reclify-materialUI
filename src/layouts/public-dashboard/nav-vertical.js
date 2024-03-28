@@ -28,7 +28,7 @@ export default function NavVertical({ openNav, onCloseNav }) {
   const lgUp = useResponsive('up', 'lg');
   const navData = useNavData();
 
-  const path = isAuthenticated ? paths.dashboard.root : paths.root;
+  const path = isAuthenticated ? paths.dashboard.root : paths.warehouses.root;
 
   useEffect(() => {
     if (openNav) {
