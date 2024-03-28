@@ -343,7 +343,7 @@ const Step2 = (props) => {
         <Grid container spacing={1.2}>
           <Grid item xs={12}>
             <RHFAccordion
-              names={['discount1', 'discount3', 'discount6', 'discount12']}
+              names={['discount1', 'discount3', 'discount6', 'discount12', 'hotRackEnabled']}
               label="HotRack"
               defaultExpanded
               sx={{
@@ -357,6 +357,7 @@ const Step2 = (props) => {
                     name="hotRackEnabled"
                     onClick={(e) => e.stopPropagation()}
                     size="small"
+                    hideHelperText
                   />
                 )
               }
