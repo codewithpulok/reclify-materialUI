@@ -85,17 +85,30 @@ const WarehouseCard = (props) => {
         </Box>
         <CardContent sx={{ position: 'relative', p: isSm ? 1.5 : 2, pt: 1.3, ...contentSx }}>
           <Stack spacing={0.7}>
-            <Stack direction="row" justifyContent="end">
+            <Stack direction="row" justifyContent="end" spacing={0.5}>
               {/* if there is a discount then show badge */}
-              {warehouse.hotRackEnabled && discountRate > 0 && (
-                <Label
-                  color="secondary"
-                  variant="filled"
-                  startIcon={ICONS.discount()}
-                  sx={{ color: 'white' }}
-                >
-                  {discountRate}% OFF
-                </Label>
+              {warehouse?.hotRackEnabled && (
+                <>
+                  <Label
+                    color="secondary"
+                    variant="filled"
+                    startIcon={ICONS.hot()}
+                    sx={{ color: 'white' }}
+                  >
+                    HotRack
+                  </Label>
+
+                  {discountRate > 0 && (
+                    <Label
+                      color="secondary"
+                      variant="filled"
+                      startIcon={ICONS.discount()}
+                      sx={{ color: 'white' }}
+                    >
+                      {discountRate}% OFF
+                    </Label>
+                  )}
+                </>
               )}
             </Stack>
             <Stack direction="row" alignItems="center" spacing={1}>

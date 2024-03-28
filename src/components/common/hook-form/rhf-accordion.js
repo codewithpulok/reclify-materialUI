@@ -3,7 +3,6 @@ import AccordionDetails from '@mui/material/AccordionDetails';
 import AccordionSummary from '@mui/material/AccordionSummary';
 import Typography from '@mui/material/Typography';
 import PropTypes from 'prop-types';
-import { useMemo } from 'react';
 import { useFormContext } from 'react-hook-form';
 // local imports
 import { Stack, alpha } from '@mui/material';
@@ -40,20 +39,13 @@ const RHFAccordion = (props) => {
   } = props;
   const { formState } = useFormContext();
   const { errors } = formState;
-  const isError = useMemo(() => {
-    // if name present then the accordion is for object
-    if (name !== undefined) {
-      return errors?.[name] !== undefined;
-    }
 
-    // if names array is preset then the accordion is for multiple field
-    if (names instanceof Array && names.length) {
-      const index = names.findIndex((fieldName) => errors?.[fieldName] !== undefined);
-      return index !== -1;
-    }
+  const nameError = errors?.[name] !== undefined;
+  const namesError = Array.isArray(names)
+    ? names.findIndex((fname) => errors?.[fname] !== undefined) !== -1
+    : false;
+  const isError = nameError || namesError;
 
-    return false;
-  }, [errors, name, names]);
   const expanded = useBoolean(defaultExpanded);
 
   return (
@@ -90,7 +82,7 @@ const RHFAccordion = (props) => {
           )}
           {isError && name && (
             <Typography variant="caption" color="error.main">
-              {errors?.[name]?.root?.message}
+              {errors?.[name]?.root?.message || errors?.[name]?.message}
             </Typography>
           )}
         </Stack>
