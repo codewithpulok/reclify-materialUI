@@ -101,12 +101,18 @@ const fieldTypeValidation = (field) => {
     case 'days-picker':
       validation = Yup.boolean().default(false).required();
       break;
-    case 'time-picker':
+    case 'time-picker': {
+      let start = Yup.number().label('Start time');
+      if (field.required) start = start.required();
+      let end = Yup.number().label('End time');
+      if (field.required) end = end.required();
+
       validation = {
-        start: Yup.number().label('Start time'),
-        end: Yup.number().label('Start time'),
+        start,
+        end,
       };
       break;
+    }
     default:
       validation = undefined;
       break;
@@ -137,6 +143,18 @@ const dataTypeValidation = (field) => {
       break;
     case 'array':
       validation = Yup.array(fieldTypeValidation(field));
+      if (field.fieldType === 'days-picker') {
+        validation = validation.test({
+          name: 'at-least-one-day-should-open',
+          message: 'At least one day should be operating',
+          test(value, ctx) {
+            if (!Array.isArray(value)) return false;
+
+            return !!value.find(Boolean);
+          },
+          skipAbsent: true,
+        });
+      }
       break;
     default:
       validation = undefined;

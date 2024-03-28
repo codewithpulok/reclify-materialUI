@@ -197,7 +197,7 @@ const WarehouseEditContent = (props) => {
               handleBack={handleGoBack}
               handleNext={validateStep}
             />
-            <WarehouseFields activeStep={activeStep} />
+            <WarehouseFields activeStep={activeStep} source={warehouse} />
             <Stack
               sx={{
                 flexDirection: {

@@ -15,7 +15,7 @@ const RHFTimeRangePickerProps = {
 
 /**
  * Custom time range picker with React hook form
- * @param {RHFTimeRangePickerProps & import('@mui/material').ChipProps} props
+ * @param {RHFTimeRangePickerProps} props
  * @returns {JSX.Element}
  */
 export default function RHFTimeRangePicker(props) {

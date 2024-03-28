@@ -12,6 +12,7 @@ const RHFSwitchProps = {
   label: PropTypes.node,
   /** @type {import('@mui/material').FormControlLabelProps} */
   labelProps: PropTypes.object,
+  hideHelperText: PropTypes.bool,
 };
 
 // ----------------------------------------------------------------------
@@ -22,7 +23,7 @@ const RHFSwitchProps = {
  * @returns {JSX.Element}
  */
 export default function RHFSwitch(props) {
-  const { name, helperText, label, labelProps = {}, ...other } = props;
+  const { name, helperText, label, labelProps = {}, hideHelperText, ...other } = props;
   const { control } = useFormContext();
 
   return (
@@ -41,7 +42,7 @@ export default function RHFSwitch(props) {
             <Switch {...field} checked={field.value} {...other} />
           )}
 
-          {(!!error || helperText) && (
+          {(!!error || helperText) && !hideHelperText && (
             <FormHelperText error={!!error}>{error ? error?.message : helperText}</FormHelperText>
           )}
         </div>

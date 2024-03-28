@@ -57,7 +57,21 @@ const schema = {
   address: addressFieldSchema,
   additionalAddresses: Yup.array().of(addressFieldSchema),
   totalSpace: Yup.number().label('Total space').min(1).required(),
-  hotRackEnabled: Yup.bool().label('HotRack Enabled').default(false),
+  hotRackEnabled: Yup.bool()
+    .label('HotRack Enabled')
+    .default(false)
+    .test({
+      name: 'invalid-hotrack',
+      message: 'At least one discount value should be provided',
+      test(value, ctx) {
+        if (!value) return true;
+
+        const depended = [1, 3, 6, 12].some((month) => Boolean(ctx.parent?.[`discount${month}`]));
+
+        return depended;
+      },
+      skipAbsent: true,
+    }),
   discountOption: Yup.string().oneOf(['fixed', 'percentage']).default('percentage').optional(),
   price1: Yup.number().label('Price for 1 month').min(0).nullable().default(0),
   price3: Yup.number().label('Price for 3 month').min(0).nullable().default(0),

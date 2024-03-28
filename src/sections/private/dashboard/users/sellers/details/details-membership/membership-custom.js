@@ -45,7 +45,7 @@ const MembershipCustom = (props) => {
   const { userId } = props;
 
   // api state
-  const planResponse = usePlanGetQuery(planId);
+  const planResponse = usePlanGetQuery({ id: planId, userId });
   const [upgradePlan] = useUpgradePlanMutation();
 
   // form state

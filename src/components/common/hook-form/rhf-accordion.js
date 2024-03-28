@@ -3,7 +3,6 @@ import AccordionDetails from '@mui/material/AccordionDetails';
 import AccordionSummary from '@mui/material/AccordionSummary';
 import Typography from '@mui/material/Typography';
 import PropTypes from 'prop-types';
-import { useMemo } from 'react';
 import { useFormContext } from 'react-hook-form';
 // local imports
 import { Stack, alpha } from '@mui/material';
@@ -38,22 +37,16 @@ const RHFAccordion = (props) => {
     description,
     action,
   } = props;
-  const { formState } = useFormContext();
+  const { formState, getFieldState } = useFormContext();
   const { errors } = formState;
-  const isError = useMemo(() => {
-    // if name present then the accordion is for object
-    if (name !== undefined) {
-      return errors?.[name] !== undefined;
-    }
+  const { error } = getFieldState(name);
 
-    // if names array is preset then the accordion is for multiple field
-    if (names instanceof Array && names.length) {
-      const index = names.findIndex((fieldName) => errors?.[fieldName] !== undefined);
-      return index !== -1;
-    }
+  const nameError = error;
+  const namesError = Array.isArray(names)
+    ? names.find((fname) => errors?.[fname] !== undefined)
+    : undefined;
+  const errorObj = nameError || errors?.[namesError];
 
-    return false;
-  }, [errors, name, names]);
   const expanded = useBoolean(defaultExpanded);
 
   return (
@@ -61,7 +54,7 @@ const RHFAccordion = (props) => {
       sx={{
         borderWidth: 1,
         borderStyle: 'solid',
-        borderColor: (theme) => (isError ? 'error.main' : alpha(theme.palette.grey[500], 0.2)),
+        borderColor: (theme) => (errorObj ? 'error.main' : alpha(theme.palette.grey[500], 0.2)),
         mb: 1,
         ...sx,
       }}
@@ -72,25 +65,27 @@ const RHFAccordion = (props) => {
     >
       <AccordionSummary
         expandIcon={getIconify('solar:alt-arrow-down-line-duotone', 24, {
-          color: isError ? 'error.main' : 'text.default',
+          color: errorObj ? 'error.main' : 'text.default',
         })}
       >
-        <Stack>
+        <Stack direction="column">
           <Stack direction="row" spacing={1} alignItems="center">
-            <Typography variant="overline" color={isError ? 'error.main' : 'text.default'}>
+            <Typography variant="overline" color={errorObj ? 'error.main' : 'text.default'}>
               {label}
             </Typography>
 
             {action}
           </Stack>
+
           {!!description && (
             <Typography variant="caption" color="text.secondary">
               {description}
             </Typography>
           )}
-          {isError && name && (
+
+          {errorObj && (
             <Typography variant="caption" color="error.main">
-              {errors?.[name]?.root?.message}
+              {errorObj?.root?.message || errorObj?.message}
             </Typography>
           )}
         </Stack>

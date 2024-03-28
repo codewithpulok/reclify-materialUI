@@ -61,11 +61,7 @@ const HeroDescription = (props) => {
       }}
     >
       <m.div variants={varFade().inRight} transition={{ duration: 2 }}>
-        <Image
-          src={logo}
-          style={{ maxWidth: 450, height: 'auto', width: '100%' }}
-          placeholder="blur"
-        />
+        <Image src={logo} style={{ maxWidth: 450, height: 'auto', width: '100%' }} alt="Racklify" />
       </m.div>
       <m.div variants={varFade().inRight}>
         <Typography variant="h5" color="primary.main" sx={{ textAlign: 'center' }}>

@@ -36,6 +36,7 @@ export const ICONS = {
   expand: getIconifyFunc('solar:alt-arrow-down-line-duotone'),
   rule: getIconifyFunc('solar:danger-circle-line-duotone'),
 
+  hot: getIconifyFunc('solar:fire-bold-duotone'),
   hot_deals: getIconifyFunc('solar:fire-bold-duotone'),
 
   diamond_fill: getIconifyFunc('material-symbols:diamond'),

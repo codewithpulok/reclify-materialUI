@@ -25,7 +25,7 @@ export default function HeaderSimple() {
   const theme = useTheme();
   const { isAuthenticated } = useAppSelector(selectAuth);
 
-  const path = isAuthenticated ? paths.dashboard.root : paths.root;
+  const path = isAuthenticated ? paths.dashboard.root : paths.warehouses.root;
   const offsetTop = useOffSetTop(HEADER.H_DESKTOP);
 
   return (

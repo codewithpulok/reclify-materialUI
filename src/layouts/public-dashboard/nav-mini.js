@@ -19,7 +19,7 @@ export default function NavMini() {
   const { isAuthenticated } = useAppSelector(selectAuth);
   const navData = useNavData();
 
-  const path = isAuthenticated ? paths.dashboard.root : paths.root;
+  const path = isAuthenticated ? paths.dashboard.root : paths.warehouses.root;
 
   return (
     <Box

@@ -1,15 +1,16 @@
-import { Box, Button, Stack } from '@mui/material';
+import { Box, Stack } from '@mui/material';
 import PropTypes from 'prop-types';
 import Carousel, { CarouselArrows, useCarousel } from 'src/components/common/carousel';
-import { RouterLink } from 'src/routes/components';
-import { WarehouseDetailsBox } from '../../box';
-import { WarehouseSimpleCard } from '../../cards';
+import { WarehouseDetailsBox } from '../../../box';
+import { WarehouseSimpleCard } from '../../../cards';
+import ViewMore from './view-more';
 
 const Props = {
   /** @type {SxProps} */
   sx: PropTypes.object,
   /** @type {Warehouse[]} */
   data: PropTypes.array,
+  sellerId: PropTypes.string.isRequired,
 };
 
 /**
@@ -17,7 +18,7 @@ const Props = {
  * @returns {JSX.Element}
  */
 const DetailsAdditional = (props) => {
-  const { data = [], sx } = props;
+  const { data = [], sellerId, sx } = props;
 
   const carousel = useCarousel({
     slidesToShow: 2,
@@ -61,11 +62,7 @@ const DetailsAdditional = (props) => {
       </Box>
 
       <Stack width={1} direction="row" alignItems="center" justifyContent="center">
-        {data?.length > 2 && (
-          <Button LinkComponent={RouterLink} href="#" variant="soft" color="primary">
-            View More
-          </Button>
-        )}
+        {data?.length > 2 && <ViewMore id={sellerId} />}
       </Stack>
     </WarehouseDetailsBox>
   );
