@@ -8,7 +8,7 @@ export const contactApi = createApi({
   endpoints: (builder) => ({
     createContact: builder.mutation({
       query: (data) => ({
-        url: endpoints.ach.create,
+        url: endpoints.contact_us.create,
         body: data,
         method: 'POST',
       }),

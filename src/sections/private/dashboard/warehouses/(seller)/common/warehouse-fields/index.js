@@ -34,15 +34,17 @@ export const stepFields = {
 const Props = {
   activeStep: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
   excludeImages: PropTypes.arrayOf(PropTypes.string),
+  /** @type {Warehouse} */
+  source: PropTypes.object,
 };
 
 const WarehouseFields = (props) => {
-  const { activeStep = 'CREATE', excludeImages = [] } = props;
+  const { activeStep, excludeImages = [], source } = props;
 
   if (activeStep === 0) {
     return (
       <Grid container spacing={1.2}>
-        <Step0 excludeImages={excludeImages} />
+        <Step0 excludeImages={excludeImages} source={source} />
       </Grid>
     );
   }
@@ -50,7 +52,7 @@ const WarehouseFields = (props) => {
   if (activeStep === 1) {
     return (
       <Grid container spacing={1.2}>
-        <Step1 />
+        <Step1 source={source} />
       </Grid>
     );
   }
@@ -58,7 +60,7 @@ const WarehouseFields = (props) => {
   if (activeStep === 2) {
     return (
       <Grid container spacing={1.2}>
-        <Step2 />
+        <Step2 source={source} />
       </Grid>
     );
   }

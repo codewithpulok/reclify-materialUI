@@ -11,6 +11,7 @@ import { RouterLink } from 'src/routes/components';
 import { paths } from 'src/routes/paths';
 import { restrictNegetiveValue, restrictPercentValue } from 'src/utils/form';
 import { fCurrency, fFixedFloat } from 'src/utils/format-number';
+import NotVerifiedAlert from './common/not-verified-alert';
 
 const DiscountResult = (props) => {
   const { error, label, value, disabled } = props;
@@ -41,6 +42,7 @@ DiscountResult.propTypes = {
  * @returns {JSX.Element}
  */
 const Step2 = (props) => {
+  const { source } = props;
   const { user } = useAppSelector(selectAuth);
 
   // form state
@@ -58,6 +60,8 @@ const Step2 = (props) => {
   const discount3 = watch('discount3');
   const discount6 = watch('discount6');
   const discount12 = watch('discount12');
+
+  const values = watch();
 
   // ACTIONS ----------------------------------------------------------------------
 
@@ -203,7 +207,9 @@ const Step2 = (props) => {
 
   const freeAlert = (
     <Alert sx={{ mb: 2 }} icon={false} severity="warning">
-      You need to upgrade to a paid membership to add discount
+      <Typography variant="inherit">
+        You need to upgrade to a paid membership to add discount
+      </Typography>
       <Button
         LinkComponent={RouterLink}
         href={paths.settings.subscriptions}
@@ -265,6 +271,8 @@ const Step2 = (props) => {
           names={['price1', 'price3', 'price6', 'price12']}
           defaultExpanded
         >
+          {!source?.isVerified && <NotVerifiedAlert warehouse={values} />}
+
           <Alert sx={{ mb: 2 }} icon={false} severity="info">
             {`Enter the price per month for each pallet location, based on the term. Leave empty or enter 0 if you don't want to offer a specific term.`}
           </Alert>
@@ -335,15 +343,7 @@ const Step2 = (props) => {
         <Grid container spacing={1.2}>
           <Grid item xs={12}>
             <RHFAccordion
-              names={[
-                'promoCode',
-                'discountRate',
-                'hasPromo',
-                'discount1',
-                'discount3',
-                'discount6',
-                'discount12',
-              ]}
+              names={['discount1', 'discount3', 'discount6', 'discount12']}
               label="HotRack"
               defaultExpanded
               sx={{
@@ -361,35 +361,34 @@ const Step2 = (props) => {
                 )
               }
             >
-              {user?.planId === 'free' ? (
-                freeAlert
-              ) : (
-                <>
-                  <Alert sx={{ mb: 2 }} icon={false} severity="secondary">
-                    {`A "HotRack" refers to a time-limited discounted offer on palletized storage space. When our partners find themselves with surplus available space, they have the opportunity to list this space at a discounted rate and be prominently featured on Racklify. This dynamic approach creates a mutually beneficial scenario for both the warehouse and the customer. Warehouses gain the advantage of filling up available space quickly, while customers benefit from exclusive discounts on palletized storage, resulting in a win-win situation for all parties involved. Keep an eye out for these HotRack offers as they present an excellent opportunity to secure storage space at a compelling rate.`}
-                  </Alert>
-                  <Grid container spacing={1.2}>
-                    <Grid item xs={12}>
-                      <RHFTextField
-                        name="discountOption"
-                        label="Discount Option"
-                        fullWidth
-                        select
-                        disabled={!hotRackEnabled}
-                        onChangeMiddleware={(v) => {
-                          resetDiscount();
-                          return v;
-                        }}
-                      >
-                        <MenuItem disabled>Select Discount Option</MenuItem>
-                        <MenuItem value="fixed">Fixed</MenuItem>
-                        <MenuItem value="percentage">Percentage</MenuItem>
-                      </RHFTextField>
-                    </Grid>
-                    {fixedOptions}
+              {user?.planId === 'free' && freeAlert}
+              <Stack
+                sx={user?.planId === 'free' ? { filter: 'blur(1.4px)', pointerEvents: 'none' } : {}}
+              >
+                <Alert sx={{ mb: 2 }} icon={false} severity="secondary">
+                  {`A "HotRack" refers to a time-limited discounted offer on palletized storage space. When our partners find themselves with surplus available space, they have the opportunity to list this space at a discounted rate and be prominently featured on Racklify. This dynamic approach creates a mutually beneficial scenario for both the warehouse and the customer. Warehouses gain the advantage of filling up available space quickly, while customers benefit from exclusive discounts on palletized storage, resulting in a win-win situation for all parties involved. Keep an eye out for these HotRack offers as they present an excellent opportunity to secure storage space at a compelling rate.`}
+                </Alert>
+                <Grid container spacing={1.2}>
+                  <Grid item xs={12}>
+                    <RHFTextField
+                      name="discountOption"
+                      label="Discount Option"
+                      fullWidth
+                      select
+                      disabled={!hotRackEnabled}
+                      onChangeMiddleware={(v) => {
+                        resetDiscount();
+                        return v;
+                      }}
+                    >
+                      <MenuItem disabled>Select Discount Option</MenuItem>
+                      <MenuItem value="fixed">Fixed</MenuItem>
+                      <MenuItem value="percentage">Percentage</MenuItem>
+                    </RHFTextField>
                   </Grid>
-                </>
-              )}
+                  {fixedOptions}
+                </Grid>
+              </Stack>
             </RHFAccordion>
           </Grid>
         </Grid>
@@ -398,6 +397,9 @@ const Step2 = (props) => {
   );
 };
 
-Step2.propTypes = {};
+Step2.propTypes = {
+  /** @type {Warehouse} */
+  source: PropTypes.object,
+};
 
 export default Step2;
