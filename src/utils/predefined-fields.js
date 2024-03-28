@@ -143,6 +143,18 @@ const dataTypeValidation = (field) => {
       break;
     case 'array':
       validation = Yup.array(fieldTypeValidation(field));
+      if (field.fieldType === 'days-picker') {
+        validation = validation.test({
+          name: 'at-least-one-day-should-open',
+          message: 'At least one day should be operating',
+          test(value, ctx) {
+            if (!Array.isArray(value)) return false;
+
+            return !!value.find(Boolean);
+          },
+          skipAbsent: true,
+        });
+      }
       break;
     default:
       validation = undefined;

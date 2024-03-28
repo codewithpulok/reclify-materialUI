@@ -12,7 +12,13 @@ export const planApi = createApi({
       query: () => endpoints.plans.list,
     }),
     planGet: builder.query({
-      query: (id) => endpoints.plans.get(id),
+      query: ({ id, userId }) => ({
+        url: endpoints.plans.get(id),
+        params: {
+          userId: userId || undefined,
+        },
+      }),
+      // query: (id, params) => ({ url: endpoints.plans.get(id),  }),
     }),
     planUpgrade: builder.mutation({
       query: (id) => ({

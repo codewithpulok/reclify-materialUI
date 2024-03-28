@@ -37,10 +37,11 @@ const RHFAccordion = (props) => {
     description,
     action,
   } = props;
-  const { formState } = useFormContext();
+  const { formState, getFieldState } = useFormContext();
   const { errors } = formState;
+  const { error } = getFieldState(name);
 
-  const nameError = errors?.[name];
+  const nameError = error;
   const namesError = Array.isArray(names)
     ? names.find((fname) => errors?.[fname] !== undefined)
     : undefined;
