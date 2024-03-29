@@ -4,8 +4,7 @@ import PropTypes from 'prop-types';
 import { socialsBrands } from 'src/assets/data';
 import { getIconify } from 'src/components/common/iconify/utilities';
 import Label from 'src/components/common/label';
-import { selectAuth } from 'src/redux-toolkit/features/auth/authSlice';
-import { useAppSelector } from 'src/redux-toolkit/hooks';
+import useAdminPath from 'src/hooks/use-admin-path';
 import { RouterLink } from 'src/routes/components';
 import { paths } from 'src/routes/paths';
 import formatPhone from 'src/utils/format-phone';
@@ -26,11 +25,9 @@ const Props = {
  */
 const UserDetailsCard = (props) => {
   const { user, sx, userType } = props;
-  const { user: authUser } = useAppSelector(selectAuth);
 
   const type = userType || user?.userType;
-
-  const userPath = authUser?.userType === 'admin' ? paths.dashboard.users[type] : paths.users[type];
+  const userPath = useAdminPath(paths.dashboard.users[type], paths.users[type]);
 
   return (
     <Card
@@ -110,6 +107,19 @@ const UserDetailsCard = (props) => {
             >
               {formatPhone(user?.phone)}
             </Typography>
+          </Stack>
+        )}
+        {user?.website && (
+          <Stack direction="row" alignItems="center" flexWrap="wrap" spacing={0.5}>
+            {ICONS.website(18)}
+
+            <Link
+              sx={{ textDecoration: 'none', typography: 'body2', color: 'text.primary' }}
+              href={user.website}
+              onClick={(e) => e.stopPropagation()}
+            >
+              {user?.website}
+            </Link>
           </Stack>
         )}
 

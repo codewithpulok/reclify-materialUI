@@ -8,7 +8,8 @@ import { RouterLink } from 'src/routes/components';
 import { paths } from 'src/routes/paths';
 import { primary } from 'src/theme/palette';
 import { fNumber } from 'src/utils/format-number';
-import { ICONS } from '../config-user-settings';
+import { ICONS } from '../../config-user-settings';
+import VerifyBtn from './verify-btn';
 
 const icons = {
   free: '/assets/icons/plans/free-tier.svg',
@@ -25,13 +26,13 @@ const Props = {
   onSelect: PropTypes.func,
   /** @type {SxProps} */
   sx: PropTypes.object,
+  /** @type {'sm' | 'md'} */
+  size: PropTypes.string,
+  href: PropTypes.string,
+  showEnterprise: PropTypes.bool,
   isCurrent: PropTypes.bool,
   isPopular: PropTypes.bool,
   showAnnual: PropTypes.bool,
-  /** @type {'sm' | 'md'} */
-  size: PropTypes.string,
-  showEnterprise: PropTypes.bool,
-  href: PropTypes.string,
   isStatic: PropTypes.bool,
 };
 
@@ -84,7 +85,7 @@ const PlanCard = (props) => {
   const renderLabel = (
     <Stack direction="row" alignItems="start" spacing={1} minHeight={50}>
       {isPopular && (
-        <Label color="info" startIcon={ICONS.current()}>
+        <Label color="secondary" startIcon={ICONS.hot()}>
           Popular
         </Label>
       )}
@@ -93,6 +94,7 @@ const PlanCard = (props) => {
           Current
         </Label>
       )}
+      {plan?.annualPlan && <Label color="success">Annual</Label>}
     </Stack>
   );
 
@@ -204,25 +206,26 @@ const PlanCard = (props) => {
       </Typography>
     </Stack>
   );
-  const renderEnterprise = showEnterprise ? (
-    renderPremium
-  ) : (
+  const renderEnterpriseContact = (
     <Stack alignItems="start" spacing={1} minHeight={100}>
-      <Button
-        LinkComponent={RouterLink}
-        href={`${paths.contact_us}/#FORM`}
-        color="primary"
-        variant="contained"
-        size={isSm ? 'small' : 'medium'}
-        fullWidth
-      >
-        Contact Us
-      </Button>
+      {!href && (
+        <Button
+          LinkComponent={RouterLink}
+          href={`${paths.contact_us}/#FORM`}
+          color="primary"
+          variant="contained"
+          size={isSm ? 'small' : 'medium'}
+          fullWidth
+        >
+          Contact Us
+        </Button>
+      )}
       <Typography color="text.secondary" variant="body2">
         A la Carte
       </Typography>
     </Stack>
   );
+  const renderEnterprise = showEnterprise ? renderPremium : renderEnterpriseContact;
 
   const renderPrice = (
     <>
@@ -233,7 +236,7 @@ const PlanCard = (props) => {
   );
 
   const renderList = (
-    <Stack spacing={2}>
+    <Stack spacing={2} flex={1}>
       <Stack direction="row" alignItems="center" justifyContent="space-between">
         <Box component="span" sx={{ typography: 'overline' }}>
           Features
@@ -258,14 +261,10 @@ const PlanCard = (props) => {
       {Array.isArray(plan?.verifiedFeatures) && !!plan?.verifiedFeatures?.length && (
         <>
           <Stack direction="row" alignItems="center" justifyContent="start" spacing={0.5}>
-            <Typography variant="subtitle2">VERIFIED</Typography>
-            {ICONS.verified(undefined, { color: 'primary.main' })}
+            <Typography variant="overline">VERIFIED</Typography>
+            {ICONS.verified(18, { color: 'primary.main' })}
 
-            {!isStatic && (
-              <Button size="small" color="primary" variant="soft" sx={{ ml: 'auto' }}>
-                Verify
-              </Button>
-            )}
+            {!isStatic && <VerifyBtn />}
           </Stack>
 
           <Stack spacing={isSm ? 0.5 : 2}>
@@ -313,6 +312,19 @@ const PlanCard = (props) => {
               fullWidth
             >
               Choose Package
+            </Button>
+          )}
+
+          {enterprise && (
+            <Button
+              LinkComponent={RouterLink}
+              href={`${paths.contact_us}/#FORM`}
+              color="primary"
+              variant="contained"
+              size="large"
+              fullWidth
+            >
+              Contact Us
             </Button>
           )}
         </>

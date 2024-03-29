@@ -170,6 +170,7 @@ const BillingPlan = (props) => {
         onClose={upgradeDialog.onClose}
         open={upgradeDialog.open}
         planId={upgradeDialog.value}
+        isAnnual={isAnnual.value}
       />
       <PlanCancelDialog onClose={cancelPlan.onClose} open={cancelPlan.open} />
     </>

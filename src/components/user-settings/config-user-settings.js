@@ -24,4 +24,5 @@ export const ICONS = {
   send_message: getIconifyFunc('tabler:send'),
   email: getIconifyFunc('tabler:mail'),
   phone: getIconifyFunc('solar:phone-bold-duotone'),
+  hot: getIconifyFunc('solar:fire-bold-duotone'),
 };

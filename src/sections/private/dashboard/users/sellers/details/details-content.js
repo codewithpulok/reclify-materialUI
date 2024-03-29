@@ -2,7 +2,7 @@
 
 import { Button, Card, Container, Stack, Tab, Tabs, tabsClasses } from '@mui/material';
 import PropTypes from 'prop-types';
-import { useCallback, useEffect, useState } from 'react';
+import { useCallback, useEffect, useMemo, useState } from 'react';
 import CustomBreadcrumbs from 'src/components/common/custom-breadcrumbs/custom-breadcrumbs';
 import { TransactionsUserTable } from 'src/components/common/custom-table';
 import { PLACEHOLDER_PROFILE_AVATAR, PLACEHOLDER_PROFILE_BANNER } from 'src/config-global';
@@ -19,31 +19,6 @@ import DetailsHome from './details-home';
 import DetailsMembership from './details-membership';
 import DetailsWarehouses from './details-warehouses';
 
-const TABS = [
-  {
-    value: 'profile',
-    label: 'Profile',
-    icon: ICONS.profile(),
-  },
-  {
-    value: 'services',
-    label: 'Services',
-    icon: ICONS.warehouse(),
-  },
-  {
-    value: 'membership',
-    label: 'Membership',
-    icon: ICONS.membership(),
-    role: ['admin'],
-  },
-  {
-    value: 'transactions',
-    label: 'Transactions',
-    icon: ICONS.transactions(),
-    role: ['admin'],
-  },
-];
-
 const Props = {
   /** @type {User} */
   user: PropTypes.object.isRequired,
@@ -58,6 +33,33 @@ const DetailsContent = (props) => {
   const { user: authUser } = useAppSelector(selectAuth);
   const hash = useHash();
 
+  const TABS = useMemo(
+    () => [
+      {
+        value: 'profile',
+        label: 'Profile',
+        icon: ICONS.profile(),
+      },
+      {
+        value: 'services',
+        label: user?.serviceType === 'warehouse' ? 'Warehouses' : 'Services',
+        icon: ICONS.warehouse(),
+      },
+      {
+        value: 'membership',
+        label: 'Membership',
+        icon: ICONS.membership(),
+        role: ['admin'],
+      },
+      {
+        value: 'transactions',
+        label: 'Transactions',
+        icon: ICONS.transactions(),
+        role: ['admin'],
+      },
+    ],
+    [user?.serviceType]
+  );
   const [currentTab, setCurrentTab] = useState('profile');
 
   // handle tab change function
@@ -72,6 +74,7 @@ const DetailsContent = (props) => {
 
       if (hashTab) setCurrentTab(hashTab.value);
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [hash]);
 
   return (

@@ -21,7 +21,7 @@ const NotVerifiedAlert = (props) => {
 
   const handleVerify = async () => {
     if (!user?.email || !warehouse) {
-      enqueueSnackbar('Invalid data for verify warehouse.', { variant: 'error' });
+      enqueueSnackbar('Invalid data for warehouse verification.', { variant: 'error' });
       return;
     }
 
@@ -37,12 +37,12 @@ const NotVerifiedAlert = (props) => {
 
     // handle error states
     if (response.error) {
-      enqueueSnackbar('Could not request for verify warehouse.', { variant: 'error' });
+      enqueueSnackbar('Could not request for warehouse verification.', { variant: 'error' });
     }
 
     // handle success state
     else if (response.data) {
-      enqueueSnackbar('Warehouse verify request sent');
+      enqueueSnackbar('Warehouse Verification Request Sent');
     }
   };
 

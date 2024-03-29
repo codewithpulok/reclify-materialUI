@@ -16,7 +16,7 @@ import { useCallback } from 'react';
 import { useForm } from 'react-hook-form';
 import { ArrayField } from 'src/components/common/custom-fields';
 import { EmptyState, ErrorState, LoadingState } from 'src/components/common/custom-state';
-import { RHFTextField } from 'src/components/common/hook-form';
+import { RHFSwitch, RHFTextField } from 'src/components/common/hook-form';
 import FormProvider from 'src/components/common/hook-form/form-provider';
 import { useUpgradePlanMutation } from 'src/redux-toolkit/services/adminApi';
 import { usePlanGetQuery } from 'src/redux-toolkit/services/planApi';
@@ -31,13 +31,18 @@ const Props = {
 const planId = 'enterprise';
 const defaultValues = {
   price: null,
+  oneTimeCharge: null,
   features: [],
   additionalFeatures: [],
+  annualPlan: false,
 };
 
 const schema = Yup.object().shape({
   price: Yup.number().label('Price').required(),
+  oneTimeCharge: Yup.number().label('Price').required(),
   features: Yup.array().label('Features'),
+  additionalFeatures: Yup.array().label('Features'),
+  annualPlan: Yup.boolean().label('Annual Plan'),
 });
 
 // ----------------------------------------------------------------------
@@ -102,7 +107,18 @@ const MembershipCustom = (props) => {
               <RHFTextField
                 name="price"
                 type="number"
-                label="Price"
+                label="Subscription Price"
+                variant="filled"
+                fullWidth
+                InputProps={{
+                  startAdornment: <InputAdornment position="start">$</InputAdornment>,
+                }}
+                onChangeMiddleware={restrictNegetiveValue}
+              />
+              <RHFTextField
+                name="oneTimeCharge"
+                type="number"
+                label="One Time Charge"
                 variant="filled"
                 fullWidth
                 InputProps={{
@@ -144,6 +160,8 @@ const MembershipCustom = (props) => {
                 </Stack>
 
                 <ArrayField defaultExpanded label="Additional Features" name="additionalFeatures" />
+
+                <RHFSwitch name="annualPlan" label="Annual Plan" />
               </Stack>
               <Stack direction="row" mt={1} justifyContent="end">
                 <LoadingButton
