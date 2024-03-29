@@ -352,7 +352,7 @@ const PlanCard = (props) => {
 
       {!!savings && (
         <Label variant="filled" color="secondary" sx={{ mb: 1 }}>
-          You Saved UpTo {savings}%
+          You Saved Up To {savings}%
         </Label>
       )}
 
