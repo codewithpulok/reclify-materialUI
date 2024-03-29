@@ -34,6 +34,7 @@ const Props = {
   isPopular: PropTypes.bool,
   showAnnual: PropTypes.bool,
   isStatic: PropTypes.bool,
+  annualPlan: PropTypes.bool,
 };
 
 // ----------------------------------------------------------------------
@@ -56,9 +57,10 @@ const PlanCard = (props) => {
     showEnterprise,
     href,
     isStatic = true,
+    annualPlan,
   } = props;
 
-  const currentPrice = showAnnual ? plan?.annualPrice : plan?.price;
+  const currentPrice = showAnnual || (annualPlan && isCurrent) ? plan?.annualPrice : plan?.price;
 
   const savings = useMemo(() => {
     if (!showAnnual) return 0;
@@ -94,7 +96,8 @@ const PlanCard = (props) => {
           Current
         </Label>
       )}
-      {plan?.annualPlan && <Label color="success">Annual</Label>}
+      {isCurrent && annualPlan === true && <Label color="success">Annually</Label>}
+      {isCurrent && annualPlan === false && <Label color="success">Monthly</Label>}
     </Stack>
   );
 
@@ -352,7 +355,7 @@ const PlanCard = (props) => {
 
       {!!savings && (
         <Label variant="filled" color="secondary" sx={{ mb: 1 }}>
-          You Saved Up To {savings}%
+          You Save Up To {savings}%
         </Label>
       )}
 

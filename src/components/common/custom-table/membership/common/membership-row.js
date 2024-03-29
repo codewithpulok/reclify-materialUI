@@ -34,15 +34,15 @@ const MembershipRow = (props) => {
       )}
 
       {show.includes('invoiceData.price') && (
-        <TableCell align="right">{fCurrency(row?.invoiceData?.price) || '$0.00'}</TableCell>
+        <TableCell>{fCurrency(row?.invoiceData?.price) || '$0.00'}</TableCell>
       )}
 
       {show.includes('invoiceData.type') && (
-        <TableCell align="right">{row?.invoiceData?.annualPlan ? 'Annual' : 'Monthly'}</TableCell>
+        <TableCell>{row?.invoiceData?.annualPlan ? 'Annual' : 'Monthly'}</TableCell>
       )}
 
       {show.includes('invoiceData.file') && (
-        <TableCell align="right">
+        <TableCell>
           <Tooltip title="Click to visit invoice PDF" arrow>
             <Chip
               label={row?.invoiceData?.invoiceNumber || 'INVOICE'}
@@ -57,7 +57,7 @@ const MembershipRow = (props) => {
       )}
 
       {show.includes('createdAt') && (
-        <TableCell align="right">{fDate(row?.createdAt) || 'Date not available'}</TableCell>
+        <TableCell>{fDate(row?.createdAt) || 'Date not available'}</TableCell>
       )}
     </TableRow>
   );

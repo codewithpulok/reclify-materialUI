@@ -24,6 +24,7 @@ const Props = {
   isSuccess: PropTypes.bool,
   isError: PropTypes.bool,
   isLoading: PropTypes.bool,
+  annualPlan: PropTypes.bool,
 };
 
 const RenderProps = {
@@ -46,6 +47,7 @@ const RenderPlans = (props) => {
     selectedPlan,
     handleSelectPlan,
     currentPlan,
+    annualPlan,
   } = props;
   const { user } = useAppSelector(selectAuth);
 
@@ -67,6 +69,7 @@ const RenderPlans = (props) => {
           showEnterprise={user?.planId === 'enterprise'}
           sx={{ height: '100%' }}
           isStatic={false}
+          annualPlan={annualPlan}
         />
       </Grid>
     ));
@@ -85,7 +88,7 @@ RenderPlans.propTypes = RenderProps;
  * @returns
  */
 const BillingPlan = (props) => {
-  const { plans = [], isError, isSuccess, isLoading } = props;
+  const { plans = [], isError, isSuccess, isLoading, annualPlan } = props;
   const { user } = useAppSelector(selectAuth);
 
   // app state
@@ -139,6 +142,7 @@ const BillingPlan = (props) => {
               plans={plans}
               selectedPlan={selectedPlan}
               showAnnual={isAnnual.value}
+              annualPlan={annualPlan}
             />
           </Grid>
         </CardContent>

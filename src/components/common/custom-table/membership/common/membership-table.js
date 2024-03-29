@@ -65,7 +65,11 @@ const MembershipTable = (props) => {
   const { tableHead, data, isError, isLoading = true, isSuccess } = props;
 
   // table states
-  const table = useTable({ defaultOrderBy: 'createdAt', defaultOrder: 'desc' });
+  const table = useTable({
+    defaultOrderBy: 'createdAt',
+    defaultOrder: 'desc',
+    defaultRowsPerPage: 10,
+  });
   const [tableData, setTableData] = useState([]);
   const [filters] = useState(defaultFilters);
   const dataFiltered = applyFilter({

@@ -29,7 +29,7 @@ const DetailsSidebar = (props) => {
   return (
     <Stack sx={sx} spacing={2}>
       {/* if this is seller own warehouse then don't show */}
-      {user && seller?.id !== user?.id ? (
+      {seller?.id !== user?.id ? (
         <UserDetailsCard user={seller} userType="seller" showLogo />
       ) : null}
       <WarehouseBooking

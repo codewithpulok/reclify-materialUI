@@ -98,7 +98,16 @@ const MembershipCustom = (props) => {
   return (
     <FormProvider methods={methods} onSubmit={handleSubmit(onSubmit)}>
       <Card>
-        <CardHeader title="Customize Membership" />
+        <CardHeader
+          title="Customize Membership"
+          action={
+            <Stack direction="row" alignItems="center" justifyContent="center">
+              <Typography variant="overline">MONTHLY</Typography>
+              <RHFSwitch name="showAnnual" color="primary" size="small" />
+              <Typography variant="overline">YEARLY</Typography>
+            </Stack>
+          }
+        />
         <CardContent>
           {isLoading && <LoadingState />}
           {isError && <ErrorState />}
@@ -160,8 +169,6 @@ const MembershipCustom = (props) => {
                 </Stack>
 
                 <ArrayField defaultExpanded label="Additional Features" name="additionalFeatures" />
-
-                <RHFSwitch name="annualPlan" label="Annual Plan" />
               </Stack>
               <Stack direction="row" mt={1} justifyContent="end">
                 <LoadingButton
