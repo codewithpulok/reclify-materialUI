@@ -144,7 +144,7 @@ const schema = {
   ),
   features: Yup.object()
     .shape(getPredefinedFieldSchema(predefinedFeatures))
-    .test('al-least-one-feature', 'At least one feature should be checked', (obj) => {
+    .test('al-least-one-feature', 'At least one expertise should be checked', (obj) => {
       const keys = Object.keys(obj);
 
       return keys.some((k) => obj[k]);

@@ -2,7 +2,7 @@
 
 import { Button, Card, Container, Stack, Tab, Tabs, tabsClasses } from '@mui/material';
 import PropTypes from 'prop-types';
-import { useCallback, useEffect, useState } from 'react';
+import { useCallback, useEffect, useMemo, useState } from 'react';
 import CustomBreadcrumbs from 'src/components/common/custom-breadcrumbs/custom-breadcrumbs';
 import { PLACEHOLDER_PROFILE_AVATAR, PLACEHOLDER_PROFILE_BANNER } from 'src/config-global';
 import useHash from 'src/hooks/use-hash';
@@ -16,19 +16,6 @@ import { ICONS } from 'src/sections/private/dashboard/users/config-users';
 import DetailsHome from 'src/sections/private/dashboard/users/sellers/details/details-home';
 import DetailsWarehouses from 'src/sections/private/dashboard/users/sellers/details/details-warehouses';
 import { fDate } from 'src/utils/format-time';
-
-const TABS = [
-  {
-    value: 'profile',
-    label: 'Profile',
-    icon: ICONS.profile(),
-  },
-  {
-    value: 'services',
-    label: 'Services',
-    icon: ICONS.warehouse(),
-  },
-];
 
 const Props = {
   /** @type {User} */
@@ -44,6 +31,34 @@ const SellerDetailsView = (props) => {
   const { user: authUser } = useAppSelector(selectAuth);
   const hash = useHash();
 
+  const TABS = useMemo(
+    () => [
+      {
+        value: 'profile',
+        label: 'Profile',
+        icon: ICONS.profile(),
+      },
+      {
+        value: 'services',
+        label: user?.serviceType === 'warehouse' ? 'Warehouses' : 'Services',
+        icon: ICONS.warehouse(),
+      },
+      {
+        value: 'membership',
+        label: 'Membership',
+        icon: ICONS.membership(),
+        role: ['admin'],
+      },
+      {
+        value: 'transactions',
+        label: 'Transactions',
+        icon: ICONS.transactions(),
+        role: ['admin'],
+      },
+    ],
+    [user?.serviceType]
+  );
+
   const [currentTab, setCurrentTab] = useState('profile');
 
   // handle tab change function
@@ -58,6 +73,7 @@ const SellerDetailsView = (props) => {
 
       if (hashTab) setCurrentTab(hashTab.value);
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [hash]);
 
   return (

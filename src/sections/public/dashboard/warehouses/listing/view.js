@@ -17,6 +17,50 @@ import { ICONS } from '../config-warehouse';
 
 // ----------------------------------------------------------------------
 
+export const subtitles = {
+  us: 'Browse warehousing providers from across the country by region.',
+  global: 'Explore warehouses from around the world.',
+};
+
+// ----------------------------------------------------------------------
+
+/** @type {(props: Header.propTypes) => JSX.Element} */
+export const Header = (props) => {
+  const { href, icon, subtitle, title } = props;
+  return (
+    <Stack direction="row" alignItems="start">
+      <Stack direction="row" alignItems="center" gap={0.5}>
+        {icon}
+        <Stack>
+          <Typography variant="h4">{title}</Typography>
+          <Typography color="text.secondary" variant="body2">
+            {subtitle}
+          </Typography>
+        </Stack>
+      </Stack>
+
+      <Button
+        LinkComponent={RouterLink}
+        href={href}
+        variant="soft"
+        color="primary"
+        sx={{ ml: 'auto' }}
+      >
+        View more
+      </Button>
+    </Stack>
+  );
+};
+
+Header.propTypes = {
+  title: PropTypes.string,
+  subtitle: PropTypes.string,
+  href: PropTypes.string,
+  icon: PropTypes.any,
+};
+
+// ----------------------------------------------------------------------
+
 /**
  * @param {ListingView.propTypes} props
  * @returns {JSX.Element}
@@ -27,7 +71,7 @@ const ListingView = (props) => {
 
   // render warehouses
   const renderWarehouses = useCallback(
-    (warehouses = [], notFoundText = 'No warehouses found', featuredProps = {}) => {
+    (warehouses = [], notFoundText = 'No warehouses found', featuredProps = {}, itemProps = {}) => {
       // empty state
       if (warehouses.length === 0) {
         return <EmptyState text={notFoundText} icon={ICONS.warehouse()} />;
@@ -39,7 +83,7 @@ const ListingView = (props) => {
           <Grid item xs={12}>
             <Stack spacing={5}>
               <WarehouseFeaturedCarousel data={warehouses} {...featuredProps} />
-              <WarehouseCarousel data={warehouses} />
+              <WarehouseCarousel data={warehouses} {...itemProps} />
             </Stack>
           </Grid>
         );
@@ -76,58 +120,39 @@ const ListingView = (props) => {
   return (
     <Container maxWidth={appearance.themeStretch ? false : 'xl'}>
       <Stack mb={5} spacing={5}>
-        <Stack
-          sx={{
-            flexDirection: 'row',
-            alignItems: 'center',
-            gap: 0.5,
-          }}
-        >
-          {ICONS.hot_deals(28, { color: 'secondary.main' })}
-          <Typography variant="h4">HotRacks</Typography>
-
-          <Button
-            LinkComponent={RouterLink}
-            href={paths.warehouses.hot_deals}
-            variant="soft"
-            color="primary"
-            sx={{ ml: 'auto' }}
-          >
-            View more
-          </Button>
-        </Stack>
+        <Header
+          title="HotRacks"
+          subtitle="Save thousands on storage from top warehousing providers with exclusive deals."
+          href={paths.warehouses.hot_deals}
+          icon={ICONS.hot_deals(38, { color: 'secondary.main' })}
+        />
 
         <Grid container spacing={2}>
-          {renderWarehouses(hotdeals, 'No hot deals available', {
-            itemProps: {
-              contentSx: { bgcolor: (theme) => alpha(theme.palette.secondary.main, 0.4) },
+          {renderWarehouses(
+            hotdeals,
+            'No hot deals available',
+            {
+              itemProps: {
+                contentSx: { bgcolor: (theme) => alpha(theme.palette.secondary.main, 0.4) },
+              },
             },
-          })}
+            {
+              itemProps: {
+                contentSx: { bgcolor: (theme) => alpha(theme.palette.secondary.main, 0.2) },
+              },
+            }
+          )}
         </Grid>
       </Stack>
 
       {regionScopes.map((scope) => (
         <Stack mb={5} spacing={5} key={scope.code}>
-          <Stack
-            sx={{
-              flexDirection: 'row',
-              alignItems: 'center',
-              gap: 0.5,
-            }}
-          >
-            {getIconify(scope.icon, 28)}
-            <Typography variant="h4">In {scope.name}</Typography>
-
-            <Button
-              LinkComponent={RouterLink}
-              href={paths.warehouses.regionScope(scope.code)}
-              variant="soft"
-              color="primary"
-              sx={{ ml: 'auto' }}
-            >
-              View more
-            </Button>
-          </Stack>
+          <Header
+            title={`In ${scope.name}`}
+            subtitle={subtitles[scope.code]}
+            href={paths.warehouses.regionScope(scope.code)}
+            icon={getIconify(scope.icon, 28)}
+          />
 
           <Grid container spacing={2}>
             {renderWarehouses(scopeData[scope.code])}

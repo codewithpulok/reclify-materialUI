@@ -18,12 +18,17 @@ export const planApi = createApi({
           userId: userId || undefined,
         },
       }),
-      // query: (id, params) => ({ url: endpoints.plans.get(id),  }),
     }),
     planUpgrade: builder.mutation({
-      query: (id) => ({
+      query: (
+        /** @type {{id: string, annualPlan: boolean}} */
+        { id, annualPlan }
+      ) => ({
         url: endpoints.plans.upgrade(id),
         method: 'PUT',
+        params: {
+          annualPlan: annualPlan || false,
+        },
       }),
       onQueryStarted: async (arg, { dispatch, queryFulfilled }) => {
         try {

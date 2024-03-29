@@ -16,11 +16,14 @@ import {
   predefinedServices,
 } from 'src/assets/data/predefined-fields/warehouse';
 import CustomBreadcrumbs from 'src/components/common/custom-breadcrumbs';
+import { AdditionalFeeDialog } from 'src/components/common/custom-dialog';
 import FormProvider from 'src/components/common/hook-form/form-provider';
 import { WarehouseDetailsPreview } from 'src/components/warehouse/details';
 import { useBoolean } from 'src/hooks/use-boolean';
 import useStepper from 'src/hooks/use-stepper';
 import useAppearance from 'src/redux-toolkit/features/appearance/use-appearance';
+import { selectAuth } from 'src/redux-toolkit/features/auth/authSlice';
+import { useAppSelector } from 'src/redux-toolkit/hooks';
 import { useWarehouseCreateMutation } from 'src/redux-toolkit/services/warehouseApi';
 import { paths } from 'src/routes/paths';
 import { getPredefinedFieldsDefaultValue } from 'src/utils/predefined-fields';
@@ -46,9 +49,11 @@ const WarehouseCreateContent = (props) => {
 
   const router = useRouter();
   const appearance = useAppearance();
+  const { user } = useAppSelector(selectAuth);
 
   // app states
   const { activeStep, goBack, goNext } = useStepper(0, 2);
+  const confirmDialog = useBoolean();
 
   const isPreview = useBoolean();
 
@@ -164,7 +169,11 @@ const WarehouseCreateContent = (props) => {
     const isValid = await trigger();
 
     if (isValid) {
-      handleSubmit(handleCreate)();
+      if (user?.planId !== 'free') {
+        confirmDialog.onTrue();
+      } else {
+        handleSubmit(handleCreate)();
+      }
     }
   };
 
@@ -246,6 +255,14 @@ const WarehouseCreateContent = (props) => {
 
       {isPreview.value && (
         <WarehouseDetailsPreview warehouse={values || {}} reviews={values?.reviews || []} />
+      )}
+
+      {confirmDialog.value && (
+        <AdditionalFeeDialog
+          open={confirmDialog.value}
+          onClose={confirmDialog.onFalse}
+          onSuccess={handleSubmit(handleCreate)}
+        />
       )}
     </Container>
   );

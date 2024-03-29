@@ -36,6 +36,7 @@ const SettingsSellerBillings = (props) => {
           isError={billingResponse?.isError}
           isLoading={billingResponse?.isLoading || billingResponse?.isFetching}
           isSuccess={billingResponse?.isSuccess}
+          annualPlan={billingResponse?.data?.results?.annualPlan}
         />
       </Grid>
       <Grid item xs={12} md={8}>

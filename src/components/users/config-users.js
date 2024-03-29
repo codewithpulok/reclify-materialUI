@@ -4,6 +4,7 @@ export const ICONS = {
   warehouse: getIconifyFunc('solar:box-bold-duotone'),
   transactions: getIconifyFunc('solar:card-transfer-bold-duotone'),
 
+  website: getIconifyFunc('solar:earth-bold-duotone'),
   phone: getIconifyFunc('solar:phone-rounded-outline'),
   email: getIconifyFunc('tabler:mail'),
   send_message: getIconifyFunc('tabler:send'),

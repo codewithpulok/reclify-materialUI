@@ -1,7 +1,17 @@
 /** @type {RegionType[]} */
 export const regionScopes = [
-  { name: 'United States', code: 'us', icon: 'emojione-monotone:flag-for-united-states' },
-  { name: 'Global', code: 'global', icon: 'gis:earth-america' },
+  {
+    name: 'United States',
+    code: 'us',
+    icon: 'emojione-monotone:flag-for-united-states',
+    text: 'Browse warehousing providers from across the country by region.',
+  },
+  {
+    name: 'Global',
+    code: 'global',
+    icon: 'gis:earth-america',
+    text: 'Explore warehouses from around the world.',
+  },
 ];
 
 /** @type {RegionType[]} - United States Regions */

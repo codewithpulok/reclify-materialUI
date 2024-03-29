@@ -9,6 +9,7 @@ const Props = {
   onClose: PropTypes.func,
   open: PropTypes.bool,
   planId: PropTypes.string,
+  isAnnual: PropTypes.bool,
 };
 
 /**
@@ -16,13 +17,14 @@ const Props = {
  * @returns {JSX.Element}
  */
 const PlanUpgradeDialog = (props) => {
-  const { onClose, open, planId } = props;
+  const { onClose, open, planId, isAnnual } = props;
 
   const [upgradePlan, upgradeResponse] = usePlanUpgradeMutation();
 
   const handleUpgradePlan = useCallback(async () => {
-    console.log('Upgrade Plan: ', planId);
-    const response = await upgradePlan(planId);
+    console.log('Upgrade Plan: ', { planId, isAnnual });
+
+    const response = await upgradePlan({ id: planId, annualPlan: isAnnual });
     const { data, error } = response;
 
     if (error || data?.isError) {
@@ -33,7 +35,7 @@ const PlanUpgradeDialog = (props) => {
       console.warn('Plan Upgraded!', response);
       onClose();
     }
-  }, [planId, upgradePlan, onClose]);
+  }, [planId, isAnnual, upgradePlan, onClose]);
 
   return (
     <ConfirmDialog

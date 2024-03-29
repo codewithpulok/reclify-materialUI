@@ -19,7 +19,7 @@ const Step1 = (props) => (
           <PredefinedFields
             name="features"
             fields={predefinedFeatures}
-            label="Features"
+            label="Expertise"
             defaultExpanded
             showIcon
           />

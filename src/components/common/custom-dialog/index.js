@@ -26,6 +26,7 @@ export { default as CancelTransactionDialog } from './transaction/cancel-dialog'
 export { default as CompleteTransactionDialog } from './transaction/complete-dialog';
 
 // warehouse dialog
+export { default as AdditionalFeeDialog } from './warehouse/additional-fee-dialog';
 export { default as WarehouseDeleteDialog } from './warehouse/warehouse-delete-dialog';
 
 // ach info dialog

@@ -1,6 +1,6 @@
 'use client';
 
-import { Button, Grid, Stack, Typography, alpha } from '@mui/material';
+import { Grid, Stack, alpha } from '@mui/material';
 import Container from '@mui/material/Container';
 import { useCallback, useMemo } from 'react';
 // local components
@@ -11,8 +11,8 @@ import { WarehouseCardSkeleton } from 'src/components/warehouse/cards';
 import { WarehouseCarousel, WarehouseFeaturedCarousel } from 'src/components/warehouse/carousel';
 import useAppearance from 'src/redux-toolkit/features/appearance/use-appearance';
 import { useWarehouseListQuery } from 'src/redux-toolkit/services/warehouseApi';
-import { RouterLink } from 'src/routes/components';
 import { paths } from 'src/routes/paths';
+import { Header, subtitles } from 'src/sections/public/dashboard/warehouses/listing/view';
 import { ICONS } from '../config-warehouse';
 
 // ----------------------------------------------------------------------
@@ -24,16 +24,10 @@ export default function ListingView() {
 
   // render warehouses
   const renderWarehouses = useCallback(
-    (
-      warehouses = [],
-      notFoundText = 'No warehouses found',
-      errorText = 'Something went to wrong',
-      featuredProps = {},
-      itemProps = {}
-    ) => {
+    (warehouses = [], notFoundText = 'No warehouses found', featuredProps = {}, itemProps = {}) => {
       // error state
       if (warehousesResponse.isError) {
-        return <ErrorState text={warehousesResponse?.error?.data?.message || errorText} />;
+        return <ErrorState text={warehousesResponse?.error?.data?.message} />;
       }
 
       // empty state
@@ -86,32 +80,17 @@ export default function ListingView() {
   return (
     <Container maxWidth={appearance.themeStretch ? false : 'xl'}>
       <Stack mb={5} spacing={5}>
-        <Stack
-          sx={{
-            flexDirection: 'row',
-            alignItems: 'center',
-            gap: 0.5,
-          }}
-        >
-          {ICONS.hot_deals(28, { color: 'secondary.main' })}
-          <Typography variant="h4">HotRacks</Typography>
-
-          <Button
-            LinkComponent={RouterLink}
-            href={paths.dashboard.warehouses.hot_deals}
-            variant="soft"
-            color="primary"
-            sx={{ ml: 'auto' }}
-          >
-            View more
-          </Button>
-        </Stack>
+        <Header
+          title="HotRacks"
+          subtitle="Save thousands on storage from top warehousing providers with exclusive deals."
+          href={paths.warehouses.hot_deals}
+          icon={ICONS.hot_deals(38, { color: 'secondary.main' })}
+        />
 
         <Grid container spacing={2}>
           {renderWarehouses(
             hotdeals,
             'No hot deals available',
-            undefined,
             {
               itemProps: {
                 contentSx: { bgcolor: (theme) => alpha(theme.palette.secondary.main, 0.2) },
@@ -128,26 +107,12 @@ export default function ListingView() {
 
       {regionScopes.map((scope) => (
         <Stack mb={5} spacing={5} key={scope.code}>
-          <Stack
-            sx={{
-              flexDirection: 'row',
-              alignItems: 'center',
-              gap: 0.5,
-            }}
-          >
-            {getIconify(scope.icon, 28, { color: 'text.secondary' })}
-            <Typography variant="h4">In {scope.name}</Typography>
-
-            <Button
-              LinkComponent={RouterLink}
-              href={paths.dashboard.warehouses.regionScope(scope.code)}
-              variant="soft"
-              color="primary"
-              sx={{ ml: 'auto' }}
-            >
-              View more
-            </Button>
-          </Stack>
+          <Header
+            title={`In ${scope.name}`}
+            subtitle={subtitles[scope.code]}
+            href={paths.warehouses.regionScope(scope.code)}
+            icon={getIconify(scope.icon, 28)}
+          />
 
           <Grid container spacing={2}>
             {renderWarehouses(scopeData[scope.code])}

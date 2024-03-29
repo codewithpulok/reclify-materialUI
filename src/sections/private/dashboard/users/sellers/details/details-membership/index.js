@@ -1,9 +1,9 @@
 import { Card, CardContent, CardHeader, Grid, Stack } from '@mui/material';
 import PropTypes from 'prop-types';
 // local components
+import { MembershipUser } from 'src/components/common/custom-table';
 import MembershipCurrent from './membership-current';
 import MembershipCustom from './membership-custom';
-import MembershipHistory from './membership-history';
 
 // ----------------------------------------------------------------------
 
@@ -36,7 +36,7 @@ const DetailsMembership = (props) => {
         <Card>
           <CardHeader title="Plan History" />
           <CardContent>
-            <MembershipHistory membershipHistory={membershipHistory} />
+            <MembershipUser data={membershipHistory} />
           </CardContent>
         </Card>
       </Grid>

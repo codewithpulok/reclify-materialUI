@@ -7,7 +7,7 @@ import { useCallback, useMemo } from 'react';
 import { usRegions } from 'src/assets/data';
 import CustomBreadcrumbs from 'src/components/common/custom-breadcrumbs';
 import { EmptyState, ErrorState } from 'src/components/common/custom-state';
-import { getIconify } from 'src/components/common/iconify/utilities';
+import { NextImage } from 'src/components/common/next-image';
 import { WarehouseCardSkeleton } from 'src/components/warehouse/cards';
 import { WarehouseCarousel, WarehouseFeaturedCarousel } from 'src/components/warehouse/carousel';
 import useAppearance from 'src/redux-toolkit/features/appearance/use-appearance';
@@ -15,6 +15,16 @@ import { useWarehouseListQuery } from 'src/redux-toolkit/services/warehouseApi';
 import { RouterLink } from 'src/routes/components';
 import { paths } from 'src/routes/paths';
 import { ICONS } from '../config-warehouse';
+
+// ----------------------------------------------------------------------
+
+export const icons = {
+  northeast: '/assets/icons/region/northeast.svg',
+  midwest: '/assets/icons/region/midwest.svg',
+  West: '/assets/icons/region/west.svg',
+  south: '/assets/icons/region/south.svg',
+  'alaska-hawai': '/assets/icons/region/alaska-hawaii.svg',
+};
 
 // ----------------------------------------------------------------------
 
@@ -93,10 +103,8 @@ export default function USListingView() {
                 gap: 0.5,
               }}
             >
-              {getIconify(region.icon, 28, {
-                color: 'text.secondary',
-                rotate: `${region.rotate ? 90 * region.rotate : 0}deg`,
-              })}
+              <NextImage src={icons[region.code]} width={50} height={40} />
+
               <Typography variant="h4">In {region.name}</Typography>
 
               <Button

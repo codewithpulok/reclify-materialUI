@@ -21,7 +21,7 @@ const DetailsFeatures = (props) => {
   const { features, sx } = props;
 
   return (
-    <WarehouseDetailsBox title="Features" sx={sx}>
+    <WarehouseDetailsBox title="Expertise" sx={sx}>
       <Grid spacing={0.7} container>
         {predefinedFeatures.map((feature) => {
           const currentFeature = features[feature.key];
