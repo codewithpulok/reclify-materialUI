@@ -114,7 +114,7 @@ const CustomerField = (props) => {
 
   const handleSuccess = (newUrl, tempUrl) => {
     URL.revokeObjectURL(tempUrl);
-    console.log({ newUrl });
+
     setValue(imageFieldName, newUrl, { shouldValidate: true });
   };
 

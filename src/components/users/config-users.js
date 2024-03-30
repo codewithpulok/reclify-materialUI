@@ -8,4 +8,7 @@ export const ICONS = {
   phone: getIconifyFunc('solar:phone-rounded-outline'),
   email: getIconifyFunc('tabler:mail'),
   send_message: getIconifyFunc('tabler:send'),
+  verified: getIconifyFunc('solar:verified-check-bold'),
+
+  settings: getIconifyFunc('solar:settings-bold'),
 };

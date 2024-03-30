@@ -34,3 +34,12 @@
     box-shadow: 0 0 0 2px rgba(240, 143, 74, 0);
   }
 }
+
+.slick-track {
+  display: flex !important;
+  align-items: stretch;
+}
+
+/* .slick-slide {
+  display: inherit;
+} */

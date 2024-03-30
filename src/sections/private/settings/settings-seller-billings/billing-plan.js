@@ -92,7 +92,7 @@ const BillingPlan = (props) => {
   const { user } = useAppSelector(selectAuth);
 
   // app state
-  const isAnnual = useBoolean();
+  const isAnnual = useBoolean(annualPlan);
 
   // dialog state
   const upgradeDialog = useDialog();
@@ -162,7 +162,7 @@ const BillingPlan = (props) => {
           <Button
             variant="contained"
             color="success"
-            disabled={currentPlan === selectedPlan}
+            disabled={currentPlan === selectedPlan && annualPlan === isAnnual.value}
             onClick={() => upgradeDialog.onOpen(selectedPlan)}
           >
             Upgrade Plan

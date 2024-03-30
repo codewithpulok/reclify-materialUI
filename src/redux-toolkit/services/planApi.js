@@ -3,6 +3,7 @@ import { endpoints } from 'src/utils/api/client';
 import { updateAuthState } from 'src/utils/auth-persist';
 import { update } from '../features/auth/authSlice';
 import { publicBaseQuery } from '../utills';
+import { billingApi } from './billingApi';
 
 export const planApi = createApi({
   reducerPath: 'planApi',
@@ -44,6 +45,13 @@ export const planApi = createApi({
           const authResponse = await updateAuthState(null, changes);
           // update local state
           dispatch(update(authResponse.user));
+
+          // update billing api
+          dispatch(
+            billingApi.util.updateQueryData('getBilling', undefined, (draft) => {
+              if (draft.results) draft.results.annualPlan = !!arg?.annualPlan;
+            })
+          );
         } catch (error) {
           console.error('ERROR:Plan id cache update', error);
         }

@@ -3,8 +3,11 @@ import HomeView from 'src/sections/public/pages/home/view';
 import { getAllPlans } from 'src/utils/api/server/services/plans.api';
 // ----------------------------------------------------------------------
 
+/** @type {import('next').Metadata} */
 export const metadata = {
-  title: 'Racklify',
+  title: {
+    absolute: 'Racklify',
+  },
   description: 'Your Online Logistics Hub',
 };
 

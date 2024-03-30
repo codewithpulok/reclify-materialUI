@@ -231,6 +231,37 @@ export const adminApi = createApi({
         body: data,
       }),
     }),
+    updateSellerVerification: builder.mutation({
+      query: (
+        /** @type {{id: string, isVerified: boolean}} */
+        { id, isVerified }
+      ) => ({
+        url: endpoints.admin.users.update(id),
+        method: 'PUT',
+        body: { isVerified },
+      }),
+      onQueryStarted: async (arg, { dispatch, queryFulfilled }) => {
+        try {
+          const response = await queryFulfilled;
+          const { data } = response;
+
+          if (!data?.success) throw new Error(response);
+
+          dispatch(
+            adminApi.util.updateQueryData('listSellers', undefined, (draft) => {
+              if (Array.isArray(draft?.results)) {
+                const updateIndex = draft.results.findIndex((s) => s?.id === arg?.id);
+                if (updateIndex) {
+                  draft.results[updateIndex].isVerified = arg.isVerified;
+                }
+              }
+            })
+          );
+        } catch (error) {
+          console.error('Transction cache update error: ', error);
+        }
+      },
+    }),
     // transaction actions
     listTransaction: builder.query({
       query: () => endpoints.admin.transaction.list,
@@ -290,9 +321,8 @@ export const adminApi = createApi({
           // update the user cache
           dispatch(
             adminApi.util.updateQueryData('getUser', arg?.id, (draft) => {
-              if (draft.results?.membership !== undefined) {
+              if (draft?.results?.membership !== undefined) {
                 draft.results.membership = data.results;
-                console.log(draft.resutls.membership);
               }
             })
           );
@@ -321,4 +351,5 @@ export const {
   useLazyListTransactionQuery,
   useUpgradePlanMutation,
   useUpdateSellerMutation,
+  useUpdateSellerVerificationMutation,
 } = adminApi;

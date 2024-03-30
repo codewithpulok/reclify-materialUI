@@ -11,6 +11,8 @@ const Props = {
   /** @type {User[]} */
   data: PropTypes.arrayOf(PropTypes.object),
   totalPages: PropTypes.number,
+  /** @type {SellerCard.propTypes} */
+  sellerProps: PropTypes.object,
 };
 
 /**
@@ -18,7 +20,7 @@ const Props = {
  * @returns {JSX.Element}
  */
 const RenderUsers = (props) => {
-  const { data = [], isError, isFetching, isLoading, isSuccess, totalPages } = props;
+  const { data = [], isError, isFetching, isLoading, isSuccess, totalPages, sellerProps } = props;
 
   // error state
   if (!isLoading && !isFetching && isError) {
@@ -37,7 +39,7 @@ const RenderUsers = (props) => {
         {data.map((user) => (
           <Grid item xs={12} sm={6} md={4} lg={3} key={user.id}>
             {user?.userType === 'seller' && (
-              <SellerCard user={user} serviceCount={user?.serviceCount} />
+              <SellerCard user={user} serviceCount={user?.serviceCount} {...sellerProps} />
             )}
             {user?.userType === 'customer' && (
               <CustomerCard user={user} totalTransactions={user?.transactionCount} />

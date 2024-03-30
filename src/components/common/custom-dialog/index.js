@@ -54,3 +54,7 @@ export { default as AvatarCrop } from './avatar-crop';
 
 // address delete
 export { default as AddressDeleteDialog } from './address/delete-dialog';
+
+// user
+export { default as SellerUnverifyDialog } from './user/seller-unverify-dialog';
+export { default as SellerVerifyDialog } from './user/seller-verify-dialog';
