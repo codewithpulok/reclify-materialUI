@@ -3,7 +3,7 @@ import { LoginView } from 'src/sections/auth';
 // ----------------------------------------------------------------------
 
 export const metadata = {
-  title: 'Sign In - Racklify',
+  title: 'Sign In',
 };
 
 export default function LoginPage() {
