@@ -169,7 +169,7 @@ const DetailsContent = (props) => {
             <DetailsWarehouses warehouses={user?.warehouses || []} />
           )}
           {serviceType && serviceType.value !== 'warehouse' && (
-            <DetailsServices services={user?.services || []} />
+            <DetailsServices services={user?.service ? [user.service] : []} />
           )}
         </>
       )}
