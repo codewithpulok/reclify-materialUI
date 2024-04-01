@@ -4,11 +4,11 @@ import { Button, Grid, Stack, Typography } from '@mui/material';
 import Container from '@mui/material/Container';
 import { useCallback, useMemo } from 'react';
 // local components
-import { EmptyState, ErrorState } from 'src/components/common/custom-state';
+import PropTypes from 'prop-types';
+import { EmptyState } from 'src/components/common/custom-state';
 import { ServiceCardSkeleton } from 'src/components/service/cards';
 import { getAvailableServiceTypes, serviceTypes } from 'src/constant/service-types';
 import useAppearance from 'src/redux-toolkit/features/appearance/use-appearance';
-import { useListServicesQuery } from 'src/redux-toolkit/services/serviceApi';
 import { RouterLink } from 'src/routes/components';
 import { paths } from 'src/routes/paths';
 import { ICONS } from '../config-services';
@@ -16,54 +16,49 @@ import ServiceCarousel from './service-carousel';
 
 // ----------------------------------------------------------------------
 
-export default function ListingView() {
+/**
+ *
+ * @param {ListingView.propTypes} props
+ * @returns {JSX.Element}
+ */
+const ListingView = (props) => {
+  const { services } = props;
   const appearance = useAppearance();
 
-  const servicesResponse = useListServicesQuery();
-
   // render services
-  const renderServices = useCallback(
-    (services = [], notFoundText = 'No Services found', errorText = 'Something went to wrong') => {
-      // error state
-      if (servicesResponse.isError) {
-        return <ErrorState text={servicesResponse?.error?.data?.message || errorText} />;
-      }
+  const renderServices = useCallback((data = [], notFoundText = 'No Services found') => {
+    // empty state
+    if (data.length === 0) {
+      return <EmptyState text={notFoundText} icon={ICONS.warehouse()} />;
+    }
 
-      // empty state
-      if (servicesResponse.isSuccess && services.length === 0) {
-        return <EmptyState text={notFoundText} icon={ICONS.warehouse()} />;
-      }
-
-      // success state
-      if (servicesResponse.isSuccess && services.length) {
-        return (
-          <Grid item xs={12}>
-            <ServiceCarousel data={services} />
-          </Grid>
-        );
-      }
-
-      // loading state
-      return Array.from(Array(3).keys()).map((i) => (
-        <Grid key={i} item xs={12} sm={6} md={4}>
-          <ServiceCardSkeleton />
+    // success state
+    if (data.length) {
+      return (
+        <Grid item xs={12}>
+          <ServiceCarousel data={data} />
         </Grid>
-      ));
-    },
-    [servicesResponse]
-  );
+      );
+    }
+
+    // loading state
+    return Array.from(Array(3).keys()).map((i) => (
+      <Grid key={i} item xs={12} sm={6} md={4}>
+        <ServiceCardSkeleton />
+      </Grid>
+    ));
+  }, []);
 
   // services based on types
   const typesServices = useMemo(
     () =>
       serviceTypes.reduce((prev, next) => {
-        prev[next.value] =
-          servicesResponse?.data?.results instanceof Array
-            ? servicesResponse?.data?.results.filter((s) => s.type === next.value)
-            : [];
+        prev[next.value] = Array.isArray(services)
+          ? services.filter((s) => s.type === next.value)
+          : [];
         return prev;
       }, {}),
-    [servicesResponse]
+    [services]
   );
 
   return (
@@ -97,4 +92,11 @@ export default function ListingView() {
       ))}
     </Container>
   );
-}
+};
+
+ListingView.propTypes = {
+  /** @type {Service} */
+  services: PropTypes.arrayOf(PropTypes.object),
+};
+
+export default ListingView;

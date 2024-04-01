@@ -58,10 +58,10 @@ const WarehouseCarousel = (props) => {
         onNext={carousel.onNext}
         onPrev={carousel.onPrev}
       >
-        <Carousel ref={carousel.carouselRef} {...carousel.carouselSettings}>
+        <Carousel ref={carousel.carouselRef} {...carousel.carouselSettings} sli>
           {filteredData.map((item) => (
             <Box key={item.id} sx={{ px: 1, my: '8px' }}>
-              <WarehouseCard warehouse={item} size="sm" {...itemProps} />
+              <WarehouseCard warehouse={item} size="sm" {...itemProps} sx={{ minHeight: '100%' }} />
             </Box>
           ))}
         </Carousel>

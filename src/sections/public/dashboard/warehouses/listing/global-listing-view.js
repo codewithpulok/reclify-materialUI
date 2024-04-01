@@ -2,45 +2,33 @@
 
 import { Pagination, Stack } from '@mui/material';
 import Container from '@mui/material/Container';
-import { useEffect } from 'react';
 // local components
+import PropTypes from 'prop-types';
 import { getRegionScope } from 'src/assets/data';
 import CustomBreadcrumbs from 'src/components/common/custom-breadcrumbs/custom-breadcrumbs';
 import usePagination from 'src/hooks/use-pagination';
 import useAppearance from 'src/redux-toolkit/features/appearance/use-appearance';
-import { selectAuth } from 'src/redux-toolkit/features/auth/authSlice';
-import { useAppSelector } from 'src/redux-toolkit/hooks';
 import { useWarehouseListQuery } from 'src/redux-toolkit/services/warehouseApi';
 import { paths } from 'src/routes/paths';
 import RenderWarehouses from 'src/sections/private/dashboard/warehouses/common/render-warehouses';
 
-const Props = {};
-
 /**
- * @param {Props} props
+ * @param {GlobalListingView.propTypes} props
  * @returns {JSX.Element}
  */
 const GlobalListingView = (props) => {
-  const scope = getRegionScope('global');
+  const { warehouses } = props;
 
+  const scope = getRegionScope('global');
   const appearance = useAppearance();
-  const { user } = useAppSelector(selectAuth);
 
   // api state
   const listResponse = useWarehouseListQuery({ regionScope: 'global' });
 
   // logic state
   const { currentData, currentPage, goTo, totalPages } = usePagination(
-    listResponse?.data?.results?.filter((w) => w?.regionScope === 'global') || []
+    warehouses?.filter((w) => w?.regionScope === 'global') || []
   );
-
-  // refetch data on user id change
-  useEffect(() => {
-    if (user?.id) {
-      listResponse.refetch();
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [user?.id]);
 
   return (
     <Container maxWidth={appearance.themeStretch ? false : 'xl'}>
@@ -73,6 +61,8 @@ const GlobalListingView = (props) => {
   );
 };
 
-GlobalListingView.propTypes = Props;
+GlobalListingView.propTypes = {
+  warehouses: PropTypes.arrayOf(PropTypes.object),
+};
 
 export default GlobalListingView;

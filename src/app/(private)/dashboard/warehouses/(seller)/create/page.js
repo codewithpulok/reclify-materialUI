@@ -2,7 +2,7 @@ import PropTypes from 'prop-types';
 import { WarehousesCreateView } from 'src/sections/private/dashboard/warehouses';
 
 export const metadata = {
-  title: 'Create Warehouse - Racklify',
+  title: 'Create Warehouse',
 };
 
 const WarehouseCreatePage = async ({ searchParams }) => (

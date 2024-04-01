@@ -1,7 +1,7 @@
 import { NewPasswordView } from 'src/sections/auth';
 
 export const metadata = {
-  title: 'New Password - Racklify',
+  title: 'New Password',
 };
 
 const NewPasswordPage = (props) => <NewPasswordView />;

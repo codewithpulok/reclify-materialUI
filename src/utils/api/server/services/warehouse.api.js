@@ -2,7 +2,7 @@ import { endpoints } from '../endpoints';
 import { asyncWrapper } from '../helpers';
 
 /** @type {AsyncReturn<{region: string, hasDiscount: boolean, verified: boolean, featured: boolean, visible: boolean}, Warehouse[]>} */
-export const getAllWarehouses = asyncWrapper(async (params) => {
+export const getWarehouses = asyncWrapper(async (params) => {
   const queryString = new URLSearchParams({
     region: params?.region || '',
     hasDiscount: params?.hasDiscount || '',
@@ -25,7 +25,7 @@ export const getWarehouse = asyncWrapper(async (id) => {
     cache: 'no-store',
   });
 
-  if (!response?.ok) throw new Error('ERROR: Could not fetch warehouse');
+  if (!response?.ok) throw new Error(`ERROR: Could not fetch warehouse:${id}`);
 
   return response.json();
 });

@@ -11,3 +11,14 @@ export const getAllPosts = asyncWrapper(async () => {
 
   return response.json();
 });
+
+/** @type {AsyncReturn<string, Warehouse>} */
+export const getPost = asyncWrapper(async (id) => {
+  const response = await fetch(endpoints.posts.details(id), {
+    cache: 'no-store',
+  });
+
+  if (!response?.ok) throw new Error(`ERROR: Could not fetch post:${id}`);
+
+  return response.json();
+});

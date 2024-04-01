@@ -3,27 +3,23 @@
 import { Pagination, Stack, alpha } from '@mui/material';
 import Container from '@mui/material/Container';
 // local components
+import PropTypes from 'prop-types';
 import CustomBreadcrumbs from 'src/components/common/custom-breadcrumbs/custom-breadcrumbs';
 import usePagination from 'src/hooks/use-pagination';
 import useAppearance from 'src/redux-toolkit/features/appearance/use-appearance';
-import { useWarehouseListQuery } from 'src/redux-toolkit/services/warehouseApi';
 import { paths } from 'src/routes/paths';
 import RenderWarehouses from 'src/sections/private/dashboard/warehouses/common/render-warehouses';
 
-const Props = {};
-
 /**
- * @param {Props} props
+ * @param {HotDealsView.propTypes} props
  * @returns {JSX.Element}
  */
 const HotDealsView = (props) => {
+  const { warehouses } = props;
   const appearance = useAppearance();
 
-  // api state
-  const listResponse = useWarehouseListQuery({ hasDiscount: true });
-
   // logic state
-  const { currentData, currentPage, goTo, totalPages } = usePagination(listResponse?.data?.results);
+  const { currentData, currentPage, goTo, totalPages } = usePagination(warehouses);
 
   return (
     <Container maxWidth={appearance.themeStretch ? false : 'xl'}>
@@ -38,10 +34,7 @@ const HotDealsView = (props) => {
         />
 
         <RenderWarehouses
-          isError={listResponse.isError}
-          isFetching={listResponse.isFetching}
-          isLoading={listResponse.isLoading}
-          isSuccess={listResponse.isSuccess}
+          isSuccess
           data={currentData}
           totalPages={totalPages}
           cardProps={{
@@ -63,6 +56,8 @@ const HotDealsView = (props) => {
   );
 };
 
-HotDealsView.propTypes = Props;
+HotDealsView.propTypes = {
+  warehouses: PropTypes.arrayOf(PropTypes.object),
+};
 
 export default HotDealsView;

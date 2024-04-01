@@ -103,7 +103,7 @@ const MembershipCustom = (props) => {
           action={
             <Stack direction="row" alignItems="center" justifyContent="center">
               <Typography variant="overline">MONTHLY</Typography>
-              <RHFSwitch name="showAnnual" color="primary" size="small" />
+              <RHFSwitch name="annualPlan" color="primary" size="small" />
               <Typography variant="overline">YEARLY</Typography>
             </Stack>
           }

@@ -7,28 +7,19 @@ import PropTypes from 'prop-types';
 import CustomBreadcrumbs from 'src/components/common/custom-breadcrumbs/custom-breadcrumbs';
 import usePagination from 'src/hooks/use-pagination';
 import useAppearance from 'src/redux-toolkit/features/appearance/use-appearance';
-import { useWarehouseListQuery } from 'src/redux-toolkit/services/warehouseApi';
 import { paths } from 'src/routes/paths';
 import RenderWarehouses from 'src/sections/private/dashboard/warehouses/common/render-warehouses';
 
-const Props = {
-  /** @type {RegionType} */
-  region: PropTypes.object.isRequired,
-};
-
 /**
- * @param {Props} props
+ * @param {RegionView.propTypes} props
  * @returns {JSX.Element}
  */
 const RegionView = (props) => {
-  const { region } = props;
+  const { region, warehouses } = props;
   const appearance = useAppearance();
 
-  // api state
-  const listResponse = useWarehouseListQuery({ region: region.code });
-
   // logic state
-  const { currentData, currentPage, goTo, totalPages } = usePagination(listResponse?.data?.results);
+  const { currentData, currentPage, goTo, totalPages } = usePagination(warehouses);
 
   return (
     <Container maxWidth={appearance.themeStretch ? false : 'xl'}>
@@ -42,14 +33,7 @@ const RegionView = (props) => {
           ]}
         />
 
-        <RenderWarehouses
-          isError={listResponse.isError}
-          isFetching={listResponse.isFetching}
-          isLoading={listResponse.isLoading}
-          isSuccess={listResponse.isSuccess}
-          data={currentData}
-          totalPages={totalPages}
-        />
+        <RenderWarehouses isSuccess data={currentData} totalPages={totalPages} />
 
         <Stack direction="row" justifyContent="center" mt={3} mb={1}>
           <Pagination
@@ -65,6 +49,11 @@ const RegionView = (props) => {
   );
 };
 
-RegionView.propTypes = Props;
+RegionView.propTypes = {
+  /** @type {RegionType} */
+  region: PropTypes.object.isRequired,
+  /** @type {Warehouse[]} */
+  warehouses: PropTypes.arrayOf(PropTypes.object),
+};
 
 export default RegionView;

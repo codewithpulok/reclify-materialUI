@@ -2,7 +2,7 @@ import PropTypes from 'prop-types';
 import { TransactionDetailsView } from 'src/sections/private/dashboard/transactions';
 
 export const metadata = {
-  title: 'Transaction Details - Racklify',
+  title: 'Transaction Details',
 };
 
 const TransactionDetailsPage = ({ params }) => <TransactionDetailsView id={params.id} />;

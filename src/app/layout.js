@@ -15,10 +15,31 @@ import Provider from 'src/redux-toolkit/provider';
 
 // ----------------------------------------------------------------------
 
+/** @type {import('next').Metadata} */
 export const metadata = {
-  title: 'Racklify',
+  title: {
+    template: '%s - Racklify',
+    default: 'Racklify',
+  },
   description: 'Store management platform',
-  keywords: 'racklify, store, pallet',
+  keywords: [
+    'racklify',
+    'store',
+    'pallet',
+    'logistics hub',
+    'warehouse event space',
+    'storage space for lease',
+    'business warehouse for rent',
+    'office warehouse space for lease',
+    'industrial warehouse for rent',
+    'shared warehouse space',
+    'warehouse space for lease',
+    'small warehouse for rent by owner',
+    'industrial space for lease',
+    'short term warehouse rental',
+    'cheap warehouse space for rent',
+    'business buildings for rent',
+  ],
   themeColor: '#000000',
   manifest: '/manifest.json',
   viewport: { width: 'device-width', initialScale: 1, maximumScale: 1 },

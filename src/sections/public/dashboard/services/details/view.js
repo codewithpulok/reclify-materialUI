@@ -2,39 +2,20 @@
 
 import PropTypes from 'prop-types';
 // local components
-import { notFound } from 'next/navigation';
-import { ErrorState } from 'src/components/common/custom-state';
-import { LoadingScreen } from 'src/components/common/loading-screen';
 import { ServiceDetails } from 'src/components/service/details';
-import { useGetServiceQuery } from 'src/redux-toolkit/services/serviceApi';
-
-const Props = {
-  id: PropTypes.string.isRequired,
-};
 
 /**
- * @param {Props} props
+ * @param {DetailsView.propTypes} props
  * @returns {JSX.Element}
  */
 function DetailsView(props) {
-  const { id } = props;
-  const serviceResponse = useGetServiceQuery(id, { skip: !id });
+  const { service } = props;
 
-  // if error occured
-  if ((serviceResponse.isError || serviceResponse.data?.isError) && !serviceResponse.isLoading)
-    return <ErrorState />;
-
-  // if there is no warehouse then show error
-  if (serviceResponse.data?.statusCode === 404) notFound();
-
-  // on request success
-  if (serviceResponse.isSuccess && serviceResponse.data?.success) {
-    return <ServiceDetails service={serviceResponse.data.results} />;
-  }
-
-  return <LoadingScreen />;
+  return <ServiceDetails service={service} />;
 }
 
-DetailsView.propTypes = Props;
+DetailsView.propTypes = {
+  service: PropTypes.object.isRequired,
+};
 
 export default DetailsView;

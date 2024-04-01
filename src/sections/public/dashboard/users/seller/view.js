@@ -5,6 +5,7 @@ import PropTypes from 'prop-types';
 import { useCallback, useEffect, useMemo, useState } from 'react';
 import CustomBreadcrumbs from 'src/components/common/custom-breadcrumbs/custom-breadcrumbs';
 import { PLACEHOLDER_PROFILE_AVATAR, PLACEHOLDER_PROFILE_BANNER } from 'src/config-global';
+import { getServiceType } from 'src/constant/service-types';
 import useHash from 'src/hooks/use-hash';
 import useAppearance from 'src/redux-toolkit/features/appearance/use-appearance';
 import { selectAuth } from 'src/redux-toolkit/features/auth/authSlice';
@@ -14,6 +15,7 @@ import { paths } from 'src/routes/paths';
 import UserCover from 'src/sections/private/dashboard/users/common/user-cover';
 import { ICONS } from 'src/sections/private/dashboard/users/config-users';
 import DetailsHome from 'src/sections/private/dashboard/users/sellers/details/details-home';
+import DetailsServices from 'src/sections/private/dashboard/users/sellers/details/details-services';
 import DetailsWarehouses from 'src/sections/private/dashboard/users/sellers/details/details-warehouses';
 import { fDate } from 'src/utils/format-time';
 
@@ -30,6 +32,7 @@ const SellerDetailsView = (props) => {
   const { user } = props;
   const { user: authUser } = useAppSelector(selectAuth);
   const hash = useHash();
+  const serviceType = getServiceType(user?.serviceType);
 
   const TABS = useMemo(
     () => [
@@ -157,7 +160,16 @@ const SellerDetailsView = (props) => {
           totalSales={user?.totalSales || 0}
         />
       )}
-      {currentTab === 'services' && <DetailsWarehouses warehouses={user?.warehouses || []} />}
+      {currentTab === 'services' && (
+        <>
+          {serviceType && serviceType.value === 'warehouse' && (
+            <DetailsWarehouses warehouses={user?.warehouses || []} />
+          )}
+          {serviceType && serviceType.value !== 'warehouse' && (
+            <DetailsServices services={user?.service ? [user.service] : []} />
+          )}
+        </>
+      )}
     </Container>
   );
 };

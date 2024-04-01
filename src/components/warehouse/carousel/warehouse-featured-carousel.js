@@ -61,7 +61,7 @@ const WarehouseFeaturedCarousel = (props) => {
         <Carousel ref={carousel.carouselRef} {...carousel.carouselSettings}>
           {filteredData.map((item) => (
             <Box key={item.id} sx={{ px: 1, my: '8px' }}>
-              <WarehouseCard warehouse={item} {...itemProps} />
+              <WarehouseCard warehouse={item} {...itemProps} sx={{ minHeight: '100%' }} />
             </Box>
           ))}
         </Carousel>

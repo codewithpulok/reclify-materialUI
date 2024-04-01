@@ -2,7 +2,7 @@ import PropTypes from 'prop-types';
 import { ServicesDetailsView } from 'src/sections/private/dashboard/services';
 
 export const metadata = {
-  title: 'Service Details - Racklify',
+  title: 'Service Details',
 };
 
 const ServicesDetailsPage = ({ params }) => <ServicesDetailsView id={params.id} />;

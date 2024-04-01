@@ -77,7 +77,7 @@ export const achApi = createApi({
               // if other primary exist the make it false
               if (data?.results?.isPrimary && draft.results?.length) {
                 const primaryIndex = draft.results.findIndex((d) => d.isPrimary);
-                console.log({ primaryIndex });
+
                 if (primaryIndex !== -1) draft.results[primaryIndex].isPrimary = false;
               }
 

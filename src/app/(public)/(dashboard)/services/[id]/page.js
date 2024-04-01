@@ -1,20 +1,40 @@
+import { notFound } from 'next/navigation';
 import PropTypes from 'prop-types';
+import Loading from 'src/app/loading';
 import { ServicesDetailsView } from 'src/sections/public/dashboard/services';
+import { getService } from 'src/utils/api/server/services/service.api';
 
-export const metadata = {
-  title: 'Service Details - Racklify',
-};
+export const generateMetadata = async ({ params }) => {
+  const response = await getService(params.id);
 
-const Props = {
-  params: PropTypes.object,
+  if (response.success) {
+    return {
+      title: response?.results?.name,
+      description: response?.results?.description,
+    };
+  }
+
+  return {};
 };
 
 /**
- * @param {Props} props
- * @returns
+ * @param {ServicesDetailsPage.propTypes} props
+ * @returns {JSX.Element}
  */
-const ServicesDetailsPage = ({ params }) => <ServicesDetailsView id={params.id} />;
+const ServicesDetailsPage = async ({ params }) => {
+  const response = await getService(params.id);
 
-ServicesDetailsPage.propTypes = Props;
+  if (response.isError) notFound();
+
+  if (response.success) return <ServicesDetailsView service={response.results} />;
+
+  return <Loading />;
+};
+
+ServicesDetailsPage.propTypes = {
+  params: {
+    id: PropTypes.string,
+  },
+};
 
 export default ServicesDetailsPage;

@@ -1,7 +1,7 @@
 import { ServicesListingView } from 'src/sections/private/dashboard/services';
 
 export const metadata = {
-  title: 'Services - Racklify',
+  title: 'Services',
 };
 
 const ServicesListingPage = (props) => <ServicesListingView />;

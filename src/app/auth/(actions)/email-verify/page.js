@@ -1,7 +1,7 @@
 import { EmailVerifyView } from 'src/sections/auth';
 
 export const metadata = {
-  title: 'Email Verify - Racklify',
+  title: 'Email Verify',
 };
 
 const EmailVerifyPage = (props) => <EmailVerifyView />;

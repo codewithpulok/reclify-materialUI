@@ -1,9 +1,19 @@
-import { Avatar, Box, Card, CardActionArea, Stack, Typography } from '@mui/material';
+import {
+  Avatar,
+  Box,
+  Card,
+  CardActionArea,
+  IconButton,
+  MenuItem,
+  Stack,
+  Tooltip,
+  Typography,
+} from '@mui/material';
 import { useRouter } from 'next/navigation';
 import PropTypes from 'prop-types';
+import CustomPopover, { usePopover } from 'src/components/common/custom-popover';
 import { PLACEHOLDER_PROFILE_AVATAR } from 'src/config-global';
-import { selectAuth } from 'src/redux-toolkit/features/auth/authSlice';
-import { useAppSelector } from 'src/redux-toolkit/hooks';
+import useAdminPath from 'src/hooks/use-admin-path';
 import { paths } from 'src/routes/paths';
 import { fShortenNumber } from 'src/utils/format-number';
 import { ICONS } from '../config-users';
@@ -12,6 +22,8 @@ const Props = {
   /** @type {User} */
   user: PropTypes.object.isRequired,
   serviceCount: PropTypes.number.isRequired,
+  onVerify: PropTypes.func,
+  onUnverify: PropTypes.func,
 };
 
 /**
@@ -19,16 +31,31 @@ const Props = {
  * @returns {JSX.Element}
  */
 const SellerCard = (props) => {
-  const { user, serviceCount } = props;
+  const { user, serviceCount, onVerify, onUnverify } = props;
   const router = useRouter();
-  const { user: authUser } = useAppSelector(selectAuth);
+  const popover = usePopover();
+  const showActions = !!onVerify || !!onUnverify;
 
-  const sellerPath =
-    authUser?.userType === 'admin' ? paths.dashboard.users.seller : paths.users.seller;
-
+  const sellerPath = useAdminPath(paths.dashboard.users.seller, paths.users.seller);
   const avatar = user?.avatar || PLACEHOLDER_PROFILE_AVATAR;
 
   const isServiceSeller = user?.serviceType !== 'warehouse';
+
+  const renderMenu = (
+    <CustomPopover
+      open={popover.open}
+      onClose={popover.onClose}
+      arrow="top-right"
+      sx={{ width: 150 }}
+    >
+      {onVerify && !user?.isVerified && (
+        <MenuItem onClick={() => onVerify(user)}>Verify Seller</MenuItem>
+      )}
+      {onUnverify && user?.isVerified && (
+        <MenuItem onClick={() => onUnverify(user)}>Unverify Seller</MenuItem>
+      )}
+    </CustomPopover>
+  );
 
   return (
     <Card sx={{ borderRadius: 1 }}>
@@ -45,9 +72,18 @@ const SellerCard = (props) => {
             />
           </Box>
           <Stack sx={{ flex: 1, width: '100%' }}>
-            <Typography variant="body1">
-              {user?.firstName} {user?.lastName}
-            </Typography>
+            <Stack direction="row" alignItems="center" gap={0.3}>
+              <Typography variant="body1">
+                {user?.firstName} {user?.lastName}
+              </Typography>
+
+              {user?.isVerified ? (
+                <Tooltip title="Verified" placement="top" arrow>
+                  {ICONS.verified(16, { color: 'primary.main' })}
+                </Tooltip>
+              ) : null}
+            </Stack>
+
             <Typography variant="subtitle2" sx={{ color: 'text.secondary' }}>
               {user?.email}
             </Typography>
@@ -72,6 +108,16 @@ const SellerCard = (props) => {
           </Stack>
         </Stack>
       </CardActionArea>
+
+      {showActions && (
+        <Stack direction="row" justifyContent="end" sx={{ position: 'absolute', top: 5, right: 5 }}>
+          <IconButton size="small" onClick={popover.onOpen}>
+            {ICONS.settings()}
+          </IconButton>
+        </Stack>
+      )}
+
+      {renderMenu}
     </Card>
   );
 };

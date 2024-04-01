@@ -9,33 +9,23 @@ import CustomBreadcrumbs from 'src/components/common/custom-breadcrumbs/custom-b
 import { getServiceType } from 'src/constant/service-types';
 import usePagination from 'src/hooks/use-pagination';
 import useAppearance from 'src/redux-toolkit/features/appearance/use-appearance';
-import { useListServicesQuery } from 'src/redux-toolkit/services/serviceApi';
 import { paths } from 'src/routes/paths';
 import RenderServices from 'src/sections/private/dashboard/services/common/render-services';
 
-const Props = {
-  serviceType: PropTypes.string.isRequired,
-};
-
 /**
- * @param {Props} props
+ * @param {RegionView.propTypes} props
  * @returns {JSX.Element}
  */
 const RegionView = (props) => {
-  const { serviceType } = props;
+  const { serviceType, services } = props;
 
   const appearance = useAppearance();
   const service = getServiceType(serviceType);
 
-  const servicesResponse = useListServicesQuery();
-
   // services based on service type
   const filteredData = useMemo(
-    () =>
-      servicesResponse?.data?.results
-        ? servicesResponse.data.results.filter((d) => d.type === serviceType)
-        : [],
-    [servicesResponse, serviceType]
+    () => (Array.isArray(services) ? services.filter((d) => d.type === serviceType) : []),
+    [services, serviceType]
   );
 
   // logic state
@@ -53,14 +43,7 @@ const RegionView = (props) => {
           ]}
         />
 
-        <RenderServices
-          isError={servicesResponse.isError}
-          isFetching={servicesResponse.isFetching}
-          isLoading={servicesResponse.isLoading}
-          isSuccess={servicesResponse.isSuccess}
-          data={currentData}
-          totalPages={totalPages}
-        />
+        <RenderServices isSuccess data={currentData} totalPages={totalPages} />
 
         <Stack direction="row" justifyContent="center" mt={3} mb={1}>
           <Pagination
@@ -76,6 +59,10 @@ const RegionView = (props) => {
   );
 };
 
-RegionView.propTypes = Props;
+RegionView.propTypes = {
+  serviceType: PropTypes.string.isRequired,
+  /** @type {Service[]} */
+  services: PropTypes.arrayOf(PropTypes.object),
+};
 
 export default RegionView;

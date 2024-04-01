@@ -4,7 +4,7 @@ import { NewsDetailsView } from 'src/sections/public/pages/news';
 // ----------------------------------------------------------------------
 
 export const metadata = {
-  title: 'News Details - Racklify',
+  title: 'News Details',
 };
 
 const NewsDetailsPage = ({ params }) => {

@@ -83,6 +83,7 @@ export const action = {
   disabledBackground: alpha(grey[500], 0.24),
   diamond: alpha(common.white, 0.65),
   focus: alpha(grey[500], 0.24),
+  hotrackBackground: alpha(secondary.main, 0.2),
   hoverOpacity: 0.08,
   disabledOpacity: 0.48,
 };

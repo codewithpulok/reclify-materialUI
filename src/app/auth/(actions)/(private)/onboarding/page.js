@@ -2,7 +2,7 @@ import { RoleBasedGuard } from 'src/redux-toolkit/features/auth/guard';
 import OnboardingView from 'src/sections/auth/onboarding/view';
 
 export const metadata = {
-  title: 'Complete Onboarding - Racklify',
+  title: 'Complete Onboarding',
 };
 
 const OnboardingPage = () => (

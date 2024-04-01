@@ -67,13 +67,9 @@ const PlanCard = (props) => {
 
     const difference = (plan.price || 0) - (plan.annualPrice || 0);
 
-    console.log({ difference });
-
     if (difference <= 0) return 0;
 
     const percent = (25 / plan.annualPrice) * 100;
-
-    console.log({ percent });
 
     return percent;
   }, [plan?.annualPrice, plan?.price, showAnnual]);
@@ -151,9 +147,7 @@ const PlanCard = (props) => {
 
   const renderFree = (
     <Stack minHeight={100}>
-      <Typography variant={isSm ? 'h4' : 'h3'} mb={2.3}>
-        Free
-      </Typography>
+      <Typography variant={isSm ? 'h4' : 'h3'}>Free</Typography>
     </Stack>
   );
   const renderPremium = (
@@ -212,20 +206,22 @@ const PlanCard = (props) => {
   const renderEnterpriseContact = (
     <Stack alignItems="start" spacing={1} minHeight={100}>
       {!href && (
-        <Button
-          LinkComponent={RouterLink}
-          href={`${paths.contact_us}/#FORM`}
-          color="primary"
-          variant="contained"
-          size={isSm ? 'small' : 'medium'}
-          fullWidth
-        >
-          Contact Us
-        </Button>
+        <>
+          <Button
+            LinkComponent={RouterLink}
+            href={`${paths.contact_us}/#FORM`}
+            color="primary"
+            variant="contained"
+            size={isSm ? 'small' : 'medium'}
+            fullWidth
+          >
+            Contact Us
+          </Button>
+          <Typography color="text.secondary" variant="body2">
+            A la Carte
+          </Typography>
+        </>
       )}
-      <Typography color="text.secondary" variant="body2">
-        A la Carte
-      </Typography>
     </Stack>
   );
   const renderEnterprise = showEnterprise ? renderPremium : renderEnterpriseContact;
@@ -290,7 +286,7 @@ const PlanCard = (props) => {
   );
 
   const renderAction = href && (
-    <Stack mt={4}>
+    <Stack mt={4} minHeight="70px">
       {href && (
         <>
           {free && (
@@ -319,16 +315,21 @@ const PlanCard = (props) => {
           )}
 
           {enterprise && (
-            <Button
-              LinkComponent={RouterLink}
-              href={`${paths.contact_us}/#FORM`}
-              color="primary"
-              variant="contained"
-              size="large"
-              fullWidth
-            >
-              Contact Us
-            </Button>
+            <>
+              <Button
+                LinkComponent={RouterLink}
+                href={`${paths.contact_us}/#FORM`}
+                color="primary"
+                variant="contained"
+                size="large"
+                fullWidth
+              >
+                Contact Us
+              </Button>
+              <Typography color="text.secondary" variant="body2">
+                A la Carte
+              </Typography>
+            </>
           )}
         </>
       )}

@@ -6,6 +6,7 @@ import { useCallback, useEffect, useMemo, useState } from 'react';
 import CustomBreadcrumbs from 'src/components/common/custom-breadcrumbs/custom-breadcrumbs';
 import { TransactionsUserTable } from 'src/components/common/custom-table';
 import { PLACEHOLDER_PROFILE_AVATAR, PLACEHOLDER_PROFILE_BANNER } from 'src/config-global';
+import { getServiceType } from 'src/constant/service-types';
 import useHash from 'src/hooks/use-hash';
 import useAppearance from 'src/redux-toolkit/features/appearance/use-appearance';
 import { selectAuth } from 'src/redux-toolkit/features/auth/authSlice';
@@ -17,6 +18,7 @@ import UserCover from '../../common/user-cover';
 import { ICONS } from '../../config-users';
 import DetailsHome from './details-home';
 import DetailsMembership from './details-membership';
+import DetailsServices from './details-services';
 import DetailsWarehouses from './details-warehouses';
 
 const Props = {
@@ -32,6 +34,7 @@ const DetailsContent = (props) => {
   const { user } = props;
   const { user: authUser } = useAppSelector(selectAuth);
   const hash = useHash();
+  const serviceType = getServiceType(user?.serviceType);
 
   const TABS = useMemo(
     () => [
@@ -160,7 +163,16 @@ const DetailsContent = (props) => {
           totalSales={user?.totalSales || 0}
         />
       )}
-      {currentTab === 'services' && <DetailsWarehouses warehouses={user?.warehouses || []} />}
+      {currentTab === 'services' && (
+        <>
+          {serviceType && serviceType.value === 'warehouse' && (
+            <DetailsWarehouses warehouses={user?.warehouses || []} />
+          )}
+          {serviceType && serviceType.value !== 'warehouse' && (
+            <DetailsServices services={user?.service ? [user.service] : []} />
+          )}
+        </>
+      )}
       {currentTab === 'membership' && (
         <DetailsMembership
           currentPlan={user?.membership?.currentPlan}

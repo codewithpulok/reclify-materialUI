@@ -1,6 +1,6 @@
 'use client';
 
-import { Grid, Stack, alpha } from '@mui/material';
+import { Grid, Stack } from '@mui/material';
 import Container from '@mui/material/Container';
 import { useCallback, useMemo } from 'react';
 // local components
@@ -88,20 +88,7 @@ export default function ListingView() {
         />
 
         <Grid container spacing={2}>
-          {renderWarehouses(
-            hotdeals,
-            'No hot deals available',
-            {
-              itemProps: {
-                contentSx: { bgcolor: (theme) => alpha(theme.palette.secondary.main, 0.2) },
-              },
-            },
-            {
-              itemProps: {
-                contentSx: { bgcolor: (theme) => alpha(theme.palette.secondary.main, 0.2) },
-              },
-            }
-          )}
+          {renderWarehouses(hotdeals, 'No hot deals available')}
         </Grid>
       </Stack>
 
