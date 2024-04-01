@@ -4,14 +4,14 @@ import { Button, Grid, Stack, Typography } from '@mui/material';
 import Container from '@mui/material/Container';
 import { useCallback, useMemo } from 'react';
 // local components
+import PropTypes from 'prop-types';
 import { usRegions } from 'src/assets/data';
 import CustomBreadcrumbs from 'src/components/common/custom-breadcrumbs';
-import { EmptyState, ErrorState } from 'src/components/common/custom-state';
+import { EmptyState } from 'src/components/common/custom-state';
 import { NextImage } from 'src/components/common/next-image';
 import { WarehouseCardSkeleton } from 'src/components/warehouse/cards';
 import { WarehouseCarousel, WarehouseFeaturedCarousel } from 'src/components/warehouse/carousel';
 import useAppearance from 'src/redux-toolkit/features/appearance/use-appearance';
-import { useWarehouseListQuery } from 'src/redux-toolkit/services/warehouseApi';
 import { RouterLink } from 'src/routes/components';
 import { paths } from 'src/routes/paths';
 import { ICONS } from '../config-warehouse';
@@ -28,36 +28,40 @@ export const icons = {
 
 // ----------------------------------------------------------------------
 
-export default function USListingView() {
+/**
+ * @param {USListingView.propTypes} props
+ * @returns {JSX.Element}
+ */
+const USListingView = (props) => {
+  const { warehouses } = props;
   const appearance = useAppearance();
 
-  const warehousesResponse = useWarehouseListQuery();
+  // warehouse based on region
+  const regionWarehouses = useMemo(
+    () =>
+      usRegions.reduce((prev, next) => {
+        prev[next.code] =
+          warehouses instanceof Array ? warehouses.filter((w) => w.region === next.code) : [];
+        return prev;
+      }, {}),
+    [warehouses]
+  );
 
   // render warehouses
   const renderWarehouses = useCallback(
-    (
-      warehouses = [],
-      notFoundText = 'No warehouses found',
-      errorText = 'Something went to wrong',
-      featuredProps = {}
-    ) => {
-      // error state
-      if (warehousesResponse.isError) {
-        return <ErrorState text={warehousesResponse?.error?.data?.message || errorText} />;
-      }
-
+    (data = [], notFoundText = 'No warehouses found', featuredProps = {}) => {
       // empty state
-      if (warehousesResponse.isSuccess && warehouses.length === 0) {
+      if (data.length === 0) {
         return <EmptyState text={notFoundText} icon={ICONS.warehouse()} />;
       }
 
       // success state
-      if (warehousesResponse.isSuccess && warehouses.length) {
+      if (data.length) {
         return (
           <Grid item xs={12}>
             <Stack spacing={5}>
-              <WarehouseFeaturedCarousel data={warehouses} {...featuredProps} />
-              <WarehouseCarousel data={warehouses} />
+              <WarehouseFeaturedCarousel data={data} {...featuredProps} />
+              <WarehouseCarousel data={data} />
             </Stack>
           </Grid>
         );
@@ -70,20 +74,7 @@ export default function USListingView() {
         </Grid>
       ));
     },
-    [warehousesResponse]
-  );
-
-  // warehouse based on region
-  const regionWarehouses = useMemo(
-    () =>
-      usRegions.reduce((prev, next) => {
-        prev[next.code] =
-          warehousesResponse?.data?.results instanceof Array
-            ? warehousesResponse.data?.results.filter((w) => w.region === next.code && w.visible)
-            : [];
-        return prev;
-      }, {}),
-    [warehousesResponse]
+    []
   );
 
   return (
@@ -126,4 +117,11 @@ export default function USListingView() {
       </Stack>
     </Container>
   );
-}
+};
+
+USListingView.propTypes = {
+  /** @type {Warehouse[]} */
+  warehouses: PropTypes.arrayOf(PropTypes.object),
+};
+
+export default USListingView;

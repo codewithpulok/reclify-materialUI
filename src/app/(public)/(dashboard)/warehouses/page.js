@@ -1,7 +1,7 @@
 import { notFound } from 'next/navigation';
 import Loading from 'src/app/loading';
 import { WarehousesListingView } from 'src/sections/public/dashboard/warehouses';
-import { getAllWarehouses } from 'src/utils/api/server/services/warehouse.api';
+import { getWarehouses } from 'src/utils/api/server/services/warehouse.api';
 
 export const metadata = {
   title: 'Warehouses Listing',
@@ -30,9 +30,7 @@ export const metadata = {
 };
 
 const WarehousesListingPage = async (props) => {
-  const warehouses = await getAllWarehouses();
-
-  // console.log({ warehouses });
+  const warehouses = await getWarehouses();
 
   if (warehouses.isError) notFound();
 

@@ -1,4 +1,7 @@
+import { notFound } from 'next/navigation';
+import Loading from 'src/app/loading';
 import { ServicesListingView } from 'src/sections/public/dashboard/services';
+import { getServices } from 'src/utils/api/server/services/service.api';
 
 export const metadata = {
   title: 'Services',
@@ -26,7 +29,15 @@ export const metadata = {
   ],
 };
 
-const ServicesListingPage = (props) => <ServicesListingView />;
+const ServicesListingPage = async () => {
+  const response = await getServices();
+
+  if (response.isError) notFound();
+
+  if (response.success) return <ServicesListingView services={response.results} />;
+
+  return <Loading />;
+};
 
 ServicesListingPage.propTypes = {};
 
