@@ -12,7 +12,7 @@ import { useMemo } from 'react';
 import Label from 'src/components/common/label';
 import Scrollbar from 'src/components/common/scrollbar';
 import { AmountDetailsCard, WarehouseDetailsCard } from 'src/components/user-settings/cards';
-import { UserDetailsCard } from 'src/components/users/cards';
+import { UserCard } from 'src/components/users/cards';
 import { getTransactionStatusColor, getTransactionStatusLabel } from 'src/constant/transaction';
 import { ICONS } from '../../icons';
 
@@ -57,10 +57,8 @@ const TransactionDetailsDialog = (props) => {
         <DialogContent>
           <Stack spacing={1.5}>
             {transaction?.warehouse && <WarehouseDetailsCard warehouse={transaction.warehouse} />}
-            {transaction?.seller && <UserDetailsCard user={transaction.seller} userType="seller" />}
-            {transaction?.customer && (
-              <UserDetailsCard user={transaction.customer} userType="customer" />
-            )}
+            {transaction?.seller && <UserCard user={transaction.seller} userType="seller" />}
+            {transaction?.customer && <UserCard user={transaction.customer} userType="customer" />}
             {transaction?.purchase && <AmountDetailsCard purchase={transaction?.purchase} />}
           </Stack>
         </DialogContent>

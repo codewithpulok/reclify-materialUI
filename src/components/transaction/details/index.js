@@ -13,7 +13,7 @@ import {
 } from 'src/components/common/custom-dialog';
 import Label from 'src/components/common/label';
 import { AmountDetailsCard, WarehouseDetailsCard } from 'src/components/user-settings/cards';
-import { UserDetailsCard } from 'src/components/users/cards';
+import { UserCard } from 'src/components/users/cards';
 import { getTransactionStatusColor, getTransactionStatusLabel } from 'src/constant/transaction';
 import { useDialog } from 'src/hooks/use-dialog';
 import useAppearance from 'src/redux-toolkit/features/appearance/use-appearance';
@@ -122,11 +122,9 @@ const TransactionDetails = (props) => {
           </Grid>
           <Grid item xs={5}>
             <Stack spacing={1.5}>
-              {transaction?.seller && (
-                <UserDetailsCard user={transaction.seller} userType="seller" />
-              )}
+              {transaction?.seller && <UserCard user={transaction.seller} userType="seller" />}
               {transaction?.customer && (
-                <UserDetailsCard user={transaction.customer} userType="customer" />
+                <UserCard user={transaction.customer} userType="customer" />
               )}
               {transaction?.purchase && <AmountDetailsCard purchase={transaction?.purchase} />}
             </Stack>

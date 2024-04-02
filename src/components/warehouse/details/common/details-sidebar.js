@@ -1,6 +1,6 @@
 import { Stack } from '@mui/material';
 import PropTypes from 'prop-types';
-import { UserDetailsCard } from 'src/components/users/cards';
+import { UserCard } from 'src/components/users/cards';
 import { selectAuth } from 'src/redux-toolkit/features/auth/authSlice';
 import { useAppSelector } from 'src/redux-toolkit/hooks';
 import DetailsAdditional from './details-additional';
@@ -29,9 +29,7 @@ const DetailsSidebar = (props) => {
   return (
     <Stack sx={sx} spacing={2}>
       {/* if this is seller own warehouse then don't show */}
-      {seller?.id !== user?.id ? (
-        <UserDetailsCard user={seller} userType="seller" showLogo />
-      ) : null}
+      {seller?.id !== user?.id ? <UserCard user={seller} userType="seller" showLogo /> : null}
       <WarehouseBooking
         warehouse={warehouse}
         showPurchase={user?.userType === 'customer' && warehouse?.regionScope !== 'global'}
