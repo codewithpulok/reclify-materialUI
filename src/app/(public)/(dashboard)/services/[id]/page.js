@@ -34,7 +34,9 @@ export const generateMetadata = async ({ params }) => {
 const ServicesDetailsPage = async ({ params }) => {
   const response = await getService(params.id);
 
-  if (response.isError) notFound();
+  if (response.statusCode === 404) return notFound();
+
+  if (response.isError) throw new Error(response.message);
 
   if (response.success) return <ServicesDetailsView service={response.results} />;
 

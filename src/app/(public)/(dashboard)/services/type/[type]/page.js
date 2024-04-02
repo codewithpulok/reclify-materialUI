@@ -26,7 +26,9 @@ const ServicesByTypePage = async (props) => {
   const { params } = props;
   const response = await getServices();
 
-  if (response.isError) notFound();
+  if (response.statusCode === 404) return notFound();
+
+  if (response.isError) throw new Error(response.message);
 
   if (response.success)
     return <ServicesTypeListingView serviceType={params.type} services={response.results} />;

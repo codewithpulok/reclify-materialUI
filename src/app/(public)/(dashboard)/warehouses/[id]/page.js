@@ -33,7 +33,9 @@ export const generateMetadata = async ({ params }) => {
 const WarehouseDetailsPage = async ({ params }) => {
   const response = await getWarehouse(params.id);
 
-  if (response.isError) return notFound();
+  if (response.statusCode === 404) return notFound();
+
+  if (response.isError) throw new Error(response.message);
 
   if (response.success) return <WarehousesDetailsView warehouse={response.results} />;
 

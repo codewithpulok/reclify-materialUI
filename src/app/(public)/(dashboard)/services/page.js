@@ -32,7 +32,9 @@ export const metadata = {
 const ServicesListingPage = async () => {
   const response = await getServices();
 
-  if (response.isError) notFound();
+  if (response.statusCode === 404) return notFound();
+
+  if (response.isError) throw new Error(response.message);
 
   if (response.success) return <ServicesListingView services={response.results} />;
 

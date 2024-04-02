@@ -30,11 +30,13 @@ export const metadata = {
 };
 
 const WarehousesListingPage = async (props) => {
-  const warehouses = await getWarehouses();
+  const response = await getWarehouses();
 
-  if (warehouses.isError) notFound();
+  if (response.statusCode === 404) return notFound();
 
-  if (warehouses.success) return <WarehousesListingView data={warehouses?.results || []} />;
+  if (response.isError) throw new Error(response.message);
+
+  if (response.success) return <WarehousesListingView data={response?.results || []} />;
 
   return <Loading />;
 };

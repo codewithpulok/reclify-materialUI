@@ -36,7 +36,9 @@ export const metadata = {
 const NewsPage = async (props) => {
   const response = await getPosts();
 
-  if (response.isError) notFound();
+  if (response.statusCode === 404) return notFound();
+
+  if (response.isError) throw new Error(response.message);
 
   if (response.success) return <NewsListingView news={response.results} />;
 

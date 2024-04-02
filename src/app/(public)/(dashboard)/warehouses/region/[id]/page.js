@@ -17,12 +17,14 @@ export const generateMetadata = ({ params }) => {
   return {};
 };
 
-const WarehouseMidwestPage = async ({ params }) => {
+const WarehouseRegionPage = async ({ params }) => {
   const region = getRegionByCode(params?.id);
 
   const response = await getWarehouses({ region: region.code });
 
-  if (region === undefined || response.isError) notFound();
+  if (region === undefined || response.statusCode === 404) notFound();
+
+  if (response.isError) throw new Error(response.message);
 
   if (response.success)
     return <WarehousesRegionView region={region} warehouses={response.results} />;
@@ -30,10 +32,10 @@ const WarehouseMidwestPage = async ({ params }) => {
   return <Loading />;
 };
 
-WarehouseMidwestPage.propTypes = {
+WarehouseRegionPage.propTypes = {
   params: {
     id: PropTypes.string,
   },
 };
 
-export default WarehouseMidwestPage;
+export default WarehouseRegionPage;

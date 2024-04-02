@@ -42,7 +42,9 @@ const NewsDetailsPage = async (props) => {
 
   const response = await getPost(params.id);
 
-  if (response.isError) notFound();
+  if (response.statusCode === 404) return notFound();
+
+  if (response.isError) throw new Error(response.message);
 
   if (response.success) return <NewsDetailsView post={response.results} />;
 

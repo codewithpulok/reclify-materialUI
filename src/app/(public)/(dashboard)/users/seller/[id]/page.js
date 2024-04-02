@@ -5,11 +5,13 @@ import { SellerDetailsView } from 'src/sections/public/dashboard/users';
 import { getUser } from 'src/utils/api/server/services/users.api';
 
 const SellerDetailsPage = async ({ params }) => {
-  const seller = await getUser(params.id);
+  const response = await getUser(params.id);
 
-  if (seller?.isError) return notFound();
+  if (response.statusCode === 404) return notFound();
 
-  if (seller?.success) return <SellerDetailsView user={seller?.results} />;
+  if (response.isError) throw new Error(response.message);
+
+  if (response?.success) return <SellerDetailsView user={response?.results} />;
 
   return <Loading />;
 };

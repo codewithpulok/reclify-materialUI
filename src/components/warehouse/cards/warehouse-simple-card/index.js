@@ -28,7 +28,7 @@ const WarehouseSimpleCard = (props) => {
 
   return (
     <Card sx={sx}>
-      <CardWrapper>
+      <CardWrapper warehouse={warehouse}>
         <Box width="100%" sx={{ position: 'relative' }}>
           <Image src={thumbnail} ratio="16/9" />
         </Box>
