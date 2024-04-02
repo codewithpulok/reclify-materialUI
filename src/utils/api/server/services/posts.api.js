@@ -2,7 +2,7 @@ import { endpoints } from '../endpoints';
 import { asyncWrapper } from '../helpers';
 
 /** @type {AsyncReturn<undefined, NewsType[]>} */
-export const getAllPosts = asyncWrapper(async () => {
+export const getPosts = asyncWrapper(async () => {
   const response = await fetch(endpoints.posts.root, {
     cache: 'no-cache',
   });
@@ -12,7 +12,7 @@ export const getAllPosts = asyncWrapper(async () => {
   return response.json();
 });
 
-/** @type {AsyncReturn<string, Warehouse>} */
+/** @type {AsyncReturn<string, NewsType>} */
 export const getPost = asyncWrapper(async (id) => {
   const response = await fetch(endpoints.posts.details(id), {
     cache: 'no-store',

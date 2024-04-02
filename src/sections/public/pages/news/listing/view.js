@@ -16,19 +16,22 @@ import { POST_SORT_OPTIONS } from 'src/_mock';
 import NewsPostList from 'src/components/news/details/common/news-list';
 import NewsFeatured from 'src/components/news/news-featured';
 
+import PropTypes from 'prop-types';
 import NewsSearch from 'src/components/news/news-search';
 import NewsSort from 'src/components/news/news-sort';
 import useAppearance from 'src/redux-toolkit/features/appearance/use-appearance';
-import { useBlogListQuery } from 'src/redux-toolkit/services/blogApi';
 import { paramCase } from 'src/utils/change-case';
 
 // ----------------------------------------------------------------------
 
-export default function NewsListingView() {
-  const appearance = useAppearance();
+/**
+ * @param {NewsListingView.propTypes} props
+ * @returns {JSX.Element}
+ */
 
-  // api states
-  const listResponse = useBlogListQuery();
+const NewsListingView = (props) => {
+  const { news } = props;
+  const appearance = useAppearance();
 
   // app states
   const [sortBy, setSortBy] = useState('latest');
@@ -36,7 +39,7 @@ export default function NewsListingView() {
   const debouncedQuery = useDebounce(searchQuery);
 
   const dataFiltered = applyFilter({
-    inputData: listResponse?.data?.results,
+    inputData: news,
     sortBy,
   });
 
@@ -49,11 +52,7 @@ export default function NewsListingView() {
   }, []);
 
   // featured news
-  const featuredNews = useMemo(
-    () =>
-      listResponse?.data?.results ? listResponse.data?.results?.filter((n) => n.isFeatured) : [],
-    [listResponse.data?.results]
-  );
+  const featuredNews = useMemo(() => (news ? news.filter((n) => n.isFeatured) : []), [news]);
 
   return (
     <Container maxWidth={appearance.themeStretch ? false : 'lg'}>
@@ -66,9 +65,7 @@ export default function NewsListingView() {
         Racklify News
       </Typography>
 
-      {!!featuredNews?.length && !listResponse.isLoading && (
-        <NewsFeatured list={featuredNews} sx={{ mb: { xs: 3, md: 5 } }} />
-      )}
+      {!!featuredNews?.length && <NewsFeatured list={featuredNews} sx={{ mb: { xs: 3, md: 5 } }} />}
 
       <Stack
         spacing={3}
@@ -88,10 +85,14 @@ export default function NewsListingView() {
         <NewsSort sort={sortBy} onSort={handleSortBy} sortOptions={POST_SORT_OPTIONS} />
       </Stack>
 
-      <NewsPostList posts={dataFiltered} loading={listResponse?.isLoading} />
+      <NewsPostList posts={dataFiltered} />
     </Container>
   );
-}
+};
+
+NewsListingView.propTypes = {
+  news: PropTypes.arrayOf(PropTypes.object),
+};
 
 // ----------------------------------------------------------------------
 
@@ -110,3 +111,5 @@ const applyFilter = ({ inputData, sortBy }) => {
 
   return inputData;
 };
+
+export default NewsListingView;

@@ -1,40 +1,22 @@
 'use client';
 
-import { notFound } from 'next/navigation';
 import PropTypes from 'prop-types';
 // local component
-import { ErrorState } from 'src/components/common/custom-state';
 import NewsDetails from 'src/components/news/details';
-import NewsDetailsSkeleton from 'src/components/news/details/details-skeleton';
-import { useBlogGetQuery } from 'src/redux-toolkit/services/blogApi';
-
-const Props = {
-  id: PropTypes.string.isRequired,
-};
 
 /**
- * @param {Props} props
+ * @param {NewsDetailsView.propTypes} props
  * @returns {JSX.Element}
  */
 const NewsDetailsView = (props) => {
-  const { id } = props;
-  const blogResponse = useBlogGetQuery(id);
+  const { post } = props;
 
-  // if error occured
-  if ((blogResponse.isError || blogResponse.data?.isError) && !blogResponse.isLoading)
-    return <ErrorState />;
-
-  // if there is no warehouse then show error
-  if (blogResponse.data?.statusCode === 404) notFound();
-
-  // on request success
-  if (blogResponse.isSuccess && blogResponse.data?.success) {
-    return <NewsDetails post={blogResponse.data?.results} />;
-  }
-
-  return <NewsDetailsSkeleton />;
+  return <NewsDetails post={post} />;
 };
 
-NewsDetailsView.propTypes = Props;
+NewsDetailsView.propTypes = {
+  /** @type {NewsType} */
+  post: PropTypes.object.isRequired,
+};
 
 export default NewsDetailsView;

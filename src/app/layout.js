@@ -12,6 +12,7 @@ import ProgressBar from 'src/components/common/progress-bar';
 import { SettingsDrawer } from 'src/components/common/settings';
 import InitAppearance from 'src/redux-toolkit/features/appearance/init-appearance';
 import Provider from 'src/redux-toolkit/provider';
+import { paths } from 'src/routes/paths';
 
 // ----------------------------------------------------------------------
 
@@ -49,6 +50,7 @@ export const metadata = {
     { rel: 'icon', type: 'image/png', sizes: '32x32', url: '/favicon/favicon-32x32.png' },
     { rel: 'apple-touch-icon', sizes: '180x180', url: '/favicon/apple-touch-icon.png' },
   ],
+  metadataBase: paths.website,
 };
 
 export default function RootLayout({ children }) {
