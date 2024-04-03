@@ -1,17 +1,12 @@
-import { Box, Card, CardActionArea, CardContent, Stack } from '@mui/material';
-import { useRouter } from 'next/navigation';
+import { Box, Card, CardContent, Stack } from '@mui/material';
 import PropTypes from 'prop-types';
-// redux
-import { selectAuth } from 'src/redux-toolkit/features/auth/authSlice';
-import { useAppSelector } from 'src/redux-toolkit/hooks';
-// routes
-import { paths } from 'src/routes/paths';
 // local components
 import Image from 'src/components/common/image';
 // utils
 import TextMaxLine from 'src/components/common/text-max-line';
 import { joinAddressObj } from 'src/utils/address';
 import { getPrimaryPhoto } from 'src/utils/photos';
+import CardWrapper from './card-wrapper';
 
 const Props = {
   /** @type {Warehouse} */
@@ -27,27 +22,13 @@ const Props = {
  */
 
 const WarehouseSimpleCard = (props) => {
-  const {
-    warehouse,
+  const { warehouse, sx, contentSx } = props;
 
-    sx,
-    contentSx,
-  } = props;
-
-  const router = useRouter();
-  const { isAuthenticated } = useAppSelector(selectAuth);
   const thumbnail = getPrimaryPhoto(warehouse?.photos);
-
-  const detailsPath = isAuthenticated
-    ? paths.dashboard.warehouses.details(warehouse?.id)
-    : paths.warehouses.details(warehouse?.id);
 
   return (
     <Card sx={sx}>
-      <CardActionArea
-        sx={{ bgcolor: 'background.neutral' }}
-        onClick={() => router.push(detailsPath)}
-      >
+      <CardWrapper warehouse={warehouse}>
         <Box width="100%" sx={{ position: 'relative' }}>
           <Image src={thumbnail} ratio="16/9" />
         </Box>
@@ -61,7 +42,7 @@ const WarehouseSimpleCard = (props) => {
             </TextMaxLine>
           </Stack>
         </CardContent>
-      </CardActionArea>
+      </CardWrapper>
     </Card>
   );
 };

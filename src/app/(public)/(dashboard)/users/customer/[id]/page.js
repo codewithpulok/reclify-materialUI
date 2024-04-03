@@ -5,11 +5,13 @@ import { CustomerDetailsView } from 'src/sections/public/dashboard/users';
 import { getUser } from 'src/utils/api/server/services/users.api';
 
 const CustomerDetailsPage = async ({ params }) => {
-  const customer = await getUser(params.id);
+  const response = await getUser(params.id);
 
-  if (customer.isError) return notFound();
+  if (response.statusCode === 404) return notFound();
 
-  if (customer.success) return <CustomerDetailsView user={customer.results} />;
+  if (response.isError) throw new Error(response.message);
+
+  if (response.success) return <CustomerDetailsView user={response.results} />;
 
   return <Loading />;
 };

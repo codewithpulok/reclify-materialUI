@@ -21,13 +21,14 @@
  * @typedef {Object} ErrorResponse
  * @property {boolean} isError - indicate error response
  * @property {number} statusCode - status code for the response
- * @property {any} message - message for the response
+ * @property {string} message - message for the response
+ * @property {undefined} results
  */
 
 /**
  * Client response type
- * @template RESULTS
- * @typedef {SuccessResponse<RESULTS>|ErrorResponse} ClientResponse
+ * @template R
+ * @typedef {SuccessResponse<R> | ErrorResponse} ClientResponse
  */
 
 /**

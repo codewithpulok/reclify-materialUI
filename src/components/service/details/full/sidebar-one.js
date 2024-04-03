@@ -1,6 +1,6 @@
 import { Stack } from '@mui/material';
 import PropTypes from 'prop-types';
-import { UserDetailsCard } from 'src/components/users/cards';
+import { UserCard } from 'src/components/users/cards';
 import ServiceInfo from '../common/service-info';
 import ServicePromo from '../common/service-promo';
 
@@ -20,7 +20,7 @@ const SidebarOne = (props) => {
 
   return (
     <Stack spacing={2}>
-      {!!seller && <UserDetailsCard user={seller} />}
+      {!!seller && <UserCard user={seller} />}
       <ServiceInfo service={service} />
       <ServicePromo service={service} />
     </Stack>

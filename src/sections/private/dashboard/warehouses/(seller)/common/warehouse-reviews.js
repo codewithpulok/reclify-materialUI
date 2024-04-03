@@ -5,7 +5,7 @@ import { useCallback } from 'react';
 import { useFormContext } from 'react-hook-form';
 import { EmptyState } from 'src/components/common/custom-state';
 import { RHFAccordion } from 'src/components/common/hook-form';
-import { WarehouseReviewCard } from 'src/components/warehouse/cards';
+import { ReviewCard } from 'src/components/review/cards';
 import { useAddressGoogleReviewsMutation } from 'src/redux-toolkit/services/addressApi';
 import { checkValidAddress, joinAddressObj } from 'src/utils/address';
 import { ICONS } from '../../config-warehouse';
@@ -67,7 +67,7 @@ const WarehouseReviews = (props) => {
         {reviews?.length ? (
           <Stack spacing={3.5}>
             {[...reviews].slice(0, 5).map((review) => (
-              <WarehouseReviewCard
+              <ReviewCard
                 key={review.id}
                 avatar={review.userData?.avatar}
                 createdAt={review?.createdAt}

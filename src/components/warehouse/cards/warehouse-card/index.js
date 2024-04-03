@@ -1,34 +1,16 @@
-import {
-  Avatar,
-  Box,
-  Card,
-  CardActionArea,
-  CardContent,
-  IconButton,
-  Skeleton,
-  Stack,
-  Tooltip,
-  Typography,
-} from '@mui/material';
-import { useRouter } from 'next/navigation';
+import { Avatar, Box, Card, CardContent, Stack, Tooltip } from '@mui/material';
 import PropTypes from 'prop-types';
-// redux
-import { selectAuth } from 'src/redux-toolkit/features/auth/authSlice';
-import { useAppSelector } from 'src/redux-toolkit/hooks';
-// routes
-import { paths } from 'src/routes/paths';
 // local components
 import Image from 'src/components/common/image';
 import Label from 'src/components/common/label';
 // utils
 import TextMaxLine from 'src/components/common/text-max-line';
-import { RouterLink } from 'src/routes/components';
 import { joinAddressObj } from 'src/utils/address';
 import { getPrimaryPhoto } from 'src/utils/photos';
-import WarehouseAdminMenu from '../common/warehouse-admin-menu';
-import WarehouseDiamond from '../common/warehouse-diamond';
-import { ICONS } from '../config-warehouse';
-import { getWarehouseDiscount } from '../utills';
+import { ICONS } from '../../config-warehouse';
+import { getWarehouseDiscount } from '../../utills';
+import CardActions from './card-actions';
+import CardWrapper from './card-wrapper';
 
 const Props = {
   /** @type {Warehouse} */
@@ -43,7 +25,6 @@ const Props = {
   contentSx: PropTypes.object,
   /** @type {'sm' | 'md'} */
   size: PropTypes.string,
-  glow: PropTypes.bool,
 };
 
 /**
@@ -52,34 +33,15 @@ const Props = {
  */
 
 const WarehouseCard = (props) => {
-  const {
-    warehouse,
-    onDelete = () => {},
-    hasControl = false,
-    sx = {},
-    contentSx = {},
-    size,
-    glow = false,
-  } = props;
+  const { warehouse, onDelete, hasControl, sx, contentSx, size } = props;
 
-  const router = useRouter();
-  const { isAuthenticated, user } = useAppSelector(selectAuth);
   const thumbnail = getPrimaryPhoto(warehouse?.photos);
-
-  const detailsPath = isAuthenticated
-    ? paths.dashboard.warehouses.details(warehouse?.id)
-    : paths.warehouses.details(warehouse?.id);
-
   const isSm = size === 'sm';
-
   const discountRate = Math.ceil(getWarehouseDiscount(warehouse) || 0);
 
   return (
-    <Card className={`card ${glow ? 'glow' : ''}`} sx={sx}>
-      <CardActionArea
-        sx={{ bgcolor: 'background.neutral' }}
-        onClick={() => router.push(detailsPath)}
-      >
+    <Card className="card" sx={sx}>
+      <CardWrapper warehouse={warehouse}>
         <Box width="100%" sx={{ position: 'relative' }}>
           <Image src={thumbnail} ratio="16/9" />
         </Box>
@@ -151,7 +113,7 @@ const WarehouseCard = (props) => {
             </Stack>
           </Stack>
         </CardContent>
-      </CardActionArea>
+      </CardWrapper>
       {/* Featured Badge */}
       {warehouse.isFeatured ? (
         <Tooltip title="Featured" placement="right" arrow>
@@ -173,78 +135,8 @@ const WarehouseCard = (props) => {
           </Stack>
         </Tooltip>
       ) : null}
-      <Stack
-        sx={{
-          position: 'absolute',
-          top: 5,
-          right: 4,
-          flexDirection: 'row',
-          alignItems: 'center',
-          gap: 0.5,
-        }}
-      >
-        {/* if diamond not exist then, hide this for everyone except admin */}
-        {(!!warehouse?.diamond || user?.userType === 'admin') && (
-          <Box
-            sx={{
-              bgcolor: 'action.diamond',
-              borderRadius: 3,
-              transition: '0.3s',
-              display: 'flex',
-              alignItems: 'center',
-              py: 0.5,
-              px: 0.5,
-            }}
-          >
-            <WarehouseDiamond
-              id={warehouse.id}
-              value={warehouse?.diamond || 0}
-              size={isSm ? 18 : 22}
-              action={user?.userType === 'admin'}
-            />
-          </Box>
-        )}
 
-        {/* if seller user has access to the operation then show controls */}
-        {hasControl && (
-          <Box sx={{ bgcolor: 'grey.100', borderRadius: 5, transition: '0.3s' }}>
-            <IconButton
-              size="small"
-              color="primary"
-              LinkComponent={RouterLink}
-              href={paths.dashboard.warehouses.clone(warehouse?.id)}
-            >
-              {ICONS.duplicate()}
-            </IconButton>
-
-            <IconButton
-              size="small"
-              color="warning"
-              LinkComponent={RouterLink}
-              href={paths.dashboard.warehouses.edit(warehouse?.id)}
-            >
-              {ICONS.edit()}
-            </IconButton>
-
-            {!!onDelete && (
-              <IconButton size="small" color="error" onClick={() => onDelete(warehouse)}>
-                {ICONS.delete()}
-              </IconButton>
-            )}
-          </Box>
-        )}
-
-        {user?.userType === 'admin' && (
-          <Box sx={{ bgcolor: 'rgba(255,255,255,1)', borderRadius: 5 }}>
-            <WarehouseAdminMenu
-              warehouse={warehouse}
-              id={warehouse?.id}
-              iconWidth={18}
-              iconBtnProps={{ color: 'primary', sx: { p: isSm ? 0.5 : undefined } }}
-            />
-          </Box>
-        )}
-      </Stack>
+      <CardActions hasControl={hasControl} isSm={isSm} onDelete={onDelete} warehouse={warehouse} />
     </Card>
   );
 };
@@ -252,31 +144,3 @@ const WarehouseCard = (props) => {
 WarehouseCard.propTypes = Props;
 
 export default WarehouseCard;
-
-// Seketon
-export const WarehouseCardSkeleton = () => (
-  <Card>
-    <Skeleton width="100%" variant="rounded">
-      <Image ratio="16/9" />
-    </Skeleton>
-
-    <CardContent>
-      <Typography gutterBottom variant="h5">
-        <Skeleton />
-      </Typography>
-      <Typography
-        variant="body2"
-        color="text.secondary"
-        sx={{
-          overflow: 'hidden',
-          textOverflow: 'ellipsis',
-          display: '-webkit-box',
-          WebkitLineClamp: '1',
-          WebkitBoxOrient: 'vertical',
-        }}
-      >
-        <Skeleton />
-      </Typography>
-    </CardContent>
-  </Card>
-);

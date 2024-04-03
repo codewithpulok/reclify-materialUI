@@ -1,4 +1,7 @@
+import { notFound } from 'next/navigation';
+import Loading from 'src/app/loading';
 import { NewsListingView } from 'src/sections/public/pages/news';
+import { getPosts } from 'src/utils/api/server/services/posts.api';
 
 export const metadata = {
   title: 'News',
@@ -26,6 +29,22 @@ export const metadata = {
   ],
 };
 
-const NewsPage = () => <NewsListingView />;
+/**
+ * @param {NewsPage.propTypes} props
+ * @returns {JSX.Element}
+ */
+const NewsPage = async (props) => {
+  const response = await getPosts();
+
+  if (response.statusCode === 404) return notFound();
+
+  if (response.isError) throw new Error(response.message);
+
+  if (response.success) return <NewsListingView news={response.results} />;
+
+  return <Loading />;
+};
+
+NewsPage.propTypes = {};
 
 export default NewsPage;

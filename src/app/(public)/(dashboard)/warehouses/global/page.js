@@ -34,7 +34,9 @@ export const metadata = {
 const WarehousesGlobalListingPage = async () => {
   const response = await getWarehouses({ regionScope: 'global' });
 
-  if (response.isError) return notFound();
+  if (response.statusCode === 404) return notFound();
+
+  if (response.isError) throw new Error(response.message);
 
   if (response.success) return <WarehouseGlobalListingView warehouses={response.results} />;
 

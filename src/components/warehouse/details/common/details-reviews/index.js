@@ -5,8 +5,8 @@ import PropTypes from 'prop-types';
 import { useMemo, useState } from 'react';
 // local components
 import { EmptyState } from 'src/components/common/custom-state';
+import { ReviewCard } from 'src/components/review/cards';
 import { WarehouseDetailsBox } from 'src/components/warehouse/box';
-import { WarehouseReviewCard } from 'src/components/warehouse/cards';
 import { useBoolean } from 'src/hooks/use-boolean';
 import { useDialog } from 'src/hooks/use-dialog';
 import usePagination from 'src/hooks/use-pagination';
@@ -107,7 +107,7 @@ const DetailsReviews = (props) => {
           <>
             <Stack spacing={3.5}>
               {currentData.map((review) => (
-                <WarehouseReviewCard
+                <ReviewCard
                   key={review.id}
                   avatar={review.userData?.avatar}
                   createdAt={review?.createdAt}
@@ -117,12 +117,16 @@ const DetailsReviews = (props) => {
                     `${review.userData?.firstName} ${review.userData?.lastName}`
                   }
                   rating={review.rating}
-                  showDeleteOption={
+                  onDelete={
                     auth?.user?.userType === 'admin' || auth?.user?.id === review?.userData?.id
+                      ? () => deleteDialog.onOpen(review)
+                      : undefined
                   }
-                  showEditOption={auth?.user?.id === review?.userData?.id}
-                  onDelete={() => deleteDialog.onOpen(review)}
-                  onEdit={() => editDialog.onOpen(review)}
+                  onEdit={
+                    auth?.user?.id === review?.userData?.id
+                      ? () => editDialog.onOpen(review)
+                      : undefined
+                  }
                 />
               ))}
             </Stack>

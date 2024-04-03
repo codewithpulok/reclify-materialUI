@@ -32,7 +32,9 @@ export const metadata = {
 const HotDealsPage = async () => {
   const response = await getWarehouses({ hasDiscount: true });
 
-  if (response.isError) return notFound();
+  if (response.statusCode === 404) return notFound();
+
+  if (response.isError) throw new Error(response.message);
 
   if (response.success) return <WarehousesHotDealsView warehouses={response.results} />;
 

@@ -1,22 +1,10 @@
-import {
-  Avatar,
-  Box,
-  Card,
-  CardActionArea,
-  IconButton,
-  MenuItem,
-  Stack,
-  Tooltip,
-  Typography,
-} from '@mui/material';
-import { useRouter } from 'next/navigation';
+import { Avatar, Box, Card, Stack, Tooltip, Typography } from '@mui/material';
 import PropTypes from 'prop-types';
-import CustomPopover, { usePopover } from 'src/components/common/custom-popover';
 import { PLACEHOLDER_PROFILE_AVATAR } from 'src/config-global';
-import useAdminPath from 'src/hooks/use-admin-path';
-import { paths } from 'src/routes/paths';
 import { fShortenNumber } from 'src/utils/format-number';
-import { ICONS } from '../config-users';
+import { ICONS } from '../../config-users';
+import CardActions from './card-actions';
+import CardWrapper from './card-wrapper';
 
 const Props = {
   /** @type {User} */
@@ -32,37 +20,14 @@ const Props = {
  */
 const SellerCard = (props) => {
   const { user, serviceCount, onVerify, onUnverify } = props;
-  const router = useRouter();
-  const popover = usePopover();
+
   const showActions = !!onVerify || !!onUnverify;
-
-  const sellerPath = useAdminPath(paths.dashboard.users.seller, paths.users.seller);
   const avatar = user?.avatar || PLACEHOLDER_PROFILE_AVATAR;
-
   const isServiceSeller = user?.serviceType !== 'warehouse';
-
-  const renderMenu = (
-    <CustomPopover
-      open={popover.open}
-      onClose={popover.onClose}
-      arrow="top-right"
-      sx={{ width: 150 }}
-    >
-      {onVerify && !user?.isVerified && (
-        <MenuItem onClick={() => onVerify(user)}>Verify Seller</MenuItem>
-      )}
-      {onUnverify && user?.isVerified && (
-        <MenuItem onClick={() => onUnverify(user)}>Unverify Seller</MenuItem>
-      )}
-    </CustomPopover>
-  );
 
   return (
     <Card sx={{ borderRadius: 1 }}>
-      <CardActionArea
-        onClick={() => router.push(sellerPath(user.id))}
-        sx={{ minHeight: '100%', px: { xs: 1, sm: 1.5 }, py: { xs: 1, sm: 1.2 } }}
-      >
+      <CardWrapper user={user}>
         <Stack direction="row" spacing={1.5} mb={2} alignItems="center">
           <Box>
             <Avatar
@@ -107,17 +72,9 @@ const SellerCard = (props) => {
             </Typography>
           </Stack>
         </Stack>
-      </CardActionArea>
+      </CardWrapper>
 
-      {showActions && (
-        <Stack direction="row" justifyContent="end" sx={{ position: 'absolute', top: 5, right: 5 }}>
-          <IconButton size="small" onClick={popover.onOpen}>
-            {ICONS.settings()}
-          </IconButton>
-        </Stack>
-      )}
-
-      {renderMenu}
+      {showActions && <CardActions onUnverify={onUnverify} onVerify={onVerify} user={user} />}
     </Card>
   );
 };

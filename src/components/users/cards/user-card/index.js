@@ -4,11 +4,12 @@ import PropTypes from 'prop-types';
 import { socialsBrands } from 'src/assets/data';
 import { getIconify } from 'src/components/common/iconify/utilities';
 import Label from 'src/components/common/label';
-import useAdminPath from 'src/hooks/use-admin-path';
 import { RouterLink } from 'src/routes/components';
 import { paths } from 'src/routes/paths';
 import formatPhone from 'src/utils/format-phone';
-import { ICONS } from '../config-users';
+import { removeProtocol } from 'src/utils/format-url';
+import { ICONS } from '../../config-users';
+import ProfileBtn from './profile-btn';
 
 const Props = {
   /** @type {User} */
@@ -23,11 +24,10 @@ const Props = {
  * @param {Props} props
  * @returns {JSX.Element}
  */
-const UserDetailsCard = (props) => {
+const UserCard = (props) => {
   const { user, sx, userType } = props;
 
   const type = userType || user?.userType;
-  const userPath = useAdminPath(paths.dashboard.users[type], paths.users[type]);
 
   return (
     <Card
@@ -118,7 +118,7 @@ const UserDetailsCard = (props) => {
               href={user.website}
               onClick={(e) => e.stopPropagation()}
             >
-              {user?.website}
+              {removeProtocol(user.website)}
             </Link>
           </Stack>
         )}
@@ -142,24 +142,13 @@ const UserDetailsCard = (props) => {
             })}
           </Stack>
 
-          <Link
-            component={RouterLink}
-            sx={{ width: { xs: '100%', sm: 'auto' } }}
-            href={userPath(user?.id)}
-          >
-            <Chip
-              sx={{ width: { xs: '100%', sm: 'auto' } }}
-              label=" Visit profile"
-              color="primary"
-              clickable
-            />
-          </Link>
+          <ProfileBtn type={type} user={user} />
         </Stack>
       </Stack>
     </Card>
   );
 };
 
-UserDetailsCard.propTypes = Props;
+UserCard.propTypes = Props;
 
-export default UserDetailsCard;
+export default UserCard;

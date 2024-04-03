@@ -1,6 +1,6 @@
 import InitAuth from 'src/redux-toolkit/features/auth/init-auth';
 import HomeView from 'src/sections/public/pages/home/view';
-import { getAllPlans } from 'src/utils/api/server/services/plans.api';
+import { getPlans } from 'src/utils/api/server/services/plans.api';
 // ----------------------------------------------------------------------
 
 /** @type {import('next').Metadata} */
@@ -12,7 +12,7 @@ export const metadata = {
 };
 
 export default async function HomePage() {
-  const plans = await getAllPlans();
+  const plans = await getPlans();
 
   return (
     <InitAuth>
