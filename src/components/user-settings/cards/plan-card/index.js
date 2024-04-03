@@ -35,6 +35,7 @@ const Props = {
   showAnnual: PropTypes.bool,
   isStatic: PropTypes.bool,
   annualPlan: PropTypes.bool,
+  hideCurrent: PropTypes.bool,
 };
 
 // ----------------------------------------------------------------------
@@ -58,6 +59,7 @@ const PlanCard = (props) => {
     href,
     isStatic = true,
     annualPlan,
+    hideCurrent,
   } = props;
 
   const currentPrice = showAnnual || (annualPlan && isCurrent) ? plan?.annualPrice : plan?.price;
@@ -87,7 +89,7 @@ const PlanCard = (props) => {
           Popular
         </Label>
       )}
-      {isCurrent && (
+      {isCurrent && !hideCurrent && (
         <Label color="info" startIcon={ICONS.current()}>
           Current
         </Label>
