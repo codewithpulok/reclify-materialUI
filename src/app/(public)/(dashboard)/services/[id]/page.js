@@ -4,6 +4,8 @@ import Loading from 'src/app/loading';
 import { ServicesDetailsView } from 'src/sections/public/dashboard/services';
 import { joinAddressObj } from 'src/utils/address';
 import { getService } from 'src/utils/api/server/services/service.api';
+import { fDate, fTime } from 'src/utils/format-time';
+import { getPrimaryPhoto } from 'src/utils/photos';
 
 /**
  *
@@ -20,6 +22,14 @@ export const generateMetadata = async ({ params }) => {
       other: {
         'geo.region': response?.results?.region,
         'geo.placename': joinAddressObj(response?.results?.address),
+      },
+      openGraph: {
+        type: 'article',
+        title: response?.results?.name,
+        description: response?.results?.description,
+        images: getPrimaryPhoto(response?.results?.photos),
+        releaseDate: fDate(response?.results?.createdAt),
+        publishedTime: fTime(response?.results?.createdAt),
       },
     };
   }
