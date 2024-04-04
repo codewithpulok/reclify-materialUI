@@ -1,6 +1,7 @@
 import { Stack } from '@mui/material';
 import PropTypes from 'prop-types';
 // local components
+import { ReviewList } from 'src/components/review/lists';
 import { useResponsive } from 'src/hooks/use-responsive';
 import { selectAuth } from 'src/redux-toolkit/features/auth/authSlice';
 import { useAppSelector } from 'src/redux-toolkit/hooks';
@@ -9,7 +10,6 @@ import WarehouseDescription from './details-description';
 import WarehouseFacilities from './details-facilities';
 import WarehouseFeatures from './details-features';
 import WarehouseHighlights from './details-highlights';
-import WarehouseReviews from './details-reviews';
 import WarehouseDetailsSidebar from './details-sidebar';
 import ImageCarousel from './image-carousel';
 
@@ -52,7 +52,7 @@ const DetailsMain = (props) => {
       <WarehouseFacilities facilityDetails={warehouse.facilityDetails} />
 
       {mdDown && (
-        <WarehouseReviews
+        <ReviewList
           reviews={reviews}
           canAddNewReview={user && user.userType === 'customer'}
           warehouseId={warehouse.id}

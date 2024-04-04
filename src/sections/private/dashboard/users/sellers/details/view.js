@@ -4,8 +4,8 @@ import { notFound } from 'next/navigation';
 import PropTypes from 'prop-types';
 import { ErrorState } from 'src/components/common/custom-state';
 import { LoadingScreen } from 'src/components/common/loading-screen';
+import { SellerPrivateDetails } from 'src/components/users/details';
 import { useGetUserQuery } from 'src/redux-toolkit/services/adminApi';
-import DetailsContent from './details-content';
 
 const Props = {
   id: PropTypes.string.isRequired,
@@ -27,7 +27,7 @@ const SellerDetailsView = (props) => {
 
   // on request success
   if (userResponse.isSuccess && userResponse.data?.success) {
-    return <DetailsContent user={userResponse.data.results} />;
+    return <SellerPrivateDetails user={userResponse.data.results} />;
   }
 
   return <LoadingScreen />;
