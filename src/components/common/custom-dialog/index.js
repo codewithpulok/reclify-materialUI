@@ -58,3 +58,8 @@ export { default as AddressDeleteDialog } from './address/delete-dialog';
 // user
 export { default as SellerUnverifyDialog } from './user/seller-unverify-dialog';
 export { default as SellerVerifyDialog } from './user/seller-verify-dialog';
+
+// review dialog
+export { default as ReviewCreateDialog } from './review/review-create';
+export { default as ReviewDeleteDialog } from './review/review-delete';
+export { default as ReviewEditDialog } from './review/review-edit';

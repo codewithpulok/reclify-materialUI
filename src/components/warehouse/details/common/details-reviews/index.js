@@ -4,6 +4,11 @@ import { Button, MenuItem, Pagination, Select, Stack, SvgIcon } from '@mui/mater
 import PropTypes from 'prop-types';
 import { useMemo, useState } from 'react';
 // local components
+import {
+  ReviewCreateDialog,
+  ReviewDeleteDialog,
+  ReviewEditDialog,
+} from 'src/components/common/custom-dialog';
 import { EmptyState } from 'src/components/common/custom-state';
 import { ReviewCard } from 'src/components/review/cards';
 import { WarehouseDetailsBox } from 'src/components/warehouse/box';
@@ -13,9 +18,6 @@ import usePagination from 'src/hooks/use-pagination';
 import { selectAuth } from 'src/redux-toolkit/features/auth/authSlice';
 import { useAppSelector } from 'src/redux-toolkit/hooks';
 import { ICONS } from '../../../../../sections/private/dashboard/warehouses/config-warehouse';
-import ReviewCreate from './review-create';
-import ReviewDelete from './review-delete';
-import ReviewEdit from './review-edit';
 
 const Props = {
   /** @type {Review[]} */
@@ -148,18 +150,18 @@ const DetailsReviews = (props) => {
         )}
       </WarehouseDetailsBox>
 
-      <ReviewCreate
+      <ReviewCreateDialog
         warehouseId={warehouseId}
         open={createDialog.value}
         onClose={createDialog.onFalse}
       />
-      <ReviewEdit
+      <ReviewEditDialog
         warehouseId={warehouseId}
         open={editDialog.open}
         onClose={editDialog.onClose}
         review={editDialog.value}
       />
-      <ReviewDelete
+      <ReviewDeleteDialog
         open={deleteDialog.open}
         onClose={deleteDialog.onClose}
         review={deleteDialog.value}

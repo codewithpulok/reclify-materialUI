@@ -5,15 +5,8 @@ import { useCallback } from 'react';
 import { ConfirmDialog } from 'src/components/common/custom-dialog';
 import { useReviewDeleteMutation } from 'src/redux-toolkit/services/reviewApi';
 
-const Props = {
-  open: PropTypes.bool.isRequired,
-  onClose: PropTypes.func.isRequired,
-  /** @type {Review | undefined} */
-  review: PropTypes.object,
-};
-
 /**
- * @param {Props} props
+ * @param {ReviewDelete.propTypes} props
  * @returns {JSX.Element}
  */
 const ReviewDelete = (props) => {
@@ -61,6 +54,11 @@ const ReviewDelete = (props) => {
   );
 };
 
-ReviewDelete.propTypes = Props;
+ReviewDelete.propTypes = {
+  open: PropTypes.bool.isRequired,
+  onClose: PropTypes.func.isRequired,
+  /** @type {Review | undefined} */
+  review: PropTypes.object,
+};
 
 export default ReviewDelete;
