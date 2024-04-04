@@ -11,4 +11,6 @@ export const ICONS = {
   verified: getIconifyFunc('solar:verified-check-bold'),
 
   settings: getIconifyFunc('solar:settings-bold'),
+
+  profile: getIconifyFunc('solar:user-id-bold'),
 };
