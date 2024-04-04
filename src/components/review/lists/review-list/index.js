@@ -1,45 +1,30 @@
 'use client';
 
-import { Button, MenuItem, Pagination, Select, Stack, SvgIcon } from '@mui/material';
+import { MenuItem, Pagination, Select, Stack, SvgIcon } from '@mui/material';
 import PropTypes from 'prop-types';
 import { useMemo, useState } from 'react';
 // local components
-import {
-  ReviewCreateDialog,
-  ReviewDeleteDialog,
-  ReviewEditDialog,
-} from 'src/components/common/custom-dialog';
+import { ReviewDeleteDialog, ReviewEditDialog } from 'src/components/common/custom-dialog';
 import { EmptyState } from 'src/components/common/custom-state';
 import { ReviewCard } from 'src/components/review/cards';
 import { WarehouseDetailsBox } from 'src/components/warehouse/box';
-import { useBoolean } from 'src/hooks/use-boolean';
 import { useDialog } from 'src/hooks/use-dialog';
 import usePagination from 'src/hooks/use-pagination';
 import { selectAuth } from 'src/redux-toolkit/features/auth/authSlice';
 import { useAppSelector } from 'src/redux-toolkit/hooks';
-import { ICONS } from '../../../../../sections/private/dashboard/warehouses/config-warehouse';
-
-const Props = {
-  /** @type {Review[]} */
-  reviews: PropTypes.arrayOf(PropTypes.object),
-  warehouseId: PropTypes.string,
-  canAddNewReview: PropTypes.bool.isRequired,
-  /** @type {SxProps} */
-  sx: PropTypes.object,
-};
+import { ICONS } from '../../config';
+import CreateBtn from './create-btn';
 
 /**
- * List of warehouse reviews
- * @param {Props} props
+ * @param {ReviewList.propTypes} props
  * @returns {React.JSX.Element}
  */
-const DetailsReviews = (props) => {
+const ReviewList = (props) => {
   const { reviews, sx, canAddNewReview, warehouseId } = props;
   const [sortType, setSortType] = useState('DEFAULT'); // NEW_FIRST, OLD_FIRST, DEFAULT
   const auth = useAppSelector(selectAuth);
 
   // dialog state
-  const createDialog = useBoolean(false);
   const editDialog = useDialog();
   const deleteDialog = useDialog();
 
@@ -87,21 +72,7 @@ const DetailsReviews = (props) => {
               <MenuItem value="OLD_FIRST">Most Old</MenuItem>
             </Select>
 
-            {canAddNewReview && (
-              <Button
-                variant="contained"
-                color="primary"
-                sx={{
-                  width: {
-                    xs: '100%',
-                    sm: 'auto',
-                  },
-                }}
-                onClick={createDialog.onTrue}
-              >
-                Add New
-              </Button>
-            )}
+            {canAddNewReview && <CreateBtn warehouseId={warehouseId} />}
           </>
         }
       >
@@ -133,28 +104,21 @@ const DetailsReviews = (props) => {
               ))}
             </Stack>
 
-            {!!totalPages && (
-              <Stack direction="row" justifyContent="center" mt={7} mb={2}>
-                <Pagination
-                  count={totalPages}
-                  color="primary"
-                  size="small"
-                  page={currentPage}
-                  onChange={(_e, page) => goTo(page)}
-                />
-              </Stack>
-            )}
+            <Stack direction="row" justifyContent="center" mt={7} mb={2}>
+              <Pagination
+                count={totalPages}
+                color="primary"
+                size="small"
+                page={currentPage}
+                onChange={(_e, page) => goTo(page)}
+              />
+            </Stack>
           </>
         ) : (
           <EmptyState icon={ICONS.review()} text="no reviews yet" />
         )}
       </WarehouseDetailsBox>
 
-      <ReviewCreateDialog
-        warehouseId={warehouseId}
-        open={createDialog.value}
-        onClose={createDialog.onFalse}
-      />
       <ReviewEditDialog
         warehouseId={warehouseId}
         open={editDialog.open}
@@ -170,6 +134,13 @@ const DetailsReviews = (props) => {
   );
 };
 
-DetailsReviews.propTypes = Props;
+ReviewList.propTypes = {
+  /** @type {Review[]} */
+  reviews: PropTypes.arrayOf(PropTypes.object),
+  warehouseId: PropTypes.string,
+  canAddNewReview: PropTypes.bool.isRequired,
+  /** @type {SxProps} */
+  sx: PropTypes.object,
+};
 
-export default DetailsReviews;
+export default ReviewList;

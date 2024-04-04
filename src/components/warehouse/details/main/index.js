@@ -4,13 +4,13 @@ import { Grid } from '@mui/material';
 import Container from '@mui/material/Container';
 import PropTypes from 'prop-types';
 // local components
+import { ReviewList } from 'src/components/review/lists';
 import { useResponsive } from 'src/hooks/use-responsive';
 import useAppearance from 'src/redux-toolkit/features/appearance/use-appearance';
 import { selectAuth } from 'src/redux-toolkit/features/auth/authSlice';
 import { useAppSelector } from 'src/redux-toolkit/hooks';
 import WarehouseHeader from '../common/details-header';
 import WarehosueDetailsMain from '../common/details-main';
-import WarehouseReviews from '../common/details-reviews';
 import WarehouseDetailsSidebar from '../common/details-sidebar';
 
 const Props = {
@@ -49,7 +49,7 @@ function WarehouseDetailsMain(props) {
           {/* show sidebar content in tab mode & hide in mobile mode */}
           {mdUp && (
             <WarehouseDetailsSidebar seller={warehouse?.seller} warehouse={warehouse}>
-              <WarehouseReviews
+              <ReviewList
                 reviews={reviews}
                 canAddNewReview={user && user.userType === 'customer'}
                 warehouseId={warehouse.id}
