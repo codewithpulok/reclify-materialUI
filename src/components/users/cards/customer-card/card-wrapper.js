@@ -1,7 +1,7 @@
 'use client';
 
 import { CardActionArea } from '@mui/material';
-import { useRouter } from 'next/router';
+import { useRouter } from 'next/navigation';
 import PropTypes from 'prop-types';
 import useAdminPath from 'src/hooks/use-admin-path';
 import { paths } from 'src/routes/paths';

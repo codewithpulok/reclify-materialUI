@@ -3,17 +3,18 @@ import PropTypes from 'prop-types';
 import CustomBreadcrumbs from 'src/components/common/custom-breadcrumbs/custom-breadcrumbs';
 import { paths } from 'src/routes/paths';
 
-import { ICONS } from '../../config-users';
-import UserCover from '../common/user-cover';
+import { ICONS } from '../../../config-users';
+import UserCover from '../../common/user-cover';
+import PrivateContent from './private-content';
 
 const TABS = [
   {
-    value: 'profile',
+    value: '#profile',
     label: 'Profile',
     icon: ICONS.profile(),
   },
   {
-    value: 'transactions',
+    value: '#transactions',
     label: 'Transactions',
     icon: ICONS.transactions(),
   },
@@ -27,7 +28,7 @@ const Props = {
  * @param {Props} props
  * @returns {JSX.Element}
  */
-const DetailsContent = (props) => {
+const CustomerPrivateDetails = (props) => {
   const { user } = props;
 
   return (
@@ -45,10 +46,11 @@ const DetailsContent = (props) => {
       />
 
       <UserCover user={user} tabs={TABS} />
+      <PrivateContent user={user} />
     </Container>
   );
 };
 
-DetailsContent.propTypes = Props;
+CustomerPrivateDetails.propTypes = Props;
 
-export default DetailsContent;
+export default CustomerPrivateDetails;

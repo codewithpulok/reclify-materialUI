@@ -9,16 +9,11 @@ import FormProvider from 'src/components/common/hook-form/form-provider';
 import { serviceTypes } from 'src/constant/service-types';
 import { useDialog } from 'src/hooks/use-dialog';
 
-const Props = {
-  /** @type {User} */
-  user: PropTypes.object,
-};
-
 /**
- * @param {Props} props
+ * @param {AdminControl.propTypes} props
  * @returns {JSX.Element}
  */
-const HomeAdminControl = (props) => {
+const AdminControl = (props) => {
   const { user } = props;
 
   // dialgo state
@@ -86,6 +81,9 @@ const HomeAdminControl = (props) => {
   );
 };
 
-HomeAdminControl.propTypes = Props;
+AdminControl.propTypes = {
+  /** @type {User} */
+  user: PropTypes.object,
+};
 
-export default HomeAdminControl;
+export default AdminControl;

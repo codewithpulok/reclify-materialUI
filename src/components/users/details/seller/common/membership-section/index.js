@@ -1,3 +1,5 @@
+'use client';
+
 import { Card, CardContent, CardHeader, Grid, Stack } from '@mui/material';
 import PropTypes from 'prop-types';
 // local components
@@ -7,36 +9,28 @@ import MembershipCustom from './membership-custom';
 
 // ----------------------------------------------------------------------
 
-const Props = {
-  userId: PropTypes.string,
-  /** @type {Plan} */
-  currentPlan: PropTypes.object,
-  /** @type {Membership[]} */
-  membershipHistory: PropTypes.arrayOf(PropTypes.object),
-};
-
 // ----------------------------------------------------------------------
 
 /**
- * @param {Props} props
+ * @param {MembershipSection.propTypes} props
  * @returns {JSX.Element}
  */
-const DetailsMembership = (props) => {
-  const { currentPlan, membershipHistory = [], userId } = props;
+const MembershipSection = (props) => {
+  const { user } = props;
 
   return (
     <Grid container spacing={1.5}>
       <Grid item xs={12} md={4}>
         <Stack spacing={1.5}>
-          <MembershipCustom userId={userId} />
-          <MembershipCurrent currentPlan={currentPlan} />
+          <MembershipCustom userId={user?.id} />
+          <MembershipCurrent currentPlan={user?.membership?.currentPlan} />
         </Stack>
       </Grid>
       <Grid item xs={12} md={8}>
         <Card>
           <CardHeader title="Plan History" />
           <CardContent>
-            <MembershipUser data={membershipHistory} />
+            <MembershipUser data={user?.membership?.planHistory || []} />
           </CardContent>
         </Card>
       </Grid>
@@ -44,6 +38,9 @@ const DetailsMembership = (props) => {
   );
 };
 
-DetailsMembership.propTypes = Props;
+MembershipSection.propTypes = {
+  /** @type {User} */
+  user: PropTypes.object,
+};
 
-export default DetailsMembership;
+export default MembershipSection;

@@ -82,14 +82,14 @@ const UserCover = (props) => {
 
       <Stack sx={{ width: 1, bottom: 0, zIndex: 9, position: 'absolute' }}>
         <MessageBtn user={user} />
-        <UserTabs tabs={tabs} />
+        {!!tabs?.length && <UserTabs tabs={tabs} />}
       </Stack>
     </Card>
   );
 };
 
 UserCover.propTypes = {
-  /** @type {{value: string, icon: any, label: string}} */
+  /** @type {{value: string, icon: any, label: string}[]} */
   tabs: PropTypes.arrayOf(PropTypes.object),
 
   /** @type {User} */
